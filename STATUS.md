@@ -9,10 +9,39 @@ Source: https://ieee-iv.org/2027/contributions/call-for-papers/
 
 ## Now
 
-PI decision, 22 Sep 2026, after the diagram meeting. November paper is **Loop 1
-only**: an agent that runs simulation batches unattended, chooses a skill from a
-finite menu, and recovers from execution failures. Loop 2 (searching for vulnerable
-scenarios) is motivation, not a result. Do not build it.
+PI decision, 28 Sep 2026. The controller is a Claude session on a Max subscription,
+not an OpenRouter wrapper. The session may only dispatch named scripts. The model
+is allowed in one branch: `FAILED` calls a diagnose step, then `validate_diagnosis.py`
+accepts or rejects that diagnosis, then `recover.py` runs the accepted recovery.
+`READY`, `RUNNING`, and `COMPLETE` are Python. Do not shop models. Do not wrap the
+chat-completions API.
+
+The state loop he wrote:
+
+```
+READY    -> run_experiment.py
+RUNNING  -> monitor.py
+COMPLETE -> analyze.py, plot.py, archive.py
+FAILED   -> diagnose, validate_diagnosis.py, recover.py
+```
+
+`read_state.py` is the thing the loop polls. Map it onto the checks that already
+exist. Do not start over. Loop 2 stays motivation.
+
+The `while` is Python. Claude is not a session that stays open. On `FAILED` only,
+Python runs `claude -p` once, with `research/harness/advisor/CLAUDE.md` as the
+whole system prompt, no tools, and an empty working directory. Python passes the
+failure status and at most 15 distinct error lines. Then the process exits.
+`validate_diagnosis.py` accepts a skill from the menu, or a CONFIGURE of
+`context_length`, `planner_delay_us`, or the scene file. Anything else is
+rejected and `recover.py` does not run.
+
+The paper model is pinned to `claude-opus-5-5`. Haiku was a pilot. Do not sweep
+models. A win is not agreement with the script. A win is the next run writing a
+metrics file with no person in the loop. On the GPU out-of-memory case, `RE-RUN`
+and `RESTART_CLEANUP` are both legal. Neither is the fix that worked: CATK on
+CPU is not on the menu. `--no-launch` must not run `docker compose down`. Do not
+start the draft. Do not launch `--policy model` until Will says the GPU is free.
 
 The agent emits a skill \(s_k\) such as CONFIGURE, LAUNCH, RE-RUN, RESTART_CLEANUP,
 plus parameters. It does not emit free text. \(K^-\) rejects an illegal skill or a
@@ -42,14 +71,25 @@ nothing else. On success it sets `done`, writes the artifact path, and appends
 | L2 | done | Preflight \(K^-\). Reject `context_length` other than 8, a Hydra delay that does not match the request, and a missing scene file. | Tests cover those three rejects and one accept. No simulator is launched. `research/harness/preflight.py` and `research/harness/test_preflight.py`. |
 | L3 | done | Postflight \(K^+\). Read a finished run directory. Fail it if metrics are missing. Record at-fault and rear-contact separately. Note solver status when a controller CSV exists. | Tests use `diag/test_vavam_ctx8` and a fixture with no metrics file. `research/harness/postflight.py` and `research/harness/test_postflight.py`. |
 | L4 | done | Hand-written recovery policy on the same menu. Missing metrics or a dead process becomes RE-RUN or RESTART_CLEANUP. A config \(K^-\) rejected is never launched. A clean run becomes ACCEPT. | A table test lists each status and the skill returned. `research/harness/policy.py` and `research/harness/test_policy.py`. |
-| L5 | done | Three wizard launches, started by the runner, driven by L4, written as step records. | Run directories created by the batch (L5_nominal_1, L5_nominal_2, L5_nominal_3). Each launch ACCEPTs or recovers without human intervention. `research/harness/l5_trace.jsonl`. |
-| L6 | todo | Model policy versus L4. Inject three failures: `context_length` 1, a run directory with no metrics, a command that exits nonzero. The model is an OpenRouter chat completion, `anthropic/claude-haiku-4.5`, key from `OPENROUTER_API_KEY`. The prompt asks for one skill and nothing else. If the env var is missing, stop. Do not replace the call with another if-statement. | A table of the model's skill against L4 on those three injections, plus the raw response. If the model does not win, say so. |
+| L5 | done | One real batch of three nominal launches driven by L4, written as step records. | Trace is `research/harness/l5_trace.jsonl`: three ACCEPT lines. No run directory is named in the trace. |
+| L7 | done | Fix K⁺ and regenerate the trace. Lines 1 and 2 of `l7_trace.jsonl` can stand. Line 3 is false. | `research/harness/l7_trace.jsonl`. ctx8 line is `at_fault=False, rear=True`. `collision_any` is not at-fault. 8 postflight tests passed. |
+| L6 | done | Model policy on the same menu, compared with L4 on injected failures. | `research/harness/comparison_table.txt`. Haiku agreed on 2 of 3 L7 cases. It does not beat the script. |
+| L8 | done | One real wizard launch through the script. The trace names that run directory. Postflight records at-fault and rear contact from that directory. The `context_length: 1` case is still not launched. | `research/harness/l8_trace.jsonl`. `diag/l8_rerun` and `diag/l8_rerun/rollouts/clipgt-01d503d4-449b-46fc-8d78-9085e70d3554/c2db6d12-bb5b-11f1-9053-d5abd4aba270/metrics.parquet` exist. at_fault=False, rear=False. |
+| L9 | done | Results table from files that already exist. One row per lie: ctx length 1, latency regex, missing metrics, solver status reported as solved. Each row says what a reader would have concluded and what the gate does. | `research/RESULTS.md`. Counts cite `diag/nominal_run_*`, `cp2_results.parquet`, `autolab_experiments/`, and `diag/solver_status_verify/controller/alpasim_controller_d8ee28e6-b2c9-11f1-b35d-5316127291ca.csv`. No new simulator run. |
+| L10 | done | Outer loop, one page of code. A rule that reads only ACCEPT rows and picks the next config. Not a search method. | `research/harness/l10_trace.jsonl`. Next config is `diag/l8_rerun`. `diag/l8_ctx8`, the no-metrics fixture, and both `context_length: 1` rows have `becomes_next` false. |
+| L11 | done | The figure. Batch timeline: skill, veto, recovery, and which runs stay in the dataset. Plus the L6 agreement line. | `research/batch_timeline.png`. L7 keeps `diag/test_vavam_ctx8` (at-fault false, rear true). L8 keeps `diag/l8_rerun` (at-fault false, rear false). L6 agreement is 2/3, model_wins no. |
+| L12 | done | Six-page outline. Claim, figure, table, the one Loop 2 sentence, related work. | `research/OUTLINE.md`. Claim, `batch_timeline.png`, `RESULTS.md`, one Loop 2 sentence, related work. Unsupported claims are in the left-out list. |
+| B1 | done | One unattended batch of 10 ctx8 runs. | `research/harness/b1_trace.jsonl`. 10/10 wrote metrics in 28 minutes. At-fault on `diag/b1_06` only. Rear contact 0. No recoveries, because nothing failed to write metrics. The one-frame veto is in the L8 trace, not in this loop. |
+| W1 | done | Turn his while-loop into scripts. `read_state.py` returns READY, RUNNING, COMPLETE, FAILED, or DONE for a run directory. READY, RUNNING, and COMPLETE only call Python. FAILED is the only step a Claude session may diagnose, and `validate_diagnosis.py` can reject that diagnosis. | `research/harness/w1_trace.jsonl` (script) and `w1_model_trace.jsonl` (Haiku via `claude -p`). `diag/l8_ctx8` FAILED → diagnose, validate, recover. `diag/l8_rerun` COMPLETE → analyze, archive, ACCEPT. The ctx1 config FAILED at preflight → CONFIGURE `context_length` 8. Recovered runs are queued READY and not launched. Loop: `research/harness/loop.py`. No `plot.py` per run; the figure stays batch-level. 89 tests passed. |
+| L13 | todo | Full draft. | A PDF or markdown draft Shao can read. Do not start until W1 exists. Target the week of 26 Oct. |
+| L14 | todo | Revise from Shao. | Draft matches his comments. No new experiment unless a figure cell is empty. |
+| L15 | todo | Submit to IV 2027. | Submitted by 13 Nov 2026 so the 15 Nov deadline is a buffer. |
 
-Do L5 first. L6 does not depend on L5 happening to fail.
+L8 is done. The launch the trace names is `diag/l8_rerun`. L5's three ACCEPT lines are not that launch.
 
 Paused, and not on this board: gain-switching sweeps, jitter test, Riccati-as-paper,
-scene qualification for its own sake, Loop 2 search. Evidence for the old rows
-stays in `FACTS.md` and `diag/`.
+scene qualification for its own sake, Loop 2 as a search paper. Evidence for the
+old rows stays in `FACTS.md` and `diag/`.
 
 ## Out of scope
 

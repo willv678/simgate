@@ -1,0 +1,54 @@
+{
+  "name": "l8_ctx8",
+  "run_dir": "diag/l8_ctx8",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": null,
+  "launched_at": null,
+  "resolution": "RESTART_CLEANUP",
+  "diagnosis": {
+    "policy": "model",
+    "input": {
+      "state": "FAILED",
+      "run": "l8_ctx8",
+      "k_status": "wizard_exit_code: 1; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-09-28T16:39:06.243Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "\u2502       \u2514 <Future at 0x7eddbef3b620 state=finished raised OutOfMemoryError>",
+        "torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 24.00 MiB. GPU 0 has a total capacity of 11.57 GiB of which 50.62 MiB is free. Process 3469597 has 4.74 GiB memory in use. Process 3469392 has 318.00 MiB memory in use. Process 3",
+        "16:40:09.342 [W0] ERROR:\tError during event handling. Pending events in queue (7):",
+        "grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:",
+        "details = \"simulation step failed: CUDA out of memory. Tried to allocate 24.00 MiB. GPU 0 has a total capacity of 11.57 GiB of which 50.62 MiB is free. Process 3469597 has 4.74 GiB memory in use. Process 3469392 has 318.00 MiB memory in use",
+        "debug_error_string = \"INTERNAL:simulation step failed: CUDA out of memory. Tried to allocate 24.00 MiB. GPU 0 has a total capacity of 11.57 GiB of which 50.62 MiB is free. Process 3469597 has 4.74 GiB memory in use. Process 3469392 has 318.",
+        "16:40:09.346 [W0] WARNING:\tRollout FAILED: job=23943009a134454e81471fc250746fb6 scene=clipgt-01d503d4-449b-46fc-8d78-9085e70d3554 uuid=2859bec4-bb5b-11f1-be78-576be5968460 error=<AioRpcError of RPC that terminated with:",
+        "16:40:09.348 [W0] WARNING:\tRetrying failed rollout: scene=clipgt-01d503d4-449b-46fc-8d78-9085e70d3554 failed_job=23943009a134454e81471fc250746fb6 retry_job=744ebc8a1fff456bae4c6fd49b02674f retry=1/2 error=<AioRpcError of RPC that terminated",
+        "Scene clipgt-01d503d4-449b-46fc-8d78-9085e70d3554: <AioRpcError of RPC that terminated with:",
+        "runtime-0-1 exited with code 1",
+        "controller-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143",
+        "driver-0-1 exited with code 143"
+      ]
+    },
+    "skill": "RESTART_CLEANUP",
+    "params": {},
+    "model": "claude-haiku-4-5-20251001",
+    "context_tokens": 5117,
+    "output_tokens": 961,
+    "duration_ms": 10633,
+    "verdict": "accepted"
+  }
+}

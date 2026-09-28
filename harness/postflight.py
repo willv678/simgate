@@ -5,7 +5,7 @@ Reads a finished run directory and validates the outcome. Turns crashes, core du
 and garbage metrics into structured status.
 """
 
-import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -19,8 +19,10 @@ class PostflightStatus:
 
     Attributes:
         success: True if run completed successfully with valid metrics.
-        at_fault_collision: True if ego caused a collision (collision_any or collision_front).
-        rear_contact: True if ego collided with rear (collision_rear).
+        at_fault_collision: True if the published at-fault flag is set.
+            That is collision_at_fault, or front/lateral when that column is absent.
+            collision_any is not at-fault: it includes rear contact.
+        rear_contact: True if collision_rear is set on any scored step.
         solver_status: The MPC solver status if controller CSV exists, else None.
         error: Human-readable error message if validation failed, else None.
     """
@@ -30,6 +32,90 @@ class PostflightStatus:
     rear_contact: Optional[bool] = None
     solver_status: Optional[str] = None
     error: Optional[str] = None
+
+
+def _is_positive(values) -> bool:
+    """True when a metric cell or a sequence of cells contains a non-zero value."""
+    if isinstance(values, (list, tuple)):
+        return any(_is_positive(item) for item in values)
+    if hasattr(values, "__iter__") and not isinstance(values, str):
+        try:
+            return any(_is_positive(item) for item in values)
+        except TypeError:
+            pass
+    try:
+        return float(values) != 0.0
+    except (TypeError, ValueError):
+        return bool(values)
+
+
+def _metric_positive(df: pd.DataFrame, name: str) -> Optional[bool]:
+    """Max of one metric across every timestep. None when the column is absent."""
+    if "name" not in df.columns or name not in set(df["name"]):
+        return None
+    cells = df.loc[df["name"] == name, "values"]
+    return any(_is_positive(cell) for cell in cells)
+
+
+def _aggregate_file(run_path: Path) -> Optional[Path]:
+    """Published eval table, which drops steps outside the scored window."""
+    current = run_path if run_path.is_dir() else run_path.parent
+    for _ in range(8):
+        candidate = current / "aggregate" / "metrics_results.txt"
+        if candidate.is_file():
+            return candidate
+        if current.parent == current:
+            return None
+        current = current.parent
+    return None
+
+
+def _flags_from_aggregate(path: Path) -> Optional[tuple[bool, bool]]:
+    text = path.read_text(errors="replace")
+    found: dict[str, float] = {}
+    for name in (
+        "collision_at_fault",
+        "collision_front",
+        "collision_lateral",
+        "collision_rear",
+    ):
+        match = re.search(rf"│\s*{name}\s+│\s+([0-9.]+|inf)", text)
+        if match:
+            found[name] = float(match.group(1))
+    if "collision_rear" not in found:
+        return None
+    if "collision_at_fault" in found:
+        at_fault = found["collision_at_fault"] != 0.0
+    else:
+        at_fault = found.get("collision_front", 0.0) != 0.0 or found.get(
+            "collision_lateral", 0.0
+        ) != 0.0
+    return at_fault, found["collision_rear"] != 0.0
+
+
+def _flags_from_parquet(df: pd.DataFrame) -> tuple[bool, bool]:
+    at_fault = _metric_positive(df, "collision_at_fault")
+    if at_fault is None:
+        at_fault = bool(_metric_positive(df, "collision_front")) or bool(
+            _metric_positive(df, "collision_lateral")
+        )
+    rear = bool(_metric_positive(df, "collision_rear"))
+    return at_fault, rear
+
+
+def _metrics_file(run_path: Path) -> Optional[Path]:
+    """Metrics table for this run.
+
+    A wizard log directory keeps the parquet under ``rollouts/``, not at the root.
+    """
+    for pattern in ("metrics.parquet", "metrics.pkl"):
+        candidate = run_path / pattern
+        if candidate.is_file():
+            return candidate
+    if not run_path.is_dir():
+        return None
+    nested = sorted(run_path.rglob("metrics.parquet"))
+    return nested[0] if nested else None
 
 
 def validate_postflight(run_dir: str) -> PostflightStatus:
@@ -51,14 +137,7 @@ def validate_postflight(run_dir: str) -> PostflightStatus:
             success=False, error=f"run_dir does not exist: {run_dir}"
         )
 
-    # Find metrics file
-    metrics_file = None
-    for pattern in ["metrics.parquet", "metrics.pkl"]:
-        candidate = run_path / pattern
-        if candidate.exists():
-            metrics_file = candidate
-            break
-
+    metrics_file = _metrics_file(run_path)
     if metrics_file is None:
         return PostflightStatus(
             success=False, error="metrics file not found (no metrics.parquet)"
@@ -75,57 +154,12 @@ def validate_postflight(run_dir: str) -> PostflightStatus:
             success=False, error=f"failed to load metrics: {e}"
         )
 
-    # Check for at-fault collision
-    at_fault = False
-    rear = False
-
-    # collision_any or collision_front indicates at-fault
-    for metric_name in ["collision_any", "collision_front"]:
-        if metric_name in df["name"].values:
-            metric_data = df[df["name"] == metric_name]
-            if len(metric_data) > 0:
-                # Check if any value is True/1
-                values = metric_data["values"].iloc[0]
-                if isinstance(values, (list, tuple)):
-                    if any(v for v in values):
-                        at_fault = True
-                        break
-                else:
-                    # Handle numpy arrays and scalars
-                    try:
-                        if hasattr(values, '__iter__') and not isinstance(values, str):
-                            if any(values):
-                                at_fault = True
-                                break
-                        elif values:
-                            at_fault = True
-                            break
-                    except (TypeError, ValueError):
-                        # If we can't iterate, treat as scalar
-                        if values:
-                            at_fault = True
-                            break
-
-    # Check for rear-contact
-    if "collision_rear" in df["name"].values:
-        metric_data = df[df["name"] == "collision_rear"]
-        if len(metric_data) > 0:
-            values = metric_data["values"].iloc[0]
-            if isinstance(values, (list, tuple)):
-                if any(v for v in values):
-                    rear = True
-            else:
-                # Handle numpy arrays and scalars
-                try:
-                    if hasattr(values, '__iter__') and not isinstance(values, str):
-                        if any(values):
-                            rear = True
-                    elif values:
-                        rear = True
-                except (TypeError, ValueError):
-                    # If we can't iterate, treat as scalar
-                    if values:
-                        rear = True
+    aggregate = _aggregate_file(run_path)
+    if aggregate is not None:
+        parsed = _flags_from_aggregate(aggregate)
+        at_fault, rear = parsed if parsed is not None else _flags_from_parquet(df)
+    else:
+        at_fault, rear = _flags_from_parquet(df)
 
     # Check for controller CSV and extract solver status
     solver_status = None

@@ -1,0 +1,5 @@
+{"skill": "CONFIGURE", "identity": {"context_length": 1, "hydra_delay": 50, "request_delay": 50, "scene_file": "diag/test_vavam_ctx8/wizard-config.yaml"}, "becomes_next": false}
+{"skill": "RE-RUN", "identity": "research/harness/fixtures/no_metrics", "becomes_next": false}
+{"skill": "CONFIGURE", "identity": {"context_length": 1, "hydra_delay": 0, "request_delay": 0, "scene_file": "data/scenes/sim_scenes.csv"}, "becomes_next": false}
+{"skill": "RE-RUN", "identity": "diag/l8_ctx8", "becomes_next": false}
+{"skill": "ACCEPT", "next_config": {"run_dir": "diag/l8_rerun"}, "becomes_next": true, "rule": "latest ACCEPT row"}

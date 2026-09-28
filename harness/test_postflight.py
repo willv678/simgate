@@ -141,16 +141,59 @@ def test_detect_rear_contact(temp_run_dir_with_rear_collision):
     assert status.rear_contact is True
 
 
+def test_long_form_rear_contact_is_not_at_fault():
+    """A rear hit on a later timestep is rear contact, not at-fault."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        run_path = Path(tmpdir)
+        rows = []
+        for step, rear in enumerate((0.0, 0.0, 1.0)):
+            for name, value in (
+                ("collision_any", rear),
+                ("collision_front", 0.0),
+                ("collision_lateral", 0.0),
+                ("collision_rear", rear),
+            ):
+                rows.append({"name": name, "values": value, "timestamps_us": step})
+        pd.DataFrame(rows).to_parquet(run_path / "metrics.parquet")
+        status = validate_postflight(str(run_path))
+    assert status.success is True
+    assert status.at_fault_collision is False
+    assert status.rear_contact is True
+
+
+def test_nested_rollout_metrics_use_aggregate():
+    """A wizard log dir stores parquet under rollouts/. Flags come from the aggregate."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        run_path = Path(tmpdir)
+        rollout = run_path / "rollouts" / "clip" / "uuid"
+        rollout.mkdir(parents=True)
+        pd.DataFrame(
+            {
+                "name": ["collision_front", "collision_rear"],
+                "values": [0.0, 0.0],
+            }
+        ).to_parquet(rollout / "metrics.parquet")
+        aggregate = run_path / "aggregate"
+        aggregate.mkdir()
+        (aggregate / "metrics_results.txt").write_text(
+            "│ collision_at_fault                  │     0.00     │       max        │\n"
+            "│ collision_rear                      │     1.00     │       max        │\n",
+            encoding="utf-8",
+        )
+        status = validate_postflight(str(run_path))
+    assert status.success is True
+    assert status.at_fault_collision is False
+    assert status.rear_contact is True
+
+
 def test_real_test_vavam_ctx8():
-    """Test with the actual diag/test_vavam_ctx8 run."""
-    run_dir = "/home/willvarner/alpasim/diag/test_vavam_ctx8/rollouts/clipgt-01d503d4-449b-46fc-8d78-9085e70d3554/c45514d0-b698-11f1-b414-6348a5c2a655"
+    """Published aggregate for this run: at-fault 0, rear contact 1."""
+    run_dir = "/home/willvarner/alpasim/diag/test_vavam_ctx8"
     status = validate_postflight(run_dir)
     assert status.success is True
-    # This run should have metrics
     assert status.error is None
-    # Check for collision and solver status
-    assert isinstance(status.at_fault_collision, bool)
-    assert isinstance(status.rear_contact, bool)
+    assert status.at_fault_collision is False
+    assert status.rear_contact is True
 
 
 def test_postflight_status_frozen():

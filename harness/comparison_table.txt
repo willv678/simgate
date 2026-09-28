@@ -1,0 +1,6 @@
+script_skill	model_reply	k_status
+CONFIGURE	CONFIGURE	preflight_rejected: context_length must be 8, got 1
+RE-RUN	RESTART_CLEANUP	postflight_failed: metrics file not found (no metrics.parquet)
+ACCEPT	ACCEPT	postflight_success: at_fault=False, rear=True
+agreement	2/3
+model_wins	no

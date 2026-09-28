@@ -1,0 +1,16 @@
+{
+  "name": "l8_ctx1_a2",
+  "run_dir": "diag/l8_ctx1_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv"
+  },
+  "attempt": 2,
+  "parent": "001_l8_ctx1.json",
+  "launched": false,
+  "pid": null,
+  "launched_at": null,
+  "resolution": null,
+  "diagnosis": null
+}

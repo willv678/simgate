@@ -1,0 +1,11 @@
+{"run_dir": "diag/b1_01", "context_length": 8, "skill": "ACCEPT", "metrics": true, "at_fault_collision": false, "rear_contact": false, "dist_traveled_m": 27.78}
+{"run_dir": "diag/b1_02", "context_length": 8, "skill": "ACCEPT", "metrics": true, "at_fault_collision": false, "rear_contact": false, "dist_traveled_m": 26.75}
+{"run_dir": "diag/b1_03", "context_length": 8, "skill": "ACCEPT", "metrics": true, "at_fault_collision": false, "rear_contact": false, "dist_traveled_m": 30.15}
+{"run_dir": "diag/b1_04", "context_length": 8, "skill": "ACCEPT", "metrics": true, "at_fault_collision": false, "rear_contact": false, "dist_traveled_m": 26.69}
+{"run_dir": "diag/b1_05", "context_length": 8, "skill": "ACCEPT", "metrics": true, "at_fault_collision": false, "rear_contact": false, "dist_traveled_m": 26.41}
+{"run_dir": "diag/b1_06", "context_length": 8, "skill": "ACCEPT", "metrics": true, "at_fault_collision": true, "rear_contact": false, "dist_traveled_m": 27.37}
+{"run_dir": "diag/b1_07", "context_length": 8, "skill": "ACCEPT", "metrics": true, "at_fault_collision": false, "rear_contact": false, "dist_traveled_m": 25.7}
+{"run_dir": "diag/b1_08", "context_length": 8, "skill": "ACCEPT", "metrics": true, "at_fault_collision": false, "rear_contact": false, "dist_traveled_m": 28.53}
+{"run_dir": "diag/b1_09", "context_length": 8, "skill": "ACCEPT", "metrics": true, "at_fault_collision": false, "rear_contact": false, "dist_traveled_m": 28.39}
+{"run_dir": "diag/b1_10", "context_length": 8, "skill": "ACCEPT", "metrics": true, "at_fault_collision": false, "rear_contact": false, "dist_traveled_m": 28.57}
+{"summary": {"launches": 10, "vetoes": 0, "recoveries": 0, "kept": 10, "at_fault": 1, "rear_contact": 0, "human_interventions": 0, "wall_clock_min": 28, "note": "Shell loop of the L8 wizard command, CATK on CPU. No skill-script process in the middle because no launch failed. context_length 1 was not in this loop."}}

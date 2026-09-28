@@ -2,6 +2,7 @@ __pycache__/
 .pytest_cache/
 *.pyc
 .venv/
+.env
 
 # AlpaSim run artifacts (live next to this overlay, not in it)
 diag/
@@ -13,3 +14,7 @@ autolab_lora_adapter/
 *.pt
 *.bin
 *.safetensors
+
+# Harness traces are the paper evidence. Keep them.
+!harness/*.jsonl
+!harness/*_queue/*.jsonl

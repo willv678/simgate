@@ -68,21 +68,6 @@ first `planner_delay_us` in the YAML and often recorded 0.
     quality metric under replay traffic. Under CATK it is not a collision forecast.
 12. `kinematic_ideal` does not emit steering and accel. `System._kinematic_ideal_step`
     moves the ego along the plan. It is not a controller plugin in the usual sense.
-13. Nonlinear MPC does NOT support dynamic gain scheduling. Attempting to schedule gains
-    or run gain-adaptation hooks against `nonlinear_mpc` causes an immediate runtime crash:
-    `AioRpcError: StatusCode.UNKNOWN (nonlinear_mpc does not support mid-rollout gain updates)`.
-    Any experiment that switches gains, tests dwell times, or schedules weights must explicitly
-    pass `controller=linear`.
-14. VaVAM `context_length=8` and `force_gt_duration_us >= 4000000` are strictly coupled.
-    VaVAM samples camera frames at 2 Hz (500 ms). To satisfy `context_length: 8`, the driver's
-    `FrameCache` requires at least 8 × 500 ms = 4.0 s of historical frames. If
-    `force_gt_duration_us` is shorter than 4.0 s (or defaulted to 0), `main.py` logs an empty
-    trajectory response during initial steps, causing immediate control failure. Always set
-    `force_gt_duration_us=4500000` (4.5 s / 9 frames) when using `context_length=8`.
-15. When `runtime-0` crashes due to a gRPC exception (e.g., controller failure), Docker Compose
-    initiates container teardown and issues `SIGKILL` (exit code 137) to `renderer-0-1`. An exit
-    code 137 on `renderer` does not automatically mean GPU out-of-memory. Before diagnosing VRAM
-    exhaustion, inspect `runtime-0` logs to rule out upstream application exceptions.
 
 ## Prior work the paper has to sit next to
 

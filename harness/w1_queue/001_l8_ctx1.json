@@ -1,0 +1,36 @@
+{
+  "name": "l8_ctx1",
+  "run_dir": "diag/l8_ctx1",
+  "config": {
+    "context_length": 1,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": false,
+  "pid": null,
+  "launched_at": null,
+  "resolution": "CONFIGURE",
+  "diagnosis": {
+    "policy": "script",
+    "input": {
+      "state": "FAILED",
+      "run": "l8_ctx1",
+      "k_status": "preflight_rejected: context_length must be 8, got 1",
+      "config": {
+        "context_length": 1,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": []
+    },
+    "skill": "CONFIGURE",
+    "params": {
+      "context_length": 8
+    },
+    "verdict": "accepted"
+  }
+}
