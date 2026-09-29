@@ -1,0 +1,5 @@
+group	runs	flagged	feature maxima
+B2 clean (one scene)	150	0	{"max_abs_accel": 1.478, "max_abs_yaw_rate": 0.116, "max_speed_report_error": 0.02, "frac_on_recording": 0.475}
+S1 clean (other scenes, held out)	77	0	{"max_abs_accel": 8.003, "max_abs_yaw_rate": 0.894, "max_speed_report_error": 0.314, "frac_on_recording": 0.869}
+pilot clean	6	0	{"max_abs_accel": 0.845, "max_abs_yaw_rate": 0.067, "max_speed_report_error": 0.02, "frac_on_recording": 0.475}
+silent faults	6	6	{"max_abs_accel": 25.486, "max_abs_yaw_rate": 31.148, "max_speed_report_error": 29.257, "frac_on_recording": 1.0}

@@ -1,0 +1,36 @@
+{
+ "motion": {
+  "flags": {
+   "x1_005": "runs/r01/physics.txt frac_on_recording 1.000 and off_recording_m 0.000 for the whole 11.5 s, so the ego replayed the recording after the 4.5 s warm-up and VaVAM never drove, contrary to the claim.",
+   "x1_003": "runs/r02/physics.txt frac_on_recording 1.000 (off_recording 0 throughout, same motion as r01/r11), so the ego stayed on the recorded trajectory past the warm-up and the metrics are not the policy's.",
+   "x1_001": "runs/r11/physics.txt frac_on_recording 1.000 with the same profile and metrics as r01/r02, so it is a log replay rather than a closed-loop VaVAM run.",
+   "x1_006": "runs/r10/physics.txt max_abs_yaw_rate 31.148 rad/s, max_abs_accel 15.8 m/s2 and max_speed_report_error 29.26 m/s (reported 32.42 vs 3.16 m/s at t=11.0), which no car can do, so the motion data is unusable.",
+   "x1_002": "runs/r12/physics.txt max_abs_accel 25.486 m/s2, max_abs_yaw_rate 29.984 rad/s, p99_abs_jerk 258.9 and max_speed_report_error 5.49 m/s, which is impossible vehicle motion (nominal runs stay under 1 m/s2 and 0.09 rad/s).",
+   "x1_004": "runs/r17/physics.txt max_abs_accel 17.557 m/s2, max_abs_yaw_rate 4.141 rad/s, p99_abs_jerk 172.4 and max_speed_report_error 4.26 m/s, which is physically impossible motion, so the metrics can't be trusted."
+  },
+  "caught": [
+   "x1_001",
+   "x1_002",
+   "x1_003",
+   "x1_004",
+   "x1_005",
+   "x1_006"
+  ],
+  "false": [],
+  "context_tokens": 96585
+ },
+ "no motion": {
+  "flags": {
+   "x1_003": "runs/r02/metrics_results.txt shows eval_relevant 0.00, dist_to_gt_trajectory 0.00 and open_loop_collision 0.00 over a 0.60 duration_frac (RemoveTimestepsBeforeEvent removed 0 rows), so the ego stayed on the recorded human trajectory for the whole run and VaVAM never drove; its metrics (33.16 m, identical to r05/r09) come from the recording, not the policy.",
+   "x1_001": "runs/r05/metrics_results.txt shows eval_relevant 0.00, dist_to_gt_trajectory 0.00 and open_loop_collision 0.00 with duration_frac_20s 0.60, so the whole run replayed the recorded trajectory instead of the policy; its metrics are identical to r02/r09 (33.16 m, tracking_error 0.35).",
+   "x1_005": "runs/r09/metrics_results.txt shows eval_relevant 0.00, dist_to_gt_trajectory 0.00 and open_loop_collision 0.00 with duration_frac_20s 0.60, so the ego never left the recorded trajectory and the results measure the log replay, not VaVAM after a 4.5 s warm-up."
+  },
+  "caught": [
+   "x1_001",
+   "x1_003",
+   "x1_005"
+  ],
+  "false": [],
+  "context_tokens": 90766
+ }
+}

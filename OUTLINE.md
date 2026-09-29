@@ -87,6 +87,14 @@ call to held-out batches: `context_length` catches E 10/10, the delay rule
 20/20, the controller rule catches kinematic but not rails. Zero false flags
 on 30 clean runs.
 
+**6b. Physics: when the numbers look fine (Shao, 29 Sep).** K⁺ rebuilds the
+motion from the rollout log and bounds it by what a car can do; 0 false alarms
+on 233 clean runs across about 70 scenes, 6/6 silent faults, no config read
+(`physics_calibration.txt`). The Auditor with configs hidden catches 6/6 with
+the motion and 3/6 without it (`physics_audit_eval.txt`): summary metrics hid
+every kinematic run. C1 (physics off) against C2 (physics on) measures the gate
+with and without it.
+
 **7. Related work and limits.** Simplex and runtime assurance (Sha 2001;
 Black-Box Simplex; shielding): we move the idea from physical safety to
 experimental validity. Closest: ADMITBench and the Mercangöz group's

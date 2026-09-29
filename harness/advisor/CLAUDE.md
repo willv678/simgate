@@ -30,6 +30,9 @@ return can.
   network, too little free GPU memory or disk),
   `wizard_exit_code: N`, `postflight_failed: …` (no usable metrics file),
   `config_not_landed: …` (the wizard resolved a different value than requested),
+  `rule_violated: …` (a Rulebook rule failed), `physics: …` (the ego's motion
+  broke a physical bound: acceleration, turn rate, a reported speed that does
+  not match the motion, or the recorded human driving the whole run),
   `process_lost: …` (the launcher is gone and wrote no exit code).
 - `config`: the requested `context_length`, `planner_delay_us`, `scene_file`,
   `scene_id`, and `trafficsim_device` (where the CATK traffic model runs).

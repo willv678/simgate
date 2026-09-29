@@ -23,6 +23,9 @@ def no_promoted_rules(tmp_path: Path, monkeypatch):
     rules = tmp_path / "promoted.json"
     rules.write_text("[]")
     monkeypatch.setenv("ALPASIM_RULES", str(rules))
+    physics = tmp_path / "physics.json"
+    physics.write_text('{"enabled": false, "max": {}}')
+    monkeypatch.setenv("ALPASIM_PHYSICS", str(physics))
     return rules
 
 

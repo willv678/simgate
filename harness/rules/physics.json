@@ -1,0 +1,25 @@
+{
+ "enabled": false,
+ "note": "K⁺ physics bounds (physics.py). Each bound comes from what a road car can do, and calibrate_physics.py checks it fires on no kept clean run. Enable between campaigns, never during one, so every arm sees the same gate.",
+ "max": {
+  "max_abs_accel": {
+   "max": 10.0,
+   "why": "1 g. Past the tyre-friction limit of a road car in braking or acceleration."
+  },
+  "max_abs_yaw_rate": {
+   "max": 2.0,
+   "why": "rad/s. At driving speed this is far past the lateral grip limit; the scenes have no tight low-speed manoeuvres that need more."
+  },
+  "max_speed_report_error": {
+   "max": 1.0,
+   "why": "m/s. The vehicle model's reported speed and the speed the poses imply are the same quantity; disagreement means the pose is not produced by the vehicle model."
+  },
+  "frac_on_recording": {
+   "max": 0.98,
+   "why": "Share of steps the ego sits within 5 cm of the recorded human trajectory. A policy that drives leaves the recording at least once, even in slow scenes where it stays close (clean maximum 0.87, s1_056); 1.0 means the recording drove the whole run."
+  }
+ },
+ "dropped": {
+  "p99_abs_jerk": "Held-out scenes (S1, highway speeds) reached 30-101 m/s^3 in clean runs whose other signals are normal: third differences of 10 Hz poses amplify position noise, and the linear MPC has no input-rate penalty. Kept as Auditor evidence, not a bound."
+ }
+}

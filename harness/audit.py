@@ -25,11 +25,15 @@ import sys
 import tempfile
 from pathlib import Path
 
+import numpy as np
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from promote import admission, clean_corpus
 from read_state import ROOT, load_entry, queue_entries, save_entry
 from rules import FILES, OPS
+
+from physics import features, signals
 
 HARNESS = Path(__file__).resolve().parent
 CONTRACT = HARNESS / "advisor" / "AUDIT.md"
@@ -78,7 +82,39 @@ def _scrub(text: str, run_path: Path, run_id: str) -> str:
     return re.sub(rf"\b{re.escape(run_path.name)}\b", run_id, text)
 
 
-def snapshot(runs: dict[str, Path], ids: dict[str, str], out: Path) -> None:
+def motion_text(run_path: Path) -> str:
+    """The ego's motion for the auditor: physics features and a 0.5 s profile."""
+    try:
+        s = signals(run_path)
+    except FileNotFoundError as exc:
+        return f"no completed rollout: {exc}\n"
+    found = features(s, collided=False)
+    del found["contact_without_collision"]
+    found["p99_abs_jerk"] = float(np.percentile(np.abs(s["jerk"]), 99))
+    lines = ["# physics features (from the rollout log, not the configs)"]
+    lines += [f"{key}: {value:.3f}" for key, value in found.items()]
+    lines.append("")
+    lines.append(
+        "# profile every 0.5 s: t_s speed_mps accel_mps2 yaw_rate_rps "
+        "reported_speed_mps off_recording_m lead_gap_m"
+    )
+    t0 = s["times_us"][0]
+    for i in range(0, len(s["accel"]), 5):
+        lines.append(
+            f"{(s['times_us'][i + 1] - t0) / 1e6:.1f} {s['speed'][i]:.2f} "
+            f"{s['accel'][i]:.2f} {s['yaw_rate'][i]:.3f} {s['reported_speed'][i]:.2f} "
+            f"{s['off_recording_m'][i + 1]:.3f} {s['lead_gap_m'][i + 1]:.1f}"
+        )
+    return "\n".join(lines) + "\n"
+
+
+def snapshot(
+    runs: dict[str, Path],
+    ids: dict[str, str],
+    out: Path,
+    configs: bool = True,
+    motion: bool = True,
+) -> None:
     for name, run_path in runs.items():
         run_id = ids[name]
         target = out / "runs" / run_id
@@ -92,8 +128,12 @@ def snapshot(runs: dict[str, Path], ids: dict[str, str], out: Path) -> None:
         (target / "files.txt").write_text(
             _scrub("\n".join(files) + "\n", run_path, run_id)
         )
+        if motion:
+            (target / "physics.txt").write_text(motion_text(run_path))
         for filename in COPIED:
             source = run_path / filename
+            if not configs and filename.endswith("-config.yaml"):
+                continue
             if source.is_file():
                 (target / filename).write_text(
                     _scrub(source.read_text(errors="replace"), run_path, run_id)
@@ -106,9 +146,18 @@ def snapshot(runs: dict[str, Path], ids: dict[str, str], out: Path) -> None:
 
 
 def audit(
-    claim: str, runs: dict[str, Path], labels: dict[str, dict], model: str, seed: int
+    claim: str,
+    runs: dict[str, Path],
+    labels: dict[str, dict],
+    model: str,
+    seed: int,
+    configs: bool = True,
+    motion: bool = True,
 ) -> dict:
-    """Flags for `runs` (name -> directory), each labelled as the experiment recorded."""
+    """Flags for `runs` (name -> directory), each labelled as the experiment recorded.
+
+    configs=False leaves out the config files; motion=False leaves out physics.txt.
+    """
     ids = anonymize(sorted(runs), seed)
     names = {run_id: name for name, run_id in ids.items()}
     rows = []
@@ -157,7 +206,7 @@ def audit(
     }
     with tempfile.TemporaryDirectory() as workdir:
         out = Path(workdir)
-        snapshot(runs, ids, out)
+        snapshot(runs, ids, out, configs=configs, motion=motion)
         (out / "batch.json").write_text(
             json.dumps({"claim": claim, "results": rows}, indent=1)
         )

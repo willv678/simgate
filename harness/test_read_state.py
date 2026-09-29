@@ -80,3 +80,17 @@ def test_traffic_device_that_did_not_land_is_failed(make_run):
     assert result.k_status == (
         "config_not_landed: trafficsim_device requested cpu, resolved cuda"
     )
+
+
+def test_physics_bounds_fail_a_run_the_other_checks_keep(
+    make_run, tmp_path, monkeypatch
+):
+    entry = make_run("r")
+    assert read_state(entry).state is State.COMPLETE
+    bounds = tmp_path / "physics_on.json"
+    bounds.write_text('{"enabled": true, "max": {"max_abs_accel": {"max": 10.0}}}')
+    monkeypatch.setenv("ALPASIM_PHYSICS", str(bounds))
+    result = read_state(entry)
+    # The fixture run has no completed rollout, so nothing shows the motion was possible.
+    assert result.state is State.FAILED
+    assert result.k_status.startswith("physics: no rollout log")

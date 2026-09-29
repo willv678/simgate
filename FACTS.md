@@ -227,6 +227,41 @@ kept, no preflight-rejected config launches, no lineage launches more than 3
 times, the graph has no cycle, CLEANUP_ENV runs at most once per run, and no
 kept run measures a delay or scene other than the one queued.
 
+## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
+
+`harness/physics.py` rebuilds the ego's motion from each run's completed
+`rollout.asl` (poses every 100 ms, the vehicle model's reported state, the
+recorded human trajectory, other actors). It reads no config file.
+
+Bounds (`harness/rules/physics.json`, each with its physical reason) and
+`calibrate_physics.py` (`physics_calibration.txt`):
+
+| Check | Bound | Clean maximum | Silent faults |
+|---|---|---|---|
+| max acceleration | 10 m/s² | 8.0 | up to 25.5 |
+| max yaw rate | 2 rad/s | 0.89 | up to 31 |
+| reported vs pose speed | 1 m/s | 0.31 | up to 29 |
+| share of steps on the recording | 0.98 | 0.87 | 1.0 (rails) |
+| contact with no collision scored | never | — | — |
+
+Flagged: 0 of 150 B2, 0 of 77 S1 (about 70 other scenes), 0 of 6 pilot clean,
+6 of 6 silent faults. A jerk bound (30 m/s³) fired on 5 S1 highway-speed runs
+whose other signals were normal and was dropped (third differences of 10 Hz
+poses; the linear MPC has no rate penalty); S1 is therefore not a pure
+held-out set for the final bounds, and the campaign's runs are. The bounds are
+off (`enabled: false`) in C1 and on in C2 (`run_campaign.sh`).
+
+Auditor with the config files hidden (`eval_physics_audit.py`,
+`physics_audit_eval.txt`), six silent runs, ten clean, one reference: with each
+run's motion (`physics.txt`) it caught 6/6 with no false flag, reasoning from
+the motion ("max_abs_accel 25.5 m/s2 … impossible vehicle motion"; "frac on
+recording 1.0 … VaVAM never drove"). With summary metrics only it caught the 3
+rails (distance to the recording 0.00) and missed all 3 kinematic runs.
+
+Found on the way: the runtime retries a failed rollout inside one run
+(`diag/s1_059` holds three rollouts, one complete). Neither the gate nor the
+loop sees these retries; a scene that crashes is retried until it does not.
+
 ## Code invariants
 
 1. Nonlinear MPC builds its CasADi cost once. Changing Python gain fields afterward

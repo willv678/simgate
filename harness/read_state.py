@@ -9,7 +9,8 @@ left behind, using the checks that already exist:
 - the wizard exit code, written next to the run by run_experiment.py;
 - postflight (K⁺) on the run directory;
 - whether the requested values are the ones the wizard resolved;
-- the rules the tier 2 auditor proposed and promote.py admitted (rules.py).
+- the rules the tier 2 auditor proposed and promote.py admitted (rules.py);
+- when enabled, whether the motion was physically possible (physics.py).
 
 This module only reads. The scripts the loop dispatches write the entry.
 
@@ -32,6 +33,9 @@ from analyze_cp2 import extract_resolved_config
 from postflight import validate_postflight
 from preflight import PreflightError, validate_preflight
 from rules import load_rules, violations
+
+from physics import check as physics_problems
+from physics import load_bounds
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -207,6 +211,12 @@ def read_state(entry: dict) -> RunState:
     broken = violations(load_rules(), run_dir(entry), entry["config"])
     if broken:
         return RunState(State.FAILED, "rule_violated: " + "; ".join(broken))
+
+    bounds = load_bounds()
+    if bounds["enabled"]:
+        implausible = physics_problems(run_dir(entry), bounds)
+        if implausible:
+            return RunState(State.FAILED, "; ".join(implausible))
 
     return RunState(
         State.COMPLETE,

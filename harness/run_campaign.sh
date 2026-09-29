@@ -5,6 +5,9 @@
 # campaign every arm uses the same seed, so faults, order, and kill/hang times
 # are identical. C2 repeats C1 with seed 2, which doubles every cell.
 # Tier 1 runs before tier 0 so that stopping early keeps script vs tier 1.
+# C1 runs with the physics bounds off (rules/physics.json as committed). C2 runs
+# with them on, through a copy with enabled true, so C1 is the gate without
+# physics and C2 the full gate; within each campaign every arm sees one gate.
 # A rerun skips finished arms and resumes the current one.
 #
 #   setsid nohup research/harness/run_campaign.sh > research/harness/campaign.log 2>&1 &
@@ -20,6 +23,11 @@ echo "$(date -Is) S1 done; auditing it"
 [ -f $H/s1_queue/audit.json ] || uv run python $H/audit.py $H/s1_queue
 
 for seed in 1 2; do
+    if [ "$seed" = 2 ]; then
+        uv run python -c "import json; b = json.load(open('$H/rules/physics.json')); b['enabled'] = True; json.dump(b, open('$H/rules/physics_c2.json', 'w'), indent=1)"
+        export ALPASIM_PHYSICS=$H/rules/physics_c2.json
+        echo "$(date -Is) physics bounds on for C2"
+    fi
     for arm in script agent model; do
         name=c${seed}_${arm}
         queue=$H/${name}_queue

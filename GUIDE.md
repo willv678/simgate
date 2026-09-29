@@ -118,6 +118,7 @@ If a machine failure ends in HALT, the whole batch stops.
 | Postflight | no metrics, unreadable metrics | `postflight.py` |
 | Landed check | the config the simulator actually used ≠ the one requested | `read_state.py` |
 | Promoted rules | whatever the auditor taught the gate | `rules.py` |
+| Physics bounds | motion no car can make: >1 g, >2 rad/s, a reported speed that is not the real one, the recording driving the whole run | `physics.py`, `rules/physics.json` |
 
 ### 5.2 When a run fails: the menu
 

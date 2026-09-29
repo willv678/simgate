@@ -19,9 +19,18 @@ Read-only tools (Read, Grep, Glob) on the working directory, and nothing else:
   run that wrote metrics: the run id, the label the experiment recorded for it,
   and its metrics.
 - `runs/<id>/`: one directory per run in the batch, including runs with no row.
-  Each has `files.txt` (the files the run left), `driver-config.yaml`,
-  `wizard-config.yaml`, and when present `metrics_results.txt` and
-  `crash_error.log`. Run ids are random; their order means nothing.
+  Each has `files.txt` (the files the run left) and, when present,
+  `driver-config.yaml`, `wizard-config.yaml`, `metrics_results.txt`,
+  `crash_error.log`, and `physics.txt`. Run ids are random; their order means
+  nothing.
+- `physics.txt` is the ego's motion, rebuilt from the rollout log: peak
+  acceleration and turn rate, how far the speed the vehicle model reported is
+  from the speed the positions imply, how much of the run the ego sat on the
+  recorded human trajectory, gaps to the vehicle ahead, and a profile every
+  0.5 s. Summary metrics can look normal while the motion is impossible or is
+  not the policy's; check the motion against what a car can do and against the
+  other runs. The first seconds of every run follow the recording by design
+  (the warm-up).
 
 ## What to flag
 
