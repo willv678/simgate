@@ -42,3 +42,4 @@ Append one line when a board row changes state. Newest at the bottom.
 - 2026-09-29 — Name: SimGate (Gate, Investigator, Auditor, Rulebook, Verifier). Working title "SimGate: Runtime Assurance for LLM-Operated Driving Simulation". AirLock and Bouncer were taken; Custody too vague. Docs updated; code names unchanged. Run it past Shao.
 - 2026-09-29 — `SLIDES.md`: 13 slides + 4 backups for the 3 pm meeting, in Shao's notation (Agent #1, K⁻, K⁺, x_k, w_k), with speaker notes.
 - 2026-09-29 — State diagram in SLIDES.md and GUIDE.md now shows retries as new attempts from READY, CLEANUP_ENV returning the same run to READY, and HALT.
+- 2026-09-29 — C1 queued: `harness/run_campaign_c1.sh` waits for S1, audits it, then runs the same fault plan (seed 1, 5 per fault kind + 10 clean, 6 scenes) under script, tier 0, and tier 1, each with --audit. Log: `harness/c1_chain.log`.
