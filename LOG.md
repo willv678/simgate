@@ -40,3 +40,4 @@ Append one line when a board row changes state. Newest at the bottom.
 - 2026-09-29 — A1 done. Pilot audit with a reference run quarantined the 6 silent runs and nothing else; invalid runs kept 9 → 6 → 0. Rails caught with a reference, and its rule is admissible. Hang replay with the failure-time machine: tier 1 RESTART_CLEANUP 3/3. `loop.py --audit`, machine snapshots, and `plot_results.py` added.
 - 2026-09-29 — `GUIDE.md`: the whole project with diagrams, both figures, results, limits, and an 11-slide plan for the 3 pm meeting.
 - 2026-09-29 — Name: SimGate (Gate, Investigator, Auditor, Rulebook, Verifier). Working title "SimGate: Runtime Assurance for LLM-Operated Driving Simulation". AirLock and Bouncer were taken; Custody too vague. Docs updated; code names unchanged. Run it past Shao.
+- 2026-09-29 — `SLIDES.md`: 13 slides + 4 backups for the 3 pm meeting, in Shao's notation (Agent #1, K⁻, K⁺, x_k, w_k), with speaker notes.
