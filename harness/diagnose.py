@@ -65,7 +65,6 @@ SCHEMA = {
             "type": "object",
             "properties": {
                 "context_length": {"type": "integer"},
-                "planner_delay_us": {"type": "integer"},
                 "scene_file": {"type": "string"},
                 "trafficsim_device": {
                     "type": "string",

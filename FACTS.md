@@ -157,6 +157,28 @@ metrics look like good driving, and the contract says not to flag outcomes.
 The admitted rules are not in the gate: `rules/promoted.json` is empty until a
 person copies them in. The linear-MPC rule holds for this study only.
 
+## Exhaustive check of the gate, 29 Sep 2026
+
+Source: `research/harness/verify_supervisor.py` → `verify_supervisor.json`, also
+run by `test_verify_supervisor.py`. From four kinds of FAILED run, an
+adversarial policy tries 26 answers at every step: every skill including
+ACCEPT, LAUNCH, a made-up skill and a crashed call, with legal and illegal
+params. After each launch, an adversarial world fails the run again, breaks
+the machine, or drops the delay. Every step runs the real
+`validate_diagnosis.rejection` and `recover.py`, with Docker cleanup stubbed.
+
+First run: 65 states, 5,070 transitions, 28 violations, all of one kind. A
+CONFIGURE of `planner_delay_us` to 0 after a delay that did not land produced a
+run that passed every check and was kept, measuring 0 ms under a 100 ms
+experiment: lie 2, reintroduced by recovery. `planner_delay_us` then left
+CONFIGURABLE_KEYS: a recovery may change how a run executes, never what it
+measures.
+
+After the fix: 49 states, 3,822 transitions, 0 violations. No FAILED run is
+kept, no preflight-rejected config launches, no lineage launches more than 3
+times, the graph has no cycle, CLEANUP_ENV runs at most once per run, and no
+kept run measures a delay or scene other than the one queued.
+
 ## Code invariants
 
 1. Nonlinear MPC builds its CasADi cost once. Changing Python gain fields afterward

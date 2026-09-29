@@ -45,13 +45,10 @@ CONFIG_KEYS = (
     "scene_id",
     "trafficsim_device",
 )
-# Keys a CONFIGURE may change. The scene is the experiment, so it is not one.
-CONFIGURABLE_KEYS = (
-    "context_length",
-    "planner_delay_us",
-    "scene_file",
-    "trafficsim_device",
-)
+# Keys a CONFIGURE may change: how a run executes, never what it measures.
+# The delay and the scene are the experiment; changing them in a recovery would
+# keep a run that measures another condition (verify_supervisor.py, S3).
+CONFIGURABLE_KEYS = ("context_length", "scene_file", "trafficsim_device")
 TRAFFICSIM_DEVICES = ("cpu", "cuda")
 
 

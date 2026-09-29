@@ -41,7 +41,7 @@ return can.
 
 | Skill | Params | What `recover.py` does |
 |---|---|---|
-| CONFIGURE | one or more of `context_length` (int), `planner_delay_us` (int), `scene_file` (repo-relative path), `trafficsim_device` (`cpu` or `cuda`) | queues a new run with those values changed |
+| CONFIGURE | one or more of `context_length` (int), `scene_file` (repo-relative path), `trafficsim_device` (`cpu` or `cuda`) | queues a new run with those values changed. `planner_delay_us` and `scene_id` are what the experiment measures, so no recovery may change them |
 | RE-RUN | `{}` | queues a new run with the same config |
 | RESTART_CLEANUP | `{}` | `docker compose down` on this run's containers, then queues a new run with the same config |
 | CLEANUP_ENV | `{}` | removes AlpaSim leftovers from the whole machine (running AlpaSim containers, AlpaSim Docker networks). A run that never launched becomes READY again; a launched run is queued again with the same config |

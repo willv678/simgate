@@ -26,7 +26,8 @@ def _entry(make_run, skill, params, *, context_length=8, attempt=1, env_cleanups
         ("RE-RUN", {}, 8, 1, POSTFLIGHT, True),
         ("RESTART_CLEANUP", {}, 8, 2, POSTFLIGHT, True),
         ("CONFIGURE", {"context_length": 8}, 1, 1, PREFLIGHT, True),
-        ("CONFIGURE", {"planner_delay_us": 100000}, 8, 1, POSTFLIGHT, True),
+        # The delay is the experiment. A recovery may not change it.
+        ("CONFIGURE", {"planner_delay_us": 100000}, 8, 1, POSTFLIGHT, False),
         # A FAILED run is never kept, and launching is READY's step.
         ("ACCEPT", {}, 8, 1, POSTFLIGHT, False),
         ("LAUNCH", {}, 8, 1, POSTFLIGHT, False),
