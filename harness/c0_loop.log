@@ -1,0 +1,77 @@
+001_c0_001.json: READY -> run_experiment.py {"pid": 38505, "run_dir": "diag/c0_001"}
+001_c0_001.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+001_c0_001.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 46176, "output_tokens": 895, "duration_ms": 12122, "tool_calls": ["Grep: (?i)planner_delay|delay_us|override|unknown key|ignor", "Glob: **/*", "Grep: (?i)delay", "Read: /home/willvarner/alpasim/diag/c0_001/run_metadata.yaml", "Read: /home/willvarner/alpasim/diag/c0_001/wizard-config.yaml"], "denied": []}
+001_c0_001.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+001_c0_001.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+002_c0_002.json: READY -> run_experiment.py {"pid": 44746, "run_dir": "diag/c0_002"}
+002_c0_002.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+002_c0_002.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 36851, "output_tokens": 1377, "duration_ms": 18302, "tool_calls": ["Bash: tail -n 40 ./console.log; docker ps; nvidia-smi; df -h /home", "Bash: head -n 5 ./console.log; grep -c \"StepEvent\" ./console.log; grep -m3 -n \"StepEvent\" ./console.log"], "denied": []}
+002_c0_002.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+002_c0_002.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+003_c0_003.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+003_c0_003.json: FAILED -> diagnose.py {"policy": "agent", "skill": "CLEANUP_ENV", "params": {}, "model": "claude-opus-5-5", "context_tokens": 19874, "output_tokens": 282, "duration_ms": 5081, "tool_calls": ["Bash: docker ps; docker network ls"], "denied": []}
+003_c0_003.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+003_c0_003.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+003_c0_003.json: READY -> run_experiment.py {"pid": 59172, "run_dir": "diag/c0_003"}
+003_c0_003.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+003_c0_003.json: COMPLETE -> analyze.py {"appended": true}
+003_c0_003.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+004_c0_004.json: READY -> run_experiment.py {"pid": 64003, "run_dir": "diag/c0_004"}
+004_c0_004.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+004_c0_004.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 58176, "output_tokens": 969, "duration_ms": 13673, "tool_calls": ["Grep: Interpolation|Traceback|metrics|parquet|MinADE", "Glob: **/*", "Grep: exited with code|Traceback|Error|error|aggregat|Done|finished", "Bash: df -h /home/willvarner/alpasim; docker ps"], "denied": []}
+004_c0_004.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+004_c0_004.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "015_c0_004_a2.json", "cleanup": null}
+005_c0_005.json: READY -> run_experiment.py {"pid": 68228, "run_dir": "diag/c0_005"}
+005_c0_005.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 2.0}
+005_c0_005.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 34489, "output_tokens": 580, "duration_ms": 9569, "tool_calls": ["Bash: docker ps; nvidia-smi; df -h /home", "Grep: (?i)kill|oom|memory|error|137", "Bash: tail -n 40 ./console.log 2>/dev/null || true"], "denied": []}
+005_c0_005.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+005_c0_005.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "016_c0_005_a2.json", "cleanup": null}
+006_c0_006.json: READY -> run_experiment.py {"pid": 71691, "run_dir": "diag/c0_006"}
+006_c0_006.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+006_c0_006.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 34872, "output_tokens": 691, "duration_ms": 10538, "tool_calls": ["Grep: (?i)timeout|124|parquet|metrics|Traceback|killed|SIGTERM|stopping", "Bash: df -h /home/willvarner/alpasim/diag/c0_006; docker ps", "Glob: **/*.parquet"], "denied": []}
+006_c0_006.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+006_c0_006.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "017_c0_006_a2.json", "cleanup": null}
+007_c0_007.json: READY -> run_experiment.py {"pid": 76590, "run_dir": "diag/c0_007"}
+007_c0_007.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+007_c0_007.json: COMPLETE -> analyze.py {"appended": true}
+007_c0_007.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+008_c0_008.json: READY -> run_experiment.py {"pid": 81064, "run_dir": "diag/c0_008"}
+008_c0_008.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+008_c0_008.json: COMPLETE -> analyze.py {"appended": true}
+008_c0_008.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+009_x1_001.json: READY -> run_experiment.py {"pid": 86118, "run_dir": "diag/x1_001"}
+009_x1_001.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+009_x1_001.json: COMPLETE -> analyze.py {"appended": true}
+009_x1_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+010_x1_002.json: READY -> run_experiment.py {"pid": 90766, "run_dir": "diag/x1_002"}
+010_x1_002.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+010_x1_002.json: COMPLETE -> analyze.py {"appended": true}
+010_x1_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+011_x1_003.json: READY -> run_experiment.py {"pid": 95360, "run_dir": "diag/x1_003"}
+011_x1_003.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+011_x1_003.json: COMPLETE -> analyze.py {"appended": true}
+011_x1_003.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+012_x1_004.json: READY -> run_experiment.py {"pid": 99680, "run_dir": "diag/x1_004"}
+012_x1_004.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+012_x1_004.json: COMPLETE -> analyze.py {"appended": true}
+012_x1_004.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+013_x1_005.json: READY -> run_experiment.py {"pid": 104404, "run_dir": "diag/x1_005"}
+013_x1_005.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+013_x1_005.json: COMPLETE -> analyze.py {"appended": true}
+013_x1_005.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+014_x1_006.json: READY -> run_experiment.py {"pid": 108634, "run_dir": "diag/x1_006"}
+014_x1_006.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+014_x1_006.json: COMPLETE -> analyze.py {"appended": true}
+014_x1_006.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+015_c0_004_a2.json: READY -> run_experiment.py {"pid": 113324, "run_dir": "diag/c0_004_a2"}
+015_c0_004_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+015_c0_004_a2.json: COMPLETE -> analyze.py {"appended": true}
+015_c0_004_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+016_c0_005_a2.json: READY -> run_experiment.py {"pid": 117488, "run_dir": "diag/c0_005_a2"}
+016_c0_005_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+016_c0_005_a2.json: COMPLETE -> analyze.py {"appended": true}
+016_c0_005_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+017_c0_006_a2.json: READY -> run_experiment.py {"pid": 122492, "run_dir": "diag/c0_006_a2"}
+017_c0_006_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+017_c0_006_a2.json: COMPLETE -> analyze.py {"appended": true}
+017_c0_006_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}

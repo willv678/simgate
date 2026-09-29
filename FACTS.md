@@ -124,6 +124,39 @@ have been fully subnetted": the B2 Docker leak happened in the old batch too.
 
 Cost per audit: 150k–820k context tokens summed over 13–25 turns, 29–63 s.
 
+## Pilot campaign C0 and rule mining, 29 Sep 2026
+
+C0 (`research/harness/c0_queue`, `c0_trace.jsonl`, `c0_queue/score.json`): one run
+per fault, two clean runs, three rails and three kinematic runs, tier 1 on
+FAILED, 66 min, 17 launches. Validity is ground truth from the injection.
+
+| Fault | Gate saw | Tier 1 chose | Outcome |
+|---|---|---|---|
+| drop_delay (persistent) | config_not_landed 100000 → 0 | HALT | right: no retry can pass; the script would spend 3 launches |
+| hang | exit 124 at the 10 min timeout | HALT | over-cautious: the hang was transient, RE-RUN would pass |
+| fill_network_pool | environment, before launch | CLEANUP_ENV | 29 networks removed, run kept |
+| delete_metrics | exit 0, no metrics | RE-RUN | retry kept |
+| kill | exit 137 | RE-RUN | retry kept |
+| corrupt_metrics | exit 0, unreadable parquet | RE-RUN | retry kept |
+| rails ×3, kinematic ×3 | nothing: every per-run check passes | — | all six kept |
+
+Without the gate (keep exit 0): 9 invalid runs kept. With it: 6, all silent.
+
+Rule mining (`eval_mining.py`, `mining_eval.json`, `mining_rules.json`), one audit
+per learning batch, clean corpus of 51 kept runs:
+
+| Lie | Audit caught | Admitted rule | Held-out, rules only | Clean control false |
+|---|---|---|---|---|
+| context_length 1 | 10/10 (batch A) | `driver-config.yaml inference.context_length eq 8` | 10/10 on E, which the auditor missed | 0/30 |
+| delay not applied | 20/20 (batch B) | `wizard-config.yaml runtime.simulation_config.planner_delay_us eq_label` | 20/20, 0 of 10 correct runs | 0/30 |
+| silent faults | 2/4: both kinematic, neither rails | `wizard-config.yaml controller.mpc_implementation eq linear` | 1/2: kinematic yes, rails no | 0/30 |
+
+Every proposed rule was admitted. `rails` shows in the config
+(`force_gt_duration_us` 60000000 against 4500000) and was not flagged; its
+metrics look like good driving, and the contract says not to flag outcomes.
+The admitted rules are not in the gate: `rules/promoted.json` is empty until a
+person copies them in. The linear-MPC rule holds for this study only.
+
 ## Code invariants
 
 1. Nonlinear MPC builds its CasADi cost once. Changing Python gain fields afterward

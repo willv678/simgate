@@ -13,7 +13,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from read_state import ROOT, load_entry, save_entry
+from read_state import ROOT, load_entry, queue_entries, save_entry
 
 RUN_ROOT = "diag"
 
@@ -45,9 +45,9 @@ def new_entry(
 
 def add(queue: Path, entry: dict) -> Path:
     queue.mkdir(parents=True, exist_ok=True)
-    if any(load_entry(path)["name"] == entry["name"] for path in queue.glob("*.json")):
+    if any(load_entry(path)["name"] == entry["name"] for path in queue_entries(queue)):
         raise SystemExit(f"{entry['name']} is already in {queue}")
-    seq = len(list(queue.glob("*.json"))) + 1
+    seq = len(queue_entries(queue)) + 1
     path = queue / f"{seq:03d}_{entry['name']}.json"
     save_entry(path, entry)
     return path

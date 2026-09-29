@@ -33,7 +33,7 @@ from eval_auditor import (
     case_nominal_alone,
 )
 from promote import admission, clean_corpus
-from read_state import ROOT, load_entry
+from read_state import ROOT, load_entry, queue_entries
 from rules import violations
 
 HARNESS = Path(__file__).resolve().parent
@@ -45,7 +45,7 @@ RULES_OUT = HARNESS / "mining_rules.json"
 def _queued(queue: str, names: list[str]) -> dict[str, tuple[Path, dict]]:
     entries = {
         entry["name"]: entry
-        for entry in map(load_entry, (HARNESS / queue).glob("*.json"))
+        for entry in map(load_entry, queue_entries(HARNESS / queue))
     }
     return {
         name: (ROOT / entries[name]["run_dir"], entries[name]["config"])

@@ -1,0 +1,58 @@
+{
+  "name": "c0_005",
+  "run_dir": "diag/c0_005",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 68228,
+  "launched_at": 1790694062.2874808,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c0_005",
+      "k_status": "wizard_exit_code: 137; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-09-29T15:01:09.560Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\""
+      ]
+    },
+    "skill": "RE-RUN",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 34489,
+    "output_tokens": 580,
+    "duration_ms": 9569,
+    "tool_calls": [
+      "Bash: docker ps; nvidia-smi; df -h /home",
+      "Grep: (?i)kill|oom|memory|error|137",
+      "Bash: tail -n 40 ./console.log 2>/dev/null || true"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "kill",
+    "persistent": false,
+    "after_s": 98,
+    "applied": false
+  }
+}

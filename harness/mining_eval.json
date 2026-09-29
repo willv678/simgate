@@ -1,0 +1,199 @@
+{
+ "context_length_1": {
+  "audit": {
+   "flagged": [
+    "nominal_run_1",
+    "nominal_run_10",
+    "nominal_run_2",
+    "nominal_run_3",
+    "nominal_run_4",
+    "nominal_run_5",
+    "nominal_run_6",
+    "nominal_run_7",
+    "nominal_run_8",
+    "nominal_run_9"
+   ],
+   "truth": [
+    "nominal_run_1",
+    "nominal_run_10",
+    "nominal_run_2",
+    "nominal_run_3",
+    "nominal_run_4",
+    "nominal_run_5",
+    "nominal_run_6",
+    "nominal_run_7",
+    "nominal_run_8",
+    "nominal_run_9"
+   ],
+   "context_tokens": 96459
+  },
+  "decisions": [
+   {
+    "rule": {
+     "id": "vavam_context_length_nominal",
+     "file": "driver-config.yaml",
+     "path": "inference.context_length",
+     "op": "eq",
+     "value": 8,
+     "reason": "VaVAM plans from a video of past frames; context_length 1 feeds it a single frame, so the run no longer measures the nominal policy."
+    },
+    "admitted": true,
+    "caught": [
+     "nominal_run_1",
+     "nominal_run_10",
+     "nominal_run_2",
+     "nominal_run_3",
+     "nominal_run_4",
+     "nominal_run_5",
+     "nominal_run_6",
+     "nominal_run_7",
+     "nominal_run_8",
+     "nominal_run_9"
+    ],
+    "flagged": 10,
+    "clean_checked": 51
+   }
+  ],
+  "held_out": {
+   "runs": 10,
+   "invalid": 10,
+   "caught": 10,
+   "false_flags": 0
+  },
+  "control_false_flags": 0
+ },
+ "delay_not_applied": {
+  "audit": {
+   "flagged": [
+    "b2_041",
+    "b2_042",
+    "b2_043",
+    "b2_044",
+    "b2_045",
+    "b2_046",
+    "b2_047",
+    "b2_048",
+    "b2_049",
+    "b2_050",
+    "b2_051",
+    "b2_052",
+    "b2_053",
+    "b2_054",
+    "b2_055",
+    "b2_056",
+    "b2_057",
+    "b2_058",
+    "b2_059",
+    "b2_060"
+   ],
+   "truth": [
+    "b2_041",
+    "b2_042",
+    "b2_043",
+    "b2_044",
+    "b2_045",
+    "b2_046",
+    "b2_047",
+    "b2_048",
+    "b2_049",
+    "b2_050",
+    "b2_051",
+    "b2_052",
+    "b2_053",
+    "b2_054",
+    "b2_055",
+    "b2_056",
+    "b2_057",
+    "b2_058",
+    "b2_059",
+    "b2_060"
+   ],
+   "context_tokens": 214387
+  },
+  "decisions": [
+   {
+    "rule": {
+     "id": "planner_delay_matches_label",
+     "file": "wizard-config.yaml",
+     "path": "runtime.simulation_config.planner_delay_us",
+     "op": "eq_label",
+     "label_key": "planner_delay_us",
+     "reason": "The sweep varies planner delay, so each run's resolved planner_delay_us must equal the delay in its label. Here all 20 runs labeled 100 or 200 ms actually ran with 0."
+    },
+    "admitted": true,
+    "caught": [
+     "b2_041",
+     "b2_042",
+     "b2_043",
+     "b2_044",
+     "b2_045",
+     "b2_046",
+     "b2_047",
+     "b2_048",
+     "b2_049",
+     "b2_050",
+     "b2_051",
+     "b2_052",
+     "b2_053",
+     "b2_054",
+     "b2_055",
+     "b2_056",
+     "b2_057",
+     "b2_058",
+     "b2_059",
+     "b2_060"
+    ],
+    "flagged": 20,
+    "clean_checked": 51
+   }
+  ],
+  "held_out": {
+   "runs": 30,
+   "invalid": 20,
+   "caught": 20,
+   "false_flags": 0
+  },
+  "control_false_flags": 0
+ },
+ "silent_faults": {
+  "audit": {
+   "flagged": [
+    "x1_002",
+    "x1_004"
+   ],
+   "truth": [
+    "x1_001",
+    "x1_002",
+    "x1_003",
+    "x1_004"
+   ],
+   "context_tokens": 173874
+  },
+  "decisions": [
+   {
+    "rule": {
+     "id": "controller_mpc_is_linear",
+     "file": "wizard-config.yaml",
+     "path": "controller.mpc_implementation",
+     "op": "eq",
+     "value": "linear",
+     "reason": "The nominal batch says the linear MPC tracks the plan; r11 and r14 ran kinematic_ideal instead, which changes what tracking_error and collisions measure."
+    },
+    "admitted": true,
+    "caught": [
+     "x1_002",
+     "x1_004"
+    ],
+    "flagged": 2,
+    "clean_checked": 51
+   }
+  ],
+  "held_out": {
+   "runs": 2,
+   "invalid": 2,
+   "caught": 1,
+   "false_flags": 0
+  },
+  "control_false_flags": 0
+ }
+}

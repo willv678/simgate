@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 from enqueue import add
-from read_state import load_entry
+from read_state import load_entry, queue_entries
 
 HARNESS = Path(__file__).resolve().parent
 
@@ -45,6 +45,9 @@ def test_each_state_dispatches_its_scripts(tmp_path: Path, make_run):
         make_run("machine", launched=False, environment=["GPU busy"], env_cleanups=1),
     )
 
+    # Reports written beside the entries are not entries.
+    (queue / "audit.json").write_text("{}")
+
     rows = _run_loop(queue, tmp_path / "trace.jsonl")
 
     recovery = [
@@ -65,7 +68,7 @@ def test_each_state_dispatches_its_scripts(tmp_path: Path, make_run):
     assert _scripts(rows, "006_ctx1_a2.json") == [("READY", None)]
     assert _scripts(rows, "007_no_metrics_a2.json") == [("READY", None)]
 
-    entries = {path.name: load_entry(path) for path in queue.glob("*.json")}
+    entries = {path.name: load_entry(path) for path in queue_entries(queue)}
     assert entries["001_ctx1.json"]["resolution"] == "CONFIGURE"
     assert entries["006_ctx1_a2.json"]["config"]["context_length"] == 8
     assert entries["002_no_metrics.json"]["resolution"] == "RE-RUN"

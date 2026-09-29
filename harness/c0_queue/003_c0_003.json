@@ -1,0 +1,54 @@
+{
+  "name": "c0_003",
+  "run_dir": "diag/c0_003",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 59172,
+  "launched_at": 1790693623.0250716,
+  "environment": null,
+  "env_cleanups": 1,
+  "resolution": "ACCEPT",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c0_003",
+      "k_status": "environment: docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": []
+    },
+    "skill": "CLEANUP_ENV",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 19874,
+    "output_tokens": 282,
+    "duration_ms": 5081,
+    "tool_calls": [
+      "Bash: docker ps; docker network ls"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "fill_network_pool",
+    "persistent": false,
+    "after_s": null,
+    "applied": true
+  }
+}

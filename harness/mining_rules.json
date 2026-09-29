@@ -1,0 +1,79 @@
+[
+ {
+  "id": "vavam_context_length_nominal",
+  "file": "driver-config.yaml",
+  "path": "inference.context_length",
+  "op": "eq",
+  "value": 8,
+  "reason": "VaVAM plans from a video of past frames; context_length 1 feeds it a single frame, so the run no longer measures the nominal policy.",
+  "source": "eval_mining:context_length_1",
+  "evidence": {
+   "caught": [
+    "nominal_run_1",
+    "nominal_run_10",
+    "nominal_run_2",
+    "nominal_run_3",
+    "nominal_run_4",
+    "nominal_run_5",
+    "nominal_run_6",
+    "nominal_run_7",
+    "nominal_run_8",
+    "nominal_run_9"
+   ],
+   "flagged": 10,
+   "clean_checked": 51
+  }
+ },
+ {
+  "id": "planner_delay_matches_label",
+  "file": "wizard-config.yaml",
+  "path": "runtime.simulation_config.planner_delay_us",
+  "op": "eq_label",
+  "label_key": "planner_delay_us",
+  "reason": "The sweep varies planner delay, so each run's resolved planner_delay_us must equal the delay in its label. Here all 20 runs labeled 100 or 200 ms actually ran with 0.",
+  "source": "eval_mining:delay_not_applied",
+  "evidence": {
+   "caught": [
+    "b2_041",
+    "b2_042",
+    "b2_043",
+    "b2_044",
+    "b2_045",
+    "b2_046",
+    "b2_047",
+    "b2_048",
+    "b2_049",
+    "b2_050",
+    "b2_051",
+    "b2_052",
+    "b2_053",
+    "b2_054",
+    "b2_055",
+    "b2_056",
+    "b2_057",
+    "b2_058",
+    "b2_059",
+    "b2_060"
+   ],
+   "flagged": 20,
+   "clean_checked": 51
+  }
+ },
+ {
+  "id": "controller_mpc_is_linear",
+  "file": "wizard-config.yaml",
+  "path": "controller.mpc_implementation",
+  "op": "eq",
+  "value": "linear",
+  "reason": "The nominal batch says the linear MPC tracks the plan; r11 and r14 ran kinematic_ideal instead, which changes what tracking_error and collisions measure.",
+  "source": "eval_mining:silent_faults",
+  "evidence": {
+   "caught": [
+    "x1_002",
+    "x1_004"
+   ],
+   "flagged": 2,
+   "clean_checked": 51
+  }
+ }
+]

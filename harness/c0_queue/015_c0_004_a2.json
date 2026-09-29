@@ -1,0 +1,21 @@
+{
+  "name": "c0_004_a2",
+  "run_dir": "diag/c0_004_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 2,
+  "parent": "004_c0_004.json",
+  "launched": true,
+  "pid": 113324,
+  "launched_at": 1790696056.4154084,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null
+}

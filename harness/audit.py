@@ -22,7 +22,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from read_state import ROOT, load_entry
+from read_state import ROOT, load_entry, queue_entries
 from rules import FILES, OPS
 
 CONTRACT = Path(__file__).resolve().parent / "advisor" / "AUDIT.md"
@@ -203,7 +203,7 @@ def audit(
 
 def main() -> int:
     queue = Path(sys.argv[1])
-    entries = [load_entry(path) for path in sorted(queue.glob("*.json"))]
+    entries = [load_entry(path) for path in queue_entries(queue)]
     launched = [entry for entry in entries if entry["launched"]]
     runs = {entry["name"]: ROOT / entry["run_dir"] for entry in launched}
     labels = {entry["name"]: entry["config"] for entry in launched}

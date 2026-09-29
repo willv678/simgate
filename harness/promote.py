@@ -20,7 +20,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from read_state import ROOT, load_entry
+from read_state import ROOT, load_entry, queue_entries
 from rules import rule_problem, rules_file, violation
 
 HARNESS = Path(__file__).resolve().parent
@@ -46,7 +46,7 @@ def clean_corpus() -> dict[str, tuple[Path, dict]]:
     for queue, names in CLEAN_QUEUES.items():
         entries = {
             entry["name"]: entry
-            for entry in map(load_entry, (HARNESS / queue).glob("*.json"))
+            for entry in map(load_entry, queue_entries(HARNESS / queue))
         }
         for name in names:
             entry = entries[name]

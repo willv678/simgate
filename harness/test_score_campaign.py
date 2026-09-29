@@ -29,3 +29,4 @@ def test_lineages_are_scored_per_fault_kind(tmp_path, make_run):
     assert row["skills"] == {"RE-RUN": 1}
     # Exit 0 with no metrics: a batch without the gate keeps it.
     assert (row["no_gate_kept"], row["no_gate_invalid_kept"]) == (1, 1)
+    assert row["gate_invalid_kept"] == 0

@@ -79,6 +79,11 @@ def save_entry(path: Path, entry: dict) -> None:
     tmp.replace(path)
 
 
+def queue_entries(queue: Path) -> list[Path]:
+    """Entry files of a queue, in order. Reports such as audit.json sit beside them."""
+    return sorted(queue.glob("[0-9][0-9][0-9]_*.json"))
+
+
 def run_dir(entry: dict) -> Path:
     return ROOT / entry["run_dir"]
 

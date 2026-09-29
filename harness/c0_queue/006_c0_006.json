@@ -1,0 +1,65 @@
+{
+  "name": "c0_006",
+  "run_dir": "diag/c0_006",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 71691,
+  "launched_at": 1790694196.4521806,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c0_006",
+      "k_status": "postflight_failed: failed to load metrics: Could not open Parquet input source '<Buffer>': Parquet magic bytes not found in footer. Either the file is corrupted or this is not a parquet file.",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-09-29T15:03:23.689Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 9306147453 outside range [9303047453, 9306047454)",
+        "ValueError: Interpolation timestamp 9306147453 outside range [9303047453, 9306047454)",
+        "controller-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ]
+    },
+    "skill": "RE-RUN",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 34872,
+    "output_tokens": 691,
+    "duration_ms": 10538,
+    "tool_calls": [
+      "Grep: (?i)timeout|124|parquet|metrics|Traceback|killed|SIGTERM|stopping",
+      "Bash: df -h /home/willvarner/alpasim/diag/c0_006; docker ps",
+      "Glob: **/*.parquet"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "corrupt_metrics",
+    "persistent": false,
+    "after_s": null,
+    "applied": false
+  }
+}

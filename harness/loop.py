@@ -26,7 +26,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from read_state import ROOT, RunState, State, load_entry, read_state
+from read_state import ROOT, RunState, State, load_entry, queue_entries, read_state
 
 HARNESS = Path(__file__).resolve().parent
 DISPATCH = {
@@ -48,7 +48,7 @@ def run_script(script: str, entry_path: Path, extra: list[str]) -> dict:
 
 
 def next_entry(queue: Path, no_launch: bool) -> tuple[Path, RunState] | None:
-    for path in sorted(queue.glob("*.json")):
+    for path in queue_entries(queue):
         state = read_state(load_entry(path))
         if state.state is State.DONE:
             continue
@@ -59,7 +59,7 @@ def next_entry(queue: Path, no_launch: bool) -> tuple[Path, RunState] | None:
 
 
 def summary(queue: Path, minutes: float, stopped: str | None) -> dict:
-    entries = [load_entry(path) for path in sorted(queue.glob("*.json"))]
+    entries = [load_entry(path) for path in queue_entries(queue)]
     resolutions = [entry["resolution"] for entry in entries]
     return {
         "entries": len(entries),
@@ -140,7 +140,7 @@ def main() -> int:
                     f"{path.name} is still {state.state.value}; the loop would spin"
                 )
 
-        for path in sorted(args.queue.glob("*.json")):
+        for path in queue_entries(args.queue):
             state = read_state(load_entry(path))
             if state.state is State.READY:
                 record(path, state, None, {"skipped": stopped or "--no-launch"})
