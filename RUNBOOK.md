@@ -66,7 +66,6 @@ From `/home/willvarner/alpasim`:
 ```bash
 uv run python research/harness/download_scenes.py
 uv run python research/harness/analyze_cp2.py
-uv run python research/harness/run_delay_sweep.py --dry-run
 uv run pytest research/harness/test_analyze_cp2.py
 ```
 

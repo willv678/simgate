@@ -1,4 +1,32 @@
-# Research workspace
+# SimGate
+
+**The model proposes, the gate decides.** Runtime assurance for LLM-operated
+driving simulation.
+
+SimGate runs batches of [AlpaSim](https://github.com/NVlabs/alpasim) driving
+simulations unattended, with Claude helping to run them, and guarantees that
+nothing the model says can put an invalid run into the dataset. Deterministic
+checks (the Gate) decide which runs are kept. The model only proposes: a fix
+from a five-item menu when a run fails (the Investigator), and flags and new
+checks after a batch (the Auditor). Admitted checks join the Gate (the
+Rulebook). An exhaustive search over every answer the model could give (the
+Verifier) shows none of them breaks the Gate.
+
+![Invalid runs kept](figures/invalid_kept.png)
+
+*Pilot fault campaign: invalid runs kept in the dataset with no checks, with the
+per-run Gate, and with the Gate plus the Auditor.*
+
+| Start here | For |
+|---|---|
+| [`GUIDE.md`](GUIDE.md) | the whole project with diagrams and results |
+| [`harness/README.md`](harness/README.md) | the code, safety model, and quickstart |
+| [`FACTS.md`](FACTS.md) | every measurement and where it came from |
+| [`OUTLINE.md`](OUTLINE.md) | the IEEE IV 2027 paper plan |
+
+---
+
+## Working in this repo
 
 Start here. This folder is the only current description of Will's IEEE IV 2027 project.
 The long notes at the repo root are background. If they disagree with this folder, this
@@ -23,9 +51,11 @@ Do not add another research markdown unless `STATUS.md` names the question it an
 
 ## What is current
 
-The paper is Loop 1: an unattended batch agent with a finite skill menu, as Shao
-locked it on 22 Sep 2026. Full statement: `MAP.md`. Week plan: `WEEKS.md` (switching
-weeks are paused).
+The paper is SimGate: Loop 1 as Shao designed it on 22 Sep 2026 (preflight
+K⁻, postflight K⁺, a finite skill menu), built and extended with an
+investigating agent, a batch auditor, rule mining, and an exhaustive check of
+the gate. Full picture: `GUIDE.md`. Claims and evidence: `OUTLINE.md`,
+`FACTS.md`. Board: `STATUS.md`. Scripts from paused work are in `archive/`.
 
 This folder is its own git repo (ignored by NVlabs AlpaSim), pushed to
 https://github.com/willv678/switching-stability. New notes and harness scripts go
@@ -59,6 +89,6 @@ Edits inside AlpaSim packages stay in `../src/`. Refresh the published delta wit
 - Python goes through `uv`. Never activate a venv. See `.cursor/rules/uv-python.mdc`.
 - `src/` is upstream AlpaSim. Change it only when `STATUS.md` names the file.
 - Harness scripts live in `harness/` (`analyze_cp2.py`, `download_scenes.py`, …). They can change. Do not add new experiment scripts at the AlpaSim repo root.
-- Do not build an LLM supervisor. `STATUS.md` will say when that is allowed. It is not allowed now.
+- The model is called only by `harness/diagnose.py` (on FAILED) and `harness/audit.py` (after a batch). Its system prompts are `harness/advisor/`. Any new model call needs a row in `STATUS.md`.
 - Do not trust `cp2_failure_boundary.png` or `failure_boundary.png`. The latency axis on the historical 212 runs was parsed wrong. See `FACTS.md`.
 - When you finish a task, edit `STATUS.md` in the same change: date, what was measured, where the artifact lives. A task with no artifact is not done.
