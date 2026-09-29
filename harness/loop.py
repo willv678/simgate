@@ -9,7 +9,8 @@
 Claude runs only inside `diagnose.py --policy model`: one headless call per
 FAILED run, then that process exits. One run is in flight at a time.
 The loop ends when every entry is DONE, or, with --no-launch, when the only
-entries left are READY. It stops early when an environment failure survives
+entries left are READY. With --audit, a batch that was not stopped is then
+audited (audit.py): flagged runs are quarantined. It stops early when an environment failure survives
 CLEANUP_ENV or is halted, because the machine is shared and every later run
 would fail. Each dispatched script is one trace line.
 
@@ -94,6 +95,9 @@ def main() -> int:
     parser.add_argument("--timeout-min", type=float, default=30.0)
     parser.add_argument("--no-launch", action="store_true")
     parser.add_argument("--trace", type=Path, required=True)
+    parser.add_argument(
+        "--audit", action="store_true", help="audit the batch when it ends (audit.py)"
+    )
     args = parser.parse_args()
 
     extra = {
@@ -150,6 +154,17 @@ def main() -> int:
         )
         if stopped:
             print(f"stopped: {stopped}", flush=True)
+        elif args.audit:
+            proc = subprocess.run(
+                [sys.executable, str(HARNESS / "audit.py"), str(args.queue)],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            result = json.loads(proc.stdout.strip().splitlines()[-1])
+            trace.write(json.dumps({"audit": result}) + "\n")
+            print(f"audit: {json.dumps(result)}", flush=True)
     return 0
 
 

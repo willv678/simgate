@@ -87,6 +87,20 @@ def environment_problems() -> list[str]:
     return problems
 
 
+def machine_snapshot() -> str:
+    """What tier 1's shell tools would show now, recorded when a run fails."""
+    sections = []
+    for command in (
+        ["docker", "ps", "--format", "{{.Names}}\t{{.Status}}"],
+        ["docker", "network", "ls", "--format", "{{.Name}}"],
+        ["nvidia-smi", "--query-gpu=memory.used,memory.free", "--format=csv"],
+        ["df", "-h", str(ROOT / "diag")],
+    ):
+        out = _run(command).stdout.strip()
+        sections.append(f"$ {' '.join(command)}\n{out}")
+    return "\n\n".join(sections) + "\n"
+
+
 def cleanup_environment() -> list[str]:
     """Remove AlpaSim's own running leftovers and unused networks. Returns what it did."""
     actions = []

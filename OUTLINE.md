@@ -73,6 +73,9 @@ Tier 1 is right on deleted and corrupt metrics (5/5 each) where tier 0 halts
 hang row is confounded by replaying on a live machine; the campaign fills the
 table with launches.
 
+**Figure 2 (`figures/invalid_kept.pdf`).** Invalid runs left in the pilot's
+dataset: no gate 9, per-run gate 6, gate and audit 0.
+
 **6. The auditor and what it teaches the gate (`auditor_eval.txt`,
 `mining_eval.txt`).** Table 2: batches A–F, three audits each (`auditor_repeats.txt`). Every
 sample caught every planted lie with no false flags in A–D and F, and none in E, the batch that is wrong the same way
@@ -106,7 +109,8 @@ The files do not support these; they are not in the six pages.
   failures and one persistent fault, and worse on one transient fault.
 - "First runtime assurance for LLM agents." It is in print (FACTS.md).
 - The auditor catching uniform lies without a reference run (E is 0/10).
-- Rails caught by a mined rule. Held out 1/2.
+- Rails caught without a reference run. With one it is caught and a rule for
+  it is admitted (FACTS.md); without one, held out 1/2.
 - A rate for any model behaviour from one sample.
 - Loop 2 as a search over scenes, delays, or gains.
 - Switching stability, dwell time, MPC tuning.

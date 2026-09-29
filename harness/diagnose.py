@@ -9,7 +9,9 @@ Two Claude policies, each one headless `claude -p` call:
   Grep and Glob inside its working directories only: a temporary directory
   holding a copy of the console log, and the failed run directory. Bash is
   limited to AGENT_BASH. `dontAsk` with no permission prompter denies
-  everything else. Tool calls and denials are recorded.
+  everything else. Tool calls and denials are recorded. The machine as the
+  shell tools see it is saved with every diagnosis, so a replay can show the
+  agent the machine at failure time (./machine.txt) instead of the live one.
 Both tiers share the rest:
 - the system prompt is advisor/CLAUDE.md and nothing else is loaded: the call
   runs in a temporary directory with no setting sources, so no project
@@ -33,6 +35,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from environment import machine_snapshot
 from policy import decide_recovery
 from postflight import PostflightStatus
 from read_state import (
@@ -56,6 +59,13 @@ AGENT_PROMPT = (
     "console log, present only if the run launched) and on the run directory "
     "{run_dir}. Bash is limited to: {bash}. Anything else is denied. "
     "Then return one skill and its params."
+)
+REPLAY_PROMPT = (
+    "Status of the failed run is on stdin. This failure is being replayed: the "
+    "machine as it was when the run failed is in ./machine.txt. Before you answer "
+    "you may investigate with read-only tools. Read, Grep and Glob work on "
+    "./machine.txt, ./console.log (present only if the run launched) and the run "
+    "directory {run_dir}. Anything else is denied. Then return one skill and its params."
 )
 SCHEMA = {
     "type": "object",
@@ -215,23 +225,29 @@ def model_diagnosis(status: dict, model: str) -> dict:
         return _claude(MODEL_PROMPT, status, Path(empty), ["--tools", ""], model)
 
 
-def agent_diagnosis(status: dict, model: str, run_path: Path, log: Path) -> dict:
-    prompt = AGENT_PROMPT.format(run_dir=run_path, bash=", ".join(AGENT_BASH))
-    extra = [
-        "--tools",
-        "Read,Grep,Glob,Bash",
-        "--allowedTools",
-        *(f"Bash({command}:*)" for command in AGENT_BASH),
-        "--permission-mode",
-        "dontAsk",
-        "--permission-prompts",
-        "none",
-    ]
+def agent_diagnosis(
+    status: dict, model: str, run_path: Path, log: Path, machine: str | None = None
+) -> dict:
+    """Tier 1. With `machine`, a replay: the recorded machine replaces the shell."""
+    if machine is None:
+        prompt = AGENT_PROMPT.format(run_dir=run_path, bash=", ".join(AGENT_BASH))
+        extra = [
+            "--tools",
+            "Read,Grep,Glob,Bash",
+            "--allowedTools",
+            *(f"Bash({command}:*)" for command in AGENT_BASH),
+        ]
+    else:
+        prompt = REPLAY_PROMPT.format(run_dir=run_path)
+        extra = ["--tools", "Read,Grep,Glob"]
+    extra += ["--permission-mode", "dontAsk", "--permission-prompts", "none"]
     if run_path.is_dir():
         extra += ["--add-dir", str(run_path)]
     with tempfile.TemporaryDirectory() as workdir:
         if log.is_file():
             shutil.copy(log, Path(workdir) / "console.log")
+        if machine is not None:
+            (Path(workdir) / "machine.txt").write_text(machine, encoding="utf-8")
         return _claude(prompt, status, Path(workdir), extra, model)
 
 
@@ -248,6 +264,7 @@ def main() -> int:
         raise SystemExit(f"{entry['name']} is {state.state.value}, not FAILED")
 
     status = failure_status(entry, state.k_status)
+    machine = machine_snapshot()
     if args.policy == "script":
         diagnosis = script_diagnosis(status)
     elif args.policy == "model":
@@ -256,7 +273,12 @@ def main() -> int:
         diagnosis = agent_diagnosis(
             status, args.model, run_dir(entry), console_log(entry)
         )
-    entry["diagnosis"] = {"policy": args.policy, "input": status, **diagnosis}
+    entry["diagnosis"] = {
+        "policy": args.policy,
+        "input": status,
+        "machine": machine,
+        **diagnosis,
+    }
     save_entry(args.entry, entry)
     print(json.dumps({"policy": args.policy, **diagnosis}))
     return 0

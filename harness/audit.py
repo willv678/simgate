@@ -9,9 +9,14 @@ run ids that are in the batch. A flag quarantines a run for a person. Nothing
 is deleted or changed. The auditor also proposes rules (rules.py) that would
 catch each kind of problem without it; promote.py decides which enter the gate.
 
-    uv run python research/harness/audit.py <queue_dir>
+    uv run python research/harness/audit.py <queue_dir> [--reference <entry.json>]
+
+As a script it audits the runs a queue kept next to one known-good reference
+run, marks flagged entries `quarantine`, and checks each proposed rule with
+promote.admission. It never enacts a rule. Writes <queue_dir>/audit.json.
 """
 
+import argparse
 import json
 import random
 import re
@@ -22,10 +27,15 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from read_state import ROOT, load_entry, queue_entries
+from promote import admission, clean_corpus
+from read_state import ROOT, load_entry, queue_entries, save_entry
 from rules import FILES, OPS
 
-CONTRACT = Path(__file__).resolve().parent / "advisor" / "AUDIT.md"
+HARNESS = Path(__file__).resolve().parent
+CONTRACT = HARNESS / "advisor" / "AUDIT.md"
+# A kept B2 run, not in the clean corpus. Batch F showed one reference run lets
+# the auditor see a batch that is wrong the same way throughout.
+REFERENCE = HARNESS / "b2_queue" / "091_b2_091.json"
 PROMPT = (
     "Audit the batch in this directory: batch.json and runs/. "
     "Return the runs to quarantine, or none."
@@ -202,15 +212,58 @@ def audit(
 
 
 def main() -> int:
-    queue = Path(sys.argv[1])
-    entries = [load_entry(path) for path in queue_entries(queue)]
-    launched = [entry for entry in entries if entry["launched"]]
-    runs = {entry["name"]: ROOT / entry["run_dir"] for entry in launched}
-    labels = {entry["name"]: entry["config"] for entry in launched}
-    claim = f"All runs in queue {queue.name}, each with the config in its label."
-    report = audit(claim, runs, labels, "claude-opus-5-5", seed=0)
-    (queue / "audit.json").write_text(json.dumps(report, indent=1) + "\n")
-    print(json.dumps(report["flags"], indent=1))
+    parser = argparse.ArgumentParser()
+    parser.add_argument("queue", type=Path)
+    parser.add_argument("--reference", type=Path, default=REFERENCE)
+    parser.add_argument("--model", default="claude-opus-5-5")
+    args = parser.parse_args()
+
+    entry_paths = queue_entries(args.queue)
+    # The loop already accounts for the runs it failed; the dataset is what it kept.
+    kept = {
+        path: entry
+        for path in entry_paths
+        if (entry := load_entry(path))["resolution"] == "ACCEPT"
+    }
+    batch = {
+        entry["name"]: (ROOT / entry["run_dir"], entry["config"])
+        for entry in kept.values()
+    }
+    reference = load_entry(args.reference)
+    runs = {name: path for name, (path, _) in batch.items()}
+    labels = {name: label for name, (_, label) in batch.items()}
+    runs[reference["name"]] = ROOT / reference["run_dir"]
+    labels[reference["name"]] = {**reference["config"], "reference": True}
+    claim = (
+        f"All runs kept from queue {args.queue.name}, each with the config in its "
+        "label. The run labelled reference is a known-good run of the same setup "
+        "from an earlier batch; it is there for comparison, not part of the batch."
+    )
+    report = audit(claim, runs, labels, args.model, seed=0)
+
+    clean = clean_corpus()
+    report["admissions"] = [
+        {
+            "rule": rule,
+            **admission(rule, batch, set(report["flags"]) & set(batch), clean),
+        }
+        for rule in report["rules"]
+    ]
+    for path, entry in kept.items():
+        if entry["name"] in report["flags"]:
+            entry["quarantine"] = report["flags"][entry["name"]]
+            save_entry(path, entry)
+    (args.queue / "audit.json").write_text(json.dumps(report, indent=1) + "\n")
+    summary = {
+        "audited": len(batch),
+        "quarantined": sorted(set(report["flags"]) & set(batch)),
+        "reference_flagged": reference["name"] in report["flags"],
+        "rules_proposed": len(report["rules"]),
+        "rules_admissible": [
+            a["rule"]["id"] for a in report["admissions"] if a["admitted"]
+        ],
+    }
+    print(json.dumps(summary))
     return 0
 
 

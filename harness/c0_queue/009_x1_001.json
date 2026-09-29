@@ -22,5 +22,6 @@
     "persistent": false,
     "after_s": null,
     "applied": false
-  }
+  },
+  "quarantine": "wizard-config.yaml runtime.simulation_config.force_gt_duration_us is 60000000, longer than the whole rollout, so the ego was forced to ground truth and the policy was never evaluated."
 }

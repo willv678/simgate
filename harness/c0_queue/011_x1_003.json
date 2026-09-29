@@ -22,5 +22,6 @@
     "persistent": false,
     "after_s": null,
     "applied": false
-  }
+  },
+  "quarantine": "wizard-config.yaml runtime.simulation_config.force_gt_duration_us is 60000000 (reference and other runs: 4500000), which is longer than the 12 s rollout (120 steps x 100000 us), so the ego replayed ground truth and VaVAM never drove; its metrics (33.16 m, 0.35) match r05 and r08."
 }

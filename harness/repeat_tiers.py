@@ -5,7 +5,8 @@ tier 1 answer it `--samples` times; the script answers once (it is
 deterministic). An answer is right when its skill is in the case's RIGHT set
 and validate_diagnosis.rejection accepts it against the config the run used.
 
-Tier 1 looks at the machine as it is now, not as it was when the run failed.
+Tier 1 sees the machine as diagnose.py recorded it at failure time. Failures
+diagnosed before that record existed (29 Sep) replay against the live machine.
 
     uv run python research/harness/repeat_tiers.py --samples 5
 """
@@ -72,7 +73,13 @@ def main() -> int:
             "script": [script_diagnosis(status)],
             "tier0": [model_diagnosis(status, MODEL) for _ in range(args.samples)],
             "tier1": [
-                agent_diagnosis(status, MODEL, run_dir(entry), console_log(entry))
+                agent_diagnosis(
+                    status,
+                    MODEL,
+                    run_dir(entry),
+                    console_log(entry),
+                    entry["diagnosis"].get("machine"),
+                )
                 for _ in range(args.samples)
             ],
         }

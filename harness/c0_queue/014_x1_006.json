@@ -22,5 +22,6 @@
     "persistent": false,
     "after_s": null,
     "applied": false
-  }
+  },
+  "quarantine": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal, not linear as in the reference r11 and the other runs, so it used a different controller than the claimed common setup."
 }

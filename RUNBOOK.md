@@ -86,6 +86,7 @@ uv run python research/harness/loop.py research/harness/c1_queue --policy agent 
 uv run python research/harness/score_campaign.py research/harness/c1_queue
 
 # audit a finished batch (tier 2), and check the tier 1 fence
+# (or pass --audit to loop.py to audit when the batch ends)
 uv run python research/harness/audit.py research/harness/s1_queue
 uv run python research/harness/probe_fence.py
 ```

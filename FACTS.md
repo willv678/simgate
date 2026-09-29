@@ -162,6 +162,26 @@ metrics look like good driving, and the contract says not to flag outcomes.
 The admitted rules are not in the gate: `rules/promoted.json` is empty until a
 person copies them in. The linear-MPC rule holds for this study only.
 
+## Audit of the pilot with a reference run, 29 Sep 2026
+
+`audit.py research/harness/c0_queue` (the script form: kept runs only, plus the
+known-good reference `b2_091`). Of 12 kept runs it quarantined exactly the six
+silent ones, three rails and three kinematic, and not the reference. Reason for
+rails: "force_gt_duration_us is 60000000, which covers the whole 12 s rollout,
+so the policy never controls the ego". It proposed `force_gt_duration_us le
+4500000` (rails) and `controller.mpc_implementation eq linear` (kinematic);
+both pass promote.admission. An earlier form that audited every launched run
+flagged the same six plus four runs the loop had already failed, twice.
+
+Invalid runs left in the pilot's dataset: no gate 9, per-run gate 6, gate and
+audit 0 (`research/figures/invalid_kept.pdf`). Rails, missed without a
+reference in eval_mining, is caught with one, as batch F predicted.
+
+The hang replay with the machine as it was at failure (runtime container
+paused, reconstructed from the pilot): tier 1 chose RESTART_CLEANUP 3 of 3.
+diagnose.py now saves that snapshot with every diagnosis, and repeat_tiers.py
+replays it instead of the live machine.
+
 ## Diagnosis replay, five samples per tier, 29 Sep 2026
 
 Source: `harness/repeat_tiers.txt` and `.json`. Six real FAILED statuses (C0 and
