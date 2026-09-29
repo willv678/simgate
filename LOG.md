@@ -46,3 +46,4 @@ Append one line when a board row changes state. Newest at the bottom.
 - 2026-09-29 — Campaign chain replaced before it started: `harness/run_campaign.sh` runs C1 then C2 (seeds 1 and 2), arms in order script, tier 1, tier 0, each audited; about 35 h after S1. Log: `harness/campaign.log`.
 - 2026-09-29 — Repo cleanup: 13 unused scripts from paused work moved to `archive/`; `.env.example` (OpenRouter) removed; README opens with a SimGate landing section; the "no LLM supervisor" rule replaced by where model calls live. Not pushed: the GitHub repo is public and today's notes name people and PI decisions.
 - 2026-09-29 — GitHub: repo made private, renamed switching-stability → simgate, remote updated, pushed. License still undecided.
+- 2026-09-29 — WEEKS.md: Griffin's 28 Sep and 5 Oct items replaced (scene qualification is automated by S1): no launches this week; citations to BibTeX due 4 Oct; related-work notes or the architecture figure due 11 Oct.

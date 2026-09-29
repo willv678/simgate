@@ -72,6 +72,10 @@ whether Griffin can operate the machine.
 
 ## Week of 28 Sep — one concept, then the grid on one scene
 
+*Replanned 29 Sep. Will's plan is now SimGate: `STATUS.md` and `OUTLINE.md`,
+not the switching grid below. Griffin's items for this week and next are
+replaced; S1 qualifies all 101 scenes automatically.*
+
 **Will.** Learn one idea well enough to say it out loud: dwell time is a minimum
 wait between controller switches. The usual guarantee assumes the reference path
 is independent of the switch. Ours is not, because the camera is on the car. Read
@@ -81,12 +85,18 @@ a few values of the switching interval, one jump size, a handful of seeds. If it
 did not separate, switch the week's runs to "does the optimizer fail at the
 switch instant?" Write down what the plot should show before you look.
 
-**Griffin, due Sun 4 Oct.** Start qualifying scenes: one nominal rollout per
-scene, pass/fail, using the runbook. Target whatever fits in ten hours, not all
-102. Record failures as failures. Do not debug them.
+**Griffin, this week: do not launch anything on the lab machine.** The SimGate
+campaign has the GPU until about 1 Oct, and a second wizard would trip its
+machine check.
 
-**Will uses this.** The week of 5 Oct, only as a candidate list. The core plot
-does not need it.
+**Griffin, due Sun 4 Oct.** Citations. `FACTS.md` has a table of related work
+under "Novelty check" and a list of Simplex references. For each one, open it,
+confirm the authors, title, venue, and year, and write a BibTeX entry into
+`research/paper/refs.bib`. Mark any entry you could not confirm with a comment
+saying why. Items marked `*` in `FACTS.md` were never opened; they need the most
+checking. About 20 entries.
+
+**Will uses this.** The draft week, 26 Oct, for the bibliography.
 
 ## Week of 5 Oct — see if the effect is real
 
@@ -96,12 +106,18 @@ axes. Decide, in writing, which claim survived. Tell Shao in a short note: the
 slides' outer agent is not the November paper; this plot is. If the plot is
 noise, commit to the smaller feasibility paper the same week.
 
-**Griffin, due Sun 11 Oct.** Finish a pass/fail list aimed at 20 scenes that
-actually wrote metrics. Also copy Will's finished one-scene runs into the batch
-CSV so the numbers live in one sheet.
+**Griffin, due Sun 11 Oct.** Pick one:
 
-**Will uses this.** Scene list: week of 12 Oct, and only if he chooses to add
-scenes. The CSV: week of 19 Oct, when the outline needs a table.
+- *Related work notes.* Read the three closest papers: ADMITBench (arXiv
+  2608.03866), From Detection to Action (arXiv 2606.28011), and Agentic
+  Self-Healing for Data and AI Pipelines (arXiv 2608.01955). One paragraph each
+  in `research/paper/related.md`: what the system does, and one sentence on how
+  SimGate differs (see `GUIDE.md` §8).
+- *Architecture figure.* Redraw the Simplex diagram in `GUIDE.md` §4 as an IEEE
+  two-column figure (draw.io or TikZ, exported to PDF), using the part names:
+  the Gate, the Investigator, the Auditor, the Rulebook, the Verifier.
+
+**Will uses this.** Related work or Figure 1 in the draft, week of 26 Oct.
 
 ## Week of 12 Oct — cut the camera loop
 
