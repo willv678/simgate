@@ -1,0 +1,8 @@
+case	runs	invalid	flagged	caught	false_flags	missed	cause_named
+A_context_length_1	30	10	10	10	0	0	10
+B_delay_not_applied	30	20	20	20	0	0	20
+C_missing_metrics	26	6	6	6	0	0	2
+D_clean_control	30	0	0	0	0	0	0
+E_context_length_1_alone	10	10	0	0	0	10	0
+F_context_length_1_with_reference	11	10	10	10	0	0	10
+model	claude-opus-5-5

@@ -70,6 +70,29 @@ uv run python research/harness/run_delay_sweep.py --dry-run
 uv run pytest research/harness/test_analyze_cp2.py
 ```
 
+Loop 1 batches. `--policy` is `script`, `model` (tier 0) or `agent` (tier 1).
+One batch at a time on the one GPU.
+
+```bash
+# one run per downloaded scene
+uv run python research/harness/enqueue_scenes.py research/harness/s1_queue s1
+setsid nohup uv run python research/harness/loop.py research/harness/s1_queue \
+  --policy agent --trace research/harness/s1_trace.jsonl > research/harness/s1_loop.log 2>&1 &
+
+# fault campaign (shorter timeout so the hang fault ends)
+uv run python research/harness/enqueue_campaign.py research/harness/c1_queue c1 --per-kind 10 --clean 20
+uv run python research/harness/loop.py research/harness/c1_queue --policy agent \
+  --timeout-min 10 --trace research/harness/c1_trace.jsonl
+uv run python research/harness/score_campaign.py research/harness/c1_queue
+
+# audit a finished batch (tier 2), and check the tier 1 fence
+uv run python research/harness/audit.py research/harness/s1_queue
+uv run python research/harness/probe_fence.py
+```
+
+Stop a batch with `pkill -f "loop.py research/harness/<queue>"`. Rerunning the
+same `loop.py` command resumes it.
+
 ## Batch CSV
 
 One file per campaign, `research/batches/<campaign>.csv`, created when the campaign

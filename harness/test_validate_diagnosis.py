@@ -60,6 +60,12 @@ def _entry(make_run, skill, params, *, context_length=8, attempt=1, env_cleanups
         ("RE-RUN", {}, 8, 1, ENVIRONMENT, False),
         ("RESTART_CLEANUP", {}, 8, 1, ENVIRONMENT, False),
         ("CONFIGURE", {"trafficsim_device": "cuda"}, 8, 1, ENVIRONMENT, False),
+        # Handing a run to a person is always allowed, without params.
+        ("HALT", {}, 8, 1, POSTFLIGHT, True),
+        ("HALT", {}, 8, 3, POSTFLIGHT, True),
+        ("HALT", {}, 1, 1, PREFLIGHT, True),
+        ("HALT", {}, 8, 1, ENVIRONMENT, True),
+        ("HALT", {"why": "x"}, 8, 1, POSTFLIGHT, False),
     ],
 )
 def test_gate(make_run, skill, params, context_length, attempt, k_status, accepted):

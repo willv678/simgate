@@ -24,6 +24,7 @@ def test_all_skills_in_enum():
         "RE-RUN",
         "RESTART_CLEANUP",
         "CLEANUP_ENV",
+        "HALT",
         "ACCEPT",
     }
     assert skills == expected

@@ -5,7 +5,8 @@ attempt later, and resolves the failed run with the skill. The failed run
 directory is not touched. RESTART_CLEANUP first takes down the failed run's
 containers. CLEANUP_ENV first removes AlpaSim's leftovers from the machine
 (environment.py); on a run that never launched it queues nothing, and the
-same entry is READY again.
+same entry is READY again. HALT resolves the run for a person and queues
+nothing.
 
     uv run python research/harness/recover.py <entry.json>
 """
@@ -36,6 +37,13 @@ def cleanup(entry: dict) -> str:
     return f"docker compose down on {entry['run_dir']}"
 
 
+def _inherited(fault: dict | None) -> dict | None:
+    """A persistent injected fault repeats on the retry, as a real bug would."""
+    if fault is None or not fault["persistent"]:
+        return None
+    return {**fault, "applied": False}
+
+
 def main() -> int:
     entry_path = Path(sys.argv[1])
     entry = load_entry(entry_path)
@@ -52,6 +60,11 @@ def main() -> int:
             save_entry(entry_path, entry)
             print(json.dumps({"skill": skill.value, "queued": None, "cleanup": note}))
             return 0
+    elif skill is Skill.HALT:
+        entry["resolution"] = skill.value
+        save_entry(entry_path, entry)
+        print(json.dumps({"skill": skill.value, "queued": None, "cleanup": None}))
+        return 0
     elif skill is Skill.RESTART_CLEANUP:
         note = cleanup(entry)
     else:
@@ -65,6 +78,7 @@ def main() -> int:
         {**entry["config"], **diagnosis["params"]},
         attempt=attempt,
         parent=entry_path.name,
+        fault=_inherited(entry["fault"]),
     )
     child_path = add(entry_path.parent, child)
 

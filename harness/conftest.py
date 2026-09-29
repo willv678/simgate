@@ -63,6 +63,7 @@ def make_run(tmp_path: Path, scene_file: Path):
             "env_cleanups": env_cleanups,
             "resolution": None,
             "diagnosis": None,
+            "fault": None,
         }
         if not launched:
             return entry

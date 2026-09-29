@@ -81,8 +81,9 @@ def test_each_state_dispatches_its_scripts(tmp_path: Path, make_run):
         "recovered": 2,
         "env_cleanups": 1,
         "halted": 2,
+        "halted_by_gate": 2,
         "unresolved": 2,
         "model_calls": 0,
         "minutes": 0,
-        "stopped": "environment still failing after CLEANUP_ENV",
+        "stopped": "environment failure halted for a person",
     }

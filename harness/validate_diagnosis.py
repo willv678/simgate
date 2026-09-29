@@ -24,7 +24,13 @@ from read_state import (
 from skills import Skill
 
 HALT = "HALT"
-RECOVERIES = {Skill.CONFIGURE, Skill.RE_RUN, Skill.RESTART_CLEANUP, Skill.CLEANUP_ENV}
+RECOVERIES = {
+    Skill.CONFIGURE,
+    Skill.RE_RUN,
+    Skill.RESTART_CLEANUP,
+    Skill.CLEANUP_ENV,
+    Skill.HALT,
+}
 # A cleanup that did not fix the machine will not fix it the second time.
 MAX_ENV_CLEANUPS = 1
 
@@ -43,6 +49,9 @@ def rejection(entry: dict, k_status: str) -> str | None:
     params = diagnosis["params"]
     if skill is not Skill.CONFIGURE and params:
         return f"{skill.value} takes no params, got {sorted(params)}"
+    # Handing a run to a person is always allowed. It spends no launch.
+    if skill is Skill.HALT:
+        return None
 
     # The run never launched, so it has spent no attempt.
     if k_status.startswith("environment"):

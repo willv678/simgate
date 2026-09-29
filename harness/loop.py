@@ -10,7 +10,8 @@ Claude runs only inside `diagnose.py --policy model`: one headless call per
 FAILED run, then that process exits. One run is in flight at a time.
 The loop ends when every entry is DONE, or, with --no-launch, when the only
 entries left are READY. It stops early when an environment failure survives
-CLEANUP_ENV, because the machine is shared and every later run would fail. Each dispatched script is one trace line.
+CLEANUP_ENV or is halted, because the machine is shared and every later run
+would fail. Each dispatched script is one trace line.
 
     uv run python research/harness/loop.py research/harness/queue --policy script
 """
@@ -69,6 +70,11 @@ def summary(queue: Path, minutes: float, stopped: str | None) -> dict:
         ),
         "env_cleanups": sum(entry["env_cleanups"] for entry in entries),
         "halted": resolutions.count("HALT"),
+        "halted_by_gate": sum(
+            entry["resolution"] == "HALT"
+            and entry["diagnosis"]["verdict"].startswith("rejected")
+            for entry in entries
+        ),
         "unresolved": resolutions.count(None),
         "model_calls": sum(
             entry["diagnosis"] is not None
@@ -124,10 +130,11 @@ def main() -> int:
                 result = run_script(script, path, extra.get(script, []))
                 record(path, state, script, result)
                 if script == "validate_diagnosis.py" and not result["accepted"]:
-                    # The machine is shared: every later run would fail the same way.
-                    if state.k_status.startswith("environment"):
-                        stopped = "environment still failing after CLEANUP_ENV"
                     break
+            # The machine is shared: every later run would fail the same way.
+            halted = load_entry(path)["resolution"] == "HALT"
+            if halted and state.k_status.startswith("environment"):
+                stopped = "environment failure halted for a person"
             if read_state(load_entry(path)) == state:
                 raise SystemExit(
                     f"{path.name} is still {state.state.value}; the loop would spin"

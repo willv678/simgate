@@ -2,6 +2,8 @@
 
 If environment.py finds a problem, nothing launches: the problems are written
 to the entry, and read_state.py reports the run FAILED with `environment: …`.
+An injected fault on the entry (faults.py) is applied here. The console log's
+first line is the wizard command as launched, without the fault's shell.
 
 The command is the L8 re-run command, with the scene and CATK device from the
 config. When the wizard returns, a
@@ -24,6 +26,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from environment import environment_problems
+from faults import before_launch, shell_around, wizard_args
 from read_state import (
     ROOT,
     State,
@@ -69,6 +72,8 @@ def main() -> int:
     if log_dir.exists():
         raise SystemExit(f"{log_dir} already exists")
 
+    fault = entry["fault"]
+    before_launch(fault)
     problems = environment_problems()
     if problems:
         entry["environment"] = problems
@@ -76,15 +81,17 @@ def main() -> int:
         print(json.dumps({"launched": False, "environment": problems}))
         return 0
 
-    cmd = shlex.join(wizard_command(entry["config"], log_dir))
+    cmd = shlex.join(wizard_args(fault, wizard_command(entry["config"], log_dir)))
+    before, prefix, after = shell_around(fault, log_dir)
     console = shlex.quote(str(console_log(entry)))
     exit_path = exit_file(entry)
     exit_tmp = shlex.quote(f"{exit_path}.tmp")
     compose = shlex.quote(str(log_dir / "docker-compose.yaml"))
     script = (
         f"echo {shlex.quote(cmd)} > {console}; "
-        f"{cmd} >> {console} 2>&1; "
+        f"{before}{prefix}{cmd} >> {console} 2>&1; "
         "code=$?; "
+        f"{after}"
         f"docker compose -f {compose} down --remove-orphans >> {console} 2>&1; "
         f"echo $code > {exit_tmp} && mv {exit_tmp} {shlex.quote(str(exit_path))}"
     )

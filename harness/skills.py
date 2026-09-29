@@ -18,6 +18,7 @@ class Skill(Enum):
     RE_RUN = "RE-RUN"
     RESTART_CLEANUP = "RESTART_CLEANUP"
     CLEANUP_ENV = "CLEANUP_ENV"
+    HALT = "HALT"
     ACCEPT = "ACCEPT"
 
 

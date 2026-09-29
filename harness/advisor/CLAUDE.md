@@ -45,6 +45,7 @@ return can.
 | RE-RUN | `{}` | queues a new run with the same config |
 | RESTART_CLEANUP | `{}` | `docker compose down` on this run's containers, then queues a new run with the same config |
 | CLEANUP_ENV | `{}` | removes AlpaSim leftovers from the whole machine (running AlpaSim containers, AlpaSim Docker networks). A run that never launched becomes READY again; a launched run is queued again with the same config |
+| HALT | `{}` | stops this run for a person and queues nothing. For a failure no skill can make a retry survive: every launch spent on it is wasted |
 | ACCEPT | — | never valid on FAILED |
 | LAUNCH | — | never valid on FAILED |
 
@@ -55,8 +56,10 @@ shares. Neither frees GPU memory or disk held by something that is not AlpaSim.
 
 - ACCEPT or LAUNCH. A FAILED run is never kept, and launching is READY's step.
 - Params on any skill but CONFIGURE.
-- On `environment`: anything but CLEANUP_ENV, and CLEANUP_ENV a second time
-  for the same run. The whole batch then stops for a person.
+- HALT is never rejected. HALT on an `environment` failure stops the whole
+  batch, because every later run shares the machine.
+- On `environment`: anything but CLEANUP_ENV or HALT, and CLEANUP_ENV a second
+  time for the same run. The whole batch then stops for a person.
 - Any other recovery when `attempt` is already `max_attempts`.
 - CONFIGURE with no params, a key not listed above, no change to the config,
   or a config preflight rejects (`context_length` must be 8, `scene_file` must

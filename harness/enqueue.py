@@ -19,7 +19,12 @@ RUN_ROOT = "diag"
 
 
 def new_entry(
-    name: str, run_dir: str, config: dict, attempt: int = 1, parent: str | None = None
+    name: str,
+    run_dir: str,
+    config: dict,
+    attempt: int = 1,
+    parent: str | None = None,
+    fault: dict | None = None,
 ) -> dict:
     return {
         "name": name,
@@ -34,6 +39,7 @@ def new_entry(
         "env_cleanups": 0,
         "resolution": None,
         "diagnosis": None,
+        "fault": fault,
     }
 
 
