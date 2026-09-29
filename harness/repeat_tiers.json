@@ -1,0 +1,1076 @@
+{
+ "drop_delay (persistent)": {
+  "answers": {
+   "script": [
+    {
+     "skill": "RE-RUN",
+     "params": {}
+    }
+   ],
+   "tier0": [
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 6082,
+     "output_tokens": 591,
+     "duration_ms": 6782,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 6080,
+     "output_tokens": 734,
+     "duration_ms": 8390,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 6080,
+     "output_tokens": 564,
+     "duration_ms": 6582,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 6080,
+     "output_tokens": 482,
+     "duration_ms": 6414,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 6081,
+     "output_tokens": 587,
+     "duration_ms": 6617,
+     "tool_calls": [],
+     "denied": []
+    }
+   ],
+   "tier1": [
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 17330,
+     "output_tokens": 802,
+     "duration_ms": 10964,
+     "tool_calls": [
+      "Grep: planner_delay|delay_us",
+      "Grep: delay"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 19970,
+     "output_tokens": 525,
+     "duration_ms": 6366,
+     "tool_calls": [
+      "Grep: (?i)planner_delay|delay_us",
+      "Grep: (?i)planner_delay|delay_us"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 31612,
+     "output_tokens": 609,
+     "duration_ms": 8703,
+     "tool_calls": [
+      "Grep: planner_delay|delay_us",
+      "Grep: 100000|planner_delay",
+      "Glob: *"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 30433,
+     "output_tokens": 560,
+     "duration_ms": 8248,
+     "tool_calls": [
+      "Grep: planner_delay|delay_us",
+      "Grep: 100000|override|planner"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 43732,
+     "output_tokens": 1076,
+     "duration_ms": 14469,
+     "tool_calls": [
+      "Grep: planner_delay|delay_us",
+      "Grep: 100000|planner_delay",
+      "Glob: *",
+      "Read: /home/willvarner/alpasim/diag/c0_001/run_metadata.yaml"
+     ],
+     "denied": []
+    }
+   ]
+  },
+  "right": {
+   "script": [
+    false
+   ],
+   "tier0": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "tier1": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "choices": {
+   "script": {
+    "RE-RUN": 1
+   },
+   "tier0": {
+    "HALT": 5
+   },
+   "tier1": {
+    "HALT": 5
+   }
+  }
+ },
+ "hang (transient)": {
+  "answers": {
+   "script": [
+    {
+     "skill": "RE-RUN",
+     "params": {}
+    }
+   ],
+   "tier0": [
+    {
+     "skill": "RESTART_CLEANUP",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 5910,
+     "output_tokens": 839,
+     "duration_ms": 10150,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cuda"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 5910,
+     "output_tokens": 793,
+     "duration_ms": 8524,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "RESTART_CLEANUP",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 2860,
+     "output_tokens": 865,
+     "duration_ms": 8851,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cuda"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 5911,
+     "output_tokens": 938,
+     "duration_ms": 10576,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "RESTART_CLEANUP",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 5910,
+     "output_tokens": 698,
+     "duration_ms": 8038,
+     "tool_calls": [],
+     "denied": []
+    }
+   ],
+   "tier1": [
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cuda"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 50181,
+     "output_tokens": 1230,
+     "duration_ms": 15616,
+     "tool_calls": [
+      "Bash: tail -c 3000 ./console.log; ls /home/willvarner/alpasim/diag/c0_002",
+      "Bash: docker ps; nvidia-smi; df -h",
+      "Bash: head -c 1500 ./console.log; grep -c \"PolicyEvent\" ./console.log; grep -m3 -iE \"timeout|duration|n_sim_steps|end_ts|control_timestep\" ./console.log",
+      "Grep: PolicyEvent"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cuda"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 35921,
+     "output_tokens": 981,
+     "duration_ms": 12753,
+     "tool_calls": [
+      "Bash: tail -c 3000 ./console.log; ls -la /home/willvarner/alpasim/diag/c0_002",
+      "Bash: head -c 1500 ./console.log; grep -m3 -n \"sim_time\" ./console.log; grep -c \"TrafficEvent\" ./console.log; nvidia-smi --query-gpu=memory.used,memory.total --format=csv; docker ps",
+      "Read: /home/willvarner/alpasim/diag/c0_002/eval-config.yaml"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cuda"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 89885,
+     "output_tokens": 1744,
+     "duration_ms": 22737,
+     "tool_calls": [
+      "Bash: docker ps; nvidia-smi --query-gpu=memory.used,memory.total --format=csv",
+      "Grep: (?i)error|exception|traceback|timeout|hang|waiting",
+      "Bash: wc -l console.log 2>/dev/null; df -h / | tail -1",
+      "Read: /tmp/tmpyvp_qluf/console.log",
+      "Read: /tmp/tmpyvp_qluf/console.log",
+      "Grep: (?i)cuda|device|out of memory|OOM"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cuda"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 49120,
+     "output_tokens": 1231,
+     "duration_ms": 16259,
+     "tool_calls": [
+      "Bash: tail -c 3000 ./console.log; ls /home/willvarner/alpasim/diag/c0_002",
+      "Bash: docker ps; nvidia-smi; df -h",
+      "Bash: head -c 1500 ./console.log",
+      "Grep: sim_time \\S+: (StepEvent|PolicyEvent)",
+      "Grep: StepEvent"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cuda"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 38938,
+     "output_tokens": 842,
+     "duration_ms": 15524,
+     "tool_calls": [
+      "Bash: tail -n 40 ./console.log; ls -la /home/willvarner/alpasim/diag/c0_002",
+      "Bash: docker ps; nvidia-smi; df -h",
+      "Grep: PolicyEvent|timeout|duration|n_sim_steps",
+      "Grep: PolicyEvent"
+     ],
+     "denied": []
+    }
+   ]
+  },
+  "right": {
+   "script": [
+    true
+   ],
+   "tier0": [
+    true,
+    false,
+    true,
+    false,
+    true
+   ],
+   "tier1": [
+    false,
+    false,
+    false,
+    false,
+    false
+   ]
+  },
+  "choices": {
+   "script": {
+    "RE-RUN": 1
+   },
+   "tier0": {
+    "RESTART_CLEANUP": 3,
+    "CONFIGURE": 2
+   },
+   "tier1": {
+    "CONFIGURE": 5
+   }
+  }
+ },
+ "delete_metrics": {
+  "answers": {
+   "script": [
+    {
+     "skill": "RE-RUN",
+     "params": {}
+    }
+   ],
+   "tier0": [
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 6079,
+     "output_tokens": 814,
+     "duration_ms": 8951,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 6078,
+     "output_tokens": 831,
+     "duration_ms": 9515,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 3027,
+     "output_tokens": 750,
+     "duration_ms": 8450,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 6078,
+     "output_tokens": 897,
+     "duration_ms": 9892,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 6077,
+     "output_tokens": 779,
+     "duration_ms": 8962,
+     "tool_calls": [],
+     "denied": []
+    }
+   ],
+   "tier1": [
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 50558,
+     "output_tokens": 1057,
+     "duration_ms": 14099,
+     "tool_calls": [
+      "Grep: Interpolation|metrics|Traceback|parquet|timeout|124",
+      "Glob: **/*.parquet",
+      "Read: ./console.log",
+      "Glob: **/rollouts/**",
+      "Bash: docker ps; df -h /home/willvarner/alpasim"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 55750,
+     "output_tokens": 1211,
+     "duration_ms": 14728,
+     "tool_calls": [
+      "Grep: Interpolation|Traceback|metrics|parquet|timeout|Error",
+      "Glob: **/*.parquet",
+      "Grep: exited with code|Aggregat|Traceback|Error|killed|Gracefully|Stopping",
+      "Glob: **/rollouts/**",
+      "Bash: df -h /home/willvarner/alpasim; docker ps"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 75272,
+     "output_tokens": 1269,
+     "duration_ms": 17182,
+     "tool_calls": [
+      "Grep: Interpolation|Traceback|metrics|parquet|Error",
+      "Glob: **/*.parquet",
+      "Read: /tmp/tmpud__wtui/console.log",
+      "Glob: rollouts/**",
+      "Bash: df -h /home/willvarner/alpasim/diag/c0_004",
+      "Bash: docker ps -a --format '{{.Names}} {{.Status}}' | head -30"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 104846,
+     "output_tokens": 1655,
+     "duration_ms": 21580,
+     "tool_calls": [
+      "Grep: Interpolation|metrics|Traceback|parquet|timeout|124|Error",
+      "Glob: **/*",
+      "Read: ./console.log",
+      "Read: ./console.log",
+      "Bash: df -h /home/willvarner/alpasim/diag; docker ps"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 57754,
+     "output_tokens": 1144,
+     "duration_ms": 14414,
+     "tool_calls": [
+      "Grep: Interpolation|Traceback|metrics|parquet|timeout|Killed|SIGTERM",
+      "Glob: **/*.parquet",
+      "Read: ./console.log",
+      "Glob: rollouts/**",
+      "Bash: df -h /home/willvarner/alpasim/diag; docker ps"
+     ],
+     "denied": []
+    }
+   ]
+  },
+  "right": {
+   "script": [
+    true
+   ],
+   "tier0": [
+    false,
+    false,
+    false,
+    false,
+    false
+   ],
+   "tier1": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "choices": {
+   "script": {
+    "RE-RUN": 1
+   },
+   "tier0": {
+    "HALT": 5
+   },
+   "tier1": {
+    "RE-RUN": 5
+   }
+  }
+ },
+ "kill": {
+  "answers": {
+   "script": [
+    {
+     "skill": "RE-RUN",
+     "params": {}
+    }
+   ],
+   "tier0": [
+    {
+     "skill": "RESTART_CLEANUP",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 5911,
+     "output_tokens": 341,
+     "duration_ms": 4156,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "RESTART_CLEANUP",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 5909,
+     "output_tokens": 708,
+     "duration_ms": 7421,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "RESTART_CLEANUP",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 5909,
+     "output_tokens": 674,
+     "duration_ms": 7393,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "RESTART_CLEANUP",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 5908,
+     "output_tokens": 259,
+     "duration_ms": 3469,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "RESTART_CLEANUP",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 5909,
+     "output_tokens": 721,
+     "duration_ms": 8491,
+     "tool_calls": [],
+     "denied": []
+    }
+   ],
+   "tier1": [
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 70886,
+     "output_tokens": 920,
+     "duration_ms": 15970,
+     "tool_calls": [
+      "Bash: docker ps; nvidia-smi; df -h",
+      "Grep: (?i)kill|oom|memory|137|error|signal",
+      "Bash: docker network ls",
+      "Grep: (?i)kill|oom|exit|137|timeout|terminat|stopp|signal",
+      "Read: ./console.log"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 68106,
+     "output_tokens": 1901,
+     "duration_ms": 24304,
+     "tool_calls": [
+      "Grep: (?i)killed|oom|out of memory|memory|error|exit",
+      "Bash: docker ps -a; docker network ls; nvidia-smi; df -h",
+      "Glob: **/*",
+      "Bash: docker ps --filter status=running --format '{{.Names}} {{.Status}}'; nvidia-smi --query-gpu=memory.used,memory.total --format=csv; df -h /",
+      "Read: /tmp/tmpds3nq8lj/console.log",
+      "Bash: df -h /home/willvarner/alpasim/diag/c0_005",
+      "Grep: (?i)exited with code|exit code|sigkill|signal|Traceback|Aborting|stopping|Gracefully|terminat",
+      "Read: /tmp/tmpds3nq8lj/console.log"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 40380,
+     "output_tokens": 941,
+     "duration_ms": 12123,
+     "tool_calls": [
+      "Bash: tail -n 60 ./console.log; ls /home/willvarner/alpasim/diag/c0_005",
+      "Bash: docker ps; nvidia-smi; df -h",
+      "Grep: (?i)killed|oom|memory|signal|sigkill|Traceback|exit code",
+      "Grep: (?i)killed|oom|out of memory|signal|sigkill|Traceback|exited with"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 71568,
+     "output_tokens": 1380,
+     "duration_ms": 21334,
+     "tool_calls": [
+      "Grep: (?i)killed|oom|out of memory|memory|error|137",
+      "Bash: docker ps -a; nvidia-smi; df -h",
+      "Grep: (?i)killed|oom|out of memory|exit|137|signal",
+      "Grep: c0_005|Exited \\(137\\)|MiB|Use%|/$",
+      "Bash: docker ps -a --filter name=c0_005; nvidia-smi --query-gpu=memory.used,memory.total --format=csv; df -h /",
+      "Grep: .",
+      "Read: /tmp/tmpml2gic_x/console.log"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 142131,
+     "output_tokens": 2708,
+     "duration_ms": 35807,
+     "tool_calls": [
+      "Bash: docker ps -a; docker network ls; nvidia-smi; df -h",
+      "Grep: (?i)kill|oom|memory|exit|error|137",
+      "Bash: docker ps --format '{{.Names}} {{.Status}}' | grep -v Exited | head -40; nvidia-smi --query-gpu=memory.used,memory.total --format=csv",
+      "Bash: df -h",
+      "Grep: .",
+      "Grep: (?i)killed|exited with|exit code|Session (DONE|COMPLETE|END)|Traceback|signal|stopping|Gracefully",
+      "Grep: .",
+      "Read: /tmp/tmpdyn3zp0j/console.log",
+      "Glob: **/*",
+      "Read: /home/willvarner/alpasim/diag/c0_005/run_metadata.yaml"
+     ],
+     "denied": []
+    }
+   ]
+  },
+  "right": {
+   "script": [
+    true
+   ],
+   "tier0": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "tier1": [
+    true,
+    true,
+    true,
+    true,
+    false
+   ]
+  },
+  "choices": {
+   "script": {
+    "RE-RUN": 1
+   },
+   "tier0": {
+    "RESTART_CLEANUP": 5
+   },
+   "tier1": {
+    "RE-RUN": 4,
+    "HALT": 1
+   }
+  }
+ },
+ "corrupt_metrics": {
+  "answers": {
+   "script": [
+    {
+     "skill": "RE-RUN",
+     "params": {}
+    }
+   ],
+   "tier0": [
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 3072,
+     "output_tokens": 1191,
+     "duration_ms": 13510,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 6123,
+     "output_tokens": 1151,
+     "duration_ms": 12650,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 3070,
+     "output_tokens": 1181,
+     "duration_ms": 13047,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 6123,
+     "output_tokens": 1032,
+     "duration_ms": 11341,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "HALT",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 3071,
+     "output_tokens": 1101,
+     "duration_ms": 14177,
+     "tool_calls": [],
+     "denied": []
+    }
+   ],
+   "tier1": [
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 54413,
+     "output_tokens": 816,
+     "duration_ms": 11706,
+     "tool_calls": [
+      "Grep: parquet|Traceback|timeout|124|metrics|OOM|Killed|exit",
+      "Glob: **/*",
+      "Read: /home/willvarner/alpasim/diag/c0_006/aggregate/metrics_results.txt",
+      "Bash: df -h /home/willvarner/alpasim",
+      "Bash: docker ps"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 39224,
+     "output_tokens": 846,
+     "duration_ms": 10414,
+     "tool_calls": [
+      "Grep: (?i)timeout|Interpolation|parquet|Traceback|metrics|SIGTERM|stopping|exit",
+      "Glob: **/*",
+      "Bash: df -h /home/willvarner/alpasim/diag/c0_006",
+      "Read: /home/willvarner/alpasim/diag/c0_006/aggregate/results-summary.json"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 57045,
+     "output_tokens": 906,
+     "duration_ms": 12356,
+     "tool_calls": [
+      "Grep: Interpolation|parquet|metrics|Traceback",
+      "Glob: **/*",
+      "Grep: exited|Gracefully|Stopping|Killed|Wrote|results|Aborting|timeout",
+      "Bash: df -h /home/willvarner/alpasim; docker ps"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 39566,
+     "output_tokens": 831,
+     "duration_ms": 10907,
+     "tool_calls": [
+      "Grep: Interpolation|parquet|Traceback|timeout|124|SIGTERM|metrics",
+      "Glob: **/*",
+      "Bash: df -h /home/willvarner/alpasim; docker ps",
+      "Read: /home/willvarner/alpasim/diag/c0_006/aggregate/results-summary.json"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "RE-RUN",
+     "params": {},
+     "model": "claude-opus-5-5",
+     "context_tokens": 43273,
+     "output_tokens": 865,
+     "duration_ms": 11300,
+     "tool_calls": [
+      "Grep: (?i)error|traceback|timeout|killed|parquet|metrics|wrote|oom",
+      "Glob: **/*",
+      "Bash: df -h; docker ps; nvidia-smi --query-gpu=memory.used,memory.total --format=csv",
+      "Read: ./console.log"
+     ],
+     "denied": []
+    }
+   ]
+  },
+  "right": {
+   "script": [
+    true
+   ],
+   "tier0": [
+    true,
+    false,
+    false,
+    false,
+    false
+   ],
+   "tier1": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "choices": {
+   "script": {
+    "RE-RUN": 1
+   },
+   "tier0": {
+    "RE-RUN": 1,
+    "HALT": 4
+   },
+   "tier1": {
+    "RE-RUN": 5
+   }
+  }
+ },
+ "CUDA OOM (l8_ctx8)": {
+  "answers": {
+   "script": [
+    {
+     "skill": "RE-RUN",
+     "params": {}
+    }
+   ],
+   "tier0": [
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cpu"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 6747,
+     "output_tokens": 892,
+     "duration_ms": 9106,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cpu"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 6748,
+     "output_tokens": 843,
+     "duration_ms": 9165,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cpu"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 6748,
+     "output_tokens": 563,
+     "duration_ms": 6570,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cpu"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 6747,
+     "output_tokens": 882,
+     "duration_ms": 9459,
+     "tool_calls": [],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cpu"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 6748,
+     "output_tokens": 877,
+     "duration_ms": 9122,
+     "tool_calls": [],
+     "denied": []
+    }
+   ],
+   "tier1": [
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cpu"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 48583,
+     "output_tokens": 919,
+     "duration_ms": 13149,
+     "tool_calls": [
+      "Bash: nvidia-smi; docker ps",
+      "Grep: OutOfMemory|out of memory|device|Process \\d+ has",
+      "Bash: df -h /home"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cpu"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 62599,
+     "output_tokens": 1848,
+     "duration_ms": 22798,
+     "tool_calls": [
+      "Bash: nvidia-smi; docker ps",
+      "Grep: OutOfMemoryError: CUDA|trafficsim_device|device=|Process \\d+ has",
+      "Grep: Process \\d+ has [0-9.]+ [GM]iB memory in use|Including non-PyTorch memory, this process has [0-9.]+ [GM]iB",
+      "Grep: trafficsim.*(cuda|cpu)|(cuda|cpu).*trafficsim",
+      "Bash: df -h /",
+      "Read: /tmp/tmp8dstknsl/console.log"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cpu"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 111140,
+     "output_tokens": 2434,
+     "duration_ms": 30895,
+     "tool_calls": [
+      "Bash: nvidia-smi; docker ps",
+      "Grep: OutOfMemoryError: CUDA|trafficsim_device|device=|Process \\d+ has",
+      "Grep: Process \\d+ has [0-9.]+ [GM]iB memory in use",
+      "Grep: trafficsim.*(cuda|cpu)|(cuda|cpu).*trafficsim",
+      "Grep: trafficsim_device|device:",
+      "Grep: simulation step failed",
+      "Grep: OutOfMemoryError",
+      "Grep: OutOfMemoryError"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cpu"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 47470,
+     "output_tokens": 1446,
+     "duration_ms": 18029,
+     "tool_calls": [
+      "Bash: nvidia-smi; docker ps",
+      "Grep: OutOfMemory|trafficsim.*(cuda|device)|Process \\d+ has",
+      "Grep: (?i)trafficsim.*(device|cuda:|cpu)",
+      "Grep: (?i)trafficsim_device|device[=:]"
+     ],
+     "denied": []
+    },
+    {
+     "skill": "CONFIGURE",
+     "params": {
+      "trafficsim_device": "cpu"
+     },
+     "model": "claude-opus-5-5",
+     "context_tokens": 50521,
+     "output_tokens": 1654,
+     "duration_ms": 19542,
+     "tool_calls": [
+      "Bash: nvidia-smi; docker ps",
+      "Grep: OutOfMemoryError: CUDA",
+      "Grep: (OutOfMemoryError|trafficsim_device|device=|Process \\d+ has)",
+      "Read: /tmp/tmp2t1oks9n/console.log",
+      "Grep: Process 3469302 has .{0,200}",
+      "Grep: (trafficsim|catk).{0,80}(cuda|cpu|device)"
+     ],
+     "denied": []
+    }
+   ]
+  },
+  "right": {
+   "script": [
+    false
+   ],
+   "tier0": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ],
+   "tier1": [
+    true,
+    true,
+    true,
+    true,
+    true
+   ]
+  },
+  "choices": {
+   "script": {
+    "RE-RUN": 1
+   },
+   "tier0": {
+    "CONFIGURE": 5
+   },
+   "tier1": {
+    "CONFIGURE": 5
+   }
+  }
+ }
+}

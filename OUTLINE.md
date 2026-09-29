@@ -66,8 +66,12 @@ the script re-runs; the larger menu made that difference, not the tools. In
 the pilot campaign (C0) tier 1 halted a persistent failure after one launch
 where the script would spend three, and halted a transient hang it should have
 retried. Table: per fault kind, detected / recovered / launches / halted, for
-script, tier 0, tier 1, and the no-gate arm (`score_campaign.py`). The pilot
-has n=1 per fault; the campaign fills this table.
+script, tier 0, tier 1, and the no-gate arm (`score_campaign.py`). Replayed five
+times per tier (`repeat_tiers.txt`): script 4/6, tier 0 19/30, tier 1 24/30.
+Tier 1 is right on deleted and corrupt metrics (5/5 each) where tier 0 halts
+(0/5, 1/5): tools matter when the run exits 0 and the log shows nothing. The
+hang row is confounded by replaying on a live machine; the campaign fills the
+table with launches.
 
 **6. The auditor and what it teaches the gate (`auditor_eval.txt`,
 `mining_eval.txt`).** Table 2: batches A–F, three audits each (`auditor_repeats.txt`). Every

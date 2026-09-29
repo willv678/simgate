@@ -162,6 +162,29 @@ metrics look like good driving, and the contract says not to flag outcomes.
 The admitted rules are not in the gate: `rules/promoted.json` is empty until a
 person copies them in. The linear-MPC rule holds for this study only.
 
+## Diagnosis replay, five samples per tier, 29 Sep 2026
+
+Source: `harness/repeat_tiers.txt` and `.json`. Six real FAILED statuses (C0 and
+L8) answered again: the script once, tier 0 and tier 1 five times each. Right
+means the skill a correct recovery needs and a validator accept.
+
+| Failure | Script | Tier 0 | Tier 1 |
+|---|---|---|---|
+| drop_delay, persistent (HALT) | RE-RUN, wrong | 5/5 HALT | 5/5 HALT |
+| CUDA OOM (CONFIGURE cpu) | RE-RUN, wrong | 5/5 | 5/5 |
+| delete_metrics, exit 0 (retry) | right | 0/5: HALT ×5 | 5/5 RE-RUN |
+| corrupt_metrics, exit 0 (retry) | right | 1/5: HALT ×4 | 5/5 RE-RUN |
+| kill (retry) | right | 5/5 RESTART_CLEANUP | 4/5, one HALT |
+| hang (retry) | right | 3/5: CONFIGURE cuda ×2 | 0/5: CONFIGURE cuda ×5 |
+| Total | 4/6 | 19/30 | 24/30 |
+
+Where the log shows the cause (OOM, persistent delay), both tiers are right and
+the script is not. Where the run exits 0 and the log shows nothing (deleted or
+corrupt metrics), tier 0 halts and tier 1 opens the run directory and retries.
+The hang row is confounded: tier 1 sees the machine now, running S1, not the
+paused container that was there at failure time, and blamed the CPU traffic
+model; in the live pilot it chose HALT. The campaign settles hangs.
+
 ## Exhaustive check of the gate, 29 Sep 2026
 
 Source: `research/harness/verify_supervisor.py` → `verify_supervisor.json`, also

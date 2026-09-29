@@ -1,0 +1,15 @@
+drop_delay (persistent)	RE-RUN (wrong)	5/5	{"HALT": 5}	5/5	{"HALT": 5}
+hang (transient)	RE-RUN (right)	3/5	{"RESTART_CLEANUP": 3, "CONFIGURE": 2}	0/5	{"CONFIGURE": 5}
+delete_metrics	RE-RUN (right)	0/5	{"HALT": 5}	5/5	{"RE-RUN": 5}
+kill	RE-RUN (right)	5/5	{"RESTART_CLEANUP": 5}	4/5	{"RE-RUN": 4, "HALT": 1}
+corrupt_metrics	RE-RUN (right)	1/5	{"RE-RUN": 1, "HALT": 4}	5/5	{"RE-RUN": 5}
+CUDA OOM (l8_ctx8)	RE-RUN (wrong)	5/5	{"CONFIGURE": 5}	5/5	{"CONFIGURE": 5}
+case	script	tier0 right	tier0 choices	tier1 right	tier1 choices
+drop_delay (persistent)	RE-RUN (wrong)	5/5	{"HALT": 5}	5/5	{"HALT": 5}
+hang (transient)	RE-RUN (right)	3/5	{"RESTART_CLEANUP": 3, "CONFIGURE": 2}	0/5	{"CONFIGURE": 5}
+delete_metrics	RE-RUN (right)	0/5	{"HALT": 5}	5/5	{"RE-RUN": 5}
+kill	RE-RUN (right)	5/5	{"RESTART_CLEANUP": 5}	4/5	{"RE-RUN": 4, "HALT": 1}
+corrupt_metrics	RE-RUN (right)	1/5	{"RE-RUN": 1, "HALT": 4}	5/5	{"RE-RUN": 5}
+CUDA OOM (l8_ctx8)	RE-RUN (wrong)	5/5	{"CONFIGURE": 5}	5/5	{"CONFIGURE": 5}
+model	claude-opus-5-5
+
