@@ -147,12 +147,11 @@ stateDiagram-v2
     state decide <<choice>>
     decide --> DONE: K⁻ rejects it, or HALT (a person decides)
     decide --> READY: CLEANUP_ENV before launch (same run, once)
-    decide --> RETRY: RE-RUN, RESTART_CLEANUP or CONFIGURE approved
-    RETRY --> READY: new attempt (max 3)
+    decide --> READY: fix approved, new attempt (max 3)
     DONE --> [*]
 ```
 
-- Five states. Python owns every arrow.
+- Five states. Python owns every arrow. The diamond is a decision, not a state.
 - Agent #1 is consulted on one arrow: FAILED.
 - A retry is a new attempt from READY, so the failed attempt's evidence is
   never overwritten. At most 3 attempts. A machine fixed before launch sends

@@ -102,8 +102,7 @@ stateDiagram-v2
     state decide <<choice>>
     decide --> DONE: K⁻ rejects it, or HALT (a person decides)
     decide --> READY: CLEANUP_ENV before launch (same run, once)
-    decide --> RETRY: RE-RUN, RESTART_CLEANUP or CONFIGURE approved
-    RETRY --> READY: new attempt (max 3)
+    decide --> READY: fix approved, new attempt (max 3)
     DONE --> [*]
 ```
 
