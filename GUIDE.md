@@ -1,6 +1,8 @@
-# The project, explained
+# SimGate, explained
 
-*The model proposes, the gate decides, and what the model learns becomes code.*
+*SimGate: the model proposes, the gate decides, and what the model learns becomes code.*
+
+Paper title (working): **SimGate: Runtime Assurance for LLM-Operated Driving Simulation**
 
 This is the whole project in one place, as of 29 Sep 2026: what it is, how it
 works, what we measured, and what is left. Every number comes from a file
@@ -10,7 +12,7 @@ named in [`FACTS.md`](FACTS.md). The last section is a slide plan.
 
 ## 1. One sentence
 
-A system that runs hundreds of self-driving simulations **unattended**, lets an
+**SimGate** is a system that runs hundreds of self-driving simulations **unattended**, lets an
 AI (Claude Opus 5.5) help run them, **proves** that nothing the AI says can put
 bad data in the dataset, and turns what the AI discovers into permanent,
 AI-free checks.
@@ -52,20 +54,30 @@ Unattended, nobody looks at individual runs, so these go straight into papers.
 **Simplex** (Sha, 2001) is a classic safety architecture from control theory:
 pair a smart but untrusted controller with a simple trusted one, and put a
 switch between them that only lets safe actions through. We apply it to an AI
-running experiments, and the thing kept safe is **the data**:
+running experiments, and the thing kept safe is **the data**.
+
+SimGate has five named parts:
+
+| Part | What it is | Trusted? | Code |
+|---|---|---|---|
+| **The Gate** | every check a run must pass to be kept: preflight, machine check, postflight, landed check | yes | `preflight.py`, `environment.py`, `postflight.py`, `read_state.py` |
+| **The Investigator** | tier 1: diagnoses a failed run with read-only tools, answers with one skill | no | `diagnose.py --policy agent` |
+| **The Auditor** | tier 2: reviews a finished batch, flags lies, proposes rules | no | `audit.py` |
+| **The Rulebook** | the Auditor's rules that passed admission and a person enacted; part of the Gate | yes, once admitted | `rules.py`, `promote.py`, `rules/promoted.json` |
+| **The Verifier** | checks that no answer the Investigator could give breaks the Gate | yes | `verify_supervisor.py` |
 
 ```mermaid
 flowchart TB
-    subgraph TRUSTED["Trusted: plain Python, tested, exhaustively verified"]
-        G1["Preflight + machine check"]
-        G2["Postflight + landed check + promoted rules"]
+    subgraph TRUSTED["Trusted: plain Python, tested, checked by the Verifier"]
+        G1["The Gate: preflight + machine check"]
+        G2["The Gate: postflight + landed check + the Rulebook"]
         SM["State machine (loop.py)"]
         VAL["Validator"]
         ADM["Rule admission"]
     end
     subgraph UNTRUSTED["Untrusted: Claude, can only propose"]
-        T1["Tier 1: diagnose a failed run<br/>(read-only tools)"]
-        T2["Tier 2: audit a finished batch<br/>(flags + proposed rules)"]
+        T1["The Investigator (tier 1)<br/>diagnoses a failed run, read-only tools"]
+        T2["The Auditor (tier 2)<br/>reviews a finished batch"]
     end
     T1 -- "one skill from a finite menu" --> VAL
     T2 -- "proposed rule" --> ADM
@@ -114,7 +126,7 @@ The **validator** rejects keeping a failed run, a 4th attempt, changing the
 experiment, relaunching a vetoed config, and anything off the menu. A rejected
 answer halts the run for a person. It is never retried.
 
-### 5.3 Who answers: script vs. tier 0 vs. tier 1
+### 5.3 Who answers: script vs. tier 0 vs. the Investigator (tier 1)
 
 | Policy | Sees | Tools |
 |---|---|---|
@@ -127,7 +139,7 @@ pre-approved is denied. `probe_fence.py` told it to read outside its folder,
 list `/home`, write a file, remove a container, and chain `docker ps; rm -rf`.
 All five were denied.
 
-### 5.4 Loop 2: every finished batch
+### 5.4 Loop 2: the Auditor and the Rulebook
 
 ```mermaid
 flowchart LR
@@ -139,7 +151,7 @@ flowchart LR
     H --> R["rules/promoted.json<br/>checked on every future run,<br/>no AI"]
 ```
 
-### 5.5 Proving the gate: the verifier
+### 5.5 Proving the Gate: the Verifier
 
 Because the menu is finite, we don't have to trust testing. `verify_supervisor.py`
 tries **every** answer an AI could give (including ACCEPT, made-up skills,
@@ -263,7 +275,7 @@ it comes from.
 
 | # | Title | Content | Visual |
 |---|---|---|---|
-| 1 | *The model proposes, the gate decides* | title, name, IEEE IV 2027 target | — |
+| 1 | **SimGate** | *The model proposes, the gate decides.* Runtime assurance for LLM-operated driving simulation; name, IEEE IV 2027 target | — |
 | 2 | Unattended simulation lies | the four lies, one line each | table from §3 |
 | 3 | Simplex, for AI agents | trusted vs. untrusted; the AI only proposes | diagram from §4 |
 | 4 | Loop 1: every run | the checks and the state machine | state diagram from §5.1 |

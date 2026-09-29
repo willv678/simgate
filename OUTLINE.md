@@ -16,8 +16,10 @@ admits it. Because the menu is finite, the gate is checked exhaustively
 against every answer a policy could give. What the model learns becomes code,
 so the batch gets safer and cheaper to run.
 
-Working title: *Runtime assurance for LLM-operated simulation: the model
-proposes, the gate decides.*
+Working title: **SimGate: Runtime Assurance for LLM-Operated Driving
+Simulation.** Tagline: *the model proposes, the gate decides.* The system's
+parts, used throughout: the Gate, the Investigator (tier 1), the Auditor
+(tier 2), the Rulebook (admitted rules), the Verifier.
 
 ## Figure 1: architecture (`research/harness/`)
 

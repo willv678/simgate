@@ -1,4 +1,4 @@
-# Loop 1 harness: the model proposes, the gate decides
+# SimGate: the model proposes, the gate decides
 
 An unattended batch runner for the [AlpaSim](https://github.com/NVlabs/alpasim)
 driving simulator in which an LLM (Claude, via `claude -p`) operates the batch
@@ -9,6 +9,11 @@ proposes takes effect until a gate that does not depend on it admits it.
 
 This is the Simplex architecture (Sha, 2001) moved from physical safety to
 experimental validity: the invariant is that no invalid run is kept.
+
+SimGate's parts: **the Gate** (every check a kept run passes), **the
+Investigator** (tier 1 diagnosis of failed runs), **the Auditor** (tier 2 batch
+review), **the Rulebook** (the Auditor's admitted rules, enforced by the Gate),
+and **the Verifier** (the exhaustive check of the Gate). See `../GUIDE.md`.
 
 ```mermaid
 flowchart LR
