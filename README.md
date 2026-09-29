@@ -14,7 +14,7 @@ University of Georgia). His slides from 2026-09-22 are in `source/diagrams.pdf`.
 |---|---|---|
 | A new LLM session | `PITCH.md`, then the board in `STATUS.md` | `STATUS.md` row and `LOG.md` when the task is done |
 | Anyone about to change code or launch a run | `STATUS.md`, then `FACTS.md` | the board row it finished |
-| Anyone asking "what is this project" | `MAP.md` | only when the claim changes |
+| Anyone asking "what is this project" | `GUIDE.md` (diagrams, results, slide plan); `MAP.md` is the older Loop 1 map | when a result or the claim changes |
 | Will or Griffin, for the semester plan | `WEEKS.md` | when a week is replanned |
 | Griffin, or an agent launching rollouts | `RUNBOOK.md` | when a command in it is wrong |
 | Anyone tempted to re-diagnose the baseline | `FACTS.md` | when a new measurement replaces an old one |

@@ -1,0 +1,279 @@
+# The project, explained
+
+*The model proposes, the gate decides, and what the model learns becomes code.*
+
+This is the whole project in one place, as of 29 Sep 2026: what it is, how it
+works, what we measured, and what is left. Every number comes from a file
+named in [`FACTS.md`](FACTS.md). The last section is a slide plan.
+
+---
+
+## 1. One sentence
+
+A system that runs hundreds of self-driving simulations **unattended**, lets an
+AI (Claude Opus 5.5) help run them, **proves** that nothing the AI says can put
+bad data in the dataset, and turns what the AI discovers into permanent,
+AI-free checks.
+
+## 2. The setting: one simulation run
+
+[AlpaSim](https://github.com/NVlabs/alpasim) (NVIDIA) replays a real recorded
+street scene as a neural reconstruction and puts a driving AI in it.
+
+```mermaid
+flowchart LR
+    R["Neural renderer<br/>draws the camera view"] --> V["VaVAM<br/>driving model: last 8 frames → planned path"]
+    V --> M["Linear MPC<br/>steers along the path"]
+    M --> P["Physics<br/>moves the car"]
+    T["CATK<br/>learned traffic moves other cars"] --> P
+    P --> R
+    P --> S["Score after ~12 s:<br/>collisions, distance, tracking error"]
+```
+
+- One run is about **12 simulated seconds** and takes **3.5 real minutes**. The
+  world only exists where the recording car drove, so runs are short.
+- A study needs hundreds of runs, run overnight, with nobody watching.
+
+## 3. The problem: runs lie
+
+Our own earlier data had four failures that **looked like results**. None raised an error.
+
+| Lie | What it looked like | What was really true |
+|---|---|---|
+| `context_length: 1` | VaVAM crashes 8 of 10 times | it was given 1 frame of memory instead of 8 |
+| Latency regex | a plot of latency vs. crashes | 162 of 212 runs never got the delay |
+| Missing metrics | a clean study | 22% of runs wrote nothing and were silently dropped |
+| Solver status | every control step solved | "solved" meant "didn't crash" |
+
+Unattended, nobody looks at individual runs, so these go straight into papers.
+
+## 4. The idea: Simplex, applied to AI agents
+
+**Simplex** (Sha, 2001) is a classic safety architecture from control theory:
+pair a smart but untrusted controller with a simple trusted one, and put a
+switch between them that only lets safe actions through. We apply it to an AI
+running experiments, and the thing kept safe is **the data**:
+
+```mermaid
+flowchart TB
+    subgraph TRUSTED["Trusted: plain Python, tested, exhaustively verified"]
+        G1["Preflight + machine check"]
+        G2["Postflight + landed check + promoted rules"]
+        SM["State machine (loop.py)"]
+        VAL["Validator"]
+        ADM["Rule admission"]
+    end
+    subgraph UNTRUSTED["Untrusted: Claude, can only propose"]
+        T1["Tier 1: diagnose a failed run<br/>(read-only tools)"]
+        T2["Tier 2: audit a finished batch<br/>(flags + proposed rules)"]
+    end
+    T1 -- "one skill from a finite menu" --> VAL
+    T2 -- "proposed rule" --> ADM
+    T2 -- "flag" --> Q["Quarantine for a person"]
+    VAL -- "accepted" --> SM
+    ADM -- "admitted, then a person enacts" --> G2
+```
+
+## 5. How it works
+
+### 5.1 Loop 1: every run
+
+```mermaid
+stateDiagram-v2
+    [*] --> READY: queued
+    READY --> FAILED: preflight or machine check fails
+    READY --> RUNNING: launch
+    RUNNING --> COMPLETE: exit 0, metrics, config landed, rules pass
+    RUNNING --> FAILED: anything else (incl. 30 min timeout)
+    COMPLETE --> DONE: analyze + archive (kept)
+    FAILED --> DONE: diagnose → validate → recover or HALT
+    DONE --> [*]
+```
+
+| Check | Catches | File |
+|---|---|---|
+| Preflight | a config that must not launch (`context_length` ≠ 8, missing scene) | `preflight.py`, `read_state.py` |
+| Machine check | leftover containers, full Docker network pool, low GPU memory or disk | `environment.py` |
+| Postflight | no metrics, unreadable metrics | `postflight.py` |
+| Landed check | the config the simulator actually used ≠ the one requested | `read_state.py` |
+| Promoted rules | whatever the auditor taught the gate | `rules.py` |
+
+### 5.2 When a run fails: the menu
+
+The AI can answer with **one skill** and nothing else:
+
+| Skill | What happens |
+|---|---|
+| CONFIGURE | change *how* the run executes (context length, traffic model on CPU/GPU). **Never what it measures** (delay, scene) |
+| RE-RUN | try again |
+| RESTART_CLEANUP | remove this run's containers, then try again |
+| CLEANUP_ENV | remove AlpaSim leftovers from the whole machine |
+| HALT | hand it to a person: no retry can fix this |
+
+The **validator** rejects keeping a failed run, a 4th attempt, changing the
+experiment, relaunching a vetoed config, and anything off the menu. A rejected
+answer halts the run for a person. It is never retried.
+
+### 5.3 Who answers: script vs. tier 0 vs. tier 1
+
+| Policy | Sees | Tools |
+|---|---|---|
+| Script (baseline) | the failure status | none: "retry, clean up, quit" |
+| Tier 0 | the status + 15 error lines | none |
+| **Tier 1** | the same, then investigates | **read-only**: the run's files and log, `docker ps`, `docker network ls`, `nvidia-smi`, `df` |
+
+Tier 1's fence is Claude Code's own permission system: anything not
+pre-approved is denied. `probe_fence.py` told it to read outside its folder,
+list `/home`, write a file, remove a container, and chain `docker ps; rm -rf`.
+All five were denied.
+
+### 5.4 Loop 2: every finished batch
+
+```mermaid
+flowchart LR
+    B["Kept runs of the batch<br/>+ 1 known-good reference run"] --> A["Tier 2 auditor<br/>(anonymized, read-only)"]
+    A -->|flags| Q["Quarantine<br/>(a person reviews)"]
+    A -->|proposed rules| P{"promote.py<br/>catches the flagged runs?<br/>fires on 0 of 51 clean runs?<br/>doesn't pin an experiment variable?"}
+    P -->|no| X["Rejected"]
+    P -->|yes| H["A person enacts"]
+    H --> R["rules/promoted.json<br/>checked on every future run,<br/>no AI"]
+```
+
+### 5.5 Proving the gate: the verifier
+
+Because the menu is finite, we don't have to trust testing. `verify_supervisor.py`
+tries **every** answer an AI could give (including ACCEPT, made-up skills,
+crashes, and illegal parameters) from every kind of failure, against a world
+where every launch fails, through the real code.
+
+- **First run: found a real hole.** CONFIGURE of the delay let a recovery keep a
+  run that measured 0 ms in a 100 ms experiment: lie #2, reintroduced by recovery.
+- **Fix:** a recovery may change how a run executes, never what it measures.
+- **Now:** 0 violations over 3,822 transitions. No failed run is kept, nothing
+  vetoed launches, at most 3 launches per run, every path ends. It runs in the
+  test suite.
+
+### 5.6 Breaking things on purpose: fault injection
+
+| Fault | Injected | Visible to the per-run gate? |
+|---|---|---|
+| `kill` | wizard killed mid-run | yes (exit 137) |
+| `hang` | simulator container frozen | yes (timeout) |
+| `delete_metrics` / `corrupt_metrics` | results removed or truncated | yes, but **exit code is 0** |
+| `drop_delay` | delay setting silently dropped, every retry | yes (landed check), **exit 0** |
+| `fill_network_pool` | Docker out of networks | yes (machine check) |
+| `rails` | a human recording drives the whole run | **no** |
+| `kinematic` | no controller in the loop | **no** |
+
+## 6. What we measured
+
+### 6.1 The headline: invalid data kept
+
+![Invalid runs kept](figures/invalid_kept.png)
+
+Pilot campaign, 17 launches: **no gate 9 → per-run gate 6 → gate + audit 0.**
+The six the gate missed were the silent faults. The audit caught all six,
+including `rails`, and proposed a rule for each kind.
+
+### 6.2 Diagnosis: who picks the right recovery
+
+![Diagnosis accuracy](figures/diagnosis.png)
+
+Six real failures replayed five times each: **script 4/6, tier 0 19/30, tier 1 24/30.**
+
+- Both AI tiers beat the script where the log shows the cause (out of memory →
+  run traffic on CPU; a persistent failure → halt instead of wasting 3 launches).
+- **Tier 1 beats tier 0 where the log hides the cause:** runs that exited 0 with
+  deleted or corrupt metrics. Tier 0 gives up (0/5, 1/5); tier 1 looks at the
+  files and retries (5/5).
+- The hang row was replayed against today's machine. With the machine as it was
+  at failure, tier 1 chose the best answer 3/3.
+
+### 6.3 The auditor
+
+Three audits per batch, identical every time:
+
+| Batch | Planted lie | Caught | False flags |
+|---|---|---|---|
+| A | 10 `context_length: 1` runs among 20 good | 10/10 | 0 |
+| B | 20 runs labelled with a delay they never got | 20/20 | 0 |
+| C | 6 runs silently missing from the results | 6/6 | 0 |
+| D | none (clean control) | — | 0 |
+| **E** | the 10 bad runs **alone**, as it really happened | **0/10** | 0 |
+| **F** | E + **one** known-good reference run | **10/10** | 0 |
+
+The auditor finds **inconsistency**. A batch that is wrong the same way
+throughout looks consistent. One reference run makes it inconsistent again.
+
+### 6.4 What the AI learns becomes code
+
+| Lie | Rule the auditor proposed and the gate admitted | Held out, **no AI** |
+|---|---|---|
+| `context_length: 1` | `inference.context_length == 8` | **10/10 on E**, the batch the auditor itself missed |
+| delay not applied | `planner_delay_us == label` | 20/20 |
+| silent faults | `mpc_implementation == linear`, `force_gt_duration_us ≤ 4.5 s` | admitted from the pilot audit; not yet tested on a held-out batch |
+
+The first two rules raised zero false flags on 30 clean runs.
+
+### 6.5 Running unattended
+
+- **B2:** 150 runs, 9 h, 150 kept, 0 halted. The only failures were a Docker
+  network leak (29 runs never cleaned up). A person fixed it once, and that
+  became the machine check and CLEANUP_ENV, which fix it with no person.
+- **S1:** 101 scenes, running now, no failures so far.
+
+## 7. Honest limits
+
+- Most AI numbers are 5 samples or fewer. The campaign turns them into rates.
+- Tier 1 sometimes halts when it should retry.
+- Without a reference run, the auditor misses a batch that is wrong throughout.
+- One simulator, one driving model. The linear-MPC rule holds for this study only.
+- "Simplex for LLM agents" is already an idea in print. We don't claim first.
+
+## 8. Why it is new
+
+The literature search (`FACTS.md`) found no paper that combines:
+
+1. runtime assurance moved from **physical safety** to **data validity**;
+2. an AI-vs-rules comparison on the **same gated menu**;
+3. an auditor whose findings become **verified, AI-free checks**;
+4. **exhaustive** verification that no AI output can break the guarantee;
+5. on a real end-to-end self-driving simulation stack.
+
+## 9. Timeline
+
+```mermaid
+timeline
+    title From v0 to v3
+    v0 (22 Sep) : preflight and postflight : finite skill menu : script policy
+    v1 (28 Sep) : state machine : Claude on FAILED only : B2, 150 runs unattended
+    v2 (29 Sep AM) : machine check + CLEANUP_ENV : tier 1 with read-only tools : tier 2 auditor
+    v3 (29 Sep PM) : rule mining : exhaustive verifier : fault campaign + figures
+```
+
+What is left: the multi-fault campaign under script, tier 0, and tier 1; the
+S1 audit; the draft (to Shao around 1 Nov); IEEE IV deadline 15 Nov.
+
+---
+
+## 10. Slide plan
+
+About 11 slides for a 15-minute talk. Each slide says what goes on it and where
+it comes from.
+
+| # | Title | Content | Visual |
+|---|---|---|---|
+| 1 | *The model proposes, the gate decides* | title, name, IEEE IV 2027 target | — |
+| 2 | Unattended simulation lies | the four lies, one line each | table from §3 |
+| 3 | Simplex, for AI agents | trusted vs. untrusted; the AI only proposes | diagram from §4 |
+| 4 | Loop 1: every run | the checks and the state machine | state diagram from §5.1 |
+| 5 | When a run fails | the five skills, the validator, the fence | menu table from §5.2 |
+| 6 | We verified the gate | adversarial search found a real hole; now 0 violations | the hole story from §5.5 |
+| 7 | Headline: no invalid data kept | 9 → 6 → 0 | `figures/invalid_kept.png` |
+| 8 | Do AI diagnoses help? | script 4/6, tier 0 63%, tier 1 80%; tools matter when the log hides the cause | `figures/diagnosis.png` |
+| 9 | The auditor finds lies | 46/46, 0 false flags; the blind spot and the one-reference fix | batch table from §6.3 |
+| 10 | What the AI learns becomes code | the E result: 10/10 with no AI | table from §6.4 |
+| 11 | Limits and next steps | the limits from §7; campaign, draft, deadline | timeline from §9 |
+
+Backup slides: B2's 9-hour run and the Docker leak; the fault list (§5.6); the
+novelty search (§8).
