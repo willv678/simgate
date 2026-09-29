@@ -93,14 +93,24 @@ flowchart TB
 ```mermaid
 stateDiagram-v2
     [*] --> READY: queued
-    READY --> FAILED: preflight or machine check fails
-    READY --> RUNNING: launch
-    RUNNING --> COMPLETE: exit 0, metrics, config landed, rules pass
-    RUNNING --> FAILED: anything else (incl. 30 min timeout)
-    COMPLETE --> DONE: analyze + archive (kept)
-    FAILED --> DONE: diagnose → validate → recover or HALT
+    READY --> RUNNING: K⁻ passes, launch
+    READY --> FAILED: K⁻ fails (bad config or broken machine)
+    RUNNING --> COMPLETE: K⁺ passes
+    RUNNING --> FAILED: K⁺ reports a fault
+    COMPLETE --> DONE: kept
+    FAILED --> decide: Agent #1 proposes a skill
+    state decide <<choice>>
+    decide --> DONE: K⁻ rejects it, or HALT (a person decides)
+    decide --> READY: CLEANUP_ENV before launch (same run, once)
+    decide --> RETRY: RE-RUN, RESTART_CLEANUP or CONFIGURE approved
+    RETRY --> READY: new attempt (max 3)
     DONE --> [*]
 ```
+
+A retry is a **new attempt** that starts at READY, so the failed attempt's
+evidence is never overwritten; at most 3 attempts per run. If the machine was
+broken before launch, CLEANUP_ENV sends the **same** run back to READY, once.
+If a machine failure ends in HALT, the whole batch stops.
 
 | Check | Catches | File |
 |---|---|---|

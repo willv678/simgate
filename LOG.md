@@ -41,3 +41,4 @@ Append one line when a board row changes state. Newest at the bottom.
 - 2026-09-29 — `GUIDE.md`: the whole project with diagrams, both figures, results, limits, and an 11-slide plan for the 3 pm meeting.
 - 2026-09-29 — Name: SimGate (Gate, Investigator, Auditor, Rulebook, Verifier). Working title "SimGate: Runtime Assurance for LLM-Operated Driving Simulation". AirLock and Bouncer were taken; Custody too vague. Docs updated; code names unchanged. Run it past Shao.
 - 2026-09-29 — `SLIDES.md`: 13 slides + 4 backups for the 3 pm meeting, in Shao's notation (Agent #1, K⁻, K⁺, x_k, w_k), with speaker notes.
+- 2026-09-29 — State diagram in SLIDES.md and GUIDE.md now shows retries as new attempts from READY, CLEANUP_ENV returning the same run to READY, and HALT.

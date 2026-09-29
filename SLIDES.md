@@ -137,25 +137,37 @@ flowchart LR
 
 ```mermaid
 stateDiagram-v2
-    [*] --> READY
-    READY --> RUNNING: K⁻ approves the launch
-    READY --> FAILED: K⁻ rejects
+    [*] --> READY: queued
+    READY --> RUNNING: K⁻ passes, launch
+    READY --> FAILED: K⁻ fails (bad config or broken machine)
     RUNNING --> COMPLETE: K⁺ passes
     RUNNING --> FAILED: K⁺ reports a fault
     COMPLETE --> DONE: kept
-    FAILED --> DONE: Agent #1 proposes, K⁻ decides
+    FAILED --> decide: Agent #1 proposes a skill
+    state decide <<choice>>
+    decide --> DONE: K⁻ rejects it, or HALT (a person decides)
+    decide --> READY: CLEANUP_ENV before launch (same run, once)
+    decide --> RETRY: RE-RUN, RESTART_CLEANUP or CONFIGURE approved
+    RETRY --> READY: new attempt (max 3)
     DONE --> [*]
 ```
 
 - Five states. Python owns every arrow.
 - Agent #1 is consulted on one arrow: FAILED.
+- A retry is a new attempt from READY, so the failed attempt's evidence is
+  never overwritten. At most 3 attempts. A machine fixed before launch sends
+  the same run back to READY, once.
+- If a machine failure ends in HALT, the whole batch stops: every later run
+  would hit the same machine.
 
 **Speaker notes**
 
 > Every run moves through five states. Ready, running, complete, failed, done.
-> Python moves it along. The AI only gets a say on one arrow, when a run fails.
-> Everything else is ordinary code, which means it's fast, cheap, and does the
-> same thing every time.
+> Python moves it along. The AI only gets a say when a run fails. It proposes a
+> fix. If K-minus approves, the failed attempt is closed and a fresh attempt
+> starts from ready, up to three tries. If K-minus says no, or the AI says to
+> stop, a person takes over. Everything else is ordinary code, which means
+> it's fast, cheap, and does the same thing every time.
 
 ---
 
