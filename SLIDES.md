@@ -143,7 +143,7 @@ stateDiagram-v2
     RUNNING --> COMPLETE: K⁺ passes
     RUNNING --> FAILED: K⁺ reports a fault
     COMPLETE --> DONE: kept
-    FAILED --> decide: Agent #1 proposes a skill
+    FAILED --> decide: Agent #1 picks a fix from the menu
     state decide <<choice>>
     decide --> DONE: K⁻ rejects it, or HALT (a person decides)
     decide --> READY: CLEANUP_ENV before launch (same run, once)
@@ -162,8 +162,9 @@ stateDiagram-v2
 **Speaker notes**
 
 > Every run moves through five states. Ready, running, complete, failed, done.
-> Python moves it along. The AI only gets a say when a run fails. It proposes a
-> fix. If K-minus approves, the failed attempt is closed and a fresh attempt
+> Python moves it along. The AI only gets a say when a run fails, and even then
+> it can't write code or run commands. It picks one fix from a menu of five. If
+> K-minus approves, the failed attempt is closed and a fresh attempt
 > starts from ready, up to three tries. If K-minus says no, or the AI says to
 > stop, a person takes over. Everything else is ordinary code, which means
 > it's fast, cheap, and does the same thing every time.

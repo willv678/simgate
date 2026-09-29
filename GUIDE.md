@@ -98,7 +98,7 @@ stateDiagram-v2
     RUNNING --> COMPLETE: K⁺ passes
     RUNNING --> FAILED: K⁺ reports a fault
     COMPLETE --> DONE: kept
-    FAILED --> decide: Agent #1 proposes a skill
+    FAILED --> decide: Agent #1 picks a fix from the menu
     state decide <<choice>>
     decide --> DONE: K⁻ rejects it, or HALT (a person decides)
     decide --> READY: CLEANUP_ENV before launch (same run, once)
