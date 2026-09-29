@@ -124,6 +124,11 @@ have been fully subnetted": the B2 Docker leak happened in the old batch too.
 
 Cost per audit: 150k–820k context tokens summed over 13–25 turns, 29–63 s.
 
+Repeatability (`harness/auditor_repeats.txt`): two more audits per batch with
+new seeds, so new run ids and order. All three samples agree on every batch:
+A 10/10, B 20/20, C 6/6, D 0 flags, E 0/10, F 10/10, with 0 false flags in all
+18 audits. The repeats ran with the contract that also asks for rules.
+
 ## Pilot campaign C0 and rule mining, 29 Sep 2026
 
 C0 (`research/harness/c0_queue`, `c0_trace.jsonl`, `c0_queue/score.json`): one run

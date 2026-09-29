@@ -1,0 +1,176 @@
+{
+ "A_context_length_1": [
+  {
+   "runs": 30,
+   "invalid": 10,
+   "flagged": 10,
+   "caught": 10,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 10
+  },
+  {
+   "runs": 30,
+   "invalid": 10,
+   "flagged": 10,
+   "caught": 10,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 10
+  },
+  {
+   "runs": 30,
+   "invalid": 10,
+   "flagged": 10,
+   "caught": 10,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 10
+  }
+ ],
+ "B_delay_not_applied": [
+  {
+   "runs": 30,
+   "invalid": 20,
+   "flagged": 20,
+   "caught": 20,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 20
+  },
+  {
+   "runs": 30,
+   "invalid": 20,
+   "flagged": 20,
+   "caught": 20,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 20
+  },
+  {
+   "runs": 30,
+   "invalid": 20,
+   "flagged": 20,
+   "caught": 20,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 20
+  }
+ ],
+ "C_missing_metrics": [
+  {
+   "runs": 26,
+   "invalid": 6,
+   "flagged": 6,
+   "caught": 6,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 2
+  },
+  {
+   "runs": 26,
+   "invalid": 6,
+   "flagged": 6,
+   "caught": 6,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 4
+  },
+  {
+   "runs": 26,
+   "invalid": 6,
+   "flagged": 6,
+   "caught": 6,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 6
+  }
+ ],
+ "D_clean_control": [
+  {
+   "runs": 30,
+   "invalid": 0,
+   "flagged": 0,
+   "caught": 0,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 0
+  },
+  {
+   "runs": 30,
+   "invalid": 0,
+   "flagged": 0,
+   "caught": 0,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 0
+  },
+  {
+   "runs": 30,
+   "invalid": 0,
+   "flagged": 0,
+   "caught": 0,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 0
+  }
+ ],
+ "E_context_length_1_alone": [
+  {
+   "runs": 10,
+   "invalid": 10,
+   "flagged": 0,
+   "caught": 0,
+   "false_flags": 0,
+   "missed": 10,
+   "cause_named": 0
+  },
+  {
+   "runs": 10,
+   "invalid": 10,
+   "flagged": 0,
+   "caught": 0,
+   "false_flags": 0,
+   "missed": 10,
+   "cause_named": 0
+  },
+  {
+   "runs": 10,
+   "invalid": 10,
+   "flagged": 0,
+   "caught": 0,
+   "false_flags": 0,
+   "missed": 10,
+   "cause_named": 0
+  }
+ ],
+ "F_context_length_1_with_reference": [
+  {
+   "runs": 11,
+   "invalid": 10,
+   "flagged": 10,
+   "caught": 10,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 10
+  },
+  {
+   "runs": 11,
+   "invalid": 10,
+   "flagged": 10,
+   "caught": 10,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 10
+  },
+  {
+   "runs": 11,
+   "invalid": 10,
+   "flagged": 10,
+   "caught": 10,
+   "false_flags": 0,
+   "missed": 0,
+   "cause_named": 10
+  }
+ ]
+}

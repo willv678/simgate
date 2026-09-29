@@ -1,0 +1,21 @@
+A_context_length_1 100 {'runs': 30, 'invalid': 10, 'flagged': 10, 'caught': 10, 'false_flags': 0, 'missed': 0, 'cause_named': 10}
+A_context_length_1 101 {'runs': 30, 'invalid': 10, 'flagged': 10, 'caught': 10, 'false_flags': 0, 'missed': 0, 'cause_named': 10}
+B_delay_not_applied 110 {'runs': 30, 'invalid': 20, 'flagged': 20, 'caught': 20, 'false_flags': 0, 'missed': 0, 'cause_named': 20}
+B_delay_not_applied 111 {'runs': 30, 'invalid': 20, 'flagged': 20, 'caught': 20, 'false_flags': 0, 'missed': 0, 'cause_named': 20}
+C_missing_metrics 120 {'runs': 26, 'invalid': 6, 'flagged': 6, 'caught': 6, 'false_flags': 0, 'missed': 0, 'cause_named': 4}
+C_missing_metrics 121 {'runs': 26, 'invalid': 6, 'flagged': 6, 'caught': 6, 'false_flags': 0, 'missed': 0, 'cause_named': 6}
+D_clean_control 130 {'runs': 30, 'invalid': 0, 'flagged': 0, 'caught': 0, 'false_flags': 0, 'missed': 0, 'cause_named': 0}
+D_clean_control 131 {'runs': 30, 'invalid': 0, 'flagged': 0, 'caught': 0, 'false_flags': 0, 'missed': 0, 'cause_named': 0}
+E_context_length_1_alone 140 {'runs': 10, 'invalid': 10, 'flagged': 0, 'caught': 0, 'false_flags': 0, 'missed': 10, 'cause_named': 0}
+E_context_length_1_alone 141 {'runs': 10, 'invalid': 10, 'flagged': 0, 'caught': 0, 'false_flags': 0, 'missed': 10, 'cause_named': 0}
+F_context_length_1_with_reference 150 {'runs': 11, 'invalid': 10, 'flagged': 10, 'caught': 10, 'false_flags': 0, 'missed': 0, 'cause_named': 10}
+F_context_length_1_with_reference 151 {'runs': 11, 'invalid': 10, 'flagged': 10, 'caught': 10, 'false_flags': 0, 'missed': 0, 'cause_named': 10}
+case	samples	caught per sample	false flags per sample
+A_context_length_1	3	10/10,10/10,10/10	0,0,0
+B_delay_not_applied	3	20/20,20/20,20/20	0,0,0
+C_missing_metrics	3	6/6,6/6,6/6	0,0,0
+D_clean_control	3	0/0,0/0,0/0	0,0,0
+E_context_length_1_alone	3	0/10,0/10,0/10	0,0,0
+F_context_length_1_with_reference	3	10/10,10/10,10/10	0,0,0
+model	claude-opus-5-5
+

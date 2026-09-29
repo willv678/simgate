@@ -70,8 +70,8 @@ script, tier 0, tier 1, and the no-gate arm (`score_campaign.py`). The pilot
 has n=1 per fault; the campaign fills this table.
 
 **6. The auditor and what it teaches the gate (`auditor_eval.txt`,
-`mining_eval.txt`).** Table 2: batches A–F. It caught every planted lie with no
-false flags in A–D and F, and none in E, the batch that is wrong the same way
+`mining_eval.txt`).** Table 2: batches A–F, three audits each (`auditor_repeats.txt`). Every
+sample caught every planted lie with no false flags in A–D and F, and none in E, the batch that is wrong the same way
 throughout, as lie 1 really was. One reference run restores detection (F).
 Table 3: rules it proposed and `promote.py` admitted, applied with no model
 call to held-out batches: `context_length` catches E 10/10, the delay rule
@@ -91,7 +91,6 @@ one driver, silent faults the auditor misses (rails), a study-specific rule.
 
 - Campaign: 10 per fault kind × script, tier 0, tier 1 (`enqueue_campaign.py`,
   `score_campaign.py`). Replaces every n=1 in section 5.
-- `auditor_repeats.json`: three samples per auditor batch (running).
 - S1: which of 101 scenes run, and the failures the loop met on real scenes.
 - An S1 audit with one reference run.
 
