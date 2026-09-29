@@ -56,3 +56,18 @@ def test_only_persistent_faults_repeat_on_the_retry():
 def test_unknown_fault_is_rejected():
     with pytest.raises(ValueError):
         new_fault("meteor")
+
+
+def test_silent_faults_swap_one_argument():
+    args = [
+        "controller=linear",
+        "runtime.simulation_config.force_gt_duration_us=4500000",
+    ]
+    assert wizard_args(new_fault("kinematic"), args) == [
+        "controller=kinematic_ideal",
+        args[1],
+    ]
+    assert wizard_args(new_fault("rails"), args) == [
+        args[0],
+        "runtime.simulation_config.force_gt_duration_us=60000000",
+    ]

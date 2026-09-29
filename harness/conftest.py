@@ -17,6 +17,15 @@ AGGREGATE = """\
 """
 
 
+@pytest.fixture(autouse=True)
+def no_promoted_rules(tmp_path: Path, monkeypatch):
+    """Tests start from an empty rule set. Subprocesses inherit it."""
+    rules = tmp_path / "promoted.json"
+    rules.write_text("[]")
+    monkeypatch.setenv("ALPASIM_RULES", str(rules))
+    return rules
+
+
 @pytest.fixture
 def scene_file(tmp_path: Path) -> Path:
     path = tmp_path / "sim_scenes.csv"

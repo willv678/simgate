@@ -6,7 +6,8 @@ The snapshot holds the text a researcher would read for each run, under a
 random id, with the run's real name and path replaced by that id so neither
 gives the answer away. The answer is a list of flags; the schema only admits
 run ids that are in the batch. A flag quarantines a run for a person. Nothing
-is deleted or changed.
+is deleted or changed. The auditor also proposes rules (rules.py) that would
+catch each kind of problem without it; promote.py decides which enter the gate.
 
     uv run python research/harness/audit.py <queue_dir>
 """
@@ -22,6 +23,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from read_state import ROOT, load_entry
+from rules import FILES, OPS
 
 CONTRACT = Path(__file__).resolve().parent / "advisor" / "AUDIT.md"
 PROMPT = (
@@ -118,9 +120,29 @@ def audit(
                     "required": ["run", "reason"],
                     "additionalProperties": False,
                 },
-            }
+            },
+            "rules": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "id": {"type": "string"},
+                        "file": {"type": "string", "enum": list(FILES)},
+                        "path": {"type": "string"},
+                        "op": {"type": "string", "enum": list(OPS)},
+                        "value": {
+                            "type": ["number", "string", "boolean", "array"],
+                            "items": {"type": ["number", "string", "boolean"]},
+                        },
+                        "label_key": {"type": "string"},
+                        "reason": {"type": "string"},
+                    },
+                    "required": ["id", "file", "path", "op", "reason"],
+                    "additionalProperties": False,
+                },
+            },
         },
-        "required": ["flags"],
+        "required": ["flags", "rules"],
         "additionalProperties": False,
     }
     with tempfile.TemporaryDirectory() as workdir:
@@ -169,6 +191,7 @@ def audit(
     return {
         "ids": ids,
         "flags": flags,
+        "rules": result["structured_output"]["rules"],
         "model": ",".join(result["modelUsage"]),
         "context_tokens": result["usage"]["input_tokens"]
         + result["usage"]["cache_creation_input_tokens"]

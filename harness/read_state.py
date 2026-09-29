@@ -8,7 +8,8 @@ left behind, using the checks that already exist:
 - the environment problems run_experiment.py found instead of launching;
 - the wizard exit code, written next to the run by run_experiment.py;
 - postflight (K⁺) on the run directory;
-- whether the requested values are the ones the wizard resolved.
+- whether the requested values are the ones the wizard resolved;
+- the rules the tier 2 auditor proposed and promote.py admitted (rules.py).
 
 This module only reads. The scripts the loop dispatches write the entry.
 
@@ -30,6 +31,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from analyze_cp2 import extract_resolved_config
 from postflight import validate_postflight
 from preflight import PreflightError, validate_preflight
+from rules import load_rules, violations
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -199,6 +201,10 @@ def read_state(entry: dict) -> RunState:
     mismatches = config_not_landed(entry)
     if mismatches:
         return RunState(State.FAILED, "config_not_landed: " + "; ".join(mismatches))
+
+    broken = violations(load_rules(), run_dir(entry), entry["config"])
+    if broken:
+        return RunState(State.FAILED, "rule_violated: " + "; ".join(broken))
 
     return RunState(
         State.COMPLETE,

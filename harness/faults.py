@@ -13,6 +13,12 @@ retry that recover.py queues, like a bug that repeats on every launch.
 | corrupt_metrics | metrics.parquet truncated after the wizard exits | exit 0, unreadable metrics |
 | drop_delay | the planner delay override left off the command | exit 0, delay 0 instead of the request |
 | fill_network_pool | Docker's address pool filled before the machine check | no network for the run |
+| rails | force-GT for the whole run: the recorded human drives | exit 0, near-perfect metrics |
+| kinematic | controller=kinematic_ideal: the car is moved along the plan | exit 0, no controller in the loop |
+
+rails and kinematic are silent: the run finishes, writes metrics, and passes
+every per-run check. Only an audit of the batch, or a rule it produced, can
+tell that the data does not measure a VaVAM-plus-MPC run.
 """
 
 import shlex
@@ -28,9 +34,14 @@ KINDS = (
     "corrupt_metrics",
     "drop_delay",
     "fill_network_pool",
+    "rails",
+    "kinematic",
 )
 MAX_FAKE_NETWORKS = 256
 DELAY_OVERRIDE = "runtime.simulation_config.planner_delay_us="
+FORCE_GT_OVERRIDE = "runtime.simulation_config.force_gt_duration_us="
+# Longer than any run (n_sim_steps 120 at 100 ms is 12 s).
+RAILS_FORCE_GT_US = 60_000_000
 
 
 def fill_network_pool() -> list[str]:
@@ -65,8 +76,22 @@ def before_launch(fault: dict | None) -> None:
 
 
 def wizard_args(fault: dict | None, args: list[str]) -> list[str]:
-    if fault is not None and fault["kind"] == "drop_delay":
+    if fault is None:
+        return args
+    if fault["kind"] == "drop_delay":
         return [arg for arg in args if not arg.startswith(DELAY_OVERRIDE)]
+    if fault["kind"] == "rails":
+        return [
+            f"{FORCE_GT_OVERRIDE}{RAILS_FORCE_GT_US}"
+            if arg.startswith(FORCE_GT_OVERRIDE)
+            else arg
+            for arg in args
+        ]
+    if fault["kind"] == "kinematic":
+        return [
+            "controller=kinematic_ideal" if arg == "controller=linear" else arg
+            for arg in args
+        ]
     return args
 
 

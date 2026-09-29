@@ -36,8 +36,20 @@ from the others unless the difference contradicts the label or the claim.
 Flagging is not free: a person reviews every flag, and a clean batch with no
 flags is a normal result.
 
+## Rules
+
+For each kind of problem you flag, propose one rule that would catch it
+without you, on every future run: one value in `driver-config.yaml` or
+`wizard-config.yaml`, named by its dotted path, and what it must be. `op` is
+`eq`, `ne`, `le`, `ge`, `in` (with `value`), or `eq_label` (with `label_key`:
+the value must equal that key of the run's label). A rule enters the per-run
+gate only if it fires on runs you flagged and on none of a corpus of known-good
+runs, and only if it does not pin a value the experiment varies; for those,
+compare with the label. Propose no rule for a problem no config value shows,
+such as a run missing from the results table. `id` is snake_case.
+
 ## Answer
 
-`{"flags": [{"run": "<id>", "reason": "<evidence, one sentence>"}]}`, empty when
-nothing should be flagged. Flagged runs are quarantined for a person. You cannot
-delete, change, or keep anything.
+`{"flags": [{"run": "<id>", "reason": "<evidence, one sentence>"}], "rules": [...]}`,
+both empty when nothing should be flagged. Flagged runs are quarantined for a
+person. You cannot delete, change, or keep anything.
