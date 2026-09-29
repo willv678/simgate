@@ -1,0 +1,16 @@
+{
+  "name": "b2_008_a2",
+  "run_dir": "diag/b2_008_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv"
+  },
+  "attempt": 2,
+  "parent": "008_b2_008.json",
+  "launched": true,
+  "pid": 4172998,
+  "launched_at": 1790656577.1746895,
+  "resolution": "ACCEPT",
+  "diagnosis": null
+}

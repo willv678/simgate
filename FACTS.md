@@ -39,6 +39,38 @@ Historical 212-run corpus, before CATK and before the config parser fix
 at 1. Do not cite those runs for a latency effect. `analyze_cp2.py` used to regex the
 first `planner_delay_us` in the YAML and often recorded 0.
 
+## Unattended batch B2, context length 8, through `loop.py`
+
+Source: `research/harness/b2_trace.jsonl`, `research/harness/b2_queue/`,
+`diag/b2_001`–`b2_150` and `diag/b2_001_a2`–`b2_008_a2`. One scene, CATK on CPU,
+zero delay, the `run_experiment.py` command. 12 GB RTX 4070. Opus 5.5 on FAILED.
+
+| Quantity | Value |
+|---|---|
+| Wall clock | 19:42 UTC 28 Sep to 04:40 UTC 29 Sep 2026, 537 min, 158 launches |
+| Clean run | about 3.5 min |
+| Kept (ACCEPT) | 150 / 150 queued runs: 142 first attempt, 8 on `_a2` |
+| Failures | 8, all at `docker compose up` in the first 5 min (`b2_001`–`b2_008`) |
+| Failures after the teardown fix | 0 in 150 launches |
+| Halted for a person | 0. One person fixed the Docker leak by hand at about 19:47 UTC |
+| At-fault | 40 / 150 (27%) |
+| Rear contact | 6 / 150 |
+| `dist_traveled_m` | median 27.3 m, range 16.9–31.1 m |
+| `tracking_error` | mean 0.41 m |
+| Opus call | 2.4k–5.5k context tokens, 257–634 output tokens, 3.5–7.4 s |
+
+The 8 failures were Docker's address pool, not the simulator: "all predefined
+address pools have been fully subnetted". 29 earlier runs had never been taken
+down, and each left a network. Opus answered RESTART_CLEANUP 8 times and the
+validator accepted each. That cleanup took down the failed run, which had no
+network, so it freed nothing. The `_a2` retries passed because a person removed
+the 29 networks. Without that, every run would have failed three times and
+halted, and the batch would have kept nothing. A per-run recovery cannot fix a
+leak in a shared resource.
+
+B1 at-fault 1/10 does not contradict 40/150. At a 26.7% rate, 1 or fewer of 10 has
+probability 0.21. B1 was too small to estimate the rate.
+
 ## Code invariants
 
 1. Nonlinear MPC builds its CasADi cost once. Changing Python gain fields afterward
@@ -68,6 +100,10 @@ first `planner_delay_us` in the YAML and often recorded 0.
     quality metric under replay traffic. Under CATK it is not a collision forecast.
 12. `kinematic_ideal` does not emit steering and accel. `System._kinematic_ideal_step`
     moves the ego along the plan. It is not a controller plugin in the usual sense.
+13. Every wizard run creates the Docker network `<log_dir name>_microservices_network`
+    and leaves it, with its stopped containers, when the wizard exits. The default
+    Docker pool holds about 30. `run_experiment.py` runs `docker compose down` after
+    every run. A run launched any other way must be taken down by hand (`RUNBOOK.md`).
 
 ## Prior work the paper has to sit next to
 

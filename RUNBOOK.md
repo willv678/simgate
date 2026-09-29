@@ -85,6 +85,16 @@ collision_at_fault, tracking_error, plan_deviation, dist_traveled_m, notes
 
 ## After a run
 
+Take the run down, every time, even when it failed:
+
+```bash
+docker compose -f ./diag/NAME/docker-compose.yaml down --remove-orphans
+```
+
+Each run otherwise leaves a Docker network behind. After about 30, every new run
+fails at start with "all predefined address pools have been fully subnetted".
+Runs through `research/harness/loop.py` do this themselves.
+
 Controller CSV, when the run used the controller service:
 
 ```text

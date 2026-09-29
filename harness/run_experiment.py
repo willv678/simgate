@@ -1,8 +1,11 @@
 """READY -> launch one wizard run in the background and return.
 
-The command is the L8 re-run command (CATK on CPU). A shell wrapper writes the
-wizard exit code next to the run directory when the wizard returns, so
-read_state.py can tell RUNNING from finished without this process staying up.
+The command is the L8 re-run command (CATK on CPU). When the wizard returns, a
+shell wrapper takes down the run's containers and network, then writes the
+wizard exit code next to the run directory, so read_state.py can tell RUNNING
+from finished without this process staying up. Without the teardown every run
+leaves a Docker network behind, and after about 30 runs `docker compose up`
+fails with "all predefined address pools have been fully subnetted".
 
     uv run python research/harness/run_experiment.py <entry.json>
 """
@@ -64,10 +67,13 @@ def main() -> int:
     console = shlex.quote(str(console_log(entry)))
     exit_path = exit_file(entry)
     exit_tmp = shlex.quote(f"{exit_path}.tmp")
+    compose = shlex.quote(str(log_dir / "docker-compose.yaml"))
     script = (
         f"echo {shlex.quote(cmd)} > {console}; "
         f"{cmd} >> {console} 2>&1; "
-        f"echo $? > {exit_tmp} && mv {exit_tmp} {shlex.quote(str(exit_path))}"
+        "code=$?; "
+        f"docker compose -f {compose} down --remove-orphans >> {console} 2>&1; "
+        f"echo $code > {exit_tmp} && mv {exit_tmp} {shlex.quote(str(exit_path))}"
     )
     log_dir.parent.mkdir(parents=True, exist_ok=True)
     proc = subprocess.Popen(

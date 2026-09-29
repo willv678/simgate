@@ -1,0 +1,5 @@
+{"time": "2026-09-28T19:37:41+00:00", "entry": "001_b2_smoke.json", "run_dir": "diag/b2_smoke", "state": "READY", "k_status": "preflight_ok", "script": "run_experiment.py", "result": {"pid": 3531531, "run_dir": "diag/b2_smoke"}}
+{"time": "2026-09-28T19:41:12+00:00", "entry": "001_b2_smoke.json", "run_dir": "diag/b2_smoke", "state": "RUNNING", "k_status": "pid 3531531", "script": "monitor.py", "result": {"timed_out": false, "minutes": 3.5}}
+{"time": "2026-09-28T19:41:12+00:00", "entry": "001_b2_smoke.json", "run_dir": "diag/b2_smoke", "state": "COMPLETE", "k_status": "postflight_success: at_fault=False, rear=False", "script": "analyze.py", "result": {"appended": true}}
+{"time": "2026-09-28T19:41:12+00:00", "entry": "001_b2_smoke.json", "run_dir": "diag/b2_smoke", "state": "COMPLETE", "k_status": "postflight_success: at_fault=False, rear=False", "script": "archive.py", "result": {"resolution": "ACCEPT"}}
+{"summary": {"entries": 1, "accepted": 1, "recovered": 0, "halted": 0, "unresolved": 0, "model_calls": 0, "minutes": 3.5}}
