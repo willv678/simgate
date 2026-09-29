@@ -1,0 +1,16 @@
+{
+  "name": "demo_ctx1_a2",
+  "run_dir": "diag/demo_ctx1_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv"
+  },
+  "attempt": 2,
+  "parent": "001_demo_ctx1.json",
+  "launched": true,
+  "pid": 8343,
+  "launched_at": 1790690129.233939,
+  "resolution": "ACCEPT",
+  "diagnosis": null
+}

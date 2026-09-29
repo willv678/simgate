@@ -18,7 +18,14 @@ def test_skill_enum_values():
 def test_all_skills_in_enum():
     """Test that all expected skills are defined."""
     skills = {skill.value for skill in Skill}
-    expected = {"CONFIGURE", "LAUNCH", "RE-RUN", "RESTART_CLEANUP", "ACCEPT"}
+    expected = {
+        "CONFIGURE",
+        "LAUNCH",
+        "RE-RUN",
+        "RESTART_CLEANUP",
+        "CLEANUP_ENV",
+        "ACCEPT",
+    }
     assert skills == expected
 
 
@@ -37,9 +44,7 @@ def test_step_record_creation():
 def test_step_record_all_skills():
     """Test StepRecord with each skill type."""
     for skill in Skill:
-        record = StepRecord(
-            skill=skill, params={"test": "value"}, k_status="ok"
-        )
+        record = StepRecord(skill=skill, params={"test": "value"}, k_status="ok")
         assert record.skill == skill
 
 
@@ -62,9 +67,7 @@ def test_step_record_complex_params():
 
 def test_step_record_immutable():
     """Test that StepRecord is frozen (immutable)."""
-    record = StepRecord(
-        skill=Skill.LAUNCH, params={"test": 1}, k_status="ok"
-    )
+    record = StepRecord(skill=Skill.LAUNCH, params={"test": 1}, k_status="ok")
     with pytest.raises(AttributeError):
         record.skill = Skill.ACCEPT
 
@@ -73,9 +76,7 @@ def test_step_record_k_status_variants():
     """Test StepRecord with different K status values."""
     statuses = ["accepted", "rejected", "error", "success", "failure"]
     for status in statuses:
-        record = StepRecord(
-            skill=Skill.RE_RUN, params={}, k_status=status
-        )
+        record = StepRecord(skill=Skill.RE_RUN, params={}, k_status=status)
         assert record.k_status == status
 
 

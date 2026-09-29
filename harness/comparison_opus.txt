@@ -1,6 +1,5 @@
-case	script	model	script_verdict	model_verdict
-context_length 1, vetoed	CONFIGURE {'context_length': 8}	CONFIGURE {'context_length': 8}	accepted	accepted
-CUDA out of memory (diag/l8_ctx8)	RE-RUN	RESTART_CLEANUP	accepted	accepted
-Docker network pool full (diag/b2_001)	RE-RUN	RESTART_CLEANUP	accepted	accepted
-agreement	1/3
+case	script	tier0	tier1	verdicts (script/tier0/tier1)
+context_length 1, vetoed	CONFIGURE {'context_length': 8}	CONFIGURE {'context_length': 8}	CONFIGURE {'context_length': 8}	accepted / accepted / accepted
+CUDA out of memory (diag/l8_ctx8)	RE-RUN	CONFIGURE {'trafficsim_device': 'cpu'}	CONFIGURE {'trafficsim_device': 'cpu'}	accepted / accepted / accepted
+Docker network pool full (diag/b2_001)	RE-RUN	CLEANUP_ENV	CLEANUP_ENV	accepted / accepted / accepted
 model	claude-opus-5-5

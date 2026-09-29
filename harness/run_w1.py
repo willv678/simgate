@@ -25,17 +25,20 @@ from read_state import ROOT, exit_file
 
 HARNESS = Path(__file__).resolve().parent
 L8 = HARNESS / "l8_trace.jsonl"
+L8_SCENE = "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554"
 RUNS = {
     "w1_trace.jsonl": ("w1_queue", "script"),
     "w1_model_trace.jsonl": ("w1_model_queue", "model"),
 }
 
 
-def queue_config(l8_config: dict) -> dict:
+def queue_config(l8_config: dict, trafficsim_device: str) -> dict:
     return {
         "context_length": l8_config["context_length"],
         "planner_delay_us": l8_config["request_delay"],
         "scene_file": l8_config["scene_file"],
+        "scene_id": L8_SCENE,
+        "trafficsim_device": trafficsim_device,
     }
 
 
@@ -44,12 +47,17 @@ def adopt(queue: Path, rows: list[dict]) -> None:
     add(
         queue,
         new_entry(
-            "l8_ctx1", "diag/l8_ctx1", queue_config(rejected["params"]["config"])
+            "l8_ctx1",
+            "diag/l8_ctx1",
+            queue_config(rejected["params"]["config"], "cpu"),
         ),
     )
 
+    # Only the L8 re-run named a device (cpu). The first launch used the wizard default, cuda.
     launches = {
-        row["params"]["run_dir"]: row["params"]["config"]
+        row["params"]["run_dir"]: queue_config(
+            row["params"]["config"], row["params"].get("trafficsim_device", "cuda")
+        )
         for row in rows
         if row["skill"] == "LAUNCH"
     }
@@ -57,7 +65,7 @@ def adopt(queue: Path, rows: list[dict]) -> None:
         if "wizard_exit_code" not in row:
             continue
         run_dir = row["params"]["run_dir"]
-        entry = new_entry(Path(run_dir).name, run_dir, queue_config(launches[run_dir]))
+        entry = new_entry(Path(run_dir).name, run_dir, launches[run_dir])
         entry["launched"] = True
         exit_file(entry).write_text(f"{row['wizard_exit_code']}\n", encoding="utf-8")
         add(queue, entry)

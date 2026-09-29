@@ -6,6 +6,8 @@ import pandas as pd
 import pytest
 import yaml
 
+SCENE_ID = "clipgt-test-scene"
+
 AGGREGATE = """\
 │ collision_at_fault                  │     {at_fault:.2f}     │       max        │
 │ collision_rear                      │     0.00     │       max        │
@@ -18,7 +20,7 @@ AGGREGATE = """\
 @pytest.fixture
 def scene_file(tmp_path: Path) -> Path:
     path = tmp_path / "sim_scenes.csv"
-    path.write_text("scene_id\n", encoding="utf-8")
+    path.write_text(f"uuid,scene_id\nu1,{SCENE_ID}\n", encoding="utf-8")
     return path
 
 
@@ -35,6 +37,9 @@ def make_run(tmp_path: Path, scene_file: Path):
         exit_code: int | None = 0,
         metrics: bool = True,
         resolved_delay_us: int | None = None,
+        resolved_device: str | None = None,
+        environment: list[str] | None = None,
+        env_cleanups: int = 0,
         at_fault: bool = False,
         attempt: int = 1,
     ) -> dict:
@@ -46,12 +51,16 @@ def make_run(tmp_path: Path, scene_file: Path):
                 "context_length": context_length,
                 "planner_delay_us": planner_delay_us,
                 "scene_file": str(scene_file),
+                "scene_id": SCENE_ID,
+                "trafficsim_device": "cpu",
             },
             "attempt": attempt,
             "parent": None,
             "launched": launched,
             "pid": None,
             "launched_at": None,
+            "environment": environment,
+            "env_cleanups": env_cleanups,
             "resolution": None,
             "diagnosis": None,
         }
@@ -68,7 +77,11 @@ def make_run(tmp_path: Path, scene_file: Path):
             yaml.safe_dump(
                 {
                     "runtime": {"simulation_config": {"planner_delay_us": delay}},
-                    "scenes": {"scenes_csv": [str(scene_file)]},
+                    "scenes": {
+                        "scenes_csv": [str(scene_file)],
+                        "scene_ids": [SCENE_ID],
+                    },
+                    "trafficsim": {"catk": {"device": resolved_device or "cpu"}},
                 }
             )
         )

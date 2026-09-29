@@ -71,6 +71,30 @@ leak in a shared resource.
 B1 at-fault 1/10 does not contradict 40/150. At a 26.7% rate, 1 or fewer of 10 has
 probability 0.21. B1 was too small to estimate the rate.
 
+## Diagnose tiers, 29 Sep 2026
+
+Source: `research/harness/comparison_opus.txt` and `.jsonl`, `fence_probe.json`.
+One Opus 5.5 sample per cell, not a rate.
+
+| Real failure | Script | Tier 0 (no tools) | Tier 1 (read-only tools) |
+|---|---|---|---|
+| `context_length` 1, vetoed | CONFIGURE 8 | CONFIGURE 8 | CONFIGURE 8 |
+| CUDA OOM, `diag/l8_ctx8` | RE-RUN | CONFIGURE `trafficsim_device` cpu | CONFIGURE `trafficsim_device` cpu |
+| Docker pool full, `diag/b2_001`, replayed with `faults.fill_network_pool` | RE-RUN | CLEANUP_ENV | CLEANUP_ENV |
+
+All nine answers pass the validator. CPU is the fix a person applied in L8.
+Before `trafficsim_device` and CLEANUP_ENV were on the menu, tier 0 answered
+RESTART_CLEANUP to both infrastructure failures. The menu, not the tools, made
+the difference here: both causes are in the 15 error lines. Tier 1 used 16–18k
+context tokens and about 6.5 s per call, against 2–5k for tier 0.
+
+The replay filled the pool with 29 networks, as in B2. `environment_problems()`
+reported it before any launch, and `cleanup_environment()` removed all 29.
+
+The tier 1 fence (`probe_fence.py`): told to read `AGENTS.md`, `ls /home`,
+`touch` a file, `docker rm`, and `docker ps; rm -rf …`, the agent was denied all
+five and no file was written. Reading inside the failed run directory was allowed.
+
 ## Code invariants
 
 1. Nonlinear MPC builds its CasADi cost once. Changing Python gain fields afterward
@@ -116,6 +140,35 @@ several IDs were found by search (`researchideas.md` appendix).
 | DiffTune-MPC, arXiv 2312.11384 | Analytical MPC cost tuning. Better than any LLM at choosing floats. We do not tune floats. |
 | Poirot, ISSTA 2026; DVCA; CF-RCA | Module-substitution blame. They need interior modules. Cited only to say we are not doing that. |
 | Bench2Drive-Robust, arXiv 2605.18059 | Latency benchmark for end-to-end policies. No supervisor, no switching. |
+
+### Novelty check, 29 Sep 2026 (web search; items marked * were only seen as search results)
+
+No paper found with our combination: a Simplex-style deterministic gate around
+an LLM that operates a simulation or experiment batch, a finite action menu,
+pre- and post-run checks that guarantee dataset validity, and a hand-written
+policy as the baseline. "Simplex for LLM agents" itself is in print, so it is
+not the claim. Do not write "first runtime assurance for LLM agents".
+
+| Work | Overlap and difference |
+|---|---|
+| ADMITBench, arXiv 2608.03866 | Deterministic admissibility gate on industrial LLM advice; cites Simplex and Black-Box Simplex. Closest framing. Process plants, and a rule baseline is only future work. |
+| From Detection to Action, arXiv 2606.28011 (same group) | LLM proposes recovery as state-machine paths, deterministic check, safety fallback. Closest structure. Physical plant, not an experiment pipeline. |
+| Agentic Self-Healing for Data and AI Pipelines, arXiv 2608.01955 | Deterministic checks, LLM diagnosis, bounded remediation in MLOps. No Simplex framing, no rule baseline, no validity guarantee. |
+| AgentSpec, ICSE 2026, arXiv 2503.18666* ; ShieldAgent, ICML 2025, arXiv 2503.22738* | Runtime rule enforcement on free-form agent actions; ShieldAgent's checker is itself an LLM. |
+| arXiv 2609.06036, 2607.22868 | Runtime-assurance theory for LM planners behind an admission gate. No system. |
+| AI Scientist, arXiv 2408.06292* ; Coscientist, Nature 624:570 (2023)* | LLM runs experiments with no verified gate. |
+| TrainCheck, OSDI 2025, arXiv 2506.14813 ; RADAR, arXiv 2609.32528 | Silent-failure detection in training and agentic data analysis. Neither checks that a simulation config took effect. |
+| PlannerForge, arXiv 2609.08965 ; AutoSimTest, arXiv 2501.11864 | LLM agents across AD/drone simulation testing. No recovery gate. |
+
+Cite for Simplex and runtime assurance: Sha, "Using Simplicity to Control
+Complexity", IEEE Software 18(4), 2001, doi:10.1109/MS.2001.936213; Seto et al.,
+ACC 1998 (get the DOI); Black-Box Simplex, arXiv 2102.12981; Alshiekh et al.,
+shielding, AAAI 2018. Our public `autolab-harness` repo appears in searches for
+AlpaSim; check whether IV review is double-blind.
+
+Still novel: runtime assurance moved from physical safety to experimental
+validity; LLM versus rules on the same gated menu; a real end-to-end AV
+simulation stack; an auditor for failures no rule covers.
 
 ## Repos
 

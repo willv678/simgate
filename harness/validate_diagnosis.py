@@ -12,20 +12,21 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from preflight import PreflightError, validate_preflight
 from read_state import (
-    CONFIG_KEYS,
+    CONFIGURABLE_KEYS,
     MAX_ATTEMPTS,
     State,
+    config_problem,
     load_entry,
-    preflight_config,
     read_state,
     save_entry,
 )
 from skills import Skill
 
 HALT = "HALT"
-RECOVERIES = {Skill.CONFIGURE, Skill.RE_RUN, Skill.RESTART_CLEANUP}
+RECOVERIES = {Skill.CONFIGURE, Skill.RE_RUN, Skill.RESTART_CLEANUP, Skill.CLEANUP_ENV}
+# A cleanup that did not fix the machine will not fix it the second time.
+MAX_ENV_CLEANUPS = 1
 
 
 def rejection(entry: dict, k_status: str) -> str | None:
@@ -39,29 +40,36 @@ def rejection(entry: dict, k_status: str) -> str | None:
         return f"unknown skill {diagnosis['skill']!r}"
     if skill not in RECOVERIES:
         return f"{skill.value} is not a recovery for FAILED"
+    params = diagnosis["params"]
+    if skill is not Skill.CONFIGURE and params:
+        return f"{skill.value} takes no params, got {sorted(params)}"
+
+    # The run never launched, so it has spent no attempt.
+    if k_status.startswith("environment"):
+        if skill is not Skill.CLEANUP_ENV:
+            return f"{skill.value} cannot fix the environment"
+        if entry["env_cleanups"] >= MAX_ENV_CLEANUPS:
+            return "environment still failing after CLEANUP_ENV"
+        return None
+
     if entry["attempt"] >= MAX_ATTEMPTS:
         return f"attempt {entry['attempt']} of {MAX_ATTEMPTS}: budget spent"
-
-    params = diagnosis["params"]
     if skill is not Skill.CONFIGURE:
-        if params:
-            return f"{skill.value} takes no params, got {sorted(params)}"
         if k_status.startswith("preflight_rejected"):
             return f"{skill.value} would relaunch a config preflight rejected"
         return None
 
     if not params:
         return "CONFIGURE with no params"
-    unknown = sorted(set(params) - set(CONFIG_KEYS))
+    unknown = sorted(set(params) - set(CONFIGURABLE_KEYS))
     if unknown:
         return f"CONFIGURE of unknown params {unknown}"
     patched = {**entry["config"], **params}
     if patched == entry["config"]:
         return "CONFIGURE changes nothing"
-    try:
-        validate_preflight(preflight_config(patched))
-    except PreflightError as exc:
-        return f"CONFIGURE rejected by preflight: {exc}"
+    problem = config_problem(patched)
+    if problem is not None:
+        return f"CONFIGURE rejected by preflight: {problem}"
     return None
 
 

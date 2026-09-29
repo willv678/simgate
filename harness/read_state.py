@@ -5,6 +5,7 @@ requested for it. The state comes from that entry and from the files the run
 left behind, using the checks that already exist:
 
 - preflight (K⁻) on the requested config, before and after launch;
+- the environment problems run_experiment.py found instead of launching;
 - the wizard exit code, written next to the run by run_experiment.py;
 - postflight (K⁺) on the run directory;
 - whether the requested values are the ones the wizard resolved.
@@ -14,6 +15,7 @@ This module only reads. The scripts the loop dispatches write the entry.
     uv run python research/harness/read_state.py <entry.json>
 """
 
+import csv
 import json
 import os
 import sys
@@ -33,8 +35,22 @@ ROOT = Path(__file__).resolve().parents[2]
 
 # Launches per lineage (the first launch plus recoveries) before a person decides.
 MAX_ATTEMPTS = 3
-# Config keys a CONFIGURE may change. Anything else is not a queue config.
-CONFIG_KEYS = ("context_length", "planner_delay_us", "scene_file")
+# Every key of a queue config. Each is checked against the resolved config.
+CONFIG_KEYS = (
+    "context_length",
+    "planner_delay_us",
+    "scene_file",
+    "scene_id",
+    "trafficsim_device",
+)
+# Keys a CONFIGURE may change. The scene is the experiment, so it is not one.
+CONFIGURABLE_KEYS = (
+    "context_length",
+    "planner_delay_us",
+    "scene_file",
+    "trafficsim_device",
+)
+TRAFFICSIM_DEVICES = ("cpu", "cuda")
 
 
 class State(Enum):
@@ -91,6 +107,21 @@ def preflight_config(config: dict) -> dict:
     }
 
 
+def config_problem(config: dict) -> str | None:
+    """Why this config must not launch, or None. The one preflight every caller uses."""
+    try:
+        validate_preflight(preflight_config(config))
+    except PreflightError as exc:
+        return str(exc)
+    if config["trafficsim_device"] not in TRAFFICSIM_DEVICES:
+        return f"trafficsim_device must be one of {TRAFFICSIM_DEVICES}, got {config['trafficsim_device']!r}"
+    with (ROOT / config["scene_file"]).open(encoding="utf-8") as handle:
+        scene_ids = {row["scene_id"] for row in csv.DictReader(handle)}
+    if config["scene_id"] not in scene_ids:
+        return f"scene_id {config['scene_id']} is not in {config['scene_file']}"
+    return None
+
+
 def _exit_code(entry: dict) -> int | None:
     path = exit_file(entry)
     if not path.is_file():
@@ -118,11 +149,15 @@ def config_not_landed(entry: dict) -> list[str]:
         "context_length": driver["inference"]["context_length"],
         "planner_delay_us": extract_resolved_config(path)["planner_delay_us"],
         "scene_file": wizard["scenes"]["scenes_csv"],
+        "scene_id": wizard["scenes"]["scene_ids"],
+        "trafficsim_device": wizard["trafficsim"]["catk"]["device"],
     }
     requested = {
         "context_length": config["context_length"],
         "planner_delay_us": config["planner_delay_us"],
         "scene_file": [str(ROOT / config["scene_file"])],
+        "scene_id": [config["scene_id"]],
+        "trafficsim_device": config["trafficsim_device"],
     }
     return [
         f"{key} requested {requested[key]}, resolved {resolved[key]}"
@@ -135,12 +170,15 @@ def read_state(entry: dict) -> RunState:
     if entry["resolution"] is not None:
         return RunState(State.DONE, f"resolved: {entry['resolution']}")
 
-    try:
-        validate_preflight(preflight_config(entry["config"]))
-    except PreflightError as exc:
-        return RunState(State.FAILED, f"preflight_rejected: {exc}")
+    problem = config_problem(entry["config"])
+    if problem is not None:
+        return RunState(State.FAILED, f"preflight_rejected: {problem}")
 
     if not entry["launched"]:
+        if entry["environment"]:
+            return RunState(
+                State.FAILED, "environment: " + "; ".join(entry["environment"])
+            )
         return RunState(State.READY, "preflight_ok")
 
     code = _exit_code(entry)

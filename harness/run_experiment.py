@@ -1,6 +1,10 @@
-"""READY -> launch one wizard run in the background and return.
+"""READY -> check the machine, then launch one wizard run in the background.
 
-The command is the L8 re-run command (CATK on CPU). When the wizard returns, a
+If environment.py finds a problem, nothing launches: the problems are written
+to the entry, and read_state.py reports the run FAILED with `environment: …`.
+
+The command is the L8 re-run command, with the scene and CATK device from the
+config. When the wizard returns, a
 shell wrapper takes down the run's containers and network, then writes the
 wizard exit code next to the run directory, so read_state.py can tell RUNNING
 from finished without this process staying up. Without the teardown every run
@@ -19,6 +23,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from environment import environment_problems
 from read_state import (
     ROOT,
     State,
@@ -48,7 +53,8 @@ def wizard_command(config: dict, log_dir: Path) -> list[str]:
         "runtime.simulation_config.route_start_offset_m=0.0",
         f"runtime.simulation_config.planner_delay_us={config['planner_delay_us']}",
         f"scenes.scenes_csv=[{ROOT / config['scene_file']}]",
-        "trafficsim.catk.device=cpu",
+        f"scenes.scene_ids=[{config['scene_id']}]",
+        f"trafficsim.catk.device={config['trafficsim_device']}",
         f"wizard.log_dir={log_dir}",
     ]
 
@@ -62,6 +68,13 @@ def main() -> int:
     log_dir = run_dir(entry)
     if log_dir.exists():
         raise SystemExit(f"{log_dir} already exists")
+
+    problems = environment_problems()
+    if problems:
+        entry["environment"] = problems
+        save_entry(entry_path, entry)
+        print(json.dumps({"launched": False, "environment": problems}))
+        return 0
 
     cmd = shlex.join(wizard_command(entry["config"], log_dir))
     console = shlex.quote(str(console_log(entry)))

@@ -39,6 +39,11 @@ def test_each_state_dispatches_its_scripts(tmp_path: Path, make_run):
     add(queue, make_run("no_metrics", exit_code=1, metrics=False))
     add(queue, make_run("clean"))
     add(queue, make_run("spent", exit_code=1, metrics=False, attempt=3))
+    # CLEANUP_ENV already ran once for this machine problem.
+    add(
+        queue,
+        make_run("machine", launched=False, environment=["GPU busy"], env_cleanups=1),
+    )
 
     rows = _run_loop(queue, tmp_path / "trace.jsonl")
 
@@ -54,25 +59,30 @@ def test_each_state_dispatches_its_scripts(tmp_path: Path, make_run):
         ("COMPLETE", "archive.py"),
     ]
     assert _scripts(rows, "004_spent.json") == recovery[:2]
+    # The machine is shared, so its halt stops the batch.
+    assert _scripts(rows, "005_machine.json") == recovery[:2]
     # Recovery queued two new runs. Neither is launched.
-    assert _scripts(rows, "005_ctx1_a2.json") == [("READY", None)]
-    assert _scripts(rows, "006_no_metrics_a2.json") == [("READY", None)]
+    assert _scripts(rows, "006_ctx1_a2.json") == [("READY", None)]
+    assert _scripts(rows, "007_no_metrics_a2.json") == [("READY", None)]
 
     entries = {path.name: load_entry(path) for path in queue.glob("*.json")}
     assert entries["001_ctx1.json"]["resolution"] == "CONFIGURE"
-    assert entries["005_ctx1_a2.json"]["config"]["context_length"] == 8
+    assert entries["006_ctx1_a2.json"]["config"]["context_length"] == 8
     assert entries["002_no_metrics.json"]["resolution"] == "RE-RUN"
     assert entries["003_clean.json"]["resolution"] == "ACCEPT"
     assert entries["004_spent.json"]["resolution"] == "HALT"
+    assert entries["005_machine.json"]["resolution"] == "HALT"
 
     results = (queue / "results.jsonl").read_text().splitlines()
     assert [json.loads(line)["name"] for line in results] == ["clean"]
     assert rows[-1]["summary"] | {"minutes": 0} == {
-        "entries": 6,
+        "entries": 7,
         "accepted": 1,
         "recovered": 2,
-        "halted": 1,
+        "env_cleanups": 1,
+        "halted": 2,
         "unresolved": 2,
         "model_calls": 0,
         "minutes": 0,
+        "stopped": "environment still failing after CLEANUP_ENV",
     }

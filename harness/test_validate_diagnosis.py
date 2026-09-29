@@ -5,11 +5,16 @@ from validate_diagnosis import rejection
 
 POSTFLIGHT = "wizard_exit_code: 1; postflight_failed: metrics file not found"
 PREFLIGHT = "preflight_rejected: context_length must be 8, got 1"
+ENVIRONMENT = "environment: docker network create failed"
 
 
-def _entry(make_run, skill, params, *, context_length=8, attempt=1):
+def _entry(make_run, skill, params, *, context_length=8, attempt=1, env_cleanups=0):
     entry = make_run(
-        "r", context_length=context_length, launched=False, attempt=attempt
+        "r",
+        context_length=context_length,
+        launched=False,
+        attempt=attempt,
+        env_cleanups=env_cleanups,
     )
     entry["diagnosis"] = {"policy": "model", "skill": skill, "params": params}
     return entry
@@ -41,6 +46,20 @@ def _entry(make_run, skill, params, *, context_length=8, attempt=1):
         ("CONFIGURE", {"context_length": 4}, 1, 1, PREFLIGHT, False),
         ("CONFIGURE", {"context_length": "8"}, 1, 1, PREFLIGHT, False),
         ("CONFIGURE", {"scene_file": "no/such/scenes.csv"}, 8, 1, POSTFLIGHT, False),
+        ("CONFIGURE", {"trafficsim_device": "cuda"}, 8, 1, POSTFLIGHT, True),
+        ("CONFIGURE", {"trafficsim_device": "tpu"}, 8, 1, POSTFLIGHT, False),
+        # The scene is the experiment. A recovery may not swap it.
+        ("CONFIGURE", {"scene_id": "clipgt-test-scene"}, 8, 1, POSTFLIGHT, False),
+        # A launched run may blame the machine.
+        ("CLEANUP_ENV", {}, 8, 1, POSTFLIGHT, True),
+        ("CLEANUP_ENV", {}, 8, 3, POSTFLIGHT, False),
+        ("CLEANUP_ENV", {}, 1, 1, PREFLIGHT, False),
+        # A machine problem is fixed only by CLEANUP_ENV, whatever the attempt.
+        ("CLEANUP_ENV", {}, 8, 3, ENVIRONMENT, True),
+        ("CLEANUP_ENV", {"force": True}, 8, 1, ENVIRONMENT, False),
+        ("RE-RUN", {}, 8, 1, ENVIRONMENT, False),
+        ("RESTART_CLEANUP", {}, 8, 1, ENVIRONMENT, False),
+        ("CONFIGURE", {"trafficsim_device": "cuda"}, 8, 1, ENVIRONMENT, False),
     ],
 )
 def test_gate(make_run, skill, params, context_length, attempt, k_status, accepted):
@@ -49,3 +68,10 @@ def test_gate(make_run, skill, params, context_length, attempt, k_status, accept
     )
     reason = rejection(entry, k_status)
     assert (reason is None) is accepted, reason
+
+
+def test_second_cleanup_of_the_same_machine_problem_is_rejected(make_run):
+    entry = _entry(make_run, "CLEANUP_ENV", {}, env_cleanups=1)
+    assert (
+        rejection(entry, ENVIRONMENT) == "environment still failing after CLEANUP_ENV"
+    )

@@ -60,3 +60,23 @@ def test_resolved_entry_is_done(make_run):
     entry = make_run("r", exit_code=1, metrics=False)
     entry["resolution"] = "RE-RUN"
     assert read_state(entry).state is State.DONE
+
+
+def test_environment_problem_before_launch_is_failed(make_run):
+    entry = make_run("r", launched=False, environment=["GPU free 900 MiB < 10500 MiB"])
+    result = read_state(entry)
+    assert result.state is State.FAILED
+    assert result.k_status == "environment: GPU free 900 MiB < 10500 MiB"
+
+
+def test_scene_missing_from_catalog_is_preflight_rejected(make_run):
+    entry = make_run("r", launched=False)
+    entry["config"]["scene_id"] = "clipgt-not-in-catalog"
+    assert read_state(entry).k_status.startswith("preflight_rejected: scene_id")
+
+
+def test_traffic_device_that_did_not_land_is_failed(make_run):
+    result = read_state(make_run("r", resolved_device="cuda"))
+    assert result.k_status == (
+        "config_not_landed: trafficsim_device requested cpu, resolved cuda"
+    )

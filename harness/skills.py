@@ -7,7 +7,7 @@ that captures each decision point.
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Optional
+from typing import Any
 
 
 class Skill(Enum):
@@ -17,6 +17,7 @@ class Skill(Enum):
     LAUNCH = "LAUNCH"
     RE_RUN = "RE-RUN"
     RESTART_CLEANUP = "RESTART_CLEANUP"
+    CLEANUP_ENV = "CLEANUP_ENV"
     ACCEPT = "ACCEPT"
 
 

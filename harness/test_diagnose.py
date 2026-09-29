@@ -34,6 +34,7 @@ def test_error_lines_empty_when_never_launched(tmp_path: Path):
             {"context_length": 8},
         ),
         ("preflight_rejected: scene_file does not exist: x.csv", 1, "CONFIGURE", {}),
+        ("environment: docker network create failed", 3, "CLEANUP_ENV", {}),
         ("wizard_exit_code: 1; postflight_failed: no metrics", 1, "RE-RUN", {}),
         (
             "wizard_exit_code: 1; postflight_failed: no metrics",

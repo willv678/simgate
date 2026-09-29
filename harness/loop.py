@@ -9,7 +9,8 @@
 Claude runs only inside `diagnose.py --policy model`: one headless call per
 FAILED run, then that process exits. One run is in flight at a time.
 The loop ends when every entry is DONE, or, with --no-launch, when the only
-entries left are READY. Each dispatched script is one trace line.
+entries left are READY. It stops early when an environment failure survives
+CLEANUP_ENV, because the machine is shared and every later run would fail. Each dispatched script is one trace line.
 
     uv run python research/harness/loop.py research/harness/queue --policy script
 """
@@ -56,29 +57,33 @@ def next_entry(queue: Path, no_launch: bool) -> tuple[Path, RunState] | None:
     return None
 
 
-def summary(queue: Path, minutes: float) -> dict:
+def summary(queue: Path, minutes: float, stopped: str | None) -> dict:
     entries = [load_entry(path) for path in sorted(queue.glob("*.json"))]
     resolutions = [entry["resolution"] for entry in entries]
     return {
         "entries": len(entries),
         "accepted": resolutions.count("ACCEPT"),
         "recovered": sum(
-            r in ("CONFIGURE", "RE-RUN", "RESTART_CLEANUP") for r in resolutions
+            r in ("CONFIGURE", "RE-RUN", "RESTART_CLEANUP", "CLEANUP_ENV")
+            for r in resolutions
         ),
+        "env_cleanups": sum(entry["env_cleanups"] for entry in entries),
         "halted": resolutions.count("HALT"),
         "unresolved": resolutions.count(None),
         "model_calls": sum(
-            entry["diagnosis"] is not None and entry["diagnosis"]["policy"] == "model"
+            entry["diagnosis"] is not None
+            and entry["diagnosis"]["policy"] in ("model", "agent")
             for entry in entries
         ),
         "minutes": round(minutes, 1),
+        "stopped": stopped,
     }
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("queue", type=Path)
-    parser.add_argument("--policy", choices=("script", "model"), required=True)
+    parser.add_argument("--policy", choices=("script", "model", "agent"), required=True)
     parser.add_argument("--model", default="claude-opus-5-5")
     parser.add_argument("--timeout-min", type=float, default=30.0)
     parser.add_argument("--no-launch", action="store_true")
@@ -112,12 +117,16 @@ def main() -> int:
                 flush=True,
             )
 
-        while (found := next_entry(args.queue, args.no_launch)) is not None:
+        stopped = None
+        while stopped is None and (found := next_entry(args.queue, args.no_launch)):
             path, state = found
             for script in DISPATCH[state.state]:
                 result = run_script(script, path, extra.get(script, []))
                 record(path, state, script, result)
                 if script == "validate_diagnosis.py" and not result["accepted"]:
+                    # The machine is shared: every later run would fail the same way.
+                    if state.k_status.startswith("environment"):
+                        stopped = "environment still failing after CLEANUP_ENV"
                     break
             if read_state(load_entry(path)) == state:
                 raise SystemExit(
@@ -127,11 +136,13 @@ def main() -> int:
         for path in sorted(args.queue.glob("*.json")):
             state = read_state(load_entry(path))
             if state.state is State.READY:
-                record(path, state, None, {"skipped": "--no-launch"})
+                record(path, state, None, {"skipped": stopped or "--no-launch"})
+        minutes = (time.time() - start) / 60
         trace.write(
-            json.dumps({"summary": summary(args.queue, (time.time() - start) / 60)})
-            + "\n"
+            json.dumps({"summary": summary(args.queue, minutes, stopped)}) + "\n"
         )
+        if stopped:
+            print(f"stopped: {stopped}", flush=True)
     return 0
 
 

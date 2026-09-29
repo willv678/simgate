@@ -1,8 +1,11 @@
 """FAILED -> run a diagnosis validate_diagnosis.py accepted.
 
-Every recovery queues a new READY run in a new directory, one attempt later,
-and resolves the failed run with the skill. The failed run directory is not
-touched. RESTART_CLEANUP first takes down the failed run's containers.
+A recovery of a launched run queues a new READY run in a new directory, one
+attempt later, and resolves the failed run with the skill. The failed run
+directory is not touched. RESTART_CLEANUP first takes down the failed run's
+containers. CLEANUP_ENV first removes AlpaSim's leftovers from the machine
+(environment.py); on a run that never launched it queues nothing, and the
+same entry is READY again.
 
     uv run python research/harness/recover.py <entry.json>
 """
@@ -16,6 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from enqueue import add, new_entry
+from environment import cleanup_environment
 from read_state import load_entry, run_dir, save_entry
 from skills import Skill
 
@@ -40,7 +44,18 @@ def main() -> int:
         raise SystemExit(f"{entry['name']} has no accepted diagnosis")
     skill = Skill(diagnosis["skill"])
 
-    note = cleanup(entry) if skill is Skill.RESTART_CLEANUP else None
+    if skill is Skill.CLEANUP_ENV:
+        note = "; ".join(cleanup_environment()) or "nothing to remove"
+        if not entry["launched"]:
+            entry["environment"] = None
+            entry["env_cleanups"] += 1
+            save_entry(entry_path, entry)
+            print(json.dumps({"skill": skill.value, "queued": None, "cleanup": note}))
+            return 0
+    elif skill is Skill.RESTART_CLEANUP:
+        note = cleanup(entry)
+    else:
+        note = None
     attempt = entry["attempt"] + 1
     name = f"{re.sub(r'_a[0-9]+$', '', entry['name'])}_a{attempt}"
     child_dir = Path(entry["run_dir"]).parent / name
