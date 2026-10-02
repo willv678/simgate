@@ -89,6 +89,8 @@ switch instant?" Write down what the plot should show before you look.
 campaign has the GPU until about 1 Oct, and a second wizard would trip its
 machine check.
 
+**Griffin, Fri 2 Oct.** Exploration day: `research/griffin/BRIEF.md`.
+
 **Griffin, due Sun 4 Oct.** Citations. `FACTS.md` has a table of related work
 under "Novelty check" and a list of Simplex references. For each one, open it,
 confirm the authors, title, venue, and year, and write a BibTeX entry into
