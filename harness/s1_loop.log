@@ -1,0 +1,410 @@
+001_s1_001.json: READY -> run_experiment.py {"pid": 130164, "run_dir": "diag/s1_001"}
+001_s1_001.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+001_s1_001.json: COMPLETE -> analyze.py {"appended": true}
+001_s1_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_s1_002.json: READY -> run_experiment.py {"pid": 135788, "run_dir": "diag/s1_002"}
+002_s1_002.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+002_s1_002.json: COMPLETE -> analyze.py {"appended": true}
+002_s1_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+003_s1_003.json: READY -> run_experiment.py {"pid": 141665, "run_dir": "diag/s1_003"}
+003_s1_003.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+003_s1_003.json: COMPLETE -> analyze.py {"appended": true}
+003_s1_003.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+004_s1_004.json: READY -> run_experiment.py {"pid": 147596, "run_dir": "diag/s1_004"}
+004_s1_004.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+004_s1_004.json: COMPLETE -> analyze.py {"appended": true}
+004_s1_004.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+005_s1_005.json: READY -> run_experiment.py {"pid": 153190, "run_dir": "diag/s1_005"}
+005_s1_005.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+005_s1_005.json: COMPLETE -> analyze.py {"appended": true}
+005_s1_005.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+006_s1_006.json: READY -> run_experiment.py {"pid": 158812, "run_dir": "diag/s1_006"}
+006_s1_006.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+006_s1_006.json: COMPLETE -> analyze.py {"appended": true}
+006_s1_006.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+007_s1_007.json: READY -> run_experiment.py {"pid": 164304, "run_dir": "diag/s1_007"}
+007_s1_007.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 5.0}
+007_s1_007.json: COMPLETE -> analyze.py {"appended": true}
+007_s1_007.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+008_s1_008.json: READY -> run_experiment.py {"pid": 170414, "run_dir": "diag/s1_008"}
+008_s1_008.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+008_s1_008.json: COMPLETE -> analyze.py {"appended": true}
+008_s1_008.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+009_s1_009.json: READY -> run_experiment.py {"pid": 175996, "run_dir": "diag/s1_009"}
+009_s1_009.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+009_s1_009.json: COMPLETE -> analyze.py {"appended": true}
+009_s1_009.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+010_s1_010.json: READY -> run_experiment.py {"pid": 180435, "run_dir": "diag/s1_010"}
+010_s1_010.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 5.0}
+010_s1_010.json: COMPLETE -> analyze.py {"appended": true}
+010_s1_010.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+011_s1_011.json: READY -> run_experiment.py {"pid": 185598, "run_dir": "diag/s1_011"}
+011_s1_011.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+011_s1_011.json: COMPLETE -> analyze.py {"appended": true}
+011_s1_011.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+012_s1_012.json: READY -> run_experiment.py {"pid": 192619, "run_dir": "diag/s1_012"}
+012_s1_012.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+012_s1_012.json: COMPLETE -> analyze.py {"appended": true}
+012_s1_012.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+013_s1_013.json: READY -> run_experiment.py {"pid": 198453, "run_dir": "diag/s1_013"}
+013_s1_013.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+013_s1_013.json: COMPLETE -> analyze.py {"appended": true}
+013_s1_013.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+014_s1_014.json: READY -> run_experiment.py {"pid": 203599, "run_dir": "diag/s1_014"}
+014_s1_014.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+014_s1_014.json: COMPLETE -> analyze.py {"appended": true}
+014_s1_014.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+015_s1_015.json: READY -> run_experiment.py {"pid": 207221, "run_dir": "diag/s1_015"}
+015_s1_015.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+015_s1_015.json: COMPLETE -> analyze.py {"appended": true}
+015_s1_015.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+016_s1_016.json: READY -> run_experiment.py {"pid": 210817, "run_dir": "diag/s1_016"}
+016_s1_016.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+016_s1_016.json: COMPLETE -> analyze.py {"appended": true}
+016_s1_016.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+017_s1_017.json: READY -> run_experiment.py {"pid": 214328, "run_dir": "diag/s1_017"}
+017_s1_017.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+017_s1_017.json: COMPLETE -> analyze.py {"appended": true}
+017_s1_017.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+018_s1_018.json: READY -> run_experiment.py {"pid": 217785, "run_dir": "diag/s1_018"}
+018_s1_018.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+018_s1_018.json: COMPLETE -> analyze.py {"appended": true}
+018_s1_018.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+019_s1_019.json: READY -> run_experiment.py {"pid": 222311, "run_dir": "diag/s1_019"}
+019_s1_019.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+019_s1_019.json: COMPLETE -> analyze.py {"appended": true}
+019_s1_019.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+020_s1_020.json: READY -> run_experiment.py {"pid": 225869, "run_dir": "diag/s1_020"}
+020_s1_020.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+020_s1_020.json: COMPLETE -> analyze.py {"appended": true}
+020_s1_020.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+021_s1_021.json: READY -> run_experiment.py {"pid": 229461, "run_dir": "diag/s1_021"}
+021_s1_021.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+021_s1_021.json: COMPLETE -> analyze.py {"appended": true}
+021_s1_021.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+022_s1_022.json: READY -> run_experiment.py {"pid": 233160, "run_dir": "diag/s1_022"}
+022_s1_022.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+022_s1_022.json: COMPLETE -> analyze.py {"appended": true}
+022_s1_022.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+023_s1_023.json: READY -> run_experiment.py {"pid": 236673, "run_dir": "diag/s1_023"}
+023_s1_023.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+023_s1_023.json: COMPLETE -> analyze.py {"appended": true}
+023_s1_023.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+024_s1_024.json: READY -> run_experiment.py {"pid": 240320, "run_dir": "diag/s1_024"}
+024_s1_024.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+024_s1_024.json: COMPLETE -> analyze.py {"appended": true}
+024_s1_024.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+025_s1_025.json: READY -> run_experiment.py {"pid": 243983, "run_dir": "diag/s1_025"}
+025_s1_025.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+025_s1_025.json: COMPLETE -> analyze.py {"appended": true}
+025_s1_025.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+026_s1_026.json: READY -> run_experiment.py {"pid": 247610, "run_dir": "diag/s1_026"}
+026_s1_026.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+026_s1_026.json: COMPLETE -> analyze.py {"appended": true}
+026_s1_026.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+027_s1_027.json: READY -> run_experiment.py {"pid": 251313, "run_dir": "diag/s1_027"}
+027_s1_027.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+027_s1_027.json: COMPLETE -> analyze.py {"appended": true}
+027_s1_027.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+028_s1_028.json: READY -> run_experiment.py {"pid": 254956, "run_dir": "diag/s1_028"}
+028_s1_028.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+028_s1_028.json: COMPLETE -> analyze.py {"appended": true}
+028_s1_028.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+029_s1_029.json: READY -> run_experiment.py {"pid": 258496, "run_dir": "diag/s1_029"}
+029_s1_029.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+029_s1_029.json: COMPLETE -> analyze.py {"appended": true}
+029_s1_029.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+030_s1_030.json: READY -> run_experiment.py {"pid": 262168, "run_dir": "diag/s1_030"}
+030_s1_030.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+030_s1_030.json: COMPLETE -> analyze.py {"appended": true}
+030_s1_030.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+031_s1_031.json: READY -> run_experiment.py {"pid": 265723, "run_dir": "diag/s1_031"}
+031_s1_031.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+031_s1_031.json: COMPLETE -> analyze.py {"appended": true}
+031_s1_031.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+032_s1_032.json: READY -> run_experiment.py {"pid": 269481, "run_dir": "diag/s1_032"}
+032_s1_032.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+032_s1_032.json: COMPLETE -> analyze.py {"appended": true}
+032_s1_032.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+033_s1_033.json: READY -> run_experiment.py {"pid": 273014, "run_dir": "diag/s1_033"}
+033_s1_033.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+033_s1_033.json: COMPLETE -> analyze.py {"appended": true}
+033_s1_033.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+034_s1_034.json: READY -> run_experiment.py {"pid": 276646, "run_dir": "diag/s1_034"}
+034_s1_034.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+034_s1_034.json: COMPLETE -> analyze.py {"appended": true}
+034_s1_034.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+035_s1_035.json: READY -> run_experiment.py {"pid": 280337, "run_dir": "diag/s1_035"}
+035_s1_035.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+035_s1_035.json: COMPLETE -> analyze.py {"appended": true}
+035_s1_035.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+036_s1_036.json: READY -> run_experiment.py {"pid": 283870, "run_dir": "diag/s1_036"}
+036_s1_036.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+036_s1_036.json: COMPLETE -> analyze.py {"appended": true}
+036_s1_036.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+037_s1_037.json: READY -> run_experiment.py {"pid": 287554, "run_dir": "diag/s1_037"}
+037_s1_037.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+037_s1_037.json: COMPLETE -> analyze.py {"appended": true}
+037_s1_037.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+038_s1_038.json: READY -> run_experiment.py {"pid": 291324, "run_dir": "diag/s1_038"}
+038_s1_038.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+038_s1_038.json: COMPLETE -> analyze.py {"appended": true}
+038_s1_038.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+039_s1_039.json: READY -> run_experiment.py {"pid": 295372, "run_dir": "diag/s1_039"}
+039_s1_039.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+039_s1_039.json: COMPLETE -> analyze.py {"appended": true}
+039_s1_039.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+040_s1_040.json: READY -> run_experiment.py {"pid": 299155, "run_dir": "diag/s1_040"}
+040_s1_040.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+040_s1_040.json: COMPLETE -> analyze.py {"appended": true}
+040_s1_040.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+041_s1_041.json: READY -> run_experiment.py {"pid": 302759, "run_dir": "diag/s1_041"}
+041_s1_041.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+041_s1_041.json: COMPLETE -> analyze.py {"appended": true}
+041_s1_041.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+042_s1_042.json: READY -> run_experiment.py {"pid": 306304, "run_dir": "diag/s1_042"}
+042_s1_042.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+042_s1_042.json: COMPLETE -> analyze.py {"appended": true}
+042_s1_042.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+043_s1_043.json: READY -> run_experiment.py {"pid": 309942, "run_dir": "diag/s1_043"}
+043_s1_043.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+043_s1_043.json: COMPLETE -> analyze.py {"appended": true}
+043_s1_043.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+044_s1_044.json: READY -> run_experiment.py {"pid": 313592, "run_dir": "diag/s1_044"}
+044_s1_044.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+044_s1_044.json: COMPLETE -> analyze.py {"appended": true}
+044_s1_044.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+045_s1_045.json: READY -> run_experiment.py {"pid": 317213, "run_dir": "diag/s1_045"}
+045_s1_045.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+045_s1_045.json: COMPLETE -> analyze.py {"appended": true}
+045_s1_045.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+046_s1_046.json: READY -> run_experiment.py {"pid": 320809, "run_dir": "diag/s1_046"}
+046_s1_046.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+046_s1_046.json: COMPLETE -> analyze.py {"appended": true}
+046_s1_046.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+047_s1_047.json: READY -> run_experiment.py {"pid": 324365, "run_dir": "diag/s1_047"}
+047_s1_047.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+047_s1_047.json: COMPLETE -> analyze.py {"appended": true}
+047_s1_047.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+048_s1_048.json: READY -> run_experiment.py {"pid": 327927, "run_dir": "diag/s1_048"}
+048_s1_048.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 5.0}
+048_s1_048.json: COMPLETE -> analyze.py {"appended": true}
+048_s1_048.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+049_s1_049.json: READY -> run_experiment.py {"pid": 331758, "run_dir": "diag/s1_049"}
+049_s1_049.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+049_s1_049.json: COMPLETE -> analyze.py {"appended": true}
+049_s1_049.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+050_s1_050.json: READY -> run_experiment.py {"pid": 335410, "run_dir": "diag/s1_050"}
+050_s1_050.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+050_s1_050.json: COMPLETE -> analyze.py {"appended": true}
+050_s1_050.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+051_s1_051.json: READY -> run_experiment.py {"pid": 340405, "run_dir": "diag/s1_051"}
+051_s1_051.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+051_s1_051.json: COMPLETE -> analyze.py {"appended": true}
+051_s1_051.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+052_s1_052.json: READY -> run_experiment.py {"pid": 343992, "run_dir": "diag/s1_052"}
+052_s1_052.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+052_s1_052.json: COMPLETE -> analyze.py {"appended": true}
+052_s1_052.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+053_s1_053.json: READY -> run_experiment.py {"pid": 347729, "run_dir": "diag/s1_053"}
+053_s1_053.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+053_s1_053.json: COMPLETE -> analyze.py {"appended": true}
+053_s1_053.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+054_s1_054.json: READY -> run_experiment.py {"pid": 351150, "run_dir": "diag/s1_054"}
+054_s1_054.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+054_s1_054.json: COMPLETE -> analyze.py {"appended": true}
+054_s1_054.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+055_s1_055.json: READY -> run_experiment.py {"pid": 355223, "run_dir": "diag/s1_055"}
+055_s1_055.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+055_s1_055.json: COMPLETE -> analyze.py {"appended": true}
+055_s1_055.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+056_s1_056.json: READY -> run_experiment.py {"pid": 359478, "run_dir": "diag/s1_056"}
+056_s1_056.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+056_s1_056.json: COMPLETE -> analyze.py {"appended": true}
+056_s1_056.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+057_s1_057.json: READY -> run_experiment.py {"pid": 363214, "run_dir": "diag/s1_057"}
+057_s1_057.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+057_s1_057.json: COMPLETE -> analyze.py {"appended": true}
+057_s1_057.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+058_s1_058.json: READY -> run_experiment.py {"pid": 366709, "run_dir": "diag/s1_058"}
+058_s1_058.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+058_s1_058.json: COMPLETE -> analyze.py {"appended": true}
+058_s1_058.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+059_s1_059.json: READY -> run_experiment.py {"pid": 370373, "run_dir": "diag/s1_059"}
+059_s1_059.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 5.0}
+059_s1_059.json: COMPLETE -> analyze.py {"appended": true}
+059_s1_059.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+060_s1_060.json: READY -> run_experiment.py {"pid": 374194, "run_dir": "diag/s1_060"}
+060_s1_060.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+060_s1_060.json: COMPLETE -> analyze.py {"appended": true}
+060_s1_060.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+061_s1_061.json: READY -> run_experiment.py {"pid": 377962, "run_dir": "diag/s1_061"}
+061_s1_061.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+061_s1_061.json: COMPLETE -> analyze.py {"appended": true}
+061_s1_061.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+062_s1_062.json: READY -> run_experiment.py {"pid": 381675, "run_dir": "diag/s1_062"}
+062_s1_062.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+062_s1_062.json: COMPLETE -> analyze.py {"appended": true}
+062_s1_062.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+063_s1_063.json: READY -> run_experiment.py {"pid": 385217, "run_dir": "diag/s1_063"}
+063_s1_063.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+063_s1_063.json: COMPLETE -> analyze.py {"appended": true}
+063_s1_063.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+064_s1_064.json: READY -> run_experiment.py {"pid": 388757, "run_dir": "diag/s1_064"}
+064_s1_064.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+064_s1_064.json: COMPLETE -> analyze.py {"appended": true}
+064_s1_064.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+065_s1_065.json: READY -> run_experiment.py {"pid": 392347, "run_dir": "diag/s1_065"}
+065_s1_065.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+065_s1_065.json: COMPLETE -> analyze.py {"appended": true}
+065_s1_065.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+066_s1_066.json: READY -> run_experiment.py {"pid": 395781, "run_dir": "diag/s1_066"}
+066_s1_066.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+066_s1_066.json: COMPLETE -> analyze.py {"appended": true}
+066_s1_066.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+067_s1_067.json: READY -> run_experiment.py {"pid": 399558, "run_dir": "diag/s1_067"}
+067_s1_067.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+067_s1_067.json: COMPLETE -> analyze.py {"appended": true}
+067_s1_067.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+068_s1_068.json: READY -> run_experiment.py {"pid": 403042, "run_dir": "diag/s1_068"}
+068_s1_068.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+068_s1_068.json: COMPLETE -> analyze.py {"appended": true}
+068_s1_068.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+069_s1_069.json: READY -> run_experiment.py {"pid": 406750, "run_dir": "diag/s1_069"}
+069_s1_069.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+069_s1_069.json: COMPLETE -> analyze.py {"appended": true}
+069_s1_069.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+070_s1_070.json: READY -> run_experiment.py {"pid": 410207, "run_dir": "diag/s1_070"}
+070_s1_070.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+070_s1_070.json: COMPLETE -> analyze.py {"appended": true}
+070_s1_070.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+071_s1_071.json: READY -> run_experiment.py {"pid": 413873, "run_dir": "diag/s1_071"}
+071_s1_071.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+071_s1_071.json: COMPLETE -> analyze.py {"appended": true}
+071_s1_071.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+072_s1_072.json: READY -> run_experiment.py {"pid": 417489, "run_dir": "diag/s1_072"}
+072_s1_072.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+072_s1_072.json: COMPLETE -> analyze.py {"appended": true}
+072_s1_072.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+073_s1_073.json: READY -> run_experiment.py {"pid": 421154, "run_dir": "diag/s1_073"}
+073_s1_073.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+073_s1_073.json: COMPLETE -> analyze.py {"appended": true}
+073_s1_073.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+074_s1_074.json: READY -> run_experiment.py {"pid": 424751, "run_dir": "diag/s1_074"}
+074_s1_074.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+074_s1_074.json: COMPLETE -> analyze.py {"appended": true}
+074_s1_074.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+075_s1_075.json: READY -> run_experiment.py {"pid": 428287, "run_dir": "diag/s1_075"}
+075_s1_075.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+075_s1_075.json: COMPLETE -> analyze.py {"appended": true}
+075_s1_075.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+076_s1_076.json: READY -> run_experiment.py {"pid": 431850, "run_dir": "diag/s1_076"}
+076_s1_076.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+076_s1_076.json: COMPLETE -> analyze.py {"appended": true}
+076_s1_076.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+077_s1_077.json: READY -> run_experiment.py {"pid": 435543, "run_dir": "diag/s1_077"}
+077_s1_077.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+077_s1_077.json: COMPLETE -> analyze.py {"appended": true}
+077_s1_077.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+078_s1_078.json: READY -> run_experiment.py {"pid": 444358, "run_dir": "diag/s1_078"}
+078_s1_078.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+078_s1_078.json: COMPLETE -> analyze.py {"appended": true}
+078_s1_078.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+079_s1_079.json: READY -> run_experiment.py {"pid": 453148, "run_dir": "diag/s1_079"}
+079_s1_079.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 1.5}
+079_s1_079.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 90691, "output_tokens": 2170, "duration_ms": 27978, "tool_calls": ["Bash: nvidia-smi; docker ps", "Grep: (?i)out of memory|MiB|GiB|allocated|driver|renderer|sensorsim", "Grep: (?i)rollout|step|OutOfMemory|Tried to allocate|free", "Bash: df -h /home", "Grep: (?i)gpu|memory|cuda", "Read: ./console.log", "Read: ./console.log", "Read: ./console.log"], "denied": []}
+079_s1_079.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+079_s1_079.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "102_s1_079_a2.json", "cleanup": null}
+080_s1_080.json: READY -> run_experiment.py {"pid": 457646, "run_dir": "diag/s1_080"}
+080_s1_080.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+080_s1_080.json: COMPLETE -> analyze.py {"appended": true}
+080_s1_080.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+081_s1_081.json: READY -> run_experiment.py {"pid": 461302, "run_dir": "diag/s1_081"}
+081_s1_081.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+081_s1_081.json: COMPLETE -> analyze.py {"appended": true}
+081_s1_081.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+082_s1_082.json: READY -> run_experiment.py {"pid": 465034, "run_dir": "diag/s1_082"}
+082_s1_082.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+082_s1_082.json: COMPLETE -> analyze.py {"appended": true}
+082_s1_082.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+083_s1_083.json: READY -> run_experiment.py {"pid": 468756, "run_dir": "diag/s1_083"}
+083_s1_083.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+083_s1_083.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 54473, "output_tokens": 1000, "duration_ms": 13805, "tool_calls": ["Grep: map|1920170b|artifact|usdz", "Glob: **/*", "Grep: No usable map geometry|Rollout FAILED|retry=", "Grep: Rollout FAILED|retry=\\d/\\d|ego position"], "denied": []}
+083_s1_083.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+083_s1_083.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+084_s1_084.json: READY -> run_experiment.py {"pid": 472283, "run_dir": "diag/s1_084"}
+084_s1_084.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+084_s1_084.json: COMPLETE -> analyze.py {"appended": true}
+084_s1_084.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+085_s1_085.json: READY -> run_experiment.py {"pid": 475874, "run_dir": "diag/s1_085"}
+085_s1_085.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+085_s1_085.json: COMPLETE -> analyze.py {"appended": true}
+085_s1_085.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+086_s1_086.json: READY -> run_experiment.py {"pid": 479393, "run_dir": "diag/s1_086"}
+086_s1_086.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+086_s1_086.json: COMPLETE -> analyze.py {"appended": true}
+086_s1_086.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+087_s1_087.json: READY -> run_experiment.py {"pid": 483089, "run_dir": "diag/s1_087"}
+087_s1_087.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+087_s1_087.json: COMPLETE -> analyze.py {"appended": true}
+087_s1_087.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+088_s1_088.json: READY -> run_experiment.py {"pid": 486720, "run_dir": "diag/s1_088"}
+088_s1_088.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+088_s1_088.json: COMPLETE -> analyze.py {"appended": true}
+088_s1_088.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+089_s1_089.json: READY -> run_experiment.py {"pid": 490334, "run_dir": "diag/s1_089"}
+089_s1_089.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+089_s1_089.json: COMPLETE -> analyze.py {"appended": true}
+089_s1_089.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+090_s1_090.json: READY -> run_experiment.py {"pid": 493998, "run_dir": "diag/s1_090"}
+090_s1_090.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+090_s1_090.json: COMPLETE -> analyze.py {"appended": true}
+090_s1_090.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+091_s1_091.json: READY -> run_experiment.py {"pid": 497594, "run_dir": "diag/s1_091"}
+091_s1_091.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+091_s1_091.json: COMPLETE -> analyze.py {"appended": true}
+091_s1_091.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+092_s1_092.json: READY -> run_experiment.py {"pid": 501224, "run_dir": "diag/s1_092"}
+092_s1_092.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+092_s1_092.json: COMPLETE -> analyze.py {"appended": true}
+092_s1_092.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+093_s1_093.json: READY -> run_experiment.py {"pid": 504943, "run_dir": "diag/s1_093"}
+093_s1_093.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+093_s1_093.json: COMPLETE -> analyze.py {"appended": true}
+093_s1_093.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+094_s1_094.json: READY -> run_experiment.py {"pid": 508489, "run_dir": "diag/s1_094"}
+094_s1_094.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+094_s1_094.json: COMPLETE -> analyze.py {"appended": true}
+094_s1_094.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+095_s1_095.json: READY -> run_experiment.py {"pid": 512149, "run_dir": "diag/s1_095"}
+095_s1_095.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+095_s1_095.json: COMPLETE -> analyze.py {"appended": true}
+095_s1_095.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+096_s1_096.json: READY -> run_experiment.py {"pid": 515865, "run_dir": "diag/s1_096"}
+096_s1_096.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+096_s1_096.json: COMPLETE -> analyze.py {"appended": true}
+096_s1_096.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+097_s1_097.json: READY -> run_experiment.py {"pid": 519512, "run_dir": "diag/s1_097"}
+097_s1_097.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+097_s1_097.json: COMPLETE -> analyze.py {"appended": true}
+097_s1_097.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+098_s1_098.json: READY -> run_experiment.py {"pid": 523115, "run_dir": "diag/s1_098"}
+098_s1_098.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+098_s1_098.json: COMPLETE -> analyze.py {"appended": true}
+098_s1_098.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+099_s1_099.json: READY -> run_experiment.py {"pid": 526831, "run_dir": "diag/s1_099"}
+099_s1_099.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+099_s1_099.json: COMPLETE -> analyze.py {"appended": true}
+099_s1_099.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+100_s1_100.json: READY -> run_experiment.py {"pid": 530595, "run_dir": "diag/s1_100"}
+100_s1_100.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+100_s1_100.json: COMPLETE -> analyze.py {"appended": true}
+100_s1_100.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+101_s1_101.json: READY -> run_experiment.py {"pid": 534196, "run_dir": "diag/s1_101"}
+101_s1_101.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+101_s1_101.json: COMPLETE -> analyze.py {"appended": true}
+101_s1_101.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+102_s1_079_a2.json: READY -> run_experiment.py {"pid": 537780, "run_dir": "diag/s1_079_a2"}
+102_s1_079_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+102_s1_079_a2.json: COMPLETE -> analyze.py {"appended": true}
+102_s1_079_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}

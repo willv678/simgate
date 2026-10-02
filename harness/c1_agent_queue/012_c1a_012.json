@@ -1,0 +1,27 @@
+{
+  "name": "c1a_012",
+  "run_dir": "diag/c1a_012",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 912365,
+  "launched_at": 1790742746.4410052,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": {
+    "kind": "rails",
+    "persistent": false,
+    "after_s": null,
+    "applied": false
+  },
+  "quarantine": "wizard-config.yaml force_gt_duration_us is 60000000 instead of 4500000 and physics.txt shows frac_on_recording 1.000, so this is a full log replay, not a closed-loop policy run."
+}

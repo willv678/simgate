@@ -1,0 +1,26 @@
+{
+  "name": "c2a_047",
+  "run_dir": "diag/c2a_047",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 100000,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": false,
+  "pid": null,
+  "launched_at": null,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": null,
+  "diagnosis": null,
+  "fault": {
+    "kind": "drop_delay",
+    "persistent": true,
+    "after_s": null,
+    "applied": false
+  }
+}

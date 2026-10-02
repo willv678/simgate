@@ -1,0 +1,68 @@
+{
+  "name": "c2a_025",
+  "run_dir": "diag/c2a_025",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1880036,
+  "launched_at": 1790801190.4404716,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c2a_025",
+      "k_status": "postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-09-30T20:46:37.428Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 9306147453 outside range [9303047453, 9306047454)",
+        "ValueError: Interpolation timestamp 9306147453 outside range [9303047453, 9306047454)",
+        "controller-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ]
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nc2a_017_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n467 MiB, 11385 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  476G  435G  53% /\n",
+    "skill": "RE-RUN",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 60211,
+    "output_tokens": 1071,
+    "duration_ms": 13752,
+    "tool_calls": [
+      "Grep: Interpolation|Traceback|metrics|parquet|Error",
+      "Glob: **/*.parquet",
+      "Read: ./console.log",
+      "Glob: rollouts/**",
+      "Bash: df -h /home/willvarner/alpasim; docker ps -a"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "delete_metrics",
+    "persistent": false,
+    "after_s": null,
+    "applied": false
+  }
+}

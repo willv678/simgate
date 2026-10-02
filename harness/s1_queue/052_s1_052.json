@@ -1,0 +1,21 @@
+{
+  "name": "s1_052",
+  "run_dir": "diag/s1_052",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-0fd2c051-f5e1-4416-9bb5-9b93d92f55fb",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 343992,
+  "launched_at": 1790708590.4251218,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null
+}

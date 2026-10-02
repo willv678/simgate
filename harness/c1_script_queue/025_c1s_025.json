@@ -1,0 +1,27 @@
+{
+  "name": "c1s_025",
+  "run_dir": "diag/c1s_025",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 642485,
+  "launched_at": 1790726090.4620466,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": {
+    "kind": "rails",
+    "persistent": false,
+    "after_s": null,
+    "applied": false
+  },
+  "quarantine": "wizard-config.yaml force_gt_duration_us is 60000000, and physics.txt shows frac_on_recording 1.000, so its metrics measure the recorded human trajectory, not the policy."
+}

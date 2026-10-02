@@ -1,0 +1,63 @@
+{
+  "name": "c1a_027",
+  "run_dir": "diag/c1a_027",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-0245ff75-aa3f-46b7-ba87-16a7afb841af",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 973101,
+  "launched_at": 1790746108.9353623,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c1a_027",
+      "k_status": "wizard_exit_code: 137; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-0245ff75-aa3f-46b7-ba87-16a7afb841af",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-09-30T05:28:35.888Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\""
+      ]
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n481 MiB, 11371 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  465G  447G  51% /\n",
+    "skill": "RE-RUN",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 67475,
+    "output_tokens": 977,
+    "duration_ms": 12719,
+    "tool_calls": [
+      "Bash: docker ps; nvidia-smi; df -h",
+      "Grep: (?i)kill|oom|memory|137|error|exit",
+      "Bash: docker ps -a 2>/dev/null | head; docker network ls",
+      "Read: /tmp/tmpld2g30sc/console.log",
+      "Bash: df -h /home",
+      "Grep: (?i)exited|killed|signal|Traceback|cuda|stopping|timeout",
+      "Read: /tmp/tmpld2g30sc/console.log"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "kill",
+    "persistent": false,
+    "after_s": 72,
+    "applied": false
+  }
+}

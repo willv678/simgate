@@ -1,0 +1,68 @@
+{
+  "name": "c2a_009",
+  "run_dir": "diag/c2a_009",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-0245ff75-aa3f-46b7-ba87-16a7afb841af",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1808028,
+  "launched_at": 1790796743.1326468,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RESTART_CLEANUP",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c2a_009",
+      "k_status": "wizard_exit_code: 124; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-0245ff75-aa3f-46b7-ba87-16a7afb841af",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-09-30T19:32:30.182Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\""
+      ]
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nc2a_009-driver-0-1\tUp 9 minutes\nc2a_009-physics-0-1\tUp 9 minutes\nc2a_009-trafficsim-0-1\tUp 9 minutes\nc2a_009-controller-0-1\tUp 9 minutes\nc2a_009-renderer-0-1\tUp 9 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc2a_009_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n3871 MiB, 7981 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  476G  436G  53% /\n",
+    "skill": "RESTART_CLEANUP",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 178393,
+    "output_tokens": 2523,
+    "duration_ms": 32177,
+    "tool_calls": [
+      "Bash: docker ps -a; docker network ls; nvidia-smi; df -h",
+      "Bash: ls -la /home/willvarner/alpasim/diag/c2a_009",
+      "Bash: ls -la /home/willvarner/alpasim/diag/c2a_009/txt-logs /home/willvarner/alpasim/diag/c2a_009/controller /home/willvarner/alpasim/diag/c2a_009/rollouts/*",
+      "Bash: docker ps --filter status=running",
+      "Bash: nvidia-smi; df -h /home",
+      "Read: /home/willvarner/alpasim/diag/c2a_009/txt-logs/runtime_worker_0.log",
+      "Grep: (?i)error|exception|traceback|timeout|deadline|unavailable",
+      "Bash: docker ps -a --filter name=c2a_009 --format '{{.Names}} {{.Status}}'",
+      "Grep: .",
+      "Read: ./console.log",
+      "Grep: (?i)(trafficsim|physics|driver|controller|renderer)-0-1\\s+\\|.*(error|warn|exception|killed|oom|traceback)",
+      "Bash: docker network ls"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "hang",
+    "persistent": false,
+    "after_s": 135,
+    "applied": false
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "name": "c1a_017",
+  "run_dir": "diag/c1a_017",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 936447,
+  "launched_at": 1790743872.3431783,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": {
+    "kind": "kinematic",
+    "persistent": false,
+    "after_s": null,
+    "applied": false
+  },
+  "quarantine": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal, not linear, and physics.txt shows max_abs_accel 16.506 m/s\u00b2 and p99 jerk 173, which no car can do; other runs of this scene peak at 1.7\u20131.9 m/s\u00b2."
+}

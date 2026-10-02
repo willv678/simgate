@@ -1,0 +1,27 @@
+{
+  "name": "c1m_045",
+  "run_dir": "diag/c1m_045",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-0245ff75-aa3f-46b7-ba87-16a7afb841af",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1346767,
+  "launched_at": 1790767984.0397463,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": {
+    "kind": "rails",
+    "persistent": false,
+    "after_s": null,
+    "applied": false
+  },
+  "quarantine": "wizard-config.yaml runtime.simulation_config.force_gt_duration_us is 60000000 instead of 4500000, and physics.txt shows frac_on_recording 1.000; its dist_traveled_m of 85.98 is about twice the ~41 m of the other runs on the same scene."
+}

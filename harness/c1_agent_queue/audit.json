@@ -1,0 +1,126 @@
+{
+ "ids": {
+  "c1a_001_a2": "r01",
+  "c1a_030": "r02",
+  "c1a_039_a2": "r03",
+  "b2_091": "r04",
+  "c1a_026_a2": "r05",
+  "c1a_042": "r06",
+  "c1a_015": "r07",
+  "c1a_013": "r08",
+  "c1a_008_a3": "r09",
+  "c1a_049": "r10",
+  "c1a_047_a2": "r11",
+  "c1a_038": "r12",
+  "c1a_024": "r13",
+  "c1a_006": "r14",
+  "c1a_007": "r15",
+  "c1a_012": "r16",
+  "c1a_023": "r17",
+  "c1a_016_a2": "r18",
+  "c1a_011_a2": "r19",
+  "c1a_048_a2": "r20",
+  "c1a_033": "r21",
+  "c1a_010_a2": "r22",
+  "c1a_004_a2": "r23",
+  "c1a_032_a2": "r24",
+  "c1a_040_a2": "r25",
+  "c1a_018": "r26",
+  "c1a_045": "r27",
+  "c1a_044": "r28",
+  "c1a_043": "r29",
+  "c1a_003": "r30",
+  "c1a_050_a3": "r31",
+  "c1a_037_a2": "r32",
+  "c1a_019_a2": "r33",
+  "c1a_009": "r34",
+  "c1a_046_a2": "r35",
+  "c1a_014": "r36",
+  "c1a_025": "r37",
+  "c1a_034_a2": "r38",
+  "c1a_021": "r39",
+  "c1a_028_a2": "r40",
+  "c1a_035": "r41",
+  "c1a_036": "r42",
+  "c1a_017": "r43",
+  "c1a_002_a2": "r44",
+  "c1a_029": "r45",
+  "c1a_027_a2": "r46"
+ },
+ "flags": {
+  "c1a_013": "wizard-config.yaml simulation_config.force_gt_duration_us is 60000000 (every other run uses 4500000) and physics.txt shows frac_on_recording 1.000, so the ego replayed the human log for the whole run and the metrics do not measure VaVAM.",
+  "c1a_012": "wizard-config.yaml force_gt_duration_us is 60000000 instead of 4500000 and physics.txt shows frac_on_recording 1.000, so this is a full log replay, not a closed-loop policy run.",
+  "c1a_045": "wizard-config.yaml force_gt_duration_us is 60000000 instead of 4500000 and physics.txt shows frac_on_recording 1.000, so the ego never left the recorded trajectory and the policy was not evaluated.",
+  "c1a_043": "wizard-config.yaml force_gt_duration_us is 60000000 instead of 4500000 and physics.txt shows frac_on_recording 1.000; its metrics match log-replay run r37 exactly, not the policy.",
+  "c1a_025": "wizard-config.yaml force_gt_duration_us is 60000000 instead of 4500000 and physics.txt shows frac_on_recording 1.000, so this is a full log replay rather than the policy under test.",
+  "c1a_049": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal, not linear (terminal_cost is also missing), and physics.txt shows max_abs_accel 14.609 m/s\u00b2 and p99 jerk 116, which no car can do and which do not match the labelled setup.",
+  "c1a_024": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal, not linear, and physics.txt shows max_abs_accel 11.710 m/s\u00b2 and p99 jerk 117, which no car can do; other runs of this scene peak near 3\u20134 m/s\u00b2.",
+  "c1a_018": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal, not linear, and physics.txt shows max_abs_accel 10.683 m/s\u00b2, while other runs of this scene with the linear controller peak at 3.0\u20133.9 m/s\u00b2.",
+  "c1a_021": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal, not linear, and physics.txt shows max_abs_accel 8.721 m/s\u00b2, while other runs of this scene with the linear controller peak at 1.3\u20132.1 m/s\u00b2.",
+  "c1a_017": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal, not linear, and physics.txt shows max_abs_accel 16.506 m/s\u00b2 and p99 jerk 173, which no car can do; other runs of this scene peak at 1.7\u20131.9 m/s\u00b2."
+ },
+ "rules": [
+  {
+   "id": "force_gt_duration_is_warmup_only",
+   "file": "wizard-config.yaml",
+   "path": "runtime.simulation_config.force_gt_duration_us",
+   "op": "le",
+   "value": 4500000,
+   "reason": "A forced ground-truth window longer than the 4.5 s warm-up turns the run into a log replay, so the metrics stop measuring the driving policy."
+  },
+  {
+   "id": "controller_mpc_is_linear",
+   "file": "wizard-config.yaml",
+   "path": "controller.mpc_implementation",
+   "op": "eq",
+   "value": "linear",
+   "reason": "The kinematic_ideal controller produced physically impossible accelerations (8.7\u201316.5 m/s\u00b2), and it is not the controller the batch's setup uses."
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "context_tokens": 889068,
+ "turns": 29,
+ "duration_ms": 71147,
+ "admissions": [
+  {
+   "rule": {
+    "id": "force_gt_duration_is_warmup_only",
+    "file": "wizard-config.yaml",
+    "path": "runtime.simulation_config.force_gt_duration_us",
+    "op": "le",
+    "value": 4500000,
+    "reason": "A forced ground-truth window longer than the 4.5 s warm-up turns the run into a log replay, so the metrics stop measuring the driving policy."
+   },
+   "admitted": true,
+   "caught": [
+    "c1a_012",
+    "c1a_013",
+    "c1a_025",
+    "c1a_043",
+    "c1a_045"
+   ],
+   "flagged": 10,
+   "clean_checked": 51
+  },
+  {
+   "rule": {
+    "id": "controller_mpc_is_linear",
+    "file": "wizard-config.yaml",
+    "path": "controller.mpc_implementation",
+    "op": "eq",
+    "value": "linear",
+    "reason": "The kinematic_ideal controller produced physically impossible accelerations (8.7\u201316.5 m/s\u00b2), and it is not the controller the batch's setup uses."
+   },
+   "admitted": true,
+   "caught": [
+    "c1a_017",
+    "c1a_018",
+    "c1a_021",
+    "c1a_024",
+    "c1a_049"
+   ],
+   "flagged": 10,
+   "clean_checked": 51
+  }
+ ]
+}

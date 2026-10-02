@@ -1,0 +1,26 @@
+{
+  "name": "c2a_039",
+  "run_dir": "diag/c2a_039",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-0245ff75-aa3f-46b7-ba87-16a7afb841af",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": false,
+  "pid": null,
+  "launched_at": null,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": null,
+  "diagnosis": null,
+  "fault": {
+    "kind": "kill",
+    "persistent": false,
+    "after_s": 111,
+    "applied": false
+  }
+}

@@ -1,0 +1,121 @@
+{
+ "drop_delay": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 0,
+  "halted": 5,
+  "launches": 15,
+  "skills": {
+   "RE-RUN": 5,
+   "RESTART_CLEANUP": 10
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 5
+ },
+ "rails": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 11,
+  "skills": {
+   "RE-RUN": 5,
+   "RESTART_CLEANUP": 1
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 5
+ },
+ "clean": {
+  "lineages": 10,
+  "detected": 2,
+  "recovered": 10,
+  "halted": 0,
+  "launches": 10,
+  "skills": {
+   "CLEANUP_ENV": 2
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 10,
+  "no_gate_invalid_kept": 0
+ },
+ "kinematic": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 10,
+  "skills": {
+   "RE-RUN": 5
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 5
+ },
+ "hang": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 10,
+  "skills": {
+   "RE-RUN": 5
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 0,
+  "no_gate_invalid_kept": 0
+ },
+ "corrupt_metrics": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 10,
+  "skills": {
+   "RE-RUN": 5
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 5
+ },
+ "kill": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 10,
+  "skills": {
+   "RE-RUN": 5
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 0,
+  "no_gate_invalid_kept": 0
+ },
+ "fill_network_pool": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 5,
+  "skills": {
+   "CLEANUP_ENV": 5
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 0
+ },
+ "delete_metrics": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 10,
+  "skills": {
+   "RE-RUN": 5
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 5
+ }
+}

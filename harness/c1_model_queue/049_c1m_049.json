@@ -1,0 +1,27 @@
+{
+  "name": "c1m_049",
+  "run_dir": "diag/c1m_049",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1361557,
+  "launched_at": 1790769144.3600636,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": {
+    "kind": "kinematic",
+    "persistent": false,
+    "after_s": null,
+    "applied": false
+  },
+  "quarantine": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal instead of linear, and physics.txt max_abs_accel is 9.731 m/s\u00b2 with max_speed_report_error 0.160, the highest in the batch."
+}

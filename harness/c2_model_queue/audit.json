@@ -1,0 +1,67 @@
+{
+ "ids": {
+  "c2m_006_a2": "r01",
+  "c2m_028_a2": "r02",
+  "c2m_020": "r03",
+  "c2m_032": "r04",
+  "c2m_009_a2": "r05",
+  "b2_091": "r06",
+  "c2m_015": "r07",
+  "c2m_037": "r08",
+  "c2m_035": "r09",
+  "c2m_033": "r10",
+  "c2m_040": "r11",
+  "c2m_048": "r12",
+  "c2m_007_a2": "r13",
+  "c2m_005_a2": "r14",
+  "c2m_039_a2": "r15",
+  "c2m_010": "r16",
+  "c2m_022": "r17",
+  "c2m_036": "r18",
+  "c2m_018": "r19",
+  "c2m_049_a2": "r20",
+  "c2m_030_a2": "r21",
+  "c2m_031": "r22",
+  "c2m_017_a2": "r23",
+  "c2m_003": "r24",
+  "c2m_027_a2": "r25",
+  "c2m_045": "r26",
+  "c2m_024": "r27",
+  "c2m_050_a2": "r28"
+ },
+ "flags": {
+  "c2m_024": "wizard-config.yaml sets controller.mpc_implementation: kinematic_ideal, while every other run, including the reference r06, uses linear. Its physics.txt shows motion a real car cannot make: max_abs_accel 8.236 m/s\u00b2, p99_abs_jerk 86.8, and a step to -8.01 m/s\u00b2 at t=4.7 s. The label does not record a controller change, so its tracking and collision metrics measure a different setup from the rest of the batch."
+ },
+ "rules": [
+  {
+   "id": "controller_mpc_linear",
+   "file": "wizard-config.yaml",
+   "path": "controller.mpc_implementation",
+   "op": "eq",
+   "value": "linear",
+   "reason": "The batch varies only the scene and the traffic-model device. The controller must be the linear MPC the reference uses; kinematic_ideal ignores vehicle dynamics and produces impossible acceleration."
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "context_tokens": 308940,
+ "turns": 16,
+ "duration_ms": 30691,
+ "admissions": [
+  {
+   "rule": {
+    "id": "controller_mpc_linear",
+    "file": "wizard-config.yaml",
+    "path": "controller.mpc_implementation",
+    "op": "eq",
+    "value": "linear",
+    "reason": "The batch varies only the scene and the traffic-model device. The controller must be the linear MPC the reference uses; kinematic_ideal ignores vehicle dynamics and produces impossible acceleration."
+   },
+   "admitted": true,
+   "caught": [
+    "c2m_024"
+   ],
+   "flagged": 1,
+   "clean_checked": 51
+  }
+ ]
+}

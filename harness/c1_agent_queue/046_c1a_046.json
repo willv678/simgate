@@ -1,0 +1,63 @@
+{
+  "name": "c1a_046",
+  "run_dir": "diag/c1a_046",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1059131,
+  "launched_at": 1790750525.950977,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "CONFIGURE",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c1a_046",
+      "k_status": "wizard_exit_code: 124; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-09-30T06:42:13.021Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\""
+      ]
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nc1a_046-driver-0-1\tUp 9 minutes\nc1a_046-prometheus-0-1\tUp 9 minutes\nc1a_046-physics-0-1\tUp 9 minutes\nc1a_046-trafficsim-0-1\tUp 9 minutes\nc1a_046-renderer-0-1\tUp 9 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc1a_046_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n5287 MiB, 6565 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  467G  445G  52% /\n",
+    "skill": "CONFIGURE",
+    "params": {
+      "trafficsim_device": "cuda"
+    },
+    "model": "claude-opus-5-5",
+    "context_tokens": 62630,
+    "output_tokens": 1780,
+    "duration_ms": 23414,
+    "tool_calls": [
+      "Bash: tail -c 3000 ./console.log; ls /home/willvarner/alpasim/diag/c1a_046",
+      "Bash: head -c 1500 ./console.log; grep -c \"StepEvent\" ./console.log; grep -m3 -iE \"n_sim_steps|num_steps|duration|timeout\" ./console.log; grep -iE \"steps|duration\" /home/willvarner/alpasim/diag/c1a_046/wiza",
+      "Grep: StepEvent",
+      "Grep: runtime-0-1.*StepEvent",
+      "Bash: docker ps --format '{{.Names}} {{.Status}}'; nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "hang",
+    "persistent": false,
+    "after_s": 75,
+    "applied": false
+  }
+}

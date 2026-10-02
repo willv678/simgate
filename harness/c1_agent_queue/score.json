@@ -1,0 +1,113 @@
+{
+ "kill": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 10,
+  "skills": {
+   "RE-RUN": 5
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 0,
+  "no_gate_invalid_kept": 0
+ },
+ "corrupt_metrics": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 10,
+  "skills": {
+   "RE-RUN": 5
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 5
+ },
+ "clean": {
+  "lineages": 10,
+  "detected": 0,
+  "recovered": 10,
+  "halted": 0,
+  "launches": 10,
+  "skills": {},
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 10,
+  "no_gate_invalid_kept": 0
+ },
+ "hang": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 12,
+  "skills": {
+   "CONFIGURE": 7
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 0,
+  "no_gate_invalid_kept": 0
+ },
+ "drop_delay": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 0,
+  "halted": 5,
+  "launches": 5,
+  "skills": {
+   "HALT": 5
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 5
+ },
+ "fill_network_pool": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 5,
+  "skills": {
+   "CLEANUP_ENV": 5
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 0
+ },
+ "delete_metrics": {
+  "lineages": 5,
+  "detected": 5,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 10,
+  "skills": {
+   "RE-RUN": 5
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 5
+ },
+ "rails": {
+  "lineages": 5,
+  "detected": 0,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 5,
+  "skills": {},
+  "gate_invalid_kept": 5,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 5
+ },
+ "kinematic": {
+  "lineages": 5,
+  "detected": 0,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 5,
+  "skills": {},
+  "gate_invalid_kept": 5,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 5
+ }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "c1m_004_a2",
+  "run_dir": "diag/c1m_004_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+    "trafficsim_device": "cuda"
+  },
+  "attempt": 2,
+  "parent": "004_c1m_004.json",
+  "launched": true,
+  "pid": 1372657,
+  "launched_at": 1790770182.7096164,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null
+}

@@ -1,0 +1,55 @@
+{
+  "name": "c2m_050",
+  "run_dir": "diag/c2m_050",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 2124553,
+  "launched_at": 1790816084.2741742,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RESTART_CLEANUP",
+  "diagnosis": {
+    "policy": "model",
+    "input": {
+      "state": "FAILED",
+      "run": "c2m_050",
+      "k_status": "wizard_exit_code: 137; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-01T00:54:51.200Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\""
+      ]
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nc2m_049_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n467 MiB, 11385 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  481G  431G  53% /\n",
+    "skill": "RESTART_CLEANUP",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 6000,
+    "output_tokens": 537,
+    "duration_ms": 6292,
+    "tool_calls": [],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "kill",
+    "persistent": false,
+    "after_s": 143,
+    "applied": false
+  }
+}

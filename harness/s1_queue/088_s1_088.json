@@ -1,0 +1,21 @@
+{
+  "name": "s1_088",
+  "run_dir": "diag/s1_088",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-1aac210f-756a-4093-b5c6-6d522d7e99b0",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 486720,
+  "launched_at": 1790716631.5909073,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null
+}

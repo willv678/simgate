@@ -1,0 +1,67 @@
+{
+  "name": "c2a_002",
+  "run_dir": "diag/c2a_002",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1781847,
+  "launched_at": 1790794812.8936102,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "HALT",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c2a_002",
+      "k_status": "physics: frac_on_recording 1 > 0.98",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-09-30T19:00:19.987Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 180840705553 outside range [180837605553, 180840605554)",
+        "ValueError: Interpolation timestamp 180840705553 outside range [180837605553, 180840605554)",
+        "controller-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ]
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n468 MiB, 11384 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  475G  437G  53% /\n",
+    "skill": "HALT",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 72853,
+    "output_tokens": 1015,
+    "duration_ms": 15280,
+    "tool_calls": [
+      "Grep: (?i)(driver|policy|fallback|recording|log.?replay|error|exception)",
+      "Grep: (?i)(fallback|on_recording|use_gt|ground.?truth|replay|override|warmup|force|ignor|driver-0-1.*(warn|error))",
+      "Read: /tmp/tmpdzii51wk/console.log",
+      "Bash: cut -c1-3000 /tmp/tmpdzii51wk/console.log | head -1; ls -la /home/willvarner/alpasim/diag/c2a_002"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "rails",
+    "persistent": false,
+    "after_s": null,
+    "applied": false
+  }
+}

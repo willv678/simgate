@@ -1,0 +1,56 @@
+{
+  "name": "c2s_047_a2",
+  "run_dir": "diag/c2s_047_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 100000,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 2,
+  "parent": "047_c2s_047.json",
+  "launched": true,
+  "pid": 1744251,
+  "launched_at": 1790792509.4190965,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RESTART_CLEANUP",
+  "diagnosis": {
+    "policy": "script",
+    "input": {
+      "state": "FAILED",
+      "run": "c2s_047_a2",
+      "k_status": "config_not_landed: planner_delay_us requested 100000, resolved 0",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 100000,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 2,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-09-30T18:21:56.476Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 37357358337 outside range [37354258337, 37357258338)",
+        "ValueError: Interpolation timestamp 37357358337 outside range [37354258337, 37357258338)",
+        "controller-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ]
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n467 MiB, 11385 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  475G  437G  53% /\n",
+    "skill": "RESTART_CLEANUP",
+    "params": {},
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "drop_delay",
+    "persistent": true,
+    "after_s": null,
+    "applied": false
+  }
+}

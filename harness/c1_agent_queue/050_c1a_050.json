@@ -1,0 +1,61 @@
+{
+  "name": "c1a_050",
+  "run_dir": "diag/c1a_050",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1073644,
+  "launched_at": 1790751734.3673828,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "CONFIGURE",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c1a_050",
+      "k_status": "wizard_exit_code: 124; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-09-30T07:02:21.441Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\""
+      ]
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nc1a_050-physics-0-1\tUp 9 minutes\nc1a_050-driver-0-1\tUp 9 minutes\nc1a_050-runtime-0-1\tUp 9 minutes (Paused)\nc1a_050-renderer-0-1\tUp 9 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc1a_046_microservices_network\nc1a_050_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n483 MiB, 11369 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  467G  444G  52% /\n",
+    "skill": "CONFIGURE",
+    "params": {
+      "trafficsim_device": "cuda"
+    },
+    "model": "claude-opus-5-5",
+    "context_tokens": 45062,
+    "output_tokens": 1005,
+    "duration_ms": 14442,
+    "tool_calls": [
+      "Bash: tail -c 3000 ./console.log; echo; docker ps; nvidia-smi --query-gpu=memory.used,memory.total,utilization.gpu --format=csv",
+      "Bash: head -c 1500 ./console.log; grep -c \"StepEvent\" ./console.log; grep -m3 -n \"StepEvent\" ./console.log",
+      "Bash: grep -c \"TrafficEvent\" ./console.log; grep \"TrafficEvent\\|build_simulation_response\" ./console.log | tail -6 | cut -c1-120; grep -i \"timeout\\|cuda\\|out of memory\" ./console.log | head"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "hang",
+    "persistent": false,
+    "after_s": 124,
+    "applied": false
+  }
+}

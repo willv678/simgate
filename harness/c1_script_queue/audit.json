@@ -1,0 +1,126 @@
+{
+ "ids": {
+  "c1s_001_a2": "r01",
+  "c1s_030": "r02",
+  "c1s_039_a2": "r03",
+  "b2_091": "r04",
+  "c1s_026_a2": "r05",
+  "c1s_042": "r06",
+  "c1s_015": "r07",
+  "c1s_013": "r08",
+  "c1s_008_a2": "r09",
+  "c1s_049": "r10",
+  "c1s_047_a2": "r11",
+  "c1s_038": "r12",
+  "c1s_024": "r13",
+  "c1s_006": "r14",
+  "c1s_007": "r15",
+  "c1s_012": "r16",
+  "c1s_023": "r17",
+  "c1s_016_a2": "r18",
+  "c1s_011_a2": "r19",
+  "c1s_048_a2": "r20",
+  "c1s_033": "r21",
+  "c1s_010_a2": "r22",
+  "c1s_004_a2": "r23",
+  "c1s_032_a2": "r24",
+  "c1s_040_a2": "r25",
+  "c1s_018": "r26",
+  "c1s_045": "r27",
+  "c1s_044": "r28",
+  "c1s_043": "r29",
+  "c1s_003": "r30",
+  "c1s_050_a2": "r31",
+  "c1s_037_a2": "r32",
+  "c1s_019_a2": "r33",
+  "c1s_009": "r34",
+  "c1s_046_a2": "r35",
+  "c1s_014": "r36",
+  "c1s_025": "r37",
+  "c1s_034_a2": "r38",
+  "c1s_021": "r39",
+  "c1s_028_a2": "r40",
+  "c1s_035": "r41",
+  "c1s_036": "r42",
+  "c1s_017": "r43",
+  "c1s_002_a2": "r44",
+  "c1s_029": "r45",
+  "c1s_027_a2": "r46"
+ },
+ "flags": {
+  "c1s_013": "wizard-config.yaml runtime.simulation_config.force_gt_duration_us is 60000000 (the reference and other runs use 4500000), and physics.txt shows frac_on_recording 1.000, so the ego replayed the recording and VaVAM never drove.",
+  "c1s_012": "wizard-config.yaml force_gt_duration_us is 60000000, and physics.txt shows frac_on_recording 1.000, so the ego followed the recording for the whole run; its 89.88 m is the human's distance, not the policy's.",
+  "c1s_045": "wizard-config.yaml force_gt_duration_us is 60000000, and physics.txt shows frac_on_recording 1.000, so the ego followed the recording for the whole run; its 85.98 m compares with about 41 m for the other runs of this scene.",
+  "c1s_043": "wizard-config.yaml force_gt_duration_us is 60000000, and physics.txt shows frac_on_recording 1.000, so its metrics measure the recorded human trajectory, not the policy.",
+  "c1s_025": "wizard-config.yaml force_gt_duration_us is 60000000, and physics.txt shows frac_on_recording 1.000, so its metrics measure the recorded human trajectory, not the policy.",
+  "c1s_049": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal (reference r04 and the other runs use linear), and physics.txt shows impossible motion: max_abs_accel 17.579, max_abs_yaw_rate 31.065 and max_speed_report_error 6.448.",
+  "c1s_024": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal instead of linear, and physics.txt shows max_abs_accel 14.373 m/s\u00b2, which a car cannot do.",
+  "c1s_018": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal instead of linear, and physics.txt shows max_abs_accel 13.165 m/s\u00b2, which a car cannot do.",
+  "c1s_021": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal instead of linear, and physics.txt shows max_abs_accel 8.478 m/s\u00b2, well beyond the other runs of this scene (1.3 to 2.5 m/s\u00b2).",
+  "c1s_017": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal instead of linear, and physics.txt shows max_abs_accel 16.882 m/s\u00b2, which a car cannot do."
+ },
+ "rules": [
+  {
+   "id": "force_gt_duration_within_warmup",
+   "file": "wizard-config.yaml",
+   "path": "runtime.simulation_config.force_gt_duration_us",
+   "op": "le",
+   "value": 4500000,
+   "reason": "Forcing the recorded trajectory past the warm-up replaces the policy's driving with the human's, so the metrics no longer measure VaVAM."
+  },
+  {
+   "id": "controller_mpc_linear",
+   "file": "wizard-config.yaml",
+   "path": "controller.mpc_implementation",
+   "op": "eq",
+   "value": "linear",
+   "reason": "The kinematic_ideal controller produces physically impossible ego motion and is not the setup the batch and reference use."
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "context_tokens": 384356,
+ "turns": 21,
+ "duration_ms": 47810,
+ "admissions": [
+  {
+   "rule": {
+    "id": "force_gt_duration_within_warmup",
+    "file": "wizard-config.yaml",
+    "path": "runtime.simulation_config.force_gt_duration_us",
+    "op": "le",
+    "value": 4500000,
+    "reason": "Forcing the recorded trajectory past the warm-up replaces the policy's driving with the human's, so the metrics no longer measure VaVAM."
+   },
+   "admitted": true,
+   "caught": [
+    "c1s_012",
+    "c1s_013",
+    "c1s_025",
+    "c1s_043",
+    "c1s_045"
+   ],
+   "flagged": 10,
+   "clean_checked": 51
+  },
+  {
+   "rule": {
+    "id": "controller_mpc_linear",
+    "file": "wizard-config.yaml",
+    "path": "controller.mpc_implementation",
+    "op": "eq",
+    "value": "linear",
+    "reason": "The kinematic_ideal controller produces physically impossible ego motion and is not the setup the batch and reference use."
+   },
+   "admitted": true,
+   "caught": [
+    "c1s_017",
+    "c1s_018",
+    "c1s_021",
+    "c1s_024",
+    "c1s_049"
+   ],
+   "flagged": 10,
+   "clean_checked": 51
+  }
+ ]
+}

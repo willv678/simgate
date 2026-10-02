@@ -1,0 +1,66 @@
+{
+  "name": "c1m_050_a2",
+  "run_dir": "diag/c1m_050_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+    "trafficsim_device": "cuda"
+  },
+  "attempt": 2,
+  "parent": "050_c1m_050.json",
+  "launched": true,
+  "pid": 1401007,
+  "launched_at": 1790771832.9788072,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "CONFIGURE",
+  "diagnosis": {
+    "policy": "model",
+    "input": {
+      "state": "FAILED",
+      "run": "c1m_050_a2",
+      "k_status": "wizard_exit_code: 1; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+        "trafficsim_device": "cuda"
+      },
+      "attempt": 2,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-09-30T12:37:20.043Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "\u2502       \u2514 <Future at 0x70a54303b9b0 state=finished raised OutOfMemoryError>",
+        "torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 22.00 MiB. GPU 0 has a total capacity of 11.57 GiB of which 19.44 MiB is free. Process 1402590 has 5.02 GiB memory in use. Process 1402275 has 348.00 MiB memory in use. Process 1",
+        "12:38:19.437 [W0] ERROR:\tError during event handling. Pending events in queue (7):",
+        "grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:",
+        "details = \"simulation step failed: CUDA out of memory. Tried to allocate 22.00 MiB. GPU 0 has a total capacity of 11.57 GiB of which 19.44 MiB is free. Process 1402590 has 5.02 GiB memory in use. Process 1402275 has 348.00 MiB memory in use",
+        "debug_error_string = \"INTERNAL:simulation step failed: CUDA out of memory. Tried to allocate 22.00 MiB. GPU 0 has a total capacity of 11.57 GiB of which 19.44 MiB is free. Process 1402590 has 5.02 GiB memory in use. Process 1402275 has 348.",
+        "12:38:19.443 [W0] WARNING:\tRollout FAILED: job=258cadceaf2949f08fc990434cf6d5e5 scene=clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc uuid=b68833e4-bccb-11f1-9872-ed747c1b4e28 error=<AioRpcError of RPC that terminated with:",
+        "12:38:19.445 [W0] WARNING:\tRetrying failed rollout: scene=clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc failed_job=258cadceaf2949f08fc990434cf6d5e5 retry_job=be83587dd77a45b19de992053a003464 retry=1/2 error=<AioRpcError of RPC that terminated",
+        "Scene clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc: <AioRpcError of RPC that terminated with:",
+        "runtime-0-1 exited with code 1",
+        "controller-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "driver-0-1 exited with code 143"
+      ]
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nc1m_050_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n481 MiB, 11371 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  471G  440G  52% /\n",
+    "skill": "CONFIGURE",
+    "params": {
+      "trafficsim_device": "cpu"
+    },
+    "model": "claude-opus-5-5",
+    "context_tokens": 6913,
+    "output_tokens": 733,
+    "duration_ms": 8055,
+    "tool_calls": [],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null
+}

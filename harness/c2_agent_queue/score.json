@@ -1,0 +1,118 @@
+{
+ "drop_delay": {
+  "lineages": 5,
+  "detected": 4,
+  "recovered": 0,
+  "halted": 4,
+  "launches": 4,
+  "skills": {
+   "HALT": 4
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 4,
+  "no_gate_invalid_kept": 4
+ },
+ "rails": {
+  "lineages": 5,
+  "detected": 4,
+  "recovered": 0,
+  "halted": 4,
+  "launches": 4,
+  "skills": {
+   "HALT": 4
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 4,
+  "no_gate_invalid_kept": 4
+ },
+ "clean": {
+  "lineages": 10,
+  "detected": 0,
+  "recovered": 5,
+  "halted": 0,
+  "launches": 5,
+  "skills": {},
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 5,
+  "no_gate_invalid_kept": 0
+ },
+ "kinematic": {
+  "lineages": 5,
+  "detected": 1,
+  "recovered": 2,
+  "halted": 1,
+  "launches": 3,
+  "skills": {
+   "HALT": 1
+  },
+  "gate_invalid_kept": 2,
+  "no_gate_kept": 3,
+  "no_gate_invalid_kept": 3
+ },
+ "hang": {
+  "lineages": 5,
+  "detected": 4,
+  "recovered": 0,
+  "halted": 0,
+  "launches": 4,
+  "skills": {
+   "RESTART_CLEANUP": 2,
+   "CONFIGURE": 2
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 0,
+  "no_gate_invalid_kept": 0
+ },
+ "corrupt_metrics": {
+  "lineages": 5,
+  "detected": 3,
+  "recovered": 0,
+  "halted": 0,
+  "launches": 3,
+  "skills": {
+   "RE-RUN": 3
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 3,
+  "no_gate_invalid_kept": 3
+ },
+ "kill": {
+  "lineages": 5,
+  "detected": 3,
+  "recovered": 0,
+  "halted": 0,
+  "launches": 3,
+  "skills": {
+   "RE-RUN": 3
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 0,
+  "no_gate_invalid_kept": 0
+ },
+ "fill_network_pool": {
+  "lineages": 5,
+  "detected": 3,
+  "recovered": 2,
+  "halted": 0,
+  "launches": 3,
+  "skills": {
+   "CLEANUP_ENV": 3
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 3,
+  "no_gate_invalid_kept": 0
+ },
+ "delete_metrics": {
+  "lineages": 5,
+  "detected": 3,
+  "recovered": 0,
+  "halted": 0,
+  "launches": 3,
+  "skills": {
+   "RE-RUN": 3
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 3,
+  "no_gate_invalid_kept": 3
+ }
+}

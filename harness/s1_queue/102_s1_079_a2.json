@@ -1,0 +1,21 @@
+{
+  "name": "s1_079_a2",
+  "run_dir": "diag/s1_079_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-17a28ca0-d124-468c-bea3-6f2e75f23734",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 2,
+  "parent": "079_s1_079.json",
+  "launched": true,
+  "pid": 537780,
+  "launched_at": 1790719669.0071633,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null
+}
