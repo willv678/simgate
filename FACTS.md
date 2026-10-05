@@ -227,6 +227,46 @@ kept, no preflight-rejected config launches, no lineage launches more than 3
 times, the graph has no cycle, CLEANUP_ENV runs at most once per run, and no
 kept run measures a delay or scene other than the one queued.
 
+## Campaigns C1 and C2, 29 Sep – 5 Oct 2026
+
+Source: `harness/campaign_report.txt` and `.json` (`campaign_report.py`),
+figures `figures/campaign_invalid.pdf`, `figures/campaign_outcomes.pdf`. One
+fault plan per campaign (seed 1, seed 2): 50 runs, 5 per fault kind and 10
+clean, over 6 scenes, run under the script, tier 1 and tier 0; each arm audited
+at the end with one reference run. C1 had the physics bounds off, C2 on.
+Scored by outcome: a lineage counts as recovered only if it ends in a kept run
+with no data-corrupting fault.
+
+| Arm | Launches | Valid kept | Invalid kept: no gate / gate / gate+audit | Halted for a person |
+|---|---|---|---|---|
+| C1 script | 80 | 35 | 25 / 10 / 0 | 5 (all by the gate's budget) |
+| C1 tier 1 | 72 | 35 | 25 / 10 / 0 | 5 |
+| C1 tier 0 | 62 | 25 | 25 / 10 / 0 | 15 |
+| C2 script | 91 | 45 | 25 / 0 / 0 | 5 (all by the gate's budget) |
+| C2 tier 1 | 72 | 36 | 25 / 3 / 0 | 11 |
+| C2 tier 0 | 61 | 26 | 25 / 1 / 0 | 23 |
+
+- No invalid run was kept after the audit in any arm (0 of 150 per campaign).
+  Physics on cut what reaches the audit from 30 to 4.
+- Loud faults (kill, hang, deleted or corrupt metrics, full network pool): the
+  script and tier 1 recovered 5/5 each in both campaigns. Tier 0 recovered 0/5
+  deleted and 0–1/5 corrupt metrics and halted them: exit 0 with nothing in the
+  log, and no tools to look.
+- Persistent dropped delay: no policy can recover it. The script spent 15
+  launches before its budget halted it; both model tiers halted at the first
+  failure (5 launches).
+- Silent faults with physics on (C2): the script's retries recovered 10/10,
+  the model tiers halted most. The injected silent faults did not repeat on a
+  retry, which rewards blind retrying; a real force-GT or controller config
+  error would repeat. C3 makes them persistent.
+- Physics on fresh runs: C1 kept runs checked after the fact, 25/30 silent
+  faults caught and 0 of 95 other runs flagged; the 5 missed were kinematic on
+  gentler scenes (peak 6.6–9.7 m/s²), all quarantined by the audit.
+- C2 tier 1 stopped at run 32 when `monitor.py` aborted in native code (exit
+  -6) and was resumed from there on 5 Oct; its remaining runs used the
+  box-based contact check, the earlier C2 runs the centre-distance one (which
+  fired once, on `c2s_021_a2`). Its minutes cover only the resumed part.
+
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 
 `harness/physics.py` rebuilds the ego's motion from each run's completed

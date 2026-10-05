@@ -51,3 +51,4 @@ Append one line when a board row changes state. Newest at the bottom.
 - 2026-10-02 — Campaign finished 30 Sep 21:39 (S1, C1, C2 committed in fd9e368). G1: exploration brief for Griffin, `griffin/BRIEF.md`.
 - 2026-10-05 — `WEEKLY.md` started: weekly digest for the update slides, backfilled for the week of 28 Sep.
 - 2026-10-05 — Physics contact check now uses real vehicle boxes (the centre-distance version gave one live false alarm in C2); 0 false of 256 clean runs. Campaign report built (`harness/campaign_report.txt`); c2_agent resumed after monitor.py aborted at run 32.
+- 2026-10-05 — C2 tier 1 finished after the resume. All six arms: 0 invalid runs kept after gate and audit; C1 75 → 30 → 0, C2 75 → 4 → 0. Silent faults were transient on retry, which rewards blind retries; C3 makes them persistent.

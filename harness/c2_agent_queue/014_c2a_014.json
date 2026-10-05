@@ -22,5 +22,6 @@
     "persistent": false,
     "after_s": null,
     "applied": false
-  }
+  },
+  "quarantine": "wizard-config.yaml has controller.mpc_implementation: kinematic_ideal instead of linear (the other 37 runs and the reference use linear), and physics.txt shows motion a car cannot make (max_abs_accel 9.373 m/s\u00b2, p99_abs_jerk 98.2 m/s\u00b3, other runs \u22643.5 and \u226416.2), so its metrics don't measure the batch's MPC-tracked setup."
 }

@@ -10,17 +10,18 @@
   },
   "attempt": 1,
   "parent": null,
-  "launched": false,
-  "pid": null,
-  "launched_at": null,
+  "launched": true,
+  "pid": 49777,
+  "launched_at": 1791235497.9636319,
   "environment": null,
   "env_cleanups": 0,
-  "resolution": null,
+  "resolution": "ACCEPT",
   "diagnosis": null,
   "fault": {
     "kind": "kinematic",
     "persistent": false,
     "after_s": null,
     "applied": false
-  }
+  },
+  "quarantine": "wizard-config.yaml has controller.mpc_implementation: kinematic_ideal instead of linear, and physics.txt shows motion a car cannot make (max_abs_accel 9.204 m/s\u00b2, p99_abs_jerk 87.5 m/s\u00b3), so it doesn't measure the setup its label claims."
 }

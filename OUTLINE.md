@@ -68,7 +68,12 @@ the script re-runs; the larger menu made that difference, not the tools. In
 the pilot campaign (C0) tier 1 halted a persistent failure after one launch
 where the script would spend three, and halted a transient hang it should have
 retried. Table: per fault kind, detected / recovered / launches / halted, for
-script, tier 0, tier 1, and the no-gate arm (`score_campaign.py`). Replayed five
+script, tier 0, tier 1, and the no-gate arm (`score_campaign.py`). Live, campaigns C1 and C2 (`campaign_report.txt`,
+`figures/campaign_outcomes.pdf`): tier 1 kept as many valid runs as the script
+(35 and 35 in C1) in fewer launches (72 against 80) and halted only the
+persistent fault, at its first failure; tier 0 halted 10 recoverable runs.
+Invalid runs kept after gate and audit: 0 in all six arms
+(`figures/campaign_invalid.pdf`). Replayed five
 times per tier (`repeat_tiers.txt`): script 4/6, tier 0 19/30, tier 1 24/30.
 Tier 1 is right on deleted and corrupt metrics (5/5 each) where tier 0 halts
 (0/5, 1/5): tools matter when the run exits 0 and the log shows nothing. The

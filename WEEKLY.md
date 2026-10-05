@@ -15,8 +15,9 @@ and tier 1 matched the script's yield with fewer wasted launches.
 - Campaign results analysed (`harness/campaign_report.txt`). Six arms: C1
   (physics off) and C2 (physics on) × script, tier 1, tier 0; 50 planned runs
   each.
-- Invalid runs kept, every C1 arm: **25 with no gate → 10 with the per-run gate
-  → 0 with the audit.** C2 (physics on): 25 → 0–1 → 0.
+- Invalid runs kept, all six arms: **0 after gate + audit.** Summed per
+  campaign: C1 (physics off) 75 → 30 → 0; C2 (physics on) 75 → 4 → 0.
+- C2 tier 1 finished after the resume: 36 valid kept in 72 launches.
 - C1, live: script 35 valid kept in 80 launches; **tier 1 35 in 72**; tier 0 25
   in 62. Tier 0 gave up on 10 recoverable runs (deleted or corrupt metrics,
   exit 0): tools matter when the log hides the cause, now shown live.
@@ -45,8 +46,8 @@ and tier 1 matched the script's yield with fewer wasted launches.
   of the fault design that the paper has to state.
 
 **Next**
-- Finish C2 tier 1, regenerate the report, and replace the replay-based
-  diagnosis figure with live campaign figures.
+- C3 overnight: seed 3, physics on, silent faults persistent (as a config
+  error would be).
 - Griffin's lateral-bias fault: the first fault that beats every check.
 
 **Slides**

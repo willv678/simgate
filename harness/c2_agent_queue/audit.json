@@ -1,0 +1,83 @@
+{
+ "ids": {
+  "b2_091": "r01",
+  "c2a_037": "r02",
+  "c2a_018": "r03",
+  "c2a_030_a2": "r04",
+  "c2a_039_a2": "r05",
+  "c2a_022": "r06",
+  "c2a_049_a2": "r07",
+  "c2a_044_a2": "r08",
+  "c2a_003": "r09",
+  "c2a_028_a2": "r10",
+  "c2a_010": "r11",
+  "c2a_007_a2": "r12",
+  "c2a_015": "r13",
+  "c2a_019_a2": "r14",
+  "c2a_020": "r15",
+  "c2a_048": "r16",
+  "c2a_031": "r17",
+  "c2a_050_a2": "r18",
+  "c2a_032": "r19",
+  "c2a_025_a2": "r20",
+  "c2a_013_a2": "r21",
+  "c2a_045": "r22",
+  "c2a_005_a2": "r23",
+  "c2a_043_a2": "r24",
+  "c2a_014": "r25",
+  "c2a_006_a2": "r26",
+  "c2a_046_a2": "r27",
+  "c2a_009_a2": "r28",
+  "c2a_038": "r29",
+  "c2a_026_a2": "r30",
+  "c2a_017_a3": "r31",
+  "c2a_040": "r32",
+  "c2a_027_a2": "r33",
+  "c2a_035": "r34",
+  "c2a_041_a2": "r35",
+  "c2a_042_a2": "r36",
+  "c2a_023_a2": "r37",
+  "c2a_004": "r38",
+  "c2a_036": "r39",
+  "c2a_033": "r40"
+ },
+ "flags": {
+  "c2a_014": "wizard-config.yaml has controller.mpc_implementation: kinematic_ideal instead of linear (the other 37 runs and the reference use linear), and physics.txt shows motion a car cannot make (max_abs_accel 9.373 m/s\u00b2, p99_abs_jerk 98.2 m/s\u00b3, other runs \u22643.5 and \u226416.2), so its metrics don't measure the batch's MPC-tracked setup.",
+  "c2a_038": "wizard-config.yaml has controller.mpc_implementation: kinematic_ideal instead of linear, and physics.txt shows motion a car cannot make (max_abs_accel 9.204 m/s\u00b2, p99_abs_jerk 87.5 m/s\u00b3), so it doesn't measure the setup its label claims.",
+  "c2a_004": "wizard-config.yaml has controller.mpc_implementation: kinematic_ideal instead of linear, and physics.txt shows motion a car cannot make (max_abs_accel 9.584 m/s\u00b2, p99_abs_jerk 105.8 m/s\u00b3, repeated -7 to -9.6 m/s\u00b2 decelerations after warm-up), so it doesn't measure the setup its label claims."
+ },
+ "rules": [
+  {
+   "id": "controller_mpc_linear",
+   "file": "wizard-config.yaml",
+   "path": "controller.mpc_implementation",
+   "op": "eq",
+   "value": "linear",
+   "reason": "The batch's setup uses the linear MPC (all good runs and the reference). kinematic_ideal swaps in a different controller, which produces motion a car cannot make (accel above 9 m/s\u00b2, jerk around 100 m/s\u00b3) and changes what tracking error and collisions measure."
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "context_tokens": 441469,
+ "turns": 24,
+ "duration_ms": 51758,
+ "admissions": [
+  {
+   "rule": {
+    "id": "controller_mpc_linear",
+    "file": "wizard-config.yaml",
+    "path": "controller.mpc_implementation",
+    "op": "eq",
+    "value": "linear",
+    "reason": "The batch's setup uses the linear MPC (all good runs and the reference). kinematic_ideal swaps in a different controller, which produces motion a car cannot make (accel above 9 m/s\u00b2, jerk around 100 m/s\u00b3) and changes what tracking error and collisions measure."
+   },
+   "admitted": true,
+   "caught": [
+    "c2a_004",
+    "c2a_014",
+    "c2a_038"
+   ],
+   "flagged": 3,
+   "clean_checked": 51
+  }
+ ]
+}
