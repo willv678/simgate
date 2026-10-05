@@ -44,6 +44,7 @@ University of Georgia). His slides from 2026-09-22 are in `source/diagrams.pdf`.
 | Anyone about to change code or launch a run | `STATUS.md`, then `FACTS.md` | the board row it finished |
 | Anyone asking "what is this project" | `GUIDE.md` (diagrams, results, slide plan); `MAP.md` is the older Loop 1 map | when a result or the claim changes |
 | Will or Griffin, for the semester plan | `WEEKS.md` | when a week is replanned |
+| Will, for the weekly update slides | `WEEKLY.md` (what got done, newest week first) | as work lands each week |
 | Griffin, or an agent launching rollouts | `RUNBOOK.md` | when a command in it is wrong |
 | Anyone tempted to re-diagnose the baseline | `FACTS.md` | when a new measurement replaces an old one |
 
