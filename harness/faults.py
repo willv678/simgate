@@ -37,6 +37,15 @@ KINDS = (
     "rails",
     "kinematic",
 )
+# Plan faults (Griffin, 2 Oct): AlpaSim's own plan-corruption hook, turned on by
+# settings, standing for sensor, planner and timing uncertainty (w_k). Not in
+# KINDS, so campaign plans stay as they were.
+PLAN_FAULTS = {
+    "lateral_bias": {"lateral_bias_m": 1.0},
+    "plan_freeze": {"freeze_plan_steps": 10},
+    "waypoint_noise": {"waypoint_noise_std": 0.3},
+}
+PLAN_FAULT_PREFIX = "runtime.simulation_config.fault_injection."
 MAX_FAKE_NETWORKS = 256
 DELAY_OVERRIDE = "runtime.simulation_config.planner_delay_us="
 FORCE_GT_OVERRIDE = "runtime.simulation_config.force_gt_duration_us="
@@ -78,6 +87,11 @@ def before_launch(fault: dict | None) -> None:
 def wizard_args(fault: dict | None, args: list[str]) -> list[str]:
     if fault is None:
         return args
+    if fault["kind"] in PLAN_FAULTS:
+        settings = {"enabled": "true", **PLAN_FAULTS[fault["kind"]]}
+        return args + [
+            f"{PLAN_FAULT_PREFIX}{key}={value}" for key, value in settings.items()
+        ]
     if fault["kind"] == "drop_delay":
         return [arg for arg in args if not arg.startswith(DELAY_OVERRIDE)]
     if fault["kind"] == "rails":
@@ -118,7 +132,7 @@ def shell_around(fault: dict | None, log_dir: Path) -> tuple[str, str, str]:
 
 
 def new_fault(kind: str, persistent: bool = False, after_s: int | None = None) -> dict:
-    if kind not in KINDS:
+    if kind not in KINDS and kind not in PLAN_FAULTS:
         raise ValueError(f"unknown fault {kind!r}")
     return {
         "kind": kind,

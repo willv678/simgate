@@ -24,6 +24,12 @@ and tier 1 matched the script's yield with fewer wasted launches.
   alarms in C1. The Auditor caught the other 5, so 30/30 together.
 - Griffin's exploration (`griffin/ideas.md`): a 1.0 m lateral-bias fault passes
   every physics bound while `offroad` and `wrong_lane` stay 0.
+- Physics contact check rebuilt on real vehicle boxes: 0 false alarms on 256
+  clean runs (was 1 live false alarm in C2).
+- Live campaign figures: `figures/campaign_invalid.pdf`,
+  `figures/campaign_outcomes.pdf` (replace the replay-based diagnosis chart).
+- Griffin's plan faults added (lateral bias, plan freeze, waypoint noise, using
+  AlpaSim's own hook); a 10-run batch queued after C2 tier 1.
 
 **Problems found**
 - The tier 1 arm of C2 stopped at run 32 of 50: `monitor.py` aborted in native
@@ -31,7 +37,9 @@ and tier 1 matched the script's yield with fewer wasted launches.
   stopped.
 - One live physics false alarm in C2: the contact check used centre distances
   and a rough lane width, and fired on a near-miss the simulator measured at
-  0.21 m apart. Being fixed with real vehicle boxes.
+  0.21 m apart. Fixed with real vehicle boxes; a first version double-counted
+  the ego's rear-axle offset and made 37 false contacts before the frame was
+  checked against the log.
 - With physics on, the script's blind retries keep more silent-fault runs than
   the models, because our injected faults do not repeat on a retry. A property
   of the fault design that the paper has to state.
@@ -39,7 +47,6 @@ and tier 1 matched the script's yield with fewer wasted launches.
 **Next**
 - Finish C2 tier 1, regenerate the report, and replace the replay-based
   diagnosis figure with live campaign figures.
-- Box-based contact check; recalibrate.
 - Griffin's lateral-bias fault: the first fault that beats every check.
 
 **Slides**

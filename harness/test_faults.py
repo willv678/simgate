@@ -71,3 +71,12 @@ def test_silent_faults_swap_one_argument():
         args[0],
         "runtime.simulation_config.force_gt_duration_us=60000000",
     ]
+
+
+def test_plan_faults_turn_on_alpasims_own_hook():
+    args = ["controller=linear"]
+    assert wizard_args(new_fault("lateral_bias"), args) == [
+        "controller=linear",
+        "runtime.simulation_config.fault_injection.enabled=true",
+        "runtime.simulation_config.fault_injection.lateral_bias_m=1.0",
+    ]
