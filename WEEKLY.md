@@ -30,7 +30,11 @@ and tier 1 matched the script's yield with fewer wasted launches.
 - Live campaign figures: `figures/campaign_invalid.pdf`,
   `figures/campaign_outcomes.pdf` (replace the replay-based diagnosis chart).
 - Griffin's plan faults added (lateral bias, plan freeze, waypoint noise, using
-  AlpaSim's own hook); a 10-run batch queued after C2 tier 1.
+  AlpaSim's own hook). First batch failed at config (Hydra needs `+` for a
+  block the base config lacks); tier 1 halted each at its first failure.
+  Fixed and rerun as g2: the first lateral-bias run passed the full gate,
+  physics included, and was kept. Griffin's finding holds live.
+- C3 queued overnight after g2: seed 3, physics on, silent faults persistent.
 
 **Problems found**
 - The tier 1 arm of C2 stopped at run 32 of 50: `monitor.py` aborted in native
