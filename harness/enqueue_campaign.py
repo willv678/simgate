@@ -25,12 +25,17 @@ L8_SCENE = "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554"
 DROPPED_DELAY_US = 100_000
 
 
-def fault_for(kind: str, rng: random.Random) -> dict:
+def fault_for(kind: str, rng: random.Random, silent_persistent: bool) -> dict:
+    """With silent_persistent, rails and kinematic repeat on a retry, as the
+    config error that causes them would. C1 and C2 ran without it."""
     if kind == "kill":
         return new_fault(kind, after_s=rng.randint(60, 150))
     if kind == "hang":
         return new_fault(kind, after_s=rng.randint(60, 150))
-    return new_fault(kind, persistent=kind == "drop_delay")
+    persistent = kind == "drop_delay" or (
+        silent_persistent and kind in ("rails", "kinematic")
+    )
+    return new_fault(kind, persistent=persistent)
 
 
 def main() -> int:
@@ -41,6 +46,7 @@ def main() -> int:
     parser.add_argument("--clean", type=int, required=True)
     parser.add_argument("--scene-ids", default=L8_SCENE)
     parser.add_argument("--seed", type=int, default=0)
+    parser.add_argument("--silent-persistent", action="store_true")
     args = parser.parse_args()
 
     rng = random.Random(args.seed)
@@ -57,7 +63,7 @@ def main() -> int:
             "scene_id": scenes[(index - 1) % len(scenes)],
             "trafficsim_device": "cpu",
         }
-        fault = None if kind is None else fault_for(kind, rng)
+        fault = None if kind is None else fault_for(kind, rng, args.silent_persistent)
         add(args.queue, new_entry(name, f"{RUN_ROOT}/{name}", config, fault=fault))
     print(f"queued {len(plan)} runs in {args.queue}")
     return 0

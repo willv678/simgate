@@ -45,7 +45,8 @@ PLAN_FAULTS = {
     "plan_freeze": {"freeze_plan_steps": 10},
     "waypoint_noise": {"waypoint_noise_std": 0.3},
 }
-PLAN_FAULT_PREFIX = "runtime.simulation_config.fault_injection."
+# The base config has no fault_injection block, so Hydra must add the keys (+).
+PLAN_FAULT_PREFIX = "+runtime.simulation_config.fault_injection."
 MAX_FAKE_NETWORKS = 256
 DELAY_OVERRIDE = "runtime.simulation_config.planner_delay_us="
 FORCE_GT_OVERRIDE = "runtime.simulation_config.force_gt_duration_us="
