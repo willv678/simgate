@@ -258,6 +258,16 @@ the motion ("max_abs_accel 25.5 m/s2 … impossible vehicle motion"; "frac on
 recording 1.0 … VaVAM never drove"). With summary metrics only it caught the 3
 rails (distance to the recording 0.00) and missed all 3 kinematic runs.
 
+Contact check, fixed 5 Oct: the first version compared centre distances in a
+rough lane and fired live in C2 on a near-miss the simulator measured at 0.21 m
+(`diag/c2s_021_a2`). It now overlaps real vehicle boxes from the log (every
+actor, the ego included, is logged at its box centre; adding the rear-axle
+offset again pushed the ego 1.47 m forward and made 37 false contacts in B2).
+Clean runs show corner slivers up to 0.1 m², which the evaluator's rounded
+bumpers ignore, and a real crash overlaps by 7 m² (`diag/s1_010`); the
+threshold is 0.25 m², set after seeing those slivers. Recalibrated: 0 false of
+256 clean runs, 6/6 silent faults.
+
 Found on the way: the runtime retries a failed rollout inside one run
 (`diag/s1_059` holds three rollouts, one complete). Neither the gate nor the
 loop sees these retries; a scene that crashes is retried until it does not.

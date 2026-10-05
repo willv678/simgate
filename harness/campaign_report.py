@@ -22,9 +22,10 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from physics import check, load_bounds
 from read_state import ROOT, load_entry, queue_entries
 from score_campaign import CORRUPTS_DATA, lineages, score
+
+from physics import check, load_bounds
 
 HARNESS = Path(__file__).resolve().parent
 ARMS = ("script", "agent", "model")
@@ -54,7 +55,7 @@ def arm_report(campaign: str, arm: str) -> dict:
     queue = HARNESS / f"{campaign}_{arm}_queue"
     entries = [load_entry(path) for path in queue_entries(queue)]
     chains = lineages(queue)
-    kind = lambda e: e["fault"]["kind"] if e["fault"] else "clean"  # noqa: E731
+    kind = lambda e: e["fault"]["kind"] if e["fault"] else "clean"
 
     valid_kept = invalid_after_gate = invalid_after_audit = 0
     for e in entries:
@@ -66,12 +67,16 @@ def arm_report(campaign: str, arm: str) -> dict:
         invalid_after_audit += corrupt and not quarantined
         valid_kept += not corrupt and not quarantined
 
-    per_kind = defaultdict(lambda: {"lineages": 0, "recovered": 0, "halted": 0, "launches": 0})
+    per_kind = defaultdict(
+        lambda: {"lineages": 0, "recovered": 0, "halted": 0, "launches": 0}
+    )
     for chain in chains:
         row = per_kind[kind(chain[0])]
         row["lineages"] += 1
         last = chain[-1]
-        row["recovered"] += last["resolution"] == "ACCEPT" and kind(last) not in CORRUPTS_DATA
+        row["recovered"] += (
+            last["resolution"] == "ACCEPT" and kind(last) not in CORRUPTS_DATA
+        )
         row["halted"] += last["resolution"] == "HALT"
         row["launches"] += sum(e["launched"] for e in chain)
 
@@ -135,7 +140,9 @@ def main() -> int:
         for arm in ARMS:
             r = arm_report(campaign, arm)
             if campaign == "c1":
-                r["physics_after_the_fact"] = physics_after_the_fact(campaign, arm, bounds)
+                r["physics_after_the_fact"] = physics_after_the_fact(
+                    campaign, arm, bounds
+                )
             report[f"{campaign}_{arm}"] = r
             lines.append(
                 f"{campaign} {NAMES[arm]}\t{r['planned']}\t{r['launches']}\t{r['valid_kept']}"
@@ -156,7 +163,9 @@ def main() -> int:
                 )
         lines.append(f"{k}\t" + "\t".join(cells))
     lines.append("")
-    lines.append("physics, fresh runs: C1 kept runs checked after the fact; C2 live failures")
+    lines.append(
+        "physics, fresh runs: C1 kept runs checked after the fact; C2 live failures"
+    )
     for key, r in report.items():
         if "physics_after_the_fact" in r:
             p = r["physics_after_the_fact"]

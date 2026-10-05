@@ -1,0 +1,26 @@
+arm	planned	launches	valid kept	invalid kept: no gate / gate / gate+audit	halts (by gate)	model calls	context tokens	minutes	complete
+c1 script	50	80	35	25 / 10 / 0	5 (5)	0	0	322.7	True
+c1 tier 1	50	72	35	25 / 10 / 0	5 (0)	32	1588475	294.0	True
+c1 tier 0	50	62	25	25 / 10 / 0	15 (0)	32	162813	255.7	True
+c2 script	50	91	45	25 / 0 / 0	5 (5)	0	0	367.3	True
+c2 tier 1	50	37	11	18 / 2 / 2	10 (0)	28	1348137	0	False
+c2 tier 0	50	61	26	25 / 1 / 0	23 (0)	39	210498	257.1	True
+
+per fault kind, recovered/lineages (launches, halts), C1 then C2:
+clean	c1_script: 10/10 (10, 0)	c1_agent: 10/10 (10, 0)	c1_model: 10/10 (10, 0)	c2_script: 10/10 (10, 0)	c2_agent: 6/10 (7, 0)	c2_model: 10/10 (10, 0)
+corrupt_metrics	c1_script: 5/5 (10, 0)	c1_agent: 5/5 (10, 0)	c1_model: 0/5 (5, 5)	c2_script: 5/5 (10, 0)	c2_agent: 0/5 (3, 0)	c2_model: 1/5 (6, 4)
+delete_metrics	c1_script: 5/5 (10, 0)	c1_agent: 5/5 (10, 0)	c1_model: 0/5 (5, 5)	c2_script: 5/5 (10, 0)	c2_agent: 0/5 (3, 0)	c2_model: 0/5 (5, 5)
+drop_delay	c1_script: 0/5 (15, 5)	c1_agent: 0/5 (5, 5)	c1_model: 0/5 (5, 5)	c2_script: 0/5 (15, 5)	c2_agent: 0/5 (4, 4)	c2_model: 0/5 (5, 5)
+fill_network_pool	c1_script: 5/5 (5, 0)	c1_agent: 5/5 (5, 0)	c1_model: 5/5 (5, 0)	c2_script: 5/5 (5, 0)	c2_agent: 5/5 (5, 0)	c2_model: 5/5 (5, 0)
+hang	c1_script: 5/5 (10, 0)	c1_agent: 5/5 (12, 0)	c1_model: 5/5 (12, 0)	c2_script: 5/5 (10, 0)	c2_agent: 0/5 (4, 0)	c2_model: 5/5 (10, 0)
+kill	c1_script: 5/5 (10, 0)	c1_agent: 5/5 (10, 0)	c1_model: 5/5 (10, 0)	c2_script: 5/5 (10, 0)	c2_agent: 0/5 (3, 0)	c2_model: 5/5 (10, 0)
+kinematic	c1_script: 0/5 (5, 0)	c1_agent: 0/5 (5, 0)	c1_model: 0/5 (5, 0)	c2_script: 5/5 (10, 0)	c2_agent: 0/5 (3, 1)	c2_model: 0/5 (5, 4)
+rails	c1_script: 0/5 (5, 0)	c1_agent: 0/5 (5, 0)	c1_model: 0/5 (5, 0)	c2_script: 5/5 (11, 0)	c2_agent: 0/5 (5, 5)	c2_model: 0/5 (5, 5)
+
+physics, fresh runs: C1 kept runs checked after the fact; C2 live failures
+c1_script	silent caught 9/10	other runs flagged 0/35
+c1_agent	silent caught 9/10	other runs flagged 0/35
+c1_model	silent caught 7/10	other runs flagged 0/25
+c2_script	live physics failures {'silent': 10, 'other': 1}
+c2_agent	live physics failures {'silent': 6}
+c2_model	live physics failures {'silent': 9}

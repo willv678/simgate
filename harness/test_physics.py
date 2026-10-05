@@ -5,7 +5,7 @@ import numpy as np
 from physics import features
 
 
-def _signals(xs, reported=None, recorded_offset=1.0, gap=30.0):
+def _signals(xs, reported=None, recorded_offset=1.0, gap=30.0, overlap=0.0):
     n = len(xs)
     speed = np.diff(xs) / 0.1
     return {
@@ -16,6 +16,7 @@ def _signals(xs, reported=None, recorded_offset=1.0, gap=30.0):
         "reported_speed": speed if reported is None else reported,
         "off_recording_m": np.full(n, recorded_offset),
         "lead_gap_m": np.full(n, gap),
+        "overlap_m2": np.full(n, overlap),
     }
 
 
@@ -36,10 +37,13 @@ def test_a_teleport_shows_in_acceleration_and_speed_report():
 
 def test_driving_on_the_recording_and_unscored_contact():
     found = features(
-        _signals(np.arange(0, 12.0), recorded_offset=0.0, gap=1.0), collided=False
+        _signals(np.arange(0, 12.0), recorded_offset=0.0, overlap=2.0), collided=False
     )
     assert found["frac_on_recording"] == 1.0
     assert found["contact_without_collision"]
-    assert not features(_signals(np.arange(0, 12.0), gap=1.0), collided=True)[
-        "contact_without_collision"
-    ]
+    # Overlapping boxes are fine when the collision was scored.
+    scored = features(_signals(np.arange(0, 12.0), overlap=2.0), collided=True)
+    assert not scored["contact_without_collision"]
+    # A close actor whose box does not overlap is not contact.
+    near = features(_signals(np.arange(0, 12.0), gap=0.5), collided=False)
+    assert not near["contact_without_collision"]
