@@ -18,6 +18,7 @@ def _plan(**change):
         "per_round": 5,
         "rationale": "r",
         "goal": {"type": "none"},
+        "fixed": {"traffic": "catk"},
     }
     return {**plan, **change}
 
@@ -39,6 +40,8 @@ def test_a_plan_within_the_catalog_and_budget_runs():
         {"rounds": 0},
         {"rounds": MAX_RUNS, "per_round": 2},  # over the run budget
         {"goal": {"type": "separate", "scene": "clipgt-b"}},  # malformed goal
+        {"vary": ["actor_time_shift_s"]},  # actor knobs need replay and a class
+        {"vary": ["actor_time_shift_s"], "fixed": {"traffic": "replay"}},
     ],
 )
 def test_a_plan_outside_them_is_rejected(change):

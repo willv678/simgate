@@ -17,7 +17,7 @@ def _run(**change):
 
 def test_a_legal_run_is_queued_with_the_inner_loops_settings():
     assert rejection(_run(), SCENES, DELAY) is None
-    config = run_config("clipgt-a", {"planner_delay_us": 100_000})
+    config = run_config("clipgt-a", {"planner_delay_us": 100_000}, {})
     assert config["planner_delay_us"] == 100_000
     assert config["lateral_bias_m"] == 0.0
     assert config["context_length"] == 8

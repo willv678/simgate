@@ -92,10 +92,11 @@ def make_run(tmp_path: Path, scene_file: Path):
             yaml.safe_dump(
                 {
                     "runtime": {
+                        "endpoints": {"trafficsim": {"skip": False}},
                         "simulation_config": {
                             "planner_delay_us": delay,
                             "cameras": [{"frame_interval_us": 500_000}],
-                        }
+                        },
                     },
                     "scenes": {
                         "scenes_csv": [str(scene_file)],

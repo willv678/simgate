@@ -74,6 +74,8 @@ TYPES = {
     "planner_delay_us": "integer",
     "lateral_bias_m": "number",
     "waypoint_noise_std": "number",
+    "actor_time_shift_s": "number",
+    "actor_speed_scale": "number",
 }
 
 
@@ -310,6 +312,7 @@ class Study:
     seed: int = 0
     goal: dict | None = None
     goal_file: Path | None = None
+    fixed: dict | None = None
 
 
 def pilot(name: str, candidate_count: int, varied: tuple, **settings) -> Study:
@@ -450,7 +453,7 @@ def run_study(study: Study) -> list[dict]:
                 continue
             name = f"{study.name}_{len(planned(study.queue)) + 1:03d}"
             settings = {knob: proposed[knob] for knob in study.varied}
-            config = run_config(proposed["scene_id"], settings)
+            config = run_config(proposed["scene_id"], settings, study.fixed or {})
             add(study.queue, new_entry(name, f"{RUN_ROOT}/{name}", config))
             queued.append({**proposed, "run": name})
 

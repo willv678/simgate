@@ -41,7 +41,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from goals import goal_problems
 from headless import ask
-from knobs import DESCRIPTIONS, SCENARIO
+from knobs import (
+    DESCRIPTIONS,
+    RETIME_CLASSES,
+    SCENARIO,
+    TRAFFIC_MODES,
+    fixed_problems,
+)
 from outer import Study, history, results, run_study, scene_facts
 from read_state import ROOT
 from triage import triage_study
@@ -65,6 +71,15 @@ PLAN_SCHEMA = {
         "rounds": {"type": "integer"},
         "per_round": {"type": "integer"},
         "rationale": {"type": "string"},
+        "fixed": {
+            "type": "object",
+            "properties": {
+                "traffic": {"type": "string", "enum": list(TRAFFIC_MODES)},
+                "retime_class": {"type": "string", "enum": list(RETIME_CLASSES)},
+            },
+            "required": ["traffic"],
+            "additionalProperties": False,
+        },
         "goal": {
             "type": "object",
             "properties": {
@@ -88,6 +103,7 @@ PLAN_SCHEMA = {
         },
     },
     "required": [
+        "fixed",
         "goal",
         "question",
         "objective",
@@ -135,6 +151,7 @@ def plan_problems(plan: dict, scenes: set[str]) -> list[str]:
         problems.append(f"per_round must be 1 to {MAX_PER_ROUND}")
     if plan["rounds"] < 1 or plan["rounds"] * plan["per_round"] > MAX_RUNS:
         problems.append(f"rounds x per_round must be 1 to {MAX_RUNS} runs")
+    problems += fixed_problems(plan["fixed"], tuple(plan["vary"]))
     if plan["goal"]["type"] != "none" and not problems:
         problems += goal_problems(
             plan["goal"], set(plan["scenes"]), tuple(plan["vary"])
@@ -177,6 +194,7 @@ def study_of(folder: Path, name: str, plan: dict, proposer: str, model: str) -> 
         proposer=proposer,
         model=model,
         goal=None if plan["goal"]["type"] == "none" else plan["goal"],
+        fixed=plan["fixed"],
         goal_file=folder / "goal.json",
     )
 

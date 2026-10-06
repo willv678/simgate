@@ -37,9 +37,11 @@ from read_state import (
     load_entry,
     plan_request,
     read_state,
+    retime_request,
     run_dir,
     save_entry,
     subsample_factor,
+    traffic_mode,
 )
 
 
@@ -57,7 +59,7 @@ def wizard_command(config: dict, log_dir: Path) -> list[str]:
         "deploy=local",
         "topology=1gpu",
         "driver=vavam",
-        "trafficsim=catk",
+        f"trafficsim={'catk' if traffic_mode(config) == 'catk' else 'disabled'}",
         "controller=linear",
         f"driver.inference.context_length={config['context_length']}",
         f"driver.inference.subsample_factor={subsample_factor(config)}",
@@ -69,10 +71,23 @@ def wizard_command(config: dict, log_dir: Path) -> list[str]:
         f"runtime.simulation_config.planner_delay_us={config['planner_delay_us']}",
         f"scenes.scenes_csv=[{ROOT / config['scene_file']}]",
         f"scenes.scene_ids=[{config['scene_id']}]",
-        f"trafficsim.catk.device={config['trafficsim_device']}",
         f"wizard.log_dir={log_dir}",
         *plan_args(plan_request(config)),
+        *traffic_args(config),
     ]
+
+
+def traffic_args(config: dict) -> list[str]:
+    """The CATK device when CATK runs, and the actor retiming rule if any (the
+    base config has no actor_retiming block, so Hydra must add it, +)."""
+    args = []
+    if traffic_mode(config) == "catk":
+        args.append(f"trafficsim.catk.device={config['trafficsim_device']}")
+    rule = retime_request(config)
+    if rule is not None:
+        body = ",".join(f"{k}:{v}" for k, v in rule.items())
+        args.append(f"+runtime.simulation_config.actor_retiming.rules=[{{{body}}}]")
+    return args
 
 
 def main() -> int:

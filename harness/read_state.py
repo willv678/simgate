@@ -173,6 +173,41 @@ def plan_request(config: dict) -> dict:
     }
 
 
+def traffic_mode(config: dict) -> str:
+    """ "catk": the CATK model drives other actors after the warm-up; "replay":
+    they follow their recorded (possibly retimed) tracks for the whole run.
+    Entries queued before 7 Oct 2026 have no traffic key: CATK."""
+    return config.get("traffic", "catk")
+
+
+def retime_request(config: dict) -> dict | None:
+    """The actor retiming the run asks for (AlpaSim's actor_retiming hook), or
+    None: one rule over the recorded actors of `retime_class`."""
+    shift = config.get("actor_time_shift_s", 0.0)
+    scale = config.get("actor_speed_scale", 1.0)
+    if config.get("retime_class") is None or (shift == 0.0 and scale == 1.0):
+        return None
+    return {
+        "label_class": config["retime_class"],
+        "time_shift_s": shift,
+        "speed_scale": scale,
+    }
+
+
+def retime_not_applied(entry: dict) -> str | None:
+    """A retiming that matched no actor would leave the scene as recorded and
+    the run labelled with a shift it never had: the runtime logs one line per
+    retimed actor, and at least one must name the requested class."""
+    request = retime_request(entry["config"])
+    if request is None:
+        return None
+    log = run_dir(entry) / "txt-logs" / "runtime_worker_0.log"
+    marker = f"({request['label_class']}): time_shift_s="
+    if log.is_file() and marker in log.read_text(encoding="utf-8", errors="replace"):
+        return None
+    return f"retime_not_applied: no {request['label_class']} actor was retimed"
+
+
 def frame_interval_us(config: dict) -> int:
     return config.get("frame_interval_us", LEGACY_FRAME_INTERVAL_US)
 
@@ -193,7 +228,12 @@ def config_not_landed(entry: dict) -> list[str]:
         "planner_delay_us": extract_resolved_config(path)["planner_delay_us"],
         "scene_file": wizard["scenes"]["scenes_csv"],
         "scene_id": wizard["scenes"]["scene_ids"],
-        "trafficsim_device": wizard["trafficsim"]["catk"]["device"],
+        "traffic": "replay"
+        if wizard["runtime"]["endpoints"]["trafficsim"]["skip"]
+        else "catk",
+        "actor_retiming": wizard["runtime"]["simulation_config"]
+        .get("actor_retiming", {})
+        .get("rules", []),
         "frame_interval_us": wizard["runtime"]["simulation_config"]["cameras"][0][
             "frame_interval_us"
         ],
@@ -208,14 +248,22 @@ def config_not_landed(entry: dict) -> list[str]:
         "planner_delay_us": config["planner_delay_us"],
         "scene_file": [str(ROOT / config["scene_file"])],
         "scene_id": [config["scene_id"]],
-        "trafficsim_device": config["trafficsim_device"],
+        "traffic": traffic_mode(config),
+        "actor_retiming": [r] if (r := retime_request(config)) else [],
         "frame_interval_us": frame_interval_us(config),
         "subsample_factor": subsample_factor(config),
         **{key: plan_request(config)[key] for key in PLAN_KEYS},
     }
+    # The CATK device only exists when CATK runs.
+    keys = [k for k in CONFIG_KEYS if k != "trafficsim_device"]
+    if requested["traffic"] == "catk":
+        keys.append("trafficsim_device")
+        requested["trafficsim_device"] = config["trafficsim_device"]
+        resolved["trafficsim_device"] = wizard["trafficsim"]["catk"]["device"]
+    extra = ("traffic", "actor_retiming", "frame_interval_us", "subsample_factor")
     return [
         f"{key} requested {requested[key]}, resolved {resolved[key]}"
-        for key in (*CONFIG_KEYS, "frame_interval_us", "subsample_factor", *PLAN_KEYS)
+        for key in (*keys, *extra, *PLAN_KEYS)
         if requested[key] != resolved[key]
     ]
 
@@ -253,6 +301,10 @@ def read_state(entry: dict) -> RunState:
     mismatches = config_not_landed(entry)
     if mismatches:
         return RunState(State.FAILED, "config_not_landed: " + "; ".join(mismatches))
+
+    unapplied = retime_not_applied(entry)
+    if unapplied is not None:
+        return RunState(State.FAILED, unapplied)
 
     broken = violations(load_rules(), run_dir(entry), entry["config"])
     if broken:

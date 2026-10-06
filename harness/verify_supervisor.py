@@ -114,10 +114,11 @@ def _launch(entry: dict, outcome: str) -> None:
         json.dumps(
             {
                 "runtime": {
+                    "endpoints": {"trafficsim": {"skip": False}},
                     "simulation_config": {
                         "planner_delay_us": 0,
                         "cameras": [{"frame_interval_us": frame_interval_us(config)}],
-                    }
+                    },
                 },
                 "scenes": {"scenes_csv": [config["scene_file"]], "scene_ids": [SCENE]},
                 "trafficsim": {"catk": {"device": config["trafficsim_device"]}},

@@ -36,6 +36,14 @@ setting can pass once and fail the next time, so rates need repeats.
   answered (a scene that already fails at 0 delay cannot show a delay effect).
 - `rounds`, `per_round`: within the caps; more rounds let the proposer adapt.
 - `rationale`: why this plan answers the brief, and what it cannot answer.
+- `fixed`: settings that hold for the whole study. `traffic`: "catk" (a
+  learned traffic model drives the other actors after the warm-up, reacting
+  to the ego) or "replay" (they follow their recorded tracks, as scripted test
+  actors do in Euro NCAP-style tests). `retime_class`: which recorded actors
+  the actor knobs retime ("person" pedestrians, "rider" cyclists,
+  "automobile", "heavy_truck"). Varying `actor_time_shift_s` or
+  `actor_speed_scale` requires "replay" and a `retime_class`; a scene with no
+  actor of that class fails its runs, so choose scenes that have one.
 - `goal`: the brief's win condition in a form code checks after every round;
   the study stops as soon as it is met, so a good goal saves runs. One of:
   - `{"type": "separate", "scene", "knob", "low", "high"}`: the failure rate
