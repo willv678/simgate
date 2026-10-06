@@ -10,13 +10,52 @@
   },
   "attempt": 1,
   "parent": null,
-  "launched": false,
-  "pid": null,
-  "launched_at": null,
+  "launched": true,
+  "pid": 1396810,
+  "launched_at": 1791312459.6881688,
   "environment": null,
   "env_cleanups": 0,
-  "resolution": null,
-  "diagnosis": null,
+  "resolution": "HALT",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "g3_004",
+      "k_status": "config_not_landed: waypoint_noise_std requested 0.0, resolved 0.3",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-06T18:47:46.941Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 2313937520622 outside range [2313934420622, 2313937420623)",
+        "ValueError: Interpolation timestamp 2313937520622 outside range [2313934420622, 2313937420623)",
+        "controller-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n742 MiB, 11110 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  489G  422G  54% /\n",
+    "skill": "HALT",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 17954,
+    "output_tokens": 391,
+    "duration_ms": 7316,
+    "tool_calls": [
+      "Grep: waypoint_noise"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
   "fault": {
     "kind": "waypoint_noise",
     "persistent": false,

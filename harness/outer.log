@@ -200,3 +200,5 @@ audit: {"audited": 8, "quarantined": [], "references": ["s1_006"], "scenes_witho
 {"round": 2, "queued": 4, "dropped": 0}
 report: /home/willvarner/alpasim/research/studies/confirm_break_02eadd92/report.md
 2026-10-06T14:34:49-04:00 confirm_break_02eadd92 study done
+2026-10-06T15:33:53-04:00 v1 (VaVAM in-spec frames) starting
+001_v1_001.json: READY -> run_experiment.py {"pid": 1439177, "run_dir": "diag/v1_001"}

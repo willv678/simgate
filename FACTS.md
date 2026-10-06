@@ -379,6 +379,36 @@ steps, 3 rounds of 5 runs each, every run through the full inner loop
   behind a car stopping at a red light. One reporter draft wrote "5 of 5"
   where the table had 4 of 4; reports now may not state counts in prose.
 
+## g3, the confirmation study, and VaVAM's frames, 6 Oct afternoon
+
+- **g3** (held out: 4 waypoint noise 0.3 m, 4 lateral bias 0.3 m, 4 clean, on
+  four scenes outside g2; tier 1): every faulted run failed postflight at the
+  config check ("lateral_bias_m requested 0.0, resolved 0.3"; the plan
+  perturbations are checked settings since 6 Oct) and was halted; 4 clean
+  kept, audit flagged none. Physics on the same runs: offset 0.298–0.300 m
+  (bias) and scatter 0.295–0.306 m (noise), clean ≤ 0.005 m. Config-blind
+  Auditor (`plan_audit_eval_g3.txt`): 8/8 caught with one reference and with
+  a reference per scene, 0 of 4 clean flagged. The written prediction
+  hedged on noise; it was caught.
+- **Plan scatter**, now unbiased (median per-step sample variance over the
+  chi-square median): 0.3 m requested → 0.295–0.306 m; unperturbed ≤ 0.005 m
+  over 612 kept runs. The earlier per-step std read 0.258–0.267 m.
+- **Confirmation study** (`studies/confirm_break_02eadd92/`): 8 runs, 4 at
+  100 ms (2 failed, both over 3.5 m off the recording) and 4 at 150 ms (4
+  failed). Not confirmed: the 90% ranges (18–82%, 60–100%) overlap. Pooled with
+  the pilot: 100 ms 2/6, 150 ms 6/6 (`figures/delay_curve_02eadd92.pdf`).
+  The pilot's report had called 0–58% and 42–100% "not overlapping"; goals
+  are now checked by code (`goals.py`).
+- **VaVAM's frames.** The runtime asks the driver for a plan every control step
+  (`runtime/events/policy.py:161`); our runs render a frame every 500 ms
+  (`vavam_configs.yaml`) with 100 ms control, so four of five plans reuse the
+  last 8 frames, and VAM anchors each plan at the current pose
+  (`driver/.../main.py:1084-1099`): up to 400 ms of image staleness at 0
+  planner delay. Frame spacing inside the context is the correct 500 ms.
+  AlpaSim's VaVAM default is context_length 1 with 3 s warm-up; 8 frames need
+  ≥ 3.5 s. v1 (running): the first 20 S1 scenes with a frame every 100 ms and
+  subsample_factor 5, to compare with S1's runs of the same scenes.
+
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 
 `harness/physics.py` rebuilds the ego's motion from each run's completed
