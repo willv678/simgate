@@ -322,6 +322,17 @@ Held-out check of all current bounds (plan handoff included) on every kept
 C1 and C2 run, none of which set the plan-handoff bound
 (`campaign_report.txt`): 0 of 202 runs without a silent fault flagged.
 
+Why some kinematic runs pass physics, 6 Oct (`jerk_separation.py`,
+`jerk_separation.txt`; every run on disk with a completed rollout, 43
+kinematic and 644 others, rails left out). The kinematic controller peaks at
+6.6–9.2 m/s² on gentle scenes, under the 10 m/s² bound, and clean S1 runs reach
+8.0. Jerk does not rescue it: p99 jerk is at least 78.8 m/s³ on every kinematic
+run but 101 on one clean highway run (`s1_009`, linear MPC, no fault); the
+share of steps above 20 m/s³ overlaps on the same run; median jerk separates
+with 3.80 against 3.70, too thin to set a bound on. A motion-only check cannot
+tell this fault from a jerky clean run, so it is left to the Auditor, which
+reads the config and compares with a reference from the same scene.
+
 Plan faults (g2: 4 lateral bias 1.0 m, 4 plan freeze, 2 clean; two scenes),
 6 Oct. The gate kept all 10: the motion is possible. The Auditor with configs
 hidden caught 0/8 with one reference and with a reference per scene
