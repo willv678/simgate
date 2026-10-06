@@ -107,7 +107,8 @@ async def _read(path: Path) -> dict:
             poses = message.driver_return.trajectory.poses
             if poses:
                 plans[poses[0].timestamp_us] = [
-                    (p.timestamp_us, p.pose.vec.x, p.pose.vec.y) for p in poses
+                    (p.timestamp_us, p.pose.vec.x, p.pose.vec.y, _yaw(p.pose.quat))
+                    for p in poses
                 ]
         elif kind == "controller_request":
             request = message.controller_request
@@ -145,24 +146,33 @@ async def _read(path: Path) -> dict:
     }
 
 
-def _handoff_gap(pose: tuple, driver_plan: list, given: list) -> float:
-    """Largest sideways distance between the driver's plan, moved into the
-    ego's rig frame, and the plan the controller was given, over their shared
-    times. Sideways only: a few ms of timestamp jitter moves points along the
-    road by up to 10 cm at highway speed, while a corrupted plan moves them
-    across it."""
+def _handoff_deviations(pose: tuple, driver_plan: list, given: list) -> np.ndarray:
+    """Signed distance from the driver's plan, moved into the ego's rig frame,
+    to the plan the controller was given, along each waypoint's left normal,
+    at each of their shared times: a lateral bias of b moves every waypoint by
+    exactly b along it. Across the path only: a few ms of timestamp jitter
+    moves points along the road by up to 10 cm at highway speed, while a
+    corrupted plan moves them across it."""
     ex, ey, yaw = pose
     t = np.array([p[0] for p in driver_plan], dtype=float)
     dx = np.array([p[1] for p in driver_plan]) - ex
     dy = np.array([p[2] for p in driver_plan]) - ey
     rx = np.cos(-yaw) * dx - np.sin(-yaw) * dy
     ry = np.sin(-yaw) * dx + np.cos(-yaw) * dy
-    gaps = [
-        abs(gy - float(np.interp(gt, t, ry)))
-        for gt, _, gy in given
-        if t[0] <= gt <= t[-1]
-    ]
-    return max(gaps) if gaps else 0.0
+    heading = np.unwrap([p[3] for p in driver_plan]) - yaw
+    deviations = []
+    for gt, gx, gy in given:
+        if t[0] <= gt <= t[-1]:
+            h = float(np.interp(gt, t, heading))
+            ox, oy = gx - float(np.interp(gt, t, rx)), gy - float(np.interp(gt, t, ry))
+            deviations.append(-np.sin(h) * ox + np.cos(h) * oy)
+    return np.array(deviations)
+
+
+def _handoff_gap(pose: tuple, driver_plan: list, given: list) -> float:
+    """Largest sideways distance between the two plans over their shared times."""
+    deviations = _handoff_deviations(pose, driver_plan, given)
+    return float(np.max(np.abs(deviations))) if len(deviations) else 0.0
 
 
 def signals(run_dir: Path) -> dict:
@@ -219,6 +229,7 @@ def signals(run_dir: Path) -> dict:
             [_handoff_gap(*h[:3]) for h in raw["handoffs"]] or [0.0]
         ),
         "plan_age_ms": np.array([h[3] / 1e3 for h in raw["handoffs"]] or [0.0]),
+        "plan_deviations": [_handoff_deviations(*h[:3]) for h in raw["handoffs"]],
     }
 
 
@@ -226,6 +237,12 @@ def _collided(run_dir: Path) -> bool:
     metrics = pd.read_parquet(completed_rollout(run_dir) / "metrics.parquet")
     values = metrics.loc[metrics["name"] == "collision_any", "values"]
     return bool(len(values)) and float(values.max()) > 0
+
+
+def _median_over_steps(deviations: list, reduce) -> float:
+    """The median over handoffs of one statistic of each handoff's deviations."""
+    per_step = [reduce(d) for d in deviations if len(d)]
+    return float(np.median(per_step)) if per_step else 0.0
 
 
 def features(s: dict, collided: bool) -> dict:
@@ -247,6 +264,8 @@ def features(s: dict, collided: bool) -> dict:
         "median_plan_handoff_m": float(np.median(s["plan_handoff_m"])),
         "median_plan_age_ms": float(np.median(s["plan_age_ms"])),
         "max_plan_age_ms": float(np.max(s["plan_age_ms"])),
+        "median_plan_offset_m": _median_over_steps(s["plan_deviations"], np.median),
+        "plan_noise_m": _median_over_steps(s["plan_deviations"], np.std),
         "contact_without_collision": bool(
             np.max(s["overlap_m2"]) > OVERLAP_M2 and not collided
         ),
@@ -262,21 +281,38 @@ def load_bounds() -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def plan_age_problem(found: dict, planner_delay_us: int, slack_ms: float) -> str | None:
-    """The plan's age must be the requested delay, up to one control step."""
-    delay_ms = planner_delay_us / 1e3
+def plan_problems(found: dict, request: dict, bounds: dict) -> list[str]:
+    """The plan the controller got must be the driver's plan with exactly what
+    the run asked for: its age the requested delay (up to one control step),
+    its offset the requested lateral bias, its scatter the requested noise."""
+    problems = []
+    delay_ms = request["planner_delay_us"] / 1e3
+    slack_ms = bounds["plan_age"]["slack_ms"]
     median, oldest = found["median_plan_age_ms"], found["max_plan_age_ms"]
-    if delay_ms <= median < delay_ms + slack_ms and oldest < delay_ms + slack_ms:
-        return None
-    return (
-        f"physics: plan age median {median:.0f} ms, max {oldest:.0f} ms; "
-        f"the requested planner delay is {delay_ms:.0f} ms"
-    )
+    if not (delay_ms <= median < delay_ms + slack_ms and oldest < delay_ms + slack_ms):
+        problems.append(
+            f"physics: plan age median {median:.0f} ms, max {oldest:.0f} ms; "
+            f"the requested planner delay is {delay_ms:.0f} ms"
+        )
+    match = bounds["plan_matches_request"]
+    offset = found["median_plan_offset_m"]
+    if abs(offset - request["lateral_bias_m"]) > match["offset_tolerance_m"]:
+        problems.append(
+            f"physics: plan offset {offset:+.3f} m; the requested lateral bias is "
+            f"{request['lateral_bias_m']:+.3f} m"
+        )
+    noise = found["plan_noise_m"]
+    if abs(noise - request["waypoint_noise_std"]) > match["noise_tolerance_m"]:
+        problems.append(
+            f"physics: plan scatter {noise:.3f} m; the requested waypoint noise is "
+            f"{request['waypoint_noise_std']:.3f} m"
+        )
+    return problems
 
 
-def check(run_dir: Path, bounds: dict, planner_delay_us: int) -> list[str]:
-    """Physics problems of a finished run under `bounds`, given the planner
-    delay it requested. Empty when it passes."""
+def check(run_dir: Path, bounds: dict, request: dict) -> list[str]:
+    """Physics problems of a finished run under `bounds`, given what it asked of
+    the plan (read_state.plan_request). Empty when it passes."""
     try:
         found = run_features(run_dir)
     except FileNotFoundError as exc:
@@ -290,13 +326,7 @@ def check(run_dir: Path, bounds: dict, planner_delay_us: int) -> list[str]:
         problems.append(
             "physics: the ego's box overlapped another actor's and no collision was scored"
         )
-    if "plan_age" in bounds:
-        stale = plan_age_problem(
-            found, planner_delay_us, bounds["plan_age"]["slack_ms"]
-        )
-        if stale:
-            problems.append(stale)
-    return problems
+    return problems + plan_problems(found, request, bounds)
 
 
 def main() -> int:

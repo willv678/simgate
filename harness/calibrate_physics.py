@@ -15,9 +15,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from read_state import ROOT, load_entry, queue_entries
-
 from physics import check, load_bounds, run_features
+from read_state import ROOT, load_entry, plan_request, queue_entries
 
 HARNESS = Path(__file__).resolve().parent
 OUTPUT = HARNESS / "physics_calibration.json"
@@ -62,7 +61,7 @@ def main() -> int:
             path = ROOT / entry["run_dir"]
             rows[name] = {
                 "features": run_features(path),
-                "problems": check(path, bounds, entry["config"]["planner_delay_us"]),
+                "problems": check(path, bounds, plan_request(entry["config"])),
             }
         results[group] = rows
         flagged = sum(bool(r["problems"]) for r in rows.values())

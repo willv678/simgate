@@ -55,6 +55,15 @@ FORCE_GT_OVERRIDE = "runtime.simulation_config.force_gt_duration_us="
 RAILS_FORCE_GT_US = 60_000_000
 
 
+def plan_hook_args(settings: dict) -> list[str]:
+    """Wizard overrides that turn on AlpaSim's plan-corruption hook with these
+    settings. The base config has no such block, so Hydra must add it (+)."""
+    return [
+        f"{PLAN_FAULT_PREFIX}{key}={value}"
+        for key, value in {"enabled": "true", **settings}.items()
+    ]
+
+
 def fill_network_pool() -> list[str]:
     created = []
     for index in range(MAX_FAKE_NETWORKS):
@@ -90,10 +99,7 @@ def wizard_args(fault: dict | None, args: list[str]) -> list[str]:
     if fault is None:
         return args
     if fault["kind"] in PLAN_FAULTS:
-        settings = {"enabled": "true", **PLAN_FAULTS[fault["kind"]]}
-        return args + [
-            f"{PLAN_FAULT_PREFIX}{key}={value}" for key, value in settings.items()
-        ]
+        return args + plan_hook_args(PLAN_FAULTS[fault["kind"]])
     if fault["kind"] == "drop_delay":
         return [arg for arg in args if not arg.startswith(DELAY_OVERRIDE)]
     if fault["kind"] == "rails":
