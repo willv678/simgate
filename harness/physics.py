@@ -8,6 +8,11 @@ reduces it to a few features that physics.json thresholds (K⁺) can bound:
 - consistency: the speed the vehicle model reported against the speed the poses
   imply, and how much of the run the ego sits exactly on the recorded human
   trajectory;
+- plan handoff: after the force-GT warm-up (its length is in the log), the plan
+  the controller was asked to track against the plan the driver returned, put
+  in the same frame, sideways. In a clean run they are the same plan, up to
+  occasional interpolation on curves; plan corruption (a bias, a frozen plan)
+  moves the median gap;
 - car following: the gap and time headway to the nearest actor ahead in the
   ego's lane, and whether the ego's box overlapped any actor's box (real sizes
   from the log; actor_poses already gives every actor, the ego included, at
@@ -74,13 +79,16 @@ def _footprint(x: float, y: float, yaw: float, size: tuple[float, float]):
 
 async def _read(path: Path) -> dict:
     ego, others, reported, recorded = {}, {}, {}, None
-    sizes = {}
+    sizes, handoffs, driver_plan, warm_up_end = {}, [], None, 0
     async for message in async_read_pb_log(str(path)):
         kind = message.WhichOneof("log_entry")
         if kind == "rollout_metadata":
             meta = message.rollout_metadata
             for actor in meta.actor_definitions.actor_aabb:
                 sizes[actor.actor_id] = (actor.aabb.size_x, actor.aabb.size_y)
+            warm_up_end = (
+                meta.session_metadata.start_timestamp_us + meta.force_gt_duration
+            )
         elif kind == "actor_poses":
             poses = message.actor_poses
             t = poses.timestamp_us
@@ -91,10 +99,24 @@ async def _read(path: Path) -> dict:
                     ego[t] = point
                 else:
                     others.setdefault(t, []).append((*point, actor.actor_id))
+        elif kind == "driver_return":
+            poses = message.driver_return.trajectory.poses
+            if poses:
+                driver_plan = [
+                    (p.timestamp_us, p.pose.vec.x, p.pose.vec.y) for p in poses
+                ]
         elif kind == "controller_request":
-            state = message.controller_request.state
+            request = message.controller_request
+            state = request.state
             velocity = state.state.linear_velocity
             reported[state.timestamp_us] = float(np.hypot(velocity.x, velocity.y))
+            if driver_plan is not None and state.timestamp_us >= warm_up_end:
+                given = [
+                    (p.timestamp_us, p.pose.vec.x, p.pose.vec.y)
+                    for p in request.planned_trajectory_in_rig.poses
+                ]
+                pose = (state.pose.vec.x, state.pose.vec.y, _yaw(state.pose.quat))
+                handoffs.append((pose, driver_plan, given))
         elif kind == "traffic_session_request" and recorded is None:
             for obj in message.traffic_session_request.logged_object_trajectories:
                 if obj.object_id == EGO:
@@ -108,7 +130,28 @@ async def _read(path: Path) -> dict:
         "reported": reported,
         "recorded": recorded,
         "sizes": sizes,
+        "handoffs": handoffs,
     }
+
+
+def _handoff_gap(pose: tuple, driver_plan: list, given: list) -> float:
+    """Largest sideways distance between the driver's plan, moved into the
+    ego's rig frame, and the plan the controller was given, over their shared
+    times. Sideways only: a few ms of timestamp jitter moves points along the
+    road by up to 10 cm at highway speed, while a corrupted plan moves them
+    across it."""
+    ex, ey, yaw = pose
+    t = np.array([p[0] for p in driver_plan], dtype=float)
+    dx = np.array([p[1] for p in driver_plan]) - ex
+    dy = np.array([p[2] for p in driver_plan]) - ey
+    rx = np.cos(-yaw) * dx - np.sin(-yaw) * dy
+    ry = np.sin(-yaw) * dx + np.cos(-yaw) * dy
+    gaps = [
+        abs(gy - float(np.interp(gt, t, ry)))
+        for gt, _, gy in given
+        if t[0] <= gt <= t[-1]
+    ]
+    return max(gaps) if gaps else 0.0
 
 
 def signals(run_dir: Path) -> dict:
@@ -161,6 +204,9 @@ def signals(run_dir: Path) -> dict:
         "off_recording_m": off_recording,
         "lead_gap_m": np.array(gaps),
         "overlap_m2": np.array(overlaps),
+        "plan_handoff_m": np.array(
+            [_handoff_gap(*h) for h in raw["handoffs"]] or [0.0]
+        ),
     }
 
 
@@ -186,6 +232,7 @@ def features(s: dict, collided: bool) -> dict:
         "min_lead_gap_m": float(np.min(s["lead_gap_m"])),
         "min_time_headway_s": float(np.min(headway)),
         "max_overlap_m2": float(np.max(s["overlap_m2"])),
+        "median_plan_handoff_m": float(np.median(s["plan_handoff_m"])),
         "contact_without_collision": bool(
             np.max(s["overlap_m2"]) > OVERLAP_M2 and not collided
         ),

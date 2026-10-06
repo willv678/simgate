@@ -17,6 +17,10 @@
   "frac_on_recording": {
    "max": 0.98,
    "why": "Share of steps the ego sits within 5 cm of the recorded human trajectory. A policy that drives leaves the recording at least once, even in slow scenes where it stays close (clean maximum 0.87, s1_056); 1.0 means the recording drove the whole run."
+  },
+  "median_plan_handoff_m": {
+   "max": 0.05,
+   "why": "Median sideways distance, after the force-GT warm-up, between the plan the controller was given and the plan the driver returned, in the ego's frame. They are the same plan in a clean run (medians 0 to 0.01 m; single steps on curves can differ). A larger median means the plan was changed between the driver and the controller: a bias, a frozen plan."
   }
  },
  "dropped": {

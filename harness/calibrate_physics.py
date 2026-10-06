@@ -23,10 +23,12 @@ HARNESS = Path(__file__).resolve().parent
 OUTPUT = HARNESS / "physics_calibration.json"
 TABLE = HARNESS / "physics_calibration.txt"
 SILENT = ("rails", "kinematic")
+PLAN = ("lateral_bias", "plan_freeze", "waypoint_noise")
 
 
-def kept(queue: str, faulted: bool | None) -> dict[str, Path]:
-    """Kept runs of a queue; faulted None means any, True only silent faults."""
+def kept(queue: str, faulted: bool | None, kinds: tuple = SILENT) -> dict[str, Path]:
+    """Kept runs of a queue; faulted None means any, True only `kinds` faults,
+    False none of them."""
     runs = {}
     for path in queue_entries(HARNESS / queue):
         entry = load_entry(path)
@@ -34,9 +36,9 @@ def kept(queue: str, faulted: bool | None) -> dict[str, Path]:
             continue
         fault = entry.get("fault")
         kind = fault["kind"] if fault else None
-        if faulted is True and kind not in SILENT:
+        if faulted is True and kind not in kinds:
             continue
-        if faulted is False and kind in SILENT:
+        if faulted is False and kind in kinds:
             continue
         runs[entry["name"]] = ROOT / entry["run_dir"]
     return runs
@@ -49,6 +51,8 @@ def main() -> int:
         "S1 clean (other scenes, held out)": kept("s1_queue", None),
         "pilot clean": kept("c0_queue", False),
         "silent faults": kept("c0_queue", True),
+        "plan faults (g2)": kept("g2_plan_queue", True, PLAN),
+        "g2 clean": kept("g2_plan_queue", False, PLAN),
     }
     results = {}
     lines = ["group\truns\tflagged\tfeature maxima"]

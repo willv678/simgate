@@ -17,6 +17,7 @@ def _signals(xs, reported=None, recorded_offset=1.0, gap=30.0, overlap=0.0):
         "off_recording_m": np.full(n, recorded_offset),
         "lead_gap_m": np.full(n, gap),
         "overlap_m2": np.full(n, overlap),
+        "plan_handoff_m": np.zeros(n),
     }
 
 

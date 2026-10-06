@@ -1,5 +1,7 @@
 group	runs	flagged	feature maxima
-B2 clean (one scene)	150	0	{"max_abs_accel": 1.478, "max_abs_yaw_rate": 0.116, "max_speed_report_error": 0.02, "frac_on_recording": 0.475}
-S1 clean (other scenes, held out)	100	0	{"max_abs_accel": 8.003, "max_abs_yaw_rate": 0.894, "max_speed_report_error": 0.314, "frac_on_recording": 0.869}
-pilot clean	6	0	{"max_abs_accel": 0.845, "max_abs_yaw_rate": 0.067, "max_speed_report_error": 0.02, "frac_on_recording": 0.475}
-silent faults	6	6	{"max_abs_accel": 25.486, "max_abs_yaw_rate": 31.148, "max_speed_report_error": 29.257, "frac_on_recording": 1.0}
+B2 clean (one scene)	150	0	{"max_abs_accel": 1.478, "max_abs_yaw_rate": 0.116, "max_speed_report_error": 0.02, "frac_on_recording": 0.475, "median_plan_handoff_m": 0.0}
+S1 clean (other scenes, held out)	100	0	{"max_abs_accel": 8.003, "max_abs_yaw_rate": 0.894, "max_speed_report_error": 0.314, "frac_on_recording": 0.869, "median_plan_handoff_m": 0.008}
+pilot clean	6	0	{"max_abs_accel": 0.845, "max_abs_yaw_rate": 0.067, "max_speed_report_error": 0.02, "frac_on_recording": 0.475, "median_plan_handoff_m": 0.0}
+silent faults	6	6	{"max_abs_accel": 25.486, "max_abs_yaw_rate": 31.148, "max_speed_report_error": 29.257, "frac_on_recording": 1.0, "median_plan_handoff_m": 0.0}
+plan faults (g2)	8	8	{"max_abs_accel": 4.509, "max_abs_yaw_rate": 1.432, "max_speed_report_error": 0.334, "frac_on_recording": 0.459, "median_plan_handoff_m": 1.0}
+g2 clean	2	0	{"max_abs_accel": 1.088, "max_abs_yaw_rate": 0.21, "max_speed_report_error": 0.069, "frac_on_recording": 0.459, "median_plan_handoff_m": 0.0}
