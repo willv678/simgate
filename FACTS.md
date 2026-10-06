@@ -324,7 +324,8 @@ C1 and C2 run, none of which set the plan-handoff bound
 
 Why some kinematic runs pass physics, 6 Oct (`jerk_separation.py`,
 `jerk_separation.txt`; every run on disk with a completed rollout, 43
-kinematic and 644 others, rails left out). The kinematic controller peaks at
+kinematic and 644 others on the night of 6 Oct, rails left out; the script
+reads whatever is on disk, so the count grows as C3 and C4 add runs). The kinematic controller peaks at
 6.6–9.2 m/s² on gentle scenes, under the 10 m/s² bound, and clean S1 runs reach
 8.0. Jerk does not rescue it: p99 jerk is at least 78.8 m/s³ on every kinematic
 run but 101 on one clean highway run (`s1_009`, linear MPC, no fault); the

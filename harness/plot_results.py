@@ -48,8 +48,11 @@ def _style(ax) -> None:
 
 def _save(fig, name: str) -> None:
     FIGURES.mkdir(exist_ok=True)
-    for suffix in ("pdf", "png"):
-        fig.savefig(FIGURES / f"{name}.{suffix}", dpi=200, facecolor=SURFACE)
+    # No creation date in the PDF, so an unchanged figure is an unchanged file.
+    fig.savefig(
+        FIGURES / f"{name}.pdf", facecolor=SURFACE, metadata={"CreationDate": None}
+    )
+    fig.savefig(FIGURES / f"{name}.png", dpi=200, facecolor=SURFACE)
     plt.close(fig)
 
 
