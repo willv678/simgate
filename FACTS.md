@@ -312,6 +312,36 @@ scene (six, from B2 and S1). Source: `campaign_report.txt`.
 - Both audits proposed a `controller.mpc_implementation` rule that the
   admission step accepts (fires on the flagged runs, 0 of 51 clean).
 
+## Inner loop before the outer loop, 6 Oct 2026
+
+- **Outcomes are random.** B2 ran one scene 150 times with one config: front
+  collision in 35, lateral in 10, rear in 10, any collision in 46. A failure
+  is a rate, not a property of a setting. (Metrics of B2's kept runs.)
+- **VaVAM fails often at 0 delay.** S1, one run on each of 100 scenes:
+  collision in 27, off-road in 36, wrong lane in 59, rear collision in 22.
+- **Every delay run would have failed the plan-handoff bound.** Old 50, 100
+  and 200 ms runs (`diag/batch_5..7_delay_*`) measured 0.120, 0.134 and
+  0.165 m against a 0.05 m bound. Two causes: the check compared the handed
+  plan with the newest driver plan, not its source; and a delayed plan reaches
+  the controller in the ego's frame from when it was made
+  (`events/controller.py`: the rig-frame plan goes through the delay buffer).
+  Matched by timestamp and compared in that frame: 0.0001 m.
+- **Plan age.** The plan the controller got is exactly as old as the delay
+  rounded up to the control step: 0 ms at every step in all 589 kept campaign,
+  B2, S1 and g2 runs at 0 delay; 100, 100 and 200 ms on the 50, 100 and
+  200 ms runs; frozen plans (g2) median 400 ms, max 900 ms.
+- **Plan offset and scatter** (branch `perception`): measured along each
+  waypoint's normal, where the runtime applies a lateral bias. Unperturbed
+  runs: median offset within ±0.003 m, scatter ≤ 0.004 m (589 runs + 3 delay
+  runs); requested 1.0 m bias (g2): 0.9999–1.0001 m, scatter ≤ 0.0001 m.
+  Measured along the ego's heading instead it read 0.91–0.98 m.
+- **Stalls.** The rollout log grows while the simulation runs; normal runs
+  pause log writes ≤ ~32 s (sampled on C3's tier 0 runs); a stall bound of
+  120 s stops a frozen run about 8 minutes before the 10 min timeout.
+- **Time per run** (c3m_028, 3.5 min): 20 s startup, ~110 s simulation, ~35 s
+  video encoding, ~13 s shutdown, up to 30 s of monitor polling (now 5 s in
+  outer-loop studies).
+
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 
 `harness/physics.py` rebuilds the ego's motion from each run's completed

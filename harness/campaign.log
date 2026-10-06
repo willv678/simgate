@@ -3188,3 +3188,65 @@ queued 50 runs in research/harness/c3_model_queue
 034_c3m_034.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
 034_c3m_034.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
 035_c3m_035.json: READY -> run_experiment.py {"pid": 1111966, "run_dir": "diag/c3m_035"}
+035_c3m_035.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+035_c3m_035.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 6447, "output_tokens": 807, "duration_ms": 8877, "tool_calls": [], "denied": []}
+035_c3m_035.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+035_c3m_035.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+036_c3m_036.json: READY -> run_experiment.py {"pid": 1116036, "run_dir": "diag/c3m_036"}
+036_c3m_036.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+036_c3m_036.json: FAILED -> diagnose.py {"policy": "model", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 6450, "output_tokens": 900, "duration_ms": 10754, "tool_calls": [], "denied": []}
+036_c3m_036.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+036_c3m_036.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "058_c3m_036_a2.json", "cleanup": null}
+037_c3m_037.json: READY -> run_experiment.py {"pid": 1119625, "run_dir": "diag/c3m_037"}
+037_c3m_037.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+037_c3m_037.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3441, "output_tokens": 1034, "duration_ms": 11608, "tool_calls": [], "denied": []}
+037_c3m_037.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+037_c3m_037.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+038_c3m_038.json: READY -> run_experiment.py {"pid": 1123204, "run_dir": "diag/c3m_038"}
+038_c3m_038.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.0}
+038_c3m_038.json: COMPLETE -> analyze.py {"appended": true}
+038_c3m_038.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+039_c3m_039.json: READY -> run_experiment.py {"pid": 1127068, "run_dir": "diag/c3m_039"}
+039_c3m_039.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.5}
+039_c3m_039.json: FAILED -> diagnose.py {"policy": "model", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3231, "output_tokens": 753, "duration_ms": 9073, "tool_calls": [], "denied": []}
+039_c3m_039.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+039_c3m_039.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "059_c3m_039_a2.json", "cleanup": "docker compose down on diag/c3m_039"}
+040_c3m_040.json: READY -> run_experiment.py {"pid": 1130176, "run_dir": "diag/c3m_040"}
+040_c3m_040.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+040_c3m_040.json: COMPLETE -> analyze.py {"appended": true}
+040_c3m_040.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+041_c3m_041.json: READY -> run_experiment.py {"pid": 1133650, "run_dir": "diag/c3m_041"}
+041_c3m_041.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.0}
+041_c3m_041.json: FAILED -> diagnose.py {"policy": "model", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3230, "output_tokens": 748, "duration_ms": 8310, "tool_calls": [], "denied": []}
+041_c3m_041.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+041_c3m_041.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "060_c3m_041_a2.json", "cleanup": "docker compose down on diag/c3m_041"}
+042_c3m_042.json: READY -> run_experiment.py {"pid": 1136705, "run_dir": "diag/c3m_042"}
+042_c3m_042.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+042_c3m_042.json: COMPLETE -> analyze.py {"appended": true}
+042_c3m_042.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+043_c3m_043.json: READY -> run_experiment.py {"pid": 1140132, "run_dir": "diag/c3m_043"}
+043_c3m_043.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+043_c3m_043.json: COMPLETE -> analyze.py {"appended": true}
+043_c3m_043.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+044_c3m_044.json: READY -> run_experiment.py {"pid": 1143563, "run_dir": "diag/c3m_044"}
+044_c3m_044.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+044_c3m_044.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3396, "output_tokens": 1224, "duration_ms": 14500, "tool_calls": [], "denied": []}
+044_c3m_044.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+044_c3m_044.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+045_c3m_045.json: READY -> run_experiment.py {"pid": 1147067, "run_dir": "diag/c3m_045"}
+045_c3m_045.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.5}
+045_c3m_045.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3402, "output_tokens": 1146, "duration_ms": 12792, "tool_calls": [], "denied": []}
+045_c3m_045.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+045_c3m_045.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+046_c3m_046.json: READY -> run_experiment.py {"pid": 1150814, "run_dir": "diag/c3m_046"}
+046_c3m_046.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+046_c3m_046.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3407, "output_tokens": 619, "duration_ms": 8272, "tool_calls": [], "denied": []}
+046_c3m_046.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+046_c3m_046.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+047_c3m_047.json: READY -> run_experiment.py {"pid": 1154356, "run_dir": "diag/c3m_047"}
+047_c3m_047.json: RUNNING -> monitor.py {"timed_out": true, "stalled": false, "minutes": 10.0}
+047_c3m_047.json: FAILED -> diagnose.py {"policy": "model", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 6678, "output_tokens": 362, "duration_ms": 4568, "tool_calls": [], "denied": []}
+047_c3m_047.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+047_c3m_047.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "061_c3m_047_a2.json", "cleanup": "docker compose down on diag/c3m_047"}
+048_c3m_048.json: READY -> run_experiment.py {"pid": 1166687, "run_dir": "diag/c3m_048"}
+048_c3m_048.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
