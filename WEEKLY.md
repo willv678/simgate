@@ -149,7 +149,19 @@ and tier 1 matched the script's yield with fewer wasted launches.
    0.9999–1.0001 m measured; clean ±0.003 m).
 6. **Outer loop v1, live:** Claude's plan per round, what it ran, what it
    found, vs random (`figures/pilot_grid.pdf`). [fill at 2:30]
-7. **Next two weeks:** more knobs, the comparison at scale, triage.
+6b. **Ask it a question.** A researcher writes a short brief
+   (`briefs/latency_budget.md`: "at what delay does the policy start failing?
+   I need a latency budget"). Claude turns it into a plan in 26 s: 6 clean
+   scenes from 2.6 to 30.4 m/s, bisect then repeat, 30 runs, and its own
+   limits ("a bracket, not a rate"; "road type cannot be identified"). Code
+   checks the plan against the knob catalog and budget. After the runs,
+   Claude writes the answer citing settings; code puts the counts next to
+   each claim (`studies/pilot_o1/report.md`: "02eadd92 breaks between 100
+   and 150 ms; 01d503d4 fails with no delay, so it is not a delay effect").
+   Running end to end tonight.
+7. **Next two weeks:** scene tags (from logs and video frames) so a brief can
+   say "intersections with pedestrians"; finer grids near a boundary; the
+   LLM-vs-random comparison at scale; triage of failures.
 
 ---
 
