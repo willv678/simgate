@@ -327,7 +327,9 @@ sideways gap between the driver's plan and the controller's, after the
 warm-up) separates them: clean runs 0 to 0.008 m over 258 runs, plan faults
 0.14 to 1.0 m (`physics_calibration.txt`). Given that number in `physics.txt`,
 the Auditor caught 4/8 with one reference (all lateral bias) and 8/8 with a
-reference per scene, with no false flag (`plan_audit_eval.txt`). The plan
+reference per scene, with no false flag (`plan_audit_eval.txt`); two more
+audits of the per-scene condition with new seeds gave 8/8 and 8/8
+(`plan_audit_repeat_80.txt`, `plan_audit_repeat_90.txt`). The plan
 freeze shows only against a reference from the same scene.
 
 Found on the way: the runtime retries a failed rollout inside one run

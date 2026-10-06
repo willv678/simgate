@@ -1,0 +1,30 @@
+{
+ "a reference per scene": {
+  "flags": {
+   "g2_008": "runs/r02/physics.txt median_plan_handoff_m: 1.000 (reference runs r01/r03: 0.000), so the plan the controller tracked was shifted ~1 m sideways from VaVAM's plan, not the nominal VaVAM\u2192MPC setup the batch claims; its yaw rate of 0.869 rad/s and speed-report error of 0.266 fit that.",
+   "g2_003": "runs/r07/physics.txt median_plan_handoff_m: 1.000 against 0.000 in the references, so the controller was handed a plan offset ~1 m from the driver's; that matches max_abs_yaw_rate 1.369, max_abs_accel 4.509 and tracking_error 7.0, which reflect the plan change rather than the policy.",
+   "g2_006": "runs/r08/physics.txt median_plan_handoff_m: 1.000 against 0.000 in the references, so the driver's plan was altered before the controller got it, and the run is not the nominal VaVAM-driven setup its label implies.",
+   "g2_001": "runs/r12/physics.txt median_plan_handoff_m: 1.000 against 0.000 in the references, so the plan was offset ~1 m before reaching the MPC (max_abs_yaw_rate 1.432, tracking_error 6.91), and the motion is not the policy's own.",
+   "g2_004": "runs/r04/physics.txt median_plan_handoff_m: 0.141 where untouched runs (r01, r03, r06, r09) show exactly 0.000, so something changed the driver's plan before the controller got it; the ego also stops while the lead car is 17\u201328 m ahead and pulling away (dist 17.66 m vs 27.6\u201327.8 m for untouched runs on the same scene).",
+   "g2_002": "runs/r10/physics.txt median_plan_handoff_m: 0.142 where untouched runs show 0.000, so the plan was modified between driver and controller; this is the same signature as r04 (dist 18.21 m vs ~27.6 m for untouched runs on scene 01d503d4).",
+   "g2_007": "runs/r05/physics.txt median_plan_handoff_m: 0.140 against 0.000 for untouched runs r03/r06 on the same scene, so the plan the MPC tracked was not the plan VaVAM returned.",
+   "g2_009": "runs/r11/physics.txt median_plan_handoff_m: 0.211 against 0.000 for untouched runs r03/r06 on the same scene, so the plan was changed before the controller got it, contradicting the nominal VaVAM\u2192MPC claim."
+  },
+  "caught": [
+   "g2_001",
+   "g2_002",
+   "g2_003",
+   "g2_004",
+   "g2_006",
+   "g2_007",
+   "g2_008",
+   "g2_009"
+  ],
+  "by_kind": {
+   "lateral_bias": 4,
+   "plan_freeze": 4
+  },
+  "clean_flagged": [],
+  "refs_flagged": []
+ }
+}

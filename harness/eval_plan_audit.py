@@ -13,6 +13,7 @@ Writes plan_audit_eval.json and .txt.
     uv run python research/harness/eval_plan_audit.py
 """
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -38,19 +39,40 @@ CLAIM = (
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--seed-base", type=int, default=60)
+    parser.add_argument("--only", choices=("one reference", "a reference per scene"))
+    parser.add_argument("--out", type=Path, default=OUTPUT)
+    args = parser.parse_args()
     entries = [load_entry(p) for p in queue_entries(HARNESS / "g2_plan_queue")]
     faulted = {e["name"] for e in entries if e["fault"]}
     base_runs = {e["name"]: ROOT / e["run_dir"] for e in entries}
     base_labels = {e["name"]: e["config"] for e in entries}
-    results, lines = {}, ["condition\tplan faults caught\tclean flagged\treferences flagged"]
-    conditions = {"one reference": ["b2_091"], "a reference per scene": list(REFERENCES)}
+    results, lines = (
+        {},
+        ["condition\tplan faults caught\tclean flagged\treferences flagged"],
+    )
+    conditions = {
+        "one reference": ["b2_091"],
+        "a reference per scene": list(REFERENCES),
+    }
     for seed, (condition, refs) in enumerate(conditions.items()):
+        if args.only and condition != args.only:
+            continue
         runs, labels = dict(base_runs), dict(base_labels)
         for name in refs:
             ref = load_entry(REFERENCES[name])
             runs[name] = ROOT / ref["run_dir"]
             labels[name] = {**ref["config"], "reference": True}
-        report = audit(CLAIM, runs, labels, MODEL, seed=60 + seed, configs=False, motion=True)
+        report = audit(
+            CLAIM,
+            runs,
+            labels,
+            MODEL,
+            seed=args.seed_base + seed,
+            configs=False,
+            motion=True,
+        )
         flagged = set(report["flags"])
         caught = flagged & faulted
         results[condition] = {
@@ -58,7 +80,9 @@ def main() -> int:
             "caught": sorted(caught),
             "by_kind": {
                 kind: sum(
-                    e["name"] in caught for e in entries if e["fault"] and e["fault"]["kind"] == kind
+                    e["name"] in caught
+                    for e in entries
+                    if e["fault"] and e["fault"]["kind"] == kind
                 )
                 for kind in ("lateral_bias", "plan_freeze")
             },
@@ -72,8 +96,8 @@ def main() -> int:
         )
         print(lines[-1], flush=True)
     lines.append(f"model\t{MODEL}\tconfigs hidden, motion shown")
-    OUTPUT.write_text(json.dumps(results, indent=1) + "\n")
-    TABLE.write_text("\n".join(lines) + "\n")
+    args.out.write_text(json.dumps(results, indent=1) + "\n")
+    args.out.with_suffix(".txt").write_text("\n".join(lines) + "\n")
     return 0
 
 
