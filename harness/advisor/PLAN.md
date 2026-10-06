@@ -20,9 +20,13 @@ setting can pass once and fail the next time, so rates need repeats.
 - `brief`: the researcher's text.
 - `knobs`: every scenario knob, with its legal `values` and `meaning`.
 - `scenes`: every scene available, with what one earlier run at 0 delay
-  showed: failed or not, closest approach to another actor, progress, top
-  speed, distance driven. Scenes have no descriptions or tags yet; speed and
-  distance are the only hints to the kind of road.
+  showed (failed or not, closest approach to another actor, progress, top
+  speed, distance driven), its `tags` among the five categories
+  (lead_vehicle, unprotected_left, merge_cut_in, intersection,
+  pedestrian_crossing; from the recorded tracks and from Claude reading three
+  frames), its recorded `turn`, and `key_actors`: the recorded actor ids a
+  study could retime there (lead_vehicle, pedestrian closest to the ego's
+  path, cut_in, crossing_vehicle, oncoming).
 - `max_runs`, `max_per_round`: the budget caps.
 
 ## The answer

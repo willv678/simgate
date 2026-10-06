@@ -55,6 +55,7 @@ from triage import triage_study
 HARNESS = Path(__file__).resolve().parent
 STUDIES = ROOT / "research" / "studies"
 PLANNER = HARNESS / "advisor" / "PLAN.md"
+SCENE_TAGS = HARNESS / "scene_tags.json"
 REPORTER = HARNESS / "advisor" / "REPORT.md"
 MAX_RUNS = 60
 MAX_PER_ROUND = 10
@@ -165,8 +166,42 @@ def plan_problems(plan: dict, scenes: set[str]) -> list[str]:
     return problems
 
 
+def tagged_scenes() -> list[dict]:
+    """Each scene's facts, with its categories from scene_tags.json and the
+    actors a study could retime there. A category the log's rules found counts
+    even when Claude's three frames missed it (a pedestrian on screen for a
+    few seconds); Claude's other tags count as it gave them."""
+    tags = json.loads(SCENE_TAGS.read_text(encoding="utf-8"))
+    found = []
+    for fact in scene_facts():
+        entry = tags.get(fact["scene_id"])
+        if entry is None:
+            found.append({**fact, "tags": [], "key_actors": {}})
+            continue
+        facts = entry["facts"]
+        pedestrians = sorted(facts["pedestrians_near"], key=lambda p: p["closest_m"])
+        key_actors = {
+            "lead_vehicle": facts["lead"]["actor"] if facts["lead"] else None,
+            "pedestrian": pedestrians[0]["actor"] if pedestrians else None,
+            "cut_in": facts["cut_ins"][0]["actor"] if facts["cut_ins"] else None,
+            "crossing_vehicle": facts["crossing_vehicles"][0]["actor"]
+            if facts["crossing_vehicles"]
+            else None,
+            "oncoming": facts["oncoming"][0]["actor"] if facts["oncoming"] else None,
+        }
+        found.append(
+            {
+                **fact,
+                "tags": sorted(set(entry["final_tags"]) | set(entry["rule_tags"])),
+                "turn": facts["turn"],
+                "key_actors": {k: v for k, v in key_actors.items() if v is not None},
+            }
+        )
+    return found
+
+
 def make_plan(brief: str, model: str) -> tuple[dict, dict]:
-    facts = scene_facts()
+    facts = tagged_scenes()
     data = {
         "brief": brief,
         "knobs": {
