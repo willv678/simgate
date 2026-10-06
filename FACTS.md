@@ -348,6 +348,14 @@ audits of the per-scene condition with new seeds gave 8/8 and 8/8
 (`plan_audit_repeat_80.txt`, `plan_audit_repeat_90.txt`). The plan
 freeze shows only against a reference from the same scene.
 
+Prediction for g3, written 6 Oct before it ran (4 waypoint noise 0.3 m, 4
+lateral bias 0.3 m, 4 clean, on four scenes outside g2; physics live with
+the current bounds, tier 1): the plan-handoff bound fails all 8 faulted
+launches (0.3 m bias and noise of 0.3 m std both give a median sideways gap
+well above 0.05 m) and none of the 4 clean ones. The config-blind Auditor
+(`eval_plan_audit.py --queue g3_plan_queue`, chained after g3) catches the
+lateral biases with a reference per scene; the waypoint noise is a guess.
+
 Found on the way: the runtime retries a failed rollout inside one run
 (`diag/s1_059` holds three rollouts, one complete). Neither the gate nor the
 loop sees these retries; a scene that crashes is retried until it does not.
