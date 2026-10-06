@@ -2,7 +2,8 @@
 
 1. campaign_invalid: invalid runs kept in the dataset, summed over the three
    arms of each campaign, with no gate, the per-run gate, and gate plus audit.
-   C1 ran with the physics bounds off, C2 with them on.
+   C1 ran with the physics bounds off, C2 with them on, C3 with them on and the
+   silent faults persistent. A campaign appears once all three arms finished.
 2. campaign_outcomes: C1 per policy, three small panels with one axis each:
    valid runs kept, launches spent, runs handed to a person.
 
@@ -27,8 +28,12 @@ from plot_results import SERIES, SURFACE, TEXT, TEXT_SECONDARY, _save, _style
 HARNESS = Path(__file__).resolve().parent
 REPORT = HARNESS / "campaign_report.json"
 POLICIES = {"script": "Script", "model": "Tier 0", "agent": "Tier 1"}
-CAMPAIGN_COLOR = {"c1": SERIES["script"], "c2": SERIES["tier1"]}
-CAMPAIGN_NAME = {"c1": "C1: physics off", "c2": "C2: physics on"}
+CAMPAIGN_COLOR = {"c1": SERIES["script"], "c2": SERIES["tier1"], "c3": SERIES["tier0"]}
+CAMPAIGN_NAME = {
+    "c1": "C1: physics off",
+    "c2": "C2: physics on",
+    "c3": "C3: persistent silent faults",
+}
 
 
 def invalid(report: dict) -> dict:
@@ -37,16 +42,24 @@ def invalid(report: dict) -> dict:
         "Per-run gate": "invalid_kept_gate",
         "Gate + audit": "invalid_kept_audit",
     }
+    finished = [
+        c
+        for c in CAMPAIGN_NAME
+        if all(report.get(f"{c}_{p}", {}).get("complete") for p in POLICIES)
+    ]
     totals = {
         c: {s: sum(report[f"{c}_{p}"][k] for p in POLICIES) for s, k in stages.items()}
-        for c in CAMPAIGN_NAME
+        for c in finished
     }
-    fig, ax = plt.subplots(figsize=(3.4, 2.0), facecolor=SURFACE)
+    fig, ax = plt.subplots(
+        figsize=(3.4, 2.0 + 0.3 * (len(finished) - 2)), facecolor=SURFACE
+    )
     _style(ax)
     labels = list(stages)[::-1]
-    height = 0.36
-    for index, campaign in enumerate(CAMPAIGN_NAME):
-        ys = [row + (0.5 - index) * height for row in range(len(labels))]
+    height = 0.72 / len(finished)
+    for index, campaign in enumerate(finished):
+        offset = (len(finished) - 1) / 2 - index
+        ys = [row + offset * height for row in range(len(labels))]
         values = [totals[campaign][label] for label in labels]
         ax.barh(
             ys,
@@ -72,7 +85,7 @@ def invalid(report: dict) -> dict:
         frameon=False,
         loc="upper center",
         bbox_to_anchor=(0.55, 1.0),
-        ncol=2,
+        ncol=len(finished),
         handlelength=1.2,
     )
     fig.tight_layout(rect=(0, 0, 1, 0.9))

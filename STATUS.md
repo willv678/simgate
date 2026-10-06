@@ -92,7 +92,7 @@ nothing else. On success it sets `done`, writes the artifact path, and appends
 | P1 | done | Physics checks (Shao, 29 Sep): K⁺ bounds on the rebuilt motion, and the motion as Auditor evidence. | `physics.py`, `rules/physics.json`, `calibrate_physics.py`, `eval_physics_audit.py`. 0 false of 233 clean, 6/6 silent faults, no config read. Auditor with configs hidden: 6/6 with motion, 3/6 without. Off in C1, on in C2. |
 | G1 | todo | Griffin, Fri 2 Oct: explore new menu parameters, faults that hide in the numbers, physics checks, and agent jobs, on branch `griffin/explore`. | `research/griffin/BRIEF.md`; hand-in `research/griffin/ideas.md` and the branch. |
 | S1 | doing | One run per local scene (101) through `loop.py --policy agent`. Started 29 Sep, 11:50. | `research/harness/s1_trace.jsonl`. |
-| L13 | doing | Full draft. | `research/paper/main.tex` (IEEEtran, Overleaf-ready with `refs.bib` and `figures/`). Draft v0, 6 Oct: all sections, results from C1, C2, S1, the auditor and physics evaluations. Pending: C3, the g3 held-out plan faults, Figure 1, verified citations. |
+| L13 | doing | Full draft. | `research/paper/main.tex` (IEEEtran, Overleaf-ready with `refs.bib` and `figures/`). Draft v0, 6 Oct: all sections, results from C1, C2, S1, the auditor and physics evaluations. Pending: C3, the g3 held-out plan faults. Citations verified 6 Oct (17 of 18 against the source; PlannerForge awaits EMNLP 2026 pages). |
 | L14 | todo | Revise from Shao. | Draft matches his comments. No new experiment unless a figure cell is empty. |
 | L15 | todo | Submit to IV 2027. | Submitted by 13 Nov 2026 so the 15 Nov deadline is a buffer. |
 

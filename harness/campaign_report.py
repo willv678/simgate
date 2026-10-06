@@ -1,16 +1,17 @@
-"""Campaigns C1 and C2: one table per question, from the queues on disk.
+"""Campaigns C1, C2 and C3: one table per question, from the queues on disk.
 
 Each campaign ran one fault plan (50 runs: 5 per fault kind, 10 clean) under
 the script, tier 1 (agent) and tier 0 (model). C1 had the physics bounds off,
-C2 on. Outcomes are scored, not skill labels: whether a lineage ended in a
+C2 and C3 on; in C3 the silent faults (rails, kinematic) persist on a retry.
+Arms whose queue does not exist yet are skipped. Outcomes are scored, not skill labels: whether a lineage ended in a
 valid kept run, how many launches it cost, and whether a person had to step in.
 
 - yield: planned runs that ended as valid data in the dataset after the audit;
 - invalid kept: runs carrying a data-corrupting fault that stayed in the
   dataset with no gate (exit code 0), after the per-run gate, after the audit;
 - per fault kind: recovered, halted, launches;
-- physics on fresh runs: C2's live K⁺ physics failures on runs with no silent
-  fault (false alarms), and C1's kept runs checked after the fact.
+- physics on fresh runs: the live K⁺ physics failures in C2 and C3, and every
+  kept run checked after the fact with the current bounds.
 
     uv run python research/harness/campaign_report.py
 """
@@ -28,6 +29,8 @@ from score_campaign import CORRUPTS_DATA, lineages, score
 from physics import check, load_bounds
 
 HARNESS = Path(__file__).resolve().parent
+CAMPAIGNS = ("c1", "c2", "c3")
+LIVE_PHYSICS = ("c2", "c3")
 ARMS = ("script", "agent", "model")
 NAMES = {"script": "script", "agent": "tier 1", "model": "tier 0"}
 SILENT = {"rails", "kinematic"}
@@ -156,8 +159,10 @@ def main() -> int:
         "arm\tplanned\tlaunches\tvalid kept\tinvalid kept: no gate / gate / gate+audit"
         "\thalts (by gate)\tmodel calls\tcontext tokens\tminutes\tcomplete"
     ]
-    for campaign in ("c1", "c2"):
+    for campaign in CAMPAIGNS:
         for arm in ARMS:
+            if not (HARNESS / f"{campaign}_{arm}_queue").is_dir():
+                continue
             r = arm_report(campaign, arm)
             r["physics_after_the_fact"] = physics_after_the_fact(campaign, arm, bounds)
             report[f"{campaign}_{arm}"] = r
@@ -168,7 +173,9 @@ def main() -> int:
                 f"\t{r['minutes']}\t{r['complete']}"
             )
     lines.append("")
-    lines.append("per fault kind, recovered/lineages (launches, halts), C1 then C2:")
+    lines.append(
+        "per fault kind, recovered/lineages (launches, halts), per campaign arm:"
+    )
     kinds = sorted({k for r in report.values() for k in r["per_kind"]})
     for k in kinds:
         cells = []
@@ -182,12 +189,14 @@ def main() -> int:
     lines.append("")
     lines.append(
         "physics, current bounds on every kept run after the fact (none of these"
-        " runs set the plan-handoff bound); C2 also live"
+        " runs set the plan-handoff bound); C2 and C3 also live"
     )
     for key, r in report.items():
         p = r["physics_after_the_fact"]
         live = (
-            f"\tlive failures {r['physics_failures']}" if key.startswith("c2") else ""
+            f"\tlive failures {r['physics_failures']}"
+            if key.startswith(LIVE_PHYSICS)
+            else ""
         )
         lines.append(
             f"{key}\tsilent caught {p['silent_caught']}/{p['silent']}"
@@ -195,9 +204,12 @@ def main() -> int:
         )
     lines.append("")
     lines.append(
-        "first skill chosen per fault kind, C1 and C2 together (median seconds per model call):"
+        "first skill chosen per fault kind, all campaigns together (median seconds per model call):"
     )
-    choices = {arm: skills_chosen(("c1", "c2"), arm) for arm in ARMS}
+    choices = {
+        arm: skills_chosen(tuple(c for c in CAMPAIGNS if f"{c}_{arm}" in report), arm)
+        for arm in ARMS
+    }
     for arm in ARMS:
         lines.append(f"{NAMES[arm]} (median call {choices[arm]['median_call_s']} s)")
         for kind, counts in sorted(choices[arm]["skills"].items()):

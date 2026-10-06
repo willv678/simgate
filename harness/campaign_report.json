@@ -468,32 +468,188 @@
    "other": 26
   }
  },
+ "c3_script": {
+  "planned": 50,
+  "launches": 95,
+  "valid_kept": 35,
+  "invalid_kept_no_gate": 25,
+  "invalid_kept_gate": 3,
+  "invalid_kept_audit": 0,
+  "halts": 12,
+  "halted_by_gate": 12,
+  "model_calls": 0,
+  "context_tokens": 0,
+  "physics_failures": {
+   "silent": 22
+  },
+  "per_kind": {
+   "fill_network_pool": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 5
+   },
+   "clean": {
+    "lineages": 10,
+    "recovered": 10,
+    "halted": 0,
+    "launches": 10
+   },
+   "delete_metrics": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 10
+   },
+   "corrupt_metrics": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 10
+   },
+   "kill": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 10
+   },
+   "drop_delay": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 5,
+    "launches": 15
+   },
+   "hang": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 10
+   },
+   "kinematic": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 2,
+    "launches": 10
+   },
+   "rails": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 5,
+    "launches": 15
+   }
+  },
+  "complete": true,
+  "minutes": 371.6,
+  "physics_after_the_fact": {
+   "silent_caught": 0,
+   "silent": 3,
+   "other_flagged": 0,
+   "other": 35
+  }
+ },
+ "c3_agent": {
+  "planned": 50,
+  "launches": 3,
+  "valid_kept": 2,
+  "invalid_kept_no_gate": 0,
+  "invalid_kept_gate": 0,
+  "invalid_kept_audit": 0,
+  "halts": 0,
+  "halted_by_gate": 0,
+  "model_calls": 1,
+  "context_tokens": 20804,
+  "physics_failures": {},
+  "per_kind": {
+   "fill_network_pool": {
+    "lineages": 5,
+    "recovered": 1,
+    "halted": 0,
+    "launches": 1
+   },
+   "clean": {
+    "lineages": 10,
+    "recovered": 1,
+    "halted": 0,
+    "launches": 1
+   },
+   "delete_metrics": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 0,
+    "launches": 1
+   },
+   "corrupt_metrics": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 0,
+    "launches": 0
+   },
+   "kill": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 0,
+    "launches": 0
+   },
+   "drop_delay": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 0,
+    "launches": 0
+   },
+   "hang": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 0,
+    "launches": 0
+   },
+   "kinematic": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 0,
+    "launches": 0
+   },
+   "rails": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 0,
+    "launches": 0
+   }
+  },
+  "complete": false,
+  "minutes": 0,
+  "physics_after_the_fact": {
+   "silent_caught": 0,
+   "silent": 0,
+   "other_flagged": 0,
+   "other": 2
+  }
+ },
  "skills_chosen": {
   "script": {
    "skills": {
     "kill": {
-     "RE-RUN": 10
+     "RE-RUN": 15
     },
     "corrupt_metrics": {
-     "RE-RUN": 10
+     "RE-RUN": 15
     },
     "hang": {
-     "RE-RUN": 10
+     "RE-RUN": 15
     },
     "drop_delay": {
-     "RE-RUN": 10
+     "RE-RUN": 15
     },
     "fill_network_pool": {
-     "CLEANUP_ENV": 10
+     "CLEANUP_ENV": 15
     },
     "delete_metrics": {
-     "RE-RUN": 10
+     "RE-RUN": 15
     },
     "rails": {
-     "RE-RUN": 5
+     "RE-RUN": 10
     },
     "kinematic": {
-     "RE-RUN": 5
+     "RE-RUN": 8
     }
    },
    "median_call_s": null
@@ -514,7 +670,7 @@
      "HALT": 10
     },
     "fill_network_pool": {
-     "CLEANUP_ENV": 10
+     "CLEANUP_ENV": 11
     },
     "delete_metrics": {
      "RE-RUN": 10
