@@ -1,215 +1,167 @@
 # Week 4 slides: 6 Oct meeting with Dr. Shao
 
-About 10 slides. Paths are relative to `research/`. Use the `.png` figures
-(`.pdf` versions exist for the paper). Numbers are from `FACTS.md`.
+**Theme:** what we built and why, not results yet. About 9 slides. Image paths
+are relative to `research/`.
 
 ---
 
-## 1. From a gate to an AV testing system
+## 1. From a gate to an automatic testing system
 
 **On slide**
-- Last week: the inner loop (preflight K⁻, run, postflight K⁺, Claude on FAILED).
-- This week: the **outer loop**. A researcher asks a question; the system designs
-  the tests, runs them, checks every result is valid, and answers with evidence.
-- One principle at every layer: **the model proposes, code decides.**
+- Last week: the inner loop (preflight, run, postflight, Claude on failure).
+- This week: the full system around it. **A researcher asks a question; the
+  system designs the tests, runs them, checks every result, and answers.**
+- One rule at every step: **Claude proposes, code decides.**
 
-**Image:** a simple diagram you draw in the slide tool, left to right:
-`brief.md → plan → outer loop (rounds) → inner loop (gate) → triage → report.md`.
-Colour the Claude steps orange and the code steps blue, the same scheme as
-`figures/architecture.png`.
+**Image:** draw this in the slide tool:
 
-**Say:** "Last week I showed the state machine. This week it runs a whole
-study from a question to an answer."
+```
+Brief → Plan → Outer loop ⇄ Inner loop → Triage → Report
+```
 
----
+Claude steps (Plan, Outer loop, Triage, Report) in orange; code steps (Inner
+loop, plus the checks after each Claude step) in blue.
 
-## 2. The input: a brief, like a test plan
-
-**On slide:** a screenshot of `briefs/latency_budget.md`, with its Question,
-Scope, Budget and What counts sections.
-
-**Say:** "AV teams write test plans before a campaign: a question, a scope, a
-budget, what counts as failure. The brief has the same shape, and it can be
-one sentence or a page." (Don't claim it was validated with industry engineers;
-that's a next step.)
+**Say:** "Last week I showed the state machine. This week it's wrapped in a
+system you can hand a question to."
 
 ---
 
-## 3. Brief → plan (Claude), checked by code
+## 2. Feature: ask in plain English (`brief.md`)
 
-**On slide:** the plan, from `studies/latency_budget/plan.json`
-- 6 scenes that drive cleanly at 0 delay, from **2.6 to 30.4 m/s** (city to highway).
-- Strategy: probe at 200 ms, bisect toward the break, repeat at the edge.
-- 5 rounds × 6 = 30 runs.
-- Its own limits: "a rough bracket, not a failure rate"; "road type cannot be
-  identified."
-- Code checks every field: knobs from the catalog, scenes that exist, at most
-  60 runs and 10 per round.
-
-**Say:** "It took 26 seconds. The plan is checked like a recovery is: illegal
-knobs or an over-budget plan never run."
-
----
-
-## 4. The outer loop in action (pilot o1)
-
-**Image:** `figures/pilot_grid.png`, the left panel (Claude) only. Present it
-as what the loop did, not as Claude beating random. Random is only a floor; the
-real baselines next week are a grid sweep (status quo), Optuna, and an
-expert-written bisection script, compared on runs needed to answer.
+**Image:** screenshot of `briefs/latency_budget.md`
 
 **On slide**
-- Round 1: probe 200 ms on the clean scenes, plus repeat one odd baseline.
-- Round 2: two scenes broke at 200 → bisect to 100; re-run 0 ms ("was the clean
-  baseline luck?").
-- Round 3: repeats at the edge, 150 ms ×2 and 100 ms again.
-- Result: **02eadd92 holds at 100 ms and fails from 150 ms.**
-- Random, same budget: never ran a 0 ms baseline, spread its runs thin, one wide
-  bracket.
-
-**Say:** "15 runs each, so this is a demo, not a ranking. What matters is the
-behaviour: baselines first, bisect, repeat at the boundary, because outcomes are
-random." Avoid "Claude found 3× more failures": some of its 10 come from a
-scene that fails even at 0 delay.
+- The researcher writes a short brief: question, scope, budget, what counts as
+  failure.
+- One sentence or a full page, whatever they want.
+- Same shape as a test plan, so it's how test campaigns already start.
+- Saved with the study, so you can always see what was asked.
 
 ---
 
-## 5. Why repeats: outcomes are random
+## 3. Feature: brief → plan (Claude), checked by code
+
+**Image:** screenshot of `studies/latency_budget/plan.json`
 
 **On slide**
-- One scene, one identical config, **150 runs: 46 crashes.** CATK traffic is
-  sampled.
-- VaVAM fails about a third of S1's 100 scenes at 0 delay (27% crash, 36%
-  off-road).
-- So the question is a **failure rate vs. delay**, with a confidence range, not
-  "find one crash".
-
-**Say (if asked why VaVAM is so bad):** it's a research-grade open model, the
-closed loop compounds errors, our failure definition is strict, and we run one
-low-resolution camera on a 12 GB GPU. The system under test can be any policy;
-see the GPU ask on slide 10.
+- Claude turns the brief into a concrete study: which knobs, which scenes, how
+  many runs, what strategy.
+- Example: it picked 6 scenes that drive cleanly with no delay, from city to
+  highway speed, and wrote down its own limits ("a rough bracket, not a rate").
+- **Code checks the plan before anything runs:** knobs must be in the catalog,
+  scenes must exist, at most 60 runs.
+- A person confirms it, or `--yes` lets it run overnight.
 
 ---
 
-## 6. The inner loop: what makes each run trustworthy
+## 4. Feature: the outer loop picks the next runs
 
-**On slide**, in two columns.
+**Image:** `figures/delay_curve_02eadd92.png`
 
-**Decides (plain code, can reject a run)**
-- Preflight: the config and the machine (leftover containers, network pool,
-  GPU, disk).
-- During the run: stops a frozen run when its log stops growing (it used to
-  hold the GPU 10 min).
-- Postflight: exit code, metrics, every requested setting actually landed.
-- Physics from the run's own log: acceleration, yaw rate, speed consistency, on
-  the recording the whole run, contact with no collision scored.
-- **Plan age** equals the requested delay at every step; **plan offset** equals
-  the requested perception shift (new today).
-- Rules the Auditor learned and a person approved (slide 8).
+**On slide**
+- Each round Claude sees every result so far and picks the next runs.
+- What it did on its own: probed 200 ms, bisected toward the break, re-ran
+  0 ms to check the baseline wasn't luck, and repeated near the edge.
+- Every proposed run is checked against the knob catalog; illegal ones are
+  dropped.
+- The chart: crash rate climbs with delay on one scene. The bars show how
+  sure we are; wide bars are where the next runs should go.
+
+**Say:** "This is a deliberately simple question. One knob could be handled
+with a hand-written binary search, so this is a demo of the loop, not proof it
+beats one. Run longer, the bars shrink and it converges. The point is that
+nobody wrote a search script: it read the brief. The real test is harder
+questions, and comparing against a grid sweep, Optuna, and an expert-written
+search, which is next."
+
+---
+
+## 5. Feature: the inner loop keeps every result honest
+
+**Image:** `figures/campaign_invalid.png`
+
+**On slide**, in two columns:
+
+**Decides (plain code)**
+- Preflight: the config and the machine.
+- During the run: stops a run that freezes.
+- Postflight: exit code, metrics, every requested setting actually applied.
+- Physics from the run's own log.
+- **Plan age** proves the requested delay really happened; **plan offset**
+  proves a requested perception error really happened.
+- Rules learned from past batches.
 
 **Explains (Claude, never decides)**
-- Triage of failures, the batch Auditor, the report.
+- Fixes for broken runs (checked by a validator), the batch audit, triage.
 
-**Proof:** `figures/campaign_invalid.png`: C1–C3, nine arms, invalid runs kept
-**225 → 40 → 0**, upper bound 1.3%.
+**Proof:** three fault-injection campaigns, nine arms: invalid runs kept
+**225 → 40 → 0**.
 
 ---
 
-## 7. The bug the outer loop found before it ran
+## 6. Why the inner loop matters: a bug it caught before it mattered
 
 **Image:** `figures/plan_age.png`
 
 **On slide**
-- The gate would have **rejected every delay experiment**: the plan-handoff
-  check read 0.12–0.17 m against a 0.05 m bound.
-- Cause: a delayed plan reaches the controller in the car's frame **from when
-  the plan was made**. The check compared it with the newest plan, in the
-  current frame.
-- Fix: match each plan to its source by timestamp → 0.0001 m.
-- New check, plan age: exactly the delay at every step (clean 0 ms over 589
-  runs; frozen plan saw-tooth to 900 ms). It **proves from the log** that the
-  delay was applied.
-- Live in the pilot: 200 ms runs measured 200 ms at every step.
+- Before the first outer-loop run, I checked whether the gate could handle
+  delay experiments. It couldn't: it would have **rejected every one**.
+- A delayed plan reaches the controller in the car's position frame from
+  when the plan was made, and the check didn't know that.
+- Fixed, with a new check: the plan's age must equal the requested delay at
+  every step. Clean runs read 0 ms, delay runs read exactly their delay,
+  frozen plans form a saw-tooth.
 
-**Say:** "This is why the inner loop matters. An autonomous tester on a broken
-gate would have reported nothing but failures."
+**Say:** "An automatic tester is only as good as its checks. Without this
+fix, the system would have confidently reported nonsense."
 
 ---
 
-## 8. The system learned a rule
+## 7. Feature: the system learns rules, a person approves them
 
 **On slide**
-- All three C3 audits **independently** proposed: "the controller must be the
-  linear MPC."
-- Admission: catches the flagged runs, fires on 0 of 51 clean runs.
-- I approved it → it's in the gate (`harness/rules/promoted.json`). It now
-  catches that fault on every run with no model.
+- All three audits of one campaign independently proposed: "the controller
+  must be the linear MPC."
+- Admission: it catches the bad runs and fires on 0 of 51 good ones.
+- I approved it, so now the gate enforces it on every run with no AI.
 - **AI proposes → data admits → person approves → code enforces.**
 
 ---
 
-## 9. After the runs: why it failed, and the answer
+## 8. Feature: why did it crash, and what's the answer
 
-**Image:** `figures/triage_example.png` (the frame Claude saw and its verdict)
+**Image:** `figures/triage_example.png`
 
 **On slide**
-- Triage: Claude reads frames around each crash and names the cause. o1's 10
-  failures took 38 s: no brake for the car ahead 4, turned into another car 2,
-  hit by another car 2, off-road 1, unclear 1.
-- **All three 02eadd92 failures: late braking behind a car stopping at a red
-  light**, which is what latency does.
-- Failure validity: a crash far off the recorded path (>3.5 m) is flagged as
-  possibly the simulator's.
-- Report: the answer with **90% ranges**, and every number comes from code. When
-  Claude miscounted once ("5 of 5" vs 4 of 4), code started rejecting counts in
-  prose.
-
-**Image (optional):** a screenshot of the Answer and Findings sections of
-`studies/pilot_o1/report.md`.
+- **Triage:** Claude watches frames around each crash and names the cause
+  (e.g. "didn't brake for the car stopping at the red light").
+- **Doubtful crashes flagged:** a crash far from where the real car drove may
+  be a rendering problem, not the policy.
+- **Report:** Claude answers the brief; every number in it comes from code.
+  When Claude miscounted once, code started rejecting hand-written counts.
+- **It won't over-claim:** I asked it to confirm a break the morning's pilot
+  suggested. It said **"not confirmed"**, flagged two doubtful crashes, and
+  listed the runs that would settle it.
 
 ---
 
-## 10. Live right now: confirming the break
-
-**On slide**
-- Brief: `briefs/confirm_break_02eadd92.md`: "Does 02eadd92 break between
-  100 and 150 ms? Win condition: the 90% ranges no longer overlap."
-- The planner flagged the statistics itself: Wilson ranges separate at 4/4 vs
-  0/4, while stricter Clopper–Pearson needs the pilot runs pooled in.
-- **RESULT: not confirmed.** 150 ms: every run crashed (4 of 4, rate 60–100%).
-  100 ms: 2 of 4 crashed (rate 18–82%), both over 3.5 m off the recorded path,
-  so possibly the simulator's. The ranges overlap, so the win condition is not
-  met. The crash type also changes: side contact at 100 ms, rear-ending at
-  150 ms. (`studies/confirm_break_02eadd92/report.md`)
-
-**Say:** "This morning's pilot suggested a clean break from 1–2 runs per
-setting. I asked the system to confirm it with 90% confidence. It ran 8 more,
-said *not confirmed*, flagged the doubtful failures, and listed what would
-settle it. It won't let me fool myself."
-
----
-
-## 11. Next and asks
+## 9. Next, and what I need
 
 **Next two weeks**
-- Many rollouts per launch, for about 3× the evidence per GPU-hour.
-- Stop when the question is answered, not when the budget runs out.
+- **Real baselines:** a grid sweep (status quo), Optuna, and an expert-written
+  search, compared on runs needed to answer, on harder multi-knob questions.
+- **Check VaVAM's setup:** our harness runs it at 10 Hz control, while
+  AlpaSim ships it at 2 Hz. Its high baseline crash rate may be partly ours.
+  New class of check: are the settings *right for the policy*, not just
+  applied?
+- Several runs per launch (about 3× the evidence per GPU-hour); stop a study
+  when its question is answered.
 - Scene tags from logs and video, so a brief can say "intersections with
   pedestrians".
-- A/B mode ("is checkpoint B safer than A?") and memory across studies, which
-  gives regression testing.
-- Exact replay of a failure: needs the traffic model to honour its seed, which
-  would be an AlpaSim contribution.
-- Design rule: **no knob without a measurement.**
+- A/B mode ("is model B safer than A?") and memory across studies.
 
-**Ask: a bigger GPU.** We're on 12 GB: one weak research policy at ~15
-runs/hour. NVIDIA's Alpamayo models, which AlpaSim targets, need ~40 GB. A
-48–80 GB card would let us show the method on a second, stronger policy and
-run repeats several times faster.
-
-**Found today, testing tonight:** our harness runs VaVAM with 100 ms control
-steps, while AlpaSim's VaVAM config uses 500 ms with camera and control in sync.
-The ~30% baseline failure rate may be partly our setup. The gate checks that
-settings *landed*; this is a new class of check: are they *right for the
-policy*. The 30-run latency study waits for this check. g3 (held-out plan
-faults) runs tonight.
+**Ask: a bigger GPU.** 12 GB limits us to one research policy at ~15
+runs/hour. NVIDIA's Alpamayo models (what AlpaSim targets) need ~40 GB. A
+48–80 GB card would let us test a stronger, second policy and run repeats
+faster.
