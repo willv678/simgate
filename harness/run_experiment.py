@@ -26,17 +26,25 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from environment import environment_problems
-from faults import before_launch, shell_around, wizard_args
+from faults import before_launch, plan_hook_args, shell_around, wizard_args
 from read_state import (
+    PLAN_KEYS,
     ROOT,
     State,
     console_log,
     exit_file,
     load_entry,
+    plan_request,
     read_state,
     run_dir,
     save_entry,
 )
+
+
+def plan_args(request: dict) -> list[str]:
+    """The plan perturbations the run asks for, if any (read_state.PLAN_KEYS)."""
+    asked = {key: request[key] for key in PLAN_KEYS if request[key]}
+    return plan_hook_args(asked) if asked else []
 
 
 def wizard_command(config: dict, log_dir: Path) -> list[str]:
@@ -59,6 +67,7 @@ def wizard_command(config: dict, log_dir: Path) -> list[str]:
         f"scenes.scene_ids=[{config['scene_id']}]",
         f"trafficsim.catk.device={config['trafficsim_device']}",
         f"wizard.log_dir={log_dir}",
+        *plan_args(plan_request(config)),
     ]
 
 

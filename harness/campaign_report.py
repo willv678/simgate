@@ -25,10 +25,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from faults import PLAN_FAULTS
-from read_state import ROOT, load_entry, queue_entries
-from score_campaign import CORRUPTS_DATA, lineages, score
-
 from physics import check, load_bounds
+from read_state import ROOT, load_entry, plan_request, queue_entries
+from score_campaign import CORRUPTS_DATA, lineages, score
 
 HARNESS = Path(__file__).resolve().parent
 CAMPAIGNS = ("c1", "c2", "c3", "c4")
@@ -146,7 +145,7 @@ def physics_after_the_fact(campaign: str, arm: str, bounds: dict) -> dict:
         if e["resolution"] != "ACCEPT":
             continue
         group = "silent" if e["fault"] and e["fault"]["kind"] in SILENT else "other"
-        flagged = check(ROOT / e["run_dir"], bounds, e["config"]["planner_delay_us"])
+        flagged = check(ROOT / e["run_dir"], bounds, plan_request(e["config"]))
         caught[(group, bool(flagged))] += 1
     return {
         "silent_caught": caught[("silent", True)],

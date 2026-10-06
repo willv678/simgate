@@ -30,12 +30,11 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from analyze_cp2 import extract_resolved_config
+from physics import check as physics_problems
+from physics import load_bounds
 from postflight import validate_postflight
 from preflight import PreflightError, validate_preflight
 from rules import load_rules, violations
-
-from physics import check as physics_problems
-from physics import load_bounds
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -53,6 +52,9 @@ CONFIG_KEYS = (
 # The delay and the scene are the experiment; changing them in a recovery would
 # keep a run that measures another condition (verify_supervisor.py, S3).
 CONFIGURABLE_KEYS = ("context_length", "scene_file", "trafficsim_device")
+# Optional perturbations of the plan between the driver and the controller,
+# through AlpaSim's plan-corruption hook: what a study varies, like the delay.
+PLAN_KEYS = ("lateral_bias_m", "waypoint_noise_std")
 TRAFFICSIM_DEVICES = ("cpu", "cuda")
 
 
@@ -154,6 +156,15 @@ def _alive(pid: int) -> bool:
     return True
 
 
+def plan_request(config: dict) -> dict:
+    """What the run asked of the plan handed to the controller: its delay and
+    perturbations. Entries queued before 6 Oct 2026 have no perturbation keys."""
+    return {
+        "planner_delay_us": config["planner_delay_us"],
+        **{key: config.get(key, 0.0) for key in PLAN_KEYS},
+    }
+
+
 def config_not_landed(entry: dict) -> list[str]:
     """Requested values that differ from what the wizard resolved."""
     path = run_dir(entry)
@@ -167,16 +178,21 @@ def config_not_landed(entry: dict) -> list[str]:
         "scene_id": wizard["scenes"]["scene_ids"],
         "trafficsim_device": wizard["trafficsim"]["catk"]["device"],
     }
+    # AlpaSim writes the plan-corruption block only when a launch sets it.
+    injected = wizard["runtime"]["simulation_config"].get("fault_injection", {})
+    for key in PLAN_KEYS:
+        resolved[key] = injected.get(key, 0.0) if injected.get("enabled") else 0.0
     requested = {
         "context_length": config["context_length"],
         "planner_delay_us": config["planner_delay_us"],
         "scene_file": [str(ROOT / config["scene_file"])],
         "scene_id": [config["scene_id"]],
         "trafficsim_device": config["trafficsim_device"],
+        **{key: plan_request(config)[key] for key in PLAN_KEYS},
     }
     return [
         f"{key} requested {requested[key]}, resolved {resolved[key]}"
-        for key in CONFIG_KEYS
+        for key in (*CONFIG_KEYS, *PLAN_KEYS)
         if requested[key] != resolved[key]
     ]
 
@@ -222,7 +238,7 @@ def read_state(entry: dict) -> RunState:
     bounds = load_bounds()
     if bounds["enabled"]:
         implausible = physics_problems(
-            run_dir(entry), bounds, entry["config"]["planner_delay_us"]
+            run_dir(entry), bounds, plan_request(entry["config"])
         )
         if implausible:
             return RunState(State.FAILED, "; ".join(implausible))

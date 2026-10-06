@@ -19,6 +19,7 @@ def _signals(xs, reported=None, recorded_offset=1.0, gap=30.0, overlap=0.0):
         "overlap_m2": np.full(n, overlap),
         "plan_handoff_m": np.zeros(n),
         "plan_age_ms": np.zeros(n),
+        "plan_deviations": [np.zeros(5)] * n,
     }
 
 
@@ -56,7 +57,11 @@ def test_plan_handoff_gap_is_zero_for_the_same_plan_and_sees_a_bias():
 
     # Driver plan in world frame; the ego at (10, 5) heading +90 degrees.
     pose = (10.0, 5.0, np.pi / 2)
-    driver = [(0, 10.0, 5.0), (500_000, 10.0, 7.0), (1_000_000, 10.0, 9.0)]
+    driver = [
+        (0, 10.0, 5.0, np.pi / 2),
+        (500_000, 10.0, 7.0, np.pi / 2),
+        (1_000_000, 10.0, 9.0, np.pi / 2),
+    ]
     # The same plan in the ego's rig frame: straight ahead along x.
     same = [(0, 0.0, 0.0), (500_000, 2.0, 0.0), (1_000_000, 4.0, 0.0)]
     biased = [(t, x, y + 1.0) for t, x, y in same]
@@ -67,13 +72,59 @@ def test_plan_handoff_gap_is_zero_for_the_same_plan_and_sees_a_bias():
     assert _handoff_gap(pose, driver, slipped) < 1e-9
 
 
-def test_plan_age_must_match_the_requested_delay():
-    from physics import plan_age_problem
+def test_the_plan_must_be_the_drivers_plus_exactly_what_was_asked():
+    from physics import plan_problems
 
-    def age(median, oldest):
-        return {"median_plan_age_ms": median, "max_plan_age_ms": oldest}
+    bounds = {
+        "plan_age": {"slack_ms": 100},
+        "plan_matches_request": {"offset_tolerance_m": 0.02, "noise_tolerance_m": 0.02},
+    }
 
-    assert plan_age_problem(age(0, 0), 0, 100) is None
-    assert plan_age_problem(age(200, 200), 150_000, 100) is None  # rounded up a step
-    assert plan_age_problem(age(400, 900), 0, 100)  # a frozen plan
-    assert plan_age_problem(age(0, 0), 100_000, 100)  # a delay that never applied
+    def found(age=(0, 0), offset=0.0, noise=0.0):
+        return {
+            "median_plan_age_ms": age[0],
+            "max_plan_age_ms": age[1],
+            "median_plan_offset_m": offset,
+            "plan_noise_m": noise,
+        }
+
+    def request(delay_us=0, bias=0.0, noise=0.0):
+        return {
+            "planner_delay_us": delay_us,
+            "lateral_bias_m": bias,
+            "waypoint_noise_std": noise,
+        }
+
+    assert plan_problems(found(), request(), bounds) == []
+    # A delay rounds up to the next control step.
+    assert plan_problems(found(age=(200, 200)), request(delay_us=150_000), bounds) == []
+    assert plan_problems(found(age=(400, 900)), request(), bounds)  # a frozen plan
+    assert plan_problems(
+        found(), request(delay_us=100_000), bounds
+    )  # delay not applied
+    assert plan_problems(found(offset=-0.3), request(bias=-0.3), bounds) == []
+    assert plan_problems(
+        found(offset=1.0), request(), bounds
+    )  # a bias nobody asked for
+    assert plan_problems(
+        found(offset=0.3), request(bias=-0.3), bounds
+    )  # the wrong side
+    assert plan_problems(found(noise=0.3), request(), bounds)  # noise nobody asked for
+
+
+def test_the_offset_is_measured_along_each_waypoints_normal():
+    from physics import _handoff_deviations
+
+    # The ego at the origin heading +x; the driver's plan curves left.
+    pose = (0.0, 0.0, 0.0)
+    driver = [
+        (0, 0.0, 0.0, 0.0),
+        (500_000, 2.0, 0.5, np.pi / 4),
+        (1_000_000, 3.0, 2.0, np.pi / 2),
+    ]
+    # The runtime's lateral bias: each waypoint moved left of its own heading.
+    bias = 0.3
+    given = [(t, x - np.sin(h) * bias, y + np.cos(h) * bias) for t, x, y, h in driver]
+    assert np.allclose(_handoff_deviations(pose, driver, given), bias)
+    same = [(t, x, y) for t, x, y, _ in driver]
+    assert np.allclose(_handoff_deviations(pose, driver, same), 0.0)

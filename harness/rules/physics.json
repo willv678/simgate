@@ -17,10 +17,6 @@
   "frac_on_recording": {
    "max": 0.98,
    "why": "Share of steps the ego sits within 5 cm of the recorded human trajectory. A policy that drives leaves the recording at least once, even in slow scenes where it stays close (clean maximum 0.87, s1_056); 1.0 means the recording drove the whole run."
-  },
-  "median_plan_handoff_m": {
-   "max": 0.05,
-   "why": "Median sideways distance, after the force-GT warm-up, between the plan the controller was given and the driver plan it came from (matched by timestamps), in the ego's frame from when the plan was made (a delayed plan reaches the controller in that frame). They are the same plan in a clean run: medians 0 to 0.008 m over 589 kept runs, 0.0001 m on 50-200 ms delay runs. A larger median means the plan was changed between the driver and the controller: a bias, waypoint noise."
   }
  },
  "dropped": {
@@ -29,5 +25,10 @@
  "plan_age": {
   "slack_ms": 100,
   "why": "The age of the plan the controller got, in ms, must be at least the requested planner delay and less than the delay plus one control step (100 ms), at the median and at every step: the runtime's delay buffer hands over the newest plan at least that old. Clean runs at 0 delay: 0 ms at every step over 589 kept runs; old 50/100/200 ms runs: 100/100/200 ms. A frozen plan ages step by step (g2: median 400, max 900 ms); a delay that never applied leaves the age at 0."
+ },
+ "plan_matches_request": {
+  "offset_tolerance_m": 0.02,
+  "noise_tolerance_m": 0.02,
+  "why": "The plan the controller got, measured against the driver plan it came from (matched by timestamps, in the frame it was made in) along each waypoint's normal: its median signed offset must equal the requested lateral bias and its scatter the requested waypoint noise, each within 2 cm. Unperturbed runs: offset within 0.003 m and scatter at most 0.004 m over 589 kept runs and three delay runs; a requested 1.0 m bias (g2): offset 0.9999 to 1.0001 m, scatter 0.0001 m. Replaces the earlier bound on the unsigned median gap (0.05 m), which flagged every delayed run."
  }
 }
