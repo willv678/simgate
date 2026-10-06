@@ -121,24 +121,29 @@ def triage(row: dict, run_dir: Path, model: str) -> dict:
     return {"run": row["run"], "scene_id": row["scene_id"], **answer, "call": call}
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("folder", type=Path, help="the study folder, for triage.json")
-    parser.add_argument("--queue", type=Path, help="default: <folder>/queue")
-    parser.add_argument("--model", default=MODEL)
-    args = parser.parse_args()
-    queue = args.queue or args.folder / "queue"
+def triage_study(queue: Path, model: str) -> list[dict]:
+    """Triage of every failed kept run of a study's queue, four calls at a time."""
     dirs = {
         load_entry(p)["name"]: ROOT / load_entry(p)["run_dir"]
         for p in queue_entries(queue)
     }
     failed = [r for r in history(queue, ()) if r.get("failed")]
     with ThreadPoolExecutor(4) as pool:
-        found = list(pool.map(lambda r: triage(r, dirs[r["run"]], args.model), failed))
+        return list(pool.map(lambda r: triage(r, dirs[r["run"]], model), failed))
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("folder", type=Path, help="the study folder, for triage.json")
+    parser.add_argument("--queue", type=Path, help="default: <folder>/queue")
+    parser.add_argument("--model", default=MODEL)
+    args = parser.parse_args()
+    found = triage_study(args.queue or args.folder / "queue", args.model)
     (args.folder / "triage.json").write_text(json.dumps(found, indent=1) + "\n")
     for row in found:
         print(
-            f"{row['run']} {row['cause']} (at fault: {row['policy_at_fault']}): {row['what_happened']}"
+            f"{row['run']} {row['cause']} (at fault: {row['policy_at_fault']}): "
+            f"{row['what_happened']}"
         )
     print(json.dumps(Counter(row["cause"] for row in found)))
     return 0

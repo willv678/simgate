@@ -14,6 +14,11 @@ numbers.
   true failure rate lies in with 90% confidence), `possible_artifacts`
   (failures with the ego over 3.5 m from the recorded trajectory, or black
   frames, which the simulator's rendering may explain), and the run names.
+- `triage`: for each failed kept run, the cause read from its video and log
+  (`no_brake_for_lead`, `turned_into_actor`, `left_road`, `actor_hit_ego`,
+  `rendering`, `other`), whether the policy was at fault, and what happened.
+  Use it to say why a scene fails, and say when failures were not the
+  policy's.
 - `not_kept`: runs the gate did not keep, and why. They are not evidence.
 
 ## The answer

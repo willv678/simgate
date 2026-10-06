@@ -9,13 +9,15 @@ and code deciding:
    available scenes and the budget caps; a person confirms it unless --yes.
 2. run: the outer loop (outer.run_study) runs the plan; every run goes through
    the inner loop and only kept runs count.
-3. report: code tabulates the kept runs per setting; one call
+3. triage: Claude reads video frames around each failure and names its cause
+   (triage.py);
+4. report: code tabulates the kept runs per setting; one call
    (advisor/REPORT.md) writes the answer, citing setting ids; code renders
    report.md with its own counts next to every finding, so a number in the
    report comes from the table, not the model.
 
 Everything lands in research/studies/<brief name>/: brief.md, plan.json,
-queue/, trace.jsonl, rounds.jsonl, report.md. A rerun continues where the
+queue/, trace.jsonl, rounds.jsonl, triage.json, report.md. A rerun continues where the
 study stopped.
 
     uv run python research/harness/study.py research/briefs/latency_budget.md
@@ -27,6 +29,7 @@ import argparse
 import json
 import shutil
 import sys
+from collections import Counter
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -35,6 +38,7 @@ from headless import ask
 from knobs import DESCRIPTIONS, SCENARIO
 from outer import Study, history, results, run_study, scene_facts
 from read_state import ROOT
+from triage import triage_study
 
 HARNESS = Path(__file__).resolve().parent
 STUDIES = ROOT / "research" / "studies"
@@ -157,16 +161,26 @@ def setting_text(row: dict, varied: tuple) -> str:
 
 
 def write_report(
-    folder: Path, brief: str, plan: dict, rows: list[dict], model: str
+    folder: Path,
+    brief: str,
+    plan: dict,
+    rows: list[dict],
+    causes: list[dict],
+    model: str,
 ) -> Path:
     varied = tuple(plan["vary"])
     table = results(rows, varied)
     not_kept = [row for row in rows if row["verdict"] != "kept"]
+    triaged = [
+        {k: c[k] for k in ("run", "cause", "policy_at_fault", "what_happened")}
+        for c in causes
+    ]
     data = {
         "brief": brief,
         "question": plan["question"],
         "plan": plan,
         "results": table,
+        "triage": triaged,
         "not_kept": not_kept,
     }
     prompt = "The brief, the plan and the results are on stdin. Answer the question."
@@ -199,6 +213,16 @@ def write_report(
         lines.append(f"- {finding['claim']}")
         lines += [f"  - {setting_text(by_id[s], varied)}" for s in finding["settings"]]
     lines += ["", "## Open", ""] + [f"- {item}" for item in answer["open"]]
+    if triaged:
+        counts = Counter(c["cause"] for c in triaged)
+        lines += ["", "## Why the runs failed (triage from the video and log)", ""]
+        lines.append(", ".join(f"{cause} {n}" for cause, n in counts.most_common()))
+        lines.append("")
+        lines += [
+            f"- {c['run']}: {c['cause']}, policy at fault: {c['policy_at_fault']}. "
+            f"{c['what_happened']}"
+            for c in triaged
+        ]
     lines += ["", "## Every setting", ""] + [
         f"- {setting_text(r, varied)}" for r in table
     ]
@@ -257,7 +281,13 @@ def main() -> int:
             return 1
         run_study(study)
     rows = history(study.queue, study.varied)
-    print(f"report: {write_report(folder, brief, plan, rows, args.model)}")
+    triage_file = folder / "triage.json"
+    if not triage_file.exists():
+        triage_file.write_text(
+            json.dumps(triage_study(study.queue, args.model), indent=1) + "\n"
+        )
+    causes = json.loads(triage_file.read_text(encoding="utf-8"))
+    print(f"report: {write_report(folder, brief, plan, rows, causes, args.model)}")
     return 0
 
 
