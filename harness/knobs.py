@@ -72,8 +72,20 @@ UNVARIED = {
 
 def run_config(scene_id: str, settings: dict, fixed: dict) -> dict:
     """The queue config of a run: the scene, the study's fixed settings and
-    knob values, and every other scenario knob at its unvaried value."""
-    return {**EXECUTION, "scene_id": scene_id, **fixed, **UNVARIED, **settings}
+    knob values, and every other scenario knob at its unvaried value. With
+    `retime_tracks` (scene -> the scene's key actor), the actor knobs retime
+    that one actor instead of its whole class."""
+    tracks = fixed.get("retime_tracks", {})
+    shared = {k: v for k, v in fixed.items() if k != "retime_tracks"}
+    key_actor = {"retime_track": tracks[scene_id]} if scene_id in tracks else {}
+    return {
+        **EXECUTION,
+        "scene_id": scene_id,
+        **shared,
+        **key_actor,
+        **UNVARIED,
+        **settings,
+    }
 
 
 def fixed_problems(fixed: dict, varied: tuple) -> list[str]:
@@ -81,15 +93,19 @@ def fixed_problems(fixed: dict, varied: tuple) -> list[str]:
     knobs retime recorded tracks; with CATK only the history before the
     hand-over would follow them, so they need replayed traffic."""
     problems = []
-    if set(fixed) - {"traffic", "retime_class"}:
-        problems.append("fixed settings are traffic and retime_class only")
+    if set(fixed) - {"traffic", "retime_class", "retime_tracks"}:
+        problems.append("fixed settings: traffic, retime_class, retime_tracks")
     if fixed.get("traffic", "catk") not in TRAFFIC_MODES:
         problems.append(f"traffic must be one of {TRAFFIC_MODES}")
     if set(varied) & set(ACTOR_KNOBS):
         if fixed.get("traffic") != "replay":
             problems.append("actor knobs need traffic replay")
-        if fixed.get("retime_class") not in RETIME_CLASSES:
-            problems.append(f"actor knobs need a retime_class from {RETIME_CLASSES}")
+        if fixed.get("retime_class") not in RETIME_CLASSES and not fixed.get(
+            "retime_tracks"
+        ):
+            problems.append(
+                f"actor knobs need a retime_class from {RETIME_CLASSES} or retime_tracks"
+            )
     return problems
 
 

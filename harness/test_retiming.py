@@ -27,10 +27,8 @@ def test_no_rule_without_a_class_or_with_unvaried_values():
 def test_replay_drops_the_catk_device_and_adds_the_rule():
     args = traffic_args(PEDESTRIAN)
     assert not any(a.startswith("trafficsim.catk.device") for a in args)
-    assert args == [
-        "+runtime.simulation_config.actor_retiming.rules="
-        "[{label_class:person,time_shift_s:-1.0,speed_scale:1.5}]"
-    ]
+    rule = "[{label_class:person,time_shift_s:-1.0,speed_scale:1.5}]"
+    assert args == [f"+runtime.simulation_config.actor_retiming.rules={rule}"]
     assert traffic_args(BASE) == ["trafficsim.catk.device=cpu"]
 
 
@@ -44,3 +42,28 @@ def test_a_rule_that_retimed_no_actor_fails(tmp_path):
     log.write_text("Retimed actor 17 (person): time_shift_s=-1.0 speed_scale=1.5\n")
     assert retime_not_applied(entry) is None
     assert retime_not_applied({**entry, "config": BASE}) is None
+
+
+def test_a_scene_key_actor_is_retimed_alone(tmp_path):
+    from knobs import run_config
+
+    fixed = {
+        "traffic": "replay",
+        "retime_class": "person",
+        "retime_tracks": {"clipgt-a": "17"},
+    }
+    config = run_config("clipgt-a", {"actor_time_shift_s": -1.0}, fixed)
+    assert retime_request(config) == {
+        "track_id": "17",
+        "time_shift_s": -1.0,
+        "speed_scale": 1.0,
+    }
+    other = run_config("clipgt-b", {"actor_time_shift_s": -1.0}, fixed)
+    assert retime_request(other)["label_class"] == "person"
+    run = tmp_path / "run"
+    (run / "txt-logs").mkdir(parents=True)
+    log = run / "txt-logs" / "runtime_worker_0.log"
+    log.write_text("Retimed actor 18 (person): time_shift_s=-1.0\n")
+    assert retime_not_applied({"run_dir": str(run), "config": config})  # wrong actor
+    log.write_text("Retimed actor 17 (person): time_shift_s=-1.0\n")
+    assert retime_not_applied({"run_dir": str(run), "config": config}) is None

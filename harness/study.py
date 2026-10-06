@@ -76,6 +76,10 @@ PLAN_SCHEMA = {
             "properties": {
                 "traffic": {"type": "string", "enum": list(TRAFFIC_MODES)},
                 "retime_class": {"type": "string", "enum": list(RETIME_CLASSES)},
+                "retime_tracks": {
+                    "type": "object",
+                    "additionalProperties": {"type": "string"},
+                },
             },
             "required": ["traffic"],
             "additionalProperties": False,
@@ -152,6 +156,8 @@ def plan_problems(plan: dict, scenes: set[str]) -> list[str]:
     if plan["rounds"] < 1 or plan["rounds"] * plan["per_round"] > MAX_RUNS:
         problems.append(f"rounds x per_round must be 1 to {MAX_RUNS} runs")
     problems += fixed_problems(plan["fixed"], tuple(plan["vary"]))
+    if set(plan["fixed"].get("retime_tracks", {})) - set(plan["scenes"]):
+        problems.append("retime_tracks names scenes the plan does not have")
     if plan["goal"]["type"] != "none" and not problems:
         problems += goal_problems(
             plan["goal"], set(plan["scenes"]), tuple(plan["vary"])

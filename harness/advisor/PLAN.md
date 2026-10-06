@@ -44,6 +44,10 @@ setting can pass once and fail the next time, so rates need repeats.
   "automobile", "heavy_truck"). Varying `actor_time_shift_s` or
   `actor_speed_scale` requires "replay" and a `retime_class`; a scene with no
   actor of that class fails its runs, so choose scenes that have one.
+  `retime_tracks` (optional): scene id -> the id of the one actor to retime
+  in that scene (a scene's `key_actors` give candidates, e.g. the pedestrian
+  that comes closest to the ego's path); scenes not listed retime their whole
+  `retime_class`.
 - `goal`: the brief's win condition in a form code checks after every round;
   the study stops as soon as it is met, so a good goal saves runs. One of:
   - `{"type": "separate", "scene", "knob", "low", "high"}`: the failure rate

@@ -182,30 +182,38 @@ def traffic_mode(config: dict) -> str:
 
 def retime_request(config: dict) -> dict | None:
     """The actor retiming the run asks for (AlpaSim's actor_retiming hook), or
-    None: one rule over the recorded actors of `retime_class`."""
+    None: one rule over one recorded actor (`retime_track`, the scene's key
+    actor) or over every recorded actor of `retime_class`."""
     shift = config.get("actor_time_shift_s", 0.0)
     scale = config.get("actor_speed_scale", 1.0)
-    if config.get("retime_class") is None or (shift == 0.0 and scale == 1.0):
+    if shift == 0.0 and scale == 1.0:
         return None
-    return {
-        "label_class": config["retime_class"],
-        "time_shift_s": shift,
-        "speed_scale": scale,
-    }
+    if config.get("retime_track") is not None:
+        selector = {"track_id": config["retime_track"]}
+    elif config.get("retime_class") is not None:
+        selector = {"label_class": config["retime_class"]}
+    else:
+        return None
+    return {**selector, "time_shift_s": shift, "speed_scale": scale}
 
 
 def retime_not_applied(entry: dict) -> str | None:
     """A retiming that matched no actor would leave the scene as recorded and
-    the run labelled with a shift it never had: the runtime logs one line per
-    retimed actor, and at least one must name the requested class."""
+    the run labelled with a change it never had: the runtime logs one line per
+    retimed actor, and one must name the requested actor or class."""
     request = retime_request(entry["config"])
     if request is None:
         return None
     log = run_dir(entry) / "txt-logs" / "runtime_worker_0.log"
-    marker = f"({request['label_class']}): time_shift_s="
+    if "track_id" in request:
+        marker = f"Retimed actor {request['track_id']} ("
+        what = f"actor {request['track_id']}"
+    else:
+        marker = f"({request['label_class']}): time_shift_s="
+        what = f"{request['label_class']} actor"
     if log.is_file() and marker in log.read_text(encoding="utf-8", errors="replace"):
         return None
-    return f"retime_not_applied: no {request['label_class']} actor was retimed"
+    return f"retime_not_applied: no {what} was retimed"
 
 
 def frame_interval_us(config: dict) -> int:
