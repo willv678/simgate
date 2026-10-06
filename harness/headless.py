@@ -1,6 +1,6 @@
-"""One headless Claude call with no tools: a contract as the system prompt, JSON
-on stdin, and an answer forced into a JSON schema. Used by the outer loop's
-proposer, the study planner and the study reporter.
+"""One headless Claude call: a contract as the system prompt, JSON on stdin, and
+an answer forced into a JSON schema; no tools, or reading one folder. Used by
+the outer loop's proposer, the study planner and reporter, and failure triage.
 
 The Investigator's call (diagnose.py) differs in its tools and stream output
 and keeps its own.
@@ -13,18 +13,35 @@ from pathlib import Path
 
 
 def ask(
-    prompt: str, data: dict, contract: Path, schema: dict, model: str
+    prompt: str,
+    data: dict,
+    contract: Path,
+    schema: dict,
+    model: str,
+    read_dir: Path | None = None,
 ) -> tuple[dict, dict]:
-    """The structured answer and the call's cost. Raises SystemExit if the
-    call fails or gives no answer."""
+    """The structured answer and the call's cost. With `read_dir`, the model
+    may read the files in that folder (images included) and nothing else.
+    Raises SystemExit if the call fails or gives no answer."""
+    tools = ["--tools", ""]
+    if read_dir is not None:
+        tools = [
+            "--tools",
+            "Read",
+            "--add-dir",
+            str(read_dir),
+            "--permission-mode",
+            "dontAsk",
+            "--permission-prompts",
+            "none",
+        ]
     cmd = [
         "claude",
         "-p",
         prompt,
         "--model",
         model,
-        "--tools",
-        "",
+        *tools,
         "--setting-sources",
         "",
         "--no-session-persistence",

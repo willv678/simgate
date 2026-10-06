@@ -1,0 +1,132 @@
+[
+ {
+  "run": "o1_001",
+  "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was creeping straight at about 2.7 m/s in slow highway traffic. Actor 27, in the next lane to the left and slightly ahead, angled into the ego's lane, and the ego's front corner hit its rear right side. The ego kept its speed and stayed about 1 m off the recorded human path, which may have placed it where the replayed cut-in would reach it; braking or yielding might have avoided the contact.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12775,
+   "output_tokens": 1499,
+   "duration_ms": 17824
+  }
+ },
+ {
+  "run": "o1_003",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "no_brake_for_lead",
+  "what_happened": "Approaching a red light about 3 m to the left of the recorded human path, the ego followed actor 22, which was slowing to a near stop in its lane. The ego braked only gently (8.7 to 4.4 m/s while the gap closed from 26 m to 4.5 m) and rear-ended it.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15614,
+   "output_tokens": 1077,
+   "duration_ms": 12561
+  }
+ },
+ {
+  "run": "o1_004",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "turned_into_actor",
+  "what_happened": "Going STRAIGHT toward a red light, the ego drifted left of the human's path (1.7 m off) and its planned path pointed into the neighbouring lane, where car 22 was slowing for the light. The ego braked only gently (9.0 to 6.2 m/s) while the gap closed from 28.5 m to 4.5 m, and its front hit the rear right corner of car 22.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15600,
+   "output_tokens": 933,
+   "duration_ms": 10692
+  }
+ },
+ {
+  "run": "o1_005",
+  "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+  "cause": "left_road",
+  "what_happened": "The ego started one lane to the left of the recorded human path. It drove straight across the intersection at about 9.5 m/s with no actors nearby, and its plan bent further left, so it never followed the recorded path (it ended about 8 m off). It ran over the curb at the far corner and left the drivable area. The ground in the camera view was smeared, but the road ahead and the buildings were clear before the failure, so the bad camera view doesn't explain the mistake.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15591,
+   "output_tokens": 681,
+   "duration_ms": 8550
+  }
+ },
+ {
+  "run": "o1_007",
+  "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+  "cause": "turned_into_actor",
+  "what_happened": "In slow highway traffic at about 3 m/s, the ego drifted left of the recorded path, about 1.2 m off by the end, even though the route command had changed to RIGHT. Its side hit vehicle 27, which was travelling alongside in the adjacent left lane. The lead vehicle stayed about 16 m ahead the whole time, so this was not a following problem.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15605,
+   "output_tokens": 731,
+   "duration_ms": 9047
+  }
+ },
+ {
+  "run": "o1_010",
+  "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was crawling straight in its lane at about 2.5 m/s in slow highway traffic, staying close to the recorded path (0.8 m off). Actor 27, just ahead-left, cut into the ego's lane and moved across the ego's front corner, which logged as a front collision; the vehicle 20 m ahead was never involved. The ego eased off only slightly (2.7 to 2.3 m/s) and did not yield hard to the merging car, so it may share some blame.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12789,
+   "output_tokens": 1006,
+   "duration_ms": 12159
+  }
+ },
+ {
+  "run": "o1_011",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The route said turn right, but the ego stayed about one lane left of the recorded path, which put it behind car 22. That car was slowing to a stop at a red light, and the ego only eased off gradually (8.3 \u2192 4.4 m/s while the gap shrank from 17 m to 4 m), so it ran into the car's rear at about 4 m/s. The lead car was clearly visible in the camera until it got close, and the smearing there only shows up near the impact.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15610,
+   "output_tokens": 675,
+   "duration_ms": 8316
+  }
+ },
+ {
+  "run": "o1_012",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was in the lane left of the recorded human path (about 3 m off it) and approaching a red light, with car 22 nearly stopped ahead in the same lane. Over 3 s the ego only eased off from 8.5 to 3.9 m/s while the gap shrank from 24 m to 4.4 m, its planned path ran straight through car 22, and it hit car 22's rear.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15619,
+   "output_tokens": 692,
+   "duration_ms": 8857
+  }
+ },
+ {
+  "run": "o1_014",
+  "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+  "cause": "other",
+  "what_happened": "The frames don't show the collision. The front-collision counter already reads 1.00 at 8.5s and the per-step value is 0 in every frame, so the contact happened before the clip starts. During the clip the ego slows from 2.1 to 1.2 m/s on a congested multi-lane road, stays about 16 m behind truck 18, and falls further behind the recorded human position (up to 4.2 m). Its planned path keeps hooking left toward vehicle 27 alongside, so a front-corner contact with 27 is possible, but I can't confirm the actor or who caused it.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15617,
+   "output_tokens": 871,
+   "duration_ms": 9969
+  }
+ },
+ {
+  "run": "o1_015",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The route wanted the ego to keep right (command STRAIGHT, then RIGHT), but its planned path drifted left, off the recorded trajectory, and lined up behind slower vehicle 15. The ego kept going at about 6 m/s and only eased off a little (6.6 to 5.6 m/s) while the gap fell from 12.8 m to 4.6 m, then ran into the back of vehicle 15. The camera smear at the moment of impact doesn't count, because the earlier frames showed the lead car clearly.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15619,
+   "output_tokens": 866,
+   "duration_ms": 9948
+  }
+ }
+]
