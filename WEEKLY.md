@@ -120,6 +120,26 @@ and tier 1 matched the script's yield with fewer wasted launches.
   requested-vs-measured check, controller settings).
 - g3 (held-out plan faults) tonight.
 
+**Shao, 6 Oct meeting: direction for the paper**
+- The paper is about **accelerating AV testing** (stress testing); the AI agent
+  is the new tool brought into it, and the contribution is the framework (state
+  machine, inner and outer loops, checks) plus evidence that it accelerates
+  testing. "Claude did it" alone is no contribution: quantify.
+- Inner loop: fine as is; keep the hooks, checks and sanity-check scripts.
+- Outer loop: make it more **rule-based and reliable** (rules guide the agent
+  so it cannot go off the rails; rule-only search such as the bisection on delay
+  is fine where it suffices).
+- Test **scenarios that stress the controller**, not only delay. Example:
+  pedestrian crossing, varying ego speed, when the pedestrian steps out and
+  from how far; start safe and push toward the edge.
+- **Five scenario categories** (e.g. urban driving, unprotected left, merging,
+  intersection, pedestrian crossing); in each, find the most challenging cases
+  efficiently ("after ~50 loops, the 5 most challenging"), and report the
+  problems met and how they were solved.
+- Literature review: what accelerated AV testing has done, which scenarios.
+- Open question for us: AlpaSim replays recorded scenes, so actor timing knobs
+  (e.g. when a pedestrian crosses) may need a runtime hook; under investigation.
+
 **Slides (6 Oct meeting)**
 1. **The vision.** Unattended AV testing: an outer loop decides what to test,
    an inner loop guarantees every result is valid. The LLM proposes in both;
