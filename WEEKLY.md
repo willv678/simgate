@@ -69,6 +69,11 @@ and tier 1 matched the script's yield with fewer wasted launches.
     awaiting EMNLP pages. Seven entries had wrong or incomplete titles or
     authors.
   - Campaign report and figure pick up C3 as its arms finish.
+  - **C3 tier 1 done:** 35 valid kept in 72 launches against the script's 35
+    in 95. Halted persistent rails and the dropped delay at the first failure;
+    **hangs 5/5 RESTART_CLEANUP** now that the machine is recorded before a
+    timed-out run is stopped (3/10 in C1–C2). One kinematic retry slipped
+    past physics; the audit quarantined it. 0 invalid after the audit.
 
 **Problems found**
 - The tier 1 arm of C2 stopped at run 32 of 50: `monitor.py` aborted in native

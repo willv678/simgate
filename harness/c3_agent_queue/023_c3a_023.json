@@ -1,0 +1,73 @@
+{
+  "name": "c3a_023",
+  "run_dir": "diag/c3a_023",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 751344,
+  "launched_at": 1791274826.9636607,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "HALT",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c3a_023",
+      "k_status": "physics: frac_on_recording 1 > 0.98",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-06T08:20:33.864Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 37357358337 outside range [37354258337, 37357258338)",
+        "ValueError: Interpolation timestamp 37357358337 outside range [37354258337, 37357258338)",
+        "controller-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n181 MiB, 11671 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  486G  426G  54% /\n",
+    "skill": "HALT",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 122687,
+    "output_tokens": 1642,
+    "duration_ms": 22854,
+    "tool_calls": [
+      "Grep: (?i)driver|recording|fallback|plan|error|exception",
+      "Grep: (?i)driver|recording|fallback|plan|exception|warn",
+      "Grep: (?i)force_gt|gt_duration|on_recording|ego_mode|n_sim_steps|control_timestep|duration",
+      "Bash: df -h /home/willvarner/alpasim/diag/c3a_023 >/dev/null; docker ps",
+      "Glob: **/*",
+      "Grep: (?i)force_gt|gt|recording|n_sim_steps|steps|policy",
+      "Grep: (?i)force_gt|recording|fallback|override|on_gt",
+      "Grep: (?i)force_gt_duration",
+      "Grep: force_gt|clipgt-02e075b9"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "rails",
+    "persistent": true,
+    "after_s": null,
+    "applied": false
+  }
+}

@@ -282,6 +282,36 @@ with no data-corrupting fault.
   box-based contact check, the earlier C2 runs the centre-distance one (which
   fired once, on `c2s_021_a2`). Its minutes cover only the resumed part.
 
+## Campaign C3, 6 Oct 2026 (tier 0 arm running)
+
+Seed 3, same six scenes and fault mix as C1/C2, physics on (`physics_c2.json`),
+and rails and kinematic **persistent**: copied to every retry, as the config
+error behind them would be. Each arm audited with one clean reference per
+scene (six, from B2 and S1). Source: `campaign_report.txt`.
+
+| Arm | Launches | Valid kept | Invalid kept: no gate / gate / gate+audit | Halted |
+|---|---|---|---|---|
+| C3 script | 95 | 35 | 25 / 3 / 0 | 12 (all by the gate's budget) |
+| C3 tier 1 | 72 | 35 | 25 / 1 / 0 | 14 |
+
+- Same yield, 23 fewer launches for tier 1. The script spent 15 launches on
+  persistent rails and 15 on the dropped delay, 3 per lineage, before its
+  budget halted them; tier 1 halted each at the first failure (5 and 5).
+- Kinematic: tier 1 halted 3 of 5 at once and retried 2; one retry passed
+  physics and was kept, and the audit quarantined it (`c3a_045_a2`, the
+  config shows `kinematic_ideal`). The script's gate let 3 through; the
+  audit quarantined all 3.
+- Hangs: tier 1 chose RESTART_CLEANUP on 5 of 5, with the machine recorded
+  before the monitor stopped the run (`machine_at_timeout`). In C1 and C2,
+  without that record, tier 1 chose it on 3 of 10 and reconfigured the
+  traffic model on 7.
+- First skill of tier 1 per fault kind: RE-RUN on kill and lost or corrupt
+  metrics (15/15), CLEANUP_ENV on the full network pool (5/5),
+  RESTART_CLEANUP on hangs (5/5), HALT on the dropped delay and rails
+  (10/10), kinematic HALT 3 RE-RUN 2. The gate rejected no answer.
+- Both audits proposed a `controller.mpc_implementation` rule that the
+  admission step accepts (fires on the flagged runs, 0 of 51 clean).
+
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 
 `harness/physics.py` rebuilds the ego's motion from each run's completed

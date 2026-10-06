@@ -1,0 +1,62 @@
+{
+  "name": "c3a_010",
+  "run_dir": "diag/c3a_010",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 701505,
+  "launched_at": 1791270726.257755,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RESTART_CLEANUP",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c3a_010",
+      "k_status": "wizard_exit_code: 124; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-06T07:12:13.126Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\""
+      ],
+      "machine_at_timeout": "$ docker ps --format {{.Names}}\t{{.Status}}\nc3a_010-driver-0-1\tUp 9 minutes\nc3a_010-prometheus-0-1\tUp 9 minutes\nc3a_010-runtime-0-1\tUp 9 minutes (Paused)\nc3a_010-trafficsim-0-1\tUp 9 minutes\nc3a_010-controller-0-1\tUp 9 minutes\nc3a_010-physics-0-1\tUp 9 minutes\nc3a_010-renderer-0-1\tUp 9 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc3a_010_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n11522 MiB, 330 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  486G  425G  54% /\n"
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nc3a_010-driver-0-1\tUp 9 minutes\nc3a_010-trafficsim-0-1\tUp 9 minutes\nc3a_010-physics-0-1\tUp 9 minutes\nc3a_010-renderer-0-1\tUp 9 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc3a_010_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n5443 MiB, 6409 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  486G  425G  54% /\n",
+    "skill": "RESTART_CLEANUP",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 49315,
+    "output_tokens": 1164,
+    "duration_ms": 13392,
+    "tool_calls": [
+      "Bash: docker ps -a; nvidia-smi; docker network ls",
+      "Grep: (?i)pause|oom|out of memory|cuda|timeout|stuck|waiting",
+      "Bash: docker ps --format '{{.Names}}\\t{{.Status}}'; nvidia-smi --query-gpu=memory.used,memory.free --format=csv; nvidia-smi --query-compute-apps=pid,used_memory --format=csv",
+      "Grep: runtime-0-1",
+      "Bash: tail -30 /home/willvarner/.claude/projects/-tmp-tmps3syvroi/0b6b83c9-1ebc-4f58-9f92-462e7c766275/tool-results/toolu_01Rt3VGNRjDJcWqwFjASE8jv.txt"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "hang",
+    "persistent": false,
+    "after_s": 77,
+    "applied": false
+  }
+}

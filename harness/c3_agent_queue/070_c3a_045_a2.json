@@ -1,0 +1,27 @@
+{
+  "name": "c3a_045_a2",
+  "run_dir": "diag/c3a_045_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-0245ff75-aa3f-46b7-ba87-16a7afb841af",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 2,
+  "parent": "045_c3a_045.json",
+  "launched": true,
+  "pid": 933985,
+  "launched_at": 1791286215.0484567,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": {
+    "kind": "kinematic",
+    "persistent": true,
+    "after_s": null,
+    "applied": false
+  },
+  "quarantine": "wizard-config.yaml has controller.mpc_implementation: kinematic_ideal while every other run (including references) uses linear, so it is not the batch's setup; physics.txt confirms anomalous motion (max_abs_accel 8.132 m/s^2, p99_abs_jerk 102.7, +6.66 m/s^2 at 2.4 m/s) and plan_deviation 0.49 vs ~0.32 for the same scene."
+}

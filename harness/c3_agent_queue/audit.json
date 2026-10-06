@@ -1,0 +1,81 @@
+{
+ "ids": {
+  "c3a_050_a2": "r01",
+  "c3a_012": "r02",
+  "c3a_043": "r03",
+  "b2_009": "r04",
+  "s1_002": "r05",
+  "c3a_026": "r06",
+  "c3a_017_a2": "r07",
+  "c3a_008": "r08",
+  "c3a_021_a2": "r09",
+  "c3a_027_a2": "r10",
+  "c3a_014": "r11",
+  "c3a_007_a2": "r12",
+  "c3a_005_a2": "r13",
+  "c3a_001": "r14",
+  "c3a_029": "r15",
+  "c3a_018_a2": "r16",
+  "c3a_011": "r17",
+  "s1_004": "r18",
+  "c3a_047_a2": "r19",
+  "c3a_038": "r20",
+  "c3a_037_a2": "r21",
+  "s1_005": "r22",
+  "c3a_020_a2": "r23",
+  "c3a_009_a2": "r24",
+  "c3a_045_a2": "r25",
+  "c3a_003_a2": "r26",
+  "s1_006": "r27",
+  "c3a_039_a2": "r28",
+  "c3a_010_a2": "r29",
+  "c3a_004_a2": "r30",
+  "s1_003": "r31",
+  "c3a_015_a2": "r32",
+  "c3a_028": "r33",
+  "c3a_040": "r34",
+  "c3a_025": "r35",
+  "c3a_034_a2": "r36",
+  "c3a_041_a2": "r37",
+  "c3a_042": "r38",
+  "c3a_019_a2": "r39",
+  "c3a_002": "r40",
+  "c3a_035_a2": "r41",
+  "c3a_033": "r42"
+ },
+ "flags": {
+  "c3a_045_a2": "wizard-config.yaml has controller.mpc_implementation: kinematic_ideal while every other run (including references) uses linear, so it is not the batch's setup; physics.txt confirms anomalous motion (max_abs_accel 8.132 m/s^2, p99_abs_jerk 102.7, +6.66 m/s^2 at 2.4 m/s) and plan_deviation 0.49 vs ~0.32 for the same scene."
+ },
+ "rules": [
+  {
+   "id": "controller_mpc_linear",
+   "file": "wizard-config.yaml",
+   "path": "controller.mpc_implementation",
+   "op": "eq",
+   "value": "linear",
+   "reason": "The batch setup and all known-good reference runs use the linear MPC; a different controller implementation changes what the run's tracking and motion metrics measure."
+  }
+ ],
+ "model": "claude-opus-5-5",
+ "context_tokens": 361156,
+ "turns": 14,
+ "duration_ms": 41913,
+ "admissions": [
+  {
+   "rule": {
+    "id": "controller_mpc_linear",
+    "file": "wizard-config.yaml",
+    "path": "controller.mpc_implementation",
+    "op": "eq",
+    "value": "linear",
+    "reason": "The batch setup and all known-good reference runs use the linear MPC; a different controller implementation changes what the run's tracking and motion metrics measure."
+   },
+   "admitted": true,
+   "caught": [
+    "c3a_045_a2"
+   ],
+   "flagged": 1,
+   "clean_checked": 51
+  }
+ ]
+}
