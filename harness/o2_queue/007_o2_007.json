@@ -1,0 +1,22 @@
+{
+  "name": "o2_007",
+  "run_dir": "diag/o2_007",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+    "planner_delay_us": 400000,
+    "lateral_bias_m": 0.0
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1302984,
+  "launched_at": 1791307469.387064,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null
+}

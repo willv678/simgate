@@ -353,6 +353,32 @@ scene (six, from B2 and S1). Source: `campaign_report.txt`.
   video encoding, ~13 s shutdown, up to 30 s of monitor polling (now 5 s in
   outer-loop studies).
 
+## Outer-loop pilot, 6 Oct 2026 (o1 Claude, o2 random)
+
+Same 8 candidate scenes (first 8 kept S1 scenes), delay 0–400 ms in 50 ms
+steps, 3 rounds of 5 runs each, every run through the full inner loop
+(`pilot_report.txt`/`.json`, `figures/pilot_grid.pdf`, `studies/pilot_o1/`).
+
+- Both: 15 proposed, 15 launched, 15 kept, 0 dropped by the knob check.
+- o1 (Claude): 10 failures; 4 scenes; included 0 ms baselines; bracketed
+  02eadd92 between 100 and 150 ms (0 ms 0/1, 100 ms 0/2, 150 ms 2/2,
+  200 ms 1/1, 400 ms 1/1). Found 01d503d4 fails at 0 ms (2/2). Proposer
+  18,240 tokens, 42 s over 3 calls.
+- o2 (random): 3 failures, all at 350–400 ms; 5 scenes; never ran 0 ms, so
+  it cannot tell a delay effect from a scene that always fails; one wide
+  bracket (032b6f21, 250–400 ms).
+- Too small to rank the proposers. What it shows: the loop runs unattended
+  end to end, the proposer bisects and spends repeats on baselines and
+  boundaries, and every run passed the gate (200 and 400 ms runs: plan age
+  exactly the delay).
+- Randomness, again: 01d503d4 failed 4 of 4 under o1 (0–200 ms) and passed
+  its one o2 run at 150 ms.
+- Triage of o1's 10 failures (`studies/pilot_o1/triage.json`, 38 s): no
+  brake for a slowing lead 4, turned into an actor 2, hit by an actor 2,
+  left the road 1, unclear 1. All three 02eadd92 failures: late braking
+  behind a car stopping at a red light. One reporter draft wrote "5 of 5"
+  where the table had 4 of 4; reports now may not state counts in prose.
+
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 
 `harness/physics.py` rebuilds the ego's motion from each run's completed

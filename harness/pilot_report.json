@@ -1,0 +1,106 @@
+{
+ "o1": {
+  "rounds": 3,
+  "proposed": 15,
+  "dropped": 0,
+  "launches": 15,
+  "kept": 15,
+  "not_kept": [],
+  "failed": 10,
+  "settings": 12,
+  "scenes": 4,
+  "brackets": {
+   "02eadd92": [
+    100,
+    150
+   ],
+   "023b7fcc": [
+    200,
+    300
+   ]
+  },
+  "proposer_tokens": 18240,
+  "proposer_seconds": 41.9,
+  "plans": [
+   "The budget is small: about 15 runs across 3 rounds for 8 scenes. That is enough to roughly map where each scene breaks, but not to measure failure rates precisely. Five scenes failed in their one earlier run at 0 delay, so delay can't show much change on them unless their baseline is really just chance. This round probes the three scenes that passed at 0 delay (01d503d4, 023b7fcc and 02eadd92) at a middle delay of 200 ms to see whether they fail there. It also runs the most robust-looking scene (02eadd92) at 400 ms to cover the far end, and repeats one baseline failure at 0 delay to check whether it happens again. In rounds 2 and 3, I'll narrow the delay range: for scenes that fail at 200 ms, run 100 ms; for scenes that pass, run 300 to 400 ms. I'll repeat settings with mixed outcomes, and give each scene that failed at baseline one run at 0 delay to see whether its failure was chance or a steady problem.",
+   "Focus on the three scenes that passed at 0 delay. These are the only ones where a failure onset caused by delay can show up. 02eadd92 and 01d503d4 passed at 0 but failed at 200 ms. This round probes both at 100 ms to narrow down where they break, and repeats each at 0 ms to check that the clean baseline wasn't luck. 023b7fcc still passes at 200 ms, so test it at 400 ms to see whether it fails at all within the range. In the last round, add repeats around the breakpoints this round suggests, or bisect at 50, 150 or 300 ms. Scenes that already fail at 0 delay (026d6a39, 0245ff75, 02e075b9, 032b6f21, 04394343) come later: they can't show a delay onset and are fragile at baseline already.",
+   "This is the last round, so the 5 runs go where they can most change the conclusions. Every count below is from a single run per setting. (1) Scene 02eadd92 passed at 0 and 100 ms (100 ms includes the earlier batch's run) and failed at 200 and 400 ms. It is the clearest delay-driven failure, so I spend 3 runs on finding its break point: 2 at 150 ms and 1 more at 100 ms to check that 100 ms really passes. (2) Scene 01d503d4 failed at 0, 100 and 200 ms in this study but passed at 0 in the earlier batch. One more run at 0 delay helps show whether it is fragile even with no delay, rather than broken by delay. (3) Scene 023b7fcc passed at 0, 200 and 400 ms. One run at 300 ms fills the gap in its range and backs up the claim that it is robust. Scene 026d6a39 failed at 0 delay twice by leaving the road, so it is fragile with no delay at all and more runs on it teach little. The 4 scenes that failed at 0 but were never run in this study stay untested; the report should say they are open, with the earlier batch suggesting they fail at baseline."
+  ],
+  "grid": {
+   "01d503d4@200ms:runs": 1,
+   "01d503d4@200ms:failed": 1,
+   "023b7fcc@200ms:runs": 1,
+   "023b7fcc@200ms:failed": 0,
+   "02eadd92@200ms:runs": 1,
+   "02eadd92@200ms:failed": 1,
+   "02eadd92@400ms:runs": 1,
+   "02eadd92@400ms:failed": 1,
+   "026d6a39@0ms:runs": 1,
+   "026d6a39@0ms:failed": 1,
+   "02eadd92@100ms:runs": 2,
+   "02eadd92@100ms:failed": 0,
+   "01d503d4@100ms:runs": 1,
+   "01d503d4@100ms:failed": 1,
+   "023b7fcc@400ms:runs": 1,
+   "023b7fcc@400ms:failed": 0,
+   "02eadd92@0ms:runs": 1,
+   "02eadd92@0ms:failed": 0,
+   "01d503d4@0ms:runs": 2,
+   "01d503d4@0ms:failed": 2,
+   "02eadd92@150ms:runs": 2,
+   "02eadd92@150ms:failed": 2,
+   "023b7fcc@300ms:runs": 1,
+   "023b7fcc@300ms:failed": 1
+  }
+ },
+ "o2": {
+  "rounds": 3,
+  "proposed": 15,
+  "dropped": 0,
+  "launches": 15,
+  "kept": 15,
+  "not_kept": [],
+  "failed": 3,
+  "settings": 12,
+  "scenes": 5,
+  "brackets": {
+   "032b6f21": [
+    250,
+    400
+   ]
+  },
+  "proposer_tokens": 0,
+  "proposer_seconds": 0.0,
+  "plans": [
+   "uniform over candidates and every varied knob",
+   "uniform over candidates and every varied knob",
+   "uniform over candidates and every varied knob"
+  ],
+  "grid": {
+   "032b6f21@50ms:runs": 1,
+   "032b6f21@50ms:failed": 0,
+   "032b6f21@250ms:runs": 2,
+   "032b6f21@250ms:failed": 0,
+   "023b7fcc@350ms:runs": 1,
+   "023b7fcc@350ms:failed": 1,
+   "0245ff75@400ms:runs": 1,
+   "0245ff75@400ms:failed": 0,
+   "032b6f21@100ms:runs": 2,
+   "032b6f21@100ms:failed": 0,
+   "01d503d4@150ms:runs": 1,
+   "01d503d4@150ms:failed": 0,
+   "023b7fcc@400ms:runs": 1,
+   "023b7fcc@400ms:failed": 0,
+   "032b6f21@150ms:runs": 2,
+   "032b6f21@150ms:failed": 0,
+   "0245ff75@100ms:runs": 1,
+   "0245ff75@100ms:failed": 0,
+   "02e075b9@350ms:runs": 1,
+   "02e075b9@350ms:failed": 1,
+   "0245ff75@50ms:runs": 1,
+   "0245ff75@50ms:failed": 0,
+   "032b6f21@400ms:runs": 1,
+   "032b6f21@400ms:failed": 1
+  }
+ }
+}

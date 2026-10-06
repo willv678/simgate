@@ -1,0 +1,152 @@
+2026-10-06T12:02:33-04:00 plan-age merged
+........................................................................ [ 47%]
+........................................................................ [ 94%]
+........                                                                 [100%]
+=============================== warnings summary ===============================
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.MessageMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+<frozen importlib._bootstrap>:488
+  <frozen importlib._bootstrap>:488: DeprecationWarning: Type google._upb._message.ScalarMapContainer uses PyType_Spec with a metaclass that has custom tp_new. This is deprecated and will no longer be allowed in Python 3.14.
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+152 passed, 2 warnings in 13.08s
+2026-10-06T12:02:46-04:00 o1 starting
+001_o1_001.json: READY -> run_experiment.py {"pid": 1220805, "run_dir": "diag/o1_001"}
+001_o1_001.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+001_o1_001.json: COMPLETE -> analyze.py {"appended": true}
+001_o1_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_o1_002.json: READY -> run_experiment.py {"pid": 1224537, "run_dir": "diag/o1_002"}
+002_o1_002.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.0}
+002_o1_002.json: COMPLETE -> analyze.py {"appended": true}
+002_o1_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+003_o1_003.json: READY -> run_experiment.py {"pid": 1230856, "run_dir": "diag/o1_003"}
+003_o1_003.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+003_o1_003.json: COMPLETE -> analyze.py {"appended": true}
+003_o1_003.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+004_o1_004.json: READY -> run_experiment.py {"pid": 1234934, "run_dir": "diag/o1_004"}
+004_o1_004.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.8}
+004_o1_004.json: COMPLETE -> analyze.py {"appended": true}
+004_o1_004.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+005_o1_005.json: READY -> run_experiment.py {"pid": 1238548, "run_dir": "diag/o1_005"}
+005_o1_005.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.1}
+005_o1_005.json: COMPLETE -> analyze.py {"appended": true}
+005_o1_005.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 5, "quarantined": [], "references": ["b2_009", "s1_002", "s1_004", "s1_006"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+006_o1_006.json: READY -> run_experiment.py {"pid": 1242362, "run_dir": "diag/o1_006"}
+006_o1_006.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.4}
+006_o1_006.json: COMPLETE -> analyze.py {"appended": true}
+006_o1_006.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+007_o1_007.json: READY -> run_experiment.py {"pid": 1247617, "run_dir": "diag/o1_007"}
+007_o1_007.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+007_o1_007.json: COMPLETE -> analyze.py {"appended": true}
+007_o1_007.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+008_o1_008.json: READY -> run_experiment.py {"pid": 1251138, "run_dir": "diag/o1_008"}
+008_o1_008.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.9}
+008_o1_008.json: COMPLETE -> analyze.py {"appended": true}
+008_o1_008.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+009_o1_009.json: READY -> run_experiment.py {"pid": 1254767, "run_dir": "diag/o1_009"}
+009_o1_009.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+009_o1_009.json: COMPLETE -> analyze.py {"appended": true}
+009_o1_009.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+010_o1_010.json: READY -> run_experiment.py {"pid": 1258364, "run_dir": "diag/o1_010"}
+010_o1_010.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.1}
+010_o1_010.json: COMPLETE -> analyze.py {"appended": true}
+010_o1_010.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 10, "quarantined": [], "references": ["b2_009", "s1_002", "s1_004", "s1_006"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+011_o1_011.json: READY -> run_experiment.py {"pid": 1262302, "run_dir": "diag/o1_011"}
+011_o1_011.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+011_o1_011.json: COMPLETE -> analyze.py {"appended": true}
+011_o1_011.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+012_o1_012.json: READY -> run_experiment.py {"pid": 1265851, "run_dir": "diag/o1_012"}
+012_o1_012.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.4}
+012_o1_012.json: COMPLETE -> analyze.py {"appended": true}
+012_o1_012.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+013_o1_013.json: READY -> run_experiment.py {"pid": 1269560, "run_dir": "diag/o1_013"}
+013_o1_013.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+013_o1_013.json: COMPLETE -> analyze.py {"appended": true}
+013_o1_013.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+014_o1_014.json: READY -> run_experiment.py {"pid": 1273301, "run_dir": "diag/o1_014"}
+014_o1_014.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+014_o1_014.json: COMPLETE -> analyze.py {"appended": true}
+014_o1_014.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+015_o1_015.json: READY -> run_experiment.py {"pid": 1276927, "run_dir": "diag/o1_015"}
+015_o1_015.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.9}
+015_o1_015.json: COMPLETE -> analyze.py {"appended": true}
+015_o1_015.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 15, "quarantined": [], "references": ["b2_009", "s1_002", "s1_004", "s1_006"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+{"round": 1, "queued": 5, "dropped": 0}
+{"round": 2, "queued": 5, "dropped": 0}
+{"round": 3, "queued": 5, "dropped": 0}
+{"study": "o1", "kept": 15, "failed": 10}
+2026-10-06T12:58:28-04:00 o2 starting
+001_o2_001.json: READY -> run_experiment.py {"pid": 1280968, "run_dir": "diag/o2_001"}
+001_o2_001.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.6}
+001_o2_001.json: COMPLETE -> analyze.py {"appended": true}
+001_o2_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_o2_002.json: READY -> run_experiment.py {"pid": 1284725, "run_dir": "diag/o2_002"}
+002_o2_002.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.6}
+002_o2_002.json: COMPLETE -> analyze.py {"appended": true}
+002_o2_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+003_o2_003.json: READY -> run_experiment.py {"pid": 1288331, "run_dir": "diag/o2_003"}
+003_o2_003.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.9}
+003_o2_003.json: COMPLETE -> analyze.py {"appended": true}
+003_o2_003.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+004_o2_004.json: READY -> run_experiment.py {"pid": 1291954, "run_dir": "diag/o2_004"}
+004_o2_004.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.1}
+004_o2_004.json: COMPLETE -> analyze.py {"appended": true}
+004_o2_004.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+005_o2_005.json: READY -> run_experiment.py {"pid": 1295538, "run_dir": "diag/o2_005"}
+005_o2_005.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.6}
+005_o2_005.json: COMPLETE -> analyze.py {"appended": true}
+005_o2_005.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 5, "quarantined": [], "references": ["s1_002", "s1_003", "s1_007"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+006_o2_006.json: READY -> run_experiment.py {"pid": 1299440, "run_dir": "diag/o2_006"}
+006_o2_006.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+006_o2_006.json: COMPLETE -> analyze.py {"appended": true}
+006_o2_006.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+007_o2_007.json: READY -> run_experiment.py {"pid": 1302984, "run_dir": "diag/o2_007"}
+007_o2_007.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.9}
+007_o2_007.json: COMPLETE -> analyze.py {"appended": true}
+007_o2_007.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+008_o2_008.json: READY -> run_experiment.py {"pid": 1306501, "run_dir": "diag/o2_008"}
+008_o2_008.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.7}
+008_o2_008.json: COMPLETE -> analyze.py {"appended": true}
+008_o2_008.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+009_o2_009.json: READY -> run_experiment.py {"pid": 1310055, "run_dir": "diag/o2_009"}
+009_o2_009.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.7}
+009_o2_009.json: COMPLETE -> analyze.py {"appended": true}
+009_o2_009.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+010_o2_010.json: READY -> run_experiment.py {"pid": 1315638, "run_dir": "diag/o2_010"}
+010_o2_010.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.6}
+010_o2_010.json: COMPLETE -> analyze.py {"appended": true}
+010_o2_010.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 10, "quarantined": [], "references": ["b2_009", "s1_002", "s1_003", "s1_007"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+011_o2_011.json: READY -> run_experiment.py {"pid": 1321022, "run_dir": "diag/o2_011"}
+011_o2_011.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.7}
+011_o2_011.json: COMPLETE -> analyze.py {"appended": true}
+011_o2_011.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+012_o2_012.json: READY -> run_experiment.py {"pid": 1327787, "run_dir": "diag/o2_012"}
+012_o2_012.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.2}
+012_o2_012.json: COMPLETE -> analyze.py {"appended": true}
+012_o2_012.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+013_o2_013.json: READY -> run_experiment.py {"pid": 1338630, "run_dir": "diag/o2_013"}
+013_o2_013.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+013_o2_013.json: COMPLETE -> analyze.py {"appended": true}
+013_o2_013.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+014_o2_014.json: READY -> run_experiment.py {"pid": 1342344, "run_dir": "diag/o2_014"}
+014_o2_014.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.6}
+014_o2_014.json: COMPLETE -> analyze.py {"appended": true}
+014_o2_014.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+015_o2_015.json: READY -> run_experiment.py {"pid": 1346360, "run_dir": "diag/o2_015"}
+015_o2_015.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.6}
+015_o2_015.json: COMPLETE -> analyze.py {"appended": true}
+015_o2_015.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 15, "quarantined": [], "references": ["b2_009", "s1_002", "s1_003", "s1_005", "s1_007"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+{"round": 1, "queued": 5, "dropped": 0}
+{"round": 2, "queued": 5, "dropped": 0}
+{"round": 3, "queued": 5, "dropped": 0}
+{"study": "o2", "kept": 15, "failed": 3}
+2026-10-06T14:05:37-04:00 pilot done
+2026-10-06T14:05:45-04:00 confirm_break_02eadd92 study starting
+001_confirm_break_02eadd92_001.json: READY -> run_experiment.py {"pid": 1350304, "run_dir": "diag/confirm_break_02eadd92_001"}

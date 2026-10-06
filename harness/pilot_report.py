@@ -27,7 +27,30 @@ from read_state import load_entry, queue_entries
 
 HARNESS = Path(__file__).resolve().parent
 STUDIES = {"o1": "Claude proposes", "o2": "random"}
+VARIED = ("planner_delay_us",)
 OUTPUT = HARNESS / "pilot_report.json"
+
+
+def brackets(kept: list[dict]) -> dict:
+    """Per scene that passed at some delay and failed at a larger one, where it
+    breaks: the largest delay below which every kept run passed, and the
+    smallest delay above it with a failure, in ms."""
+    found = {}
+    for scene in {r["scene_id"] for r in kept}:
+        runs = sorted(
+            (r["planner_delay_us"], r["failed"]) for r in kept if r["scene_id"] == scene
+        )
+        passed_up_to = None
+        for delay, failed in runs:
+            if failed:
+                break
+            passed_up_to = delay
+        later = [
+            d for d, f in runs if f and passed_up_to is not None and d > passed_up_to
+        ]
+        if passed_up_to is not None and later:
+            found[scene[7:15]] = [passed_up_to // 1000, min(later) // 1000]
+    return found
 
 
 def study_report(study: str) -> dict:
@@ -37,7 +60,7 @@ def study_report(study: str) -> dict:
         for line in (HARNESS / f"{study}_rounds.jsonl").read_text().splitlines()
     ]
     entries = [load_entry(path) for path in queue_entries(queue)]
-    rows = history(queue)
+    rows = history(queue, VARIED)
     kept = [row for row in rows if row["verdict"] == "kept"]
     grid = Counter()
     for row in kept:
@@ -55,6 +78,7 @@ def study_report(study: str) -> dict:
         "failed": sum(row["failed"] for row in kept),
         "settings": len({(r["scene_id"], r["planner_delay_us"]) for r in kept}),
         "scenes": len({r["scene_id"] for r in kept}),
+        "brackets": brackets(kept),
         "proposer_tokens": sum(c["context_tokens"] + c["output_tokens"] for c in calls),
         "proposer_seconds": round(sum(c["duration_ms"] for c in calls) / 1000, 1),
         "plans": [r["plan"] for r in rounds],
@@ -140,7 +164,7 @@ def main() -> int:
             f"{r['dropped']} dropped, {r['launches']} launches, {r['kept']} kept, "
             f"{len(r['not_kept'])} not kept, {r['failed']} failed, {r['settings']} settings "
             f"on {r['scenes']} scenes, proposer {r['proposer_tokens']} tokens "
-            f"{r['proposer_seconds']} s"
+            f"{r['proposer_seconds']} s; breaks bracketed (ms): {r['brackets']}"
         )
     return 0
 
