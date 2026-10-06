@@ -80,9 +80,9 @@ uv run python research/harness/score_campaign.py research/harness/c1_queue
 | `diagnose.py`, `validate_diagnosis.py`, `recover.py` | the FAILED branch |
 | `advisor/CLAUDE.md`, `advisor/AUDIT.md` | the only system prompts the model sees |
 | `audit.py`, `promote.py` | tier 2 audit and rule admission |
-| `faults.py`, `enqueue_campaign.py`, `score_campaign.py`, `campaign_report.py`, `run_campaign.sh`, `run_c3.sh` | fault injection, campaigns, and scoring by outcome |
+| `faults.py`, `enqueue_campaign.py`, `score_campaign.py`, `campaign_report.py`, `run_campaign.sh`, `run_c3.sh`, `run_c4.sh` | fault injection, campaigns, and scoring by outcome |
 | `verify_supervisor.py`, `probe_fence.py` | checks on the gate and on the agent's fence |
 | `eval_auditor.py`, `eval_mining.py`, `repeat_auditor.py`, `compare_policies.py`, `repeat_tiers.py`, `calibrate_physics.py`, `eval_physics_audit.py`, `eval_plan_audit.py` | the evaluations |
-| `plot_results.py`, `plot_campaign.py`, `plot_architecture.py` | the paper's figures, into `../figures/` |
+| `plot_results.py`, `plot_campaign.py`, `plot_architecture.py`, `rebuild.sh` | the paper's figures, into `../figures/`; `rebuild.sh` reruns the tests and every model-free table and figure |
 
 Results and their sources are in `../FACTS.md`; the paper plan is `../OUTLINE.md`.

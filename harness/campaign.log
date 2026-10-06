@@ -2684,3 +2684,18 @@ queued 50 runs in research/harness/c3_agent_queue
 004_c3a_004.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
 004_c3a_004.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "052_c3a_004_a2.json", "cleanup": null}
 005_c3a_005.json: READY -> run_experiment.py {"pid": 629669, "run_dir": "diag/c3a_005"}
+005_c3a_005.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 1.5}
+005_c3a_005.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 37843, "output_tokens": 962, "duration_ms": 11577, "tool_calls": ["Bash: tail -n 40 ./console.log; ls /home/willvarner/alpasim/diag/c3a_005", "Bash: docker ps -a; docker network ls; nvidia-smi; df -h", "Bash: docker ps; nvidia-smi; df -h", "Grep: (?i)killed|oom|out of memory|sigkill|exit code|exited with|Traceback|signal", "Grep: (?i)killed|oom|out of memory|sigkill|exited with|Traceback|signal|137"], "denied": []}
+005_c3a_005.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+005_c3a_005.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "053_c3a_005_a2.json", "cleanup": null}
+006_c3a_006.json: READY -> run_experiment.py {"pid": 633695, "run_dir": "diag/c3a_006"}
+006_c3a_006.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+006_c3a_006.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 18268, "output_tokens": 556, "duration_ms": 6312, "tool_calls": ["Grep: (?i)delay", "Grep: (?i)delay"], "denied": []}
+006_c3a_006.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+006_c3a_006.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+007_c3a_007.json: READY -> run_experiment.py {"pid": 639832, "run_dir": "diag/c3a_007"}
+007_c3a_007.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+007_c3a_007.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 63622, "output_tokens": 1381, "duration_ms": 17776, "tool_calls": ["Grep: Interpolation|Traceback|metrics|parquet|Error", "Bash: df -h /home/willvarner/alpasim; docker ps", "Read: ./console.log", "Glob: **/*.parquet", "Read: /home/willvarner/alpasim/diag/c3a_007/aggregate/metrics_unprocessed.parquet"], "denied": []}
+007_c3a_007.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+007_c3a_007.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "054_c3a_007_a2.json", "cleanup": null}
+008_c3a_008.json: READY -> run_experiment.py {"pid": 669692, "run_dir": "diag/c3a_008"}
