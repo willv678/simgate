@@ -90,3 +90,15 @@ def test_each_state_dispatches_its_scripts(tmp_path: Path, make_run):
         "minutes": 0,
         "stopped": "environment failure halted for a person",
     }
+
+
+def test_only_a_signal_crash_of_a_rerunnable_script_is_rerun():
+    from loop import ScriptCrash, rerun_after
+
+    abort = ScriptCrash("monitor.py", Path("e.json"), -6, "terminate called")
+    error = ScriptCrash("monitor.py", Path("e.json"), 1, "Traceback")
+    assert rerun_after("monitor.py", abort)
+    assert not rerun_after("monitor.py", error)
+    assert not rerun_after(
+        "recover.py", ScriptCrash("recover.py", Path("e.json"), -6, "")
+    )
