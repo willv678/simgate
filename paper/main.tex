@@ -275,7 +275,15 @@ With physics on, the script's retries recovered the silent faults, which in C1
 and C2 did not repeat on a retry, while the model tiers halted most of them as
 physically impossible runs. A configuration error that causes such a run would
 repeat, so C3 makes them persistent \pending{C3 result}. A tier-1 call used
-about 49\,k context tokens, a tier-0 call about 5\,k.
+about 49\,k context tokens and a median 12.5\,s, a tier-0 call about 5\,k and
+8.9\,s.
+
+Scoring by outcome can hide a wrong diagnosis. On hangs, both tiers mostly
+reconfigured the traffic model, blaming slowness, and the retry succeeded
+because the injected hang was transient. The monitor had stopped the run
+before the diagnosis, removing the paused container that showed the real
+cause; replayed with the container visible, tier~1 cleaned up and retried in 3
+of 3 calls. The monitor now records the machine before stopping a run.
 
 \subsection{The Auditor and rule mining}
 \begin{table}[t]
