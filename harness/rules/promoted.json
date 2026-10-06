@@ -1,1 +1,19 @@
-[]
+[
+ {
+  "id": "controller_mpc_linear",
+  "file": "wizard-config.yaml",
+  "path": "controller.mpc_implementation",
+  "op": "eq",
+  "value": "linear",
+  "reason": "The batch setup and all known-good reference runs use the linear MPC; a different controller implementation changes what the run's tracking and motion metrics measure.",
+  "source": "c3_agent audit",
+  "evidence": {
+   "caught": [
+    "c3a_045_a2"
+   ],
+   "flagged": 1,
+   "clean_checked": 51,
+   "enacted_by": "Will Varner, 6 Oct 2026"
+  }
+ }
+]
