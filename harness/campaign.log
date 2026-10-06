@@ -2744,3 +2744,273 @@ queued 50 runs in research/harness/c3_agent_queue
 016_c3a_016.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
 016_c3a_016.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
 017_c3a_017.json: READY -> run_experiment.py {"pid": 731262, "run_dir": "diag/c3a_017"}
+017_c3a_017.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+017_c3a_017.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 43891, "output_tokens": 852, "duration_ms": 10559, "tool_calls": ["Bash: docker ps --format '{{.Names}}\\t{{.Status}}'; docker network ls; nvidia-smi", "Grep: (?i)paus|error|oom|memory|timeout|step", "Bash: df -h /home/willvarner/alpasim/diag", "Grep: StepEvent|Session|paus"], "denied": []}
+017_c3a_017.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+017_c3a_017.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "058_c3a_017_a2.json", "cleanup": "docker compose down on diag/c3a_017"}
+018_c3a_018.json: READY -> run_experiment.py {"pid": 734814, "run_dir": "diag/c3a_018"}
+018_c3a_018.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 2.0}
+018_c3a_018.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 93141, "output_tokens": 1995, "duration_ms": 30882, "tool_calls": ["Bash: tail -n 40 ./console.log; docker ps -a; nvidia-smi; df -h", "Grep: (?i)killed|oom|out of memory|exited with code|exit code|137|SIGKILL|Gracefully|Aborting|canceled", "Bash: docker ps -a; docker network ls; nvidia-smi; df -h", "Grep: Up |MiB|Filesystem|/dev/|c3a_018", "Grep: (?i)exited|error|traceback|exception|interrupt|signal|memory", "Glob: **/*", "Read: /home/willvarner/alpasim/diag/c3a_018/run_metadata.yaml"], "denied": []}
+018_c3a_018.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+018_c3a_018.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "059_c3a_018_a2.json", "cleanup": null}
+019_c3a_019.json: READY -> run_experiment.py {"pid": 737844, "run_dir": "diag/c3a_019"}
+019_c3a_019.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+019_c3a_019.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 47582, "output_tokens": 735, "duration_ms": 10894, "tool_calls": ["Grep: (?i)parquet|metrics|disk|no space|Traceback|exit", "Bash: df -h; docker ps", "Glob: **/*.parquet", "Bash: df /home/willvarner/alpasim/diag/c3a_019"], "denied": []}
+019_c3a_019.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+019_c3a_019.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "060_c3a_019_a2.json", "cleanup": null}
+020_c3a_020.json: READY -> run_experiment.py {"pid": 741298, "run_dir": "diag/c3a_020"}
+020_c3a_020.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+020_c3a_020.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 56446, "output_tokens": 1177, "duration_ms": 13824, "tool_calls": ["Bash: docker ps --format '{{.Names}}\\t{{.Status}}'; docker network ls --format '{{.Name}}'; nvidia-smi; df -h /home/willvarner/alpasim/diag", "Grep: (?i)error|pause|oom|memory|cuda|timeout|exception", "Bash: docker ps -a --format '{{.Names}}\\t{{.Status}}'", "Read: /tmp/tmpjhtxoeq1/console.log", "Grep: runtime-0-1"], "denied": []}
+020_c3a_020.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+020_c3a_020.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "061_c3a_020_a2.json", "cleanup": "docker compose down on diag/c3a_020"}
+021_c3a_021.json: READY -> run_experiment.py {"pid": 744708, "run_dir": "diag/c3a_021"}
+021_c3a_021.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+021_c3a_021.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 156503, "output_tokens": 1241, "duration_ms": 20272, "tool_calls": ["Grep: (?i)kill|oom|memory|137|error|exit", "Bash: docker ps -a; docker network ls; nvidia-smi; df -h", "Bash: docker ps; docker ps -a --filter name=c3a_021; nvidia-smi; df -h", "Bash: df -h /home", "Read: /home/willvarner/alpasim/diag/c3a_021/txt-logs/runtime_worker_0.log", "Bash: df -h /tmp", "Grep: (?i)kill|oom|signal|exit|exited|137|terminat|stopp", "Read: /tmp/tmp149gjvir/console.log"], "denied": []}
+021_c3a_021.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+021_c3a_021.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "062_c3a_021_a2.json", "cleanup": null}
+022_c3a_022.json: READY -> run_experiment.py {"pid": 747829, "run_dir": "diag/c3a_022"}
+022_c3a_022.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+022_c3a_022.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 41862, "output_tokens": 987, "duration_ms": 11711, "tool_calls": ["Grep: (?i)accel|physics|plan_handoff|error|traceback", "Bash: df -h /home/willvarner/alpasim", "Grep: (?i)warn|error|reset|teleport|jump"], "denied": []}
+022_c3a_022.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+022_c3a_022.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+023_c3a_023.json: READY -> run_experiment.py {"pid": 751344, "run_dir": "diag/c3a_023"}
+023_c3a_023.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+023_c3a_023.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 122687, "output_tokens": 1642, "duration_ms": 22854, "tool_calls": ["Grep: (?i)driver|recording|fallback|plan|error|exception", "Grep: (?i)driver|recording|fallback|plan|exception|warn", "Grep: (?i)force_gt|gt_duration|on_recording|ego_mode|n_sim_steps|control_timestep|duration", "Bash: df -h /home/willvarner/alpasim/diag/c3a_023 >/dev/null; docker ps", "Glob: **/*", "Grep: (?i)force_gt|gt|recording|n_sim_steps|steps|policy", "Grep: (?i)force_gt|recording|fallback|override|on_gt", "Grep: (?i)force_gt_duration", "Grep: force_gt|clipgt-02e075b9"], "denied": []}
+023_c3a_023.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+023_c3a_023.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+024_c3a_024.json: READY -> run_experiment.py {"pid": 754946, "run_dir": "diag/c3a_024"}
+024_c3a_024.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+024_c3a_024.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 73126, "output_tokens": 1160, "duration_ms": 16302, "tool_calls": ["Grep: (?i)accel|teleport|reset|nan|warn|error", "Read: /home/willvarner/alpasim/diag/c3a_024/controller/alpasim_controller_5438d598-c15f-11f1-9c42-957ef718f0d3.csv", "Read: /home/willvarner/alpasim/diag/c3a_024/controller/alpasim_controller_5438d598-c15f-11f1-9c42-957ef718f0d3.csv"], "denied": []}
+024_c3a_024.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+024_c3a_024.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+025_c3a_025.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+025_c3a_025.json: FAILED -> diagnose.py {"policy": "agent", "skill": "CLEANUP_ENV", "params": {}, "model": "claude-opus-5-5", "context_tokens": 20886, "output_tokens": 691, "duration_ms": 10815, "tool_calls": ["Bash: docker ps --format '{{.Names}} {{.Status}}'; docker network ls"], "denied": []}
+025_c3a_025.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+025_c3a_025.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+025_c3a_025.json: READY -> run_experiment.py {"pid": 764349, "run_dir": "diag/c3a_025"}
+025_c3a_025.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+025_c3a_025.json: COMPLETE -> analyze.py {"appended": true}
+025_c3a_025.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+026_c3a_026.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+026_c3a_026.json: FAILED -> diagnose.py {"policy": "agent", "skill": "CLEANUP_ENV", "params": {}, "model": "claude-opus-5-5", "context_tokens": 20837, "output_tokens": 587, "duration_ms": 9374, "tool_calls": ["Bash: docker ps --format '{{.Names}} {{.Status}}'; docker network ls"], "denied": []}
+026_c3a_026.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+026_c3a_026.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+026_c3a_026.json: READY -> run_experiment.py {"pid": 773516, "run_dir": "diag/c3a_026"}
+026_c3a_026.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+026_c3a_026.json: COMPLETE -> analyze.py {"appended": true}
+026_c3a_026.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+027_c3a_027.json: READY -> run_experiment.py {"pid": 776839, "run_dir": "diag/c3a_027"}
+027_c3a_027.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+027_c3a_027.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 51262, "output_tokens": 989, "duration_ms": 14564, "tool_calls": ["Bash: docker ps --format '{{.Names}}\\t{{.Status}}'; docker network ls; nvidia-smi --query-gpu=memory.used,memory.free --format=csv", "Grep: (?i)paus|error|exception|timeout|traceback", "Bash: df -h /home/willvarner/alpasim/diag", "Grep: runtime-0-1", "Read: ./console.log", "Grep: runtime-0-1"], "denied": []}
+027_c3a_027.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+027_c3a_027.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "063_c3a_027_a2.json", "cleanup": "docker compose down on diag/c3a_027"}
+028_c3a_028.json: READY -> run_experiment.py {"pid": 780261, "run_dir": "diag/c3a_028"}
+028_c3a_028.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+028_c3a_028.json: COMPLETE -> analyze.py {"appended": true}
+028_c3a_028.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+029_c3a_029.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+029_c3a_029.json: FAILED -> diagnose.py {"policy": "agent", "skill": "CLEANUP_ENV", "params": {}, "model": "claude-opus-5-5", "context_tokens": 29621, "output_tokens": 815, "duration_ms": 12608, "tool_calls": ["Bash: docker network ls; docker ps", "Glob: **/*"], "denied": ["Glob: {\"pattern\": \"**/*\", \"path\": \"/home/willvarner/alpasim/diag/c3a_029\"}"]}
+029_c3a_029.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+029_c3a_029.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+029_c3a_029.json: READY -> run_experiment.py {"pid": 789475, "run_dir": "diag/c3a_029"}
+029_c3a_029.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+029_c3a_029.json: COMPLETE -> analyze.py {"appended": true}
+029_c3a_029.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+030_c3a_030.json: READY -> run_experiment.py {"pid": 792772, "run_dir": "diag/c3a_030"}
+030_c3a_030.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+030_c3a_030.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 32667, "output_tokens": 1052, "duration_ms": 15505, "tool_calls": ["Grep: (?i)planner_delay|delay_us|override|unknown|ignor", "Glob: **/*", "Read: /home/willvarner/alpasim/diag/c3a_030/run_metadata.yaml"], "denied": []}
+030_c3a_030.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+030_c3a_030.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+031_c3a_031.json: READY -> run_experiment.py {"pid": 796290, "run_dir": "diag/c3a_031"}
+031_c3a_031.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+031_c3a_031.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 108775, "output_tokens": 1347, "duration_ms": 18454, "tool_calls": ["Grep: (?i)(error|exception|traceback|fail|on_recording|fallback|warn)", "Grep: (?i)(recording|force_gt|gt_duration|ego_mode|hybrid|log.?replay|prerun|policy)", "Read: /tmp/tmpy3et73x2/console.log", "Glob: **/*", "Grep: (?i)(force_gt|gt_duration|recording|ego_|open_loop|replay|hybrid|n_sim_steps|duration)", "Read: /home/willvarner/alpasim/diag/c3a_031/generated-user-config-0.yaml"], "denied": []}
+031_c3a_031.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+031_c3a_031.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+032_c3a_032.json: READY -> run_experiment.py {"pid": 799737, "run_dir": "diag/c3a_032"}
+032_c3a_032.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+032_c3a_032.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 81553, "output_tokens": 1242, "duration_ms": 18681, "tool_calls": ["Grep: (?i)driver.*(error|warn|fail|exception)|on_recording|fallback|traceback", "Grep: (?i)driver.*(error|warn|fail|exception)|on_recording|fallback|traceback|control", "Grep: (?i)force_gt|gt_ego|use_gt|recording|log_replay|ego.*(mode|policy)|driver-0-1  \\| .*(WARN|ERROR)", "Bash: df -h /home 2>&1 | head; docker ps 2>&1 | head", "Glob: **/*", "Grep: (?i)gt|recording|force|ego|policy", "Read: /home/willvarner/alpasim/diag/c3a_032/wizard-config.yaml"], "denied": []}
+032_c3a_032.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+032_c3a_032.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+033_c3a_033.json: READY -> run_experiment.py {"pid": 803198, "run_dir": "diag/c3a_033"}
+033_c3a_033.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+033_c3a_033.json: COMPLETE -> analyze.py {"appended": true}
+033_c3a_033.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+034_c3a_034.json: READY -> run_experiment.py {"pid": 806633, "run_dir": "diag/c3a_034"}
+034_c3a_034.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+034_c3a_034.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 51101, "output_tokens": 773, "duration_ms": 12185, "tool_calls": ["Grep: Interpolation|metrics|Traceback|exit|Error", "Glob: **/*", "Read: ./console.log", "Bash: df -h; docker ps"], "denied": []}
+034_c3a_034.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+034_c3a_034.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "064_c3a_034_a2.json", "cleanup": null}
+035_c3a_035.json: READY -> run_experiment.py {"pid": 810042, "run_dir": "diag/c3a_035"}
+035_c3a_035.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+035_c3a_035.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 63899, "output_tokens": 1483, "duration_ms": 21101, "tool_calls": ["Grep: Interpolation|MinADE|metrics|Traceback|exit", "Glob: **/*.parquet", "Read: ./console.log", "Glob: rollouts/**", "Bash: docker ps"], "denied": []}
+035_c3a_035.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+035_c3a_035.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "065_c3a_035_a2.json", "cleanup": null}
+036_c3a_036.json: READY -> run_experiment.py {"pid": 813478, "run_dir": "diag/c3a_036"}
+036_c3a_036.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+036_c3a_036.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 107363, "output_tokens": 1603, "duration_ms": 20099, "tool_calls": ["Grep: (?i)accel|speed|plan|warn|error|traceback", "Glob: **/*", "Read: /home/willvarner/alpasim/diag/c3a_036/controller/alpasim_controller_a2e2f640-c166-11f1-9d95-abca706b43e5.csv", "Read: /home/willvarner/alpasim/diag/c3a_036/controller/alpasim_controller_a2e2f640-c166-11f1-9d95-abca706b43e5.csv", "Grep: (?i)seed|sampl|temperature|determin"], "denied": []}
+036_c3a_036.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+036_c3a_036.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "066_c3a_036_a2.json", "cleanup": null}
+037_c3a_037.json: READY -> run_experiment.py {"pid": 816952, "run_dir": "diag/c3a_037"}
+037_c3a_037.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+037_c3a_037.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 36076, "output_tokens": 609, "duration_ms": 11837, "tool_calls": ["Grep: (?i)(metric|parquet|Traceback|exit|wizard)", "Bash: docker ps; df -h /home", "Glob: **/*.parquet"], "denied": []}
+037_c3a_037.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+037_c3a_037.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "067_c3a_037_a2.json", "cleanup": null}
+038_c3a_038.json: READY -> run_experiment.py {"pid": 820419, "run_dir": "diag/c3a_038"}
+038_c3a_038.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+038_c3a_038.json: COMPLETE -> analyze.py {"appended": true}
+038_c3a_038.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+039_c3a_039.json: READY -> run_experiment.py {"pid": 823796, "run_dir": "diag/c3a_039"}
+039_c3a_039.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 2.5}
+039_c3a_039.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 46284, "output_tokens": 1204, "duration_ms": 17549, "tool_calls": ["Bash: tail -n 40 ./console.log; docker ps -a; nvidia-smi; df -h", "Grep: (?i)killed|oom|out of memory|exited with code|137|signal|memory", "Bash: tail -c 2500 /home/willvarner/.claude/projects/-tmp-tmpl0zzopsc/f1975e4e-327a-41e6-a8e1-629651714f4b/tool-results/b6322co4g.txt", "Bash: docker ps; docker network ls"], "denied": []}
+039_c3a_039.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+039_c3a_039.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "068_c3a_039_a2.json", "cleanup": null}
+040_c3a_040.json: READY -> run_experiment.py {"pid": 826871, "run_dir": "diag/c3a_040"}
+040_c3a_040.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+040_c3a_040.json: COMPLETE -> analyze.py {"appended": true}
+040_c3a_040.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+041_c3a_041.json: READY -> run_experiment.py {"pid": 830187, "run_dir": "diag/c3a_041"}
+041_c3a_041.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 2.0}
+041_c3a_041.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 50602, "output_tokens": 890, "duration_ms": 12945, "tool_calls": ["Grep: (?i)kill|oom|memory|137|exited|error", "Bash: docker ps -a; docker network ls; nvidia-smi; df -h", "Bash: docker ps; nvidia-smi --query-gpu=memory.used,memory.total --format=csv; df -h /", "Grep: .", "Read: /tmp/tmp1uro0cmm/console.log"], "denied": []}
+041_c3a_041.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+041_c3a_041.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "069_c3a_041_a2.json", "cleanup": null}
+042_c3a_042.json: READY -> run_experiment.py {"pid": 833234, "run_dir": "diag/c3a_042"}
+042_c3a_042.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+042_c3a_042.json: COMPLETE -> analyze.py {"appended": true}
+042_c3a_042.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+043_c3a_043.json: READY -> run_experiment.py {"pid": 836564, "run_dir": "diag/c3a_043"}
+043_c3a_043.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+043_c3a_043.json: COMPLETE -> analyze.py {"appended": true}
+043_c3a_043.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+044_c3a_044.json: READY -> run_experiment.py {"pid": 839919, "run_dir": "diag/c3a_044"}
+044_c3a_044.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+044_c3a_044.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 78217, "output_tokens": 1608, "duration_ms": 20095, "tool_calls": ["Grep: (?i)(recording|fallback|warmup|driver.*(error|fail|timeout)|policy|log_replay|replay)", "Grep: (?i)(recording|fallback|warmup|replay|ego.*(mode|control)|use_)", "Grep: (?i)(gt_|ground.?truth|force|policy|ego_|controller.*(warn|error)|driver.*(warn|error))", "Grep: (?i)(handover|control_start|force_gt|n_sim_steps|duration)", "Glob: **/*", "Grep: (?i)(gt|recording|handover|force|start_|control|n_sim|steps|scene)", "Grep: (?i)(handover|force_gt|recording|ego_)"], "denied": []}
+044_c3a_044.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+044_c3a_044.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+045_c3a_045.json: READY -> run_experiment.py {"pid": 843402, "run_dir": "diag/c3a_045"}
+045_c3a_045.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+045_c3a_045.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 58258, "output_tokens": 2057, "duration_ms": 24489, "tool_calls": ["Bash: ls -la /home/willvarner/alpasim/diag/c3a_045", "Grep: (?i)accel|physics|nan|teleport|reset", "Bash: ls -R /home/willvarner/alpasim/diag/c3a_045/aggregate /home/willvarner/alpasim/diag/c3a_045/txt-logs /home/willvarner/alpasim/diag/c3a_045/rollouts | head -50", "Grep: (?i)warn|error|exception|fallback|timeout|stale", "Bash: df -h /home | tail -1", "Read: /home/willvarner/alpasim/diag/c3a_045/aggregate/metrics_results.txt"], "denied": []}
+045_c3a_045.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+045_c3a_045.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "070_c3a_045_a2.json", "cleanup": null}
+046_c3a_046.json: READY -> run_experiment.py {"pid": 847001, "run_dir": "diag/c3a_046"}
+046_c3a_046.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+046_c3a_046.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 18092, "output_tokens": 757, "duration_ms": 10100, "tool_calls": ["Grep: planner_delay|delay_us", "Grep: planner_delay|delay_us"], "denied": []}
+046_c3a_046.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+046_c3a_046.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+047_c3a_047.json: READY -> run_experiment.py {"pid": 850481, "run_dir": "diag/c3a_047"}
+047_c3a_047.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+047_c3a_047.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 54870, "output_tokens": 963, "duration_ms": 12962, "tool_calls": ["Grep: (?i)paus|error|oom|memory|timeout|step", "Bash: docker ps -a; docker network ls; nvidia-smi", "Read: ./console.log", "Bash: nvidia-smi; docker ps", "Grep: runtime-0-1"], "denied": []}
+047_c3a_047.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+047_c3a_047.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "071_c3a_047_a2.json", "cleanup": "docker compose down on diag/c3a_047"}
+048_c3a_048.json: READY -> run_experiment.py {"pid": 854031, "run_dir": "diag/c3a_048"}
+048_c3a_048.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+048_c3a_048.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 43578, "output_tokens": 788, "duration_ms": 11046, "tool_calls": ["Grep: (?i)recording|log_replay|replay|fallback|driver.*(error|warn|fail)", "Grep: (?i)driver-0-1.*(plan|warn|error|ego|mode)|controller-0-1.*(warn|error|plan)|ego.*(mode|policy|source)", "Grep: (?i)on_recording|use_log|replay|ego_.*(gt|log|recorded)|force_gt|skip_driver"], "denied": []}
+048_c3a_048.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+048_c3a_048.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+049_c3a_049.json: READY -> run_experiment.py {"pid": 862251, "run_dir": "diag/c3a_049"}
+049_c3a_049.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+049_c3a_049.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 143289, "output_tokens": 2052, "duration_ms": 29241, "tool_calls": ["Bash: ls -la /home/willvarner/alpasim/diag/c3a_049; docker ps; nvidia-smi; df -h", "Grep: (?i)error|warn|nan|yaw|accel|traceback|exception", "Read: ./console.log", "Grep: driver-0-1|controller-0-1", "Read: ./console.log", "Read: ./console.log", "Grep: particles|Loading|artifact|usdz"], "denied": []}
+049_c3a_049.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+049_c3a_049.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+050_c3a_050.json: READY -> run_experiment.py {"pid": 865847, "run_dir": "diag/c3a_050"}
+050_c3a_050.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+050_c3a_050.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 39189, "output_tokens": 1227, "duration_ms": 21279, "tool_calls": ["Grep: (?i)parquet|metrics|Traceback|exit code|Error", "Bash: docker ps -a; docker network ls", "Bash: df -h", "Glob: **/*.parquet", "Read: ./console.log"], "denied": []}
+050_c3a_050.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+050_c3a_050.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "072_c3a_050_a2.json", "cleanup": null}
+051_c3a_003_a2.json: READY -> run_experiment.py {"pid": 869373, "run_dir": "diag/c3a_003_a2"}
+051_c3a_003_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+051_c3a_003_a2.json: COMPLETE -> analyze.py {"appended": true}
+051_c3a_003_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+052_c3a_004_a2.json: READY -> run_experiment.py {"pid": 872893, "run_dir": "diag/c3a_004_a2"}
+052_c3a_004_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+052_c3a_004_a2.json: COMPLETE -> analyze.py {"appended": true}
+052_c3a_004_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+053_c3a_005_a2.json: READY -> run_experiment.py {"pid": 876215, "run_dir": "diag/c3a_005_a2"}
+053_c3a_005_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+053_c3a_005_a2.json: COMPLETE -> analyze.py {"appended": true}
+053_c3a_005_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+054_c3a_007_a2.json: READY -> run_experiment.py {"pid": 879549, "run_dir": "diag/c3a_007_a2"}
+054_c3a_007_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+054_c3a_007_a2.json: COMPLETE -> analyze.py {"appended": true}
+054_c3a_007_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+055_c3a_009_a2.json: READY -> run_experiment.py {"pid": 882882, "run_dir": "diag/c3a_009_a2"}
+055_c3a_009_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+055_c3a_009_a2.json: COMPLETE -> analyze.py {"appended": true}
+055_c3a_009_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+056_c3a_010_a2.json: READY -> run_experiment.py {"pid": 886369, "run_dir": "diag/c3a_010_a2"}
+056_c3a_010_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+056_c3a_010_a2.json: COMPLETE -> analyze.py {"appended": true}
+056_c3a_010_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+057_c3a_015_a2.json: READY -> run_experiment.py {"pid": 889694, "run_dir": "diag/c3a_015_a2"}
+057_c3a_015_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+057_c3a_015_a2.json: COMPLETE -> analyze.py {"appended": true}
+057_c3a_015_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+058_c3a_017_a2.json: READY -> run_experiment.py {"pid": 893125, "run_dir": "diag/c3a_017_a2"}
+058_c3a_017_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+058_c3a_017_a2.json: COMPLETE -> analyze.py {"appended": true}
+058_c3a_017_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+059_c3a_018_a2.json: READY -> run_experiment.py {"pid": 896493, "run_dir": "diag/c3a_018_a2"}
+059_c3a_018_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+059_c3a_018_a2.json: COMPLETE -> analyze.py {"appended": true}
+059_c3a_018_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+060_c3a_019_a2.json: READY -> run_experiment.py {"pid": 899881, "run_dir": "diag/c3a_019_a2"}
+060_c3a_019_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+060_c3a_019_a2.json: COMPLETE -> analyze.py {"appended": true}
+060_c3a_019_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+061_c3a_020_a2.json: READY -> run_experiment.py {"pid": 903232, "run_dir": "diag/c3a_020_a2"}
+061_c3a_020_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+061_c3a_020_a2.json: COMPLETE -> analyze.py {"appended": true}
+061_c3a_020_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+062_c3a_021_a2.json: READY -> run_experiment.py {"pid": 906580, "run_dir": "diag/c3a_021_a2"}
+062_c3a_021_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+062_c3a_021_a2.json: COMPLETE -> analyze.py {"appended": true}
+062_c3a_021_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+063_c3a_027_a2.json: READY -> run_experiment.py {"pid": 910075, "run_dir": "diag/c3a_027_a2"}
+063_c3a_027_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+063_c3a_027_a2.json: COMPLETE -> analyze.py {"appended": true}
+063_c3a_027_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+064_c3a_034_a2.json: READY -> run_experiment.py {"pid": 913465, "run_dir": "diag/c3a_034_a2"}
+064_c3a_034_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+064_c3a_034_a2.json: COMPLETE -> analyze.py {"appended": true}
+064_c3a_034_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+065_c3a_035_a2.json: READY -> run_experiment.py {"pid": 916827, "run_dir": "diag/c3a_035_a2"}
+065_c3a_035_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+065_c3a_035_a2.json: COMPLETE -> analyze.py {"appended": true}
+065_c3a_035_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+066_c3a_036_a2.json: READY -> run_experiment.py {"pid": 920158, "run_dir": "diag/c3a_036_a2"}
+066_c3a_036_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+066_c3a_036_a2.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 69933, "output_tokens": 1097, "duration_ms": 18104, "tool_calls": ["Bash: ls -la /home/willvarner/alpasim/diag/c3a_036_a2; ls /home/willvarner/alpasim/diag/ | grep c3a_036", "Glob: **/*", "Read: /home/willvarner/alpasim/diag/c3a_036_a2/run_metadata.yaml", "Glob: c3a_036_a*/aggregate/results-summary.json", "Grep: accel|Error|error|WARN"], "denied": ["Bash: {\"command\": \"ls -la /home/willvarner/alpasim/diag/c3a_036_a2; ls /home/willvarner/alpasim/diag/ | grep c3a_036\", \"description\": \"List run directory and sibling attempts\"}", "Glob: {\"pattern\": \"c3a_036_a*/aggregate/results-summary.json\", \"path\": \"/home/willvarner/alpasim/diag\"}"]}
+066_c3a_036_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+066_c3a_036_a2.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+067_c3a_037_a2.json: READY -> run_experiment.py {"pid": 923686, "run_dir": "diag/c3a_037_a2"}
+067_c3a_037_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+067_c3a_037_a2.json: COMPLETE -> analyze.py {"appended": true}
+067_c3a_037_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+068_c3a_039_a2.json: READY -> run_experiment.py {"pid": 927021, "run_dir": "diag/c3a_039_a2"}
+068_c3a_039_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+068_c3a_039_a2.json: COMPLETE -> analyze.py {"appended": true}
+068_c3a_039_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+069_c3a_041_a2.json: READY -> run_experiment.py {"pid": 930522, "run_dir": "diag/c3a_041_a2"}
+069_c3a_041_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+069_c3a_041_a2.json: COMPLETE -> analyze.py {"appended": true}
+069_c3a_041_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+070_c3a_045_a2.json: READY -> run_experiment.py {"pid": 933985, "run_dir": "diag/c3a_045_a2"}
+070_c3a_045_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+070_c3a_045_a2.json: COMPLETE -> analyze.py {"appended": true}
+070_c3a_045_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+071_c3a_047_a2.json: READY -> run_experiment.py {"pid": 937494, "run_dir": "diag/c3a_047_a2"}
+071_c3a_047_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+071_c3a_047_a2.json: COMPLETE -> analyze.py {"appended": true}
+071_c3a_047_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+072_c3a_050_a2.json: READY -> run_experiment.py {"pid": 940813, "run_dir": "diag/c3a_050_a2"}
+072_c3a_050_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+072_c3a_050_a2.json: COMPLETE -> analyze.py {"appended": true}
+072_c3a_050_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 36, "quarantined": ["c3a_045_a2"], "references": ["b2_009", "s1_002", "s1_003", "s1_004", "s1_005", "s1_006"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 1, "rules_admissible": ["controller_mpc_linear"]}
+2026-10-06T07:42:58-04:00 c3_agent done: {"summary": {"entries": 72, "accepted": 36, "recovered": 22, "env_cleanups": 5, "halted": 14, "halted_by_gate": 0, "unresolved": 0, "model_calls": 41, "minutes": 304.8, "stopped": null}}
+queued 50 runs in research/harness/c3_model_queue
+2026-10-06T07:42:59-04:00 c3_model starting
+001_c3m_001.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+001_c3m_001.json: FAILED -> diagnose.py {"policy": "model", "skill": "CLEANUP_ENV", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3173, "output_tokens": 527, "duration_ms": 5834, "tool_calls": [], "denied": []}
+001_c3m_001.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+001_c3m_001.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+001_c3m_001.json: READY -> run_experiment.py {"pid": 950608, "run_dir": "diag/c3m_001"}

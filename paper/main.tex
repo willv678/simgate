@@ -291,7 +291,8 @@ reconfigured the traffic model, blaming slowness, and the retry succeeded
 because the injected hang was transient. The monitor had stopped the run
 before the diagnosis, removing the paused container that showed the real
 cause; replayed with that container's paused state reconstructed, tier~1
-cleaned up and retried in 3 of 3 calls. The monitor now records the machine before stopping a run.
+cleaned up and retried in 3 of 3 calls. The monitor now records the machine
+before stopping a run, and in C3 tier~1 cleaned up and retried all five hangs.
 
 \subsection{The Auditor and rule mining}
 \begin{table}[t]
