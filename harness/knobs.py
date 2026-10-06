@@ -12,25 +12,36 @@ Only knobs the inner loop can apply and verify from the log are listed:
   plan the controller got (physics.py);
 - lateral_bias_m: a sideways shift of the plan (left positive), as from a
   perception or localisation error; postflight checks the resolved config and
-  the plan's measured offset from the driver's.
-
-Waypoint noise is applied and checked the same way (read_state.PLAN_KEYS) but
-is not offered until its scatter check is calibrated on runs that used it.
+  the plan's measured offset from the driver's;
+- waypoint_noise_std: random jitter of each planned waypoint; postflight checks
+  the resolved config and the plan's measured scatter (0.3 m requested
+  measured 0.295 to 0.306 m on g3).
 """
 
 SCENE_FILE = "data/scenes/sim_scenes.csv"
 DELAYS_US = tuple(range(0, 400_001, 50_000))
 BIASES_M = (-0.5, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.5)
-SCENARIO = {"planner_delay_us": DELAYS_US, "lateral_bias_m": BIASES_M}
-TYPES = {"planner_delay_us": (int,), "lateral_bias_m": (int, float)}
+NOISES_M = (0.0, 0.1, 0.2, 0.3)
+SCENARIO = {
+    "planner_delay_us": DELAYS_US,
+    "lateral_bias_m": BIASES_M,
+    "waypoint_noise_std": NOISES_M,
+}
+TYPES = {
+    "planner_delay_us": (int,),
+    "lateral_bias_m": (int, float),
+    "waypoint_noise_std": (int, float),
+}
 DESCRIPTIONS = {
     "planner_delay_us": "planner delay in microseconds (camera frame to the "
     "controller receiving the plan made from it)",
     "lateral_bias_m": "sideways shift of the plan in metres, left positive, as "
     "from a perception or localisation error",
+    "waypoint_noise_std": "random jitter of each planned waypoint, standard "
+    "deviation in metres, as from noisy perception",
 }
 EXECUTION = {"context_length": 8, "scene_file": SCENE_FILE, "trafficsim_device": "cpu"}
-UNVARIED = {"planner_delay_us": 0, "lateral_bias_m": 0.0}
+UNVARIED = {"planner_delay_us": 0, "lateral_bias_m": 0.0, "waypoint_noise_std": 0.0}
 
 
 def run_config(scene_id: str, settings: dict) -> dict:

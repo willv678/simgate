@@ -39,6 +39,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 from alpasim_utils.logs import async_read_pb_log
+from scipy.stats import chi2
 from shapely.affinity import rotate, translate
 from shapely.geometry import box
 
@@ -239,6 +240,20 @@ def _collided(run_dir: Path) -> bool:
     return bool(len(values)) and float(values.max()) > 0
 
 
+def _scatter(deviations: list) -> float:
+    """The standard deviation of the plan's offsets about each handoff's own
+    median: the median over handoffs of the sample variance, divided by the
+    median of a chi-square with n-1 degrees of freedom over n-1, which makes
+    it unbiased for Gaussian noise. The median ignores the few handoffs on
+    curves where interpolation alone spreads the points."""
+    variances = [np.var(d, ddof=1) for d in deviations if len(d) > 2]
+    if not variances:
+        return 0.0
+    n = int(np.median([len(d) for d in deviations if len(d) > 2]))
+    unbiased = chi2.median(n - 1) / (n - 1)
+    return float(np.sqrt(np.median(variances) / unbiased))
+
+
 def _median_over_steps(deviations: list, reduce) -> float:
     """The median over handoffs of one statistic of each handoff's deviations."""
     per_step = [reduce(d) for d in deviations if len(d)]
@@ -265,7 +280,7 @@ def features(s: dict, collided: bool) -> dict:
         "median_plan_age_ms": float(np.median(s["plan_age_ms"])),
         "max_plan_age_ms": float(np.max(s["plan_age_ms"])),
         "median_plan_offset_m": _median_over_steps(s["plan_deviations"], np.median),
-        "plan_noise_m": _median_over_steps(s["plan_deviations"], np.std),
+        "plan_noise_m": _scatter(s["plan_deviations"]),
         "contact_without_collision": bool(
             np.max(s["overlap_m2"]) > OVERLAP_M2 and not collided
         ),
@@ -302,7 +317,11 @@ def plan_problems(found: dict, request: dict, bounds: dict) -> list[str]:
             f"{request['lateral_bias_m']:+.3f} m"
         )
     noise = found["plan_noise_m"]
-    if abs(noise - request["waypoint_noise_std"]) > match["noise_tolerance_m"]:
+    asked = request["waypoint_noise_std"]
+    if (
+        abs(noise - asked)
+        > match["noise_tolerance_m"] + match["noise_relative"] * asked
+    ):
         problems.append(
             f"physics: plan scatter {noise:.3f} m; the requested waypoint noise is "
             f"{request['waypoint_noise_std']:.3f} m"

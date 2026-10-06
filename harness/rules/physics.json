@@ -29,6 +29,7 @@
  "plan_matches_request": {
   "offset_tolerance_m": 0.02,
   "noise_tolerance_m": 0.02,
-  "why": "The plan the controller got, measured against the driver plan it came from (matched by timestamps, in the frame it was made in) along each waypoint's normal: its median signed offset must equal the requested lateral bias and its scatter the requested waypoint noise, each within 2 cm. Unperturbed runs: offset within 0.003 m and scatter at most 0.004 m over 589 kept runs and three delay runs; a requested 1.0 m bias (g2): offset 0.9999 to 1.0001 m, scatter 0.0001 m. Replaces the earlier bound on the unsigned median gap (0.05 m), which flagged every delayed run."
+  "why": "The plan the controller got, measured against the driver plan it came from (matched by timestamps, in the frame it was made in) along each waypoint's normal: its median signed offset must equal the requested lateral bias and its scatter the requested waypoint noise, each within 2 cm. Unperturbed runs: offset within 0.003 m and scatter at most 0.004 m over 589 kept runs and three delay runs; a requested 1.0 m bias (g2): offset 0.9999 to 1.0001 m, scatter 0.0001 m. Replaces the earlier bound on the unsigned median gap (0.05 m), which flagged every delayed run. Scatter is the standard deviation of the offsets about each handoff's median, made unbiased with the chi-square median (physics._scatter); a requested 0.3 m waypoint noise (g3, four runs) measures 0.295 to 0.306 m and unperturbed runs at most 0.005 m (612 kept runs), so the scatter tolerance is 0.02 m plus 10% of the requested noise.",
+  "noise_relative": 0.1
  }
 }

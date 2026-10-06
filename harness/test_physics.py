@@ -77,7 +77,11 @@ def test_the_plan_must_be_the_drivers_plus_exactly_what_was_asked():
 
     bounds = {
         "plan_age": {"slack_ms": 100},
-        "plan_matches_request": {"offset_tolerance_m": 0.02, "noise_tolerance_m": 0.02},
+        "plan_matches_request": {
+            "offset_tolerance_m": 0.02,
+            "noise_tolerance_m": 0.02,
+            "noise_relative": 0.1,
+        },
     }
 
     def found(age=(0, 0), offset=0.0, noise=0.0):
@@ -110,6 +114,8 @@ def test_the_plan_must_be_the_drivers_plus_exactly_what_was_asked():
         found(offset=0.3), request(bias=-0.3), bounds
     )  # the wrong side
     assert plan_problems(found(noise=0.3), request(), bounds)  # noise nobody asked for
+    assert plan_problems(found(noise=0.29), request(noise=0.3), bounds) == []
+    assert plan_problems(found(noise=0.1), request(noise=0.3), bounds)  # too little
 
 
 def test_the_offset_is_measured_along_each_waypoints_normal():

@@ -51,7 +51,11 @@ SCENE_FACTS = HARNESS / "scene_facts.json"
 # from further off the recording car's path than it was built from.
 FAR_FROM_RECORDING_M = 3.5
 FAILURE_METRICS = ("collision_front", "collision_lateral", "offroad")
-TYPES = {"planner_delay_us": "integer", "lateral_bias_m": "number"}
+TYPES = {
+    "planner_delay_us": "integer",
+    "lateral_bias_m": "number",
+    "waypoint_noise_std": "number",
+}
 
 
 def objective(varied: tuple[str, ...]) -> str:
