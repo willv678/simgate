@@ -42,6 +42,7 @@ KINDS = (
 # KINDS, so campaign plans stay as they were.
 PLAN_FAULTS = {
     "lateral_bias": {"lateral_bias_m": 1.0},
+    "lateral_bias_small": {"lateral_bias_m": 0.3},
     "plan_freeze": {"freeze_plan_steps": 10},
     "waypoint_noise": {"waypoint_noise_std": 0.3},
 }

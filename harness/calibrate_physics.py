@@ -23,7 +23,7 @@ HARNESS = Path(__file__).resolve().parent
 OUTPUT = HARNESS / "physics_calibration.json"
 TABLE = HARNESS / "physics_calibration.txt"
 SILENT = ("rails", "kinematic")
-PLAN = ("lateral_bias", "plan_freeze", "waypoint_noise")
+PLAN = ("lateral_bias", "lateral_bias_small", "plan_freeze", "waypoint_noise")
 
 
 def kept(queue: str, faulted: bool | None, kinds: tuple = SILENT) -> dict[str, Path]:

@@ -26,6 +26,7 @@ from read_state import exit_file, load_entry, queue_entries
 # Faults whose run can exit 0 with data that does not measure its label.
 CORRUPTS_DATA = {
     "lateral_bias",
+    "lateral_bias_small",
     "plan_freeze",
     "waypoint_noise",
     "delete_metrics",
