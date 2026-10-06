@@ -1,7 +1,7 @@
 % SimGate: draft for IEEE IV 2027 (deadline 15 Nov 2026, 6 pages with references).
 % Build on Overleaf: upload this folder (main.tex, refs.bib, figures/).
 % Every number comes from research/FACTS.md. \pending{} marks results still running
-% (campaign C3, held-out plan-fault batch g3) or tasks not done (Figure 1).
+% (campaign C3, held-out plan-fault batch g3) and the co-author's first name.
 \documentclass[conference]{IEEEtran}
 \usepackage{cite}
 \usepackage{amsmath,amssymb}
@@ -35,9 +35,8 @@ agent flags runs that do not measure what they claim and proposes checks, which
 enter the gate only if data and a person admit them. Because the menu is
 finite, we check the gate against every answer a policy could give; the check
 found one real defect. On the AlpaSim simulator with the VaVAM driving model,
-in two fault-injection campaigns, no injected invalid run was kept after
-the gate and audit in any of six policy arms over two campaigns, against 25 per
-arm without the gate.
+across two fault-injection campaigns and six policy arms, no injected invalid
+run was kept after the gate and audit, against 25 per arm without the gate.
 \end{abstract}
 
 \section{Introduction}
@@ -76,8 +75,8 @@ an exhaustive check over every answer a policy could give, which found a
 defect testing had not.
 \item An auditing agent whose findings become deterministic checks only after
 admission against known-good runs and a person's approval.
-\item Six fault-injection campaigns on AlpaSim comparing a hand-written policy
-with two model tiers, scored by outcome.
+\item Fault-injection campaigns on AlpaSim, each run under a hand-written
+policy and two model tiers on the same gated menu, scored by outcome.
 \end{itemize}
 
 \section{Related Work}
@@ -319,7 +318,10 @@ The physics bounds flagged none of 258 kept clean runs across about 100 scenes a
 six silent-fault runs of a pilot, without reading a configuration file. On
 C1's fresh runs, checked after the fact, they caught 25 of 30 silent faults
 and flagged none of 95 other runs; the five misses were kinematic runs on
-gentler scenes, all of which the audit quarantined. With configuration files
+gentler scenes, all of which the audit quarantined. No jerk statistic recovers
+them: one clean highway run is as jerky as any kinematic run (p99 jerk
+101\,m/s$^3$ against at least 78.8 over 43 kinematic runs), so this fault is
+left to the Auditor, which reads the configuration. With configuration files
 hidden, the Auditor caught all six pilot silent faults when given each run's
 motion summary and three without it: summary metrics hid every kinematic run.
 

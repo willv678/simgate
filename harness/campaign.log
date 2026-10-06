@@ -2142,3 +2142,536 @@ audit: {"audited": 39, "quarantined": ["c2a_004", "c2a_014", "c2a_038"], "refere
 002_g1_002.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
 002_g1_002.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
 003_g1_003.json: READY -> run_experiment.py {"pid": 171286, "run_dir": "diag/g1_003"}
+003_g1_003.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 0.5}
+003_g1_003.json: FAILED -> diagnose.py {"policy": "agent", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 29442, "output_tokens": 321, "duration_ms": 5610, "tool_calls": ["Bash: ls -la ./console.log 2>&1; docker ps; docker network ls; nvidia-smi; df -h", "Read: /tmp/tmpzjdvy_er/console.log"], "denied": []}
+003_g1_003.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+003_g1_003.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+004_g1_004.json: READY -> run_experiment.py {"pid": 173057, "run_dir": "diag/g1_004"}
+2026-10-05T19:45:17-04:00 g2_plan starting
+001_g2_001.json: READY -> run_experiment.py {"pid": 174062, "run_dir": "diag/g2_001"}
+001_g2_001.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+001_g2_001.json: COMPLETE -> analyze.py {"appended": true}
+001_g2_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_g2_002.json: READY -> run_experiment.py {"pid": 177521, "run_dir": "diag/g2_002"}
+002_g2_002.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+002_g2_002.json: COMPLETE -> analyze.py {"appended": true}
+002_g2_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+003_g2_003.json: READY -> run_experiment.py {"pid": 180930, "run_dir": "diag/g2_003"}
+003_g2_003.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+003_g2_003.json: COMPLETE -> analyze.py {"appended": true}
+003_g2_003.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+004_g2_004.json: READY -> run_experiment.py {"pid": 184260, "run_dir": "diag/g2_004"}
+004_g2_004.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+004_g2_004.json: COMPLETE -> analyze.py {"appended": true}
+004_g2_004.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+005_g2_005.json: READY -> run_experiment.py {"pid": 187574, "run_dir": "diag/g2_005"}
+005_g2_005.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+005_g2_005.json: COMPLETE -> analyze.py {"appended": true}
+005_g2_005.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+006_g2_006.json: READY -> run_experiment.py {"pid": 190914, "run_dir": "diag/g2_006"}
+006_g2_006.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+006_g2_006.json: COMPLETE -> analyze.py {"appended": true}
+006_g2_006.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+007_g2_007.json: READY -> run_experiment.py {"pid": 194232, "run_dir": "diag/g2_007"}
+007_g2_007.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+007_g2_007.json: COMPLETE -> analyze.py {"appended": true}
+007_g2_007.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+008_g2_008.json: READY -> run_experiment.py {"pid": 197549, "run_dir": "diag/g2_008"}
+008_g2_008.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+008_g2_008.json: COMPLETE -> analyze.py {"appended": true}
+008_g2_008.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+009_g2_009.json: READY -> run_experiment.py {"pid": 200905, "run_dir": "diag/g2_009"}
+009_g2_009.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+009_g2_009.json: COMPLETE -> analyze.py {"appended": true}
+009_g2_009.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+010_g2_010.json: READY -> run_experiment.py {"pid": 204227, "run_dir": "diag/g2_010"}
+010_g2_010.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+010_g2_010.json: COMPLETE -> analyze.py {"appended": true}
+010_g2_010.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 10, "quarantined": ["g2_001", "g2_002", "g2_003", "g2_004", "g2_006", "g2_007", "g2_008", "g2_009"], "reference_flagged": false, "rules_proposed": 1, "rules_admissible": []}
+2026-10-05T20:24:13-04:00 g2_plan done
+queued 50 runs in research/harness/c3_script_queue
+2026-10-05T20:24:18-04:00 c3_script starting
+001_c3s_001.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+001_c3s_001.json: FAILED -> diagnose.py {"policy": "script", "skill": "CLEANUP_ENV", "params": {}}
+001_c3s_001.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+001_c3s_001.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+001_c3s_001.json: READY -> run_experiment.py {"pid": 213749, "run_dir": "diag/c3s_001"}
+001_c3s_001.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+001_c3s_001.json: COMPLETE -> analyze.py {"appended": true}
+001_c3s_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_c3s_002.json: READY -> run_experiment.py {"pid": 217058, "run_dir": "diag/c3s_002"}
+002_c3s_002.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+002_c3s_002.json: COMPLETE -> analyze.py {"appended": true}
+002_c3s_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+003_c3s_003.json: READY -> run_experiment.py {"pid": 220374, "run_dir": "diag/c3s_003"}
+003_c3s_003.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+003_c3s_003.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+003_c3s_003.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+003_c3s_003.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "051_c3s_003_a2.json", "cleanup": null}
+004_c3s_004.json: READY -> run_experiment.py {"pid": 223759, "run_dir": "diag/c3s_004"}
+004_c3s_004.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+004_c3s_004.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+004_c3s_004.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+004_c3s_004.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "052_c3s_004_a2.json", "cleanup": null}
+005_c3s_005.json: READY -> run_experiment.py {"pid": 227106, "run_dir": "diag/c3s_005"}
+005_c3s_005.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 1.5}
+005_c3s_005.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+005_c3s_005.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+005_c3s_005.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "053_c3s_005_a2.json", "cleanup": null}
+006_c3s_006.json: READY -> run_experiment.py {"pid": 229978, "run_dir": "diag/c3s_006"}
+006_c3s_006.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+006_c3s_006.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+006_c3s_006.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+006_c3s_006.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "054_c3s_006_a2.json", "cleanup": null}
+007_c3s_007.json: READY -> run_experiment.py {"pid": 233369, "run_dir": "diag/c3s_007"}
+007_c3s_007.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+007_c3s_007.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+007_c3s_007.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+007_c3s_007.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "055_c3s_007_a2.json", "cleanup": null}
+008_c3s_008.json: READY -> run_experiment.py {"pid": 236711, "run_dir": "diag/c3s_008"}
+008_c3s_008.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+008_c3s_008.json: COMPLETE -> analyze.py {"appended": true}
+008_c3s_008.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+009_c3s_009.json: READY -> run_experiment.py {"pid": 240021, "run_dir": "diag/c3s_009"}
+009_c3s_009.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+009_c3s_009.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+009_c3s_009.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+009_c3s_009.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "056_c3s_009_a2.json", "cleanup": null}
+010_c3s_010.json: READY -> run_experiment.py {"pid": 243509, "run_dir": "diag/c3s_010"}
+010_c3s_010.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+010_c3s_010.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+010_c3s_010.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+010_c3s_010.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "057_c3s_010_a2.json", "cleanup": null}
+011_c3s_011.json: READY -> run_experiment.py {"launched": false, "environment": ["1 AlpaSim containers from another run still running", "GPU free 6409 MiB < 10500 MiB"]}
+011_c3s_011.json: FAILED -> diagnose.py {"policy": "script", "skill": "CLEANUP_ENV", "params": {}}
+011_c3s_011.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+011_c3s_011.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 1 running AlpaSim containers; removed 1 AlpaSim networks"}
+011_c3s_011.json: READY -> run_experiment.py {"pid": 247111, "run_dir": "diag/c3s_011"}
+011_c3s_011.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+011_c3s_011.json: COMPLETE -> analyze.py {"appended": true}
+011_c3s_011.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+012_c3s_012.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+012_c3s_012.json: FAILED -> diagnose.py {"policy": "script", "skill": "CLEANUP_ENV", "params": {}}
+012_c3s_012.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+012_c3s_012.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+012_c3s_012.json: READY -> run_experiment.py {"pid": 256183, "run_dir": "diag/c3s_012"}
+012_c3s_012.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+012_c3s_012.json: COMPLETE -> analyze.py {"appended": true}
+012_c3s_012.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+013_c3s_013.json: READY -> run_experiment.py {"pid": 259489, "run_dir": "diag/c3s_013"}
+013_c3s_013.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+013_c3s_013.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+013_c3s_013.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+013_c3s_013.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "058_c3s_013_a2.json", "cleanup": null}
+014_c3s_014.json: READY -> run_experiment.py {"pid": 262903, "run_dir": "diag/c3s_014"}
+014_c3s_014.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+014_c3s_014.json: COMPLETE -> analyze.py {"appended": true}
+014_c3s_014.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+015_c3s_015.json: READY -> run_experiment.py {"pid": 266359, "run_dir": "diag/c3s_015"}
+015_c3s_015.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+015_c3s_015.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+015_c3s_015.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+015_c3s_015.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "059_c3s_015_a2.json", "cleanup": null}
+016_c3s_016.json: READY -> run_experiment.py {"pid": 269760, "run_dir": "diag/c3s_016"}
+016_c3s_016.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+016_c3s_016.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+016_c3s_016.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+016_c3s_016.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "060_c3s_016_a2.json", "cleanup": null}
+017_c3s_017.json: READY -> run_experiment.py {"pid": 273149, "run_dir": "diag/c3s_017"}
+017_c3s_017.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+017_c3s_017.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+017_c3s_017.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+017_c3s_017.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "061_c3s_017_a2.json", "cleanup": null}
+018_c3s_018.json: READY -> run_experiment.py {"launched": false, "environment": ["1 AlpaSim containers from another run still running", "GPU free 6163 MiB < 10500 MiB"]}
+018_c3s_018.json: FAILED -> diagnose.py {"policy": "script", "skill": "CLEANUP_ENV", "params": {}}
+018_c3s_018.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+018_c3s_018.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 1 running AlpaSim containers; removed 1 AlpaSim networks"}
+018_c3s_018.json: READY -> run_experiment.py {"pid": 276796, "run_dir": "diag/c3s_018"}
+018_c3s_018.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 2.0}
+018_c3s_018.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+018_c3s_018.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+018_c3s_018.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "062_c3s_018_a2.json", "cleanup": null}
+019_c3s_019.json: READY -> run_experiment.py {"pid": 279736, "run_dir": "diag/c3s_019"}
+019_c3s_019.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+019_c3s_019.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+019_c3s_019.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+019_c3s_019.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "063_c3s_019_a2.json", "cleanup": null}
+020_c3s_020.json: READY -> run_experiment.py {"pid": 283078, "run_dir": "diag/c3s_020"}
+020_c3s_020.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+020_c3s_020.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+020_c3s_020.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+020_c3s_020.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "064_c3s_020_a2.json", "cleanup": null}
+021_c3s_021.json: READY -> run_experiment.py {"launched": false, "environment": ["1 AlpaSim containers from another run still running", "GPU free 6077 MiB < 10500 MiB"]}
+021_c3s_021.json: FAILED -> diagnose.py {"policy": "script", "skill": "CLEANUP_ENV", "params": {}}
+021_c3s_021.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+021_c3s_021.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 1 running AlpaSim containers; removed 1 AlpaSim networks"}
+021_c3s_021.json: READY -> run_experiment.py {"pid": 286717, "run_dir": "diag/c3s_021"}
+021_c3s_021.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+021_c3s_021.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+021_c3s_021.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+021_c3s_021.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "065_c3s_021_a2.json", "cleanup": null}
+022_c3s_022.json: READY -> run_experiment.py {"pid": 289808, "run_dir": "diag/c3s_022"}
+022_c3s_022.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+022_c3s_022.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+022_c3s_022.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+022_c3s_022.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "066_c3s_022_a2.json", "cleanup": null}
+023_c3s_023.json: READY -> run_experiment.py {"pid": 293305, "run_dir": "diag/c3s_023"}
+023_c3s_023.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+023_c3s_023.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+023_c3s_023.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+023_c3s_023.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "067_c3s_023_a2.json", "cleanup": null}
+024_c3s_024.json: READY -> run_experiment.py {"pid": 296726, "run_dir": "diag/c3s_024"}
+024_c3s_024.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+024_c3s_024.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+024_c3s_024.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+024_c3s_024.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "068_c3s_024_a2.json", "cleanup": null}
+025_c3s_025.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+025_c3s_025.json: FAILED -> diagnose.py {"policy": "script", "skill": "CLEANUP_ENV", "params": {}}
+025_c3s_025.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+025_c3s_025.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+025_c3s_025.json: READY -> run_experiment.py {"pid": 305894, "run_dir": "diag/c3s_025"}
+025_c3s_025.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+025_c3s_025.json: COMPLETE -> analyze.py {"appended": true}
+025_c3s_025.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+026_c3s_026.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+026_c3s_026.json: FAILED -> diagnose.py {"policy": "script", "skill": "CLEANUP_ENV", "params": {}}
+026_c3s_026.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+026_c3s_026.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+026_c3s_026.json: READY -> run_experiment.py {"pid": 314964, "run_dir": "diag/c3s_026"}
+026_c3s_026.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+026_c3s_026.json: COMPLETE -> analyze.py {"appended": true}
+026_c3s_026.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+027_c3s_027.json: READY -> run_experiment.py {"pid": 318336, "run_dir": "diag/c3s_027"}
+027_c3s_027.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+027_c3s_027.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+027_c3s_027.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+027_c3s_027.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "069_c3s_027_a2.json", "cleanup": null}
+028_c3s_028.json: READY -> run_experiment.py {"launched": false, "environment": ["1 AlpaSim containers from another run still running", "GPU free 7343 MiB < 10500 MiB"]}
+028_c3s_028.json: FAILED -> diagnose.py {"policy": "script", "skill": "CLEANUP_ENV", "params": {}}
+028_c3s_028.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+028_c3s_028.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 1 running AlpaSim containers; removed 1 AlpaSim networks"}
+028_c3s_028.json: READY -> run_experiment.py {"pid": 322078, "run_dir": "diag/c3s_028"}
+028_c3s_028.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+028_c3s_028.json: COMPLETE -> analyze.py {"appended": true}
+028_c3s_028.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+029_c3s_029.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+029_c3s_029.json: FAILED -> diagnose.py {"policy": "script", "skill": "CLEANUP_ENV", "params": {}}
+029_c3s_029.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+029_c3s_029.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+029_c3s_029.json: READY -> run_experiment.py {"pid": 331156, "run_dir": "diag/c3s_029"}
+029_c3s_029.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+029_c3s_029.json: COMPLETE -> analyze.py {"appended": true}
+029_c3s_029.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+030_c3s_030.json: READY -> run_experiment.py {"pid": 334533, "run_dir": "diag/c3s_030"}
+030_c3s_030.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+030_c3s_030.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+030_c3s_030.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+030_c3s_030.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "070_c3s_030_a2.json", "cleanup": null}
+031_c3s_031.json: READY -> run_experiment.py {"pid": 337901, "run_dir": "diag/c3s_031"}
+031_c3s_031.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+031_c3s_031.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+031_c3s_031.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+031_c3s_031.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "071_c3s_031_a2.json", "cleanup": null}
+032_c3s_032.json: READY -> run_experiment.py {"pid": 341276, "run_dir": "diag/c3s_032"}
+032_c3s_032.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+032_c3s_032.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+032_c3s_032.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+032_c3s_032.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "072_c3s_032_a2.json", "cleanup": null}
+033_c3s_033.json: READY -> run_experiment.py {"pid": 344657, "run_dir": "diag/c3s_033"}
+033_c3s_033.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+033_c3s_033.json: COMPLETE -> analyze.py {"appended": true}
+033_c3s_033.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+034_c3s_034.json: READY -> run_experiment.py {"pid": 348130, "run_dir": "diag/c3s_034"}
+034_c3s_034.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+034_c3s_034.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+034_c3s_034.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+034_c3s_034.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "073_c3s_034_a2.json", "cleanup": null}
+035_c3s_035.json: READY -> run_experiment.py {"pid": 351614, "run_dir": "diag/c3s_035"}
+035_c3s_035.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+035_c3s_035.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+035_c3s_035.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+035_c3s_035.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "074_c3s_035_a2.json", "cleanup": null}
+036_c3s_036.json: READY -> run_experiment.py {"pid": 354986, "run_dir": "diag/c3s_036"}
+036_c3s_036.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+036_c3s_036.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+036_c3s_036.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+036_c3s_036.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "075_c3s_036_a2.json", "cleanup": null}
+037_c3s_037.json: READY -> run_experiment.py {"pid": 358506, "run_dir": "diag/c3s_037"}
+037_c3s_037.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+037_c3s_037.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+037_c3s_037.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+037_c3s_037.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "076_c3s_037_a2.json", "cleanup": null}
+038_c3s_038.json: READY -> run_experiment.py {"pid": 361974, "run_dir": "diag/c3s_038"}
+038_c3s_038.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+038_c3s_038.json: COMPLETE -> analyze.py {"appended": true}
+038_c3s_038.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+039_c3s_039.json: READY -> run_experiment.py {"pid": 365326, "run_dir": "diag/c3s_039"}
+039_c3s_039.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 2.5}
+039_c3s_039.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+039_c3s_039.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+039_c3s_039.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "077_c3s_039_a2.json", "cleanup": null}
+040_c3s_040.json: READY -> run_experiment.py {"pid": 368385, "run_dir": "diag/c3s_040"}
+040_c3s_040.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+040_c3s_040.json: COMPLETE -> analyze.py {"appended": true}
+040_c3s_040.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+041_c3s_041.json: READY -> run_experiment.py {"pid": 371685, "run_dir": "diag/c3s_041"}
+041_c3s_041.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 2.0}
+041_c3s_041.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+041_c3s_041.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+041_c3s_041.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "078_c3s_041_a2.json", "cleanup": null}
+042_c3s_042.json: READY -> run_experiment.py {"pid": 374602, "run_dir": "diag/c3s_042"}
+042_c3s_042.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+042_c3s_042.json: COMPLETE -> analyze.py {"appended": true}
+042_c3s_042.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+043_c3s_043.json: READY -> run_experiment.py {"pid": 377901, "run_dir": "diag/c3s_043"}
+043_c3s_043.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+043_c3s_043.json: COMPLETE -> analyze.py {"appended": true}
+043_c3s_043.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+044_c3s_044.json: READY -> run_experiment.py {"pid": 381319, "run_dir": "diag/c3s_044"}
+044_c3s_044.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+044_c3s_044.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+044_c3s_044.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+044_c3s_044.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "079_c3s_044_a2.json", "cleanup": null}
+045_c3s_045.json: READY -> run_experiment.py {"pid": 384686, "run_dir": "diag/c3s_045"}
+045_c3s_045.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+045_c3s_045.json: COMPLETE -> analyze.py {"appended": true}
+045_c3s_045.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+046_c3s_046.json: READY -> run_experiment.py {"pid": 388121, "run_dir": "diag/c3s_046"}
+046_c3s_046.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+046_c3s_046.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+046_c3s_046.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+046_c3s_046.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "080_c3s_046_a2.json", "cleanup": null}
+047_c3s_047.json: READY -> run_experiment.py {"pid": 391492, "run_dir": "diag/c3s_047"}
+047_c3s_047.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+047_c3s_047.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+047_c3s_047.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+047_c3s_047.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "081_c3s_047_a2.json", "cleanup": null}
+048_c3s_048.json: READY -> run_experiment.py {"launched": false, "environment": ["1 AlpaSim containers from another run still running", "GPU free 6659 MiB < 10500 MiB"]}
+048_c3s_048.json: FAILED -> diagnose.py {"policy": "script", "skill": "CLEANUP_ENV", "params": {}}
+048_c3s_048.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+048_c3s_048.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 1 running AlpaSim containers; removed 1 AlpaSim networks"}
+048_c3s_048.json: READY -> run_experiment.py {"pid": 395120, "run_dir": "diag/c3s_048"}
+048_c3s_048.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+048_c3s_048.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+048_c3s_048.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+048_c3s_048.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "082_c3s_048_a2.json", "cleanup": null}
+049_c3s_049.json: READY -> run_experiment.py {"pid": 398504, "run_dir": "diag/c3s_049"}
+049_c3s_049.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+049_c3s_049.json: COMPLETE -> analyze.py {"appended": true}
+049_c3s_049.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+050_c3s_050.json: READY -> run_experiment.py {"pid": 401800, "run_dir": "diag/c3s_050"}
+050_c3s_050.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+050_c3s_050.json: FAILED -> diagnose.py {"policy": "script", "skill": "RE-RUN", "params": {}}
+050_c3s_050.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+050_c3s_050.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "083_c3s_050_a2.json", "cleanup": null}
+051_c3s_003_a2.json: READY -> run_experiment.py {"pid": 405153, "run_dir": "diag/c3s_003_a2"}
+051_c3s_003_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+051_c3s_003_a2.json: COMPLETE -> analyze.py {"appended": true}
+051_c3s_003_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+052_c3s_004_a2.json: READY -> run_experiment.py {"pid": 408475, "run_dir": "diag/c3s_004_a2"}
+052_c3s_004_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+052_c3s_004_a2.json: COMPLETE -> analyze.py {"appended": true}
+052_c3s_004_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+053_c3s_005_a2.json: READY -> run_experiment.py {"pid": 411858, "run_dir": "diag/c3s_005_a2"}
+053_c3s_005_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+053_c3s_005_a2.json: COMPLETE -> analyze.py {"appended": true}
+053_c3s_005_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+054_c3s_006_a2.json: READY -> run_experiment.py {"pid": 415145, "run_dir": "diag/c3s_006_a2"}
+054_c3s_006_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+054_c3s_006_a2.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+054_c3s_006_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+054_c3s_006_a2.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "084_c3s_006_a3.json", "cleanup": "docker compose down on diag/c3s_006_a2"}
+055_c3s_007_a2.json: READY -> run_experiment.py {"pid": 418574, "run_dir": "diag/c3s_007_a2"}
+055_c3s_007_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+055_c3s_007_a2.json: COMPLETE -> analyze.py {"appended": true}
+055_c3s_007_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+056_c3s_009_a2.json: READY -> run_experiment.py {"pid": 421908, "run_dir": "diag/c3s_009_a2"}
+056_c3s_009_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+056_c3s_009_a2.json: COMPLETE -> analyze.py {"appended": true}
+056_c3s_009_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+057_c3s_010_a2.json: READY -> run_experiment.py {"pid": 425372, "run_dir": "diag/c3s_010_a2"}
+057_c3s_010_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+057_c3s_010_a2.json: COMPLETE -> analyze.py {"appended": true}
+057_c3s_010_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+058_c3s_013_a2.json: READY -> run_experiment.py {"pid": 428649, "run_dir": "diag/c3s_013_a2"}
+058_c3s_013_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+058_c3s_013_a2.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+058_c3s_013_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+058_c3s_013_a2.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "085_c3s_013_a3.json", "cleanup": "docker compose down on diag/c3s_013_a2"}
+059_c3s_015_a2.json: READY -> run_experiment.py {"pid": 432073, "run_dir": "diag/c3s_015_a2"}
+059_c3s_015_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+059_c3s_015_a2.json: COMPLETE -> analyze.py {"appended": true}
+059_c3s_015_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+060_c3s_016_a2.json: READY -> run_experiment.py {"pid": 435398, "run_dir": "diag/c3s_016_a2"}
+060_c3s_016_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+060_c3s_016_a2.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+060_c3s_016_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+060_c3s_016_a2.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "086_c3s_016_a3.json", "cleanup": "docker compose down on diag/c3s_016_a2"}
+061_c3s_017_a2.json: READY -> run_experiment.py {"pid": 438796, "run_dir": "diag/c3s_017_a2"}
+061_c3s_017_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+061_c3s_017_a2.json: COMPLETE -> analyze.py {"appended": true}
+061_c3s_017_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+062_c3s_018_a2.json: READY -> run_experiment.py {"pid": 442089, "run_dir": "diag/c3s_018_a2"}
+062_c3s_018_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+062_c3s_018_a2.json: COMPLETE -> analyze.py {"appended": true}
+062_c3s_018_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+063_c3s_019_a2.json: READY -> run_experiment.py {"pid": 445422, "run_dir": "diag/c3s_019_a2"}
+063_c3s_019_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+063_c3s_019_a2.json: COMPLETE -> analyze.py {"appended": true}
+063_c3s_019_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+064_c3s_020_a2.json: READY -> run_experiment.py {"pid": 448776, "run_dir": "diag/c3s_020_a2"}
+064_c3s_020_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+064_c3s_020_a2.json: COMPLETE -> analyze.py {"appended": true}
+064_c3s_020_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+065_c3s_021_a2.json: READY -> run_experiment.py {"pid": 452108, "run_dir": "diag/c3s_021_a2"}
+065_c3s_021_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+065_c3s_021_a2.json: COMPLETE -> analyze.py {"appended": true}
+065_c3s_021_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+066_c3s_022_a2.json: READY -> run_experiment.py {"pid": 455558, "run_dir": "diag/c3s_022_a2"}
+066_c3s_022_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+066_c3s_022_a2.json: COMPLETE -> analyze.py {"appended": true}
+066_c3s_022_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+067_c3s_023_a2.json: READY -> run_experiment.py {"pid": 458994, "run_dir": "diag/c3s_023_a2"}
+067_c3s_023_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+067_c3s_023_a2.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+067_c3s_023_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+067_c3s_023_a2.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "087_c3s_023_a3.json", "cleanup": "docker compose down on diag/c3s_023_a2"}
+068_c3s_024_a2.json: READY -> run_experiment.py {"pid": 462432, "run_dir": "diag/c3s_024_a2"}
+068_c3s_024_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+068_c3s_024_a2.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+068_c3s_024_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+068_c3s_024_a2.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "088_c3s_024_a3.json", "cleanup": "docker compose down on diag/c3s_024_a2"}
+069_c3s_027_a2.json: READY -> run_experiment.py {"pid": 465998, "run_dir": "diag/c3s_027_a2"}
+069_c3s_027_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+069_c3s_027_a2.json: COMPLETE -> analyze.py {"appended": true}
+069_c3s_027_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+070_c3s_030_a2.json: READY -> run_experiment.py {"pid": 469321, "run_dir": "diag/c3s_030_a2"}
+070_c3s_030_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+070_c3s_030_a2.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+070_c3s_030_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+070_c3s_030_a2.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "089_c3s_030_a3.json", "cleanup": "docker compose down on diag/c3s_030_a2"}
+071_c3s_031_a2.json: READY -> run_experiment.py {"pid": 472739, "run_dir": "diag/c3s_031_a2"}
+071_c3s_031_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+071_c3s_031_a2.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+071_c3s_031_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+071_c3s_031_a2.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "090_c3s_031_a3.json", "cleanup": "docker compose down on diag/c3s_031_a2"}
+072_c3s_032_a2.json: READY -> run_experiment.py {"pid": 476153, "run_dir": "diag/c3s_032_a2"}
+072_c3s_032_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+072_c3s_032_a2.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+072_c3s_032_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+072_c3s_032_a2.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "091_c3s_032_a3.json", "cleanup": "docker compose down on diag/c3s_032_a2"}
+073_c3s_034_a2.json: READY -> run_experiment.py {"pid": 479563, "run_dir": "diag/c3s_034_a2"}
+073_c3s_034_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+073_c3s_034_a2.json: COMPLETE -> analyze.py {"appended": true}
+073_c3s_034_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+074_c3s_035_a2.json: READY -> run_experiment.py {"pid": 482849, "run_dir": "diag/c3s_035_a2"}
+074_c3s_035_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+074_c3s_035_a2.json: COMPLETE -> analyze.py {"appended": true}
+074_c3s_035_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+075_c3s_036_a2.json: READY -> run_experiment.py {"pid": 486141, "run_dir": "diag/c3s_036_a2"}
+075_c3s_036_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+075_c3s_036_a2.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+075_c3s_036_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+075_c3s_036_a2.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "092_c3s_036_a3.json", "cleanup": "docker compose down on diag/c3s_036_a2"}
+076_c3s_037_a2.json: READY -> run_experiment.py {"pid": 489694, "run_dir": "diag/c3s_037_a2"}
+076_c3s_037_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+076_c3s_037_a2.json: COMPLETE -> analyze.py {"appended": true}
+076_c3s_037_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+077_c3s_039_a2.json: READY -> run_experiment.py {"pid": 494253, "run_dir": "diag/c3s_039_a2"}
+077_c3s_039_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+077_c3s_039_a2.json: COMPLETE -> analyze.py {"appended": true}
+077_c3s_039_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+078_c3s_041_a2.json: READY -> run_experiment.py {"pid": 500378, "run_dir": "diag/c3s_041_a2"}
+078_c3s_041_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+078_c3s_041_a2.json: COMPLETE -> analyze.py {"appended": true}
+078_c3s_041_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+079_c3s_044_a2.json: READY -> run_experiment.py {"pid": 507161, "run_dir": "diag/c3s_044_a2"}
+079_c3s_044_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+079_c3s_044_a2.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+079_c3s_044_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+079_c3s_044_a2.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "093_c3s_044_a3.json", "cleanup": "docker compose down on diag/c3s_044_a2"}
+080_c3s_046_a2.json: READY -> run_experiment.py {"pid": 512763, "run_dir": "diag/c3s_046_a2"}
+080_c3s_046_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+080_c3s_046_a2.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+080_c3s_046_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+080_c3s_046_a2.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "094_c3s_046_a3.json", "cleanup": "docker compose down on diag/c3s_046_a2"}
+081_c3s_047_a2.json: READY -> run_experiment.py {"pid": 517631, "run_dir": "diag/c3s_047_a2"}
+081_c3s_047_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+081_c3s_047_a2.json: COMPLETE -> analyze.py {"appended": true}
+081_c3s_047_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+082_c3s_048_a2.json: READY -> run_experiment.py {"pid": 523921, "run_dir": "diag/c3s_048_a2"}
+082_c3s_048_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+082_c3s_048_a2.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+082_c3s_048_a2.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+082_c3s_048_a2.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "095_c3s_048_a3.json", "cleanup": "docker compose down on diag/c3s_048_a2"}
+083_c3s_050_a2.json: READY -> run_experiment.py {"pid": 529195, "run_dir": "diag/c3s_050_a2"}
+083_c3s_050_a2.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+083_c3s_050_a2.json: COMPLETE -> analyze.py {"appended": true}
+083_c3s_050_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+084_c3s_006_a3.json: READY -> run_experiment.py {"pid": 534189, "run_dir": "diag/c3s_006_a3"}
+084_c3s_006_a3.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+084_c3s_006_a3.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+084_c3s_006_a3.json: FAILED -> validate_diagnosis.py {"accepted": false, "verdict": "rejected: attempt 3 of 3: budget spent"}
+085_c3s_013_a3.json: READY -> run_experiment.py {"pid": 537528, "run_dir": "diag/c3s_013_a3"}
+085_c3s_013_a3.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+085_c3s_013_a3.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+085_c3s_013_a3.json: FAILED -> validate_diagnosis.py {"accepted": false, "verdict": "rejected: attempt 3 of 3: budget spent"}
+086_c3s_016_a3.json: READY -> run_experiment.py {"pid": 540866, "run_dir": "diag/c3s_016_a3"}
+086_c3s_016_a3.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+086_c3s_016_a3.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+086_c3s_016_a3.json: FAILED -> validate_diagnosis.py {"accepted": false, "verdict": "rejected: attempt 3 of 3: budget spent"}
+087_c3s_023_a3.json: READY -> run_experiment.py {"pid": 544243, "run_dir": "diag/c3s_023_a3"}
+087_c3s_023_a3.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+087_c3s_023_a3.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+087_c3s_023_a3.json: FAILED -> validate_diagnosis.py {"accepted": false, "verdict": "rejected: attempt 3 of 3: budget spent"}
+088_c3s_024_a3.json: READY -> run_experiment.py {"pid": 547574, "run_dir": "diag/c3s_024_a3"}
+088_c3s_024_a3.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+088_c3s_024_a3.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+088_c3s_024_a3.json: FAILED -> validate_diagnosis.py {"accepted": false, "verdict": "rejected: attempt 3 of 3: budget spent"}
+089_c3s_030_a3.json: READY -> run_experiment.py {"pid": 550928, "run_dir": "diag/c3s_030_a3"}
+089_c3s_030_a3.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+089_c3s_030_a3.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+089_c3s_030_a3.json: FAILED -> validate_diagnosis.py {"accepted": false, "verdict": "rejected: attempt 3 of 3: budget spent"}
+090_c3s_031_a3.json: READY -> run_experiment.py {"pid": 554263, "run_dir": "diag/c3s_031_a3"}
+090_c3s_031_a3.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+090_c3s_031_a3.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+090_c3s_031_a3.json: FAILED -> validate_diagnosis.py {"accepted": false, "verdict": "rejected: attempt 3 of 3: budget spent"}
+091_c3s_032_a3.json: READY -> run_experiment.py {"pid": 557596, "run_dir": "diag/c3s_032_a3"}
+091_c3s_032_a3.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+091_c3s_032_a3.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+091_c3s_032_a3.json: FAILED -> validate_diagnosis.py {"accepted": false, "verdict": "rejected: attempt 3 of 3: budget spent"}
+092_c3s_036_a3.json: READY -> run_experiment.py {"pid": 561047, "run_dir": "diag/c3s_036_a3"}
+092_c3s_036_a3.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+092_c3s_036_a3.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+092_c3s_036_a3.json: FAILED -> validate_diagnosis.py {"accepted": false, "verdict": "rejected: attempt 3 of 3: budget spent"}
+093_c3s_044_a3.json: READY -> run_experiment.py {"pid": 564391, "run_dir": "diag/c3s_044_a3"}
+093_c3s_044_a3.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+093_c3s_044_a3.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+093_c3s_044_a3.json: FAILED -> validate_diagnosis.py {"accepted": false, "verdict": "rejected: attempt 3 of 3: budget spent"}
+094_c3s_046_a3.json: READY -> run_experiment.py {"pid": 567713, "run_dir": "diag/c3s_046_a3"}
+094_c3s_046_a3.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+094_c3s_046_a3.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+094_c3s_046_a3.json: FAILED -> validate_diagnosis.py {"accepted": false, "verdict": "rejected: attempt 3 of 3: budget spent"}
+095_c3s_048_a3.json: READY -> run_experiment.py {"pid": 571044, "run_dir": "diag/c3s_048_a3"}
+095_c3s_048_a3.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+095_c3s_048_a3.json: FAILED -> diagnose.py {"policy": "script", "skill": "RESTART_CLEANUP", "params": {}}
+095_c3s_048_a3.json: FAILED -> validate_diagnosis.py {"accepted": false, "verdict": "rejected: attempt 3 of 3: budget spent"}
+audit: {"audited": 38, "quarantined": ["c3s_022_a2", "c3s_045", "c3s_049"], "references": ["b2_009", "s1_002", "s1_003", "s1_004", "s1_005", "s1_006"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 1, "rules_admissible": ["mpc_implementation_linear"]}
+2026-10-06T02:37:12-04:00 c3_script done: {"summary": {"entries": 95, "accepted": 38, "recovered": 45, "env_cleanups": 10, "halted": 12, "halted_by_gate": 12, "unresolved": 0, "model_calls": 0, "minutes": 371.6, "stopped": null}}
+queued 50 runs in research/harness/c3_agent_queue
+2026-10-06T02:37:12-04:00 c3_agent starting
+001_c3a_001.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+001_c3a_001.json: FAILED -> diagnose.py {"policy": "agent", "skill": "CLEANUP_ENV", "params": {}, "model": "claude-opus-5-5", "context_tokens": 20804, "output_tokens": 411, "duration_ms": 6159, "tool_calls": ["Bash: docker network ls; docker ps"], "denied": []}
+001_c3a_001.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+001_c3a_001.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+001_c3a_001.json: READY -> run_experiment.py {"pid": 580883, "run_dir": "diag/c3a_001"}
+001_c3a_001.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+001_c3a_001.json: COMPLETE -> analyze.py {"appended": true}
+001_c3a_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_c3a_002.json: READY -> run_experiment.py {"pid": 585334, "run_dir": "diag/c3a_002"}
+002_c3a_002.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+002_c3a_002.json: COMPLETE -> analyze.py {"appended": true}
+002_c3a_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+003_c3a_003.json: READY -> run_experiment.py {"pid": 590286, "run_dir": "diag/c3a_003"}
+003_c3a_003.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
