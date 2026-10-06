@@ -1,0 +1,22 @@
+{
+  "name": "v1_007",
+  "run_dir": "diag/v1_007",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-032b6f21-6799-4ad8-8712-0405f087ac4a",
+    "trafficsim_device": "cpu",
+    "frame_interval_us": 100000
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": false,
+  "pid": null,
+  "launched_at": null,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": null,
+  "diagnosis": null,
+  "fault": null
+}

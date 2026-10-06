@@ -33,11 +33,13 @@ from read_state import (
     State,
     console_log,
     exit_file,
+    frame_interval_us,
     load_entry,
     plan_request,
     read_state,
     run_dir,
     save_entry,
+    subsample_factor,
 )
 
 
@@ -58,6 +60,8 @@ def wizard_command(config: dict, log_dir: Path) -> list[str]:
         "trafficsim=catk",
         "controller=linear",
         f"driver.inference.context_length={config['context_length']}",
+        f"driver.inference.subsample_factor={subsample_factor(config)}",
+        f"runtime.simulation_config.cameras.0.frame_interval_us={frame_interval_us(config)}",
         "runtime.simulation_config.force_gt_duration_us=4500000",
         "runtime.simulation_config.control_timestep_us=100000",
         "runtime.simulation_config.n_sim_steps=120",

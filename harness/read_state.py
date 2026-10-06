@@ -30,11 +30,12 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from analyze_cp2 import extract_resolved_config
-from physics import check as physics_problems
-from physics import load_bounds
 from postflight import validate_postflight
 from preflight import PreflightError, validate_preflight
 from rules import load_rules, violations
+
+from physics import check as physics_problems
+from physics import load_bounds
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -55,6 +56,13 @@ CONFIGURABLE_KEYS = ("context_length", "scene_file", "trafficsim_device")
 # Optional perturbations of the plan between the driver and the controller,
 # through AlpaSim's plan-corruption hook: what a study varies, like the delay.
 PLAN_KEYS = ("lateral_bias_m", "waypoint_noise_std")
+# VaVAM plans from 8 frames 500 ms apart and is asked for a plan every control
+# step (100 ms). Frames every 500 ms mean four of every five plans reuse the
+# last frames, re-anchored at the current pose; frames every 100 ms with every
+# fifth frame in the context give each plan a fresh frame at the same 2 Hz
+# spacing. Entries queued before 6 Oct 2026 have no frame_interval_us: 500 ms.
+VAVAM_FRAME_SPACING_US = 500_000
+LEGACY_FRAME_INTERVAL_US = 500_000
 TRAFFICSIM_DEVICES = ("cpu", "cuda")
 
 
@@ -165,6 +173,15 @@ def plan_request(config: dict) -> dict:
     }
 
 
+def frame_interval_us(config: dict) -> int:
+    return config.get("frame_interval_us", LEGACY_FRAME_INTERVAL_US)
+
+
+def subsample_factor(config: dict) -> int:
+    """Every how-many-th frame VaVAM's context takes, for 500 ms spacing."""
+    return VAVAM_FRAME_SPACING_US // frame_interval_us(config)
+
+
 def config_not_landed(entry: dict) -> list[str]:
     """Requested values that differ from what the wizard resolved."""
     path = run_dir(entry)
@@ -177,6 +194,10 @@ def config_not_landed(entry: dict) -> list[str]:
         "scene_file": wizard["scenes"]["scenes_csv"],
         "scene_id": wizard["scenes"]["scene_ids"],
         "trafficsim_device": wizard["trafficsim"]["catk"]["device"],
+        "frame_interval_us": wizard["runtime"]["simulation_config"]["cameras"][0][
+            "frame_interval_us"
+        ],
+        "subsample_factor": driver["inference"]["subsample_factor"],
     }
     # AlpaSim writes the plan-corruption block only when a launch sets it.
     injected = wizard["runtime"]["simulation_config"].get("fault_injection", {})
@@ -188,11 +209,13 @@ def config_not_landed(entry: dict) -> list[str]:
         "scene_file": [str(ROOT / config["scene_file"])],
         "scene_id": [config["scene_id"]],
         "trafficsim_device": config["trafficsim_device"],
+        "frame_interval_us": frame_interval_us(config),
+        "subsample_factor": subsample_factor(config),
         **{key: plan_request(config)[key] for key in PLAN_KEYS},
     }
     return [
         f"{key} requested {requested[key]}, resolved {resolved[key]}"
-        for key in (*CONFIG_KEYS, *PLAN_KEYS)
+        for key in (*CONFIG_KEYS, "frame_interval_us", "subsample_factor", *PLAN_KEYS)
         if requested[key] != resolved[key]
     ]
 

@@ -83,13 +83,20 @@ def make_run(tmp_path: Path, scene_file: Path):
         if exit_code is not None:
             (run_dir.parent / f"{name}_exit_code").write_text(f"{exit_code}\n")
         (run_dir / "driver-config.yaml").write_text(
-            yaml.safe_dump({"inference": {"context_length": context_length}})
+            yaml.safe_dump(
+                {"inference": {"context_length": context_length, "subsample_factor": 1}}
+            )
         )
         delay = planner_delay_us if resolved_delay_us is None else resolved_delay_us
         (run_dir / "wizard-config.yaml").write_text(
             yaml.safe_dump(
                 {
-                    "runtime": {"simulation_config": {"planner_delay_us": delay}},
+                    "runtime": {
+                        "simulation_config": {
+                            "planner_delay_us": delay,
+                            "cameras": [{"frame_interval_us": 500_000}],
+                        }
+                    },
                     "scenes": {
                         "scenes_csv": [str(scene_file)],
                         "scene_ids": [SCENE_ID],

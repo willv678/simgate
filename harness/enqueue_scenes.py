@@ -36,9 +36,11 @@ def main() -> int:
     parser.add_argument("--context-length", type=int, default=8)
     parser.add_argument("--planner-delay-us", type=int, default=0)
     parser.add_argument("--trafficsim-device", default="cpu")
+    parser.add_argument("--frame-interval-us", type=int, default=500_000)
+    parser.add_argument("--limit", type=int, help="only the first N scenes")
     args = parser.parse_args()
 
-    scene_ids = local_scene_ids()
+    scene_ids = local_scene_ids()[: args.limit]
     for index, scene_id in enumerate(scene_ids, start=1):
         name = f"{args.prefix}_{index:03d}"
         config = {
@@ -47,6 +49,7 @@ def main() -> int:
             "scene_file": SCENE_FILE,
             "scene_id": scene_id,
             "trafficsim_device": args.trafficsim_device,
+            "frame_interval_us": args.frame_interval_us,
         }
         add(args.queue, new_entry(name, f"{RUN_ROOT}/{name}", config))
     print(f"queued {len(scene_ids)} scenes in {args.queue}")

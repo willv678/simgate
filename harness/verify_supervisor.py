@@ -34,10 +34,12 @@ from read_state import (
     MAX_ATTEMPTS,
     State,
     config_problem,
+    frame_interval_us,
     load_entry,
     queue_entries,
     read_state,
     save_entry,
+    subsample_factor,
 )
 from validate_diagnosis import HALT, MAX_ENV_CLEANUPS, rejection
 
@@ -99,12 +101,24 @@ def _launch(entry: dict, outcome: str) -> None:
     code = 1 if outcome == "fails_again" else 0
     (run.parent / f"{run.name}_exit_code").write_text(f"{code}\n")
     (run / "driver-config.yaml").write_text(
-        json.dumps({"inference": {"context_length": config["context_length"]}})
+        json.dumps(
+            {
+                "inference": {
+                    "context_length": config["context_length"],
+                    "subsample_factor": subsample_factor(config),
+                }
+            }
+        )
     )
     (run / "wizard-config.yaml").write_text(
         json.dumps(
             {
-                "runtime": {"simulation_config": {"planner_delay_us": 0}},
+                "runtime": {
+                    "simulation_config": {
+                        "planner_delay_us": 0,
+                        "cameras": [{"frame_interval_us": frame_interval_us(config)}],
+                    }
+                },
                 "scenes": {"scenes_csv": [config["scene_file"]], "scene_ids": [SCENE]},
                 "trafficsim": {"catk": {"device": config["trafficsim_device"]}},
             }
