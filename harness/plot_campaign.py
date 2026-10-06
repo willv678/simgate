@@ -28,11 +28,17 @@ from plot_results import SERIES, SURFACE, TEXT, TEXT_SECONDARY, _save, _style
 HARNESS = Path(__file__).resolve().parent
 REPORT = HARNESS / "campaign_report.json"
 POLICIES = {"script": "Script", "model": "Tier 0", "agent": "Tier 1"}
-CAMPAIGN_COLOR = {"c1": SERIES["script"], "c2": SERIES["tier1"], "c3": SERIES["tier0"]}
+CAMPAIGN_COLOR = {
+    "c1": SERIES["script"],
+    "c2": SERIES["tier1"],
+    "c3": SERIES["tier0"],
+    "c4": "#7a7975",
+}
 CAMPAIGN_NAME = {
     "c1": "C1: physics off",
     "c2": "C2: physics on",
     "c3": "C3: persistent silent faults",
+    "c4": "C4: plus plan faults",
 }
 
 
@@ -75,7 +81,7 @@ def invalid(report: dict) -> dict:
     ax.set_yticks(range(len(labels)), labels, fontsize=8, color=TEXT)
     ax.set_xlim(0, max(max(t.values()) for t in totals.values()) * 1.15)
     ax.set_xlabel(
-        "Invalid runs kept, 3 arms × 50 runs", fontsize=7.5, color=TEXT_SECONDARY
+        "Invalid runs kept, summed over the 3 arms", fontsize=7.5, color=TEXT_SECONDARY
     )
     handles, names = ax.get_legend_handles_labels()
     fig.legend(

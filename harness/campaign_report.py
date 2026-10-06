@@ -1,8 +1,9 @@
-"""Campaigns C1, C2 and C3: one table per question, from the queues on disk.
+"""Campaigns C1 to C4: one table per question, from the queues on disk.
 
 Each campaign ran one fault plan (50 runs: 5 per fault kind, 10 clean) under
 the script, tier 1 (agent) and tier 0 (model). C1 had the physics bounds off,
-C2 and C3 on; in C3 the silent faults (rails, kinematic) persist on a retry.
+C2 to C4 on; in C3 the silent faults (rails, kinematic) persist on a retry, and
+C4 adds the plan faults, also persistent, with the plan-handoff bound live.
 Arms whose queue does not exist yet are skipped. Outcomes are scored, not skill labels: whether a lineage ended in a
 valid kept run, how many launches it cost, and whether a person had to step in.
 
@@ -10,7 +11,7 @@ valid kept run, how many launches it cost, and whether a person had to step in.
 - invalid kept: runs carrying a data-corrupting fault that stayed in the
   dataset with no gate (exit code 0), after the per-run gate, after the audit;
 - per fault kind: recovered, halted, launches;
-- physics on fresh runs: the live K⁺ physics failures in C2 and C3, and every
+- physics on fresh runs: the live K⁺ physics failures in C2 to C4, and every
   kept run checked after the fact with the current bounds.
 
     uv run python research/harness/campaign_report.py
@@ -30,8 +31,8 @@ from score_campaign import CORRUPTS_DATA, lineages, score
 from physics import check, load_bounds
 
 HARNESS = Path(__file__).resolve().parent
-CAMPAIGNS = ("c1", "c2", "c3")
-LIVE_PHYSICS = ("c2", "c3")
+CAMPAIGNS = ("c1", "c2", "c3", "c4")
+LIVE_PHYSICS = ("c2", "c3", "c4")
 ARMS = ("script", "agent", "model")
 NAMES = {"script": "script", "agent": "tier 1", "model": "tier 0"}
 # Faults every per-run check but physics misses: these count as "silent".
@@ -193,7 +194,7 @@ def main() -> int:
     lines.append("")
     lines.append(
         "physics, current bounds on every kept run after the fact (none of these"
-        " runs set the plan-handoff bound); C2 and C3 also live"
+        " runs set the plan-handoff bound); C2 to C4 also live"
     )
     for key, r in report.items():
         p = r["physics_after_the_fact"]

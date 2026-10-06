@@ -2675,3 +2675,7 @@ queued 50 runs in research/harness/c3_agent_queue
 002_c3a_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
 003_c3a_003.json: READY -> run_experiment.py {"pid": 590286, "run_dir": "diag/c3a_003"}
 003_c3a_003.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+003_c3a_003.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 90722, "output_tokens": 1719, "duration_ms": 25192, "tool_calls": ["Grep: Traceback|Error|error|metrics|exit|Killed|OOM|timeout", "Glob: **/*", "Grep: log_dir|array_job_dir|rollouts", "Read: ./console.log", "Bash: docker ps -a; df -h /home/willvarner", "Bash: df -h /home/willvarner; docker ps"], "denied": []}
+003_c3a_003.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+003_c3a_003.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "051_c3a_003_a2.json", "cleanup": null}
+004_c3a_004.json: READY -> run_experiment.py {"pid": 624189, "run_dir": "diag/c3a_004"}
