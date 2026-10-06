@@ -1,26 +1,34 @@
 {
  "plan": {
-  "question": "For each scene that drives cleanly with no delay, roughly what is the smallest planner delay at which the policy starts to fail (a front or side collision, or leaving the road)?",
-  "objective": "For each candidate scene, bracket the smallest planner_delay_us at which runs start failing (a front or side collision, or leaving the road). This gives a rough per-scene latency budget. Start each scene near the middle of the range (about 200000 us), bisect toward the boundary, and spend leftover runs repeating the settings on either side of each boundary, because a single pass or fail is noisy. Do not use lateral bias, and treat clearance, progress and speed only as hints, not as outcomes.",
+  "question": "For each of a few scenes that drive cleanly with no delay, at what planner delay does the policy start failing (front or side collision, or leaving the road)?",
+  "objective": "For each candidate scene, find the planner delay where the failure rate goes from mostly clean to mostly failing. This gives a rough latency budget per scene. Begin with a coarse sweep across 0\u2013400 ms, then put repeats on the two values next to the transition. A scene that stays clean even at 400 ms is a valid answer. Leave lateral bias at 0 and ignore it.",
   "vary": [
    "planner_delay_us"
   ],
   "scenes": [
    "clipgt-11fce928-d921-42fb-b202-29608242745a",
-   "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
-   "clipgt-05bb8212-63e1-40a8-b4fc-3142c0e94646",
-   "clipgt-1be86721-4f0e-4237-909d-1bc33ca56f5d",
-   "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
-   "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e"
+   "clipgt-1316f5fa-9b99-4979-90eb-1a8d56b32a73",
+   "clipgt-15d28b17-4484-4e58-a5a2-8d99c1422c41"
   ],
   "rounds": 5,
   "per_round": 6,
-  "rationale": "The brief asks only about delay, so only planner_delay_us varies and lateral_bias_m stays at 0. I picked six scenes that passed at 0 delay. Each kept at least about 1 m from other actors and drove a real distance, so a delay effect has room to show. I left out near-misses (clearance under about 0.5 m) and scenes that barely moved (under about 10 m). The scenes cover a range of speeds: 11fce928 (2.6 m/s, slow), 0e899dd3 (7.0 m/s), 05bb8212 (9.3 m/s), 1be86721 (15.3 m/s), 1c45ce3a (16.8 m/s) and 05f35348 (30.4 m/s, probably a highway). The plan is 5 rounds of 6 runs, 30 in total, as the brief asks. That is about 5 runs per scene, enough for the proposer to bisect the 9 delay levels (0 to 400 ms) and repeat once or twice near each boundary. Limits: (1) With about 5 runs per scene the result is a rough bracket, such as 'passes at 150 ms, fails at 250 ms'. It is not a failure rate, and one random failure can move the bracket. A firmer budget would need the 60-run cap or fewer scenes. (2) The 0-delay pass comes from a single earlier run, so a scene might sometimes fail even with no delay. (3) If a scene never fails, its budget can only be reported as 'at least 400 ms', the largest legal value. (4) Road type cannot be identified, so 'slow' and 'fast' are inferred only from top speed and distance driven. (5) Results are for VaVAM with linear MPC and CATK traffic on these particular scenes, and may not carry over to other scenes or setups."
+  "rationale": "The brief asks for delay only, so only planner_delay_us varies. It asks for scenes that are clean at 0 delay, with a mix of speeds. I picked three scenes that passed at 0 delay with clear margin to other actors and made real progress. I left out near-miss scenes (closest approach about 0 m), because a failure there would reflect a fragile baseline rather than the delay. The three scenes are: 11fce928, slow (2.6 m/s top speed, 2.3 m clearance); 1316f5fa, medium (10.8 m/s, 5.4 m clearance, 70% progress); and 15d28b17, faster (16.7 m/s, 6.6 m clearance). About 30 runs is 5 rounds of 6. That is roughly 10 runs per scene, which is only enough for a coarse bracket. So the goal uses the loosest legal thresholds (0.5/0.5): find a delay that is mostly clean and a larger one that is mostly failing, or show the scene never breaks up to 400 ms. Tighter thresholds such as 0.4/0.6 need about 5 runs on each side per scene, and that would be over budget. Limits: 'clean at 0 delay' rests on one earlier run per scene, so a scene could turn out to fail sometimes even at 0. The answer is a delay interval at 50 ms steps, not a precise threshold. Three scenes cannot stand in for every road type. Speed and distance are the only hints to the kind of road, because scenes have no tags. The ample-clearance scenes may not break within 400 ms, which would set only a lower bound on their budget.",
+  "goal": {
+   "type": "bracket",
+   "scenes": [
+    "clipgt-11fce928-d921-42fb-b202-29608242745a",
+    "clipgt-1316f5fa-9b99-4979-90eb-1a8d56b32a73",
+    "clipgt-15d28b17-4484-4e58-a5a2-8d99c1422c41"
+   ],
+   "knob": "planner_delay_us",
+   "low_max": 0.5,
+   "high_min": 0.5
+  }
  },
  "call": {
   "model": "claude-opus-5-5",
-  "context_tokens": 19230,
-  "output_tokens": 2355,
-  "duration_ms": 23994
+  "context_tokens": 16742,
+  "output_tokens": 1927,
+  "duration_ms": 19438
  }
 }

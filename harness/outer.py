@@ -37,6 +37,7 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from enqueue import RUN_ROOT, add, new_entry
+from goals import goal_status
 from headless import ask
 from knobs import DESCRIPTIONS, SCENARIO, rejection, run_config
 from read_state import ROOT, load_entry, queue_entries
@@ -269,6 +270,8 @@ class Study:
     proposer: str
     model: str = "claude-opus-5-5"
     seed: int = 0
+    goal: dict | None = None
+    goal_file: Path | None = None
 
 
 def pilot(name: str, candidate_count: int, varied: tuple, **settings) -> Study:
@@ -324,6 +327,12 @@ def run_study(study: Study) -> list[dict]:
 
     for round_index in range(done, study.rounds):
         past = history(study.queue, study.varied) if study.queue.is_dir() else []
+        status = check_goal(study, past, round_index)
+        if status is not None and status["met"]:
+            print(
+                json.dumps({"goal met": status["verdict"], "after_rounds": round_index})
+            )
+            break
         state = {
             "objective": study.objective,
             "candidates": study.candidates,
@@ -333,6 +342,8 @@ def run_study(study: Study) -> list[dict]:
             },
             "history": past,
             "summary": results(past, study.varied),
+            "goal": study.goal,
+            "goal_status": status,
             "round": round_index + 1,
             "rounds": study.rounds,
             "runs_this_round": study.per_round,
@@ -381,7 +392,22 @@ def run_study(study: Study) -> list[dict]:
             )
         )
         run_inner_loop(study)
+    else:
+        check_goal(study, history(study.queue, study.varied), study.rounds)
     return history(study.queue, study.varied)
+
+
+def check_goal(study: Study, past: list[dict], rounds_done: int) -> dict | None:
+    """The goal's status from the kept runs so far, written to the goal file;
+    None for a study without a goal."""
+    if study.goal is None:
+        return None
+    status = goal_status(study.goal, results(past, study.varied), study.varied)
+    study.goal_file.write_text(
+        json.dumps({**status, "after_rounds": rounds_done}, indent=1) + "\n",
+        encoding="utf-8",
+    )
+    return status
 
 
 def main() -> int:

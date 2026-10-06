@@ -38,6 +38,9 @@ with its front or side, or left the road.
   also reports how far the ego was from the recorded trajectory when it
   failed; `possible_artifacts` counts failures so far off it (or with black
   frames) that the simulator's rendering, not the policy, may be to blame.
+- `goal` and `goal_status`: the study's win condition, which code checks
+  after every round, and where it stands (null when the study has none). The
+  study stops when it is met, so spend runs on what it still lacks.
 - `round`, `rounds`, `runs_this_round`: where the study is and how many runs
   to propose now.
 

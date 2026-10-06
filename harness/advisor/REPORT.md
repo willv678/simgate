@@ -19,6 +19,9 @@ numbers.
   `rendering`, `other`), whether the policy was at fault, and what happened.
   Use it to say why a scene fails, and say when failures were not the
   policy's.
+- `goal_status`: whether the study's win condition was met, as code checked
+  it from the ranges, with its verdict. The report prints it above your
+  answer; your answer must agree with it.
 - `not_kept`: runs the gate did not keep, and why. They are not evidence.
 
 ## The answer

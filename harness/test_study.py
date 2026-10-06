@@ -17,6 +17,7 @@ def _plan(**change):
         "rounds": 3,
         "per_round": 5,
         "rationale": "r",
+        "goal": {"type": "none"},
     }
     return {**plan, **change}
 
@@ -37,6 +38,7 @@ def test_a_plan_within_the_catalog_and_budget_runs():
         {"per_round": 11},
         {"rounds": 0},
         {"rounds": MAX_RUNS, "per_round": 2},  # over the run budget
+        {"goal": {"type": "separate", "scene": "clipgt-b"}},  # malformed goal
     ],
 )
 def test_a_plan_outside_them_is_rejected(change):

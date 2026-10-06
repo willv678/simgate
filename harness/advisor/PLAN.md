@@ -36,6 +36,21 @@ setting can pass once and fail the next time, so rates need repeats.
   answered (a scene that already fails at 0 delay cannot show a delay effect).
 - `rounds`, `per_round`: within the caps; more rounds let the proposer adapt.
 - `rationale`: why this plan answers the brief, and what it cannot answer.
+- `goal`: the brief's win condition in a form code checks after every round;
+  the study stops as soon as it is met, so a good goal saves runs. One of:
+  - `{"type": "separate", "scene", "knob", "low", "high"}`: the failure rate
+    at `high` is higher than at `low` on one scene; met when the 90% range at
+    `high` lies wholly above the range at `low`.
+  - `{"type": "bracket", "scenes", "knob", "low_max", "high_min"}`: for each
+    scene, find a value whose range lies below `low_max` and a larger one
+    whose range lies above `high_min` (or show the scene never breaks within
+    the knob's values, or fails at its smallest). Need `0 < low_max <= 0.5 <=
+    high_min < 1`. With 90% ranges, a setting needs about 5 clean runs to lie
+    below 0.4 and 5 failures to lie above 0.6, so choose thresholds the budget
+    can reach.
+  - `{"type": "none"}`: the brief has no checkable win condition; the study
+    runs its whole budget.
+  The goal's scenes and knob must be the plan's; its values legal ones.
 
 Say in `rationale` when the brief asks for something no knob or scene can
 give (for example a scene type the data cannot identify); do not pretend.

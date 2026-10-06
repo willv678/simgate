@@ -6,9 +6,11 @@ and code deciding:
 
 1. plan: one headless Claude call (advisor/PLAN.md) turns the brief into a
    plan; plan_problems() checks every field against the knob catalog, the
-   available scenes and the budget caps; a person confirms it unless --yes.
+   available scenes and the budget caps, and its goal with goals.py; a person
+   confirms it unless --yes.
 2. run: the outer loop (outer.run_study) runs the plan; every run goes through
-   the inner loop and only kept runs count.
+   the inner loop and only kept runs count; after every round code checks the
+   goal and stops the study once it is met (goal.json).
 3. triage: Claude reads video frames around each failure and names its cause
    (triage.py);
 4. report: code tabulates the kept runs per setting; one call
@@ -35,6 +37,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from goals import goal_problems
 from headless import ask
 from knobs import DESCRIPTIONS, SCENARIO
 from outer import Study, history, results, run_study, scene_facts
@@ -60,8 +63,24 @@ PLAN_SCHEMA = {
         "rounds": {"type": "integer"},
         "per_round": {"type": "integer"},
         "rationale": {"type": "string"},
+        "goal": {
+            "type": "object",
+            "properties": {
+                "type": {"type": "string", "enum": ["separate", "bracket", "none"]},
+                "scene": {"type": "string"},
+                "scenes": {"type": "array", "items": {"type": "string"}},
+                "knob": {"type": "string"},
+                "low": {"type": "number"},
+                "high": {"type": "number"},
+                "low_max": {"type": "number"},
+                "high_min": {"type": "number"},
+            },
+            "required": ["type"],
+            "additionalProperties": False,
+        },
     },
     "required": [
+        "goal",
         "question",
         "objective",
         "vary",
@@ -108,6 +127,10 @@ def plan_problems(plan: dict, scenes: set[str]) -> list[str]:
         problems.append(f"per_round must be 1 to {MAX_PER_ROUND}")
     if plan["rounds"] < 1 or plan["rounds"] * plan["per_round"] > MAX_RUNS:
         problems.append(f"rounds x per_round must be 1 to {MAX_RUNS} runs")
+    if plan["goal"]["type"] != "none" and not problems:
+        problems += goal_problems(
+            plan["goal"], set(plan["scenes"]), tuple(plan["vary"])
+        )
     return problems
 
 
@@ -145,6 +168,8 @@ def study_of(folder: Path, plan: dict, model: str) -> Study:
         per_round=plan["per_round"],
         proposer="llm",
         model=model,
+        goal=None if plan["goal"]["type"] == "none" else plan["goal"],
+        goal_file=folder / "goal.json",
     )
 
 
@@ -178,10 +203,17 @@ def write_report(
         {k: c[k] for k in ("run", "cause", "policy_at_fault", "what_happened")}
         for c in causes
     ]
+    goal_file = folder / "goal.json"
+    goal = (
+        json.loads(goal_file.read_text(encoding="utf-8"))
+        if goal_file.exists()
+        else None
+    )
     data = {
         "brief": brief,
         "question": plan["question"],
         "plan": plan,
+        "goal_status": goal,
         "results": table,
         "triage": triaged,
         "not_kept": not_kept,
@@ -208,6 +240,14 @@ def write_report(
             f"{len({r['scene_id'] for r in table})} scenes, varying "
             f"{', '.join(varied)}; {len(not_kept)} runs not kept by the gate. "
             "Counts are kept runs only."
+        ),
+        "",
+        (
+            f"**Goal (checked by code, not the model):** {goal['verdict']}"
+            + (f"; {goal['scenes']}" if goal.get("scenes") else "")
+            + f", after {goal['after_rounds']} rounds."
+            if goal
+            else "**Goal:** none that code can check; the study ran its budget."
         ),
         "",
         "## Answer",
