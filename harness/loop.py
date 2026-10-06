@@ -110,6 +110,13 @@ def main() -> int:
     parser.add_argument("--policy", choices=("script", "model", "agent"), required=True)
     parser.add_argument("--model", default="claude-opus-5-5")
     parser.add_argument("--timeout-min", type=float, default=30.0)
+    parser.add_argument(
+        "--stall-s",
+        type=float,
+        default=0.0,
+        help="stop a run whose simulation log stops growing this long (monitor.py)",
+    )
+    parser.add_argument("--poll-s", type=float, default=30.0)
     parser.add_argument("--no-launch", action="store_true")
     parser.add_argument("--trace", type=Path, required=True)
     parser.add_argument(
@@ -118,7 +125,14 @@ def main() -> int:
     args = parser.parse_args()
 
     extra = {
-        "monitor.py": ["--timeout-min", str(args.timeout_min)],
+        "monitor.py": [
+            "--timeout-min",
+            str(args.timeout_min),
+            "--stall-s",
+            str(args.stall_s),
+            "--poll-s",
+            str(args.poll_s),
+        ],
         "diagnose.py": ["--policy", args.policy, "--model", args.model],
     }
     start = time.time()

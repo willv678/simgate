@@ -1,6 +1,6 @@
 {
- "enabled": false,
- "note": "K⁺ physics bounds (physics.py). Each bound comes from what a road car can do, and calibrate_physics.py checks it fires on no kept clean run. Enable between campaigns, never during one, so every arm sees the same gate.",
+ "enabled": true,
+ "note": "K\u207a physics bounds (physics.py). Each bound comes from what a road car can do, and calibrate_physics.py checks it fires on no kept clean run. Enable between campaigns, never during one, so every arm sees the same gate.",
  "max": {
   "max_abs_accel": {
    "max": 10.0,
