@@ -20,10 +20,14 @@
   },
   "median_plan_handoff_m": {
    "max": 0.05,
-   "why": "Median sideways distance, after the force-GT warm-up, between the plan the controller was given and the plan the driver returned, in the ego's frame. They are the same plan in a clean run (medians 0 to 0.01 m; single steps on curves can differ). A larger median means the plan was changed between the driver and the controller: a bias, a frozen plan."
+   "why": "Median sideways distance, after the force-GT warm-up, between the plan the controller was given and the driver plan it came from (matched by timestamps), in the ego's frame. They are the same plan in a clean run (medians 0 to 0.008 m over 589 kept runs; single steps on curves can differ). A larger median means the plan was changed between the driver and the controller: a bias, waypoint noise."
   }
  },
  "dropped": {
   "p99_abs_jerk": "Held-out scenes (S1, highway speeds) reached 30-101 m/s^3 in clean runs whose other signals are normal: third differences of 10 Hz poses amplify position noise, and the linear MPC has no input-rate penalty. Kept as Auditor evidence, not a bound."
+ },
+ "plan_age": {
+  "slack_ms": 100,
+  "why": "The age of the plan the controller got, in ms, must be at least the requested planner delay and less than the delay plus one control step (100 ms), at the median and at every step: the runtime's delay buffer hands over the newest plan at least that old. Clean runs at 0 delay: 0 ms at every step over 589 kept runs; old 50/100/200 ms runs: 100/100/200 ms. A frozen plan ages step by step (g2: median 400, max 900 ms); a delay that never applied leaves the age at 0."
  }
 }

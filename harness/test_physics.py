@@ -18,6 +18,7 @@ def _signals(xs, reported=None, recorded_offset=1.0, gap=30.0, overlap=0.0):
         "lead_gap_m": np.full(n, gap),
         "overlap_m2": np.full(n, overlap),
         "plan_handoff_m": np.zeros(n),
+        "plan_age_ms": np.zeros(n),
     }
 
 
@@ -64,3 +65,15 @@ def test_plan_handoff_gap_is_zero_for_the_same_plan_and_sees_a_bias():
     assert _handoff_gap(pose, driver, same) < 1e-9
     assert abs(_handoff_gap(pose, driver, biased) - 1.0) < 1e-9
     assert _handoff_gap(pose, driver, slipped) < 1e-9
+
+
+def test_plan_age_must_match_the_requested_delay():
+    from physics import plan_age_problem
+
+    def age(median, oldest):
+        return {"median_plan_age_ms": median, "max_plan_age_ms": oldest}
+
+    assert plan_age_problem(age(0, 0), 0, 100) is None
+    assert plan_age_problem(age(200, 200), 150_000, 100) is None  # rounded up a step
+    assert plan_age_problem(age(400, 900), 0, 100)  # a frozen plan
+    assert plan_age_problem(age(0, 0), 100_000, 100)  # a delay that never applied
