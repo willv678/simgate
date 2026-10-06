@@ -92,3 +92,20 @@ def test_admission(make_run):
     assert (
         admission(wrong, batch, {"swept"}, clean)["reason"] == "fires on 3 clean runs"
     )
+
+
+def test_ne_holds_where_the_value_is_absent(make_run):
+    """A forbidden setting that is absent is not set; a typo never fires."""
+    path, label = _run(make_run, "ok")
+    no_fault = {
+        **CONTEXT_8,
+        "id": "no_fault_injection",
+        "file": "wizard-config.yaml",
+        "path": "runtime.simulation_config.fault_injection.enabled",
+        "op": "ne",
+        "value": True,
+    }
+    assert violation(no_fault, path, label) is None
+    batch = {"ok": (path, label)}
+    typo = {**no_fault, "path": "runtime.simulation_config.fault_injecton.enabled"}
+    assert admission(typo, batch, {"ok"}, {})["reason"] == "fires on none of the flagged runs"

@@ -11,7 +11,11 @@ data, not code, so checking it is deterministic and cannot do anything else:
 
 `eq_label` compares the value with the run's label, the config the experiment
 recorded for it. A missing file, path, or label key is a violation: a run
-whose config cannot show that it is right is not kept.
+whose config cannot show that it is right is not kept. The one exception is
+`ne`: a value that is absent cannot equal the forbidden one, so "fault
+injection must not be enabled" holds on runs that have no fault-injection
+block. A `ne` rule with a wrong path therefore never fires, and promote.py
+rejects it because it catches none of the flagged runs.
 
 read_state.py applies the promoted rules to every finished run. They live in
 rules/promoted.json, or in the file named by ALPASIM_RULES.
@@ -76,6 +80,8 @@ def violation(rule: dict, run_path: Path, label: dict) -> str | None:
         return f"{rule['id']}: {rule['file']} missing"
     actual = _lookup(yaml.safe_load(source.read_text(encoding="utf-8")), rule["path"])
     if actual is _MISSING:
+        if rule["op"] == "ne":
+            return None
         return f"{rule['id']}: {rule['path']} missing from {rule['file']}"
     op = rule["op"]
     if op == "eq_label":
