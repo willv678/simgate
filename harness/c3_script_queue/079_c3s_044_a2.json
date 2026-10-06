@@ -1,0 +1,56 @@
+{
+  "name": "c3s_044_a2",
+  "run_dir": "diag/c3s_044_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 2,
+  "parent": "044_c3s_044.json",
+  "launched": true,
+  "pid": 507161,
+  "launched_at": 1791265071.168462,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RESTART_CLEANUP",
+  "diagnosis": {
+    "policy": "script",
+    "input": {
+      "state": "FAILED",
+      "run": "c3s_044_a2",
+      "k_status": "physics: frac_on_recording 1 > 0.98",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 2,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-06T05:37:58.206Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 180840705553 outside range [180837605553, 180840605554)",
+        "ValueError: Interpolation timestamp 180840705553 outside range [180837605553, 180840605554)",
+        "controller-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ]
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n224 MiB, 11628 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  485G  427G  54% /\n",
+    "skill": "RESTART_CLEANUP",
+    "params": {},
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "rails",
+    "persistent": true,
+    "after_s": null,
+    "applied": false
+  }
+}

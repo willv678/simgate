@@ -318,6 +318,10 @@ bumpers ignore, and a real crash overlaps by 7 m² (`diag/s1_010`); the
 threshold is 0.25 m², set after seeing those slivers. Recalibrated: 0 false of
 256 clean runs, 6/6 silent faults.
 
+Held-out check of all current bounds (plan handoff included) on every kept
+C1 and C2 run, none of which set the plan-handoff bound
+(`campaign_report.txt`): 0 of 202 runs without a silent fault flagged.
+
 Plan faults (g2: 4 lateral bias 1.0 m, 4 plan freeze, 2 clean; two scenes),
 6 Oct. The gate kept all 10: the motion is possible. The Auditor with configs
 hidden caught 0/8 with one reference and with a reference per scene

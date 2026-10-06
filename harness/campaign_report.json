@@ -302,7 +302,13 @@
    }
   },
   "complete": true,
-  "minutes": 367.3
+  "minutes": 367.3,
+  "physics_after_the_fact": {
+   "silent_caught": 0,
+   "silent": 0,
+   "other_flagged": 0,
+   "other": 45
+  }
  },
  "c2_agent": {
   "planned": 50,
@@ -375,7 +381,13 @@
    }
   },
   "complete": true,
-  "minutes": 154.4
+  "minutes": 154.4,
+  "physics_after_the_fact": {
+   "silent_caught": 0,
+   "silent": 3,
+   "other_flagged": 0,
+   "other": 36
+  }
  },
  "c2_model": {
   "planned": 50,
@@ -448,7 +460,13 @@
    }
   },
   "complete": true,
-  "minutes": 257.1
+  "minutes": 257.1,
+  "physics_after_the_fact": {
+   "silent_caught": 0,
+   "silent": 1,
+   "other_flagged": 0,
+   "other": 26
+  }
  },
  "skills_chosen": {
   "script": {

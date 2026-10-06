@@ -1,0 +1,27 @@
+{
+  "name": "c3s_045",
+  "run_dir": "diag/c3s_045",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-0245ff75-aa3f-46b7-ba87-16a7afb841af",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 384686,
+  "launched_at": 1791257097.3395298,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": {
+    "kind": "kinematic",
+    "persistent": true,
+    "after_s": null,
+    "applied": false
+  },
+  "quarantine": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal instead of linear (used by all other runs and all references), so it is not the claimed setup; physics.txt shows max_abs_accel 8.177 and p99_abs_jerk 94.2 vs <=3.6 / ~8 elsewhere."
+}

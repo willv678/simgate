@@ -1,0 +1,21 @@
+{
+  "name": "c3s_003_a2",
+  "run_dir": "diag/c3s_003_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-0245ff75-aa3f-46b7-ba87-16a7afb841af",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 2,
+  "parent": "003_c3s_003.json",
+  "launched": true,
+  "pid": 405153,
+  "launched_at": 1791258803.31855,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null
+}

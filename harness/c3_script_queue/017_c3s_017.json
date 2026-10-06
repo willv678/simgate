@@ -1,0 +1,49 @@
+{
+  "name": "c3s_017",
+  "run_dir": "diag/c3s_017",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 273149,
+  "launched_at": 1791250206.2940826,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "script",
+    "input": {
+      "state": "FAILED",
+      "run": "c3s_017",
+      "k_status": "wizard_exit_code: 124; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-06T01:30:13.224Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\""
+      ]
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nc3s_017-driver-0-1\tUp 9 minutes\nc3s_017-renderer-0-1\tUp 9 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc3s_017_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n5688 MiB, 6163 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  483G  429G  54% /\n",
+    "skill": "RE-RUN",
+    "params": {},
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "hang",
+    "persistent": false,
+    "after_s": 123,
+    "applied": false
+  }
+}

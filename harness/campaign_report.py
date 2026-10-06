@@ -126,7 +126,9 @@ def skills_chosen(campaigns: tuple, arm: str) -> dict:
                 durations.append(first["diagnosis"]["duration_ms"] / 1000)
     return {
         "skills": {kind: dict(c) for kind, c in chosen.items()},
-        "median_call_s": round(sorted(durations)[len(durations) // 2], 1) if durations else None,
+        "median_call_s": round(sorted(durations)[len(durations) // 2], 1)
+        if durations
+        else None,
     }
 
 
@@ -157,10 +159,7 @@ def main() -> int:
     for campaign in ("c1", "c2"):
         for arm in ARMS:
             r = arm_report(campaign, arm)
-            if campaign == "c1":
-                r["physics_after_the_fact"] = physics_after_the_fact(
-                    campaign, arm, bounds
-                )
+            r["physics_after_the_fact"] = physics_after_the_fact(campaign, arm, bounds)
             report[f"{campaign}_{arm}"] = r
             lines.append(
                 f"{campaign} {NAMES[arm]}\t{r['planned']}\t{r['launches']}\t{r['valid_kept']}"
@@ -182,19 +181,22 @@ def main() -> int:
         lines.append(f"{k}\t" + "\t".join(cells))
     lines.append("")
     lines.append(
-        "physics, fresh runs: C1 kept runs checked after the fact; C2 live failures"
+        "physics, current bounds on every kept run after the fact (none of these"
+        " runs set the plan-handoff bound); C2 also live"
     )
     for key, r in report.items():
-        if "physics_after_the_fact" in r:
-            p = r["physics_after_the_fact"]
-            lines.append(
-                f"{key}\tsilent caught {p['silent_caught']}/{p['silent']}"
-                f"\tother runs flagged {p['other_flagged']}/{p['other']}"
-            )
-        else:
-            lines.append(f"{key}\tlive physics failures {r['physics_failures']}")
+        p = r["physics_after_the_fact"]
+        live = (
+            f"\tlive failures {r['physics_failures']}" if key.startswith("c2") else ""
+        )
+        lines.append(
+            f"{key}\tsilent caught {p['silent_caught']}/{p['silent']}"
+            f"\tother runs flagged {p['other_flagged']}/{p['other']}{live}"
+        )
     lines.append("")
-    lines.append("first skill chosen per fault kind, C1 and C2 together (median seconds per model call):")
+    lines.append(
+        "first skill chosen per fault kind, C1 and C2 together (median seconds per model call):"
+    )
     choices = {arm: skills_chosen(("c1", "c2"), arm) for arm in ARMS}
     for arm in ARMS:
         lines.append(f"{NAMES[arm]} (median call {choices[arm]['median_call_s']} s)")

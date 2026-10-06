@@ -1,0 +1,27 @@
+{
+  "name": "c3s_022_a2",
+  "run_dir": "diag/c3s_022_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 2,
+  "parent": "022_c3s_022.json",
+  "launched": true,
+  "pid": 455558,
+  "launched_at": 1791262255.2284358,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": {
+    "kind": "kinematic",
+    "persistent": true,
+    "after_s": null,
+    "applied": false
+  },
+  "quarantine": "wizard-config.yaml controller.mpc_implementation is kinematic_ideal instead of linear, so its controller differs from the batch setup; physics.txt shows max_abs_accel 8.146 and p99_abs_jerk 82.8, and plan_deviation 0.56 vs 0.26-0.31 on the same scene."
+}

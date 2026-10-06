@@ -1,0 +1,42 @@
+{
+  "name": "c3s_028",
+  "run_dir": "diag/c3s_028",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 322078,
+  "launched_at": 1791253601.3192701,
+  "environment": null,
+  "env_cleanups": 1,
+  "resolution": "ACCEPT",
+  "diagnosis": {
+    "policy": "script",
+    "input": {
+      "state": "FAILED",
+      "run": "c3s_028",
+      "k_status": "environment: 1 AlpaSim containers from another run still running; GPU free 7343 MiB < 10500 MiB",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": []
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nc3s_027-renderer-0-1\tUp 9 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc3s_027_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n4508 MiB, 7343 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  484G  428G  54% /\n",
+    "skill": "CLEANUP_ENV",
+    "params": {},
+    "verdict": "accepted"
+  },
+  "fault": null
+}
