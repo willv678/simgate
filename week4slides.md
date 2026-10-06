@@ -53,7 +53,10 @@ knobs or an over-budget plan never run."
 
 ## 4. The outer loop in action (pilot o1)
 
-**Image:** `figures/pilot_grid.png` (left panel: Claude; right panel: random)
+**Image:** `figures/pilot_grid.png`, the left panel (Claude) only. Present it
+as what the loop did, not as Claude beating random. Random is only a floor; the
+real baselines next week are a grid sweep (status quo), Optuna, and an
+expert-written bisection script, compared on runs needed to answer.
 
 **On slide**
 - Round 1: probe 200 ms on the clean scenes, plus repeat one odd baseline.
@@ -173,9 +176,16 @@ gate would have reported nothing but failures."
   100 and 150 ms? Win condition: the 90% ranges no longer overlap."
 - The planner flagged the statistics itself: Wilson ranges separate at 4/4 vs
   0/4, while stricter Clopper–Pearson needs the pilot runs pooled in.
-- **RESULT: [fill in at ~2:45 from `studies/confirm_break_02eadd92/report.md`]**
-  - Confirmed: "0% (0–40%) at 100 ms → 100% (60–100%) at 150 ms".
-  - Or not confirmed: the system says so and names the runs that would settle it.
+- **RESULT: not confirmed.** 150 ms: every run crashed (4 of 4, rate 60–100%).
+  100 ms: 2 of 4 crashed (rate 18–82%), both over 3.5 m off the recorded path,
+  so possibly the simulator's. The ranges overlap, so the win condition is not
+  met. The crash type also changes: side contact at 100 ms, rear-ending at
+  150 ms. (`studies/confirm_break_02eadd92/report.md`)
+
+**Say:** "This morning's pilot suggested a clean break from 1–2 runs per
+setting. I asked the system to confirm it with 90% confidence. It ran 8 more,
+said *not confirmed*, flagged the doubtful failures, and listed what would
+settle it. It won't let me fool myself."
 
 ---
 
@@ -197,5 +207,9 @@ runs/hour. NVIDIA's Alpamayo models, which AlpaSim targets, need ~40 GB. A
 48–80 GB card would let us show the method on a second, stronger policy and
 run repeats several times faster.
 
-**Tonight:** g3 (held-out plan faults), then the 30-run latency-budget study
-end to end from its brief.
+**Found today, testing tonight:** our harness runs VaVAM with 100 ms control
+steps, while AlpaSim's VaVAM config uses 500 ms with camera and control in sync.
+The ~30% baseline failure rate may be partly our setup. The gate checks that
+settings *landed*; this is a new class of check: are they *right for the
+policy*. The 30-run latency study waits for this check. g3 (held-out plan
+faults) runs tonight.
