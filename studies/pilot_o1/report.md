@@ -4,41 +4,45 @@ Study `pilot_o1`: 15 kept runs on 4 scenes, varying planner_delay_us; 0 runs not
 
 ## Answer
 
-Of the 8 candidate scenes, only one shows a failure pattern that tracks planner delay: clipgt-02eadd92. On that scene the policy passed 3 of 3 runs at 0–100 ms and failed 5 of 5 at 150–400 ms, so it appears to break somewhere between 100 and 150 ms. Every one of those failures is the policy not braking for, or steering into, a car slowing at a red light. Each delay setting has only one or two runs, though, so this break point is a hint rather than a measured rate: at 100 ms the 90% range on the failure rate reaches 0.58, and at 150 ms it starts at 0.42. Two other scenes also fail with no added delay, so they are not delay-fragile in any sense this study can show:
-- clipgt-01d503d4 failed 4 of 4 runs at 0–200 ms. In three of those, whether the policy was at fault is unclear, and in two of the three a replayed car cut into the ego's lane.
-- clipgt-026d6a39 failed 1 of 1 run at 0 ms by driving off the road. That run is flagged as a possible simulator artifact, although the video review found the camera view doesn't explain the mistake.
-On clipgt-023b7fcc the policy passed at 200 ms, failed at 300 ms and passed at 400 ms, one run each, which is no clear trend. The remaining four scenes were never run.
+Only one scene, 02eadd92, looks sensitive to planner delay. It passed every run at 0 and 100 ms and failed every run from 150 ms up. It most likely breaks somewhere between 100 and 150 ms, but each setting has only one or two runs, so this is a strong hint, not a measured rate. Two other scenes fail even with no delay (01d503d4 and 026d6a39), so delay doesn't explain them. A third, 023b7fcc, failed once at 300 ms but passed at 400 ms, so it has no clear breaking point. Four of the eight candidate scenes were never run.
 
 ## Findings
 
-- clipgt-02eadd92 is the one scene whose failures line up with delay. It passed every run at 0 and 100 ms (3 runs in total) and failed every run at 150, 200 and 400 ms (4 runs in total), which puts its break roughly between 100 and 150 ms. Each setting has only one or two runs.
+- Scene 02eadd92 passed every run at 0 and 100 ms and failed every run at 150, 200 and 400 ms, so it most likely breaks between 100 and 150 ms. With only one or two runs per setting, the ranges at 0 and 100 ms still allow a substantial failure rate.
   - S8: 02eadd92 at planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (o1_009)
   - S9: 02eadd92 at planner_delay_us 100000: 0/2 failed, rate 0%-58% (90%) (o1_006, o1_013)
   - S10: 02eadd92 at planner_delay_us 150000: 2/2 failed, rate 42%-100% (90%), 1 possibly the simulator's (o1_011, o1_012)
   - S11: 02eadd92 at planner_delay_us 200000: 1/1 failed, rate 27%-100% (90%) (o1_003)
   - S12: 02eadd92 at planner_delay_us 400000: 1/1 failed, rate 27%-100% (90%) (o1_004)
-- All four failures on clipgt-02eadd92 were the policy's fault, and they look alike. In each, the ego was in the lane left of the recorded path, only eased off while a car ahead slowed for a red light, and either rear-ended it or steered into it. One of the runs at 150 ms is flagged as a possible artifact (the ego was more than 3.5 m off the recorded trajectory), but the video review says the lead car was clearly visible before the crash.
+- The failures on 02eadd92 were the policy's fault, and the same thing happened each time. The ego sat about one lane left of the recorded path while approaching a red light, braked only gently behind car 22 as it slowed, and rear-ended it or hit its corner. One run at 150 ms was flagged as a possible simulator artifact because the ego was over 3.5 m off the recorded path. Its triage found the camera view clear until just before impact, so the artifact doesn't explain the crash, and the other run at 150 ms failed the same way without the flag.
   - S10: 02eadd92 at planner_delay_us 150000: 2/2 failed, rate 42%-100% (90%), 1 possibly the simulator's (o1_011, o1_012)
   - S11: 02eadd92 at planner_delay_us 200000: 1/1 failed, rate 27%-100% (90%) (o1_003)
   - S12: 02eadd92 at planner_delay_us 400000: 1/1 failed, rate 27%-100% (90%) (o1_004)
-- clipgt-01d503d4 fails even with no added delay: it failed 2 of 2 runs at 0 ms and 1 of 1 at each of 100 and 200 ms. So delay is not what makes it fail. In 3 of the 4 failures it is unclear whether the policy was at fault: in two, actor 27 cut into the ego's lane in slow traffic, and in one the collision happened before the clip starts. Only the 100 ms run is a clear policy fault (the ego drifted left into a car beside it).
+- Scene 01d503d4 failed at every delay tested, including 0 ms, so its failures don't come from delay. It is slow highway traffic where actor 27, in the next lane, cuts in or runs alongside. In two failures (0 and 200 ms) the actor hit the ego, and it is unclear whether the policy was at fault. A third failure at 0 ms has no visible collision and its cause is unclear. Only the 100 ms failure, where the ego drifted left into car 27, is clearly the policy's.
   - S1: 01d503d4 at planner_delay_us 0: 2/2 failed, rate 42%-100% (90%) (o1_010, o1_014)
   - S2: 01d503d4 at planner_delay_us 100000: 1/1 failed, rate 27%-100% (90%) (o1_007)
   - S3: 01d503d4 at planner_delay_us 200000: 1/1 failed, rate 27%-100% (90%) (o1_001)
-- clipgt-026d6a39 failed its only run, at 0 ms. The policy started one lane off the recorded path and drove over the curb. This run is flagged as a possible artifact because the ego ended about 8 m off the recorded path, but the video review judged it the policy's fault because the road ahead was clearly visible. Delay was never varied on this scene.
+- Scene 026d6a39 failed at 0 ms, its only setting. The ego started one lane left of the recorded path, kept bending further left, and drove over a curb with no actors nearby (policy at fault). The run was flagged as a possible artifact because the ego ended about 8 m off the recorded path, but triage found the road ahead clear before the failure.
   - S7: 026d6a39 at planner_delay_us 0: 1/1 failed, rate 27%-100% (90%), 1 possibly the simulator's (o1_005)
-- clipgt-023b7fcc shows no clear trend with delay. It passed at 200 ms, failed at 300 ms by rear-ending a slower car, and passed at 400 ms, with one run at each setting.
+- Scene 023b7fcc shows no consistent trend with delay. It passed at 200 and 400 ms and failed at 300 ms, where the ego drifted left behind a slower vehicle and didn't brake enough (policy at fault). Each of these settings has a single run.
   - S4: 023b7fcc at planner_delay_us 200000: 0/1 failed, rate 0%-73% (90%) (o1_002)
   - S5: 023b7fcc at planner_delay_us 300000: 1/1 failed, rate 27%-100% (90%) (o1_015)
   - S6: 023b7fcc at planner_delay_us 400000: 0/1 failed, rate 0%-73% (90%) (o1_008)
+- Across the scenes, almost every failure the policy caused followed the same pattern: the ego drifted or sat left of the recorded path and then braked too weakly for a slowing car ahead.
+  - S2: 01d503d4 at planner_delay_us 100000: 1/1 failed, rate 27%-100% (90%) (o1_007)
+  - S5: 023b7fcc at planner_delay_us 300000: 1/1 failed, rate 27%-100% (90%) (o1_015)
+  - S7: 026d6a39 at planner_delay_us 0: 1/1 failed, rate 27%-100% (90%), 1 possibly the simulator's (o1_005)
+  - S10: 02eadd92 at planner_delay_us 150000: 2/2 failed, rate 42%-100% (90%), 1 possibly the simulator's (o1_011, o1_012)
+  - S11: 02eadd92 at planner_delay_us 200000: 1/1 failed, rate 27%-100% (90%) (o1_003)
+  - S12: 02eadd92 at planner_delay_us 400000: 1/1 failed, rate 27%-100% (90%) (o1_004)
 
 ## Open
 
-- Exactly where clipgt-02eadd92 breaks. Repeat runs (about 5 each) at 100, 125 and 150 ms would narrow it down; at the moment the range rests on 2 runs at 100 ms and 2 at 150 ms.
-- Whether clipgt-01d503d4 really fails at its baseline because of the policy, or because of the replayed cut-in by actor 27. More runs at 0 ms, with triage of who caused each contact, would settle this. Delay can't be studied on this scene until its baseline is understood.
-- Whether clipgt-026d6a39 fails reliably at 0 ms, and how it behaves with added delay. Its only run is a single failure that may be a simulator artifact; repeat runs at 0 ms and a few delays would settle it.
-- Whether clipgt-023b7fcc is sensitive to delay at all. It needs several runs each at 200, 300 and 400 ms.
-- Four scenes were never run: clipgt-0245ff75, clipgt-02e075b9, clipgt-032b6f21 and clipgt-04394343. Each needs at least one run at 0 ms and one at about 200 ms before anyone can say whether it is fragile.
+- Scenes 0245ff75, 02e075b9, 032b6f21 and 04394343 were never run, so whether they are fragile is unknown. Sweeping each from 0 to 400 ms would settle it.
+- Exactly where 02eadd92 breaks: repeated runs (about 5 per setting) at 100, 125 and 150 ms would narrow the threshold and confirm that the scene passes at 0 and 100 ms.
+- Whether delay affects 01d503d4 at all: the scene fails at 0 ms, and most of its failures are cut-ins by actor 27 where the policy's fault is unclear. Repeated runs at 0 ms and at higher delays, plus checking how the replayed cut-in plays out, would show whether the scene is a usable test.
+- Whether 023b7fcc's single failure at 300 ms is noise or a real effect of delay: repeated runs at 200, 300 and 400 ms would tell.
+- 026d6a39 was run only at 0 ms. More runs there, and at higher delays, would show whether it always leaves the road and whether the flagged camera smearing plays any part.
 
 ## Why the runs failed (triage from the video and log)
 
@@ -72,4 +76,4 @@ no_brake_for_lead 4, actor_hit_ego 2, turned_into_actor 2, left_road 1, other 1
 
 ## Provenance
 
-Plan: `plan.json` (rationale: fixed by the pilot script (run_pilot.sh), not planned from a brief). Report written by claude-opus-5-5 from `results` in 23 s; every count above is computed from the queue, not written by the model.
+Plan: `plan.json` (rationale: fixed by the pilot script (run_pilot.sh), not planned from a brief). Report written by claude-opus-5-5 from `results` in 20 s; every count above is computed from the queue, not written by the model.

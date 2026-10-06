@@ -95,3 +95,11 @@ def test_the_failure_rate_range_shrinks_with_runs():
         rate_range(4, 8)[1] - rate_range(4, 8)[0]
         > rate_range(40, 80)[1] - rate_range(40, 80)[0]
     )
+
+
+def test_counts_written_by_hand_are_caught():
+    from study import HAND_COUNT
+
+    assert HAND_COUNT.search("it failed 5 of 5 runs at 150 ms")
+    assert HAND_COUNT.search("2/2 failed")
+    assert not HAND_COUNT.search("every run at 150 ms and above failed (S10, S11)")

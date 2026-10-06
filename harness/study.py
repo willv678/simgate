@@ -27,6 +27,7 @@ study stopped.
 
 import argparse
 import json
+import re
 import shutil
 import sys
 from collections import Counter
@@ -47,6 +48,8 @@ REPORTER = HARNESS / "advisor" / "REPORT.md"
 MAX_RUNS = 60
 MAX_PER_ROUND = 10
 MODEL = "claude-opus-5-5"
+# "4 of 4", "2/2": counts belong to the rendered table, not the prose.
+HAND_COUNT = re.compile(r"\b\d+\s*(?:of|/|out of)\s*\d+\b")
 PLAN_SCHEMA = {
     "type": "object",
     "properties": {
@@ -185,6 +188,11 @@ def write_report(
     }
     prompt = "The brief, the plan and the results are on stdin. Answer the question."
     answer, call = ask(prompt, data, REPORTER, REPORT_SCHEMA, model)
+    prose = " ".join([answer["answer"], *(f["claim"] for f in answer["findings"])])
+    if HAND_COUNT.search(prose):
+        raise SystemExit(
+            f"the report writes counts by hand: {HAND_COUNT.findall(prose)}"
+        )
     by_id = {row["id"]: row for row in table}
     unknown = {s for f in answer["findings"] for s in f["settings"]} - set(by_id)
     if unknown:

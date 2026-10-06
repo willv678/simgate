@@ -23,6 +23,11 @@ numbers.
 
 ## The answer
 
+Write no counts, totals, rates or ranges yourself: say "every run at 150 ms
+and above failed", not "4 of 4", and cite the settings. The report prints the
+counts next to each finding from its own table; a number you add by hand can
+disagree with it. Values of the knobs (150 ms) are fine.
+
 - `answer`: the direct answer to the question, in two to four sentences,
   with the uncertainty the ranges carry. One or two runs at a setting is a
   hint, not a rate. Say so when a conclusion rests on failures that may be
