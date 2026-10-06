@@ -88,20 +88,56 @@ and tier 1 matched the script's yield with fewer wasted launches.
   the models, because our injected faults do not repeat on a retry. A property
   of the fault design that the paper has to state.
 
-**Next**
-- C3 overnight: seed 3, physics on, silent faults persistent (as a config
-  error would be).
-- Griffin's lateral-bias fault: the first fault that beats every check.
+**Done Tue 6 Oct (day)**
+- Direction set with Will: SimGate becomes the inner loop of an autonomous
+  AV testing system; the outer loop proposes the tests. One paper, two loops.
+  C4 cancelled before it started; the GPU goes to the outer loop.
+- Inner loop hardened:
+  - **Delay experiments would all have been rejected.** The plan-handoff
+    check compared a delayed plan with the newest one (0.12–0.17 m on old
+    50–200 ms runs). A delayed plan reaches the controller in the ego's frame
+    from when it was made; the check now matches each plan to its source by
+    timestamp and compares in that frame: 0.0001 m.
+  - **New check, plan age:** the plan the controller gets must be exactly as
+    old as the requested delay (clean: 0 ms at every step over 589 runs;
+    frozen plan: 400–900 ms). It also proves from the log, not the config,
+    that the delay was applied.
+  - The monitor stops a run whose simulation log stops growing (a frozen run
+    held the GPU for the whole 10 min timeout; normal runs pause ≤ 30 s).
+- Two findings that shape the outer loop:
+  - VaVAM fails a third of S1's scenes at 0 delay (27% crash, 36% off-road):
+    "find a failure" is not a useful goal.
+  - Outcomes are random: one scene, identical config, 46 crashes in 150 runs.
+    A failure is a rate; the outer loop has to decide where to spend repeats.
+- Outer loop v1 (`outer.py`): each round Claude proposes runs from a typed
+  knob catalog (scene × planner delay); illegal proposals are dropped; legal
+  ones go through the full inner loop. Pilot: Claude (o1) vs random (o2),
+  same 8 scenes, 20 runs each.
 
-**Slides**
-0. Draft v0 exists; what is pending (C3, g3, citations).
-1. Campaign design: one fault plan, three policies, physics off and on.
-2. 25 → 10 → 0 in every arm (new figure).
-3. Script vs tier 1 vs tier 0: valid kept, launches, halts.
-4. Physics on fresh runs: 25/30 alone, 30/30 with the Auditor, 0 false alarms in C1.
-5. The hard case: plan faults, and the plan-handoff check (0 → 8/8).
-6. What broke: the monitor abort, the contact false alarm, the retry caveat,
-   evidence erased by our own timeout.
+**Next**
+- Pilot results; then the outer-loop comparison at scale overnight.
+- More knobs the inner loop can verify (plan perturbations with a
+  requested-vs-measured check, controller settings).
+- g3 (held-out plan faults) tonight.
+
+**Slides (6 Oct meeting)**
+1. **The vision.** Unattended AV testing: an outer loop decides what to test,
+   an inner loop guarantees every result is valid. The LLM proposes in both;
+   deterministic code decides.
+2. **Inner loop, proven.** Campaigns C1–C3: 0 invalid runs kept after gate +
+   audit in every arm (25 per arm without the gate; upper bound 2%).
+   Tier 1 matches the script's yield with fewer launches (C3: 35 in 72 vs 95),
+   and diagnoses hangs right 5/5 once the evidence is preserved.
+3. **What AV teams test** (failure search, boundaries, triage, regression,
+   long tail), and why validity is the bottleneck for automating it.
+4. **Two findings:** a third of scenes fail at 0 delay; identical runs differ
+   (46/150). So the question is risk vs. delay, not "find a crash".
+5. **The bug the outer loop found before it ran:** delay experiments would
+   all have been rejected; the new plan-age check (figure: age per step,
+   clean vs delayed vs frozen).
+6. **Outer loop v1, live:** Claude's plan per round, what it ran, what it
+   found, vs random (`figures/pilot_grid.pdf`). [fill at 2:30]
+7. **Next two weeks:** more knobs, the comparison at scale, triage.
 
 ---
 
