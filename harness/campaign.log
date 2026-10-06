@@ -3014,3 +3014,172 @@ queued 50 runs in research/harness/c3_model_queue
 001_c3m_001.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
 001_c3m_001.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
 001_c3m_001.json: READY -> run_experiment.py {"pid": 950608, "run_dir": "diag/c3m_001"}
+001_c3m_001.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+001_c3m_001.json: COMPLETE -> analyze.py {"appended": true}
+001_c3m_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_c3m_002.json: READY -> run_experiment.py {"pid": 955324, "run_dir": "diag/c3m_002"}
+002_c3m_002.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+002_c3m_002.json: COMPLETE -> analyze.py {"appended": true}
+002_c3m_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+003_c3m_003.json: READY -> run_experiment.py {"pid": 958693, "run_dir": "diag/c3m_003"}
+003_c3m_003.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+003_c3m_003.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3404, "output_tokens": 828, "duration_ms": 9583, "tool_calls": [], "denied": []}
+003_c3m_003.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+003_c3m_003.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+004_c3m_004.json: READY -> run_experiment.py {"pid": 962154, "run_dir": "diag/c3m_004"}
+004_c3m_004.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+004_c3m_004.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3449, "output_tokens": 1652, "duration_ms": 17755, "tool_calls": [], "denied": []}
+004_c3m_004.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+004_c3m_004.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+005_c3m_005.json: READY -> run_experiment.py {"pid": 965633, "run_dir": "diag/c3m_005"}
+005_c3m_005.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 1.5}
+005_c3m_005.json: FAILED -> diagnose.py {"policy": "model", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3230, "output_tokens": 674, "duration_ms": 7827, "tool_calls": [], "denied": []}
+005_c3m_005.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+005_c3m_005.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "051_c3m_005_a2.json", "cleanup": "docker compose down on diag/c3m_005"}
+006_c3m_006.json: READY -> run_experiment.py {"pid": 968617, "run_dir": "diag/c3m_006"}
+006_c3m_006.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+006_c3m_006.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 6459, "output_tokens": 529, "duration_ms": 6261, "tool_calls": [], "denied": []}
+006_c3m_006.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+006_c3m_006.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+007_c3m_007.json: READY -> run_experiment.py {"pid": 972072, "run_dir": "diag/c3m_007"}
+007_c3m_007.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+007_c3m_007.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 6489, "output_tokens": 917, "duration_ms": 9620, "tool_calls": [], "denied": []}
+007_c3m_007.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+007_c3m_007.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+008_c3m_008.json: READY -> run_experiment.py {"pid": 975505, "run_dir": "diag/c3m_008"}
+008_c3m_008.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+008_c3m_008.json: COMPLETE -> analyze.py {"appended": true}
+008_c3m_008.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+009_c3m_009.json: READY -> run_experiment.py {"pid": 978877, "run_dir": "diag/c3m_009"}
+009_c3m_009.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.5}
+009_c3m_009.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3404, "output_tokens": 950, "duration_ms": 11142, "tool_calls": [], "denied": []}
+009_c3m_009.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+009_c3m_009.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+010_c3m_010.json: READY -> run_experiment.py {"pid": 982337, "run_dir": "diag/c3m_010"}
+010_c3m_010.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+010_c3m_010.json: FAILED -> diagnose.py {"policy": "model", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3628, "output_tokens": 887, "duration_ms": 12138, "tool_calls": [], "denied": []}
+010_c3m_010.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+010_c3m_010.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "052_c3m_010_a2.json", "cleanup": "docker compose down on diag/c3m_010"}
+011_c3m_011.json: READY -> run_experiment.py {"pid": 985801, "run_dir": "diag/c3m_011"}
+011_c3m_011.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+011_c3m_011.json: COMPLETE -> analyze.py {"appended": true}
+011_c3m_011.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+012_c3m_012.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+012_c3m_012.json: FAILED -> diagnose.py {"policy": "model", "skill": "CLEANUP_ENV", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3176, "output_tokens": 493, "duration_ms": 6327, "tool_calls": [], "denied": []}
+012_c3m_012.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+012_c3m_012.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+012_c3m_012.json: READY -> run_experiment.py {"pid": 994950, "run_dir": "diag/c3m_012"}
+012_c3m_012.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+012_c3m_012.json: COMPLETE -> analyze.py {"appended": true}
+012_c3m_012.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+013_c3m_013.json: READY -> run_experiment.py {"pid": 998296, "run_dir": "diag/c3m_013"}
+013_c3m_013.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+013_c3m_013.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3400, "output_tokens": 590, "duration_ms": 6508, "tool_calls": [], "denied": []}
+013_c3m_013.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+013_c3m_013.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+014_c3m_014.json: READY -> run_experiment.py {"pid": 1001755, "run_dir": "diag/c3m_014"}
+014_c3m_014.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+014_c3m_014.json: COMPLETE -> analyze.py {"appended": true}
+014_c3m_014.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+015_c3m_015.json: READY -> run_experiment.py {"pid": 1005229, "run_dir": "diag/c3m_015"}
+015_c3m_015.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+015_c3m_015.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3402, "output_tokens": 839, "duration_ms": 9098, "tool_calls": [], "denied": []}
+015_c3m_015.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+015_c3m_015.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+016_c3m_016.json: READY -> run_experiment.py {"pid": 1008691, "run_dir": "diag/c3m_016"}
+016_c3m_016.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+016_c3m_016.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3409, "output_tokens": 572, "duration_ms": 6863, "tool_calls": [], "denied": []}
+016_c3m_016.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+016_c3m_016.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+017_c3m_017.json: READY -> run_experiment.py {"pid": 1012148, "run_dir": "diag/c3m_017"}
+017_c3m_017.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+017_c3m_017.json: FAILED -> diagnose.py {"policy": "model", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3629, "output_tokens": 907, "duration_ms": 10211, "tool_calls": [], "denied": []}
+017_c3m_017.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+017_c3m_017.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "053_c3m_017_a2.json", "cleanup": "docker compose down on diag/c3m_017"}
+018_c3m_018.json: READY -> run_experiment.py {"pid": 1015625, "run_dir": "diag/c3m_018"}
+018_c3m_018.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 2.0}
+018_c3m_018.json: FAILED -> diagnose.py {"policy": "model", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 6281, "output_tokens": 707, "duration_ms": 7707, "tool_calls": [], "denied": []}
+018_c3m_018.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+018_c3m_018.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "054_c3m_018_a2.json", "cleanup": "docker compose down on diag/c3m_018"}
+019_c3m_019.json: READY -> run_experiment.py {"pid": 1018669, "run_dir": "diag/c3m_019"}
+019_c3m_019.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+019_c3m_019.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3439, "output_tokens": 955, "duration_ms": 10837, "tool_calls": [], "denied": []}
+019_c3m_019.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+019_c3m_019.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+020_c3m_020.json: READY -> run_experiment.py {"pid": 1022097, "run_dir": "diag/c3m_020"}
+020_c3m_020.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+020_c3m_020.json: FAILED -> diagnose.py {"policy": "model", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3631, "output_tokens": 897, "duration_ms": 10723, "tool_calls": [], "denied": []}
+020_c3m_020.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+020_c3m_020.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "055_c3m_020_a2.json", "cleanup": "docker compose down on diag/c3m_020"}
+021_c3m_021.json: READY -> run_experiment.py {"pid": 1025564, "run_dir": "diag/c3m_021"}
+021_c3m_021.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+021_c3m_021.json: FAILED -> diagnose.py {"policy": "model", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3228, "output_tokens": 726, "duration_ms": 8877, "tool_calls": [], "denied": []}
+021_c3m_021.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+021_c3m_021.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "056_c3m_021_a2.json", "cleanup": "docker compose down on diag/c3m_021"}
+022_c3m_022.json: READY -> run_experiment.py {"pid": 1028644, "run_dir": "diag/c3m_022"}
+022_c3m_022.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+022_c3m_022.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3400, "output_tokens": 860, "duration_ms": 10608, "tool_calls": [], "denied": []}
+022_c3m_022.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+022_c3m_022.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+023_c3m_023.json: READY -> run_experiment.py {"pid": 1032260, "run_dir": "diag/c3m_023"}
+023_c3m_023.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+023_c3m_023.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3393, "output_tokens": 866, "duration_ms": 10059, "tool_calls": [], "denied": []}
+023_c3m_023.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+023_c3m_023.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+024_c3m_024.json: READY -> run_experiment.py {"pid": 1035706, "run_dir": "diag/c3m_024"}
+024_c3m_024.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+024_c3m_024.json: COMPLETE -> analyze.py {"appended": true}
+024_c3m_024.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+025_c3m_025.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+025_c3m_025.json: FAILED -> diagnose.py {"policy": "model", "skill": "CLEANUP_ENV", "params": {}, "model": "claude-opus-5-5", "context_tokens": 6223, "output_tokens": 408, "duration_ms": 6619, "tool_calls": [], "denied": []}
+025_c3m_025.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+025_c3m_025.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+025_c3m_025.json: READY -> run_experiment.py {"pid": 1045165, "run_dir": "diag/c3m_025"}
+025_c3m_025.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+025_c3m_025.json: COMPLETE -> analyze.py {"appended": true}
+025_c3m_025.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+026_c3m_026.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+026_c3m_026.json: FAILED -> diagnose.py {"policy": "model", "skill": "CLEANUP_ENV", "params": {}, "model": "claude-opus-5-5", "context_tokens": 6227, "output_tokens": 270, "duration_ms": 3665, "tool_calls": [], "denied": []}
+026_c3m_026.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+026_c3m_026.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+026_c3m_026.json: READY -> run_experiment.py {"pid": 1054384, "run_dir": "diag/c3m_026"}
+026_c3m_026.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+026_c3m_026.json: COMPLETE -> analyze.py {"appended": true}
+026_c3m_026.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+027_c3m_027.json: READY -> run_experiment.py {"pid": 1058210, "run_dir": "diag/c3m_027"}
+027_c3m_027.json: RUNNING -> monitor.py {"timed_out": true, "minutes": 10.0}
+027_c3m_027.json: FAILED -> diagnose.py {"policy": "model", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3628, "output_tokens": 830, "duration_ms": 9890, "tool_calls": [], "denied": []}
+027_c3m_027.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+027_c3m_027.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "057_c3m_027_a2.json", "cleanup": "docker compose down on diag/c3m_027"}
+028_c3m_028.json: READY -> run_experiment.py {"pid": 1062288, "run_dir": "diag/c3m_028"}
+028_c3m_028.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+028_c3m_028.json: COMPLETE -> analyze.py {"appended": true}
+028_c3m_028.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+029_c3m_029.json: READY -> run_experiment.py {"launched": false, "environment": ["docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist"]}
+029_c3m_029.json: FAILED -> diagnose.py {"policy": "model", "skill": "CLEANUP_ENV", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3175, "output_tokens": 491, "duration_ms": 5613, "tool_calls": [], "denied": []}
+029_c3m_029.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+029_c3m_029.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 29 AlpaSim networks"}
+029_c3m_029.json: READY -> run_experiment.py {"pid": 1071539, "run_dir": "diag/c3m_029"}
+029_c3m_029.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+029_c3m_029.json: COMPLETE -> analyze.py {"appended": true}
+029_c3m_029.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+030_c3m_030.json: READY -> run_experiment.py {"pid": 1074992, "run_dir": "diag/c3m_030"}
+030_c3m_030.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.5}
+030_c3m_030.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3409, "output_tokens": 516, "duration_ms": 6601, "tool_calls": [], "denied": []}
+030_c3m_030.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+030_c3m_030.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+031_c3m_031.json: READY -> run_experiment.py {"pid": 1079404, "run_dir": "diag/c3m_031"}
+031_c3m_031.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 3.0}
+031_c3m_031.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3391, "output_tokens": 902, "duration_ms": 9523, "tool_calls": [], "denied": []}
+031_c3m_031.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+031_c3m_031.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+032_c3m_032.json: READY -> run_experiment.py {"pid": 1085559, "run_dir": "diag/c3m_032"}
+032_c3m_032.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+032_c3m_032.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3396, "output_tokens": 774, "duration_ms": 9108, "tool_calls": [], "denied": []}
+032_c3m_032.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+032_c3m_032.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+033_c3m_033.json: READY -> run_experiment.py {"pid": 1094159, "run_dir": "diag/c3m_033"}
+033_c3m_033.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.5}
+033_c3m_033.json: COMPLETE -> analyze.py {"appended": true}
+033_c3m_033.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+034_c3m_034.json: READY -> run_experiment.py {"pid": 1100031, "run_dir": "diag/c3m_034"}
