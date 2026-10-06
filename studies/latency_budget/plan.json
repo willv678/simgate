@@ -1,0 +1,26 @@
+{
+ "plan": {
+  "question": "For each scene that drives cleanly with no delay, roughly what is the smallest planner delay at which the policy starts to fail (a front or side collision, or leaving the road)?",
+  "objective": "For each candidate scene, bracket the smallest planner_delay_us at which runs start failing (a front or side collision, or leaving the road). This gives a rough per-scene latency budget. Start each scene near the middle of the range (about 200000 us), bisect toward the boundary, and spend leftover runs repeating the settings on either side of each boundary, because a single pass or fail is noisy. Do not use lateral bias, and treat clearance, progress and speed only as hints, not as outcomes.",
+  "vary": [
+   "planner_delay_us"
+  ],
+  "scenes": [
+   "clipgt-11fce928-d921-42fb-b202-29608242745a",
+   "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "clipgt-05bb8212-63e1-40a8-b4fc-3142c0e94646",
+   "clipgt-1be86721-4f0e-4237-909d-1bc33ca56f5d",
+   "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+   "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e"
+  ],
+  "rounds": 5,
+  "per_round": 6,
+  "rationale": "The brief asks only about delay, so only planner_delay_us varies and lateral_bias_m stays at 0. I picked six scenes that passed at 0 delay. Each kept at least about 1 m from other actors and drove a real distance, so a delay effect has room to show. I left out near-misses (clearance under about 0.5 m) and scenes that barely moved (under about 10 m). The scenes cover a range of speeds: 11fce928 (2.6 m/s, slow), 0e899dd3 (7.0 m/s), 05bb8212 (9.3 m/s), 1be86721 (15.3 m/s), 1c45ce3a (16.8 m/s) and 05f35348 (30.4 m/s, probably a highway). The plan is 5 rounds of 6 runs, 30 in total, as the brief asks. That is about 5 runs per scene, enough for the proposer to bisect the 9 delay levels (0 to 400 ms) and repeat once or twice near each boundary. Limits: (1) With about 5 runs per scene the result is a rough bracket, such as 'passes at 150 ms, fails at 250 ms'. It is not a failure rate, and one random failure can move the bracket. A firmer budget would need the 60-run cap or fewer scenes. (2) The 0-delay pass comes from a single earlier run, so a scene might sometimes fail even with no delay. (3) If a scene never fails, its budget can only be reported as 'at least 400 ms', the largest legal value. (4) Road type cannot be identified, so 'slow' and 'fast' are inferred only from top speed and distance driven. (5) Results are for VaVAM with linear MPC and CATK traffic on these particular scenes, and may not carry over to other scenes or setups."
+ },
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 19230,
+  "output_tokens": 2355,
+  "duration_ms": 23994
+ }
+}

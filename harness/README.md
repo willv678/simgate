@@ -81,6 +81,7 @@ uv run python research/harness/score_campaign.py research/harness/c1_queue
 | `advisor/CLAUDE.md`, `advisor/AUDIT.md` | the only system prompts the model sees |
 | `audit.py`, `promote.py` | tier 2 audit and rule admission |
 | `faults.py`, `enqueue_campaign.py`, `score_campaign.py`, `campaign_report.py`, `run_campaign.sh`, `run_c3.sh`, `run_c4.sh` | fault injection, campaigns, and scoring by outcome |
+| `study.py`, `headless.py`, `advisor/PLAN.md`, `advisor/REPORT.md`, `../briefs/` | a study from a researcher's brief: Claude plans it (checked against the catalog and budget), the outer loop runs it, Claude answers it with counts code computed; everything in `../studies/<brief>/` |
 | `outer.py`, `knobs.py`, `advisor/OUTER.md` | the outer loop: a study that proposes its own runs each round (Claude or random), checked against the knob catalog, run through the inner loop |
 | `verify_supervisor.py`, `probe_fence.py` | checks on the gate and on the agent's fence |
 | `eval_auditor.py`, `eval_mining.py`, `repeat_auditor.py`, `compare_policies.py`, `repeat_tiers.py`, `calibrate_physics.py`, `eval_physics_audit.py`, `eval_plan_audit.py` | the evaluations |

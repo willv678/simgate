@@ -28,7 +28,7 @@ import json
 import random
 import subprocess
 import sys
-import tempfile
+from dataclasses import dataclass
 from pathlib import Path
 
 import pandas as pd
@@ -36,13 +36,15 @@ import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from enqueue import RUN_ROOT, add, new_entry
+from headless import ask
 from knobs import DESCRIPTIONS, SCENARIO, rejection, run_config
 from read_state import ROOT, load_entry, queue_entries
 
-from physics import completed_rollout
+from physics import completed_rollout, signals
 
 HARNESS = Path(__file__).resolve().parent
 CONTRACT = HARNESS / "advisor" / "OUTER.md"
+SCENE_FACTS = HARNESS / "scene_facts.json"
 FAILURE_METRICS = ("collision_front", "collision_lateral", "offroad")
 TYPES = {"planner_delay_us": "integer", "lateral_bias_m": "number"}
 
@@ -95,25 +97,45 @@ def outcome(run_dir: Path) -> dict:
     }
 
 
-def candidates(count: int) -> list[dict]:
-    """The first `count` scenes S1 kept, with its 0-delay run's outcome."""
+def scene_facts() -> list[dict]:
+    """What S1 (one run per downloaded scene at 0 delay) showed about each
+    scene it kept, in S1's order: whether that run failed, its closest
+    approach, progress, top speed and distance driven. Cached in
+    scene_facts.json; S1 does not change."""
+    if SCENE_FACTS.exists():
+        return json.loads(SCENE_FACTS.read_text(encoding="utf-8"))
     found = []
     for path in queue_entries(HARNESS / "s1_queue"):
         entry = load_entry(path)
         if entry["resolution"] != "ACCEPT" or "quarantine" in entry:
             continue
-        result = outcome(ROOT / entry["run_dir"])
+        run = ROOT / entry["run_dir"]
+        result = outcome(run)
+        metrics = pd.read_parquet(completed_rollout(run) / "metrics.parquet")
         found.append(
             {
                 "scene_id": entry["config"]["scene_id"],
                 "s1_failed_at_0_delay": result["failed"],
                 "s1_min_distance_to_obstacle_m": result["min_distance_to_obstacle_m"],
                 "s1_progress": result["progress"],
+                "s1_top_speed_mps": round(float(signals(run)["speed"].max()), 1),
+                "s1_distance_m": round(
+                    float(
+                        metrics.loc[
+                            metrics["name"] == "dist_traveled_m", "values"
+                        ].max()
+                    ),
+                    1,
+                ),
             }
         )
-        if len(found) == count:
-            break
+    SCENE_FACTS.write_text(json.dumps(found, indent=1) + "\n", encoding="utf-8")
     return found
+
+
+def candidates(count: int) -> list[dict]:
+    """The first `count` scenes S1 kept, with what S1 showed at 0 delay."""
+    return scene_facts()[:count]
 
 
 def history(queue: Path, varied: tuple[str, ...]) -> list[dict]:
@@ -150,49 +172,8 @@ def llm_proposals(
     state: dict, varied: tuple[str, ...], model: str
 ) -> tuple[dict, dict]:
     """The model's answer and the call's cost, from one headless call."""
-    cmd = [
-        "claude",
-        "-p",
-        "The study's state is on stdin. Choose this round's runs.",
-        "--model",
-        model,
-        "--tools",
-        "",
-        "--setting-sources",
-        "",
-        "--no-session-persistence",
-        "--system-prompt-file",
-        str(CONTRACT),
-        "--output-format",
-        "json",
-        "--json-schema",
-        json.dumps(schema(varied)),
-    ]
-    with tempfile.TemporaryDirectory() as empty:
-        proc = subprocess.run(
-            cmd,
-            input=json.dumps(state, indent=1),
-            cwd=empty,
-            capture_output=True,
-            text=True,
-            timeout=600,
-            check=False,
-        )
-    if proc.returncode != 0:
-        raise SystemExit(f"proposer call failed: {proc.stderr.strip()[-500:]}")
-    out = json.loads(proc.stdout)
-    if out["is_error"] or out.get("structured_output") is None:
-        raise SystemExit(f"proposer gave no answer: {str(out.get('result'))[:500]}")
-    usage = out["usage"]
-    call = {
-        "model": ",".join(out["modelUsage"]),
-        "context_tokens": usage["input_tokens"]
-        + usage["cache_creation_input_tokens"]
-        + usage["cache_read_input_tokens"],
-        "output_tokens": usage["output_tokens"],
-        "duration_ms": out["duration_ms"],
-    }
-    return out["structured_output"], call
+    prompt = "The study's state is on stdin. Choose this round's runs."
+    return ask(prompt, state, CONTRACT, schema(varied), model)
 
 
 def random_proposals(
@@ -211,14 +192,46 @@ def random_proposals(
     }
 
 
-def run_inner_loop(study: str, queue: Path) -> None:
+@dataclass(frozen=True)
+class Study:
+    """One study: where its files live and how it chooses runs."""
+
+    name: str
+    queue: Path
+    trace: Path
+    rounds_file: Path
+    objective: str
+    candidates: list
+    varied: tuple
+    rounds: int
+    per_round: int
+    proposer: str
+    model: str = "claude-opus-5-5"
+    seed: int = 0
+
+
+def pilot(name: str, candidate_count: int, varied: tuple, **settings) -> Study:
+    """A study with its files in the harness folder, as the 6 Oct pilot ran."""
+    return Study(
+        name=name,
+        queue=HARNESS / f"{name}_queue",
+        trace=HARNESS / f"{name}_trace.jsonl",
+        rounds_file=HARNESS / f"{name}_rounds.jsonl",
+        objective=objective(varied),
+        candidates=candidates(candidate_count),
+        varied=varied,
+        **settings,
+    )
+
+
+def run_inner_loop(study: Study) -> None:
     subprocess.run(
         [
             "uv",
             "run",
             "python",
             str(HARNESS / "loop.py"),
-            str(queue),
+            str(study.queue),
             "--policy",
             "agent",
             "--timeout-min",
@@ -229,11 +242,85 @@ def run_inner_loop(study: str, queue: Path) -> None:
             "5",
             "--audit",
             "--trace",
-            str(HARNESS / f"{study}_trace.jsonl"),
+            str(study.trace),
         ],
         cwd=ROOT,
         check=True,
     )
+
+
+def run_study(study: Study) -> list[dict]:
+    """Propose, check, queue and run every round not yet done; return the
+    study's history. A rerun finishes the queue first, then continues."""
+    scenes = [c["scene_id"] for c in study.candidates]
+    done = (
+        len(study.rounds_file.read_text(encoding="utf-8").splitlines())
+        if study.rounds_file.exists()
+        else 0
+    )
+    if done:
+        run_inner_loop(study)
+
+    for round_index in range(done, study.rounds):
+        state = {
+            "objective": study.objective,
+            "candidates": study.candidates,
+            "knobs": {
+                knob: {"values": list(SCENARIO[knob]), "meaning": DESCRIPTIONS[knob]}
+                for knob in study.varied
+            },
+            "history": history(study.queue, study.varied)
+            if study.queue.is_dir()
+            else [],
+            "round": round_index + 1,
+            "rounds": study.rounds,
+            "runs_this_round": study.per_round,
+        }
+        if study.proposer == "llm":
+            answer, call = llm_proposals(state, study.varied, study.model)
+        else:
+            answer = random_proposals(
+                scenes,
+                study.per_round,
+                study.varied,
+                random.Random(study.seed * 1000 + round_index),
+            )
+            call = None
+
+        queued, dropped = [], []
+        for index, proposed in enumerate(answer["runs"]):
+            why_not = (
+                "over this round's budget"
+                if index >= study.per_round
+                else rejection(proposed, set(scenes), study.varied)
+            )
+            if why_not:
+                dropped.append({**proposed, "dropped": why_not})
+                continue
+            name = f"{study.name}_{len(planned(study.queue)) + 1:03d}"
+            settings = {knob: proposed[knob] for knob in study.varied}
+            config = run_config(proposed["scene_id"], settings)
+            add(study.queue, new_entry(name, f"{RUN_ROOT}/{name}", config))
+            queued.append({**proposed, "run": name})
+
+        row = {
+            "round": round_index + 1,
+            "proposer": study.proposer,
+            "varied": study.varied,
+            "plan": answer["plan"],
+            "queued": queued,
+            "dropped": dropped,
+            "call": call,
+        }
+        with study.rounds_file.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(row) + "\n")
+        print(
+            json.dumps(
+                {"round": row["round"], "queued": len(queued), "dropped": len(dropped)}
+            )
+        )
+        run_inner_loop(study)
+    return history(study.queue, study.varied)
 
 
 def main() -> int:
@@ -255,82 +342,21 @@ def main() -> int:
     unknown = set(varied) - set(SCENARIO)
     if unknown:
         raise SystemExit(f"unknown knobs {sorted(unknown)}; known: {sorted(SCENARIO)}")
-
-    queue = HARNESS / f"{args.study}_queue"
-    rounds_file = HARNESS / f"{args.study}_rounds.jsonl"
-    known = candidates(args.candidates)
-    scenes = [c["scene_id"] for c in known]
-    done = (
-        len(rounds_file.read_text(encoding="utf-8").splitlines())
-        if rounds_file.exists()
-        else 0
+    study = pilot(
+        args.study,
+        args.candidates,
+        varied,
+        rounds=args.rounds,
+        per_round=args.per_round,
+        proposer=args.proposer,
+        model=args.model,
+        seed=args.seed,
     )
-    if done:
-        run_inner_loop(args.study, queue)
-
-    for round_index in range(done, args.rounds):
-        state = {
-            "objective": objective(varied),
-            "candidates": known,
-            "knobs": {
-                knob: {"values": list(SCENARIO[knob]), "meaning": DESCRIPTIONS[knob]}
-                for knob in varied
-            },
-            "history": history(queue, varied) if queue.is_dir() else [],
-            "round": round_index + 1,
-            "rounds": args.rounds,
-            "runs_this_round": args.per_round,
-        }
-        if args.proposer == "llm":
-            answer, call = llm_proposals(state, varied, args.model)
-        else:
-            answer = random_proposals(
-                scenes,
-                args.per_round,
-                varied,
-                random.Random(args.seed * 1000 + round_index),
-            )
-            call = None
-
-        queued, dropped = [], []
-        for index, proposed in enumerate(answer["runs"]):
-            why_not = (
-                "over this round's budget"
-                if index >= args.per_round
-                else rejection(proposed, set(scenes), varied)
-            )
-            if why_not:
-                dropped.append({**proposed, "dropped": why_not})
-                continue
-            name = f"{args.study}_{len(planned(queue)) + 1:03d}"
-            settings = {knob: proposed[knob] for knob in varied}
-            config = run_config(proposed["scene_id"], settings)
-            add(queue, new_entry(name, f"{RUN_ROOT}/{name}", config))
-            queued.append({**proposed, "run": name})
-
-        row = {
-            "round": round_index + 1,
-            "proposer": args.proposer,
-            "varied": varied,
-            "plan": answer["plan"],
-            "queued": queued,
-            "dropped": dropped,
-            "call": call,
-        }
-        with rounds_file.open("a", encoding="utf-8") as handle:
-            handle.write(json.dumps(row) + "\n")
-        print(
-            json.dumps(
-                {"round": row["round"], "queued": len(queued), "dropped": len(dropped)}
-            )
-        )
-        run_inner_loop(args.study, queue)
-
-    kept = [row for row in history(queue, varied) if row["verdict"] == "kept"]
+    kept = [row for row in run_study(study) if row["verdict"] == "kept"]
     print(
         json.dumps(
             {
-                "study": args.study,
+                "study": study.name,
                 "kept": len(kept),
                 "failed": sum(r["failed"] for r in kept),
             }
