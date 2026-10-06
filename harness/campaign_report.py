@@ -23,6 +23,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from faults import PLAN_FAULTS
 from read_state import ROOT, load_entry, queue_entries
 from score_campaign import CORRUPTS_DATA, lineages, score
 
@@ -33,7 +34,8 @@ CAMPAIGNS = ("c1", "c2", "c3")
 LIVE_PHYSICS = ("c2", "c3")
 ARMS = ("script", "agent", "model")
 NAMES = {"script": "script", "agent": "tier 1", "model": "tier 0"}
-SILENT = {"rails", "kinematic"}
+# Faults every per-run check but physics misses: these count as "silent".
+SILENT = {"rails", "kinematic", *PLAN_FAULTS}
 OUTPUT = HARNESS / "campaign_report.json"
 TABLE = HARNESS / "campaign_report.txt"
 
@@ -156,8 +158,10 @@ def main() -> int:
     bounds = {**load_bounds(), "enabled": True}
     report = {}
     lines = [
-        "arm\tplanned\tlaunches\tvalid kept\tinvalid kept: no gate / gate / gate+audit"
-        "\thalts (by gate)\tmodel calls\tcontext tokens\tminutes\tcomplete"
+        (
+            "arm\tplanned\tlaunches\tvalid kept\tinvalid kept: no gate / gate / gate+audit"
+            "\thalts (by gate)\tmodel calls\tcontext tokens\tminutes\tcomplete"
+        )
     ]
     for campaign in CAMPAIGNS:
         for arm in ARMS:

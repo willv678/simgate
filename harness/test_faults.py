@@ -1,8 +1,10 @@
 """faults.py: each fault changes only the launch it is attached to."""
 
 from pathlib import Path
+from random import Random
 
 import pytest
+from enqueue_campaign import fault_for
 from faults import new_fault, shell_around, wizard_args
 from recover import _inherited
 
@@ -80,3 +82,9 @@ def test_plan_faults_turn_on_alpasims_own_hook():
         "+runtime.simulation_config.fault_injection.enabled=true",
         "+runtime.simulation_config.fault_injection.lateral_bias_m=1.0",
     ]
+
+
+def test_persistent_plan_faults_repeat_on_the_retry():
+    for kind in ("lateral_bias", "plan_freeze", "waypoint_noise"):
+        assert _inherited(fault_for(kind, Random(0), silent_persistent=True))
+        assert _inherited(fault_for(kind, Random(0), silent_persistent=False)) is None

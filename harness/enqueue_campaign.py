@@ -1,6 +1,7 @@
 """Queue a fault-injection campaign: faulted runs and clean runs, shuffled.
 
-Every kind in faults.KINDS gets `--per-kind` runs. drop_delay requests a
+Every kind in faults.KINDS gets `--per-kind` runs, and with `--plan-faults`
+every kind in faults.PLAN_FAULTS too. drop_delay requests a
 100 ms planner delay so that the missing override changes the result; it is
 persistent, like a launcher bug that repeats on every retry. All other runs
 request no delay. Scenes rotate through `--scene-ids`. The seed fixes the
@@ -18,7 +19,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from enqueue import RUN_ROOT, add, new_entry
-from faults import KINDS, new_fault
+from faults import KINDS, PLAN_FAULTS, new_fault
 
 SCENE_FILE = "data/scenes/sim_scenes.csv"
 L8_SCENE = "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554"
@@ -26,14 +27,15 @@ DROPPED_DELAY_US = 100_000
 
 
 def fault_for(kind: str, rng: random.Random, silent_persistent: bool) -> dict:
-    """With silent_persistent, rails and kinematic repeat on a retry, as the
-    config error that causes them would. C1 and C2 ran without it."""
+    """With silent_persistent, rails, kinematic and the plan faults repeat on a
+    retry, as the config or planner bug that causes them would. C1 and C2 ran
+    without it."""
     if kind == "kill":
         return new_fault(kind, after_s=rng.randint(60, 150))
     if kind == "hang":
         return new_fault(kind, after_s=rng.randint(60, 150))
     persistent = kind == "drop_delay" or (
-        silent_persistent and kind in ("rails", "kinematic")
+        silent_persistent and (kind in ("rails", "kinematic") or kind in PLAN_FAULTS)
     )
     return new_fault(kind, persistent=persistent)
 
@@ -47,10 +49,12 @@ def main() -> int:
     parser.add_argument("--scene-ids", default=L8_SCENE)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--silent-persistent", action="store_true")
+    parser.add_argument("--plan-faults", action="store_true")
     args = parser.parse_args()
 
     rng = random.Random(args.seed)
-    plan = [kind for kind in KINDS for _ in range(args.per_kind)]
+    kinds = KINDS + (tuple(PLAN_FAULTS) if args.plan_faults else ())
+    plan = [kind for kind in kinds for _ in range(args.per_kind)]
     plan += [None] * args.clean
     rng.shuffle(plan)
     scenes = args.scene_ids.split(",")
