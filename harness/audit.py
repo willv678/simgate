@@ -26,6 +26,7 @@ import tempfile
 from pathlib import Path
 
 import numpy as np
+import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -37,9 +38,12 @@ from physics import features, signals
 
 HARNESS = Path(__file__).resolve().parent
 CONTRACT = HARNESS / "advisor" / "AUDIT.md"
-# A kept B2 run, not in the clean corpus. Batch F showed one reference run lets
-# the auditor see a batch that is wrong the same way throughout.
+# A kept B2 run, not in the clean corpus; the evaluations use it as their one
+# reference. Batch F showed one reference run lets the auditor see a batch that
+# is wrong the same way throughout.
 REFERENCE = HARNESS / "b2_queue" / "091_b2_091.json"
+# Kept clean runs to draw references from: B2 on one scene, S1 on 99.
+REFERENCE_QUEUES = ("b2_queue", "s1_queue")
 PROMPT = (
     "Audit the batch in this directory: batch.json and runs/. "
     "Return the runs to quarantine, or none."
@@ -260,10 +264,33 @@ def audit(
     }
 
 
+def ran_scene(entry: dict) -> str:
+    """The scene the run resolved to; B2's entries predate the scene_id key."""
+    wizard = yaml.safe_load((ROOT / entry["run_dir"] / "wizard-config.yaml").read_text())
+    return wizard["scenes"]["scene_ids"][0]
+
+
+def scene_references(scenes: set[str], audited: Path) -> dict[str, dict]:
+    """One kept clean run per scene, from the reference queues, never from the
+    queue being audited. A frozen plan stood out only against its own scene
+    (eval_plan_audit.py). Scenes with no such run get no reference."""
+    found = {}
+    for queue in REFERENCE_QUEUES:
+        if (HARNESS / queue).resolve() == audited.resolve():
+            continue
+        for path in queue_entries(HARNESS / queue):
+            entry = load_entry(path)
+            if entry["resolution"] != "ACCEPT" or "quarantine" in entry:
+                continue
+            scene = ran_scene(entry)
+            if scene in scenes and scene not in found:
+                found[scene] = entry
+    return found
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("queue", type=Path)
-    parser.add_argument("--reference", type=Path, default=REFERENCE)
     parser.add_argument("--model", default="claude-opus-5-5")
     args = parser.parse_args()
 
@@ -278,15 +305,18 @@ def main() -> int:
         entry["name"]: (ROOT / entry["run_dir"], entry["config"])
         for entry in kept.values()
     }
-    reference = load_entry(args.reference)
+    scenes = {label["scene_id"] for _, label in batch.values()}
+    references = scene_references(scenes, args.queue)
     runs = {name: path for name, (path, _) in batch.items()}
     labels = {name: label for name, (_, label) in batch.items()}
-    runs[reference["name"]] = ROOT / reference["run_dir"]
-    labels[reference["name"]] = {**reference["config"], "reference": True}
+    for reference in references.values():
+        runs[reference["name"]] = ROOT / reference["run_dir"]
+        labels[reference["name"]] = {**reference["config"], "reference": True}
     claim = (
         f"All runs kept from queue {args.queue.name}, each with the config in its "
-        "label. The run labelled reference is a known-good run of the same setup "
-        "from an earlier batch; it is there for comparison, not part of the batch."
+        "label. Runs labelled reference are known-good runs of the same setup on "
+        "the same scenes, from earlier batches; they are there for comparison, "
+        "not part of the batch."
     )
     report = audit(claim, runs, labels, args.model, seed=0)
 
@@ -306,7 +336,11 @@ def main() -> int:
     summary = {
         "audited": len(batch),
         "quarantined": sorted(set(report["flags"]) & set(batch)),
-        "reference_flagged": reference["name"] in report["flags"],
+        "references": sorted(r["name"] for r in references.values()),
+        "scenes_without_reference": len(scenes) - len(references),
+        "reference_flagged": sorted(
+            r["name"] for r in references.values() if r["name"] in report["flags"]
+        ),
         "rules_proposed": len(report["rules"]),
         "rules_admissible": [
             a["rule"]["id"] for a in report["admissions"] if a["admitted"]
