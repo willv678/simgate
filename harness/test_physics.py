@@ -48,3 +48,19 @@ def test_driving_on_the_recording_and_unscored_contact():
     # A close actor whose box does not overlap is not contact.
     near = features(_signals(np.arange(0, 12.0), gap=0.5), collided=False)
     assert not near["contact_without_collision"]
+
+
+def test_plan_handoff_gap_is_zero_for_the_same_plan_and_sees_a_bias():
+    from physics import _handoff_gap
+
+    # Driver plan in world frame; the ego at (10, 5) heading +90 degrees.
+    pose = (10.0, 5.0, np.pi / 2)
+    driver = [(0, 10.0, 5.0), (500_000, 10.0, 7.0), (1_000_000, 10.0, 9.0)]
+    # The same plan in the ego's rig frame: straight ahead along x.
+    same = [(0, 0.0, 0.0), (500_000, 2.0, 0.0), (1_000_000, 4.0, 0.0)]
+    biased = [(t, x, y + 1.0) for t, x, y in same]
+    # A timing slip moves points along the road, not across it.
+    slipped = [(t, x + 0.1, y) for t, x, y in same]
+    assert _handoff_gap(pose, driver, same) < 1e-9
+    assert abs(_handoff_gap(pose, driver, biased) - 1.0) < 1e-9
+    assert _handoff_gap(pose, driver, slipped) < 1e-9

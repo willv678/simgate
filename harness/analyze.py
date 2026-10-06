@@ -56,6 +56,9 @@ def main() -> int:
         "at_fault_collision": status.at_fault_collision,
         "rear_contact": status.rear_contact,
         "solver_status": status.solver_status,
+        # The runtime retries a crashed rollout inside one run and keeps the one
+        # that completes; more than 1 means it did.
+        "rollout_attempts": len(list(path.glob("rollouts/*/*/rollout.asl"))),
         **aggregate_metrics(path),
     }
     with results.open("a", encoding="utf-8") as handle:

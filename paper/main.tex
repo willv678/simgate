@@ -115,11 +115,8 @@ configuration, a log of every message, and metrics.
 \subsection{State machine and gate}
 \begin{figure}[t]
 \centering
-\fbox{\parbox{0.92\columnwidth}{\centering\vspace{1.4cm}
-\pending{Figure 1: architecture. Trusted: state machine, $K^-$, $K^+$,
-validator, admission. Untrusted: Investigator, Auditor. Redraw from GUIDE.md \S4.}
-\vspace{1.4cm}}}
-\caption{SimGate. The model proposes; deterministic code decides.}
+\includegraphics[width=\columnwidth]{figures/architecture.pdf}
+\caption{SimGate. Trusted code (blue) owns the loop and decides; the model (orange) proposes a recovery when a run fails and flags and rules after a batch; a person enacts admitted rules.}
 \label{fig:arch}
 \end{figure}
 
@@ -346,8 +343,8 @@ that is uniformly wrong, and its rules can be specific to a study, which is why
 a person enacts them. Physics bounds were set from vehicle limits, but the jerk
 bound was dropped and three other thresholds were revised after clean runs
 fired them; fresh campaign runs and the held-out plan-fault batch are the
-check. The simulator retries a crashed rollout inside one run, which none of
-our checks records.
+check. The simulator retries a crashed rollout inside one run; this happened in 1
+of 496 kept runs, and the attempt count is now recorded but not checked.
 
 \section{Conclusion}
 SimGate lets an LLM operate an unattended simulation batch without being
