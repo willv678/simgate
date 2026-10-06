@@ -221,7 +221,9 @@ def read_state(entry: dict) -> RunState:
 
     bounds = load_bounds()
     if bounds["enabled"]:
-        implausible = physics_problems(run_dir(entry), bounds)
+        implausible = physics_problems(
+            run_dir(entry), bounds, entry["config"]["planner_delay_us"]
+        )
         if implausible:
             return RunState(State.FAILED, "; ".join(implausible))
 

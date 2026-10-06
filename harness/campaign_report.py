@@ -146,7 +146,8 @@ def physics_after_the_fact(campaign: str, arm: str, bounds: dict) -> dict:
         if e["resolution"] != "ACCEPT":
             continue
         group = "silent" if e["fault"] and e["fault"]["kind"] in SILENT else "other"
-        caught[(group, bool(check(ROOT / e["run_dir"], bounds)))] += 1
+        flagged = check(ROOT / e["run_dir"], bounds, e["config"]["planner_delay_us"])
+        caught[(group, bool(flagged))] += 1
     return {
         "silent_caught": caught[("silent", True)],
         "silent": caught[("silent", True)] + caught[("silent", False)],

@@ -9,10 +9,14 @@ reduces it to a few features that physics.json thresholds (K⁺) can bound:
   imply, and how much of the run the ego sits exactly on the recorded human
   trajectory;
 - plan handoff: after the force-GT warm-up (its length is in the log), the plan
-  the controller was asked to track against the plan the driver returned, put
-  in the same frame, sideways. In a clean run they are the same plan, up to
-  occasional interpolation on curves; plan corruption (a bias, a frozen plan)
-  moves the median gap;
+  the controller was asked to track against the driver plan it came from,
+  matched by the plans' timestamps, which the runtime keeps, and compared in the
+  ego's frame from when the plan was made, the frame a delayed plan reaches the
+  controller in. Two numbers: the sideways gap between them (a bias or waypoint noise moves it; in a clean run
+  they are the same plan, up to interpolation on curves), and the plan's age
+  when the controller got it, which equals the planner delay rounded up to the
+  control step (a frozen plan ages step by step; a delay that never applied
+  leaves it at 0);
 - car following: the gap and time headway to the nearest actor ahead in the
   ego's lane, and whether the ego's box overlapped any actor's box (real sizes
   from the log; actor_poses already gives every actor, the ego included, at
@@ -79,7 +83,7 @@ def _footprint(x: float, y: float, yaw: float, size: tuple[float, float]):
 
 async def _read(path: Path) -> dict:
     ego, others, reported, recorded = {}, {}, {}, None
-    sizes, handoffs, driver_plan, warm_up_end = {}, [], None, 0
+    sizes, handoffs, plans, warm_up_end, poses_at = {}, [], {}, 0, {}
     async for message in async_read_pb_log(str(path)):
         kind = message.WhichOneof("log_entry")
         if kind == "rollout_metadata":
@@ -102,7 +106,7 @@ async def _read(path: Path) -> dict:
         elif kind == "driver_return":
             poses = message.driver_return.trajectory.poses
             if poses:
-                driver_plan = [
+                plans[poses[0].timestamp_us] = [
                     (p.timestamp_us, p.pose.vec.x, p.pose.vec.y) for p in poses
                 ]
         elif kind == "controller_request":
@@ -110,13 +114,20 @@ async def _read(path: Path) -> dict:
             state = request.state
             velocity = state.state.linear_velocity
             reported[state.timestamp_us] = float(np.hypot(velocity.x, velocity.y))
-            if driver_plan is not None and state.timestamp_us >= warm_up_end:
-                given = [
-                    (p.timestamp_us, p.pose.vec.x, p.pose.vec.y)
-                    for p in request.planned_trajectory_in_rig.poses
-                ]
-                pose = (state.pose.vec.x, state.pose.vec.y, _yaw(state.pose.quat))
-                handoffs.append((pose, driver_plan, given))
+            pose = (state.pose.vec.x, state.pose.vec.y, _yaw(state.pose.quat))
+            poses_at[state.timestamp_us] = pose
+            given = [
+                (p.timestamp_us, p.pose.vec.x, p.pose.vec.y)
+                for p in request.planned_trajectory_in_rig.poses
+            ]
+            if plans and given and state.timestamp_us >= warm_up_end:
+                # The driver plan this one came from; the newest if none matches.
+                # The runtime puts a plan in the ego's frame when the plan is
+                # made, and a delayed plan reaches the controller in that frame.
+                source = plans.get(given[0][0], plans[max(plans)])
+                made_at = poses_at.get(source[0][0], pose)
+                age_us = state.timestamp_us - source[0][0]
+                handoffs.append((made_at, source, given, age_us))
         elif kind == "traffic_session_request" and recorded is None:
             for obj in message.traffic_session_request.logged_object_trajectories:
                 if obj.object_id == EGO:
@@ -205,8 +216,9 @@ def signals(run_dir: Path) -> dict:
         "lead_gap_m": np.array(gaps),
         "overlap_m2": np.array(overlaps),
         "plan_handoff_m": np.array(
-            [_handoff_gap(*h) for h in raw["handoffs"]] or [0.0]
+            [_handoff_gap(*h[:3]) for h in raw["handoffs"]] or [0.0]
         ),
+        "plan_age_ms": np.array([h[3] / 1e3 for h in raw["handoffs"]] or [0.0]),
     }
 
 
@@ -233,6 +245,8 @@ def features(s: dict, collided: bool) -> dict:
         "min_time_headway_s": float(np.min(headway)),
         "max_overlap_m2": float(np.max(s["overlap_m2"])),
         "median_plan_handoff_m": float(np.median(s["plan_handoff_m"])),
+        "median_plan_age_ms": float(np.median(s["plan_age_ms"])),
+        "max_plan_age_ms": float(np.max(s["plan_age_ms"])),
         "contact_without_collision": bool(
             np.max(s["overlap_m2"]) > OVERLAP_M2 and not collided
         ),
@@ -248,8 +262,21 @@ def load_bounds() -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def check(run_dir: Path, bounds: dict) -> list[str]:
-    """Physics problems of a finished run under `bounds`. Empty when it passes."""
+def plan_age_problem(found: dict, planner_delay_us: int, slack_ms: float) -> str | None:
+    """The plan's age must be the requested delay, up to one control step."""
+    delay_ms = planner_delay_us / 1e3
+    median, oldest = found["median_plan_age_ms"], found["max_plan_age_ms"]
+    if delay_ms <= median < delay_ms + slack_ms and oldest < delay_ms + slack_ms:
+        return None
+    return (
+        f"physics: plan age median {median:.0f} ms, max {oldest:.0f} ms; "
+        f"the requested planner delay is {delay_ms:.0f} ms"
+    )
+
+
+def check(run_dir: Path, bounds: dict, planner_delay_us: int) -> list[str]:
+    """Physics problems of a finished run under `bounds`, given the planner
+    delay it requested. Empty when it passes."""
     try:
         found = run_features(run_dir)
     except FileNotFoundError as exc:
@@ -263,6 +290,12 @@ def check(run_dir: Path, bounds: dict) -> list[str]:
         problems.append(
             "physics: the ego's box overlapped another actor's and no collision was scored"
         )
+    if "plan_age" in bounds:
+        stale = plan_age_problem(
+            found, planner_delay_us, bounds["plan_age"]["slack_ms"]
+        )
+        if stale:
+            problems.append(stale)
     return problems
 
 

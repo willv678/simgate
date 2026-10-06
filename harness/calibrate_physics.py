@@ -26,9 +26,9 @@ SILENT = ("rails", "kinematic")
 PLAN = ("lateral_bias", "lateral_bias_small", "plan_freeze", "waypoint_noise")
 
 
-def kept(queue: str, faulted: bool | None, kinds: tuple = SILENT) -> dict[str, Path]:
-    """Kept runs of a queue; faulted None means any, True only `kinds` faults,
-    False none of them."""
+def kept(queue: str, faulted: bool | None, kinds: tuple = SILENT) -> dict[str, dict]:
+    """Kept entries of a queue by name; faulted None means any, True only
+    `kinds` faults, False none of them."""
     runs = {}
     for path in queue_entries(HARNESS / queue):
         entry = load_entry(path)
@@ -40,7 +40,7 @@ def kept(queue: str, faulted: bool | None, kinds: tuple = SILENT) -> dict[str, P
             continue
         if faulted is False and kind in kinds:
             continue
-        runs[entry["name"]] = ROOT / entry["run_dir"]
+        runs[entry["name"]] = entry
     return runs
 
 
@@ -58,10 +58,11 @@ def main() -> int:
     lines = ["group\truns\tflagged\tfeature maxima"]
     for group, runs in groups.items():
         rows = {}
-        for name, path in runs.items():
+        for name, entry in runs.items():
+            path = ROOT / entry["run_dir"]
             rows[name] = {
                 "features": run_features(path),
-                "problems": check(path, bounds),
+                "problems": check(path, bounds, entry["config"]["planner_delay_us"]),
             }
         results[group] = rows
         flagged = sum(bool(r["problems"]) for r in rows.values())
