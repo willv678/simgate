@@ -33,6 +33,54 @@ flowchart LR
     P -->|a person enacts| G[rules/promoted.json, checked on every run]
 ```
 
+## Studies: from a question to an answer
+
+The loop above runs one queue of runs. A **study** wraps it: a researcher
+writes a short brief in plain English, and the system designs the tests, runs
+them round by round, explains the crashes, and answers the question. At every
+step a model proposes and code decides.
+
+```mermaid
+flowchart LR
+    B["brief.md<br/>the question"] --> P["Plan<br/>knobs, scenes, budget, goal"]
+    P --> O["Outer loop<br/>pick next runs"]
+    O --> I["Inner loop<br/>run + gate"]
+    I -->|results| O
+    O -->|goal met or budget spent| T["Triage<br/>why each crash"]
+    T --> R["report.md + index.html<br/>the answer"]
+```
+
+- **Plan** (`study.py`, `advisor/PLAN.md`): Claude turns the brief into knobs,
+  scenes, rounds and a goal; `plan_problems` checks it against the knob
+  catalog, the scenes and a 60-run cap before anything runs.
+- **Knobs** (`knobs.py`): only settings the gate can verify from the run's own
+  log: planner delay (plan age), lateral bias and waypoint noise on the plan
+  (offset and scatter), and actor retiming (time shift and speed of a recorded
+  actor class, with traffic replayed; AlpaSim's `actor_retiming` hook).
+- **Outer loop** (`outer.py`): each round a proposer picks runs: `llm`
+  (Claude, free), `hybrid` (Claude, only among rule candidates), `rules`
+  (`guided.py`, no model), or the baselines `grid`, `bisect`, `random`, `lhs`,
+  `optuna`, `ga` (`baselines.py`). All share the same knob check, gate and goal.
+- **Goal** (`goals.py`): checked by code after every round; the study stops
+  when it is met. `separate` (two settings' failure rates differ), `bracket`
+  (where each scene starts to fail, to a set resolution), `top_k` (the k most
+  challenging settings, confirmed by repeats). Failure rates carry 90% ranges;
+  each run has a criticality (1 for a crash, up to 0.9 for a near miss).
+- **Triage** (`triage.py`, `advisor/TRIAGE.md`): Claude reads frames around each
+  crash and names the cause; crashes far off the recorded path are flagged as
+  possibly the simulator's.
+- **Report** (`study.py`, `advisor/REPORT.md`, `study_page.py`): Claude answers
+  citing settings; every count is printed by code, and a report that writes
+  counts by hand is refused. `study_page.py` makes a web page per study.
+
+```bash
+uv run python research/harness/study.py research/briefs/latency_budget.md --plan-only
+uv run python research/harness/study.py research/briefs/latency_budget.md --yes
+uv run python research/harness/study.py research/briefs/latency_budget.md --proposer rules --yes
+uv run --with optuna python research/harness/study.py <brief> --proposer optuna --yes
+uv run python research/harness/study_page.py research/studies/latency_budget
+```
+
 ## Safety model
 
 | Layer | Trusted? | What bounds it |
@@ -52,7 +100,7 @@ times, every path ends, and no recovery changes what a run measures.
 From the AlpaSim checkout, with `uv` and a logged-in `claude` CLI:
 
 ```bash
-uv run pytest research/harness                      # 131 tests, includes the exhaustive check
+uv run --with optuna pytest research/harness       # 217 tests, includes the exhaustive check
 uv run python research/harness/enqueue_scenes.py research/harness/s1_queue s1
 uv run python research/harness/loop.py research/harness/s1_queue --policy agent \
     --trace research/harness/s1_trace.jsonl         # script | model | agent
@@ -75,14 +123,16 @@ uv run python research/harness/score_campaign.py research/harness/c1_queue
 |---|---|
 | `loop.py` | the state machine; one run in flight at a time |
 | `read_state.py` | READY / RUNNING / COMPLETE / FAILED / DONE from the files a run leaves |
-| `preflight.py`, `postflight.py`, `environment.py`, `rules.py`, `physics.py` | the checks; `physics.py` rebuilds the motion from the rollout log (bounds in `rules/physics.json`, off unless enabled) |
+| `preflight.py`, `postflight.py`, `environment.py`, `rules.py`, `physics.py` | the checks; `physics.py` rebuilds the motion from the rollout log, including the plan's age, offset and scatter against what the run asked for (bounds in `rules/physics.json`) |
 | `run_experiment.py`, `monitor.py`, `analyze.py`, `archive.py` | the Python-only states |
 | `diagnose.py`, `validate_diagnosis.py`, `recover.py` | the FAILED branch |
 | `advisor/CLAUDE.md`, `advisor/AUDIT.md` | the only system prompts the model sees |
 | `audit.py`, `promote.py` | tier 2 audit and rule admission |
 | `faults.py`, `enqueue_campaign.py`, `score_campaign.py`, `campaign_report.py`, `run_campaign.sh`, `run_c3.sh`, `run_c4.sh` | fault injection, campaigns, and scoring by outcome |
-| `study.py`, `headless.py`, `advisor/PLAN.md`, `advisor/REPORT.md`, `../briefs/` | a study from a researcher's brief: Claude plans it (checked against the catalog and budget), the outer loop runs it, Claude answers it with counts code computed; everything in `../studies/<brief>/` |
-| `outer.py`, `knobs.py`, `advisor/OUTER.md` | the outer loop: a study that proposes its own runs each round (Claude or random), checked against the knob catalog, run through the inner loop |
+| `study.py`, `headless.py`, `advisor/PLAN.md`, `advisor/REPORT.md`, `../briefs/` | a study from a researcher's brief; everything in `../studies/<brief>/` (see Studies above) |
+| `outer.py`, `knobs.py`, `goals.py`, `guided.py`, `baselines.py`, `advisor/OUTER.md` | the outer loop, its knob catalog, code-checked goals, rule-guided candidates, and baseline proposers |
+| `triage.py`, `advisor/TRIAGE.md`, `study_page.py` | crash explanations and the study web page |
+| `compare_frames.py`, `jerk_separation.py` | analyses: VaVAM with fresh vs stale frames; why jerk cannot separate the kinematic fault |
 | `verify_supervisor.py`, `probe_fence.py` | checks on the gate and on the agent's fence |
 | `eval_auditor.py`, `eval_mining.py`, `repeat_auditor.py`, `compare_policies.py`, `repeat_tiers.py`, `calibrate_physics.py`, `eval_physics_audit.py`, `eval_plan_audit.py` | the evaluations |
 | `plot_results.py`, `plot_campaign.py`, `plot_architecture.py`, `rebuild.sh` | the paper's figures, into `../figures/`; `rebuild.sh` reruns the tests and every model-free table and figure |

@@ -276,3 +276,39 @@ stopped: environment failure halted for a person
 003_v2_003.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
 003_v2_003.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "021_v2_003_a2.json", "cleanup": null}
 004_v2_004.json: READY -> run_experiment.py {"pid": 1507453, "run_dir": "diag/v2_004"}
+004_v2_004.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+004_v2_004.json: COMPLETE -> analyze.py {"appended": true}
+004_v2_004.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+005_v2_005.json: READY -> run_experiment.py {"pid": 1511940, "run_dir": "diag/v2_005"}
+005_v2_005.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+005_v2_005.json: COMPLETE -> analyze.py {"appended": true}
+005_v2_005.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+006_v2_006.json: READY -> run_experiment.py {"pid": 1515798, "run_dir": "diag/v2_006"}
+006_v2_006.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+006_v2_006.json: COMPLETE -> analyze.py {"appended": true}
+006_v2_006.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+007_v2_007.json: READY -> run_experiment.py {"pid": 1519591, "run_dir": "diag/v2_007"}
+007_v2_007.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+007_v2_007.json: COMPLETE -> analyze.py {"appended": true}
+007_v2_007.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+008_v2_008.json: READY -> run_experiment.py {"pid": 1523059, "run_dir": "diag/v2_008"}
+008_v2_008.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+008_v2_008.json: COMPLETE -> analyze.py {"appended": true}
+008_v2_008.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+009_v2_009.json: READY -> run_experiment.py {"pid": 1526559, "run_dir": "diag/v2_009"}
+009_v2_009.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+009_v2_009.json: COMPLETE -> analyze.py {"appended": true}
+009_v2_009.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+010_v2_010.json: READY -> run_experiment.py {"pid": 1530223, "run_dir": "diag/v2_010"}
+010_v2_010.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+010_v2_010.json: COMPLETE -> analyze.py {"appended": true}
+010_v2_010.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+011_v2_011.json: READY -> run_experiment.py {"pid": 1538393, "run_dir": "diag/v2_011"}
+011_v2_011.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.4}
+011_v2_011.json: COMPLETE -> analyze.py {"appended": true}
+011_v2_011.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+012_v2_012.json: READY -> run_experiment.py {"pid": 1560034, "run_dir": "diag/v2_012"}
+012_v2_012.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+012_v2_012.json: COMPLETE -> analyze.py {"appended": true}
+012_v2_012.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+013_v2_013.json: READY -> run_experiment.py {"pid": 1571100, "run_dir": "diag/v2_013"}
