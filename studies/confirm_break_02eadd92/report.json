@@ -1,0 +1,89 @@
+{
+ "answer": {
+  "answer": "Not confirmed. Every run at 150 ms failed, but runs at 100 ms failed as well, so the 90% ranges at 100 ms and 150 ms still overlap (S1, S2). This goes against the pilot, which saw 100 ms pass every time, so a sharp break between 100 ms and 150 ms is in doubt. It is not clearly refuted either, because with so few runs both ranges are wide. Both 100 ms failures are flagged as possible simulator artifacts (the ego was over 3.5 m from the recorded trajectory), even though triage blames the policy. The case against a clean break therefore rests partly on runs the simulator may explain.",
+  "findings": [
+   {
+    "claim": "At 150 ms, every run failed, and each failure was the policy's fault. The ego was in the lane of car 22, which was slowing for a red light. It braked too gently and hit the car from behind (no_brake_for_lead). None of these failures is flagged as a possible artifact.",
+    "settings": [
+     "S2"
+    ]
+   },
+   {
+    "claim": "At 100 ms, some runs failed, against the pilot's finding that every run passed. Both failures had the same cause: the ego ran about 5 m left of the recorded path with a RIGHT command, steered or drifted right, and clipped slow car 22 in the next lane (turned_into_actor). Triage blames the policy.",
+    "settings": [
+     "S1"
+    ]
+   },
+   {
+    "claim": "Both failures at 100 ms are flagged as possible artifacts because the ego was over 3.5 m from the recorded trajectory. This is where the simulator's rendering is less reliable, so these failures are weaker evidence than the ones at 150 ms.",
+    "settings": [
+     "S1"
+    ]
+   },
+   {
+    "claim": "The failure mode differs between the two delays: side contact while moving toward the right turn at 100 ms, rear-ending a braking lead car at 150 ms. This suggests the delay changes how the scene fails, not only whether it fails.",
+    "settings": [
+     "S1",
+     "S2"
+    ]
+   },
+   {
+    "claim": "The 90% range of the failure rate at 100 ms overlaps the range at 150 ms, so the win condition is not met.",
+    "settings": [
+     "S1",
+     "S2"
+    ]
+   }
+  ],
+  "open": [
+   "Is the failure rate at 100 ms really above zero, or are its failures caused by the ego drifting into a lane the simulator renders poorly? Repeating runs at 100 ms, and checking the video of confirm_break_02eadd92_005 and _006 for rendering quality in the left lane, would settle this.",
+   "Why does the ego end up 3\u20135 m left of the recorded path at both delays? If it starts or drifts into the wrong lane regardless of delay, the scene may be testing lane choice rather than latency. Runs at 0 ms in this study's setup would show whether that drift happens with no delay.",
+   "Pooling with the pilot's runs, as the plan suggested, is no longer appropriate for confirmation, because this study's runs at 100 ms disagree with the pilot. More runs at 100 ms would be needed to narrow its range enough to tell whether it overlaps 150 ms clearly.",
+   "The study cannot place the break more precisely than between 100 ms and 150 ms, because the knob has no values in between."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+   "planner_delay_us": 100000,
+   "runs": 4,
+   "failed": 2,
+   "failure_rate_90": [
+    0.18,
+    0.82
+   ],
+   "possible_artifacts": 2,
+   "run_names": [
+    "confirm_break_02eadd92_001",
+    "confirm_break_02eadd92_002",
+    "confirm_break_02eadd92_005",
+    "confirm_break_02eadd92_006"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+   "planner_delay_us": 150000,
+   "runs": 4,
+   "failed": 4,
+   "failure_rate_90": [
+    0.6,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "run_names": [
+    "confirm_break_02eadd92_003",
+    "confirm_break_02eadd92_004",
+    "confirm_break_02eadd92_007",
+    "confirm_break_02eadd92_008"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 7898,
+  "output_tokens": 1381,
+  "duration_ms": 14212
+ }
+}

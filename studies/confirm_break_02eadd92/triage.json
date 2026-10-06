@@ -1,0 +1,80 @@
+[
+ {
+  "run": "confirm_break_02eadd92_003",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was about 3 m left of the recorded path, in the lane with car 22, which was slowing toward a red light at the intersection; the human had driven in the lane to its right. The camera showed the lead car clearly, but the ego braked too gently (8.7 to 4.8 m/s while the gap shrank from 27 m to under 5 m) and hit car 22 from behind.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15680,
+   "output_tokens": 612,
+   "duration_ms": 7894
+  }
+ },
+ {
+  "run": "confirm_break_02eadd92_004",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was about 3 m left of the recorded path, in the lane behind vehicle 22, which was slowing for a red light at the intersection. The ego only eased off gradually, from 8.8 to 3.7 m/s, while the gap shrank from 25 m to 4 m, and it hit 22 from behind.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15687,
+   "output_tokens": 554,
+   "duration_ms": 7245
+  }
+ },
+ {
+  "run": "confirm_break_02eadd92_005",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "turned_into_actor",
+  "what_happened": "With a RIGHT command, the ego was in a lane about 5 m left of the recorded path. Approaching the intersection, it steered right toward the turn and its front-right corner hit actor 22, a car that was slow or stopped in the lane to its right near the stop line. The ego had slowed from 8 to about 5 m/s but kept moving right into that car instead of yielding or waiting behind it.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12857,
+   "output_tokens": 850,
+   "duration_ms": 9647
+  }
+ },
+ {
+  "run": "confirm_break_02eadd92_006",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "turned_into_actor",
+  "what_happened": "The route says RIGHT and the recorded drive stays in the right lane, but the ego went straight about 5 m to the left of it. Slowing from 8.5 to 5.4 m/s, it drove up beside slow vehicle 22 in the next lane to the right and clipped it with its front-right side at 10.8 s. Vehicle 22 drifts slightly left in the frames, but the ego's lane choice and tight lateral clearance are what made the contact happen.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12850,
+   "output_tokens": 1292,
+   "duration_ms": 14804
+  }
+ },
+ {
+  "run": "confirm_break_02eadd92_007",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was approaching a red light in the same lane as car 22, which was nearly stopped at the stop line. The recorded human path was one lane to the right. Over 3 s the gap closed from 26 m to 4.4 m, but the ego only eased from 8.7 to 4.6 m/s, and its planned path ran straight into the car, so it hit it from behind.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15689,
+   "output_tokens": 614,
+   "duration_ms": 7237
+  }
+ },
+ {
+  "run": "confirm_break_02eadd92_008",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was about 3 m left of the recorded path, sharing a lane with car 22, which was slowing for a red light. Its route command was RIGHT. It braked only gradually, from 8.5 to 3.8 m/s, while the gap to car 22 shrank from 24 m to near zero, and it rear-ended car 22 at about 3.8 m/s. The lead car was clearly visible in the camera the whole time.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15691,
+   "output_tokens": 658,
+   "duration_ms": 7325
+  }
+ }
+]

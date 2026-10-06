@@ -150,3 +150,53 @@ audit: {"audited": 15, "quarantined": [], "references": ["b2_009", "s1_002", "s1
 2026-10-06T14:05:37-04:00 pilot done
 2026-10-06T14:05:45-04:00 confirm_break_02eadd92 study starting
 001_confirm_break_02eadd92_001.json: READY -> run_experiment.py {"pid": 1350304, "run_dir": "diag/confirm_break_02eadd92_001"}
+001_confirm_break_02eadd92_001.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+001_confirm_break_02eadd92_001.json: COMPLETE -> analyze.py {"appended": true}
+001_confirm_break_02eadd92_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_confirm_break_02eadd92_002.json: READY -> run_experiment.py {"pid": 1354053, "run_dir": "diag/confirm_break_02eadd92_002"}
+002_confirm_break_02eadd92_002.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+002_confirm_break_02eadd92_002.json: COMPLETE -> analyze.py {"appended": true}
+002_confirm_break_02eadd92_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+003_confirm_break_02eadd92_003.json: READY -> run_experiment.py {"pid": 1357836, "run_dir": "diag/confirm_break_02eadd92_003"}
+003_confirm_break_02eadd92_003.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.8}
+003_confirm_break_02eadd92_003.json: COMPLETE -> analyze.py {"appended": true}
+003_confirm_break_02eadd92_003.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+004_confirm_break_02eadd92_004.json: READY -> run_experiment.py {"pid": 1361485, "run_dir": "diag/confirm_break_02eadd92_004"}
+004_confirm_break_02eadd92_004.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+004_confirm_break_02eadd92_004.json: COMPLETE -> analyze.py {"appended": true}
+004_confirm_break_02eadd92_004.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 4, "quarantined": [], "references": ["s1_006"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+005_confirm_break_02eadd92_005.json: READY -> run_experiment.py {"pid": 1365323, "run_dir": "diag/confirm_break_02eadd92_005"}
+005_confirm_break_02eadd92_005.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+005_confirm_break_02eadd92_005.json: COMPLETE -> analyze.py {"appended": true}
+005_confirm_break_02eadd92_005.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+006_confirm_break_02eadd92_006.json: READY -> run_experiment.py {"pid": 1368809, "run_dir": "diag/confirm_break_02eadd92_006"}
+006_confirm_break_02eadd92_006.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+006_confirm_break_02eadd92_006.json: COMPLETE -> analyze.py {"appended": true}
+006_confirm_break_02eadd92_006.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+007_confirm_break_02eadd92_007.json: READY -> run_experiment.py {"pid": 1372641, "run_dir": "diag/confirm_break_02eadd92_007"}
+007_confirm_break_02eadd92_007.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+007_confirm_break_02eadd92_007.json: COMPLETE -> analyze.py {"appended": true}
+007_confirm_break_02eadd92_007.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+008_confirm_break_02eadd92_008.json: READY -> run_experiment.py {"pid": 1376203, "run_dir": "diag/confirm_break_02eadd92_008"}
+008_confirm_break_02eadd92_008.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+008_confirm_break_02eadd92_008.json: COMPLETE -> analyze.py {"appended": true}
+008_confirm_break_02eadd92_008.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 8, "quarantined": [], "references": ["s1_006"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+{
+ "question": "On scene clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6, is the failure rate at 150 ms of planner delay clearly higher than at 100 ms, so that their 90% intervals do not overlap?",
+ "objective": "Confirm or refute a sharp break between 100 ms and 150 ms of planner delay on scene clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6. Use only planner_delay_us = 100000 and 150000 and split each round evenly between them (2 and 2), so that both failure rates get as many repeats as possible. Do not spend runs at 0 ms, at 50 ms or at 200 ms and above, or on any other scene or knob. Stop early only if one result at 100 ms and one at 150 ms disagree with the pilot often enough that the intervals must overlap.",
+ "vary": [
+  "planner_delay_us"
+ ],
+ "scenes": [
+  "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6"
+ ],
+ "rounds": 2,
+ "per_round": 4,
+ "rationale": "The brief limits the study to one scene, one knob and 8 runs as 2 rounds of 4. The plan follows that exactly, well within the caps of 60 runs and 10 per round. The scene passed in the earlier run at 0 delay, with 1.4 m clearance and 0.92 progress, so a delay effect can show there. Putting every run at the two delays that bracket the break gives at most 4 runs each, which is the most this budget allows.\n\nLimits the researcher should know:\n1. Even in the best case (4 passes out of 4 at 100 ms, 4 failures out of 4 at 150 ms), whether the 90% ranges separate depends on how they are calculated. Wilson intervals separate (upper ~0.40 against lower ~0.60). Exact Clopper-Pearson intervals still overlap slightly (upper ~0.53 against lower ~0.47). To confirm under the stricter method, this study's runs must be pooled with the pilot's runs at 100 ms and 150 ms; with 6 consistent runs per side, Clopper-Pearson separates (~0.39 against ~0.61). The researcher should decide the interval method and whether to pool before reading the result.\n2. A single run that goes against the pilot at either delay would almost certainly leave the intervals overlapping at this sample size. That is closer to \"not confirmed\" than to a clear refutation, because 8 runs cannot show that the rates overlap clearly either.\n3. The study can only say the break lies between 100 ms and 150 ms, because the knob has no values in between.\n4. The 40-minute limit cannot be checked from the inputs. It assumes roughly 5 minutes per run, and 2 rounds keep the number of proposer turns low."
+}
+{"round": 1, "queued": 4, "dropped": 0}
+{"round": 2, "queued": 4, "dropped": 0}
+report: /home/willvarner/alpasim/research/studies/confirm_break_02eadd92/report.md
+2026-10-06T14:34:49-04:00 confirm_break_02eadd92 study done

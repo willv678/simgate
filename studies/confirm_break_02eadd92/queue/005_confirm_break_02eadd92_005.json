@@ -1,0 +1,22 @@
+{
+  "name": "confirm_break_02eadd92_005",
+  "run_dir": "diag/confirm_break_02eadd92_005",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+    "planner_delay_us": 100000,
+    "lateral_bias_m": 0.0
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1365323,
+  "launched_at": 1791310820.8474047,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null
+}
