@@ -14,6 +14,7 @@ wizard run is in flight, as RUNBOOK.md requires. Stopped containers are kept.
 import json
 import shutil
 import subprocess
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -21,6 +22,7 @@ NETWORK_SUFFIX = "_microservices_network"
 PROBE_NETWORK = "alpasim_env_probe"
 # VaVAM plus the renderer used 10,849 MiB on the 12 GB card (FACTS.md, invariant 10).
 MIN_GPU_FREE_MIB = 10_500
+GPU_RELEASE_WAIT_S = 60
 MIN_DISK_FREE_GB = 20
 
 
@@ -78,6 +80,12 @@ def environment_problems() -> list[str]:
         )
 
     gpu_free = _gpu_free_mib()
+    # A run's GPU memory can take a few seconds to free after its teardown.
+    waited = 0
+    while gpu_free < MIN_GPU_FREE_MIB and waited < GPU_RELEASE_WAIT_S:
+        time.sleep(5)
+        waited += 5
+        gpu_free = _gpu_free_mib()
     if gpu_free < MIN_GPU_FREE_MIB:
         problems.append(f"GPU free {gpu_free} MiB < {MIN_GPU_FREE_MIB} MiB")
 

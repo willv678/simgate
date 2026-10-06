@@ -1,0 +1,97 @@
+{
+ "scenes": 9,
+ "frames_every_500ms": {
+  "failed": 6,
+  "rate_90": [
+   0.4,
+   0.86
+  ]
+ },
+ "frames_every_100ms": {
+  "failed": 4,
+  "rate_90": [
+   0.22,
+   0.7
+  ]
+ },
+ "failed_only_with_stale_frames": [
+  "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+  "clipgt-04394343-92f3-409c-9695-e7cd5397fa02"
+ ],
+ "failed_only_with_fresh_frames": [],
+ "sign_test_p": 0.5,
+ "per_scene": {
+  "01d503d4": {
+   "500ms": false,
+   "100ms": false,
+   "runs": [
+    "s1_001",
+    "v1_001"
+   ]
+  },
+  "023b7fcc": {
+   "500ms": false,
+   "100ms": false,
+   "runs": [
+    "s1_002",
+    "v1_002"
+   ]
+  },
+  "0245ff75": {
+   "500ms": true,
+   "100ms": true,
+   "runs": [
+    "s1_003",
+    "v1_003"
+   ]
+  },
+  "026d6a39": {
+   "500ms": true,
+   "100ms": false,
+   "runs": [
+    "s1_004",
+    "v1_004"
+   ]
+  },
+  "02eadd92": {
+   "500ms": false,
+   "100ms": false,
+   "runs": [
+    "s1_006",
+    "v1_006"
+   ]
+  },
+  "04394343": {
+   "500ms": true,
+   "100ms": false,
+   "runs": [
+    "s1_008",
+    "v1_008"
+   ]
+  },
+  "04749bb9": {
+   "500ms": true,
+   "100ms": true,
+   "runs": [
+    "s1_009",
+    "v1_009"
+   ]
+  },
+  "048b974e": {
+   "500ms": true,
+   "100ms": true,
+   "runs": [
+    "s1_010",
+    "v1_010"
+   ]
+  },
+  "0499fb41": {
+   "500ms": true,
+   "100ms": true,
+   "runs": [
+    "s1_011",
+    "v1_011"
+   ]
+  }
+ }
+}
