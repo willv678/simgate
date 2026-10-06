@@ -203,8 +203,12 @@ hook.
 A campaign is one fault plan of 50 runs, five per fault kind and ten clean,
 over six scenes, run under three policies: a hand-written script (retry,
 then clean up, then stop), tier~0 (the model without tools), and tier~1 (with
-read-only tools). C1 ran with the physics bounds off and C2 with them on; each
-arm ended with an audit. We score outcomes: whether a lineage ends in a kept,
+read-only tools). C1 ran with the physics bounds off and C2 with them on. C3
+(physics on) makes the silent faults repeat on every retry, as the
+configuration error behind them would. C4 adds the four plan faults, also
+repeating, on six scenes no other campaign used, with every bound on,
+the plan-handoff check included. Each arm ended with an audit, given one
+known-good reference run in C1 and C2 and one from each scene in C3 and C4. We score outcomes: whether a lineage ends in a kept,
 valid run, how many launches it cost, and whether a person had to step in.
 
 \section{Results}
@@ -252,8 +256,7 @@ Without the gate, keeping every run that exits 0 would keep 25 invalid runs
 per arm: deleted or corrupted metrics, the dropped delay, and the silent
 faults (Table~\ref{tab:campaigns}, Fig.~\ref{fig:invalid}). The per-run gate
 left the 10 silent-fault runs per arm with physics off (C1) and 0 to 3 with it
-on (C2). After the audit, no arm kept an invalid run. \pending{C3, seed 3, with
-silent faults that repeat on retry.}
+on (C2). After the audit, no arm kept an invalid run. \pending{C3 and C4.}
 
 \subsection{Recovery policies}
 \begin{figure*}[t]
@@ -340,7 +343,7 @@ plan-fault runs, and with it the bounds flagged none of 202 fresh campaign runs
 that played no part in setting them. Given that measurement, the Auditor caught 4 of 8 with one
 reference (every lateral bias) and 8 of 8 with a clean reference from each
 scene, with no false flag, in each of three audits: the frozen plan stands out only against the same
-scene. \pending{held-out batch g3: 0.3\,m bias and waypoint noise on four new
+scene. \pending{held-out batch g3: 0.3\,m bias and waypoint noise on four scenes outside g2
 scenes.}
 
 \subsection{Verification}
