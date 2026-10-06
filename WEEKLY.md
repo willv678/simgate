@@ -56,6 +56,19 @@ and tier 1 matched the script's yield with fewer wasted launches.
     logged, instead of stopping the arm.
   - **Paper draft v0** (`paper/main.tex`, Overleaf-ready), with Figure 1 drawn.
   - Hidden simulator retries measured: 1 of 496 kept runs.
+  - **C3 script arm done** (persistent silent faults): 35 valid kept in 95
+    launches; the gate kept 3 invalid runs (all kinematic) and the audit
+    quarantined all 3, so 0 after the audit. Persistent rails cost the script
+    15 launches and 5 budget halts. Tier 1 and tier 0 arms running.
+  - **Why physics misses some kinematic runs:** on gentle scenes they peak
+    under the acceleration bound, and no jerk statistic separates them from
+    one jerky clean highway run (`jerk_separation.txt`, 687 runs). That fault
+    needs the Auditor's config and per-scene reference, which is why there
+    are two layers.
+  - **Citations verified** against their sources: 17/18 exact, PlannerForge
+    awaiting EMNLP pages. Seven entries had wrong or incomplete titles or
+    authors.
+  - Campaign report and figure pick up C3 as its arms finish.
 
 **Problems found**
 - The tier 1 arm of C2 stopped at run 32 of 50: `monitor.py` aborted in native
