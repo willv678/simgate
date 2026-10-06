@@ -10,8 +10,9 @@ reduces it to a few features that physics.json thresholds (K⁺) can bound:
   trajectory;
 - plan handoff: after the force-GT warm-up (its length is in the log), the plan
   the controller was asked to track against the driver plan it came from,
-  matched by the plans' timestamps, which the runtime keeps. Two numbers: the
-  sideways gap between them (a bias or waypoint noise moves it; in a clean run
+  matched by the plans' timestamps, which the runtime keeps, and compared in the
+  ego's frame from when the plan was made, the frame a delayed plan reaches the
+  controller in. Two numbers: the sideways gap between them (a bias or waypoint noise moves it; in a clean run
   they are the same plan, up to interpolation on curves), and the plan's age
   when the controller got it, which equals the planner delay rounded up to the
   control step (a frozen plan ages step by step; a delay that never applied
@@ -82,7 +83,7 @@ def _footprint(x: float, y: float, yaw: float, size: tuple[float, float]):
 
 async def _read(path: Path) -> dict:
     ego, others, reported, recorded = {}, {}, {}, None
-    sizes, handoffs, plans, warm_up_end = {}, [], {}, 0
+    sizes, handoffs, plans, warm_up_end, poses_at = {}, [], {}, 0, {}
     async for message in async_read_pb_log(str(path)):
         kind = message.WhichOneof("log_entry")
         if kind == "rollout_metadata":
@@ -113,16 +114,20 @@ async def _read(path: Path) -> dict:
             state = request.state
             velocity = state.state.linear_velocity
             reported[state.timestamp_us] = float(np.hypot(velocity.x, velocity.y))
+            pose = (state.pose.vec.x, state.pose.vec.y, _yaw(state.pose.quat))
+            poses_at[state.timestamp_us] = pose
             given = [
                 (p.timestamp_us, p.pose.vec.x, p.pose.vec.y)
                 for p in request.planned_trajectory_in_rig.poses
             ]
             if plans and given and state.timestamp_us >= warm_up_end:
                 # The driver plan this one came from; the newest if none matches.
+                # The runtime puts a plan in the ego's frame when the plan is
+                # made, and a delayed plan reaches the controller in that frame.
                 source = plans.get(given[0][0], plans[max(plans)])
-                pose = (state.pose.vec.x, state.pose.vec.y, _yaw(state.pose.quat))
+                made_at = poses_at.get(source[0][0], pose)
                 age_us = state.timestamp_us - source[0][0]
-                handoffs.append((pose, source, given, age_us))
+                handoffs.append((made_at, source, given, age_us))
         elif kind == "traffic_session_request" and recorded is None:
             for obj in message.traffic_session_request.logged_object_trajectories:
                 if obj.object_id == EGO:

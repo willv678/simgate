@@ -20,7 +20,7 @@
   },
   "median_plan_handoff_m": {
    "max": 0.05,
-   "why": "Median sideways distance, after the force-GT warm-up, between the plan the controller was given and the driver plan it came from (matched by timestamps), in the ego's frame. They are the same plan in a clean run (medians 0 to 0.008 m over 589 kept runs; single steps on curves can differ). A larger median means the plan was changed between the driver and the controller: a bias, waypoint noise."
+   "why": "Median sideways distance, after the force-GT warm-up, between the plan the controller was given and the driver plan it came from (matched by timestamps), in the ego's frame from when the plan was made (a delayed plan reaches the controller in that frame). They are the same plan in a clean run: medians 0 to 0.008 m over 589 kept runs, 0.0001 m on 50-200 ms delay runs. A larger median means the plan was changed between the driver and the controller: a bias, waypoint noise."
   }
  },
  "dropped": {
