@@ -269,13 +269,17 @@ reference from each scene.
 
 ## 7. Honest limits
 
-- Model results are 5 samples per fault kind per arm and campaign (C3 adds a
-  third campaign).
+- Model results are 5 samples per fault kind per arm and campaign (C3 and C4
+  add two more campaigns; C4 also runs the plan faults, on six other scenes).
 - In C1 and C2 the silent faults did not repeat on a retry, which favours
   blind retries; C3 makes them persistent, as a config error would be.
 - Outcomes can hide a wrong diagnosis: on hangs both tiers blamed slowness,
   because stopping the run erased the evidence; the monitor now records it.
 - Without a reference run, the auditor misses a batch that is wrong throughout.
+- Physics alone cannot see every silent fault: the kinematic controller on a
+  gentle scene stays under every bound, and no jerk statistic separates it
+  from one jerky clean highway run. The Auditor (config + same-scene
+  reference) is the second layer for exactly this.
 - One simulator, one driving model. The linear-MPC rule holds for this study only.
 - "Simplex for LLM agents" is already an idea in print. We don't claim first.
 
@@ -301,8 +305,9 @@ timeline
     v4 (30 Sep – 6 Oct) : campaigns C1 and C2 : physics checks : plan-handoff check : draft v0
 ```
 
-What is left: C3 and the held-out plan-fault batch (running), verified
-citations, the draft to Shao around 1 Nov; IEEE IV deadline 15 Nov.
+What is left: C3, the held-out plan-fault batch g3 and C4 (queued in that
+order, about 8 Oct), the draft to Shao around 1 Nov; IEEE IV deadline 15 Nov.
+Citations were verified on 6 Oct.
 
 ---
 
