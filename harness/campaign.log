@@ -3276,3 +3276,37 @@ queued 50 runs in research/harness/c3_model_queue
 053_c3m_017_a2.json: COMPLETE -> analyze.py {"appended": true}
 053_c3m_017_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
 054_c3m_018_a2.json: READY -> run_experiment.py {"pid": 1190431, "run_dir": "diag/c3m_018_a2"}
+054_c3m_018_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+054_c3m_018_a2.json: COMPLETE -> analyze.py {"appended": true}
+054_c3m_018_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+055_c3m_020_a2.json: READY -> run_experiment.py {"pid": 1193861, "run_dir": "diag/c3m_020_a2"}
+055_c3m_020_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.0}
+055_c3m_020_a2.json: COMPLETE -> analyze.py {"appended": true}
+055_c3m_020_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+056_c3m_021_a2.json: READY -> run_experiment.py {"pid": 1197406, "run_dir": "diag/c3m_021_a2"}
+056_c3m_021_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.5}
+056_c3m_021_a2.json: COMPLETE -> analyze.py {"appended": true}
+056_c3m_021_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+057_c3m_027_a2.json: READY -> run_experiment.py {"pid": 1200925, "run_dir": "diag/c3m_027_a2"}
+057_c3m_027_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.5}
+057_c3m_027_a2.json: COMPLETE -> analyze.py {"appended": true}
+057_c3m_027_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+058_c3m_036_a2.json: READY -> run_experiment.py {"pid": 1204664, "run_dir": "diag/c3m_036_a2"}
+058_c3m_036_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+058_c3m_036_a2.json: COMPLETE -> analyze.py {"appended": true}
+058_c3m_036_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+059_c3m_039_a2.json: READY -> run_experiment.py {"pid": 1208187, "run_dir": "diag/c3m_039_a2"}
+059_c3m_039_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.5}
+059_c3m_039_a2.json: COMPLETE -> analyze.py {"appended": true}
+059_c3m_039_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+060_c3m_041_a2.json: READY -> run_experiment.py {"pid": 1211886, "run_dir": "diag/c3m_041_a2"}
+060_c3m_041_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+060_c3m_041_a2.json: COMPLETE -> analyze.py {"appended": true}
+060_c3m_041_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+061_c3m_047_a2.json: READY -> run_experiment.py {"pid": 1215329, "run_dir": "diag/c3m_047_a2"}
+061_c3m_047_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+061_c3m_047_a2.json: COMPLETE -> analyze.py {"appended": true}
+061_c3m_047_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 27, "quarantined": ["c3m_024", "c3m_036_a2"], "references": ["b2_009", "s1_002", "s1_003", "s1_004", "s1_005", "s1_006"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 1, "rules_admissible": ["controller_mpc_is_linear"]}
+2026-10-06T12:02:19-04:00 c3_model done: {"summary": {"entries": 61, "accepted": 27, "recovered": 11, "env_cleanups": 5, "halted": 23, "halted_by_gate": 0, "unresolved": 0, "model_calls": 39, "minutes": 258.4, "stopped": null}}
+2026-10-06T12:02:19-04:00 C3 done

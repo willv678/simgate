@@ -628,79 +628,81 @@
  },
  "c3_model": {
   "planned": 50,
-  "launches": 1,
-  "valid_kept": 0,
-  "invalid_kept_no_gate": 0,
-  "invalid_kept_gate": 0,
+  "launches": 61,
+  "valid_kept": 25,
+  "invalid_kept_no_gate": 25,
+  "invalid_kept_gate": 2,
   "invalid_kept_audit": 0,
-  "halts": 0,
+  "halts": 23,
   "halted_by_gate": 0,
-  "model_calls": 1,
-  "context_tokens": 3173,
-  "physics_failures": {},
+  "model_calls": 39,
+  "context_tokens": 162542,
+  "physics_failures": {
+   "silent": 9
+  },
   "per_kind": {
    "fill_network_pool": {
     "lineages": 5,
-    "recovered": 0,
+    "recovered": 5,
     "halted": 0,
-    "launches": 1
+    "launches": 5
    },
    "clean": {
     "lineages": 10,
-    "recovered": 0,
+    "recovered": 10,
     "halted": 0,
-    "launches": 0
+    "launches": 10
    },
    "delete_metrics": {
     "lineages": 5,
     "recovered": 0,
-    "halted": 0,
-    "launches": 0
+    "halted": 5,
+    "launches": 5
    },
    "corrupt_metrics": {
     "lineages": 5,
     "recovered": 0,
-    "halted": 0,
-    "launches": 0
+    "halted": 5,
+    "launches": 5
    },
    "kill": {
     "lineages": 5,
-    "recovered": 0,
+    "recovered": 5,
     "halted": 0,
-    "launches": 0
+    "launches": 10
    },
    "drop_delay": {
     "lineages": 5,
     "recovered": 0,
-    "halted": 0,
-    "launches": 0
+    "halted": 5,
+    "launches": 5
    },
    "hang": {
     "lineages": 5,
-    "recovered": 0,
+    "recovered": 5,
     "halted": 0,
-    "launches": 0
+    "launches": 10
    },
    "kinematic": {
     "lineages": 5,
     "recovered": 0,
-    "halted": 0,
-    "launches": 0
+    "halted": 3,
+    "launches": 6
    },
    "rails": {
     "lineages": 5,
     "recovered": 0,
-    "halted": 0,
-    "launches": 0
+    "halted": 5,
+    "launches": 5
    }
   },
-  "complete": false,
-  "minutes": 0,
+  "complete": true,
+  "minutes": 258.4,
   "physics_after_the_fact": {
    "silent_caught": 0,
-   "silent": 0,
+   "silent": 2,
    "other_flagged": 0,
-   "other": 0
+   "other": 25
   }
  },
  "skills_chosen": {
@@ -767,33 +769,34 @@
   "model": {
    "skills": {
     "kill": {
-     "RESTART_CLEANUP": 10
+     "RESTART_CLEANUP": 15
     },
     "corrupt_metrics": {
-     "HALT": 9,
+     "HALT": 14,
      "RESTART_CLEANUP": 1
     },
     "hang": {
      "CONFIGURE": 8,
-     "RESTART_CLEANUP": 2
+     "RESTART_CLEANUP": 7
     },
     "drop_delay": {
-     "HALT": 10
+     "HALT": 15
     },
     "fill_network_pool": {
-     "CLEANUP_ENV": 11
+     "CLEANUP_ENV": 15
     },
     "delete_metrics": {
-     "HALT": 10
+     "HALT": 15
     },
     "rails": {
-     "HALT": 5
+     "HALT": 10
     },
     "kinematic": {
-     "HALT": 4
+     "HALT": 7,
+     "RE-RUN": 1
     }
    },
-   "median_call_s": 8.9
+   "median_call_s": 9.1
   }
  }
 }

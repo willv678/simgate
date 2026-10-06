@@ -37,7 +37,7 @@ CAMPAIGN_COLOR = {
 CAMPAIGN_NAME = {
     "c1": "C1: physics off",
     "c2": "C2: physics on",
-    "c3": "C3: persistent silent faults",
+    "c3": "C3: faults persist",
     "c4": "C4: plus plan faults",
 }
 

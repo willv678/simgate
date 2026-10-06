@@ -1,0 +1,27 @@
+{
+  "name": "c3m_024",
+  "run_dir": "diag/c3m_024",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1035706,
+  "launched_at": 1791293182.751581,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": {
+    "kind": "kinematic",
+    "persistent": true,
+    "after_s": null,
+    "applied": false
+  },
+  "quarantine": "wizard-config.yaml sets controller.mpc_implementation: kinematic_ideal instead of the linear MPC used by every other run; its physics.txt shows max_abs_accel 8.790 m/s\u00b2, a -6.51 m/s\u00b2 step at t=4.7 s and frac_on_recording 0.385, against 2.9\u20133.6 m/s\u00b2 and 0.418 for the other runs on the same scene."
+}

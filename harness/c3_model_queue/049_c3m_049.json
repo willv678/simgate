@@ -1,0 +1,63 @@
+{
+  "name": "c3m_049",
+  "run_dir": "diag/c3m_049",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1172633,
+  "launched_at": 1791299432.4201152,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "HALT",
+  "diagnosis": {
+    "policy": "model",
+    "input": {
+      "state": "FAILED",
+      "run": "c3m_049",
+      "k_status": "physics: max_abs_accel 15.7 > 10.0; physics: max_abs_yaw_rate 2.97 > 2.0; physics: max_speed_report_error 3.8 > 1.0",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-06T15:10:39.539Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 9306147453 outside range [9303047453, 9306047454)",
+        "ValueError: Interpolation timestamp 9306147453 outside range [9303047453, 9306047454)",
+        "controller-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n675 MiB, 11177 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  487G  424G  54% /\n",
+    "skill": "HALT",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 3440,
+    "output_tokens": 885,
+    "duration_ms": 11060,
+    "tool_calls": [],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "kinematic",
+    "persistent": true,
+    "after_s": null,
+    "applied": false
+  }
+}

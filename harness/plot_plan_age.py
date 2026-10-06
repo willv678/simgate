@@ -31,7 +31,7 @@ RUNS = {
 
 
 def main() -> int:
-    fig, ax = plt.subplots(figsize=(3.4, 2.0), facecolor=SURFACE)
+    fig, ax = plt.subplots(figsize=(3.4, 2.5), facecolor=SURFACE)
     _style(ax)
     for label, (run, color) in RUNS.items():
         ages = signals(ROOT / run)["plan_age_ms"]
@@ -40,7 +40,13 @@ def main() -> int:
     ax.set_xlabel("time after the warm-up (s)", fontsize=7, color=TEXT_SECONDARY)
     ax.set_ylabel("age of the plan (ms)", fontsize=7, color=TEXT_SECONDARY)
     ax.tick_params(labelsize=6.5)
-    ax.legend(fontsize=6, frameon=False, loc="upper right")
+    ax.legend(
+        fontsize=6,
+        frameon=False,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.25),
+        ncol=2,
+    )
     ax.set_title(
         "The plan the controller got: as old as the delay",
         fontsize=7.5,

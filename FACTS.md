@@ -282,7 +282,7 @@ with no data-corrupting fault.
   box-based contact check, the earlier C2 runs the centre-distance one (which
   fired once, on `c2s_021_a2`). Its minutes cover only the resumed part.
 
-## Campaign C3, 6 Oct 2026 (tier 0 arm running)
+## Campaign C3, 6 Oct 2026
 
 Seed 3, same six scenes and fault mix as C1/C2, physics on (`physics_c2.json`),
 and rails and kinematic **persistent**: copied to every retry, as the config
@@ -293,6 +293,7 @@ scene (six, from B2 and S1). Source: `campaign_report.txt`.
 |---|---|---|---|---|
 | C3 script | 95 | 35 | 25 / 3 / 0 | 12 (all by the gate's budget) |
 | C3 tier 1 | 72 | 35 | 25 / 1 / 0 | 14 |
+| C3 tier 0 | 61 | 25 | 25 / 2 / 0 | 23 |
 
 - Same yield, 23 fewer launches for tier 1. The script spent 15 launches on
   persistent rails and 15 on the dropped delay, 3 per lineage, before its
@@ -309,8 +310,18 @@ scene (six, from B2 and S1). Source: `campaign_report.txt`.
   metrics (15/15), CLEANUP_ENV on the full network pool (5/5),
   RESTART_CLEANUP on hangs (5/5), HALT on the dropped delay and rails
   (10/10), kinematic HALT 3 RE-RUN 2. The gate rejected no answer.
-- Both audits proposed a `controller.mpc_implementation` rule that the
-  admission step accepts (fires on the flagged runs, 0 of 51 clean).
+- Tier 0: hangs RESTART_CLEANUP 5/5 as well (CONFIGURE 8/10 in C1–C2 without
+  the machine record); deleted and corrupt metrics HALT 10/10 again (exit 0,
+  nothing in the log, no tools to look); rails and the dropped delay HALT at
+  the first failure; kinematic HALT 3, RE-RUN 1, and the gate kept 2 kinematic
+  runs, both quarantined by the audit (`c3m_024`, `c3m_036_a2`).
+- All three audits proposed the same rule on their own,
+  `controller.mpc_implementation eq linear`, each admitted (fires on the
+  flagged runs, 0 of 51 clean). Enacted 6 Oct with Will's approval
+  (`rules/promoted.json`): K⁺ now catches the kinematic fault on every run.
+- C1–C3 together, nine arms: invalid runs kept 225 with no gate, 40 after
+  the per-run gate, 0 after the audit; exact one-sided 95% upper bound on the
+  survival rate 1.3% (1 − 0.05^(1/225)), or 3.9% per campaign.
 
 ## Inner loop before the outer loop, 6 Oct 2026
 
