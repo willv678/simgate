@@ -282,8 +282,8 @@ Scoring by outcome can hide a wrong diagnosis. On hangs, both tiers mostly
 reconfigured the traffic model, blaming slowness, and the retry succeeded
 because the injected hang was transient. The monitor had stopped the run
 before the diagnosis, removing the paused container that showed the real
-cause; replayed with the container visible, tier~1 cleaned up and retried in 3
-of 3 calls. The monitor now records the machine before stopping a run.
+cause; replayed with that container's paused state reconstructed, tier~1
+cleaned up and retried in 3 of 3 calls. The monitor now records the machine before stopping a run.
 
 \subsection{The Auditor and rule mining}
 \begin{table}[t]
