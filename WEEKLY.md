@@ -124,17 +124,29 @@ and tier 1 matched the script's yield with fewer wasted launches.
 1. **The vision.** Unattended AV testing: an outer loop decides what to test,
    an inner loop guarantees every result is valid. The LLM proposes in both;
    deterministic code decides.
-2. **Inner loop, proven.** Campaigns C1–C3: 0 invalid runs kept after gate +
-   audit in every arm (25 per arm without the gate; upper bound 2%).
-   Tier 1 matches the script's yield with fewer launches (C3: 35 in 72 vs 95),
-   and diagnoses hangs right 5/5 once the evidence is preserved.
+2. **Inner loop, proven.** Campaigns C1–C3, nine arms: invalid runs kept
+   225 → 40 → 0 (no gate → per-run gate → gate + audit); 95% upper bound on
+   an invalid run surviving: 1.3% (`figures/campaign_invalid.pdf`).
+   Tier 1 matches the script's yield with fewer launches (C3: 35 kept in 72
+   vs 95), and both model tiers diagnose hangs right 5/5 once the evidence is
+   preserved (C1–C2: 3/10 and 2/10).
+2b. **The system learned a rule.** All three C3 audits independently proposed
+   "the controller must be the linear MPC"; it passed admission (catches the
+   flagged runs, 0 of 51 clean); Will approved it; the gate now enforces it
+   on every run with no model. AI proposes → data admits → person approves →
+   code enforces.
 3. **What AV teams test** (failure search, boundaries, triage, regression,
    long tail), and why validity is the bottleneck for automating it.
 4. **Two findings:** a third of scenes fail at 0 delay; identical runs differ
    (46/150). So the question is risk vs. delay, not "find a crash".
 5. **The bug the outer loop found before it ran:** delay experiments would
-   all have been rejected; the new plan-age check (figure: age per step,
-   clean vs delayed vs frozen).
+   all have been rejected (0.12–0.17 m against a 0.05 m bound). Fixed, plus
+   the plan-age check (`figures/plan_age.pdf`: clean 0 ms, 200 ms delay
+   exactly 200 ms, frozen plan saw-tooth to 900 ms). Live in the pilot: 200 ms
+   runs measured 200 ms at every step, 0.0001 m gap.
+5b. **Perception error as a knob** (merging tonight): ask for a 0.3 m left
+   shift and the gate verifies the plan got exactly that (1.0 m requested →
+   0.9999–1.0001 m measured; clean ±0.003 m).
 6. **Outer loop v1, live:** Claude's plan per round, what it ran, what it
    found, vs random (`figures/pilot_grid.pdf`). [fill at 2:30]
 7. **Next two weeks:** more knobs, the comparison at scale, triage.
