@@ -36,6 +36,27 @@ and tier 1 matched the script's yield with fewer wasted launches.
   physics included, and was kept. Griffin's finding holds live.
 - C3 queued overnight after g2: seed 3, physics on, silent faults persistent.
 
+- Night of 5–6 Oct:
+  - **Plan faults are the hard case.** Lateral bias and plan freeze pass every
+    physics bound and the gate keeps them; the Auditor with configs hidden
+    caught 0/8 (it is told not to flag bad driving, and a corrupted plan looks
+    like bad driving).
+  - **New K⁺ check: did the controller track the driver's plan?** The log has
+    both plans; after the warm-up they are identical in a clean run. Median
+    sideways gap: 0–0.008 m on 258 clean runs, 0.14–1.0 m on all 8 plan
+    faults. Given that number, the Auditor caught 8/8 with a reference per
+    scene (0 false flags).
+  - Batch audits now use one clean reference per scene automatically.
+  - The Auditor's rule "fault injection must not be enabled" is now
+    admissible (8/8 caught, 0/51 clean).
+  - The monitor records the machine before stopping a timed-out run: on hangs
+    both tiers had misdiagnosed (blamed slowness) because stopping the run
+    erased the paused container.
+  - Safety for overnight runs: a crashed read-only script is rerun once and
+    logged, instead of stopping the arm.
+  - **Paper draft v0** (`paper/main.tex`, Overleaf-ready), with Figure 1 drawn.
+  - Hidden simulator retries measured: 1 of 496 kept runs.
+
 **Problems found**
 - The tier 1 arm of C2 stopped at run 32 of 50: `monitor.py` aborted in native
   code (exit -6, once in about 300 monitor calls). Resumed from where it
@@ -55,11 +76,14 @@ and tier 1 matched the script's yield with fewer wasted launches.
 - Griffin's lateral-bias fault: the first fault that beats every check.
 
 **Slides**
+0. Draft v0 exists; what is pending (C3, g3, citations).
 1. Campaign design: one fault plan, three policies, physics off and on.
 2. 25 → 10 → 0 in every arm (new figure).
 3. Script vs tier 1 vs tier 0: valid kept, launches, halts.
 4. Physics on fresh runs: 25/30 alone, 30/30 with the Auditor, 0 false alarms in C1.
-5. What broke: the monitor abort, the contact false alarm, the retry caveat.
+5. The hard case: plan faults, and the plan-handoff check (0 → 8/8).
+6. What broke: the monitor abort, the contact false alarm, the retry caveat,
+   evidence erased by our own timeout.
 
 ---
 
