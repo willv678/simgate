@@ -3250,3 +3250,29 @@ queued 50 runs in research/harness/c3_model_queue
 047_c3m_047.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "061_c3m_047_a2.json", "cleanup": "docker compose down on diag/c3m_047"}
 048_c3m_048.json: READY -> run_experiment.py {"pid": 1166687, "run_dir": "diag/c3m_048"}
 048_c3m_048.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+048_c3m_048.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 6450, "output_tokens": 1153, "duration_ms": 13525, "tool_calls": [], "denied": []}
+048_c3m_048.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+048_c3m_048.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+049_c3m_049.json: READY -> run_experiment.py {"pid": 1172633, "run_dir": "diag/c3m_049"}
+049_c3m_049.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+049_c3m_049.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3440, "output_tokens": 885, "duration_ms": 11060, "tool_calls": [], "denied": []}
+049_c3m_049.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+049_c3m_049.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+050_c3m_050.json: READY -> run_experiment.py {"pid": 1176283, "run_dir": "diag/c3m_050"}
+050_c3m_050.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 4.0}
+050_c3m_050.json: FAILED -> diagnose.py {"policy": "model", "skill": "HALT", "params": {}, "model": "claude-opus-5-5", "context_tokens": 3443, "output_tokens": 973, "duration_ms": 11407, "tool_calls": [], "denied": []}
+050_c3m_050.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+050_c3m_050.json: FAILED -> recover.py {"skill": "HALT", "queued": null, "cleanup": null}
+051_c3m_005_a2.json: READY -> run_experiment.py {"pid": 1179852, "run_dir": "diag/c3m_005_a2"}
+051_c3m_005_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+051_c3m_005_a2.json: COMPLETE -> analyze.py {"appended": true}
+051_c3m_005_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+052_c3m_010_a2.json: READY -> run_experiment.py {"pid": 1183445, "run_dir": "diag/c3m_010_a2"}
+052_c3m_010_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+052_c3m_010_a2.json: COMPLETE -> analyze.py {"appended": true}
+052_c3m_010_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+053_c3m_017_a2.json: READY -> run_experiment.py {"pid": 1186941, "run_dir": "diag/c3m_017_a2"}
+053_c3m_017_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+053_c3m_017_a2.json: COMPLETE -> analyze.py {"appended": true}
+053_c3m_017_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+054_c3m_018_a2.json: READY -> run_experiment.py {"pid": 1190431, "run_dir": "diag/c3m_018_a2"}
