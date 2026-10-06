@@ -118,7 +118,7 @@ If a machine failure ends in HALT, the whole batch stops.
 | Postflight | no metrics, unreadable metrics | `postflight.py` |
 | Landed check | the config the simulator actually used ≠ the one requested | `read_state.py` |
 | Promoted rules | whatever the auditor taught the gate | `rules.py` |
-| Physics bounds | motion no car can make: >1 g, >2 rad/s, a reported speed that is not the real one, the recording driving the whole run | `physics.py`, `rules/physics.json` |
+| Physics bounds | motion no car can make: >1 g, >2 rad/s, a reported speed that is not the real one, the recording driving the whole run, boxes overlapping with no collision scored, and **a controller following a different plan than the driver made** | `physics.py`, `rules/physics.json` |
 
 ### 5.2 When a run fails: the menu
 
@@ -153,7 +153,7 @@ All five were denied.
 
 ```mermaid
 flowchart LR
-    B["Kept runs of the batch<br/>+ 1 known-good reference run"] --> A["Tier 2 auditor<br/>(anonymized, read-only)"]
+    B["Kept runs of the batch<br/>+ a known-good reference per scene"] --> A["Tier 2 auditor<br/>(anonymized, read-only)"]
     A -->|flags| Q["Quarantine<br/>(a person reviews)"]
     A -->|proposed rules| P{"promote.py<br/>catches the flagged runs?<br/>fires on 0 of 51 clean runs?<br/>doesn't pin an experiment variable?"}
     P -->|no| X["Rejected"]
@@ -191,17 +191,27 @@ where every launch fails, through the real code.
 
 ### 6.1 The headline: invalid data kept
 
-![Invalid runs kept](figures/invalid_kept.png)
+![Invalid runs kept](figures/campaign_invalid.png)
 
-Pilot campaign, 17 launches: **no gate 9 → per-run gate 6 → gate + audit 0.**
-The six the gate missed were the silent faults. The audit caught all six,
-including `rails`, and proposed a rule for each kind.
+Two campaigns (C1 physics off, C2 physics on), each one fault plan of 50 runs
+run under the script, tier 0 and tier 1, each arm audited at the end:
+**no invalid run was kept after gate + audit in any of the six arms**, against
+25 per arm with no gate. Summed per campaign: C1 75 → 30 → 0, C2 75 → 4 → 0.
+(The earlier pilot showed the same shape: 9 → 6 → 0.)
+
+![Campaign outcomes](figures/campaign_outcomes.png)
+
+C1, live: script 35 valid kept in 80 launches; **tier 1 35 in 72**; tier 0 25
+in 62. Tier 1 halted only the unrecoverable fault, at its first failure; the
+script burned 15 launches on it. Tier 0 halted 19 of 20 runs whose metrics were
+deleted or corrupt (exit 0, nothing in the log); tier 1 retried all 20.
 
 ### 6.2 Diagnosis: who picks the right recovery
 
 ![Diagnosis accuracy](figures/diagnosis.png)
 
-Six real failures replayed five times each: **script 4/6, tier 0 19/30, tier 1 24/30.**
+Earlier replay of six real failures, five times each: **script 4/6, tier 0
+19/30, tier 1 24/30.** The campaigns confirmed it live (above).
 
 - Both AI tiers beat the script where the log shows the cause (out of memory →
   run traffic on CPU; a persistent failure → halt instead of wasting 3 launches).
@@ -234,20 +244,37 @@ throughout looks consistent. One reference run makes it inconsistent again.
 | `context_length: 1` | `inference.context_length == 8` | **10/10 on E**, the batch the auditor itself missed |
 | delay not applied | `planner_delay_us == label` | 20/20 |
 | silent faults | `mpc_implementation == linear`, `force_gt_duration_us ≤ 4.5 s` | admitted from the pilot audit; not yet tested on a held-out batch |
+| plan faults | `fault_injection.enabled != true` | admitted: 8/8 caught, 0 of 51 clean runs |
 
 The first two rules raised zero false flags on 30 clean runs.
+
+### 6.4b The hard case: plan faults
+
+A lateral bias or a frozen plan leaves the motion possible, so the gate kept
+all 8 such runs, and the Auditor with configs hidden caught **0/8**: it is told
+not to flag bad driving, and a corrupted plan looks like bad driving. The fix
+is a deterministic check: the log records both the plan the driver made and
+the plan the controller was given, and after the warm-up they are identical in
+a clean run. Median sideways gap: **0–0.008 m on 258 clean runs, 0.14–1.0 m on
+all 8 plan faults.** Given that number, the Auditor caught **8/8** with a
+reference from each scene.
 
 ### 6.5 Running unattended
 
 - **B2:** 150 runs, 9 h, 150 kept, 0 halted. The only failures were a Docker
   network leak (29 runs never cleaned up). A person fixed it once, and that
   became the machine check and CLEANUP_ENV, which fix it with no person.
-- **S1:** 101 scenes, running now, no failures so far.
+- **S1:** 101 scenes, 100 kept on 99 scenes in 6.4 h; 2 natural failures (one
+  retried, one halted); the audit flagged none of the 100.
 
 ## 7. Honest limits
 
-- Most AI numbers are 5 samples or fewer. The campaign turns them into rates.
-- Tier 1 sometimes halts when it should retry.
+- Model results are 5 samples per fault kind per arm and campaign (C3 adds a
+  third campaign).
+- In C1 and C2 the silent faults did not repeat on a retry, which favours
+  blind retries; C3 makes them persistent, as a config error would be.
+- Outcomes can hide a wrong diagnosis: on hangs both tiers blamed slowness,
+  because stopping the run erased the evidence; the monitor now records it.
 - Without a reference run, the auditor misses a batch that is wrong throughout.
 - One simulator, one driving model. The linear-MPC rule holds for this study only.
 - "Simplex for LLM agents" is already an idea in print. We don't claim first.
@@ -266,15 +293,16 @@ The literature search (`FACTS.md`) found no paper that combines:
 
 ```mermaid
 timeline
-    title From v0 to v3
+    title From v0 to v4
     v0 (22 Sep) : preflight and postflight : finite skill menu : script policy
     v1 (28 Sep) : state machine : Claude on FAILED only : B2, 150 runs unattended
     v2 (29 Sep AM) : machine check + CLEANUP_ENV : tier 1 with read-only tools : tier 2 auditor
     v3 (29 Sep PM) : rule mining : exhaustive verifier : fault campaign + figures
+    v4 (30 Sep – 6 Oct) : campaigns C1 and C2 : physics checks : plan-handoff check : draft v0
 ```
 
-What is left: the multi-fault campaign under script, tier 0, and tier 1; the
-S1 audit; the draft (to Shao around 1 Nov); IEEE IV deadline 15 Nov.
+What is left: C3 and the held-out plan-fault batch (running), verified
+citations, the draft to Shao around 1 Nov; IEEE IV deadline 15 Nov.
 
 ---
 
