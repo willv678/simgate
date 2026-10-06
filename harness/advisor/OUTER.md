@@ -32,6 +32,12 @@ with its front or side, or left the road.
   `meaning`.
 - `history`: every run of this study so far: scene, knob settings, `failed`,
   and the gate's verdict (`kept`, or why not). Only kept runs are evidence.
+- `summary`: the kept runs per setting: `runs`, `failed`, and
+  `failure_rate_90`, the range the true failure rate lies in with 90%
+  confidence. A wide range means the setting needs more runs. A failed run
+  also reports how far the ego was from the recorded trajectory when it
+  failed; `possible_artifacts` counts failures so far off it (or with black
+  frames) that the simulator's rendering, not the policy, may be to blame.
 - `round`, `rounds`, `runs_this_round`: where the study is and how many runs
   to propose now.
 

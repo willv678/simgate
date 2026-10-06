@@ -27,14 +27,13 @@ import argparse
 import json
 import shutil
 import sys
-from collections import defaultdict
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from headless import ask
 from knobs import DESCRIPTIONS, SCENARIO
-from outer import Study, history, run_study, scene_facts
+from outer import Study, history, results, run_study, scene_facts
 from read_state import ROOT
 
 HARNESS = Path(__file__).resolve().parent
@@ -142,32 +141,18 @@ def study_of(folder: Path, plan: dict, model: str) -> Study:
     )
 
 
-def results(rows: list[dict], varied: tuple) -> list[dict]:
-    """Kept runs per setting, as numbered rows the report cites."""
-    cells = defaultdict(list)
-    for row in rows:
-        if row["verdict"] == "kept":
-            cells[(row["scene_id"], *(row[knob] for knob in varied))].append(row)
-    table = []
-    for index, (key, runs) in enumerate(sorted(cells.items()), start=1):
-        table.append(
-            {
-                "id": f"S{index}",
-                "scene_id": key[0],
-                **dict(zip(varied, key[1:])),
-                "runs": len(runs),
-                "failed": sum(run["failed"] for run in runs),
-                "run_names": [run["run"] for run in runs],
-            }
-        )
-    return table
-
-
 def setting_text(row: dict, varied: tuple) -> str:
     knobs = ", ".join(f"{knob} {row[knob]}" for knob in varied)
+    low, high = row["failure_rate_90"]
     return (
         f"{row['id']}: {row['scene_id'][7:15]} at {knobs}: "
-        f"{row['failed']}/{row['runs']} failed ({', '.join(row['run_names'])})"
+        f"{row['failed']}/{row['runs']} failed, rate {low:.0%}-{high:.0%} (90%)"
+        + (
+            f", {row['possible_artifacts']} possibly the simulator's"
+            if row["possible_artifacts"]
+            else ""
+        )
+        + f" ({', '.join(row['run_names'])})"
     )
 
 

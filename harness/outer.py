@@ -28,6 +28,7 @@ import json
 import random
 import subprocess
 import sys
+from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -45,6 +46,9 @@ from physics import completed_rollout, signals
 HARNESS = Path(__file__).resolve().parent
 CONTRACT = HARNESS / "advisor" / "OUTER.md"
 SCENE_FACTS = HARNESS / "scene_facts.json"
+# About one lane width. Beyond it the reconstruction renders the ego's view
+# from further off the recording car's path than it was built from.
+FAR_FROM_RECORDING_M = 3.5
 FAILURE_METRICS = ("collision_front", "collision_lateral", "offroad")
 TYPES = {"planner_delay_us": "integer", "lateral_bias_m": "number"}
 
@@ -83,11 +87,15 @@ def schema(varied: tuple[str, ...]) -> dict:
 
 
 def outcome(run_dir: Path) -> dict:
-    """Failure and the metrics that explain it, from the scored rollout."""
+    """Failure and the metrics that explain it, from the scored rollout. For a
+    failed run, also when it failed, how far the ego was from the recorded
+    trajectory at that moment, and whether any camera frame was black: far
+    from the recording the reconstructed scene renders less reliably, so such
+    a failure may be the simulator's rather than the policy's."""
     metrics = pd.read_parquet(completed_rollout(run_dir) / "metrics.parquet")
     peak = metrics.groupby("name")["values"].max()
     worst = metrics.groupby("name")["values"].min()
-    return {
+    found = {
         "failed": bool(any(peak[name] > 0 for name in FAILURE_METRICS)),
         **{name: bool(peak[name] > 0) for name in FAILURE_METRICS},
         "min_distance_to_obstacle_m": round(
@@ -95,6 +103,59 @@ def outcome(run_dir: Path) -> dict:
         ),
         "progress": round(float(peak["progress"]), 2),
     }
+    if found["failed"]:
+        hits = metrics[metrics["name"].isin(FAILURE_METRICS) & (metrics["values"] > 0)]
+        when = hits["timestamps_us"].min()
+        track = metrics[metrics["name"] == "dist_to_gt_trajectory"]
+        at = track.iloc[(track["timestamps_us"] - when).abs().argmin()]
+        off = round(float(at["values"]), 1)
+        black = bool(peak["img_is_black"] > 0)
+        found |= {
+            "failed_at_s": round((when - metrics["timestamps_us"].min()) / 1e6, 1),
+            "off_recording_at_failure_m": off,
+            "black_frames": black,
+            "possible_artifact": off > FAR_FROM_RECORDING_M or black,
+        }
+    return found
+
+
+def rate_range(failed: int, runs: int, z: float = 1.645) -> tuple[float, float]:
+    """The 90% Wilson interval for a failure rate from `failed` of `runs`."""
+    p = failed / runs
+    centre = (p + z * z / (2 * runs)) / (1 + z * z / runs)
+    half = (
+        z
+        / (1 + z * z / runs)
+        * ((p * (1 - p) / runs + z * z / (4 * runs * runs)) ** 0.5)
+    )
+    return round(max(0.0, centre - half), 2), round(min(1.0, centre + half), 2)
+
+
+def results(rows: list[dict], varied: tuple) -> list[dict]:
+    """Kept runs per setting, numbered for citing: failures, the 90% range of
+    the failure rate, and failures that may be the simulator's."""
+    cells = defaultdict(list)
+    for row in rows:
+        if row["verdict"] == "kept":
+            cells[(row["scene_id"], *(row[knob] for knob in varied))].append(row)
+    table = []
+    for index, (key, runs) in enumerate(sorted(cells.items()), start=1):
+        failed = sum(run["failed"] for run in runs)
+        table.append(
+            {
+                "id": f"S{index}",
+                "scene_id": key[0],
+                **dict(zip(varied, key[1:])),
+                "runs": len(runs),
+                "failed": failed,
+                "failure_rate_90": rate_range(failed, len(runs)),
+                "possible_artifacts": sum(
+                    run.get("possible_artifact", False) for run in runs
+                ),
+                "run_names": [run["run"] for run in runs],
+            }
+        )
+    return table
 
 
 def scene_facts() -> list[dict]:
@@ -262,6 +323,7 @@ def run_study(study: Study) -> list[dict]:
         run_inner_loop(study)
 
     for round_index in range(done, study.rounds):
+        past = history(study.queue, study.varied) if study.queue.is_dir() else []
         state = {
             "objective": study.objective,
             "candidates": study.candidates,
@@ -269,9 +331,8 @@ def run_study(study: Study) -> list[dict]:
                 knob: {"values": list(SCENARIO[knob]), "meaning": DESCRIPTIONS[knob]}
                 for knob in study.varied
             },
-            "history": history(study.queue, study.varied)
-            if study.queue.is_dir()
-            else [],
+            "history": past,
+            "summary": results(past, study.varied),
             "round": round_index + 1,
             "rounds": study.rounds,
             "runs_this_round": study.per_round,
