@@ -41,9 +41,10 @@ setting can pass once and fail the next time, so rates need repeats.
   - `{"type": "separate", "scene", "knob", "low", "high"}`: the failure rate
     at `high` is higher than at `low` on one scene; met when the 90% range at
     `high` lies wholly above the range at `low`.
-  - `{"type": "bracket", "scenes", "knob", "low_max", "high_min"}`: for each
-    scene, find a value whose range lies below `low_max` and a larger one
-    whose range lies above `high_min` (or show the scene never breaks within
+  - `{"type": "bracket", "scenes", "knob", "low_max", "high_min",
+    "max_gap"}`: for each scene, find a value whose range lies below
+    `low_max` and one at most `max_gap` larger (in the knob's units, at least
+    one step) whose range lies above `high_min` (or show the scene never breaks within
     the knob's values, or fails at its smallest). Need `0 < low_max <= 0.5 <=
     high_min < 1`. With 90% ranges, a setting needs about 5 clean runs to lie
     below 0.4 and 5 failures to lie above 0.6, so choose thresholds the budget

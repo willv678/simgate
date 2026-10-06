@@ -40,6 +40,7 @@ BRACKET = {
     "knob": "planner_delay_us",
     "low_max": 0.4,
     "high_min": 0.6,
+    "max_gap": 50_000,
 }
 
 
@@ -61,6 +62,9 @@ def test_separate_is_met_once_they_separate():
 def test_bracket_needs_a_surely_low_and_a_larger_surely_high_value():
     low, high = _runs("clipgt-a", 100_000, 0, 5), _runs("clipgt-a", 150_000, 5, 0, 10)
     assert _status(BRACKET, low, high)["met"]
+    # Too far apart to say where it breaks.
+    far = _runs("clipgt-a", 0, 0, 5), _runs("clipgt-a", 400_000, 5, 0, 10)
+    assert not _status(BRACKET, *far)["met"]
     assert not _status(BRACKET, low)["met"]
     # Surely low at a value below the largest legal one settles nothing.
     assert not _status(BRACKET, _runs("clipgt-a", 0, 0, 9))["met"]
@@ -91,7 +95,51 @@ def test_bracket_reads_only_runs_with_other_knobs_unvaried():
         {**SEPARATE, "extra": 1},
         {**BRACKET, "low_max": 0.6},
         {**BRACKET, "scenes": []},
+        {**BRACKET, "max_gap": 10_000},  # finer than the knob's steps
     ],
 )
 def test_goals_that_cannot_be_checked_are_rejected(goal):
     assert goal_problems(goal, SCENES, DELAY)
+
+
+def test_bisection_probes_the_middle_then_repeats_until_classified():
+    from baselines import next_probe
+    from goals import goal_cells
+
+    goal = {**BRACKET}
+    cells = lambda *groups: goal_cells(
+        results([r for g in groups for r in g], DELAY), "planner_delay_us", DELAY
+    )
+    assert next_probe("clipgt-a", cells(), goal) == 200_000  # middle of 0-400 ms
+    # One failure at 200 ms is not yet surely high: probe it again.
+    assert (
+        next_probe("clipgt-a", cells(_runs("clipgt-a", 200_000, 1, 0)), goal) == 200_000
+    )
+    # Surely high at 200 ms: search below it.
+    high = _runs("clipgt-a", 200_000, 5, 0)
+    assert next_probe("clipgt-a", cells(high), goal) == 100_000
+    # Surely low at 100 ms and surely high at 200 ms: probe 150 ms.
+    low = _runs("clipgt-a", 100_000, 0, 5, 20)
+    assert next_probe("clipgt-a", cells(high, low), goal) == 150_000
+    # Settled once 150 ms is surely low or surely high.
+    assert (
+        next_probe(
+            "clipgt-a", cells(high, low, _runs("clipgt-a", 150_000, 5, 0, 40)), goal
+        )
+        is None
+    )
+
+
+def test_grid_sweeps_every_scene_at_every_value_in_order():
+    from baselines import grid_proposals
+    from knobs import DELAYS_US
+
+    first = grid_proposals(["clipgt-a", "clipgt-b"], 4, 0, BRACKET, DELAY)["runs"]
+    assert [(r["scene_id"], r["planner_delay_us"]) for r in first] == [
+        ("clipgt-a", 0),
+        ("clipgt-b", 0),
+        ("clipgt-a", 50_000),
+        ("clipgt-b", 50_000),
+    ]
+    wrap = grid_proposals(["clipgt-a"], 1, len(DELAYS_US), BRACKET, DELAY)["runs"]
+    assert wrap[0]["planner_delay_us"] == 0

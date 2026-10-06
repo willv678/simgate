@@ -13,8 +13,8 @@ Two kinds:
   `low`. "opposite" when they separate the other way.
 - bracket: for each scene, where the failure rate goes from low to high as one
   knob increases: settled when some value is surely low (its range lies below
-  `low_max`) and a larger value is surely high (its range lies above
-  `high_min`), or when the knob's largest legal value is surely low (never
+  `low_max`) and a value at most `max_gap` larger is surely high (its range
+  lies above `high_min`), or when the knob's largest legal value is surely low (never
   breaks in range) or its smallest is surely high (fails already). Met when
   every scene is settled.
 
@@ -27,7 +27,7 @@ from knobs import SCENARIO, UNVARIED
 TYPES = ("separate", "bracket")
 KEYS = {
     "separate": {"type", "scene", "knob", "low", "high"},
-    "bracket": {"type", "scenes", "knob", "low_max", "high_min"},
+    "bracket": {"type", "scenes", "knob", "low_max", "high_min", "max_gap"},
 }
 
 
@@ -55,10 +55,13 @@ def goal_problems(goal: dict, scenes: set[str], varied: tuple) -> list[str]:
         problems.append("goal scenes must be study scenes")
     if not 0 < goal["low_max"] <= 0.5 <= goal["high_min"] < 1:
         problems.append("need 0 < low_max <= 0.5 <= high_min < 1")
+    step = min(b - a for a, b in zip(values, values[1:]))
+    if not step <= goal["max_gap"] < values[-1] - values[0]:
+        problems.append(f"max_gap must be from {step} to below the knob's whole range")
     return problems
 
 
-def _cells(table: list[dict], knob: str, varied: tuple) -> dict:
+def goal_cells(table: list[dict], knob: str, varied: tuple) -> dict:
     """(scene, value) -> the table row, for rows with every other knob unvaried."""
     others = [k for k in varied if k != knob]
     return {
@@ -70,7 +73,7 @@ def _cells(table: list[dict], knob: str, varied: tuple) -> dict:
 
 def goal_status(goal: dict, table: list[dict], varied: tuple) -> dict:
     """{"met": bool, "verdict": str, "scenes": {...}} from outer.results()."""
-    cells = _cells(table, goal["knob"], varied)
+    cells = goal_cells(table, goal["knob"], varied)
     if goal["type"] == "separate":
         low = cells.get((goal["scene"], goal["low"]))
         high = cells.get((goal["scene"], goal["high"]))
@@ -88,7 +91,12 @@ def goal_status(goal: dict, table: list[dict], varied: tuple) -> dict:
         rows = sorted((value, row) for (s, value), row in cells.items() if s == scene)
         surely_low = [v for v, r in rows if r["failure_rate_90"][1] < goal["low_max"]]
         surely_high = [v for v, r in rows if r["failure_rate_90"][0] > goal["high_min"]]
-        pairs = [(a, b) for a in surely_low for b in surely_high if a < b]
+        pairs = [
+            (a, b)
+            for a in surely_low
+            for b in surely_high
+            if 0 < b - a <= goal["max_gap"]
+        ]
         if pairs:
             a, b = min(pairs, key=lambda pair: pair[1] - pair[0])
             settled[scene] = f"breaks above {a} and by {b}"

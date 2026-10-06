@@ -19,8 +19,10 @@ and code deciding:
    report comes from the table, not the model.
 
 Everything lands in research/studies/<brief name>/: brief.md, plan.json,
-queue/, trace.jsonl, rounds.jsonl, triage.json, report.md. A rerun continues where the
-study stopped.
+queue/, trace.jsonl, rounds.jsonl, goal.json, triage.json, report.md. With
+--proposer grid, bisect or random, the same plan runs again with that
+proposer in <brief name>/<proposer>/, for comparison. A rerun continues where
+the study stopped.
 
     uv run python research/harness/study.py research/briefs/latency_budget.md
     uv run python research/harness/study.py <brief> --plan-only
@@ -154,10 +156,10 @@ def make_plan(brief: str, model: str) -> tuple[dict, dict]:
     return plan, call
 
 
-def study_of(folder: Path, plan: dict, model: str) -> Study:
+def study_of(folder: Path, name: str, plan: dict, proposer: str, model: str) -> Study:
     facts = {f["scene_id"]: f for f in scene_facts()}
     return Study(
-        name=folder.name,
+        name=name,
         queue=folder / "queue",
         trace=folder / "trace.jsonl",
         rounds_file=folder / "rounds.jsonl",
@@ -166,7 +168,7 @@ def study_of(folder: Path, plan: dict, model: str) -> Study:
         varied=tuple(plan["vary"]),
         rounds=plan["rounds"],
         per_round=plan["per_round"],
-        proposer="llm",
+        proposer=proposer,
         model=model,
         goal=None if plan["goal"]["type"] == "none" else plan["goal"],
         goal_file=folder / "goal.json",
@@ -305,6 +307,12 @@ def main() -> int:
     parser.add_argument("--plan-only", action="store_true")
     parser.add_argument("--report-only", action="store_true")
     parser.add_argument("--model", default=MODEL)
+    parser.add_argument(
+        "--proposer",
+        choices=("llm", "grid", "bisect", "random"),
+        default="llm",
+        help="who picks the runs; baselines run the same plan in <study>/<proposer>/",
+    )
     args = parser.parse_args()
 
     folder = STUDIES / args.brief.stem
@@ -323,19 +331,24 @@ def main() -> int:
     if args.plan_only:
         return 0
 
-    study = study_of(folder, plan, args.model)
+    if args.proposer == "bisect" and plan["goal"]["type"] != "bracket":
+        raise SystemExit("bisect needs a bracket goal")
+    runs = folder if args.proposer == "llm" else folder / args.proposer
+    runs.mkdir(exist_ok=True)
+    name = folder.name if args.proposer == "llm" else f"{folder.name}_{args.proposer}"
+    study = study_of(runs, name, plan, args.proposer, args.model)
     if not args.report_only:
         if not args.yes and input("Run this plan? [y/N] ").strip().lower() != "y":
             return 1
         run_study(study)
     rows = history(study.queue, study.varied)
-    triage_file = folder / "triage.json"
+    triage_file = runs / "triage.json"
     if not triage_file.exists():
         triage_file.write_text(
             json.dumps(triage_study(study.queue, args.model), indent=1) + "\n"
         )
     causes = json.loads(triage_file.read_text(encoding="utf-8"))
-    print(f"report: {write_report(folder, brief, plan, rows, causes, args.model)}")
+    print(f"report: {write_report(runs, brief, plan, rows, causes, args.model)}")
     return 0
 
 

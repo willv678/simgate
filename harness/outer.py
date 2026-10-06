@@ -7,7 +7,9 @@ are evidence. Proposers:
 
 - llm: one headless Claude call per round with no tools (advisor/OUTER.md),
   given the candidates, the legal delays, and the study's history;
-- random: uniform over candidates and delays.
+- random: uniform over candidates and delays;
+- grid and bisect: the status-quo sweep and a scripted binary search
+  (baselines.py), for comparison.
 
 The study: how a scene's failure rate changes with the scenario knobs it
 varies (`--vary`, from knobs.SCENARIO; planner delay by default). A run failed if
@@ -36,6 +38,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from baselines import bisect_proposals, grid_proposals
 from enqueue import RUN_ROOT, add, new_entry
 from goals import goal_status
 from headless import ask
@@ -352,16 +355,28 @@ def run_study(study: Study) -> list[dict]:
             "rounds": study.rounds,
             "runs_this_round": study.per_round,
         }
+        call = None
         if study.proposer == "llm":
             answer, call = llm_proposals(state, study.varied, study.model)
-        else:
+        elif study.proposer == "random":
             answer = random_proposals(
                 scenes,
                 study.per_round,
                 study.varied,
                 random.Random(study.seed * 1000 + round_index),
             )
-            call = None
+        elif study.proposer == "grid":
+            answer = grid_proposals(
+                scenes,
+                study.per_round,
+                len(planned(study.queue)),
+                study.goal,
+                study.varied,
+            )
+        else:
+            answer = bisect_proposals(
+                scenes, study.per_round, state["summary"], study.goal, study.varied
+            )
 
         queued, dropped = [], []
         for index, proposed in enumerate(answer["runs"]):
@@ -417,7 +432,7 @@ def check_goal(study: Study, past: list[dict], rounds_done: int) -> dict | None:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("study")
-    parser.add_argument("--proposer", choices=("llm", "random"), required=True)
+    parser.add_argument("--proposer", choices=("llm", "random", "grid"), required=True)
     parser.add_argument("--rounds", type=int, required=True)
     parser.add_argument("--per-round", type=int, required=True)
     parser.add_argument("--candidates", type=int, default=8)
