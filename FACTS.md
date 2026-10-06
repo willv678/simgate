@@ -247,6 +247,11 @@ with no data-corrupting fault.
 | C2 tier 0 | 61 | 26 | 25 / 1 / 0 | 23 |
 
 - No invalid run was kept after the audit in any arm (0 of 150 per campaign).
+  Over C1 and C2, 150 invalid runs would have been kept with no gate and none
+  survived the audit: the exact one-sided 95% upper bound on the survival rate
+  is 2.0% (Clopper–Pearson, 1 − 0.05^(1/150)). The three arms of a campaign
+  share one fault plan, so the 150 are not fully independent; per campaign
+  (75) the bound is 3.9%.
   Physics on cut what reaches the audit from 30 to 4.
 - Loud faults (kill, hang, deleted or corrupt metrics, full network pool): the
   script and tier 1 recovered 5/5 each in both campaigns. Tier 0 recovered 0/5

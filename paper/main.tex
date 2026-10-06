@@ -256,7 +256,10 @@ Without the gate, keeping every run that exits 0 would keep 25 invalid runs
 per arm: deleted or corrupted metrics, the dropped delay, and the silent
 faults (Table~\ref{tab:campaigns}, Fig.~\ref{fig:invalid}). The per-run gate
 left the 10 silent-fault runs per arm with physics off (C1) and 0 to 3 with it
-on (C2). After the audit, no arm kept an invalid run. \pending{C3 and C4.}
+on (C2). After the audit, no arm kept an invalid run: none of the 150 that
+would have been kept without the gate, an exact one-sided 95\% upper bound of
+2.0\% on the rate at which an invalid run survives (3.9\% per campaign, since
+the arms share a fault plan). \pending{C3 and C4.}
 
 \subsection{Recovery policies}
 \begin{figure*}[t]
