@@ -318,6 +318,18 @@ bumpers ignore, and a real crash overlaps by 7 m² (`diag/s1_010`); the
 threshold is 0.25 m², set after seeing those slivers. Recalibrated: 0 false of
 256 clean runs, 6/6 silent faults.
 
+Plan faults (g2: 4 lateral bias 1.0 m, 4 plan freeze, 2 clean; two scenes),
+6 Oct. The gate kept all 10: the motion is possible. The Auditor with configs
+hidden caught 0/8 with one reference and with a reference per scene
+(`plan_audit_eval_without_handoff.txt`): it is told not to flag bad driving,
+and a corrupted plan looks like bad driving. The plan-handoff bound (median
+sideways gap between the driver's plan and the controller's, after the
+warm-up) separates them: clean runs 0 to 0.008 m over 258 runs, plan faults
+0.14 to 1.0 m (`physics_calibration.txt`). Given that number in `physics.txt`,
+the Auditor caught 4/8 with one reference (all lateral bias) and 8/8 with a
+reference per scene, with no false flag (`plan_audit_eval.txt`). The plan
+freeze shows only against a reference from the same scene.
+
 Found on the way: the runtime retries a failed rollout inside one run
 (`diag/s1_059` holds three rollouts, one complete). Neither the gate nor the
 loop sees these retries; a scene that crashes is retried until it does not.

@@ -1,20 +1,48 @@
 {
  "one reference": {
-  "flags": {},
-  "caught": [],
+  "flags": {
+   "g2_006": "runs/r01/physics.txt median_plan_handoff_m: 1.000. The plan the controller received was shifted 1 m sideways from the plan VaVAM returned, where untouched runs show 0.00\u20130.21, so this is not the nominal closed loop the label claims. After the warm-up the ego leaves the recording with a sustained yaw rate of about 0.4\u20130.6 rad/s.",
+   "g2_008": "runs/r04/physics.txt median_plan_handoff_m: 1.000. The plan was altered by a fixed 1 m between driver and controller, against 0.00\u20130.21 in the untouched runs and the reference run r03, so the metrics do not measure VaVAM's own plan.",
+   "g2_003": "runs/r06/physics.txt median_plan_handoff_m: 1.000. The plan handed to the MPC was shifted 1 m from the driver's output. Off-recording distance grows to 35 m with yaw rate up to 1.37 rad/s, and tracking_error is 7.0 against 1.2\u20131.9 for the same scene, so the motion is not the policy's nominal plan.",
+   "g2_001": "runs/r07/physics.txt median_plan_handoff_m: 1.000. The plan was altered by 1 m between driver and controller (yaw rate up to 1.43 rad/s, tracking_error 6.91), so the run is not the nominal closed loop the batch claims."
+  },
+  "caught": [
+   "g2_001",
+   "g2_003",
+   "g2_006",
+   "g2_008"
+  ],
   "by_kind": {
-   "lateral_bias": 0,
+   "lateral_bias": 4,
    "plan_freeze": 0
   },
   "clean_flagged": [],
   "refs_flagged": []
  },
  "a reference per scene": {
-  "flags": {},
-  "caught": [],
+  "flags": {
+   "g2_001": "runs/r03/physics.txt median_plan_handoff_m: 1.000 (clean runs r02/r05/r07/r08 are 0.000), so the plan was moved sideways before reaching the controller; yaw rate reached 1.432 rad/s and max_speed_report_error 0.334 vs 0.069 in clean runs of the same scene, so the motion is not VaVAM's plan tracked by the MPC.",
+   "g2_003": "runs/r09/physics.txt median_plan_handoff_m: 1.000 (clean runs 0.000), with max_abs_yaw_rate 1.369 and max_speed_report_error 0.320 vs 0.069 for clean runs of scene 023b7fcc, so the plan given to the controller was altered.",
+   "g2_006": "runs/r06/physics.txt median_plan_handoff_m: 1.000 (clean runs 0.000), and the yaw rate jumps to 0.25-0.64 rad/s right after the 4.5 s warm-up, while the clean runs on scene 01d503d4 stay under 0.06; the plan was altered on its way to the controller.",
+   "g2_008": "runs/r10/physics.txt median_plan_handoff_m: 1.000 (clean runs 0.000), with max_abs_yaw_rate 0.869 and max_speed_report_error 0.266 vs 0.020 for clean runs of scene 01d503d4, so the plan was altered before the controller.",
+   "g2_004": "runs/r01/physics.txt median_plan_handoff_m: 0.141 while untouched runs are exactly 0.000, so something changed the plan between driver and controller; after the warm-up the ego brakes to 0.00 m/s by t=11 s, while the references hold about 2.1 m/s on the same scene.",
+   "g2_002": "runs/r11/physics.txt median_plan_handoff_m: 0.142 (untouched runs 0.000), and the speed profile is nearly identical to r01, braking to 0.03 m/s after the warm-up, unlike references r05/r07; the plan the controller tracked was not the driver's.",
+   "g2_009": "runs/r04/physics.txt median_plan_handoff_m: 0.211 (untouched runs 0.000), and after the warm-up the ego decelerates (-0.91 m/s\u00b2 at 5.7 s), while reference r02 and r08 accelerate to about 6 m/s on the same scene; the plan was modified before the controller.",
+   "g2_007": "runs/r12/physics.txt median_plan_handoff_m: 0.140 (untouched runs 0.000), and its profile after the warm-up matches r04 (decelerating; frac_on_recording 0.434 vs 0.410) rather than references r02/r08; the plan was modified before the controller."
+  },
+  "caught": [
+   "g2_001",
+   "g2_002",
+   "g2_003",
+   "g2_004",
+   "g2_006",
+   "g2_007",
+   "g2_008",
+   "g2_009"
+  ],
   "by_kind": {
-   "lateral_bias": 0,
-   "plan_freeze": 0
+   "lateral_bias": 4,
+   "plan_freeze": 4
   },
   "clean_flagged": [],
   "refs_flagged": []

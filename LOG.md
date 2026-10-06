@@ -56,3 +56,4 @@ Append one line when a board row changes state. Newest at the bottom.
 - 2026-10-06 — L13 started: paper draft v0, `paper/main.tex` with `refs.bib` (unverified entries marked) and figures. Overleaf-ready; LaTeX is not installed on this machine.
 - 2026-10-06 — Figure 1 drawn (`harness/plot_architecture.py`) and placed in the draft. Hidden rollout retries: 1 of 496 kept runs (s1_059); `analyze.py` now records `rollout_attempts`. Plan-handoff unit test added.
 - 2026-10-06 — The monitor now records the machine before stopping a timed-out run; the hang evidence (a paused container) used to vanish before the diagnosis. Campaign report adds the first skill per fault kind and call times. Applies to C3's model arms.
+- 2026-10-06 — Auditor given the plan-handoff number: config-blind plan faults 0/8 → 4/8 (one reference) and 8/8 (a reference per scene), 0 false flags.

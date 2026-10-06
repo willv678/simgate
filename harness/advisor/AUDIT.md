@@ -30,7 +30,9 @@ Read-only tools (Read, Grep, Glob) on the working directory, and nothing else:
   0.5 s. Summary metrics can look normal while the motion is impossible or is
   not the policy's; check the motion against what a car can do and against the
   other runs. The first seconds of every run follow the recording by design
-  (the warm-up).
+  (the warm-up). `median_plan_handoff_m` is the median sideways distance, after
+  the warm-up, between the plan the driver returned and the plan the controller
+  was given; in a run where nothing touched the plan it is about 0.
 
 ## What to flag
 
