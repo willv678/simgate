@@ -12,17 +12,19 @@ checks after a batch (the Auditor). Admitted checks join the Gate (the
 Rulebook). An exhaustive search over every answer the model could give (the
 Verifier) shows none of them breaks the Gate.
 
-![Invalid runs kept](figures/invalid_kept.png)
+![Invalid runs kept](figures/campaign_invalid.png)
 
-*Pilot fault campaign: invalid runs kept in the dataset with no checks, with the
-per-run Gate, and with the Gate plus the Auditor.*
+*Fault-injection campaigns C1 (physics checks off) and C2 (on), three policies
+each, 50 runs per policy: invalid runs that would be kept with no checks, with
+the per-run Gate, and with the Gate plus the Auditor. 0 after the audit in all
+six arms.*
 
 | Start here | For |
 |---|---|
 | [`GUIDE.md`](GUIDE.md) | the whole project with diagrams and results |
 | [`harness/README.md`](harness/README.md) | the code, safety model, and quickstart |
 | [`FACTS.md`](FACTS.md) | every measurement and where it came from |
-| [`OUTLINE.md`](OUTLINE.md) | the IEEE IV 2027 paper plan |
+| [`OUTLINE.md`](OUTLINE.md), [`paper/`](paper/) | the IEEE IV 2027 paper plan and draft |
 
 ---
 

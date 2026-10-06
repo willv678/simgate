@@ -2699,3 +2699,7 @@ queued 50 runs in research/harness/c3_agent_queue
 007_c3a_007.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
 007_c3a_007.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "054_c3a_007_a2.json", "cleanup": null}
 008_c3a_008.json: READY -> run_experiment.py {"pid": 669692, "run_dir": "diag/c3a_008"}
+008_c3a_008.json: RUNNING -> monitor.py {"timed_out": false, "minutes": 4.0}
+008_c3a_008.json: COMPLETE -> analyze.py {"appended": true}
+008_c3a_008.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+009_c3a_009.json: READY -> run_experiment.py {"pid": 697930, "run_dir": "diag/c3a_009"}
