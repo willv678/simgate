@@ -1,0 +1,147 @@
+"""Rule-guided search: the candidate runs a round may choose from.
+
+Each round, rules turn the kept runs so far into a ranked list of candidate
+runs. The `rules` proposer takes the best of them in order, no model; the
+`hybrid` proposer shows them to Claude, which may choose only among them (any
+other run is dropped before it is queued). Claude decides the order and the
+mix; the rules decide what is legal to try, so the search cannot wander off.
+
+The rules, per scene:
+- bracket goal: the next bisection probe (baselines.next_probe);
+- otherwise, from the scene's most critical setting so far (outer.criticality):
+  repeat it until its failure rate is surely above the goal's `high_min`
+  (confirm), and step each varied knob one notch either way from it
+  (escalate, or back off to find the edge); a scene never tried gets its first
+  probe at the middle of every knob's range;
+- a scene already confirmed challenging is left alone when a top_k goal wants
+  distinct scenes.
+Scores: confirming a near-failure first, then steps from the most critical
+settings, then first probes.
+"""
+
+from baselines import next_probe
+from goals import goal_cells
+from knobs import SCENARIO, UNVARIED
+
+DEFAULT_HIGH_MIN = 0.5
+
+
+def _key(run: dict, varied: tuple) -> tuple:
+    return (run["scene_id"], *(run[knob] for knob in varied))
+
+
+def _setting(
+    scene: str, values: dict, varied: tuple, reason: str, score: float
+) -> dict:
+    return {
+        "scene_id": scene,
+        **{knob: values[knob] for knob in varied},
+        "reason": reason,
+        "score": round(score, 3),
+    }
+
+
+def _neighbours(values: dict, varied: tuple) -> list[dict]:
+    found = []
+    for knob in varied:
+        grid = SCENARIO[knob]
+        index = grid.index(values[knob])
+        for step in (-1, 1):
+            if 0 <= index + step < len(grid):
+                found.append({**values, knob: grid[index + step]})
+    return found
+
+
+def candidates(
+    scenes: list[str], table: list[dict], goal: dict | None, varied: tuple
+) -> list[dict]:
+    """Ranked candidate runs, best first, each with its reason and score."""
+    if goal is not None and goal["type"] == "bracket":
+        cells = goal_cells(table, goal["knob"], varied)
+        found = []
+        for scene in scenes:
+            value = next_probe(scene, cells, goal)
+            if value is not None:
+                values = {**{k: UNVARIED[k] for k in varied}, goal["knob"]: value}
+                found.append(
+                    _setting(scene, values, varied, "next bisection probe", 1.0)
+                )
+        return found
+
+    high_min = goal["high_min"] if goal and "high_min" in goal else DEFAULT_HIGH_MIN
+    distinct = bool(goal and goal["type"] == "top_k" and goal["distinct_scenes"])
+    tried = {}
+    for row in table:
+        tried.setdefault(row["scene_id"], []).append(row)
+    found = []
+    for scene in scenes:
+        rows = tried.get(scene, [])
+        if not rows:
+            middle = {k: SCENARIO[k][len(SCENARIO[k]) // 2] for k in varied}
+            found.append(
+                _setting(
+                    scene, middle, varied, "first probe, middle of every knob", 0.3
+                )
+            )
+            continue
+        if distinct and any(r["failure_rate_90"][0] > high_min for r in rows):
+            continue
+        best = max(rows, key=lambda r: (r["criticality"], r["failure_rate_90"][0]))
+        values = {k: best[k] for k in varied}
+        if best["criticality"] >= 0.5 and best["failure_rate_90"][0] <= high_min:
+            found.append(
+                _setting(
+                    scene,
+                    values,
+                    varied,
+                    f"confirm {best['id']}: near failure, not yet sure",
+                    0.6 + 0.4 * best["criticality"],
+                )
+            )
+        seen = {_key(r, varied) for r in rows}
+        for step in _neighbours(values, varied):
+            if (scene, *(step[k] for k in varied)) not in seen:
+                found.append(
+                    _setting(
+                        scene,
+                        step,
+                        varied,
+                        f"one notch from {best['id']}, the scene's most critical",
+                        0.1 + 0.5 * best["criticality"],
+                    )
+                )
+    found.sort(key=lambda c: -c["score"])
+    return found
+
+
+def rules_proposals(
+    scenes: list[str], count: int, table: list[dict], goal: dict | None, varied: tuple
+) -> dict:
+    """The best `count` candidates, one scene at a time in turn so no scene
+    takes the whole round; candidates repeat when there are too few."""
+    ranked = candidates(scenes, table, goal, varied)
+    if not ranked:
+        return {"plan": "rules: nothing left to try", "runs": []}
+    by_scene = {}
+    for c in ranked:
+        by_scene.setdefault(c["scene_id"], []).append(c)
+    order = []
+    while len(order) < len(ranked):
+        for queue in by_scene.values():
+            if queue:
+                order.append(queue.pop(0))
+    picks = [order[i % len(order)] for i in range(count)]
+    return {
+        "plan": f"rules: {len(ranked)} candidates",
+        "runs": [
+            {**{k: c[k] for k in ("scene_id", *varied)}, "why": c["reason"]}
+            for c in picks
+        ],
+    }
+
+
+def outside(run: dict, ranked: list[dict], varied: tuple) -> str | None:
+    """Why a hybrid proposal is not among the round's candidates, or None."""
+    if _key(run, varied) in {_key(c, varied) for c in ranked}:
+        return None
+    return "not one of this round's rule candidates"

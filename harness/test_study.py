@@ -53,6 +53,7 @@ def test_results_count_kept_runs_only_per_setting():
             "planner_delay_us": 0,
             "verdict": "kept",
             "failed": False,
+            "criticality": 0.0,
         },
         {
             "run": "s_002",
@@ -60,6 +61,7 @@ def test_results_count_kept_runs_only_per_setting():
             "planner_delay_us": 0,
             "verdict": "kept",
             "failed": True,
+            "criticality": 1.0,
         },
         {
             "run": "s_003",
@@ -73,6 +75,7 @@ def test_results_count_kept_runs_only_per_setting():
             "planner_delay_us": 100_000,
             "verdict": "kept",
             "failed": True,
+            "criticality": 1.0,
         },
     ]
     table = results(rows, ("planner_delay_us",))

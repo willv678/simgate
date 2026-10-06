@@ -9,7 +9,9 @@ SCENES = {"clipgt-a", "clipgt-b"}
 
 
 def _runs(scene, delay, failed, passed, start=0):
-    rows = [{"failed": True}] * failed + [{"failed": False}] * passed
+    rows = [{"failed": True, "criticality": 1.0}] * failed + [
+        {"failed": False, "criticality": 0.0}
+    ] * passed
     return [
         {
             "run": f"r{start + i}",
@@ -143,3 +145,19 @@ def test_grid_sweeps_every_scene_at_every_value_in_order():
     ]
     wrap = grid_proposals(["clipgt-a"], 1, len(DELAYS_US), BRACKET, DELAY)["runs"]
     assert wrap[0]["planner_delay_us"] == 0
+
+
+def test_top_k_counts_settings_surely_failing_one_per_scene():
+    top2 = {"type": "top_k", "k": 2, "high_min": 0.5, "distinct_scenes": True}
+    same_scene = _status(
+        top2, _runs("clipgt-a", 100_000, 5, 0), _runs("clipgt-a", 150_000, 5, 0, 10)
+    )
+    assert not same_scene["met"]  # two settings, but one scene
+    two_scenes = _status(
+        top2, _runs("clipgt-a", 100_000, 5, 0), _runs("clipgt-b", 150_000, 5, 0, 10)
+    )
+    assert two_scenes["met"] and len(two_scenes["settings"]) == 2
+    unsure = _status(
+        top2, _runs("clipgt-a", 100_000, 1, 0), _runs("clipgt-b", 150_000, 1, 0, 10)
+    )
+    assert not unsure["met"]  # single failures are not yet sure

@@ -49,6 +49,10 @@ setting can pass once and fail the next time, so rates need repeats.
     high_min < 1`. With 90% ranges, a setting needs about 5 clean runs to lie
     below 0.4 and 5 failures to lie above 0.6, so choose thresholds the budget
     can reach.
+  - `{"type": "top_k", "k", "high_min", "distinct_scenes"}`: find the k
+    most challenging settings: k settings whose failure rate is surely above
+    `high_min` (0.5 to below 1), one per scene when `distinct_scenes`. For
+    briefs that ask for the hardest or most critical cases.
   - `{"type": "none"}`: the brief has no checkable win condition; the study
     runs its whole budget.
   The goal's scenes and knob must be the plan's; its values legal ones.

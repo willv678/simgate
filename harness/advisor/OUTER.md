@@ -38,6 +38,13 @@ with its front or side, or left the road.
   also reports how far the ego was from the recorded trajectory when it
   failed; `possible_artifacts` counts failures so far off it (or with black
   frames) that the simulator's rendering, not the policy, may be to blame.
+- `candidates` (hybrid studies only): the runs rules allow this round, each
+  with a `reason` and a `score` (higher means the rules rank it more useful:
+  confirm a near-failure, step from the most critical setting, first probe of
+  a scene). Choose only among them, in any mix and with repeats; a run that is
+  not a candidate is dropped. Each run's criticality (1 for a failure, up to
+  0.9 for a near miss) and each setting's mean criticality are in `history`
+  and `summary`.
 - `goal` and `goal_status`: the study's win condition, which code checks
   after every round, and where it stands (null when the study has none). The
   study stops when it is met, so spend runs on what it still lacks.

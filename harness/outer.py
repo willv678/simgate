@@ -9,7 +9,14 @@ are evidence. Proposers:
   given the candidates, the legal delays, and the study's history;
 - random: uniform over candidates and delays;
 - grid and bisect: the status-quo sweep and a scripted binary search
-  (baselines.py), for comparison.
+  (baselines.py), for comparison;
+- lhs, optuna, ga: Latin-hypercube sampling, Bayesian optimisation (Optuna
+  TPE; launch with `uv run --with optuna`) and a genetic algorithm, the last two
+  maximising per-run criticality (baselines.py);
+- rules: rule-guided search alone (guided.py): confirm near-failures, step
+  from the most critical settings;
+- hybrid: Claude chooses among the rules' candidates only; any other run is
+  dropped.
 
 The study: how a scene's failure rate changes with the scenario knobs it
 varies (`--vary`, from knobs.SCENARIO; planner delay by default). A run failed if
@@ -38,9 +45,16 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from baselines import bisect_proposals, grid_proposals
+from baselines import (
+    bisect_proposals,
+    ga_proposals,
+    grid_proposals,
+    lhs_proposals,
+    optuna_proposals,
+)
 from enqueue import RUN_ROOT, add, new_entry
 from goals import goal_status
+from guided import candidates, outside, rules_proposals
 from headless import ask
 from knobs import DESCRIPTIONS, SCENARIO, rejection, run_config
 from read_state import ROOT, load_entry, queue_entries
@@ -53,6 +67,8 @@ SCENE_FACTS = HARNESS / "scene_facts.json"
 # About one lane width. Beyond it the reconstruction renders the ego's view
 # from further off the recording car's path than it was built from.
 FAR_FROM_RECORDING_M = 3.5
+# Closest approach below which a run that did not fail counts as a near miss.
+NEAR_MISS_M = 5.0
 FAILURE_METRICS = ("collision_front", "collision_lateral", "offroad")
 TYPES = {
     "planner_delay_us": "integer",
@@ -111,6 +127,9 @@ def outcome(run_dir: Path) -> dict:
         ),
         "progress": round(float(peak["progress"]), 2),
     }
+    found["criticality"] = criticality(
+        found["failed"], found["min_distance_to_obstacle_m"]
+    )
     if found["failed"]:
         hits = metrics[metrics["name"].isin(FAILURE_METRICS) & (metrics["values"] > 0)]
         when = hits["timestamps_us"].min()
@@ -125,6 +144,15 @@ def outcome(run_dir: Path) -> dict:
             "possible_artifact": off > FAR_FROM_RECORDING_M or black,
         }
     return found
+
+
+def criticality(failed: bool, min_distance_m: float) -> float:
+    """How close a run came to failing, in [0, 1]: 1 for a failure; otherwise
+    the closest approach to another actor, 0.9 at contact falling linearly to 0
+    at NEAR_MISS_M. Ranks settings by how challenging they are."""
+    if failed:
+        return 1.0
+    return round(0.9 * max(0.0, 1.0 - min_distance_m / NEAR_MISS_M), 3)
 
 
 def rate_range(failed: int, runs: int, z: float = 1.645) -> tuple[float, float]:
@@ -159,6 +187,9 @@ def results(rows: list[dict], varied: tuple) -> list[dict]:
                 "failure_rate_90": rate_range(failed, len(runs)),
                 "possible_artifacts": sum(
                     run.get("possible_artifact", False) for run in runs
+                ),
+                "criticality": round(
+                    sum(run["criticality"] for run in runs) / len(runs), 3
                 ),
                 "run_names": [run["run"] for run in runs],
             }
@@ -202,7 +233,7 @@ def scene_facts() -> list[dict]:
     return found
 
 
-def candidates(count: int) -> list[dict]:
+def first_scenes(count: int) -> list[dict]:
     """The first `count` scenes S1 kept, with what S1 showed at 0 delay."""
     return scene_facts()[:count]
 
@@ -289,7 +320,7 @@ def pilot(name: str, candidate_count: int, varied: tuple, **settings) -> Study:
         trace=HARNESS / f"{name}_trace.jsonl",
         rounds_file=HARNESS / f"{name}_rounds.jsonl",
         objective=objective(varied),
-        candidates=candidates(candidate_count),
+        candidates=first_scenes(candidate_count),
         varied=varied,
         **settings,
     )
@@ -373,10 +404,37 @@ def run_study(study: Study) -> list[dict]:
                 study.goal,
                 study.varied,
             )
-        else:
+        elif study.proposer == "bisect":
             answer = bisect_proposals(
                 scenes, study.per_round, state["summary"], study.goal, study.varied
             )
+        elif study.proposer == "lhs":
+            answer = lhs_proposals(
+                scenes,
+                study.per_round,
+                len(planned(study.queue)),
+                study.varied,
+                study.seed,
+            )
+        elif study.proposer == "optuna":
+            answer = optuna_proposals(
+                scenes, study.per_round, past, study.varied, study.seed
+            )
+        elif study.proposer == "ga":
+            answer = ga_proposals(
+                scenes, study.per_round, past, study.varied, study.seed
+            )
+        elif study.proposer == "rules":
+            answer = rules_proposals(
+                scenes, study.per_round, state["summary"], study.goal, study.varied
+            )
+        elif study.proposer == "hybrid":
+            ranked = candidates(scenes, state["summary"], study.goal, study.varied)
+            answer, call = llm_proposals(
+                {**state, "candidates": ranked}, study.varied, study.model
+            )
+        else:
+            raise SystemExit(f"unknown proposer {study.proposer!r}")
 
         queued, dropped = [], []
         for index, proposed in enumerate(answer["runs"]):
@@ -385,6 +443,8 @@ def run_study(study: Study) -> list[dict]:
                 if index >= study.per_round
                 else rejection(proposed, set(scenes), study.varied)
             )
+            if why_not is None and study.proposer == "hybrid":
+                why_not = outside(proposed, ranked, study.varied)
             if why_not:
                 dropped.append({**proposed, "dropped": why_not})
                 continue

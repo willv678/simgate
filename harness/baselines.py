@@ -6,14 +6,33 @@
   search over the knob's values: probe the middle of the range still open,
   and repeat a probed value until its 90% range says surely low or surely
   high (goals.py), then move on. A settled scene gets no more runs.
+- lhs: a Latin hypercube over the scene and every varied knob, one per round.
+  Each dimension is cut into as many equal strata as the round has runs, each
+  stratum is used once, and its midpoint is snapped to the scene or legal
+  value it falls on, so every round covers each knob's range evenly.
+- optuna: Bayesian optimisation (Optuna's TPE) of the criticality of a run,
+  with the scene and each varied knob categorical over its legal values.
+- ga: a genetic algorithm over the kept runs: tournament selection by
+  criticality, uniform crossover of the scene and knob values, and mutation to
+  a neighbouring legal value or another scene.
 
-Both read only what Claude's proposer reads: the kept runs so far. Neither
-reads the brief; each is written for one kind of question, which is what the
+optuna and ga maximise the "criticality" of each kept run of the history
+(outer.history), a score in [0, 1], higher being more critical. Both rebuild
+their state from that history every round and are seeded from the study's
+seed and the history's length, so a round's proposals depend only on what is
+in the queue.
+
+All read only what Claude's proposer reads: the kept runs so far. None reads
+the brief; each is written for one kind of question, which is what the
 comparison is about.
 """
 
+import random
+
 from goals import goal_cells
 from knobs import SCENARIO, UNVARIED
+
+TOURNAMENT = 3
 
 
 def _knob(goal: dict | None, varied: tuple) -> str:
@@ -84,4 +103,110 @@ def bisect_proposals(
     return {
         "plan": f"bisect: {len(probes)} scenes still open",
         "runs": [_run(s, goal["knob"], v, varied, "bisect") for s, v in picks],
+    }
+
+
+def lhs_proposals(
+    scenes: list[str], count: int, done: int, varied: tuple, seed: int
+) -> dict:
+    """`count` runs forming one Latin hypercube, after the `done` already
+    proposed. Run i takes, in each dimension, the midpoint of stratum
+    order[i] of `count`; the orders are shuffled from the seed and `done`."""
+    rng = random.Random(seed * 1000 + done)
+    dimensions = {"scene_id": scenes, **{knob: SCENARIO[knob] for knob in varied}}
+    columns = {}
+    for name, values in dimensions.items():
+        order = rng.sample(range(count), count)
+        columns[name] = [
+            values[int((stratum + 0.5) / count * len(values))] for stratum in order
+        ]
+    return {
+        "plan": f"lhs: one {count}-run Latin hypercube over the scene and "
+        + ", ".join(varied),
+        "runs": [
+            {**{name: column[i] for name, column in columns.items()}, "why": "lhs"}
+            for i in range(count)
+        ],
+    }
+
+
+def _kept(history: list[dict]) -> list[dict]:
+    return [row for row in history if row["verdict"] == "kept"]
+
+
+def optuna_proposals(
+    scenes: list[str], count: int, history: list[dict], varied: tuple, seed: int
+) -> dict:
+    """`count` runs asked of a TPE study told every kept run's criticality."""
+    # optuna is not a workspace dependency: run with `uv run --with optuna`.
+    import optuna
+
+    optuna.logging.set_verbosity(optuna.logging.WARNING)
+    space = {
+        "scene_id": optuna.distributions.CategoricalDistribution(scenes),
+        **{
+            knob: optuna.distributions.CategoricalDistribution(SCENARIO[knob])
+            for knob in varied
+        },
+    }
+    sampler = optuna.samplers.TPESampler(seed=seed * 1000 + len(history))
+    study = optuna.create_study(direction="maximize", sampler=sampler)
+    kept = _kept(history)
+    study.add_trials(
+        [
+            optuna.trial.create_trial(
+                params={name: row[name] for name in space},
+                distributions=space,
+                value=row["criticality"],
+            )
+            for row in kept
+        ]
+    )
+    trials = [study.ask(space) for _ in range(count)]
+    return {
+        "plan": f"optuna: TPE over the scene and {', '.join(varied)}, "
+        f"told {len(kept)} kept runs",
+        "runs": [{**trial.params, "why": "optuna"} for trial in trials],
+    }
+
+
+def _parent(kept: list[dict], rng: random.Random) -> dict:
+    """The most critical of TOURNAMENT kept runs drawn at random."""
+    entrants = rng.sample(kept, min(TOURNAMENT, len(kept)))
+    return max(entrants, key=lambda row: row["criticality"])
+
+
+def _mutate(name: str, value, scenes: list[str], rng: random.Random):
+    """Another scene, or a legal value next to `value`."""
+    if name == "scene_id":
+        return rng.choice([scene for scene in scenes if scene != value])
+    values = SCENARIO[name]
+    index = values.index(value)
+    neighbours = [values[i] for i in (index - 1, index + 1) if 0 <= i < len(values)]
+    return rng.choice(neighbours)
+
+
+def ga_proposals(
+    scenes: list[str], count: int, history: list[dict], varied: tuple, seed: int
+) -> dict:
+    """`count` children of the kept runs. Until two runs are kept there is
+    nothing to breed, and the round is a Latin hypercube instead."""
+    kept = _kept(history)
+    if len(kept) < 2:
+        return lhs_proposals(scenes, count, len(history), varied, seed)
+    rng = random.Random(seed * 1000 + len(history))
+    genes = ("scene_id", *varied) if len(scenes) > 1 else varied
+    runs = []
+    for _ in range(count):
+        mother, father = _parent(kept, rng), _parent(kept, rng)
+        child = {
+            name: rng.choice((mother, father))[name] for name in ("scene_id", *varied)
+        }
+        for name in genes:
+            if rng.random() < 1 / len(genes):
+                child[name] = _mutate(name, child[name], scenes, rng)
+        runs.append({**child, "why": "ga"})
+    return {
+        "plan": f"ga: {count} children of {len(kept)} kept runs, by criticality",
+        "runs": runs,
     }

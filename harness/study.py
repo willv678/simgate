@@ -68,7 +68,13 @@ PLAN_SCHEMA = {
         "goal": {
             "type": "object",
             "properties": {
-                "type": {"type": "string", "enum": ["separate", "bracket", "none"]},
+                "type": {
+                    "type": "string",
+                    "enum": ["separate", "bracket", "top_k", "none"],
+                },
+                "k": {"type": "integer"},
+                "distinct_scenes": {"type": "boolean"},
+                "max_gap": {"type": "number"},
                 "scene": {"type": "string"},
                 "scenes": {"type": "array", "items": {"type": "string"}},
                 "knob": {"type": "string"},
@@ -309,7 +315,17 @@ def main() -> int:
     parser.add_argument("--model", default=MODEL)
     parser.add_argument(
         "--proposer",
-        choices=("llm", "grid", "bisect", "random"),
+        choices=(
+            "llm",
+            "hybrid",
+            "rules",
+            "grid",
+            "bisect",
+            "random",
+            "lhs",
+            "optuna",
+            "ga",
+        ),
         default="llm",
         help="who picks the runs; baselines run the same plan in <study>/<proposer>/",
     )
