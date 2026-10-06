@@ -39,6 +39,10 @@ return can.
 - `attempt`, `max_attempts`: launches used in this lineage, and the cap.
 - `error_lines`: up to 15 distinct error lines from the wizard console log, in
   order. Empty when the run was never launched.
+- `machine_at_timeout`: when the run hit its timeout (exit code 124), the
+  containers, networks, GPU and disk as they were just before the run was
+  stopped. Stopping a run removes its containers, so this is the only record of
+  what they were doing. Null otherwise.
 
 ## Skills
 

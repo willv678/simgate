@@ -100,6 +100,13 @@ def exit_file(entry: dict) -> Path:
     return path.parent / f"{path.name}_exit_code"
 
 
+def timeout_machine_file(entry: dict) -> Path:
+    """The machine as monitor.py saw it when it timed the run out, before it
+    stopped the run; stopping it removes the evidence (a paused container)."""
+    path = run_dir(entry)
+    return path.parent / f"{path.name}_timeout_machine.txt"
+
+
 def preflight_config(config: dict) -> dict:
     """The dict preflight.py checks, built from a queue config.
 

@@ -449,5 +449,98 @@
   },
   "complete": true,
   "minutes": 257.1
+ },
+ "skills_chosen": {
+  "script": {
+   "skills": {
+    "kill": {
+     "RE-RUN": 10
+    },
+    "corrupt_metrics": {
+     "RE-RUN": 10
+    },
+    "hang": {
+     "RE-RUN": 10
+    },
+    "drop_delay": {
+     "RE-RUN": 10
+    },
+    "fill_network_pool": {
+     "CLEANUP_ENV": 10
+    },
+    "delete_metrics": {
+     "RE-RUN": 10
+    },
+    "rails": {
+     "RE-RUN": 5
+    },
+    "kinematic": {
+     "RE-RUN": 5
+    }
+   },
+   "median_call_s": null
+  },
+  "agent": {
+   "skills": {
+    "kill": {
+     "RE-RUN": 10
+    },
+    "corrupt_metrics": {
+     "RE-RUN": 10
+    },
+    "hang": {
+     "CONFIGURE": 7,
+     "RESTART_CLEANUP": 3
+    },
+    "drop_delay": {
+     "HALT": 10
+    },
+    "fill_network_pool": {
+     "CLEANUP_ENV": 10
+    },
+    "delete_metrics": {
+     "RE-RUN": 10
+    },
+    "rails": {
+     "HALT": 5
+    },
+    "kinematic": {
+     "HALT": 1,
+     "RE-RUN": 1
+    }
+   },
+   "median_call_s": 12.5
+  },
+  "model": {
+   "skills": {
+    "kill": {
+     "RESTART_CLEANUP": 10
+    },
+    "corrupt_metrics": {
+     "HALT": 9,
+     "RESTART_CLEANUP": 1
+    },
+    "hang": {
+     "CONFIGURE": 8,
+     "RESTART_CLEANUP": 2
+    },
+    "drop_delay": {
+     "HALT": 10
+    },
+    "fill_network_pool": {
+     "CLEANUP_ENV": 10
+    },
+    "delete_metrics": {
+     "HALT": 10
+    },
+    "rails": {
+     "HALT": 5
+    },
+    "kinematic": {
+     "HALT": 4
+    }
+   },
+   "median_call_s": 8.9
+  }
  }
 }

@@ -112,6 +112,24 @@ def arm_report(campaign: str, arm: str) -> dict:
     }
 
 
+def skills_chosen(campaigns: tuple, arm: str) -> dict:
+    """First diagnosis of each faulted lineage: the skill chosen, per fault kind."""
+    chosen = defaultdict(Counter)
+    durations = []
+    for campaign in campaigns:
+        for chain in lineages(HARNESS / f"{campaign}_{arm}_queue"):
+            first = next((e for e in chain if e["diagnosis"] is not None), None)
+            if first is None or chain[0]["fault"] is None:
+                continue
+            chosen[chain[0]["fault"]["kind"]][str(first["diagnosis"]["skill"])] += 1
+            if "duration_ms" in first["diagnosis"]:
+                durations.append(first["diagnosis"]["duration_ms"] / 1000)
+    return {
+        "skills": {kind: dict(c) for kind, c in chosen.items()},
+        "median_call_s": round(sorted(durations)[len(durations) // 2], 1) if durations else None,
+    }
+
+
 def physics_after_the_fact(campaign: str, arm: str, bounds: dict) -> dict:
     """The physics bounds on every run C1 kept: silent faults and clean runs."""
     caught = Counter()
@@ -175,6 +193,14 @@ def main() -> int:
             )
         else:
             lines.append(f"{key}\tlive physics failures {r['physics_failures']}")
+    lines.append("")
+    lines.append("first skill chosen per fault kind, C1 and C2 together (median seconds per model call):")
+    choices = {arm: skills_chosen(("c1", "c2"), arm) for arm in ARMS}
+    for arm in ARMS:
+        lines.append(f"{NAMES[arm]} (median call {choices[arm]['median_call_s']} s)")
+        for kind, counts in sorted(choices[arm]["skills"].items()):
+            lines.append(f"  {kind}\t{json.dumps(counts)}")
+    report["skills_chosen"] = choices
     OUTPUT.write_text(json.dumps(report, indent=1) + "\n")
     TABLE.write_text("\n".join(lines) + "\n")
     print(TABLE.read_text())

@@ -47,6 +47,7 @@ from read_state import (
     read_state,
     run_dir,
     save_entry,
+    timeout_machine_file,
 )
 from skills import Skill
 
@@ -127,6 +128,11 @@ def failure_status(entry: dict, k_status: str) -> dict:
         "attempt": entry["attempt"],
         "max_attempts": MAX_ATTEMPTS,
         "error_lines": error_lines(console_log(entry)),
+        "machine_at_timeout": (
+            timeout.read_text(encoding="utf-8")
+            if (timeout := timeout_machine_file(entry)).is_file()
+            else None
+        ),
     }
 
 

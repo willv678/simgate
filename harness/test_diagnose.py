@@ -53,3 +53,14 @@ def test_error_lines_empty_when_never_launched(tmp_path: Path):
 def test_script_policy(k_status, attempt, skill, params):
     status = {"k_status": k_status, "attempt": attempt}
     assert script_diagnosis(status) == {"skill": skill, "params": params}
+
+
+def test_status_carries_the_machine_recorded_at_timeout(make_run):
+    from diagnose import failure_status
+    from read_state import timeout_machine_file
+
+    entry = make_run("r", exit_code=124, metrics=False)
+    assert failure_status(entry, "wizard_exit_code: 124")["machine_at_timeout"] is None
+    timeout_machine_file(entry).write_text("r-runtime-0-1\tUp 9 minutes (Paused)\n")
+    status = failure_status(entry, "wizard_exit_code: 124")
+    assert "(Paused)" in status["machine_at_timeout"]

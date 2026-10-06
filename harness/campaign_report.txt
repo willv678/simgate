@@ -24,3 +24,32 @@ c1_model	silent caught 7/10	other runs flagged 0/25
 c2_script	live physics failures {'silent': 10, 'other': 1}
 c2_agent	live physics failures {'silent': 7}
 c2_model	live physics failures {'silent': 9}
+
+first skill chosen per fault kind, C1 and C2 together (median seconds per model call):
+script (median call None s)
+  corrupt_metrics	{"RE-RUN": 10}
+  delete_metrics	{"RE-RUN": 10}
+  drop_delay	{"RE-RUN": 10}
+  fill_network_pool	{"CLEANUP_ENV": 10}
+  hang	{"RE-RUN": 10}
+  kill	{"RE-RUN": 10}
+  kinematic	{"RE-RUN": 5}
+  rails	{"RE-RUN": 5}
+tier 1 (median call 12.5 s)
+  corrupt_metrics	{"RE-RUN": 10}
+  delete_metrics	{"RE-RUN": 10}
+  drop_delay	{"HALT": 10}
+  fill_network_pool	{"CLEANUP_ENV": 10}
+  hang	{"CONFIGURE": 7, "RESTART_CLEANUP": 3}
+  kill	{"RE-RUN": 10}
+  kinematic	{"HALT": 1, "RE-RUN": 1}
+  rails	{"HALT": 5}
+tier 0 (median call 8.9 s)
+  corrupt_metrics	{"HALT": 9, "RESTART_CLEANUP": 1}
+  delete_metrics	{"HALT": 10}
+  drop_delay	{"HALT": 10}
+  fill_network_pool	{"CLEANUP_ENV": 10}
+  hang	{"CONFIGURE": 8, "RESTART_CLEANUP": 2}
+  kill	{"RESTART_CLEANUP": 10}
+  kinematic	{"HALT": 4}
+  rails	{"HALT": 5}

@@ -259,6 +259,16 @@ with no data-corrupting fault.
   the model tiers halted most. The injected silent faults did not repeat on a
   retry, which rewards blind retrying; a real force-GT or controller config
   error would repeat. C3 makes them persistent.
+- First skill per fault kind, C1 and C2 together (`campaign_report.txt`):
+  on deleted or corrupt metrics tier 1 chose RE-RUN 20/20, tier 0 HALT 19/20;
+  on the dropped delay both tiers HALT 10/10, the script RE-RUN 10/10. On hangs
+  both tiers mostly chose CONFIGURE (traffic model to GPU: 7/10 and 8/10),
+  blaming slowness; the hang was transient, so the retry worked anyway. The
+  monitor stopped the run before the diagnosis, which removed the paused
+  container, the evidence; replayed with that container visible, tier 1 chose
+  RESTART_CLEANUP 3/3. From 6 Oct the monitor records the machine before it
+  stops a run (`machine_at_timeout`), so C3's model arms see it. Median model
+  call: tier 1 12.5 s, tier 0 8.9 s.
 - Physics on fresh runs: C1 kept runs checked after the fact, 25/30 silent
   faults caught and 0 of 95 other runs flagged; the 5 missed were kinematic on
   gentler scenes (peak 6.6–9.7 m/s²), all quarantined by the audit.
