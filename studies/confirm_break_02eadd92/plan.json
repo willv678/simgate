@@ -1,0 +1,21 @@
+{
+ "plan": {
+  "question": "On scene clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6, is the failure rate at 150 ms of planner delay clearly higher than at 100 ms, so that their 90% intervals do not overlap?",
+  "objective": "Confirm or refute a sharp break between 100 ms and 150 ms of planner delay on scene clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6. Use only planner_delay_us = 100000 and 150000 and split each round evenly between them (2 and 2), so that both failure rates get as many repeats as possible. Do not spend runs at 0 ms, at 50 ms or at 200 ms and above, or on any other scene or knob. Stop early only if one result at 100 ms and one at 150 ms disagree with the pilot often enough that the intervals must overlap.",
+  "vary": [
+   "planner_delay_us"
+  ],
+  "scenes": [
+   "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6"
+  ],
+  "rounds": 2,
+  "per_round": 4,
+  "rationale": "The brief limits the study to one scene, one knob and 8 runs as 2 rounds of 4. The plan follows that exactly, well within the caps of 60 runs and 10 per round. The scene passed in the earlier run at 0 delay, with 1.4 m clearance and 0.92 progress, so a delay effect can show there. Putting every run at the two delays that bracket the break gives at most 4 runs each, which is the most this budget allows.\n\nLimits the researcher should know:\n1. Even in the best case (4 passes out of 4 at 100 ms, 4 failures out of 4 at 150 ms), whether the 90% ranges separate depends on how they are calculated. Wilson intervals separate (upper ~0.40 against lower ~0.60). Exact Clopper-Pearson intervals still overlap slightly (upper ~0.53 against lower ~0.47). To confirm under the stricter method, this study's runs must be pooled with the pilot's runs at 100 ms and 150 ms; with 6 consistent runs per side, Clopper-Pearson separates (~0.39 against ~0.61). The researcher should decide the interval method and whether to pool before reading the result.\n2. A single run that goes against the pilot at either delay would almost certainly leave the intervals overlapping at this sample size. That is closer to \"not confirmed\" than to a clear refutation, because 8 runs cannot show that the rates overlap clearly either.\n3. The study can only say the break lies between 100 ms and 150 ms, because the knob has no values in between.\n4. The 40-minute limit cannot be checked from the inputs. It assumes roughly 5 minutes per run, and 2 rounds keep the number of proposer turns low."
+ },
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 16283,
+  "output_tokens": 1558,
+  "duration_ms": 15796
+ }
+}
