@@ -98,6 +98,10 @@ confirm the authors, title, venue, and year, and write a BibTeX entry into
 saying why. Items marked `*` in `FACTS.md` were never opened; they need the most
 checking. About 20 entries.
 
+Done 6 Oct overnight (Will's session): all 18 entries in `refs.bib` checked
+against the source, each with the URL opened; seven titles or author lists
+corrected. PlannerForge still needs its EMNLP 2026 pages when they appear.
+
 **Will uses this.** The draft week, 26 Oct, for the bibliography.
 
 ## Week of 5 Oct — see if the effect is real

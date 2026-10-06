@@ -24,13 +24,14 @@ breaks the gate. Any new capability has to keep that true.
 - **Work on a branch:** `git -C research checkout -b griffin/explore`. Do not push
   to `main`. Will merges what he wants.
 - **Do not edit `src/`** (AlpaSim itself) and do not touch existing queue folders
-  or traces in `research/harness/` (`b2_*`, `s1_*`, `c0_*`, `c1_*`, `c2_*`). They
-  are the paper's data.
+  or traces in `research/harness/` (`b2_*`, `s1_*`, `c0_*`, `c1_*` to `c4_*`,
+  `g2_*`, `g3_*`). They are the paper's data.
 - **Tests stay green:** `uv run pytest research/harness` from `~/alpasim`. It
   includes the exhaustive gate check. A new skill or parameter without a
   validator rule, a test, and a passing verifier is not done.
-- **GPU:** the campaign finished, so the GPU is free. Before launching, check
-  nothing else is running: `ps aux | grep "[l]oop.py"` must print nothing.
+- **GPU:** from 6 Oct the GPU runs C3, then g3, then C4, until about 8 Oct
+  (`tail research/harness/campaign.log`). Before launching, check nothing
+  else is running: `ps aux | grep "[l]oop.py"` must print nothing.
   Small batches only (10 runs or fewer), in your own queue folder named
   `research/harness/g_<something>_queue`. One batch at a time.
 - **Python through `uv run`**, never an activated venv.
