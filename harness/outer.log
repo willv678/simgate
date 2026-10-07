@@ -312,3 +312,111 @@ stopped: environment failure halted for a person
 012_v2_012.json: COMPLETE -> analyze.py {"appended": true}
 012_v2_012.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
 013_v2_013.json: READY -> run_experiment.py {"pid": 1571100, "run_dir": "diag/v2_013"}
+013_v2_013.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+013_v2_013.json: COMPLETE -> analyze.py {"appended": true}
+013_v2_013.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+014_v2_014.json: READY -> run_experiment.py {"pid": 1591776, "run_dir": "diag/v2_014"}
+014_v2_014.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.4}
+014_v2_014.json: COMPLETE -> analyze.py {"appended": true}
+014_v2_014.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+015_v2_015.json: READY -> run_experiment.py {"pid": 1615250, "run_dir": "diag/v2_015"}
+015_v2_015.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+015_v2_015.json: COMPLETE -> analyze.py {"appended": true}
+015_v2_015.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+016_v2_016.json: READY -> run_experiment.py {"pid": 1618900, "run_dir": "diag/v2_016"}
+016_v2_016.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+016_v2_016.json: COMPLETE -> analyze.py {"appended": true}
+016_v2_016.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+017_v2_017.json: READY -> run_experiment.py {"pid": 1623932, "run_dir": "diag/v2_017"}
+017_v2_017.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+017_v2_017.json: COMPLETE -> analyze.py {"appended": true}
+017_v2_017.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+018_v2_018.json: READY -> run_experiment.py {"pid": 1629153, "run_dir": "diag/v2_018"}
+018_v2_018.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+018_v2_018.json: COMPLETE -> analyze.py {"appended": true}
+018_v2_018.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+019_v2_019.json: READY -> run_experiment.py {"pid": 1632753, "run_dir": "diag/v2_019"}
+019_v2_019.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+019_v2_019.json: COMPLETE -> analyze.py {"appended": true}
+019_v2_019.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+020_v2_020.json: READY -> run_experiment.py {"pid": 1636288, "run_dir": "diag/v2_020"}
+020_v2_020.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+020_v2_020.json: COMPLETE -> analyze.py {"appended": true}
+020_v2_020.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+021_v2_003_a2.json: READY -> run_experiment.py {"pid": 1639906, "run_dir": "diag/v2_003_a2"}
+021_v2_003_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+021_v2_003_a2.json: COMPLETE -> analyze.py {"appended": true}
+021_v2_003_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 20, "quarantined": [], "references": ["b2_009"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+2026-10-06T19:20:25-04:00 v2 done (resumed)
+013_v1_013.json: READY -> run_experiment.py {"pid": 1643790, "run_dir": "diag/v1_013"}
+013_v1_013.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+013_v1_013.json: COMPLETE -> analyze.py {"appended": true}
+013_v1_013.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+014_v1_014.json: READY -> run_experiment.py {"pid": 1647433, "run_dir": "diag/v1_014"}
+014_v1_014.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+014_v1_014.json: COMPLETE -> analyze.py {"appended": true}
+014_v1_014.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+015_v1_015.json: READY -> run_experiment.py {"pid": 1650994, "run_dir": "diag/v1_015"}
+015_v1_015.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.5}
+015_v1_015.json: COMPLETE -> analyze.py {"appended": true}
+015_v1_015.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+016_v1_016.json: READY -> run_experiment.py {"pid": 1654588, "run_dir": "diag/v1_016"}
+016_v1_016.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.3}
+016_v1_016.json: COMPLETE -> analyze.py {"appended": true}
+016_v1_016.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+017_v1_017.json: READY -> run_experiment.py {"pid": 1658182, "run_dir": "diag/v1_017"}
+017_v1_017.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+017_v1_017.json: COMPLETE -> analyze.py {"appended": true}
+017_v1_017.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+018_v1_018.json: READY -> run_experiment.py {"pid": 1661699, "run_dir": "diag/v1_018"}
+018_v1_018.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+018_v1_018.json: COMPLETE -> analyze.py {"appended": true}
+018_v1_018.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+019_v1_019.json: READY -> run_experiment.py {"pid": 1665261, "run_dir": "diag/v1_019"}
+019_v1_019.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+019_v1_019.json: COMPLETE -> analyze.py {"appended": true}
+019_v1_019.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+020_v1_020.json: READY -> run_experiment.py {"pid": 1668786, "run_dir": "diag/v1_020"}
+020_v1_020.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+020_v1_020.json: COMPLETE -> analyze.py {"appended": true}
+020_v1_020.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 17, "quarantined": [], "references": ["b2_009", "s1_002", "s1_003", "s1_004", "s1_006", "s1_008", "s1_009", "s1_010", "s1_011", "s1_013", "s1_014", "s1_015", "s1_016", "s1_017", "s1_018", "s1_019", "s1_020"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+2026-10-06T19:47:11-04:00 v1 done (resumed)
+2026-10-06T19:47:30-04:00 r1 (actor retiming smoke) starting
+001_r1_001.json: READY -> run_experiment.py {"pid": 1672681, "run_dir": "diag/r1_001"}
+2026-10-06T19:47:38-04:00 r1 (actor retiming smoke) starting
+2026-10-06T19:47:40-04:00 r1 (actor retiming smoke) starting
+001_r1_001.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.6}
+001_r1_001.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+001_r1_001.json: COMPLETE -> analyze.py {"appended": true}
+001_r1_001.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+001_r1_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+2026-10-06T19:50:14-04:00 r1 done
+002_r1_002.json: READY -> run_experiment.py {"pid": 1676557, "run_dir": "diag/r1_002"}
+002_r1_002.json: READY -> run_experiment.py {"pid": 1676739, "run_dir": "diag/r1_002"}
+r1 kept: ['r1_001']
+2026-10-06T19:50:37-04:00 overnight studies NOT started: the retiming smoke test did not keep all three runs
+002_r1_002.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+002_r1_002.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+002_r1_002.json: COMPLETE -> analyze.py {"appended": true}
+002_r1_002.json: COMPLETE -> analyze.py {"appended": false}
+002_r1_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_r1_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+003_r1_003.json: READY -> run_experiment.py {"pid": 1680856, "run_dir": "diag/r1_003"}
+003_r1_003.json: READY -> run_experiment.py {"pid": 1681044, "run_dir": "diag/r1_003"}
+003_r1_003.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 0.3}
+003_r1_003.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 0.3}
+003_r1_003.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 32548, "output_tokens": 536, "duration_ms": 7894, "tool_calls": ["Bash: docker ps -a --format '{{.ID}} {{.Names}} {{.Status}}'; docker network ls", "Bash: docker ps -a --filter name=r1_003 --format '{{.ID}} {{.Names}} {{.Status}}'; docker ps --format '{{.Names}} {{.Status}}'"], "denied": []}
+003_r1_003.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RESTART_CLEANUP", "params": {}, "model": "claude-opus-5-5", "context_tokens": 32581, "output_tokens": 540, "duration_ms": 7635, "tool_calls": ["Bash: docker ps -a --format '{{.ID}} {{.Names}} {{.Status}}'; docker network ls", "Bash: docker ps -a --filter name=r1_003 --format '{{.ID}} {{.Names}} {{.Status}}'; docker ps --format '{{.Names}} {{.Status}}'"], "denied": []}
+003_r1_003.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+003_r1_003.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+003_r1_003.json: FAILED -> recover.py {"skill": "RESTART_CLEANUP", "queued": "004_r1_003_a2.json", "cleanup": "docker compose down on diag/r1_003"}
+recover.py 003_r1_003.json exited 1:
+r1_003_a2 is already in research/harness/r1_queue
+2026-10-06T19:53:33-04:00 r1 done
+004_r1_003_a2.json: READY -> run_experiment.py {"pid": 1684404, "run_dir": "diag/r1_003_a2"}
+004_r1_003_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+004_r1_003_a2.json: COMPLETE -> analyze.py {"appended": true}
+004_r1_003_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+2026-10-06T19:56:19-04:00 r1 done

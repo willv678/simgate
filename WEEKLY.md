@@ -120,6 +120,30 @@ and tier 1 matched the script's yield with fewer wasted launches.
   requested-vs-measured check, controller settings).
 - g3 (held-out plan faults) tonight.
 
+**Built 6 Oct evening (after the meeting)**
+- **Actor retiming hook in AlpaSim** (`src/runtime/alpasim_runtime/actor_retiming.py`,
+  uncommitted in the main repo): shift a recorded actor's motion ±2 s and scale
+  its speed 0.5–2×, by class or one track; 20 runtime tests; dry-run verified.
+- **Scenario knobs from it:** studies fix traffic replay and the actor (class or
+  each scene's key actor); postflight checks the rule landed and that the
+  runtime retimed that actor (a rule matching nobody fails the run).
+- **Scene tagger:** 99 scenes into the five categories from recorded tracks and
+  Claude on three frames, with each scene's key actors (lead car, closest
+  pedestrian, cut-in car). Lead vehicle 38, merge 31, intersection 57,
+  pedestrian 12, unprotected left 2. 150 more scenes downloading; a file-only
+  tagger (no GPU) is being built for them.
+- **Most-challenging goal (top_k)** and per-run **criticality** (crash 1, near
+  miss up to 0.9).
+- **Rule-guided outer loop:** `rules` (no model), `hybrid` (Claude chooses only
+  among rule candidates), `llm`; plus baselines LHS, Optuna TPE, genetic
+  algorithm (with grid, bisection, random).
+- **Five category briefs** and the pedestrian plan (6 clean scenes, key
+  pedestrian retimed, replay, top-5 goal, 49 runs).
+- **Study web page** per study; `compare_proposers.py` (runs to goal per
+  proposer); README documents the study system.
+- **Overnight:** v2/v1 (VaVAM fresh frames), r1 (retiming smoke test), then the
+  pedestrian study three times: rules, hybrid, llm.
+
 **Shao, 6 Oct meeting: direction for the paper**
 - The paper is about **accelerating AV testing** (stress testing); the AI agent
   is the new tool brought into it, and the contribution is the framework (state
