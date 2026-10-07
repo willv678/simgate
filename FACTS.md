@@ -409,6 +409,23 @@ steps, 3 rounds of 5 runs each, every run through the full inner loop
   ≥ 3.5 s. v1 (running): the first 20 S1 scenes with a frame every 100 ms and
   subsample_factor 5, to compare with S1's runs of the same scenes.
 
+## VaVAM with fresh frames (v1, v2), 6 Oct evening
+
+Frames every 100 ms with every fifth in the context (in-spec: each plan from a
+fresh frame) against S1/B2's frames every 500 ms (four of five plans reuse the
+last frames). Same scenes, 0 delay, CATK, full gate (`compare_frames.json`).
+- v1, 17 scenes paired with their S1 run: 11 failed with stale frames, 6 with
+  fresh; 5 scenes flipped to pass, none the other way (sign test p 0.062).
+- v2, B2's scene 20 times: 3 of 20 failed (90% range 6–32%) against 42 of 150
+  in B2 (22–34%).
+- Out of GPU memory on 12 GB in 2 of the first 12 v1 runs (VaVAM keeps 40
+  1080p frames to take 8 from); these were halted, not counted.
+- Reading: stale frames explain part of VaVAM's failure rate; the direction
+  is consistent, the size not yet significant. New studies should run with
+  fresh frames once the GPU has the memory (from Thursday). Tonight's
+  pedestrian studies use 500 ms frames in all three arms, so their comparison
+  is like for like.
+
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 
 `harness/physics.py` rebuilds the ego's motion from each run's completed
