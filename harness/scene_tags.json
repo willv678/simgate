@@ -7594,5 +7594,1237 @@
     "claude": "At 0.5s the ego goes straight through a signalized intersection with a green light and a striped crosswalk, with cross-street cars (e.g. 8, 10) beside it."
    }
   }
+ },
+ "clipgt-1deba1be-55e2-4f85-8669-d7e4703c6a29": {
+  "scene_file": "data/nre-artifacts/all-usdzs/0eae941c-9e49-49c9-97c8-3ea3150c130a.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 154.8,
+   "max_speed_mps": 13.8,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": 1.1,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 7,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 4
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 1,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 2
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1f1551dd-3492-4877-9e5a-6a741b7a7287": {
+  "scene_file": "data/nre-artifacts/all-usdzs/10a94d5c-38b3-43b8-bdcf-576ff28039f2.usdz",
+  "facts": {
+   "duration_s": 12.1,
+   "distance_m": 27.1,
+   "max_speed_mps": 7.8,
+   "stopped_s": 4.3,
+   "stops": 1,
+   "heading_change_deg": 7.0,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 15,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 6
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 0
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1c841180-ba2a-41f0-836b-650e535d8741": {
+  "scene_file": "data/nre-artifacts/all-usdzs/1d445a0b-c2f8-484a-96be-e8d5de3eafd4.usdz",
+  "facts": {
+   "duration_s": 12.1,
+   "distance_m": 177.0,
+   "max_speed_mps": 14.8,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": -2.3,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 9,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 0
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 6
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1d1bf6a0-c41d-4a72-b018-51e20250f421": {
+  "scene_file": "data/nre-artifacts/all-usdzs/3dbf0381-7ff3-41ed-a4a6-f0d58ef6be77.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 50.8,
+   "max_speed_mps": 6.3,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": 1.7,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 33,
+    "pedestrian": 2,
+    "cyclist": 0,
+    "other": 0,
+    "static": 22
+   },
+   "lead": {
+    "actor": "2",
+    "label": "automobile",
+    "lead_s": 12.3,
+    "min_gap_m": 10.0,
+    "max_speed_mps": 6.0,
+    "min_speed_mps": 2.0,
+    "speed_drop_mps": 0.1
+   },
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 2
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1d205d02-7180-40c0-8242-22e57ad977d7": {
+  "scene_file": "data/nre-artifacts/all-usdzs/4184c498-4c65-4cf2-b5f8-a466f28114ce.usdz",
+  "facts": {
+   "duration_s": 12.1,
+   "distance_m": 94.2,
+   "max_speed_mps": 9.1,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": -1.0,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 40,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 0
+   },
+   "lead": {
+    "actor": "7",
+    "label": "automobile",
+    "lead_s": 6.3,
+    "min_gap_m": 15.0,
+    "max_speed_mps": 6.1,
+    "min_speed_mps": 2.2,
+    "speed_drop_mps": 3.9
+   },
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 16
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {
+   "lead_vehicle": "automobile 7 ahead in lane for 6.3 s, gap down to 15.0 m, speed 6.1 -> 2.2 m/s (drop 3.9)"
+  },
+  "sources": {
+   "lead_vehicle": "rules (file)"
+  },
+  "final_tags": [
+   "lead_vehicle"
+  ],
+  "reasons": {
+   "lead_vehicle": {
+    "rules": "automobile 7 ahead in lane for 6.3 s, gap down to 15.0 m, speed 6.1 -> 2.2 m/s (drop 3.9)"
+   }
+  }
+ },
+ "clipgt-1c7e2423-77d7-40b6-bf26-f36fb8ebcf52": {
+  "scene_file": "data/nre-artifacts/all-usdzs/43ed716a-bb63-4716-ab10-16d732b2f1bd.usdz",
+  "facts": {
+   "duration_s": 12.1,
+   "distance_m": 98.3,
+   "max_speed_mps": 8.7,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": -8.5,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 23,
+    "pedestrian": 12,
+    "cyclist": 0,
+    "other": 0,
+    "static": 17
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 1
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-20c02adf-a773-4167-9231-82f89c0121be": {
+  "scene_file": "data/nre-artifacts/all-usdzs/68072059-e1e3-462d-b0a6-675480ccf15f.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 16.3,
+   "max_speed_mps": 5.7,
+   "stopped_s": 6.3,
+   "stops": 2,
+   "heading_change_deg": -0.2,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 32,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 1,
+    "static": 0
+   },
+   "lead": {
+    "actor": "2",
+    "label": "automobile",
+    "lead_s": 12.3,
+    "min_gap_m": 7.1,
+    "max_speed_mps": 8.0,
+    "min_speed_mps": 0.0,
+    "speed_drop_mps": 0.0
+   },
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 0
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {
+   "lead_vehicle": "automobile 2 ahead in lane for 12.3 s, gap down to 7.1 m, speed 8.0 -> 0.0 m/s (drop 0.0)"
+  },
+  "sources": {
+   "lead_vehicle": "rules (file)"
+  },
+  "final_tags": [
+   "lead_vehicle"
+  ],
+  "reasons": {
+   "lead_vehicle": {
+    "rules": "automobile 2 ahead in lane for 12.3 s, gap down to 7.1 m, speed 8.0 -> 0.0 m/s (drop 0.0)"
+   }
+  }
+ },
+ "clipgt-1dde2ce8-cf39-4cf7-a1d3-3da09965ffca": {
+  "scene_file": "data/nre-artifacts/all-usdzs/6cf0d3d9-bfa5-4c7e-ac8b-07c3df8f9304.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 402.4,
+   "max_speed_mps": 33.6,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": 6.7,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 5,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 0
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 3
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1920170b-0317-4211-9b7c-1002c9925d7a": {
+  "scene_file": "data/nre-artifacts/all-usdzs/bd35b1b8-283f-4654-b0be-d26d063b21a2.usdz",
+  "facts": {
+   "duration_s": 12.0,
+   "distance_m": 216.8,
+   "max_speed_mps": 19.3,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": -0.8,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 4,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 0
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 1
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-2036568b-916a-4d9d-b4c9-9946d2b3d62d": {
+  "scene_file": "data/nre-artifacts/all-usdzs/77f18ad6-afbe-4143-87fb-792e104c99de.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 145.2,
+   "max_speed_mps": 12.3,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": 0.3,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 35,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 27
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 3
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1f816661-b271-479b-ab67-72057de1aadd": {
+  "scene_file": "data/nre-artifacts/all-usdzs/7e4616e6-d94e-4897-a63e-5356b8c6150e.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 69.6,
+   "max_speed_mps": 8.2,
+   "stopped_s": 1.1,
+   "stops": 1,
+   "heading_change_deg": -5.6,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 30,
+    "pedestrian": 1,
+    "cyclist": 0,
+    "other": 0,
+    "static": 30
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 0
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1d68b79f-8459-456f-856d-316ec5572242": {
+  "scene_file": "data/nre-artifacts/all-usdzs/893ee1f8-d706-45d0-bd87-d05e6d6faabb.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 150.0,
+   "max_speed_mps": 13.6,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": -0.1,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 59,
+    "pedestrian": 5,
+    "cyclist": 0,
+    "other": 0,
+    "static": 29
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 8
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1d6978de-3fda-4526-bcfc-b8287d73e198": {
+  "scene_file": "data/nre-artifacts/all-usdzs/8a6485e5-4c9e-4915-9412-60359e37c979.usdz",
+  "facts": {
+   "duration_s": 12.1,
+   "distance_m": 130.2,
+   "max_speed_mps": 12.2,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": 24.5,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 14,
+    "pedestrian": 0,
+    "cyclist": 1,
+    "other": 0,
+    "static": 0
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": -3.4,
+    "cars_shifted": 2,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 6
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {
+   "merge_cut_in": "ego changes lanes 3.4 m right (2 of 6 cars around it shift the other way relative to its path)"
+  },
+  "sources": {
+   "merge_cut_in": "rules (file)"
+  },
+  "final_tags": [
+   "merge_cut_in"
+  ],
+  "reasons": {
+   "merge_cut_in": {
+    "rules": "ego changes lanes 3.4 m right (2 of 6 cars around it shift the other way relative to its path)"
+   }
+  }
+ },
+ "clipgt-1ef4e5bc-ea88-4cf0-9b07-d0dffdaed145": {
+  "scene_file": "data/nre-artifacts/all-usdzs/8a6a8c2c-4b9e-431b-b1af-44ad5afb7106.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 24.6,
+   "max_speed_mps": 2.4,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": 0.6,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 17,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 0
+   },
+   "lead": {
+    "actor": "9",
+    "label": "automobile",
+    "lead_s": 12.3,
+    "min_gap_m": 10.8,
+    "max_speed_mps": 2.3,
+    "min_speed_mps": 1.8,
+    "speed_drop_mps": 0.5
+   },
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 2
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1f3816e3-9036-4124-82fe-bde06f7a3721": {
+  "scene_file": "data/nre-artifacts/all-usdzs/99d85f64-5f64-4037-a1fc-430e8ae64565.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 174.1,
+   "max_speed_mps": 21.1,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": -65.7,
+   "turn": "right",
+   "near_path": {
+    "vehicle": 30,
+    "pedestrian": 1,
+    "cyclist": 0,
+    "other": 0,
+    "static": 9
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": -3.1,
+    "cars_shifted": 3,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 4
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {
+   "merge_cut_in": "ego changes lanes 3.1 m right (3 of 4 cars around it shift the other way relative to its path)",
+   "intersection": "right turn -65.7 deg"
+  },
+  "sources": {
+   "merge_cut_in": "rules (file)",
+   "intersection": "rules (file)"
+  },
+  "final_tags": [
+   "merge_cut_in",
+   "intersection"
+  ],
+  "reasons": {
+   "merge_cut_in": {
+    "rules": "ego changes lanes 3.1 m right (3 of 4 cars around it shift the other way relative to its path)"
+   },
+   "intersection": {
+    "rules": "right turn -65.7 deg"
+   }
+  }
+ },
+ "clipgt-1d7ad5d2-02aa-4353-adf3-ee2a1ce1af24": {
+  "scene_file": "data/nre-artifacts/all-usdzs/9d77831c-36e7-4d2e-9069-e32a5ac91108.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 121.5,
+   "max_speed_mps": 11.8,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": -2.7,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 7,
+    "pedestrian": 4,
+    "cyclist": 0,
+    "other": 0,
+    "static": 3
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 1,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 1
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1e6e41a1-e402-48a1-8a96-2ad92a57eb26": {
+  "scene_file": "data/nre-artifacts/all-usdzs/9dbd74dd-74d3-4847-8670-695cc7448bf0.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 144.7,
+   "max_speed_mps": 15.1,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": -9.5,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 19,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 13
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 1
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1cf49614-606e-4793-a0db-90e34f5370b2": {
+  "scene_file": "data/nre-artifacts/all-usdzs/ad04b07b-2943-481c-b366-0e5a6d74d115.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 235.3,
+   "max_speed_mps": 19.6,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": -3.6,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 21,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 19
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 1
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-20a057e5-c79e-4e78-934e-754a8de365b2": {
+  "scene_file": "data/nre-artifacts/all-usdzs/ad7980ad-33dd-4ad3-962b-382a7521d3a7.usdz",
+  "facts": {
+   "duration_s": 12.1,
+   "distance_m": 164.0,
+   "max_speed_mps": 13.9,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": 0.3,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 50,
+    "pedestrian": 5,
+    "cyclist": 0,
+    "other": 0,
+    "static": 36
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 4
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-20b155e0-c26e-4fba-9d34-21ca609cbba6": {
+  "scene_file": "data/nre-artifacts/all-usdzs/b5da4694-f0f7-44dc-962b-117075e24657.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 212.7,
+   "max_speed_mps": 20.2,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": 0.2,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 23,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 2
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 13
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-21254445-877f-43d0-a92c-a9c1e9694f9f": {
+  "scene_file": "data/nre-artifacts/all-usdzs/b6ba69bc-153e-4bae-9173-0d48dcccae35.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 64.7,
+   "max_speed_mps": 10.7,
+   "stopped_s": 1.5,
+   "stops": 1,
+   "heading_change_deg": -4.1,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 2,
+    "pedestrian": 4,
+    "cyclist": 0,
+    "other": 0,
+    "static": 1
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 0
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1cf1a70b-a26c-4b3d-9cbf-8ecbeb827487": {
+  "scene_file": "data/nre-artifacts/all-usdzs/b82670fe-cf69-4320-96d1-ede2a2b9b950.usdz",
+  "facts": {
+   "duration_s": 12.1,
+   "distance_m": 53.8,
+   "max_speed_mps": 6.6,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": -101.2,
+   "turn": "right",
+   "near_path": {
+    "vehicle": 10,
+    "pedestrian": 1,
+    "cyclist": 0,
+    "other": 0,
+    "static": 1
+   },
+   "lead": {
+    "actor": "4",
+    "label": "automobile",
+    "lead_s": 7.2,
+    "min_gap_m": 11.1,
+    "max_speed_mps": 5.9,
+    "min_speed_mps": 2.5,
+    "speed_drop_mps": 0.2
+   },
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 1,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 3
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {
+   "intersection": "right turn -101.2 deg"
+  },
+  "sources": {
+   "intersection": "rules (file)"
+  },
+  "final_tags": [
+   "intersection"
+  ],
+  "reasons": {
+   "intersection": {
+    "rules": "right turn -101.2 deg"
+   }
+  }
+ },
+ "clipgt-1e7bc103-82e1-44f5-b86a-856fa7412038": {
+  "scene_file": "data/nre-artifacts/all-usdzs/c83354de-0248-4cde-8df0-2c61bc233b60.usdz",
+  "facts": {
+   "duration_s": 12.1,
+   "distance_m": 144.7,
+   "max_speed_mps": 12.1,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": 10.3,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 67,
+    "pedestrian": 3,
+    "cyclist": 0,
+    "other": 0,
+    "static": 50
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 0
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1d0d601f-bba0-423a-8f3f-8942bb529fd7": {
+  "scene_file": "data/nre-artifacts/all-usdzs/ee0a4188-1a40-4afb-a77c-d98d9efe2551.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 49.8,
+   "max_speed_mps": 14.3,
+   "stopped_s": 6.3,
+   "stops": 1,
+   "heading_change_deg": -4.6,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 2,
+    "pedestrian": 2,
+    "cyclist": 0,
+    "other": 0,
+    "static": 2
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 0
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-1e461825-5ed3-4e7d-b7ac-c507bde90be6": {
+  "scene_file": "data/nre-artifacts/all-usdzs/ffabf9d3-1603-4877-ab05-3af37af2ef6e.usdz",
+  "facts": {
+   "duration_s": 12.1,
+   "distance_m": 180.1,
+   "max_speed_mps": 15.4,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": 58.1,
+   "turn": "left",
+   "near_path": {
+    "vehicle": 14,
+    "pedestrian": 2,
+    "cyclist": 0,
+    "other": 0,
+    "static": 9
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 2
+   },
+   "crossing_vehicles": [],
+   "oncoming": [
+    {
+     "actor": "124",
+     "label": "automobile",
+     "closest_to_turn_m": 10.3
+    },
+    {
+     "actor": "178",
+     "label": "automobile",
+     "closest_to_turn_m": 24.7
+    }
+   ],
+   "pedestrians_near": []
+  },
+  "rule_tags": {
+   "unprotected_left": "left turn 58.1 deg, 2 oncoming vehicle(s), closest 10.3 m from the turn",
+   "intersection": "left turn 58.1 deg"
+  },
+  "sources": {
+   "unprotected_left": "rules (file)",
+   "intersection": "rules (file)"
+  },
+  "final_tags": [
+   "unprotected_left",
+   "intersection"
+  ],
+  "reasons": {
+   "unprotected_left": {
+    "rules": "left turn 58.1 deg, 2 oncoming vehicle(s), closest 10.3 m from the turn"
+   },
+   "intersection": {
+    "rules": "left turn 58.1 deg"
+   }
+  }
+ },
+ "clipgt-225eb8de-bf61-4fa9-b4b1-1f749cf8b57f": {
+  "scene_file": "data/nre-artifacts/all-usdzs/8db4eaa3-a241-479b-9c14-dfed9289b76a.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 172.1,
+   "max_speed_mps": 14.4,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": 5.3,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 9,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 2
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 4
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {},
+  "sources": {},
+  "final_tags": [],
+  "reasons": {}
+ },
+ "clipgt-21829be5-61af-4627-8758-7170324a3236": {
+  "scene_file": "data/nre-artifacts/all-usdzs/ac5ab66c-7404-4345-90ef-0d64d0402970.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 10.1,
+   "max_speed_mps": 4.4,
+   "stopped_s": 9.1,
+   "stops": 1,
+   "heading_change_deg": 0.6,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 31,
+    "pedestrian": 13,
+    "cyclist": 17,
+    "other": 0,
+    "static": 2
+   },
+   "lead": {
+    "actor": "98",
+    "label": "automobile",
+    "lead_s": 12.3,
+    "min_gap_m": 5.8,
+    "max_speed_mps": 5.1,
+    "min_speed_mps": 0.0,
+    "speed_drop_mps": 0.0
+   },
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 0
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {
+   "lead_vehicle": "automobile 98 ahead in lane for 12.3 s, gap down to 5.8 m, speed 5.1 -> 0.0 m/s (drop 0.0)"
+  },
+  "sources": {
+   "lead_vehicle": "rules (file)"
+  },
+  "final_tags": [
+   "lead_vehicle"
+  ],
+  "reasons": {
+   "lead_vehicle": {
+    "rules": "automobile 98 ahead in lane for 12.3 s, gap down to 5.8 m, speed 5.1 -> 0.0 m/s (drop 0.0)"
+   }
+  }
+ },
+ "clipgt-2205649c-9fad-4f64-85df-ecfd2707c43e": {
+  "scene_file": "data/nre-artifacts/all-usdzs/afc0ce6f-010a-41ee-9594-e23c98f7e8dc.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 187.4,
+   "max_speed_mps": 16.0,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": -2.6,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 68,
+    "pedestrian": 0,
+    "cyclist": 0,
+    "other": 0,
+    "static": 0
+   },
+   "lead": {
+    "actor": "16",
+    "label": "automobile",
+    "lead_s": 8.1,
+    "min_gap_m": 25.6,
+    "max_speed_mps": 16.7,
+    "min_speed_mps": 13.3,
+    "speed_drop_mps": 3.3
+   },
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 2.8,
+    "cars_shifted": 3,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 26
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {
+   "lead_vehicle": "automobile 16 ahead in lane for 8.1 s, gap down to 25.6 m, speed 16.7 -> 13.3 m/s (drop 3.3)",
+   "merge_cut_in": "ego changes lanes 2.8 m left (3 of 26 cars around it shift the other way relative to its path)"
+  },
+  "sources": {
+   "lead_vehicle": "rules (file)",
+   "merge_cut_in": "rules (file)"
+  },
+  "final_tags": [
+   "lead_vehicle",
+   "merge_cut_in"
+  ],
+  "reasons": {
+   "lead_vehicle": {
+    "rules": "automobile 16 ahead in lane for 8.1 s, gap down to 25.6 m, speed 16.7 -> 13.3 m/s (drop 3.3)"
+   },
+   "merge_cut_in": {
+    "rules": "ego changes lanes 2.8 m left (3 of 26 cars around it shift the other way relative to its path)"
+   }
+  }
+ },
+ "clipgt-218cce90-9835-4c8c-973c-558c316ee68f": {
+  "scene_file": "data/nre-artifacts/all-usdzs/b741f7f8-9c70-46a2-9d2e-baf996d005a4.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 100.7,
+   "max_speed_mps": 8.9,
+   "stopped_s": 0.0,
+   "stops": 0,
+   "heading_change_deg": 32.2,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 21,
+    "pedestrian": 3,
+    "cyclist": 0,
+    "other": 0,
+    "static": 17
+   },
+   "lead": null,
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 0
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": [
+    {
+     "actor": "54",
+     "label": "stroller",
+     "closest_m": 4.1,
+     "at_s": 4.6,
+     "ego_distance_m": 5.8,
+     "closest_to_ego_m": 4.1,
+     "crosses": false
+    },
+    {
+     "actor": "27",
+     "label": "person",
+     "closest_m": 4.5,
+     "at_s": 11.6,
+     "ego_distance_m": 61.9,
+     "closest_to_ego_m": 4.9,
+     "crosses": false
+    }
+   ]
+  },
+  "rule_tags": {
+   "pedestrian_crossing": "2 pedestrian(s) within 5 m of the path (0 cross it), closest 4.1 m at 4.6 s with the ego 5.8 m away; nearest to the ego 4.1 m"
+  },
+  "sources": {
+   "pedestrian_crossing": "rules (file)"
+  },
+  "final_tags": [
+   "pedestrian_crossing"
+  ],
+  "reasons": {
+   "pedestrian_crossing": {
+    "rules": "2 pedestrian(s) within 5 m of the path (0 cross it), closest 4.1 m at 4.6 s with the ego 5.8 m away; nearest to the ego 4.1 m"
+   }
+  }
+ },
+ "clipgt-22a92557-7661-4a06-9854-b0a7f17d5c84": {
+  "scene_file": "data/nre-artifacts/all-usdzs/cac03a12-aa0e-4e23-8d0b-5b29851005bd.usdz",
+  "facts": {
+   "duration_s": 12.2,
+   "distance_m": 52.3,
+   "max_speed_mps": 6.6,
+   "stopped_s": 1.1,
+   "stops": 1,
+   "heading_change_deg": -16.3,
+   "turn": "none",
+   "near_path": {
+    "vehicle": 31,
+    "pedestrian": 1,
+    "cyclist": 2,
+    "other": 1,
+    "static": 5
+   },
+   "lead": {
+    "actor": "27",
+    "label": "automobile",
+    "lead_s": 12.3,
+    "min_gap_m": 7.3,
+    "max_speed_mps": 7.6,
+    "min_speed_mps": 0.0,
+    "speed_drop_mps": 7.6
+   },
+   "cut_ins": [],
+   "lane_change": {
+    "shift_m": 0.0,
+    "cars_shifted": 0,
+    "cars_shifted_other_way": 0,
+    "cars_compared": 8
+   },
+   "crossing_vehicles": [],
+   "oncoming": [],
+   "pedestrians_near": []
+  },
+  "rule_tags": {
+   "lead_vehicle": "automobile 27 ahead in lane for 12.3 s, gap down to 7.3 m, speed 7.6 -> 0.0 m/s (drop 7.6)"
+  },
+  "sources": {
+   "lead_vehicle": "rules (file)"
+  },
+  "final_tags": [
+   "lead_vehicle"
+  ],
+  "reasons": {
+   "lead_vehicle": {
+    "rules": "automobile 27 ahead in lane for 12.3 s, gap down to 7.3 m, speed 7.6 -> 0.0 m/s (drop 7.6)"
+   }
+  }
  }
 }

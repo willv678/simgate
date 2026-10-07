@@ -1,13 +1,36 @@
-"""scene_tags.py: log facts from synthetic tracks, and rule tags from facts."""
+"""scene_tags.py: log facts from synthetic tracks, tracks from a synthetic
+scene file, and rule tags from facts."""
+
+from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import pytest
+import scene_tags
+from alpasim_utils.geometry import Trajectory
+from alpasim_utils.scenario import (
+    AABB,
+    CameraId,
+    Rig,
+    TrafficObject,
+    TrafficObjects,
+    VehicleConfig,
+)
 from scene_tags import (
+    COMPLETE_BYTES,
+    EGO,
+    S1_CAMERA,
+    S1_STEPS,
+    compare_facts,
     ego_facts,
+    file_tracks,
     lane_change,
     pedestrians_near,
     reference_path,
     rule_tags,
+    scene_facts,
+    scene_files,
+    tag_files,
 )
 
 T = np.arange(0, 12.05, 0.1)
@@ -141,3 +164,147 @@ def test_rule_tags_follow_the_facts():
     tags = rule_tags(_facts(pedestrians_near=[walker]))
     assert set(tags) == {"pedestrian_crossing"}
     assert "1 cross it" in tags["pedestrian_crossing"]
+
+
+START_US = 1_000_000_000
+FIRST_FRAME_US = START_US + 30_000
+
+
+def _trajectory(times_s, xy, yaw=0.0):
+    times_s = np.asarray(times_s, dtype=float)
+    xy = np.broadcast_to(np.asarray(xy, dtype=float), (len(times_s), 2))
+    quaternion = [0.0, 0.0, np.sin(yaw / 2), np.cos(yaw / 2)]
+    return Trajectory(
+        (START_US + np.round(times_s * 1e6)).astype(np.uint64),
+        np.column_stack([xy, np.zeros(len(times_s))]),
+        np.tile(quaternion, (len(times_s), 1)),
+    )
+
+
+def _scene(duration_s, actors):
+    """A recording of `duration_s` with the ego driving along x at 5 m/s and
+    `actors`: id -> (label, times in s, positions, yaw)."""
+    times = np.arange(0.0, duration_s + 1e-9, 0.1)
+    rig = Rig(
+        sequence_id="seq",
+        trajectory=_trajectory(times, np.column_stack([5.0 * times, 0 * times])),
+        camera_ids=[CameraId(S1_CAMERA, 0, "seq", "front")],
+        camera_frame_timestamps_us={"front": [FIRST_FRAME_US]},
+        camera_frame_ranges_us={"front": [range(START_US, FIRST_FRAME_US)]},
+        world_to_nre=np.eye(4),
+        vehicle_config=VehicleConfig(),
+    )
+    traffic = TrafficObjects(
+        **{
+            actor: TrafficObject(
+                actor, AABB(4.5, 2.0, 1.5), _trajectory(t, xy, yaw), False, label
+            )
+            for actor, (label, t, xy, yaw) in actors.items()
+        }
+    )
+    return SimpleNamespace(rig=rig, traffic_objects=traffic)
+
+
+def test_file_tracks_cover_the_window_a_rollout_simulates():
+    actors = {
+        "whole": ("automobile", np.arange(0, 20.05, 0.1), (30.0, 3.5), 0.0),
+        "early": ("automobile", np.arange(2, 6.05, 0.1), (30.0, -3.5), 0.0),
+        "late": ("automobile", np.arange(15, 20.05, 0.1), (30.0, 3.5), 0.0),
+        "brief": ("automobile", np.arange(10, 14.05, 0.1), (30.0, 3.5), 0.0),
+    }
+    tracks = file_tracks(_scene(20.0, actors))
+    assert set(tracks) == {EGO, "whole", "early"}
+    ego = tracks[EGO]
+    assert ego["t"][0] == 0.0
+    assert ego["t"][-1] == pytest.approx(0.03 + S1_STEPS * 0.1, abs=1e-6)
+    assert tracks["whole"]["t"][-1] == pytest.approx(ego["t"][-1], abs=1e-6)
+    # The ego is logged at its box centre, ahead of the rig on the rear axle.
+    vehicle = VehicleConfig()
+    centre = vehicle.aabb_x_offset_m + vehicle.aabb_x_m / 2
+    assert ego["xy"][0] == pytest.approx([centre, 0.0], abs=1e-3)
+
+    short = file_tracks(_scene(8.0, actors))[EGO]
+    assert short["t"][-1] == pytest.approx(0.03 + 79 * 0.1, abs=1e-6)
+
+
+def test_facts_from_a_scene_file_name_its_actors():
+    walk = np.arange(0, 12.05, 0.1)
+    lead = np.arange(0, 20.05, 0.1)
+    actors = {
+        "ped": (
+            "person",
+            walk,
+            np.column_stack([np.full_like(walk, 40.0), 6.0 - 1.2 * walk]),
+            -np.pi / 2,
+        ),
+        "car": (
+            "automobile",
+            lead,
+            np.column_stack([15.0 + 3.0 * lead, 0 * lead]),
+            0.0,
+        ),
+    }
+    facts = scene_facts(file_tracks(_scene(20.0, actors)))
+    assert [row["actor"] for row in facts["pedestrians_near"]] == ["ped"]
+    assert facts["pedestrians_near"][0]["crosses"]
+    assert facts["lead"]["actor"] == "car"
+    assert facts["near_path"]["pedestrian"] == 1
+    assert "pedestrian_crossing" in rule_tags(facts)
+
+
+def test_scene_files_skip_partial_downloads_and_keep_the_latest_version(tmp_path):
+    catalog = tmp_path / "scenes.csv"
+    catalog.write_text(
+        "uuid,scene_id,last_modified\n"
+        "a,clip-1,2026-03-16 22:00:27\n"
+        "b,clip-1,2026-07-03 09:51:36\n"
+        "c,clip-2,2026-03-16 22:00:27\n"
+        "d,clip-3,2026-03-16 22:00:27\n"
+    )
+    for uuid, size in (("a", COMPLETE_BYTES), ("b", COMPLETE_BYTES), ("c", 5)):
+        with (tmp_path / f"{uuid}.usdz").open("wb") as handle:
+            handle.truncate(size)
+    assert scene_files(tmp_path, catalog) == {"clip-1": tmp_path / "b.usdz"}
+
+
+def test_tagging_files_adds_new_scenes_and_keeps_existing_entries(monkeypatch):
+    monkeypatch.setattr(
+        scene_tags, "file_entry", lambda path: {"scene_file": str(path)}
+    )
+    existing = {"clip-1": {"run": "s1_001", "final_tags": ["lead_vehicle"]}}
+    files = {"clip-1": Path("one.usdz"), "clip-2": Path("two.usdz")}
+    scenes = tag_files(existing, files)
+    assert scenes["clip-1"] == existing["clip-1"]
+    assert scenes["clip-2"] == {"scene_file": "two.usdz"}
+
+
+def test_comparing_sources_flags_other_actors_but_not_other_numbers():
+    walker = {
+        "actor": "p",
+        "label": "person",
+        "closest_m": 0.4,
+        "at_s": 3.0,
+        "ego_distance_m": 12.0,
+        "closest_to_ego_m": 6.0,
+        "crosses": True,
+    }
+    near = {"vehicle": 3, "pedestrian": 1, "cyclist": 0, "other": 0, "static": 0}
+    log = _facts(lead=LEAD, pedestrians_near=[walker], near_path=near)
+    nudged = {**LEAD, "min_gap_m": 9.2, "lead_s": 5.1}
+    same = _facts(
+        lead=nudged,
+        pedestrians_near=[{**walker, "closest_m": 0.5}],
+        near_path=near,
+    )
+    assert compare_facts(same, log) == []
+    other = _facts(
+        lead={**LEAD, "actor": "8"},
+        turn="left",
+        pedestrians_near=[walker],
+        near_path=near,
+    )
+    assert [line.split(":")[0] for line in compare_facts(other, log)] == [
+        "turn",
+        "lead",
+        "rule_tags",
+    ]
