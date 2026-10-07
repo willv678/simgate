@@ -102,3 +102,14 @@ def test_only_a_signal_crash_of_a_rerunnable_script_is_rerun():
     assert not rerun_after(
         "recover.py", ScriptCrash("recover.py", Path("e.json"), -6, "")
     )
+
+
+def test_a_second_loop_on_the_same_queue_exits(tmp_path):
+    import pytest
+    from loop import hold_queue
+
+    first = hold_queue(tmp_path / "queue")
+    with pytest.raises(SystemExit, match="another loop"):
+        hold_queue(tmp_path / "queue")
+    first.close()
+    hold_queue(tmp_path / "queue").close()

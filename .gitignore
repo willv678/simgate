@@ -18,3 +18,4 @@ autolab_lora_adapter/
 # Harness traces are the paper evidence. Keep them.
 !harness/*.jsonl
 !harness/*_queue/*.jsonl
+.loop.lock

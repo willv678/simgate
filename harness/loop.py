@@ -18,6 +18,7 @@ would fail. Each dispatched script is one trace line.
 """
 
 import argparse
+import fcntl
 import json
 import subprocess
 import sys
@@ -104,6 +105,19 @@ def summary(queue: Path, minutes: float, stopped: str | None) -> dict:
     }
 
 
+def hold_queue(queue: Path):
+    """An exclusive lock on the queue for as long as this process runs. Two
+    loops on one queue would launch the same entries twice and race on the GPU,
+    so a second loop exits instead of waiting."""
+    queue.mkdir(parents=True, exist_ok=True)
+    handle = (queue / ".loop.lock").open("w")
+    try:
+        fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
+    except BlockingIOError:
+        raise SystemExit(f"another loop is running on {queue}") from None
+    return handle
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("queue", type=Path)
@@ -123,6 +137,7 @@ def main() -> int:
         "--audit", action="store_true", help="audit the batch when it ends (audit.py)"
     )
     args = parser.parse_args()
+    lock = hold_queue(args.queue)  # noqa: F841 (held until the process exits)
 
     extra = {
         "monitor.py": [

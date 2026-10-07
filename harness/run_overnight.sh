@@ -13,8 +13,9 @@ until grep -q "r1 done" $H/outer.log; do sleep 30; done
 if ! uv run python - <<'PY'
 import json, glob, sys
 entries = [json.load(open(p)) for p in sorted(glob.glob("research/harness/r1_queue/0*.json"))]
-kept = [e["name"] for e in entries if e["resolution"] == "ACCEPT" and e["parent"] is None]
-print("r1 kept:", kept)
+# Each of the three settings must end in a kept run, a retry included.
+kept = {e["name"].split("_a")[0] for e in entries if e["resolution"] == "ACCEPT"}
+print("r1 settings kept:", sorted(kept))
 sys.exit(0 if len(kept) == 3 else 1)
 PY
 then
