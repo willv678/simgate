@@ -60,15 +60,31 @@ def test_a_retimed_ego_is_measured_at_scale_times_the_recorded_speed(scale):
 
 
 def test_pose_noise_stays_inside_the_tolerance():
-    # 2 cm of noise on each logged ego pose: about 0.1 m/s on the speed.
-    ego, recorded = handoff_speeds_from(_raw(1.2, noise_m=0.02), 1.2)
-    assert abs(ego - 1.2 * recorded) < 0.15
+    # 2 mm of noise on each logged ego pose, more than real logs show (their
+    # speed error is at most 0.023 m/s at scale 1.0).
+    ego, recorded = handoff_speeds_from(_raw(1.2, noise_m=0.002), 1.2)
+    assert abs(ego - 1.2 * recorded) < 0.03
     assert handoff_speed_matches(ego, recorded, 1.2)
 
 
+def _slowed(raw: dict, factor: float) -> dict:
+    """The same run on a scene recorded `factor` times as fast."""
+    return {
+        **raw,
+        "ego": {
+            t: (x * factor, y * factor, yaw) for t, (x, y, yaw) in raw["ego"].items()
+        },
+        "ground_truth": [
+            (t, x * factor, y * factor) for t, x, y in raw["ground_truth"]
+        ],
+    }
+
+
 @pytest.mark.parametrize("requested", [0.8, 1.2])
-def test_an_ego_at_its_recorded_speed_fails_a_scaled_request(requested):
-    assert not handoff_speed_matches(*handoff_speeds_from(_raw(1.0), requested), requested)
+@pytest.mark.parametrize("factor", [1.0, 0.1])  # 10 m/s and 1 m/s scenes
+def test_an_ego_at_its_recorded_speed_fails_a_scaled_request(requested, factor):
+    ego, recorded = handoff_speeds_from(_slowed(_raw(1.0), factor), requested)
+    assert not handoff_speed_matches(ego, recorded, requested)
 
 
 def test_the_knob_is_a_scenario_knob_unvaried_at_one():
@@ -76,7 +92,9 @@ def test_the_knob_is_a_scenario_knob_unvaried_at_one():
     assert run_config(SCENE_ID, {}, {}, "linear")["ego_speed_scale"] == 1.0
     proposed = {"scene_id": SCENE_ID, "why": "faster", "ego_speed_scale": 1.2}
     assert rejection(proposed, {SCENE_ID}, ("ego_speed_scale",)) is None
-    assert rejection({**proposed, "ego_speed_scale": 1.3}, {SCENE_ID}, ("ego_speed_scale",))
+    assert rejection(
+        {**proposed, "ego_speed_scale": 1.3}, {SCENE_ID}, ("ego_speed_scale",)
+    )
 
 
 def test_the_wizard_gets_the_scale_only_when_it_is_varied(tmp_path):

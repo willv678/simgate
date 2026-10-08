@@ -686,3 +686,493 @@ audit: {"audited": 7, "quarantined": [], "references": ["s1_024", "s1_032", "s1_
 014_pedestrian_crossing_rules_013.json: COMPLETE -> analyze.py {"appended": true}
 014_pedestrian_crossing_rules_013.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
 015_pedestrian_crossing_rules_014.json: READY -> run_experiment.py {"pid": 198182, "run_dir": "diag/pedestrian_crossing_rules_014"}
+015_pedestrian_crossing_hybrid_014.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+015_pedestrian_crossing_hybrid_014.json: COMPLETE -> analyze.py {"appended": true}
+015_pedestrian_crossing_hybrid_014.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+015_pedestrian_crossing_rules_014.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+015_pedestrian_crossing_rules_014.json: COMPLETE -> analyze.py {"appended": true}
+015_pedestrian_crossing_rules_014.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 14, "quarantined": [], "references": ["s1_024", "s1_032", "s1_045", "s1_064", "s1_066", "s1_082"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+audit: {"audited": 14, "quarantined": [], "references": ["s1_024", "s1_032", "s1_045", "s1_064", "s1_066", "s1_082"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+016_pedestrian_crossing_rules_015.json: READY -> run_experiment.py {"pid": 204997, "run_dir": "diag/pedestrian_crossing_rules_015"}
+016_pedestrian_crossing_hybrid_015.json: READY -> run_experiment.py {"pid": 205533, "run_dir": "diag/pedestrian_crossing_hybrid_015"}
+016_pedestrian_crossing_hybrid_015.json: RUNNING -> monitor.py {"crashed": -6, "rerun": true}
+016_pedestrian_crossing_hybrid_015.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+016_pedestrian_crossing_hybrid_015.json: COMPLETE -> analyze.py {"appended": true}
+016_pedestrian_crossing_hybrid_015.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+017_pedestrian_crossing_hybrid_016.json: READY -> run_experiment.py {"pid": 212211, "run_dir": "diag/pedestrian_crossing_hybrid_016"}
+016_pedestrian_crossing_rules_015.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+016_pedestrian_crossing_rules_015.json: COMPLETE -> analyze.py {"appended": true}
+016_pedestrian_crossing_rules_015.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+017_pedestrian_crossing_rules_016.json: READY -> run_experiment.py {"pid": 213747, "run_dir": "diag/pedestrian_crossing_rules_016"}
+017_pedestrian_crossing_rules_016.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 1.4}
+017_pedestrian_crossing_rules_016.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 24169, "output_tokens": 662, "duration_ms": 7636, "tool_calls": ["Bash: nvidia-smi; docker ps", "Grep: out of memory|Process \\d+ has"], "denied": []}
+017_pedestrian_crossing_rules_016.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+017_pedestrian_crossing_rules_016.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "023_pedestrian_crossing_rules_016_a2.json", "cleanup": null}
+018_pedestrian_crossing_rules_017.json: READY -> run_experiment.py {"pid": 218387, "run_dir": "diag/pedestrian_crossing_rules_017"}
+017_pedestrian_crossing_hybrid_016.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.6}
+017_pedestrian_crossing_hybrid_016.json: COMPLETE -> analyze.py {"appended": true}
+017_pedestrian_crossing_hybrid_016.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+018_pedestrian_crossing_hybrid_017.json: READY -> run_experiment.py {"pid": 221350, "run_dir": "diag/pedestrian_crossing_hybrid_017"}
+018_pedestrian_crossing_rules_017.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+018_pedestrian_crossing_rules_017.json: COMPLETE -> analyze.py {"appended": true}
+018_pedestrian_crossing_rules_017.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+019_pedestrian_crossing_rules_018.json: READY -> run_experiment.py {"pid": 228416, "run_dir": "diag/pedestrian_crossing_rules_018"}
+018_pedestrian_crossing_hybrid_017.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+018_pedestrian_crossing_hybrid_017.json: COMPLETE -> analyze.py {"appended": true}
+018_pedestrian_crossing_hybrid_017.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+019_pedestrian_crossing_hybrid_018.json: READY -> run_experiment.py {"pid": 231091, "run_dir": "diag/pedestrian_crossing_hybrid_018"}
+019_pedestrian_crossing_rules_018.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+019_pedestrian_crossing_rules_018.json: COMPLETE -> analyze.py {"appended": true}
+019_pedestrian_crossing_rules_018.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+020_pedestrian_crossing_rules_019.json: READY -> run_experiment.py {"pid": 235455, "run_dir": "diag/pedestrian_crossing_rules_019"}
+019_pedestrian_crossing_hybrid_018.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+019_pedestrian_crossing_hybrid_018.json: COMPLETE -> analyze.py {"appended": true}
+019_pedestrian_crossing_hybrid_018.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+020_pedestrian_crossing_hybrid_019.json: READY -> run_experiment.py {"pid": 237996, "run_dir": "diag/pedestrian_crossing_hybrid_019"}
+020_pedestrian_crossing_rules_019.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+020_pedestrian_crossing_rules_019.json: COMPLETE -> analyze.py {"appended": true}
+020_pedestrian_crossing_rules_019.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+021_pedestrian_crossing_rules_020.json: READY -> run_experiment.py {"pid": 247042, "run_dir": "diag/pedestrian_crossing_rules_020"}
+020_pedestrian_crossing_hybrid_019.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+020_pedestrian_crossing_hybrid_019.json: COMPLETE -> analyze.py {"appended": true}
+020_pedestrian_crossing_hybrid_019.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+021_pedestrian_crossing_hybrid_020.json: READY -> run_experiment.py {"pid": 249618, "run_dir": "diag/pedestrian_crossing_hybrid_020"}
+021_pedestrian_crossing_rules_020.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+021_pedestrian_crossing_rules_020.json: COMPLETE -> analyze.py {"appended": true}
+021_pedestrian_crossing_rules_020.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+022_pedestrian_crossing_rules_021.json: READY -> run_experiment.py {"pid": 254236, "run_dir": "diag/pedestrian_crossing_rules_021"}
+021_pedestrian_crossing_hybrid_020.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+021_pedestrian_crossing_hybrid_020.json: COMPLETE -> analyze.py {"appended": true}
+021_pedestrian_crossing_hybrid_020.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+022_pedestrian_crossing_hybrid_021.json: READY -> run_experiment.py {"pid": 256642, "run_dir": "diag/pedestrian_crossing_hybrid_021"}
+022_pedestrian_crossing_rules_021.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+022_pedestrian_crossing_rules_021.json: COMPLETE -> analyze.py {"appended": true}
+022_pedestrian_crossing_rules_021.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+023_pedestrian_crossing_rules_016_a2.json: READY -> run_experiment.py {"pid": 260365, "run_dir": "diag/pedestrian_crossing_rules_016_a2"}
+022_pedestrian_crossing_hybrid_021.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+022_pedestrian_crossing_hybrid_021.json: COMPLETE -> analyze.py {"appended": true}
+022_pedestrian_crossing_hybrid_021.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 21, "quarantined": [], "references": ["s1_024", "s1_032", "s1_045", "s1_064", "s1_066", "s1_082"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+023_pedestrian_crossing_hybrid_022.json: READY -> run_experiment.py {"pid": 263868, "run_dir": "diag/pedestrian_crossing_hybrid_022"}
+023_pedestrian_crossing_rules_016_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.5}
+023_pedestrian_crossing_rules_016_a2.json: COMPLETE -> analyze.py {"appended": true}
+023_pedestrian_crossing_rules_016_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 21, "quarantined": [], "references": ["s1_024", "s1_032", "s1_045", "s1_064", "s1_066", "s1_082"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+024_pedestrian_crossing_rules_022.json: READY -> run_experiment.py {"pid": 267239, "run_dir": "diag/pedestrian_crossing_rules_022"}
+023_pedestrian_crossing_hybrid_022.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.6}
+023_pedestrian_crossing_hybrid_022.json: COMPLETE -> analyze.py {"appended": true}
+023_pedestrian_crossing_hybrid_022.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+024_pedestrian_crossing_hybrid_023.json: READY -> run_experiment.py {"pid": 269857, "run_dir": "diag/pedestrian_crossing_hybrid_023"}
+024_pedestrian_crossing_rules_022.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+024_pedestrian_crossing_rules_022.json: COMPLETE -> analyze.py {"appended": true}
+024_pedestrian_crossing_rules_022.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+025_pedestrian_crossing_rules_023.json: READY -> run_experiment.py {"pid": 273129, "run_dir": "diag/pedestrian_crossing_rules_023"}
+024_pedestrian_crossing_hybrid_023.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+024_pedestrian_crossing_hybrid_023.json: COMPLETE -> analyze.py {"appended": true}
+024_pedestrian_crossing_hybrid_023.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+025_pedestrian_crossing_hybrid_024.json: READY -> run_experiment.py {"pid": 275739, "run_dir": "diag/pedestrian_crossing_hybrid_024"}
+025_pedestrian_crossing_rules_023.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+025_pedestrian_crossing_rules_023.json: COMPLETE -> analyze.py {"appended": true}
+025_pedestrian_crossing_rules_023.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+026_pedestrian_crossing_rules_024.json: READY -> run_experiment.py {"pid": 279390, "run_dir": "diag/pedestrian_crossing_rules_024"}
+025_pedestrian_crossing_hybrid_024.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+025_pedestrian_crossing_hybrid_024.json: COMPLETE -> analyze.py {"appended": true}
+025_pedestrian_crossing_hybrid_024.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+026_pedestrian_crossing_hybrid_025.json: READY -> run_experiment.py {"pid": 282050, "run_dir": "diag/pedestrian_crossing_hybrid_025"}
+026_pedestrian_crossing_rules_024.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+026_pedestrian_crossing_rules_024.json: COMPLETE -> analyze.py {"appended": true}
+026_pedestrian_crossing_rules_024.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+027_pedestrian_crossing_rules_025.json: READY -> run_experiment.py {"pid": 285333, "run_dir": "diag/pedestrian_crossing_rules_025"}
+026_pedestrian_crossing_hybrid_025.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+026_pedestrian_crossing_hybrid_025.json: COMPLETE -> analyze.py {"appended": true}
+026_pedestrian_crossing_hybrid_025.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+027_pedestrian_crossing_hybrid_026.json: READY -> run_experiment.py {"pid": 287956, "run_dir": "diag/pedestrian_crossing_hybrid_026"}
+027_pedestrian_crossing_rules_025.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.6}
+027_pedestrian_crossing_rules_025.json: COMPLETE -> analyze.py {"appended": true}
+027_pedestrian_crossing_rules_025.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+028_pedestrian_crossing_rules_026.json: READY -> run_experiment.py {"pid": 291296, "run_dir": "diag/pedestrian_crossing_rules_026"}
+027_pedestrian_crossing_hybrid_026.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.6}
+027_pedestrian_crossing_hybrid_026.json: COMPLETE -> analyze.py {"appended": true}
+027_pedestrian_crossing_hybrid_026.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+028_pedestrian_crossing_hybrid_027.json: READY -> run_experiment.py {"pid": 294031, "run_dir": "diag/pedestrian_crossing_hybrid_027"}
+028_pedestrian_crossing_rules_026.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.6}
+028_pedestrian_crossing_rules_026.json: COMPLETE -> analyze.py {"appended": true}
+028_pedestrian_crossing_rules_026.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+029_pedestrian_crossing_rules_027.json: READY -> run_experiment.py {"pid": 297252, "run_dir": "diag/pedestrian_crossing_rules_027"}
+028_pedestrian_crossing_hybrid_027.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+028_pedestrian_crossing_hybrid_027.json: COMPLETE -> analyze.py {"appended": true}
+028_pedestrian_crossing_hybrid_027.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+029_pedestrian_crossing_hybrid_028.json: READY -> run_experiment.py {"pid": 299915, "run_dir": "diag/pedestrian_crossing_hybrid_028"}
+029_pedestrian_crossing_rules_027.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+029_pedestrian_crossing_rules_027.json: COMPLETE -> analyze.py {"appended": true}
+029_pedestrian_crossing_rules_027.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+030_pedestrian_crossing_rules_028.json: READY -> run_experiment.py {"pid": 303282, "run_dir": "diag/pedestrian_crossing_rules_028"}
+029_pedestrian_crossing_hybrid_028.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+029_pedestrian_crossing_hybrid_028.json: COMPLETE -> analyze.py {"appended": true}
+029_pedestrian_crossing_hybrid_028.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 28, "quarantined": [], "references": ["s1_024", "s1_032", "s1_045", "s1_064", "s1_066", "s1_082"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+030_pedestrian_crossing_hybrid_029.json: READY -> run_experiment.py {"pid": 308639, "run_dir": "diag/pedestrian_crossing_hybrid_029"}
+030_pedestrian_crossing_rules_028.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+030_pedestrian_crossing_rules_028.json: COMPLETE -> analyze.py {"appended": true}
+030_pedestrian_crossing_rules_028.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 28, "quarantined": [], "references": ["s1_024", "s1_032", "s1_045", "s1_064", "s1_066", "s1_082"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+031_pedestrian_crossing_rules_029.json: READY -> run_experiment.py {"pid": 314089, "run_dir": "diag/pedestrian_crossing_rules_029"}
+030_pedestrian_crossing_hybrid_029.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+030_pedestrian_crossing_hybrid_029.json: COMPLETE -> analyze.py {"appended": true}
+030_pedestrian_crossing_hybrid_029.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+031_pedestrian_crossing_hybrid_030.json: READY -> run_experiment.py {"pid": 316755, "run_dir": "diag/pedestrian_crossing_hybrid_030"}
+031_pedestrian_crossing_rules_029.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+031_pedestrian_crossing_rules_029.json: COMPLETE -> analyze.py {"appended": true}
+031_pedestrian_crossing_rules_029.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+032_pedestrian_crossing_rules_030.json: READY -> run_experiment.py {"pid": 320030, "run_dir": "diag/pedestrian_crossing_rules_030"}
+031_pedestrian_crossing_hybrid_030.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+031_pedestrian_crossing_hybrid_030.json: COMPLETE -> analyze.py {"appended": true}
+031_pedestrian_crossing_hybrid_030.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+032_pedestrian_crossing_hybrid_031.json: READY -> run_experiment.py {"pid": 322685, "run_dir": "diag/pedestrian_crossing_hybrid_031"}
+032_pedestrian_crossing_rules_030.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+032_pedestrian_crossing_hybrid_031.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 1.8}
+032_pedestrian_crossing_rules_030.json: COMPLETE -> analyze.py {"appended": true}
+032_pedestrian_crossing_rules_030.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+033_pedestrian_crossing_rules_031.json: READY -> run_experiment.py {"pid": 326071, "run_dir": "diag/pedestrian_crossing_rules_031"}
+032_pedestrian_crossing_hybrid_031.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 32427, "output_tokens": 405, "duration_ms": 6733, "tool_calls": ["Bash: nvidia-smi; docker ps -a; df -h /", "Bash: docker ps --format '{{.Names}} {{.Status}}'"], "denied": []}
+032_pedestrian_crossing_hybrid_031.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+032_pedestrian_crossing_hybrid_031.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "037_pedestrian_crossing_hybrid_031_a2.json", "cleanup": null}
+033_pedestrian_crossing_hybrid_032.json: READY -> run_experiment.py {"pid": 327864, "run_dir": "diag/pedestrian_crossing_hybrid_032"}
+033_pedestrian_crossing_rules_031.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.1}
+033_pedestrian_crossing_rules_031.json: COMPLETE -> analyze.py {"appended": true}
+033_pedestrian_crossing_rules_031.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+034_pedestrian_crossing_rules_032.json: READY -> run_experiment.py {"pid": 331866, "run_dir": "diag/pedestrian_crossing_rules_032"}
+033_pedestrian_crossing_hybrid_032.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+033_pedestrian_crossing_hybrid_032.json: COMPLETE -> analyze.py {"appended": true}
+033_pedestrian_crossing_hybrid_032.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+034_pedestrian_crossing_hybrid_033.json: READY -> run_experiment.py {"pid": 332582, "run_dir": "diag/pedestrian_crossing_hybrid_033"}
+034_pedestrian_crossing_rules_032.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+034_pedestrian_crossing_rules_032.json: COMPLETE -> analyze.py {"appended": true}
+034_pedestrian_crossing_rules_032.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+035_pedestrian_crossing_rules_033.json: READY -> run_experiment.py {"pid": 337409, "run_dir": "diag/pedestrian_crossing_rules_033"}
+034_pedestrian_crossing_hybrid_033.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+034_pedestrian_crossing_hybrid_033.json: COMPLETE -> analyze.py {"appended": true}
+034_pedestrian_crossing_hybrid_033.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+035_pedestrian_crossing_hybrid_034.json: READY -> run_experiment.py {"pid": 339914, "run_dir": "diag/pedestrian_crossing_hybrid_034"}
+035_pedestrian_crossing_rules_033.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+035_pedestrian_crossing_rules_033.json: COMPLETE -> analyze.py {"appended": true}
+035_pedestrian_crossing_rules_033.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+036_pedestrian_crossing_rules_034.json: READY -> run_experiment.py {"pid": 343573, "run_dir": "diag/pedestrian_crossing_rules_034"}
+035_pedestrian_crossing_hybrid_034.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+035_pedestrian_crossing_hybrid_034.json: COMPLETE -> analyze.py {"appended": true}
+035_pedestrian_crossing_hybrid_034.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+036_pedestrian_crossing_hybrid_035.json: READY -> run_experiment.py {"pid": 345846, "run_dir": "diag/pedestrian_crossing_hybrid_035"}
+036_pedestrian_crossing_rules_034.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+036_pedestrian_crossing_rules_034.json: COMPLETE -> analyze.py {"appended": true}
+036_pedestrian_crossing_rules_034.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+037_pedestrian_crossing_rules_035.json: READY -> run_experiment.py {"pid": 349493, "run_dir": "diag/pedestrian_crossing_rules_035"}
+036_pedestrian_crossing_hybrid_035.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+036_pedestrian_crossing_hybrid_035.json: COMPLETE -> analyze.py {"appended": true}
+036_pedestrian_crossing_hybrid_035.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+037_pedestrian_crossing_hybrid_031_a2.json: READY -> run_experiment.py {"pid": 351718, "run_dir": "diag/pedestrian_crossing_hybrid_031_a2"}
+037_pedestrian_crossing_rules_035.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+037_pedestrian_crossing_rules_035.json: COMPLETE -> analyze.py {"appended": true}
+037_pedestrian_crossing_rules_035.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+037_pedestrian_crossing_hybrid_031_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+037_pedestrian_crossing_hybrid_031_a2.json: COMPLETE -> analyze.py {"appended": true}
+037_pedestrian_crossing_hybrid_031_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 35, "quarantined": [], "references": ["s1_024", "s1_032", "s1_045", "s1_064", "s1_066", "s1_082"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+038_pedestrian_crossing_rules_036.json: READY -> run_experiment.py {"pid": 357871, "run_dir": "diag/pedestrian_crossing_rules_036"}
+audit: {"audited": 35, "quarantined": [], "references": ["s1_024", "s1_032", "s1_045", "s1_064", "s1_066", "s1_082"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+038_pedestrian_crossing_hybrid_036.json: READY -> run_experiment.py {"pid": 359828, "run_dir": "diag/pedestrian_crossing_hybrid_036"}
+038_pedestrian_crossing_rules_036.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+038_pedestrian_crossing_rules_036.json: COMPLETE -> analyze.py {"appended": true}
+038_pedestrian_crossing_rules_036.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+039_pedestrian_crossing_rules_037.json: READY -> run_experiment.py {"pid": 363176, "run_dir": "diag/pedestrian_crossing_rules_037"}
+038_pedestrian_crossing_hybrid_036.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+038_pedestrian_crossing_hybrid_036.json: COMPLETE -> analyze.py {"appended": true}
+038_pedestrian_crossing_hybrid_036.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+039_pedestrian_crossing_hybrid_037.json: READY -> run_experiment.py {"pid": 365785, "run_dir": "diag/pedestrian_crossing_hybrid_037"}
+039_pedestrian_crossing_rules_037.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+039_pedestrian_crossing_rules_037.json: COMPLETE -> analyze.py {"appended": true}
+039_pedestrian_crossing_rules_037.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+040_pedestrian_crossing_rules_038.json: READY -> run_experiment.py {"pid": 369063, "run_dir": "diag/pedestrian_crossing_rules_038"}
+039_pedestrian_crossing_hybrid_037.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+039_pedestrian_crossing_hybrid_037.json: COMPLETE -> analyze.py {"appended": true}
+039_pedestrian_crossing_hybrid_037.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+040_pedestrian_crossing_hybrid_038.json: READY -> run_experiment.py {"pid": 371682, "run_dir": "diag/pedestrian_crossing_hybrid_038"}
+040_pedestrian_crossing_rules_038.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.6}
+040_pedestrian_crossing_rules_038.json: COMPLETE -> analyze.py {"appended": true}
+040_pedestrian_crossing_rules_038.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+041_pedestrian_crossing_rules_039.json: READY -> run_experiment.py {"pid": 374874, "run_dir": "diag/pedestrian_crossing_rules_039"}
+040_pedestrian_crossing_hybrid_038.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.6}
+040_pedestrian_crossing_hybrid_038.json: COMPLETE -> analyze.py {"appended": true}
+040_pedestrian_crossing_hybrid_038.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+041_pedestrian_crossing_hybrid_039.json: READY -> run_experiment.py {"pid": 377531, "run_dir": "diag/pedestrian_crossing_hybrid_039"}
+041_pedestrian_crossing_rules_039.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.6}
+041_pedestrian_crossing_rules_039.json: COMPLETE -> analyze.py {"appended": true}
+041_pedestrian_crossing_rules_039.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+042_pedestrian_crossing_rules_040.json: READY -> run_experiment.py {"pid": 380810, "run_dir": "diag/pedestrian_crossing_rules_040"}
+041_pedestrian_crossing_hybrid_039.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+041_pedestrian_crossing_hybrid_039.json: COMPLETE -> analyze.py {"appended": true}
+041_pedestrian_crossing_hybrid_039.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+042_pedestrian_crossing_hybrid_040.json: READY -> run_experiment.py {"pid": 383433, "run_dir": "diag/pedestrian_crossing_hybrid_040"}
+042_pedestrian_crossing_rules_040.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.6}
+042_pedestrian_crossing_rules_040.json: COMPLETE -> analyze.py {"appended": true}
+042_pedestrian_crossing_rules_040.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+043_pedestrian_crossing_rules_041.json: READY -> run_experiment.py {"pid": 386677, "run_dir": "diag/pedestrian_crossing_rules_041"}
+042_pedestrian_crossing_hybrid_040.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+042_pedestrian_crossing_hybrid_040.json: COMPLETE -> analyze.py {"appended": true}
+042_pedestrian_crossing_hybrid_040.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+043_pedestrian_crossing_hybrid_041.json: READY -> run_experiment.py {"pid": 389261, "run_dir": "diag/pedestrian_crossing_hybrid_041"}
+043_pedestrian_crossing_rules_041.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+043_pedestrian_crossing_rules_041.json: COMPLETE -> analyze.py {"appended": true}
+043_pedestrian_crossing_rules_041.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+044_pedestrian_crossing_rules_042.json: READY -> run_experiment.py {"pid": 392528, "run_dir": "diag/pedestrian_crossing_rules_042"}
+043_pedestrian_crossing_hybrid_041.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+043_pedestrian_crossing_hybrid_041.json: COMPLETE -> analyze.py {"appended": true}
+043_pedestrian_crossing_hybrid_041.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+044_pedestrian_crossing_hybrid_042.json: READY -> run_experiment.py {"pid": 395121, "run_dir": "diag/pedestrian_crossing_hybrid_042"}
+044_pedestrian_crossing_rules_042.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+044_pedestrian_crossing_rules_042.json: COMPLETE -> analyze.py {"appended": true}
+044_pedestrian_crossing_rules_042.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+044_pedestrian_crossing_hybrid_042.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+044_pedestrian_crossing_hybrid_042.json: COMPLETE -> analyze.py {"appended": true}
+044_pedestrian_crossing_hybrid_042.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 42, "quarantined": [], "references": ["s1_024", "s1_032", "s1_045", "s1_064", "s1_066", "s1_082"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+045_pedestrian_crossing_rules_043.json: READY -> run_experiment.py {"pid": 401676, "run_dir": "diag/pedestrian_crossing_rules_043"}
+audit: {"audited": 42, "quarantined": [], "references": ["s1_024", "s1_032", "s1_045", "s1_064", "s1_066", "s1_082"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+045_pedestrian_crossing_rules_043.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 0.3}
+045_pedestrian_crossing_hybrid_043.json: READY -> run_experiment.py {"pid": 403820, "run_dir": "diag/pedestrian_crossing_hybrid_043"}
+045_pedestrian_crossing_rules_043.json: FAILED -> diagnose.py {"policy": "agent", "skill": "RE-RUN", "params": {}, "model": "claude-opus-5-5", "context_tokens": 61921, "output_tokens": 1376, "duration_ms": 18026, "tool_calls": ["Bash: docker ps -a --format '{{.Names}}\\t{{.Status}}\\t{{.Ports}}'; docker network ls", "Grep: driver failed|address already in use|port is already|Bind for", "Bash: docker ps --format '{{.Names}}\\t{{.Status}}\\t{{.Ports}}'", "Grep: 39252", "Bash: docker ps -a --filter name=pedestrian_crossing_rules_043 --format '{{.Names}}\\t{{.Status}}'"], "denied": []}
+045_pedestrian_crossing_rules_043.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+045_pedestrian_crossing_rules_043.json: FAILED -> recover.py {"skill": "RE-RUN", "queued": "052_pedestrian_crossing_rules_043_a2.json", "cleanup": null}
+046_pedestrian_crossing_rules_044.json: READY -> run_experiment.py {"pid": 405561, "run_dir": "diag/pedestrian_crossing_rules_044"}
+045_pedestrian_crossing_hybrid_043.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+045_pedestrian_crossing_hybrid_043.json: COMPLETE -> analyze.py {"appended": true}
+045_pedestrian_crossing_hybrid_043.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+046_pedestrian_crossing_rules_044.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.1}
+046_pedestrian_crossing_hybrid_044.json: READY -> run_experiment.py {"pid": 409992, "run_dir": "diag/pedestrian_crossing_hybrid_044"}
+046_pedestrian_crossing_rules_044.json: COMPLETE -> analyze.py {"appended": true}
+046_pedestrian_crossing_rules_044.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+047_pedestrian_crossing_rules_045.json: READY -> run_experiment.py {"pid": 410565, "run_dir": "diag/pedestrian_crossing_rules_045"}
+047_pedestrian_crossing_rules_045.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+047_pedestrian_crossing_rules_045.json: COMPLETE -> analyze.py {"appended": true}
+047_pedestrian_crossing_rules_045.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+048_pedestrian_crossing_rules_046.json: READY -> run_experiment.py {"pid": 415611, "run_dir": "diag/pedestrian_crossing_rules_046"}
+046_pedestrian_crossing_hybrid_044.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+046_pedestrian_crossing_hybrid_044.json: COMPLETE -> analyze.py {"appended": true}
+046_pedestrian_crossing_hybrid_044.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+047_pedestrian_crossing_hybrid_045.json: READY -> run_experiment.py {"pid": 417706, "run_dir": "diag/pedestrian_crossing_hybrid_045"}
+048_pedestrian_crossing_rules_046.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+048_pedestrian_crossing_rules_046.json: COMPLETE -> analyze.py {"appended": true}
+048_pedestrian_crossing_rules_046.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+049_pedestrian_crossing_rules_047.json: READY -> run_experiment.py {"pid": 421276, "run_dir": "diag/pedestrian_crossing_rules_047"}
+047_pedestrian_crossing_hybrid_045.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+047_pedestrian_crossing_hybrid_045.json: COMPLETE -> analyze.py {"appended": true}
+047_pedestrian_crossing_hybrid_045.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+048_pedestrian_crossing_hybrid_046.json: READY -> run_experiment.py {"pid": 423881, "run_dir": "diag/pedestrian_crossing_hybrid_046"}
+049_pedestrian_crossing_rules_047.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.6}
+049_pedestrian_crossing_rules_047.json: COMPLETE -> analyze.py {"appended": true}
+049_pedestrian_crossing_rules_047.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+050_pedestrian_crossing_rules_048.json: READY -> run_experiment.py {"pid": 427212, "run_dir": "diag/pedestrian_crossing_rules_048"}
+048_pedestrian_crossing_hybrid_046.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+048_pedestrian_crossing_hybrid_046.json: COMPLETE -> analyze.py {"appended": true}
+048_pedestrian_crossing_hybrid_046.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+049_pedestrian_crossing_hybrid_047.json: READY -> run_experiment.py {"pid": 429784, "run_dir": "diag/pedestrian_crossing_hybrid_047"}
+050_pedestrian_crossing_rules_048.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+050_pedestrian_crossing_rules_048.json: COMPLETE -> analyze.py {"appended": true}
+050_pedestrian_crossing_rules_048.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+051_pedestrian_crossing_rules_049.json: READY -> run_experiment.py {"pid": 433089, "run_dir": "diag/pedestrian_crossing_rules_049"}
+049_pedestrian_crossing_hybrid_047.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+049_pedestrian_crossing_hybrid_047.json: COMPLETE -> analyze.py {"appended": true}
+049_pedestrian_crossing_hybrid_047.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+050_pedestrian_crossing_hybrid_048.json: READY -> run_experiment.py {"pid": 435667, "run_dir": "diag/pedestrian_crossing_hybrid_048"}
+051_pedestrian_crossing_rules_049.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.1}
+051_pedestrian_crossing_rules_049.json: COMPLETE -> analyze.py {"appended": true}
+051_pedestrian_crossing_rules_049.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+052_pedestrian_crossing_rules_043_a2.json: READY -> run_experiment.py {"pid": 439253, "run_dir": "diag/pedestrian_crossing_rules_043_a2"}
+050_pedestrian_crossing_hybrid_048.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.7}
+050_pedestrian_crossing_hybrid_048.json: COMPLETE -> analyze.py {"appended": true}
+050_pedestrian_crossing_hybrid_048.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+051_pedestrian_crossing_hybrid_049.json: READY -> run_experiment.py {"pid": 441196, "run_dir": "diag/pedestrian_crossing_hybrid_049"}
+052_pedestrian_crossing_rules_043_a2.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+052_pedestrian_crossing_rules_043_a2.json: COMPLETE -> analyze.py {"appended": true}
+052_pedestrian_crossing_rules_043_a2.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+051_pedestrian_crossing_hybrid_049.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.1}
+051_pedestrian_crossing_hybrid_049.json: COMPLETE -> analyze.py {"appended": true}
+051_pedestrian_crossing_hybrid_049.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 49, "quarantined": [], "references": ["s1_024", "s1_032", "s1_045", "s1_064", "s1_066", "s1_082"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+audit: {"audited": 49, "quarantined": [], "references": ["s1_024", "s1_032", "s1_045", "s1_064", "s1_066", "s1_082"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+{
+ "question": "Which pedestrian step-out timings (\u00b12 s) and walking speeds (0.5x to 2x) make VaVAM hit the pedestrian or leave the road in pedestrian-crossing scenes, with the other traffic replayed as recorded? Find the 5 hardest cases, each on a different scene.",
+ "objective": "Find five (pedestrian time shift, pedestrian speed scale) settings, each on a different scene, where the ego fails (front or side collision, or leaving the road) more often than not. Confirm each one with repeats. Explore quickly at first, then spend repeats on the settings that fail or nearly fail (smallest closest approach). Ignore planner delay, lateral bias and waypoint noise: they stay at zero. Do not spend many repeats on a scene once it looks robust to every timing.",
+ "vary": [
+  "actor_time_shift_s",
+  "actor_speed_scale"
+ ],
+ "scenes": [
+  "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+  "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+  "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+  "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240",
+  "clipgt-095cf563-c5d6-4f4f-9e98-7f179e733560",
+  "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc"
+ ],
+ "rounds": 7,
+ "per_round": 7,
+ "rationale": "Scope: the brief asks for scenes tagged pedestrian_crossing, with recorded pedestrians retimed (class person), other traffic on replay (as in Euro NCAP-style scripted tests), and no delay or perception error.\n\nScene choice: I left out the six tagged scenes that already failed in the earlier run at 0 delay (048b974e, 07981e6a, 0caa8f1a, 0d4893f5, 18d28973, 1bbe02fc). A failure there would probably come from the scene itself, not from the pedestrian's timing, so it would rank as 'challenging' without answering the question. That leaves six candidates:\n- Four have an identified pedestrian, and only that pedestrian is retimed:\n  - 0e002edd: closest approach 0.15 m\n  - 18f8dbd6: 0.9 m\n  - 0b10bce8: 1.5 m, but the ego drove only 8.9 m, so it may sit nearly stopped\n  - 12a09194: 11.5 m, so the pedestrian is far away and a shift may be needed to create conflict\n- Two had near misses but no identified pedestrian, so their whole person class is retimed:\n  - 095cf563: 0.17 m\n  - 13a9767e: 0.12 m\n\nBudget: 7 rounds of 7 runs (49 runs) gives the proposer room to adapt. With 90% ranges, confirming a rate above 0.5 takes about 4 to 5 failures per setting. Five confirmed cases therefore need about 25 runs, which leaves the rest for searching.\n\nLimits:\n- Six candidates for k=5 is tight. If two scenes turn out robust, or 095cf563 or 13a9767e turn out to have no person-class actor (their runs would then fail as invalid), the goal cannot be met. The study then runs its full budget and reports fewer than five confirmed cases, with near misses (closest approach) ranked next.\n- The earlier baseline used CATK traffic, not replay, so baselines under replay may differ.\n- The failure check does not say which actor was hit. A collision with a replayed vehicle counts the same as one with the pedestrian.\n- Replayed traffic does not react to the ego, which differs from CATK.",
+ "fixed": {
+  "traffic": "replay",
+  "retime_class": "person",
+  "retime_tracks": {
+   "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91": "12",
+   "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112": "97",
+   "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3": "32",
+   "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240": "123"
+  }
+ },
+ "goal": {
+  "type": "top_k",
+  "k": 5,
+  "high_min": 0.5,
+  "distinct_scenes": true
+ }
+}
+{"round": 1, "queued": 7, "dropped": 0}
+{"round": 2, "queued": 7, "dropped": 0}
+{"round": 3, "queued": 7, "dropped": 0}
+{"round": 4, "queued": 7, "dropped": 0}
+{"round": 5, "queued": 7, "dropped": 0}
+{"round": 6, "queued": 7, "dropped": 0}
+{"round": 7, "queued": 7, "dropped": 0}
+report: /home/willvarner/alpasim/research/studies/pedestrian_crossing/hybrid/report.md
+{
+ "question": "Which pedestrian step-out timings (\u00b12 s) and walking speeds (0.5x to 2x) make VaVAM hit the pedestrian or leave the road in pedestrian-crossing scenes, with the other traffic replayed as recorded? Find the 5 hardest cases, each on a different scene.",
+ "objective": "Find five (pedestrian time shift, pedestrian speed scale) settings, each on a different scene, where the ego fails (front or side collision, or leaving the road) more often than not. Confirm each one with repeats. Explore quickly at first, then spend repeats on the settings that fail or nearly fail (smallest closest approach). Ignore planner delay, lateral bias and waypoint noise: they stay at zero. Do not spend many repeats on a scene once it looks robust to every timing.",
+ "vary": [
+  "actor_time_shift_s",
+  "actor_speed_scale"
+ ],
+ "scenes": [
+  "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+  "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+  "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+  "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240",
+  "clipgt-095cf563-c5d6-4f4f-9e98-7f179e733560",
+  "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc"
+ ],
+ "rounds": 7,
+ "per_round": 7,
+ "rationale": "Scope: the brief asks for scenes tagged pedestrian_crossing, with recorded pedestrians retimed (class person), other traffic on replay (as in Euro NCAP-style scripted tests), and no delay or perception error.\n\nScene choice: I left out the six tagged scenes that already failed in the earlier run at 0 delay (048b974e, 07981e6a, 0caa8f1a, 0d4893f5, 18d28973, 1bbe02fc). A failure there would probably come from the scene itself, not from the pedestrian's timing, so it would rank as 'challenging' without answering the question. That leaves six candidates:\n- Four have an identified pedestrian, and only that pedestrian is retimed:\n  - 0e002edd: closest approach 0.15 m\n  - 18f8dbd6: 0.9 m\n  - 0b10bce8: 1.5 m, but the ego drove only 8.9 m, so it may sit nearly stopped\n  - 12a09194: 11.5 m, so the pedestrian is far away and a shift may be needed to create conflict\n- Two had near misses but no identified pedestrian, so their whole person class is retimed:\n  - 095cf563: 0.17 m\n  - 13a9767e: 0.12 m\n\nBudget: 7 rounds of 7 runs (49 runs) gives the proposer room to adapt. With 90% ranges, confirming a rate above 0.5 takes about 4 to 5 failures per setting. Five confirmed cases therefore need about 25 runs, which leaves the rest for searching.\n\nLimits:\n- Six candidates for k=5 is tight. If two scenes turn out robust, or 095cf563 or 13a9767e turn out to have no person-class actor (their runs would then fail as invalid), the goal cannot be met. The study then runs its full budget and reports fewer than five confirmed cases, with near misses (closest approach) ranked next.\n- The earlier baseline used CATK traffic, not replay, so baselines under replay may differ.\n- The failure check does not say which actor was hit. A collision with a replayed vehicle counts the same as one with the pedestrian.\n- Replayed traffic does not react to the ego, which differs from CATK.",
+ "fixed": {
+  "traffic": "replay",
+  "retime_class": "person",
+  "retime_tracks": {
+   "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91": "12",
+   "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112": "97",
+   "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3": "32",
+   "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240": "123"
+  }
+ },
+ "goal": {
+  "type": "top_k",
+  "k": 5,
+  "high_min": 0.5,
+  "distinct_scenes": true
+ }
+}
+{"round": 1, "queued": 7, "dropped": 0}
+{"round": 2, "queued": 7, "dropped": 0}
+{"round": 3, "queued": 7, "dropped": 0}
+{"round": 4, "queued": 7, "dropped": 0}
+{"round": 5, "queued": 7, "dropped": 0}
+{"round": 6, "queued": 7, "dropped": 0}
+{"round": 7, "queued": 7, "dropped": 0}
+report: /home/willvarner/alpasim/research/studies/pedestrian_crossing/rules/report.md
+2026-10-07T23:32:12-04:00 rp1 (seeded replay validation) starting
+001_rp1_001.json: READY -> run_experiment.py {"pid": 448181, "run_dir": "diag/rp1_001"}
+001_rp1_001.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.4}
+001_rp1_001.json: COMPLETE -> analyze.py {"appended": true}
+001_rp1_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_rp1_002.json: READY -> run_experiment.py {"pid": 451112, "run_dir": "diag/rp1_002"}
+002_rp1_002.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.4}
+002_rp1_002.json: COMPLETE -> analyze.py {"appended": true}
+002_rp1_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+003_rp1_003.json: READY -> run_experiment.py {"pid": 454102, "run_dir": "diag/rp1_003"}
+003_rp1_003.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.4}
+003_rp1_003.json: COMPLETE -> analyze.py {"appended": true}
+003_rp1_003.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+2026-10-07T23:39:42-04:00 rp1: same seed reproduced the run; seeding the category studies
+2026-10-07T23:39:43-04:00 rp1 done
+2026-10-07T23:39:43-04:00 smoke/ego_speed_smoke (grid) starting
+warning: `VIRTUAL_ENV=/home/willvarner/.cache/uv/builds-v0/.tmphRdUQN` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+001_ego_speed_smoke_grid_001.json: READY -> run_experiment.py {"pid": 457459, "run_dir": "diag/ego_speed_smoke_grid_001"}
+2026-10-07T23:40:43-04:00 categories/pedestrian_crossing (llm) starting
+warning: `VIRTUAL_ENV=/home/willvarner/.cache/uv/builds-v0/.tmpwunwJe` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+001_pedestrian_crossing_001.json: READY -> run_experiment.py {"launched": false, "environment": ["GPU free 9854 MiB < 10500 MiB"]}
+001_pedestrian_crossing_001.json: FAILED -> diagnose.py {"policy": "agent", "skill": "CLEANUP_ENV", "params": {}, "model": "claude-opus-5-5", "context_tokens": 32561, "output_tokens": 583, "duration_ms": 9384, "tool_calls": ["Bash: nvidia-smi; docker ps -a; docker network ls", "Bash: docker ps --format '{{.Names}}\\t{{.Status}}' | head -50; docker ps -q | wc -l; docker ps -aq | wc -l; docker network ls | wc -l"], "denied": []}
+001_pedestrian_crossing_001.json: FAILED -> validate_diagnosis.py {"accepted": true, "verdict": "accepted"}
+001_pedestrian_crossing_001.json: FAILED -> recover.py {"skill": "CLEANUP_ENV", "queued": null, "cleanup": "removed 1 AlpaSim networks"}
+001_pedestrian_crossing_001.json: READY -> run_experiment.py {"pid": 460835, "run_dir": "diag/pedestrian_crossing_001"}
+001_ego_speed_smoke_grid_001.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.5}
+001_ego_speed_smoke_grid_001.json: COMPLETE -> analyze.py {"appended": true}
+001_ego_speed_smoke_grid_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_ego_speed_smoke_grid_002.json: READY -> run_experiment.py {"pid": 462905, "run_dir": "diag/ego_speed_smoke_grid_002"}
+001_pedestrian_crossing_001.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+001_pedestrian_crossing_001.json: COMPLETE -> analyze.py {"appended": true}
+001_pedestrian_crossing_001.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_pedestrian_crossing_002.json: READY -> run_experiment.py {"pid": 467133, "run_dir": "diag/pedestrian_crossing_002"}
+002_ego_speed_smoke_grid_002.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+002_ego_speed_smoke_grid_002.json: COMPLETE -> analyze.py {"appended": true}
+002_ego_speed_smoke_grid_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+003_ego_speed_smoke_grid_003.json: READY -> run_experiment.py {"pid": 469083, "run_dir": "diag/ego_speed_smoke_grid_003"}
+003_ego_speed_smoke_grid_003.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+002_pedestrian_crossing_002.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.2}
+003_ego_speed_smoke_grid_003.json: COMPLETE -> analyze.py {"appended": true}
+003_ego_speed_smoke_grid_003.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+002_pedestrian_crossing_002.json: COMPLETE -> analyze.py {"appended": true}
+004_ego_speed_smoke_grid_004.json: READY -> run_experiment.py {"pid": 473264, "run_dir": "diag/ego_speed_smoke_grid_004"}
+002_pedestrian_crossing_002.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+003_pedestrian_crossing_003.json: READY -> run_experiment.py {"pid": 473624, "run_dir": "diag/pedestrian_crossing_003"}
+003_pedestrian_crossing_003.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+003_pedestrian_crossing_003.json: COMPLETE -> analyze.py {"appended": true}
+003_pedestrian_crossing_003.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+004_pedestrian_crossing_004.json: READY -> run_experiment.py {"pid": 478789, "run_dir": "diag/pedestrian_crossing_004"}
+004_ego_speed_smoke_grid_004.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.1}
+004_ego_speed_smoke_grid_004.json: COMPLETE -> analyze.py {"appended": true}
+004_ego_speed_smoke_grid_004.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+005_ego_speed_smoke_grid_005.json: READY -> run_experiment.py {"pid": 480798, "run_dir": "diag/ego_speed_smoke_grid_005"}
+004_pedestrian_crossing_004.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+004_pedestrian_crossing_004.json: COMPLETE -> analyze.py {"appended": true}
+004_pedestrian_crossing_004.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+005_pedestrian_crossing_005.json: READY -> run_experiment.py {"pid": 484710, "run_dir": "diag/pedestrian_crossing_005"}
+005_ego_speed_smoke_grid_005.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+005_ego_speed_smoke_grid_005.json: COMPLETE -> analyze.py {"appended": true}
+005_ego_speed_smoke_grid_005.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+audit: {"audited": 5, "quarantined": [], "references": ["s1_045"], "scenes_without_reference": 0, "reference_flagged": [], "rules_proposed": 0, "rules_admissible": []}
+{
+ "question": "Does the ego speed knob land and pass the gate on a real run at each value?",
+ "objective": "Smoke test: one run per ego_speed_scale value on one pedestrian scene, traffic replayed.",
+ "vary": [
+  "ego_speed_scale"
+ ],
+ "scenes": [
+  "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91"
+ ],
+ "rounds": 1,
+ "per_round": 5,
+ "rationale": "Written by hand to calibrate the ego speed check on real runs before any study varies it.",
+ "fixed": {
+  "traffic": "replay"
+ },
+ "goal": {
+  "type": "none"
+ }
+}
+{"round": 1, "queued": 5, "dropped": 0}
+report: /home/willvarner/alpasim/research/studies/ego_speed_smoke/grid/report.md
+2026-10-07T23:56:13-04:00 smoke/ego_speed_smoke (grid) done
+2026-10-07T23:56:14-04:00 categories/pedestrian_crossing (random) starting
+warning: `VIRTUAL_ENV=/home/willvarner/.cache/uv/builds-v0/.tmpYjkJo5` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+001_pedestrian_crossing_random_001.json: READY -> run_experiment.py {"pid": 487883, "run_dir": "diag/pedestrian_crossing_random_001"}
+005_pedestrian_crossing_005.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.5}
+005_pedestrian_crossing_005.json: COMPLETE -> analyze.py {"appended": true}
+005_pedestrian_crossing_005.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+006_pedestrian_crossing_006.json: READY -> run_experiment.py {"pid": 491047, "run_dir": "diag/pedestrian_crossing_006"}

@@ -60,12 +60,13 @@ BOUNDS = Path(__file__).resolve().parent / "rules" / "physics.json"
 # The ego's speed at hand-off is its mean speed over this span before it.
 HANDOFF_SPAN_US = 500_000
 # How far that speed may be from ego_speed_scale times the recorded speed:
-# ABSOLUTE m/s plus RELATIVE of the expected speed. Set from synthetic cases
-# only (test_ego_speed.py: exactly retimed poses give the scale to 1e-5; 2 cm
-# of noise on each pose moves the speed by under 0.1 m/s in 95% of draws);
-# calibrate on real runs before trusting a failure near the edge.
-HANDOFF_SPEED_ABSOLUTE_MPS = 0.2
-HANDOFF_SPEED_RELATIVE = 0.05
+# ABSOLUTE m/s plus RELATIVE of the expected speed. Calibrated on real runs
+# (FACTS, 7 Oct): at scale 1.0 the error is at most 0.023 m/s over 298 kept
+# runs; the five smoke runs at 0.6-1.4 are within 0.004 m/s. The bound keeps
+# twice the worst error seen and still tells 0.8 from 1.0 on a scene
+# recorded at 1 m/s.
+HANDOFF_SPEED_ABSOLUTE_MPS = 0.05
+HANDOFF_SPEED_RELATIVE = 0.02
 
 
 def completed_rollout(run_dir: Path) -> Path:

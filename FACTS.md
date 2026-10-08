@@ -437,8 +437,21 @@ recording's) on 300 kept runs sampled from diag/: error median 0.004 m/s,
 95th percentile 0.013 m/s, worst 0.023 m/s on the 298 study and campaign runs
 (the 2 others, `test_force_gt_*`, are debug runs with the ego held still).
 The tolerance (0.2 m/s + 5% of the expected speed) is ten times the worst
-real error at scale 1. What retiming itself adds at other scales is the smoke
-test's question (`studies/ego_speed_smoke`, below when it has run).
+real error at scale 1.
+
+Smoke test (`studies/ego_speed_smoke/grid`, scene 0e002edd, replay, grid over
+0.6-1.4, one run each): all five kept; every run logged its "Retimed ego"
+line; the ego's speed over the 0.5 s before the hand-off was 2.348, 3.185,
+4.049, 4.938 and 5.849 m/s against 2.347, 3.183, 4.045, 4.934 and 5.846
+expected (errors +0.001 to +0.004 m/s). At 1.2 and 1.4 the warm-up starts
+0.77 and 1.33 s before the recording (extrapolated poses), with no gate
+failure. Only 1.4 failed: a front and side collision with a parked car at
+9.1 s, 7 m off the recorded path (flagged possibly the simulator's by the
+distance rule; triage of the frames says the policy turned into the parked
+cars). The pedestrian study's 50+ runs of pedestrian timing and speed have
+no failure on any scene. The bound was then tightened from 0.2 m/s + 5% to
+0.05 m/s + 2%: twice the worst real error, and it now tells 0.8 from 1.0 on
+a scene recorded at 1 m/s (test_ego_speed.py), which the old bound could not.
 
 ## Seeded replay, rp1, 7 Oct night
 
