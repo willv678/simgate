@@ -426,6 +426,32 @@ last frames). Same scenes, 0 delay, CATK, full gate (`compare_frames.json`).
   pedestrian studies use 500 ms frames in all three arms, so their comparison
   is like for like.
 
+## Problems met building the loop, and how each was solved (for the paper)
+
+Each one would have made an unattended testing loop produce wrong results
+quietly. Sources: LOG.md, the commits named.
+
+| # | Problem | How it showed | Fix | Kind |
+|---|---|---|---|---|
+| 1 | Docker network pool exhausted by leaked networks | B2's first 8 runs could not start | compose down after every run; machine check before launch; CLEANUP_ENV | environment |
+| 2 | A recovery could change what a run measures | Verifier: CONFIGURE of the delay kept a run measuring another condition (28 violations) | the delay and scene are never configurable | gate design |
+| 3 | Our own timeout erased the evidence | both model tiers misdiagnosed hangs (CONFIGURE 7/10, 8/10) | the monitor records the machine before stopping a run; then 5/5 right | observability |
+| 4 | A crashed read-only script stopped a whole arm | monitor.py native abort (exit -6) at C2 run 32 | rerun once, logged | robustness |
+| 5 | The plan-handoff check rejected every delay run | 0.12–0.17 m on delay runs vs 0.05 m bound | match the plan to its source by timestamp, compare in the frame it was made; plan-age check proves the delay was applied | measurement |
+| 6 | A requested bias measured 0.91–0.98 m, not 1.0 | offset measured along the ego heading | measure along each waypoint's normal: 0.9999–1.0001 m | measurement |
+| 7 | Requested noise measured 0.26 m, not 0.3 | biased per-step std | chi-square-corrected median variance: 0.295–0.306 m | measurement |
+| 8 | VaVAM got a new frame only every fifth plan | 4 of 5 plans re-anchored stale images (up to 400 ms at "0 delay") | frames every 100 ms, every fifth in the context; failures 11→6 of 17 | simulator setup |
+| 9 | Fresh frames ran out of memory on 12 GB | CUDA OOM in 2 of 12 runs | 24 GB GPU; GPU-release wait in the machine check | hardware |
+| 10 | A false "GPU busy" stopped a batch | 8.9 GB free right after the previous teardown; environment halt ends a batch | the machine check waits up to 60 s for memory to free | robustness |
+| 11 | The reporter miscounted | "5 of 5" where the table had 4 of 4; "not overlapping" ranges that overlapped | counts only from code; reports with hand-written counts refused; goals checked by code | model output |
+| 12 | A one-run pilot "finding" | pilot suggested a clean 100–150 ms break | confirmation study: not confirmed (100 ms 2/4 failed) | statistics |
+| 13 | A goal satisfied by a meaningless bracket | surely low at 0 ms and surely high at 400 ms counted as "found" | bracket goals need a resolution (max_gap) | goal design |
+| 14 | Three copies of a batch ran at once | stale waiters raced on one queue; a launch failed | one loop per queue (exclusive lock) | orchestration |
+| 15 | A pid reused after a reboot could pass for a live run | power cut mid-study | boot id recorded at launch; another boot is never alive | robustness |
+| 16 | Every retimed run was rejected | a track id reached Hydra unquoted and came back as a number (17 of 26 halted) | quote ids; compare as strings; study restarted from scratch | configuration |
+| 17 | A retiming that matches no actor would silently do nothing | (designed against, not hit) | runs fail unless the runtime logs the requested actor as retimed | gate design |
+| 18 | The kinematic controller passes physics on gentle scenes | no jerk statistic separates it from one clean highway run | left to the Auditor (config + same-scene reference); its rule was enacted | gate design |
+
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 
 `harness/physics.py` rebuilds the ego's motion from each run's completed
