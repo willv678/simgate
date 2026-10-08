@@ -540,6 +540,7 @@ quietly. Sources: LOG.md, the commits named.
 | 21 | The random baseline could never meet a top_k goal | it never repeats a setting, so it confirms nothing: 31 failures in 48 runs, 0 of 5 confirmed (pedestrian x ego speed) | random_confirm: random search plus the rules' confirmation (at most half of each round) | evaluation design |
 | 22 | A comparison goal met by one setting | the A/B stopped after its first round: 5 pairs, all at one pedestrian timing | a compare goal also needs its pairs to cover 3 knob settings on 2 scenes | goal design |
 | 23 | A continued study kept a stale crash analysis | triage ran only when no triage file existed | triage the failures the earlier triage lacks | orchestration |
+| 24 | Our own knob produced implausible motion before the policy drove | pedestrian x ego speed, scene 07981e6a at 1.2x: 10.7 m/s^2 at 3.7 s before the hand-off, where the warm-up extrapolated before the recording (extended at the first recorded second's mean velocity, 5.72 m/s) meets the recording (4.65 m/s) | the physics bound halted both runs (not kept); the extrapolation should match the recording's speed at the seam; fixed after the replicate studies, so every replicate sees the same warm-up | gate catch (simulator setup) |
 
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 
