@@ -54,6 +54,11 @@ COLORS = {
     "hybrid": "#1baf7a",
     "llm": "#eb6834",
     "random_confirm": "#8a63d2",
+    "random": "#8c8c8c",
+    "optuna": "#c99a06",
+    "grid": "#5f6b7a",
+    "lhs": "#b0596b",
+    "ga": "#3f8f8f",
 }
 REPLICATE = re.compile(r"_r(\d+)$")
 

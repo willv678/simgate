@@ -112,6 +112,7 @@ code { font-family: var(--mono); font-size: 12.5px; background: var(--bg); paddi
   </div>
   <nav>
     <button data-tab="studies" class="active">Studies</button>
+    <button data-tab="results">Results</button>
     <button data-tab="new">New study</button>
     <button data-tab="jobs">Queue</button>
     <button data-tab="activity">Activity</button>
@@ -119,6 +120,8 @@ code { font-family: var(--mono); font-size: 12.5px; background: var(--bg); paddi
 </header>
 <main>
   <section id="tab-studies"><div id="studies"></div></section>
+
+  <section id="tab-results" hidden><div id="results"></div></section>
 
   <section id="tab-new" hidden>
     <div class="steps">
@@ -276,6 +279,36 @@ function renderJobs(s) {
   });
 }
 
+const LABEL = {rules: "rules", hybrid: "hybrid (Claude picks among the rules' candidates)", llm: "llm (Claude, free)",
+  random_confirm: "random + confirmation", random: "random", optuna: "optuna (Bayesian)", grid: "grid", lhs: "latin hypercube", ga: "genetic"};
+async function renderResults() {
+  let r;
+  try { r = await api("/api/results"); } catch (e) { return; }
+  const parts = [];
+  if (r.methods) {
+    const cards = Object.entries(r.methods).map(([name, st]) => {
+      const rows = Object.entries(st.proposers).map(([p, x]) => `<tr><td>${esc(LABEL[p] || p)}</td>
+        <td class="num">${x.replicates}</td><td class="num">${x.reached} of ${x.replicates}</td>
+        <td class="num"><b>${x.median_runs_to_goal}</b> <span class="hint">(${x.runs_to_goal.join(", ")})</span></td>
+        <td class="num">${x.confirmed.join(", ")} of ${st.k}</td><td class="num">${x.failures.join(", ")}</td></tr>`).join("");
+      return `<div class="card"><h2>${esc(name)}</h2>
+        <img src="${ROOT}figures/methods_${encodeURIComponent(name)}.png" alt="Hardest cases confirmed against kept runs, per method" style="width:100%;max-width:520px;height:auto;border-radius:8px;margin-bottom:8px">
+        <div class="scroll"><table><tr><th>method</th><th>replicates</th><th>reached goal</th><th>runs to goal: median (each)</th><th>confirmed</th><th>failures found</th></tr>${rows}</table></div></div>`;
+    }).join("");
+    parts.push(`<div class="card"><h2>How fast each method finds the hardest cases</h2>
+      <p class="q">Kept runs until the k hardest settings of a study were each confirmed by repeats (the budget when never). Every number is computed by code from runs that passed the gate; each replicate is an independent run of the same plan.</p>
+      <img src="${ROOT}figures/methods_overview.png" alt="Runs to goal per study and method" style="max-width:100%;height:auto"></div>` + cards);
+  }
+  if (r.gate) {
+    const g = r.gate.studies;
+    const rows = Object.entries(g.outcomes).map(([k, n]) => { const [c, res] = k.split(" -> "); return `<tr><td>${esc(c)}</td><td>${esc(res)}</td><td class="num">${n}</td></tr>`; }).join("");
+    parts.unshift(`<div class="card"><h2>What the gate did</h2>
+      <p class="q">${g.attempts} simulation runs finished across every study; <b>${g.kept}</b> passed every check and were kept (${(100*g.kept/Math.max(g.attempts,1)).toFixed(1)}%). No run enters the results without passing the gate; the model can only propose a fix from a fixed menu.</p>
+      ${rows ? `<div class="scroll"><table><tr><th>first failed check</th><th>what happened</th><th>attempts</th></tr>${rows}</table></div>` : ""}</div>`);
+  }
+  $("results").innerHTML = parts.join("") || '<div class="empty">No results yet: run research/harness/analyze_methods.py and gate_report.py.</div>';
+}
+
 async function refresh() {
   try {
     state = await api("/api/state");
@@ -398,11 +431,12 @@ async function showPlan(study) {
   $("b-text").value = briefText(); step(1);
   let saved = null; try { saved = localStorage.getItem("simgate-tab"); } catch (e) {}
   const hash = location.hash.slice(1);
-  if (["studies", "new", "jobs", "activity"].includes(hash)) saved = hash;
+  if (["studies", "results", "new", "jobs", "activity"].includes(hash)) saved = hash;
   if (saved) tab(saved);
   await refresh();
+  renderResults();
   if (hash.startsWith("plan=")) { tab("new"); showPlan(decodeURIComponent(hash.slice(5))); }
-  if (!STATIC) setInterval(refresh, 5000);
+  if (!STATIC) { setInterval(refresh, 5000); setInterval(renderResults, 60000); }
   else if (!location.hash.startsWith("#plan=")) tab("studies");
 })();
 </script>

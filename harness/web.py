@@ -290,6 +290,18 @@ def _worker_alive() -> bool:
         return False
 
 
+def results_summary() -> dict:
+    """The cross-study numbers analyze_methods.py and gate_report.py wrote,
+    or None for each not yet made."""
+    found = {}
+    for name in ("methods", "gate"):
+        path = ROOT / "research" / f"{name}.json"
+        found[name] = (
+            json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+        )
+    return found
+
+
 def catalog() -> dict:
     tags: dict[str, int] = {}
     for scene in tagged_scenes():
@@ -366,6 +378,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(state())
             if url.path == "/api/catalog":
                 return self._json(catalog())
+            if url.path == "/api/results":
+                return self._json(results_summary())
             if url.path == "/api/brief":
                 return self._json(
                     {"text": jobs.brief_path(query["name"]).read_text(encoding="utf-8")}
@@ -420,6 +434,9 @@ def export(out: Path) -> None:
             arm["running"] = False
     (out / "api" / "state.json").write_text(json.dumps(snapshot), encoding="utf-8")
     (out / "api" / "catalog.json").write_text(json.dumps(catalog()), encoding="utf-8")
+    (out / "api" / "results.json").write_text(
+        json.dumps(results_summary()), encoding="utf-8"
+    )
     for study in snapshot["studies"]:
         (out / "api" / "plan" / f"{study['name']}.json").write_text(
             json.dumps(plan_of(study["name"])), encoding="utf-8"

@@ -15,8 +15,8 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | intersection | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.65 | 0 | 0.0 |
 | intersection | hybrid | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.748 | 6 | 91.4 |
 | intersection | llm | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.669 | 0 | 116.2 |
-| intersection_ego_speed | rules | 1 | 2 | 0 | 49 | 49 | 0 of 5 | 0.305 | 1 | 0.0 |
-| intersection_ego_speed | hybrid | 1 | 2 | 0 | 49 | 49 | 0 of 5 | 0.293 | 1 | 8.5 |
+| intersection_ego_speed | rules | 1 | 4 | 0 | 49 | 49 | 0 of 5 | 0.439 | 1 | 0.0 |
+| intersection_ego_speed | hybrid | 1 | 3 | 0 | 49 | 49 | 0 of 5 | 0.293 | 1 | 8.5 |
 | lead_vehicle | rules | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.89 | 3 | 0.0 |
 | lead_vehicle | hybrid | 1 | 49 | 0 | 49 | 49 | 4 of 5 | 0.977 | 15 | 110.8 |
 | lead_vehicle | llm | 1 | 21 | 1 | 21 | 21 | 5 of 5 | 1.0 | 19 | 40.7 |
