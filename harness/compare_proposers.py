@@ -7,7 +7,12 @@ kept runs in launch order, the goal's progress after every run: for top_k the
 number of challenging settings confirmed, for bracket the scenes settled. The
 headline is runs to goal (None if the budget ran out first). Also: runs
 launched, kept, failures, distinct scenes with a failure, proposals dropped by
-the knob check or the rule fence, and the proposer's model cost. Writes
+the knob check or the rule fence, and the proposer's model cost. When failures
+are rare and no proposer reaches the goal, `hardest` still ranks them: after
+every kept run, the mean criticality of the hardest setting found on each of
+the k most challenging scenes (a scene not yet found counts 0; settings are
+not confirmed, so this measures what a search turned up, not what it proved).
+Writes
 <study>/comparison.json and figures/compare_<study>.pdf/.png.
 
     uv run python research/harness/compare_proposers.py research/studies/pedestrian_crossing
@@ -16,6 +21,7 @@ the knob check or the rule fence, and the proposer's model cost. Writes
 import argparse
 import json
 import sys
+from collections import defaultdict
 from pathlib import Path
 
 import matplotlib
@@ -61,6 +67,24 @@ def progress(
     return counts
 
 
+def hardest(kept: list[dict], varied: tuple, k: int) -> list[float]:
+    """After each kept run, in launch order: the mean, over the k most
+    challenging scenes, of the highest mean criticality of a setting found on
+    that scene; scenes not yet found count 0."""
+    curve = []
+    cells = defaultdict(list)
+    for row in kept:
+        cells[(row["scene_id"], *(row[knob] for knob in varied))].append(
+            row["criticality"]
+        )
+        best = defaultdict(float)
+        for (scene, *_), values in cells.items():
+            best[scene] = max(best[scene], sum(values) / len(values))
+        top = sorted(best.values(), reverse=True)[:k]
+        curve.append(round(sum(top) / k, 3))
+    return curve
+
+
 def proposer_report(
     folder: Path, goal: dict | None, varied: tuple, compare: dict | None
 ) -> dict:
@@ -86,6 +110,7 @@ def proposer_report(
         else 1
     )
     reached = next((i + 1 for i, c in enumerate(counts) if c >= target), None)
+    curve = hardest(kept, varied, goal["k"] if goal and goal["type"] == "top_k" else 5)
     return {
         "launched": len(order),
         "kept": len(kept),
@@ -94,6 +119,8 @@ def proposer_report(
         "dropped": sum(len(r["dropped"]) for r in rounds),
         "runs_to_goal": reached,
         "goal_progress": counts,
+        "hardest": curve[-1] if curve else None,
+        "hardest_progress": curve,
         "model_seconds": round(sum(c["duration_ms"] for c in calls) / 1000, 1),
         "model_tokens": sum(c["context_tokens"] + c["output_tokens"] for c in calls),
     }
@@ -115,8 +142,27 @@ def main() -> int:
     report = {p: proposer_report(f, goal, varied, compare) for p, f in folders.items()}
     (args.study / "comparison.json").write_text(json.dumps(report, indent=1) + "\n")
 
-    fig, ax = plt.subplots(figsize=(4.6, 2.8), facecolor=SURFACE)
+    fig, (ax, hard) = plt.subplots(1, 2, figsize=(8.4, 2.8), facecolor=SURFACE)
     _style(ax)
+    _style(hard)
+    for proposer, r in report.items():
+        hard.plot(
+            range(1, len(r["hardest_progress"]) + 1),
+            r["hardest_progress"],
+            color=COLORS.get(proposer, TEXT_SECONDARY),
+            label=f"{proposer} ({r['hardest']})",
+            linewidth=1.6,
+        )
+    k = goal["k"] if goal and goal["type"] == "top_k" else 5
+    hard.set_xlabel("kept runs", fontsize=8, color=TEXT_SECONDARY)
+    hard.set_ylabel(
+        f"criticality, {k} hardest scenes", fontsize=8, color=TEXT_SECONDARY
+    )
+    hard.set_ylim(0, 1)
+    hard.set_title(
+        "hardest cases found (1 = a crash)", fontsize=9, color=TEXT, loc="left"
+    )
+    hard.legend(fontsize=7, frameon=False)
     for proposer, r in report.items():
         ax.step(
             range(1, len(r["goal_progress"]) + 1),
@@ -141,7 +187,14 @@ def main() -> int:
     fig.tight_layout()
     _save(fig, f"compare_{args.study.name}")
     for proposer, r in report.items():
-        print(proposer, {k: v for k, v in r.items() if k != "goal_progress"})
+        print(
+            proposer,
+            {
+                key: v
+                for key, v in r.items()
+                if key not in ("goal_progress", "hardest_progress")
+            },
+        )
     return 0
 
 

@@ -86,7 +86,7 @@ def main() -> int:
                         for k, v in proposer_report(
                             folder, goal, varied, plan["fixed"].get("compare")
                         ).items()
-                        if k != "goal_progress"
+                        if k not in ("goal_progress", "hardest_progress")
                     },
                     "found": confirmed(folder, plan),
                 }
@@ -100,17 +100,19 @@ def main() -> int:
         "",
         "Every proposer that ran each study's plan, scored by code from the kept",
         "runs (`summarize_studies.py`). Runs to goal: kept runs until the goal",
-        "was met, or not reached within the budget.",
+        "was met, or not reached within the budget. Hardest: mean criticality",
+        "(1 a crash, 0.9 contact, 0 at 5 m) of the hardest setting found on each",
+        "of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).",
         "",
-        "| study | proposer | kept | failures | runs to goal | found | model s |",
-        "|---|---|---|---|---|---|---|",
+        "| study | proposer | kept | failures | runs to goal | found | hardest | model s |",
+        "|---|---|---|---|---|---|---|---|",
     ]
     for name, study in summary.items():
         for proposer, r in study["arms"].items():
             lines.append(
                 f"| {name} | {proposer} | {r['kept']}/{study['budget']} | {r['failures']} "
                 f"| {r['runs_to_goal'] or 'not reached'} | {len(r['found'])} "
-                f"| {r['model_seconds']} |"
+                f"| {r['hardest']} | {r['model_seconds']} |"
             )
     for name, study in summary.items():
         lines += ["", f"## {name}", "", study["question"], ""]
@@ -130,13 +132,14 @@ def main() -> int:
         )
         rows = "".join(
             f"<tr><td>{p}</td><td>{r['kept']}</td><td>{r['failures']}</td>"
-            f"<td>{r['runs_to_goal'] or 'not reached'}</td><td>{len(r['found'])}</td></tr>"
+            f"<td>{r['runs_to_goal'] or 'not reached'}</td><td>{len(r['found'])}</td>"
+            f"<td>{r['hardest']}</td></tr>"
             for p, r in study["arms"].items()
         )
         cards.append(
             f"<section><h2>{link}</h2><p>{html.escape(study['question'])}</p>"
             "<table><tr><th>proposer</th><th>kept runs</th><th>failures</th>"
-            f"<th>runs to goal</th><th>found</th></tr>{rows}</table></section>"
+            f"<th>runs to goal</th><th>found</th><th>hardest</th></tr>{rows}</table></section>"
         )
     (STUDIES / "index.html").write_text(
         "<!doctype html><html lang=en><meta charset=utf-8>"
