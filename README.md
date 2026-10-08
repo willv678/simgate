@@ -24,8 +24,8 @@ could give breaks the gate.
 | | |
 |---|---|
 | **Ego speed is the stressor** | Retiming the pedestrian alone: 0-5 failures in 49 runs per method. Adding the ego's speed at hand-off: every method confirms the 5 hardest cases in 24-28 runs. |
-| **Claude searches hard spaces faster** | Lead vehicle (3 knobs): Claude confirmed 5 hardest cases in 21 runs; rule-based search found 1 in 49. |
-| **Fair baselines** | Random search found 31 crashes in 48 runs but confirmed none; `random_confirm` adds the same confirmation the rules use. Replicates of every method are running. |
+| **A quarter of naive "failures" are not the policy's** | Counting every collision flag, 49 of 200 failures were replayed cars rear-ending a slowed ego, or contacts before the policy drove. SimGate counts only failures the policy is responsible for, from the moment it takes over. |
+| **Fair baselines** | Random search found 31 crashes in 48 runs but confirmed none; `random_confirm` adds the same confirmation the rules use. Which method finds hard cases fastest is being measured over replicates of every method (`METHODS.md`). |
 | **Valid by construction** | 778 runs across the studies, 759 kept (97.6%); 17 crashed launches retried automatically, 2 halted by the physics bound, none kept without passing every check. |
 | **Reproducible** | A seeded run replays bit for bit (0.0 m over 122 steps); a different seed parts at 3.6 s. |
 
