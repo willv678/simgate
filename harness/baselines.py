@@ -28,15 +28,12 @@ comparison is about.
 """
 
 import random
+from itertools import product
 
 from goals import goal_cells
 from knobs import SCENARIO, UNVARIED
 
 TOURNAMENT = 3
-
-
-def _knob(goal: dict | None, varied: tuple) -> str:
-    return goal["knob"] if goal else varied[0]
 
 
 def _run(scene: str, knob: str, value, varied: tuple, why: str) -> dict:
@@ -48,16 +45,31 @@ def _run(scene: str, knob: str, value, varied: tuple, why: str) -> dict:
     }
 
 
+def grid_levels(knob: str, varied: tuple) -> tuple:
+    """The values a grid sweeps for one knob: all of them when the study varies
+    one knob; the lowest, middle and highest when it varies several, as test
+    protocols such as Euro NCAP's do (a full factorial would not fit a budget)."""
+    values = SCENARIO[knob]
+    if len(varied) == 1:
+        return values
+    return (values[0], values[len(values) // 2], values[-1])
+
+
 def grid_proposals(
     scenes: list[str], count: int, done: int, goal: dict | None, varied: tuple
 ) -> dict:
-    """The next `count` cells of the sweep, after the `done` already proposed."""
-    knob = _knob(goal, varied)
-    sweep = [(scene, value) for value in SCENARIO[knob] for scene in scenes]
+    """The next `count` cells of the sweep, after the `done` already proposed:
+    every scene at every combination of the varied knobs' grid levels, in
+    order, then again."""
+    combos = list(product(*(grid_levels(k, varied) for k in varied)))
+    sweep = [(scene, combo) for combo in combos for scene in scenes]
     picks = [sweep[(done + i) % len(sweep)] for i in range(count)]
     return {
-        "plan": "grid: every scene at every value, in order, repeated",
-        "runs": [_run(s, knob, v, varied, "grid") for s, v in picks],
+        "plan": f"grid: {len(sweep)} cells, every scene at every level, in order",
+        "runs": [
+            {"scene_id": s, **dict(zip(varied, combo)), "why": "grid"}
+            for s, combo in picks
+        ],
     }
 
 

@@ -161,3 +161,15 @@ def test_top_k_counts_settings_surely_failing_one_per_scene():
         top2, _runs("clipgt-a", 100_000, 1, 0), _runs("clipgt-b", 150_000, 1, 0, 10)
     )
     assert not unsure["met"]  # single failures are not yet sure
+
+
+def test_grid_over_several_knobs_uses_three_levels_each():
+    from baselines import grid_proposals
+    from knobs import rejection
+
+    both = ("actor_time_shift_s", "actor_speed_scale")
+    runs = grid_proposals(["clipgt-a"], 9, 0, None, both)["runs"]
+    assert {(r["actor_time_shift_s"], r["actor_speed_scale"]) for r in runs} == {
+        (shift, speed) for shift in (-2.0, 0.0, 2.0) for speed in (0.5, 1.25, 2.0)
+    }
+    assert all(rejection(r, {"clipgt-a"}, both) is None for r in runs)
