@@ -73,3 +73,11 @@ def test_a_track_id_is_passed_as_a_string():
     config = {**PEDESTRIAN, "retime_track": "123"}
     (arg,) = [a for a in traffic_args(config) if "actor_retiming" in a]
     assert 'track_id:"123"' in arg
+
+
+def test_runs_start_their_port_search_apart():
+    from run_experiment import PORT_BASE, base_port
+
+    ports = {base_port(f"study_{i:03d}") for i in range(20)}
+    assert len(ports) > 15
+    assert all(PORT_BASE <= p < 40_000 for p in ports)

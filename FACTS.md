@@ -451,6 +451,7 @@ quietly. Sources: LOG.md, the commits named.
 | 16 | Every retimed run was rejected | a track id reached Hydra unquoted and came back as a number (17 of 26 halted) | quote ids; compare as strings; study restarted from scratch | configuration |
 | 17 | A retiming that matches no actor would silently do nothing | (designed against, not hit) | runs fail unless the runtime logs the requested actor as retimed | gate design |
 | 18 | The kinematic controller passes physics on gentle scenes | no jerk statistic separates it from one clean highway run | left to the Auditor (config + same-scene reference); its rule was enacted | gate design |
+| 19 | Two runs at once collided | port race at start (both wizards picked the same free ports) and CUDA OOM peaks on 24 GB (about 1 in 5 launches each) | a base port per run name; crashed runs are never kept and the Investigator retries them (RE-RUN) | concurrency |
 
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 

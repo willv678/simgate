@@ -21,6 +21,7 @@ import shlex
 import subprocess
 import sys
 import time
+import zlib
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -45,11 +46,23 @@ from read_state import (
     traffic_mode,
 )
 
+PORT_BASE = 20_000
+PORT_SLOTS = 400
+PORT_STRIDE = 50
+
 
 def plan_args(request: dict) -> list[str]:
     """The plan perturbations the run asks for, if any (read_state.PLAN_KEYS)."""
     asked = {key: request[key] for key in PLAN_KEYS if request[key]}
     return plan_hook_args(asked) if asked else []
+
+
+def base_port(run_name: str) -> int:
+    """Where the wizard starts looking for free ports for this run. It takes
+    the next ports that are free when it writes the compose file, so two runs
+    starting at once from one base port can pick the same ports; a base per
+    run name keeps runs in flight apart."""
+    return PORT_BASE + zlib.crc32(run_name.encode()) % PORT_SLOTS * PORT_STRIDE
 
 
 def wizard_command(config: dict, log_dir: Path) -> list[str]:
@@ -73,6 +86,7 @@ def wizard_command(config: dict, log_dir: Path) -> list[str]:
         f"scenes.scenes_csv=[{ROOT / config['scene_file']}]",
         f"scenes.scene_ids=[{config['scene_id']}]",
         f"wizard.log_dir={log_dir}",
+        f"wizard.baseport={base_port(log_dir.name)}",
         *plan_args(plan_request(config)),
         *traffic_args(config),
     ]
