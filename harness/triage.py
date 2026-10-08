@@ -121,15 +121,22 @@ def triage(row: dict, run_dir: Path, model: str) -> dict:
     return {"run": row["run"], "scene_id": row["scene_id"], **answer, "call": call}
 
 
-def triage_study(queue: Path, model: str) -> list[dict]:
-    """Triage of every failed kept run of a study's queue, four calls at a time."""
+def triage_study(queue: Path, model: str, known: list[dict] = ()) -> list[dict]:
+    """Triage of every failed kept run of a study's queue, four calls at a
+    time; runs already in `known` (an earlier triage of the same study, which
+    a continued study extends) are kept as they are, not asked again."""
     dirs = {
         load_entry(p)["name"]: ROOT / load_entry(p)["run_dir"]
         for p in queue_entries(queue)
     }
-    failed = [r for r in history(queue, ()) if r.get("failed")]
+    done = {row["run"] for row in known}
+    failed = [
+        r for r in history(queue, ()) if r.get("failed") and r["run"] not in done
+    ]
     with ThreadPoolExecutor(4) as pool:
-        return list(pool.map(lambda r: triage(r, dirs[r["run"]], model), failed))
+        return list(known) + list(
+            pool.map(lambda r: triage(r, dirs[r["run"]], model), failed)
+        )
 
 
 def main() -> int:

@@ -530,12 +530,15 @@ def main() -> int:
             return 1
         run_study(study)
     rows = history(study.queue, study.varied)
+    # A continued study triages only the failures its earlier triage lacks.
     triage_file = runs / "triage.json"
-    if not triage_file.exists():
-        triage_file.write_text(
-            json.dumps(triage_study(study.queue, args.model), indent=1) + "\n"
-        )
-    causes = json.loads(triage_file.read_text(encoding="utf-8"))
+    known = (
+        json.loads(triage_file.read_text(encoding="utf-8"))
+        if triage_file.exists()
+        else []
+    )
+    causes = triage_study(study.queue, args.model, known)
+    triage_file.write_text(json.dumps(causes, indent=1) + "\n")
     print(f"report: {write_report(runs, brief, plan, rows, causes, args.model)}")
     return 0
 
