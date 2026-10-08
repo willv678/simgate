@@ -678,3 +678,11 @@ audit: {"audited": 7, "quarantined": [], "references": ["s1_024", "s1_032", "s1_
 013_pedestrian_crossing_rules_012.json: COMPLETE -> analyze.py {"appended": true}
 013_pedestrian_crossing_rules_012.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
 014_pedestrian_crossing_rules_013.json: READY -> run_experiment.py {"pid": 190781, "run_dir": "diag/pedestrian_crossing_rules_013"}
+014_pedestrian_crossing_hybrid_013.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+014_pedestrian_crossing_hybrid_013.json: COMPLETE -> analyze.py {"appended": true}
+014_pedestrian_crossing_hybrid_013.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+015_pedestrian_crossing_hybrid_014.json: READY -> run_experiment.py {"pid": 195490, "run_dir": "diag/pedestrian_crossing_hybrid_014"}
+014_pedestrian_crossing_rules_013.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+014_pedestrian_crossing_rules_013.json: COMPLETE -> analyze.py {"appended": true}
+014_pedestrian_crossing_rules_013.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+015_pedestrian_crossing_rules_014.json: READY -> run_experiment.py {"pid": 198182, "run_dir": "diag/pedestrian_crossing_rules_014"}

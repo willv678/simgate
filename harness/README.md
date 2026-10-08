@@ -57,9 +57,10 @@ flowchart LR
   log: planner delay (plan age), lateral bias and waypoint noise on the plan
   (offset and scatter), and actor retiming (time shift and speed of a recorded
   actor class, with traffic replayed; AlpaSim's `actor_retiming` hook).
-- **Seeds** (`replay.py`, `check_replay.py`): every study run carries a `seed`
-  in its queue config, a hash of the study's name and the run's number, unless
-  plan.json says `"seeded": false`. The wizard gets
+- **Seeds** (`replay.py`, `check_replay.py`): a study whose plan.json says
+  `"seeded": true` gives every run a `seed` in its queue config, a hash of the
+  study's name and the run's number (opt-in until `run_pool3.sh`'s validation
+  shows a same-seed pair reproduces exactly). The wizard gets
   `+runtime.simulation_config.random_seed=<seed>` (AlpaSim's
   `RolloutSpec.random_seed`) and `+driver.model.force_determinism=true` (VaVAM
   draws each plan's noise from the session seed plus its inference count); the
@@ -67,6 +68,10 @@ flowchart LR
   requests carry the seed. `replay.py <entry.json> <queue>` queues a kept run
   again with the same config; `check_replay.py <run_a> <run_b>` says whether
   two runs match and where they first part (frames, plans or poses).
+- **Memory across studies** (`memory.py`): a plan with `"reuse_prior": true`
+  starts with the kept runs of other studies that it would have run itself
+  (same effective settings, seed apart). A study's proposer arms never share
+  runs, so their comparison stays independent.
 - **Outer loop** (`outer.py`): each round a proposer picks runs: `llm`
   (Claude, free), `hybrid` (Claude, only among rule candidates), `rules`
   (`guided.py`, no model), or the baselines `grid`, `bisect`, `random`, `lhs`,
@@ -78,11 +83,13 @@ flowchart LR
   controllers fails less, below). Failure rates carry 90% ranges; each run has
   a criticality (1 for a crash, up to 0.9 for a near miss).
 - **A/B studies** ("which controller is safer?"): the plan fixes
-  `compare: {"a": "linear", "b": "nonlinear"}` (controllers from
+  `compare: {"a": "linear", "b": "feasible_best"}` (controllers from
   `knobs.CONTROLLERS`, AlpaSim's `controller=` configs). The search over
   scenes and knobs runs as usual, but every proposed setting runs once per
   controller, a pair with the same scene and knob values (`<study>_007_linear`,
-  `<study>_007_nonlinear`). The `compare` goal pools each controller's
+  `<study>_007_feasible_best`). The nonlinear MPC cannot run while the
+  uncommitted controller-gains change in src/ sends it gain updates, which it
+  rejects. The `compare` goal pools each controller's
   failures over the paired runs and is met when the 90% ranges separate,
   otherwise "no difference shown"; code adds an exact sign test over the pairs
   where only one failed. Tables and the report show a and b side by side.
@@ -160,6 +167,8 @@ uv run python research/harness/score_campaign.py research/harness/c1_queue
 | `triage.py`, `advisor/TRIAGE.md`, `study_page.py` | crash explanations and the study web page |
 | `compare_frames.py`, `jerk_separation.py` | analyses: VaVAM with fresh vs stale frames; why jerk cannot separate the kinematic fault |
 | `replay.py`, `check_replay.py` | re-run a kept seeded run, and compare two runs step by step |
+| `memory.py` | evidence from other studies' kept runs with the same effective settings |
+| `run_pool3.sh`, `refresh_results.sh`, `summarize_studies.py` | the overnight job pool (two studies at a time), hourly result pages, the cross-study summary |
 | `verify_supervisor.py`, `probe_fence.py` | checks on the gate and on the agent's fence |
 | `eval_auditor.py`, `eval_mining.py`, `repeat_auditor.py`, `compare_policies.py`, `repeat_tiers.py`, `calibrate_physics.py`, `eval_physics_audit.py`, `eval_plan_audit.py` | the evaluations |
 | `plot_results.py`, `plot_campaign.py`, `plot_architecture.py`, `rebuild.sh` | the paper's figures, into `../figures/`; `rebuild.sh` reruns the tests and every model-free table and figure |
