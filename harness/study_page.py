@@ -97,8 +97,7 @@ AT_FAULT = {
     "unclear": "Unclear who was at fault",
 }
 FAILURE_KINDS = {
-    "collision_front": "front collision",
-    "collision_lateral": "side collision",
+    "collision_at_fault": "front or side collision",
     "offroad": "left the road",
 }
 # Chart geometry in SVG user units.

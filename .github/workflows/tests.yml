@@ -1,0 +1,73 @@
+# Run the SimGate harness tests on every push.
+#
+# This repo is an overlay that lives at <alpasim>/research, so the job checks
+# out AlpaSim at the commit the overlay is developed against, puts this repo
+# inside it, applies the overlay's committed AlpaSim src changes
+# (patches/alpasim-src.diff), and installs only what the harness imports from
+# AlpaSim: alpasim_grpc, alpasim_utils and its Rust core utils_rs. The full
+# AlpaSim workspace is not synced, because alpasim_utils' trajdata dependency
+# pulls in torch and CUDA, which the harness never uses.
+name: tests
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ALPASIM_REPO: NVlabs/alpasim
+  ALPASIM_COMMIT: affc2eab209fa43bdfa2f26c0f8d437922d78a68
+
+jobs:
+  harness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: alpasim
+    steps:
+      - name: Check out AlpaSim at the pinned commit
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.ALPASIM_REPO }}
+          ref: ${{ env.ALPASIM_COMMIT }}
+          path: alpasim
+
+      - name: Check out this repo into alpasim/research
+        uses: actions/checkout@v4
+        with:
+          path: alpasim/research
+
+      # The harness tests read AlpaSim's controller configs, including
+      # feasible_best.yaml and kinematic_ideal.yaml, which exist only in the
+      # overlay's src patch (test_read_state.py::
+      # test_each_controller_config_resolves_to_its_own_name).
+      - name: Apply the overlay's AlpaSim src changes
+        run: git apply research/patches/alpasim-src.diff
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: alpasim/research/.github/workflows/tests.yml
+
+      # utils_rs is a Rust extension built with maturin; ubuntu-latest ships
+      # a Rust toolchain. alpasim_utils is installed without its declared
+      # dependencies to skip trajdata (torch, CUDA); the ones its imported
+      # modules need are listed here instead.
+      - name: Install the harness environment
+        run: |
+          uv venv --python 3.12 .venv
+          uv pip install ./src/grpc ./src/utils_rs \
+            aiofiles csaps scipy pandas pyyaml dataclasses-json typing-inspect omegaconf \
+            matplotlib pyarrow optuna shapely huggingface_hub pytest pytest-asyncio
+          uv pip install --no-deps ./src/utils
+
+      - name: Run the harness tests
+        run: .venv/bin/python -m pytest research/harness -q

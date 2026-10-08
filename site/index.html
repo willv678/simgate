@@ -287,7 +287,8 @@ async function renderResults() {
   try { r = await api("/api/results"); } catch (e) { return; }
   const parts = [];
   if (r.methods) {
-    const cards = Object.entries(r.methods).map(([name, st]) => {
+    const leftOut = r.methods.left_out || {};
+    const cards = Object.entries(r.methods).filter(([name]) => name !== "left_out").map(([name, st]) => {
       const rows = Object.entries(st.proposers).map(([p, x]) => `<tr><td>${esc(LABEL[p] || p)}</td>
         <td class="num">${x.replicates}</td><td class="num">${x.reached} of ${x.replicates}</td>
         <td class="num"><b>${x.median_runs_to_goal}</b> <span class="hint">(${x.runs_to_goal.join(", ")})</span></td>
@@ -298,7 +299,8 @@ async function renderResults() {
     }).join("");
     parts.push(`<div class="card"><h2>How fast each method finds the hardest cases</h2>
       <p class="q">Kept runs until the k hardest settings of a study were each confirmed by repeats (the budget when never). Every number is computed by code from runs that passed the gate; each replicate is an independent run of the same plan.</p>
-      <img src="${ROOT}figures/methods_overview.png" alt="Runs to goal per study and method" style="max-width:100%;height:auto"></div>` + cards);
+      <img src="${ROOT}figures/methods_overview.png" alt="Runs to goal per study and method" style="max-width:100%;height:auto">
+      ${Object.keys(leftOut).length ? `<p class="hint">Left out: ${Object.entries(leftOut).map(([n, a]) => `${esc(n)} (${a.map(esc).join(", ")})`).join("; ")}. These arms stopped believing their goal met under the broad failure definition used before 8 Oct (warm-up and rear-ended collisions counted), so their runs to goal cannot be compared.</p>` : ""}</div>` + cards);
   }
   if (r.gate) {
     const g = r.gate.studies;

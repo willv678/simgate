@@ -9,23 +9,28 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 
 | study | method | replicates | kept runs (each) | reached goal | runs to goal (each) | median | confirmed (each) | hardest (each) | failures (each) | model s (each) |
 |---|---|---|---|---|---|---|---|---|---|---|
-| cut_in_merge | rules | 1 | 27 | 1 | 23 | 23 | 5 of 5 | 1.0 | 16 | 0.0 |
-| cut_in_merge | hybrid | 1 | 27 | 1 | 19 | 19 | 5 of 5 | 1.0 | 18 | 36.7 |
-| cut_in_merge | llm | 1 | 27 | 1 | 19 | 19 | 5 of 5 | 1.0 | 17 | 56.5 |
-| intersection | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.65 | 0 | 0.0 |
-| intersection | hybrid | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.748 | 6 | 91.4 |
-| intersection | llm | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.669 | 0 | 116.2 |
-| intersection_ego_speed | rules | 1 | 4 | 0 | 49 | 49 | 0 of 5 | 0.439 | 1 | 0.0 |
-| intersection_ego_speed | hybrid | 1 | 3 | 0 | 49 | 49 | 0 of 5 | 0.293 | 1 | 8.5 |
-| lead_vehicle | rules | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.89 | 3 | 0.0 |
-| lead_vehicle | hybrid | 1 | 49 | 0 | 49 | 49 | 4 of 5 | 0.977 | 15 | 110.8 |
-| lead_vehicle | llm | 1 | 21 | 1 | 21 | 21 | 5 of 5 | 1.0 | 19 | 40.7 |
-| pedestrian_crossing | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.747 | 0 | 0.0 |
-| pedestrian_crossing | hybrid | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.74 | 0 | 90.1 |
-| pedestrian_crossing | llm | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.795 | 5 | 112.3 |
-| pedestrian_crossing | random | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.777 | 0 | 0.0 |
-| pedestrian_crossing | optuna | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.803 | 3 | 0.0 |
+| intersection | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.435 | 0 | 0.0 |
+| intersection | hybrid | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.541 | 6 | 91.4 |
+| intersection | llm | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.462 | 0 | 116.2 |
+| intersection_ego_speed | rules | 1 | 6 | 0 | 49 | 49 | 0 of 5 | 0.508 | 1 | 0.0 |
+| intersection_ego_speed | hybrid | 1 | 6 | 0 | 49 | 49 | 0 of 5 | 0.485 | 1 | 8.5 |
+| lead_vehicle | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.846 | 0 | 0.0 |
+| lead_vehicle | hybrid | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.92 | 7 | 110.8 |
+| pedestrian_crossing | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.643 | 0 | 0.0 |
+| pedestrian_crossing | hybrid | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.636 | 0 | 90.1 |
+| pedestrian_crossing | llm | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.691 | 5 | 112.3 |
+| pedestrian_crossing | random | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.673 | 0 | 0.0 |
+| pedestrian_crossing | optuna | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.699 | 3 | 0.0 |
 | pedestrian_ego_speed | rules | 1 | 30 | 1 | 25 | 25 | 5 of 5 | 1.0 | 17 | 0.0 |
 | pedestrian_ego_speed | hybrid | 1 | 30 | 1 | 24 | 24 | 5 of 5 | 1.0 | 18 | 46.0 |
 | pedestrian_ego_speed | llm | 1 | 30 | 1 | 28 | 28 | 5 of 5 | 1.0 | 18 | 52.5 |
 | pedestrian_ego_speed | random | 1 | 48 | 0 | 50 | 50 | 0 of 5 | 1.0 | 31 | 0.0 |
+
+Left out: arms that stopped believing their goal met under the broad
+failure definition used before 8 Oct 2026 (any front, side or off-road
+flag, warm-up and rear-ended collisions included), which code no longer
+finds met; they did not spend their budget, so their runs to goal
+cannot be compared.
+
+- cut_in_merge: rules, hybrid, llm
+- lead_vehicle: llm

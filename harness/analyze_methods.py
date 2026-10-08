@@ -34,16 +34,33 @@ from study import plan_runs
 STUDIES = ROOT / "research" / "studies"
 
 
-def replicate_rows(study: Path, plan: dict) -> dict[str, list[dict]]:
-    """Each proposer's replicates, each a proposer_report plus its arm name."""
+def stopped_early(folder: Path, report: dict) -> bool:
+    """An arm that stopped believing its goal met (its goal.json) where code
+    now finds it unmet: it stopped under the broad failure definition used
+    before 8 Oct 2026 (outer.FAILURE_METRICS) and did not spend its budget,
+    so its runs to goal cannot be compared."""
+    goal_file = folder / "goal.json"
+    if not goal_file.exists():
+        return False
+    met = json.loads(goal_file.read_text(encoding="utf-8"))["met"]
+    return met and report["runs_to_goal"] is None
+
+
+def replicate_rows(study: Path, plan: dict) -> tuple[dict[str, list[dict]], list[str]]:
+    """Each proposer's comparable replicates, each a proposer_report plus its
+    arm name; and the arms left out because they stopped early."""
     goal = plan["goal"]
     found: dict[str, list[dict]] = {}
+    left_out = []
     for arm, folder in arms(study).items():
         report = proposer_report(
             folder, goal, tuple(plan["vary"]), plan["fixed"].get("compare")
         )
+        if stopped_early(folder, report):
+            left_out.append(arm)
+            continue
         found.setdefault(proposer_of(arm), []).append({"arm": arm, **report})
-    return found
+    return found, left_out
 
 
 def curve(report: dict, k: int, budget: int) -> list[int]:
@@ -73,12 +90,14 @@ def summary(reps: list[dict], k: int, budget: int) -> dict:
 
 
 def main() -> int:
-    results = {}
+    results, excluded = {}, {}
     for study in sorted(p for p in STUDIES.iterdir() if (p / "plan.json").exists()):
         plan = json.loads((study / "plan.json").read_text(encoding="utf-8"))["plan"]
         if plan.get("goal", {}).get("type") != "top_k":
             continue
-        reps = replicate_rows(study, plan)
+        reps, left_out = replicate_rows(study, plan)
+        if left_out:
+            excluded[study.name] = left_out
         if not reps:
             continue
         k, budget = plan["goal"]["k"], plan_runs(plan)
@@ -195,6 +214,18 @@ def main() -> int:
                 f"| {', '.join(map(str, s['failures']))} "
                 f"| {', '.join(map(str, s['model_seconds']))} |"
             )
+    out = [f"- {name}: {', '.join(arms)}" for name, arms in excluded.items()]
+    if out:
+        lines += [
+            "",
+            "Left out: arms that stopped believing their goal met under the broad",
+            "failure definition used before 8 Oct 2026 (any front, side or off-road",
+            "flag, warm-up and rear-ended collisions included), which code no longer",
+            "finds met; they did not spend their budget, so their runs to goal",
+            "cannot be compared.",
+            "",
+            *out,
+        ]
     (ROOT / "research" / "METHODS.md").write_text("\n".join(lines) + "\n")
     print("\n".join(lines))
     return 0

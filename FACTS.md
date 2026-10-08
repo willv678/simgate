@@ -498,6 +498,24 @@ to goal is the kept run at which the fifth case was confirmed.
   rules, hybrid, llm and random_confirm on the four studies with failures are
   queued (8 Oct night).
 
+### Re-read with the policy-attributable failure definition (problem 25)
+
+Counted from the policy's first step, a collision that begins at the ego's
+rear excluded (`outer.outcome`), the same kept runs give (METHODS.md):
+
+| study | rules | hybrid | llm |
+|---|---|---|---|
+| pedestrian x ego speed | goal at 25 | goal at 24 | goal at 28 (unchanged: none of its 84 failures was a warm-up or rear collision) |
+| cut-in / merge | 2 of 5 confirmed | 2 of 5 | 2 of 5 (each arm stopped at 27 of 54 runs on the broad count; left out of the comparison) |
+| lead vehicle | 0 of 5 in 49 | 2 of 5 in 49 | 3 of 5 at 21 runs (stopped on the broad count; left out) |
+| intersection | 0 | 1 of 5 | 0 |
+
+So the table above overstates cut-in and lead vehicle: most of their
+"failures" were replayed traffic hitting a slowed ego from behind. The
+claims that survive: ego speed is the stressor for pedestrian scenes; the
+method comparison on cut-in and lead vehicle waits for replicates 2-4, run
+under the new definition from their first round.
+
 ## Controller A/B, 8 Oct (feasible_best against linear)
 
 Hybrid proposer, pedestrian scenes, pairs with shared seeds. Round 1: 5 pairs,
@@ -541,6 +559,7 @@ quietly. Sources: LOG.md, the commits named.
 | 22 | A comparison goal met by one setting | the A/B stopped after its first round: 5 pairs, all at one pedestrian timing | a compare goal also needs its pairs to cover 3 knob settings on 2 scenes | goal design |
 | 23 | A continued study kept a stale crash analysis | triage ran only when no triage file existed | triage the failures the earlier triage lacks | orchestration |
 | 24 | Our own knob produced implausible motion before the policy drove | pedestrian x ego speed, scene 07981e6a at 1.2x: 10.7 m/s^2 at 3.7 s before the hand-off, where the warm-up extrapolated before the recording (extended at the first recorded second's mean velocity, 5.72 m/s) meets the recording (4.65 m/s) | the physics bound halted both runs (not kept); the extrapolation should match the recording's speed at the seam; fixed after the replicate studies, so every replicate sees the same warm-up | gate catch (simulator setup) |
+| 25 | A quarter of the "failures" were not the policy's | the gallery of confirmed hardest cases showed collisions at t = 0 s, collisions while the ego still replayed its recording, and replayed cars rear-ending a slower ego and then overlapping its front (counted "front"): 49 of 200 counted failures (cut-in 32 of 51, lead vehicle 17 of 37; pedestrian x ego speed 0 of 84) | a failure is now off-road, or a front or side collision that begins before any rear contact, counted from the policy's first step (AlpaSim's own eval_relevant warm-up filter; nuPlan's rear-collision rule); the closest approach uses the same window; `failed_any` keeps the broad reading; arms that stopped under it are left out of the method comparison and replaced by a fourth replicate | evaluation design |
 
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 

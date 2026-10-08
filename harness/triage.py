@@ -105,7 +105,8 @@ def triage(row: dict, run_dir: Path, model: str) -> dict:
         names = frames(run_dir, row["failed_at_s"], folder)
         data = {
             "failure": {
-                k: row[k] for k in ("collision_front", "collision_lateral", "offroad")
+                k: row[k]
+                for k in ("collision_at_fault", "offroad", "rear_ended", "handoff_s")
             },
             "failed_at_s": row["failed_at_s"],
             "off_recording_at_failure_m": row["off_recording_at_failure_m"],
@@ -130,9 +131,7 @@ def triage_study(queue: Path, model: str, known: list[dict] = ()) -> list[dict]:
         for p in queue_entries(queue)
     }
     done = {row["run"] for row in known}
-    failed = [
-        r for r in history(queue, ()) if r.get("failed") and r["run"] not in done
-    ]
+    failed = [r for r in history(queue, ()) if r.get("failed") and r["run"] not in done]
     with ThreadPoolExecutor(4) as pool:
         return list(known) + list(
             pool.map(lambda r: triage(r, dirs[r["run"]], model), failed)

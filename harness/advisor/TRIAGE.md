@@ -16,10 +16,12 @@ failures across a study; a person reads your description.
   front camera with the route command (LEFT, RIGHT, STRAIGHT). The camera
   image is rendered from a reconstruction of a real drive; close to other
   objects or far from where the real car drove it can smear or distort.
-- On stdin, JSON: the failure (`collision_front`, `collision_lateral`,
-  `offroad`), when it happened, how far the ego was from the recorded human
-  trajectory then, and the ego's speed and the gap to the actor ahead over the
-  last seconds.
+- On stdin, JSON: the failure (`collision_at_fault`: a front or side
+  collision that began before any rear contact; `offroad`; `rear_ended`: some
+  actor hit the ego's rear at some point; `handoff_s`: when the policy took
+  over, the failure counts only after it), when it happened, how far the ego
+  was from the recorded human trajectory then, and the ego's speed and the gap
+  to the actor ahead over the last seconds.
 
 ## The answer
 

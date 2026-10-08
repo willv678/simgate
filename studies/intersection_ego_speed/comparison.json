@@ -1,0 +1,54 @@
+{
+ "rules": {
+  "launched": 7,
+  "kept": 6,
+  "failures": 1,
+  "scenes_with_a_failure": 1,
+  "dropped": 0,
+  "runs_to_goal": null,
+  "goal_progress": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "hardest": 0.508,
+  "hardest_progress": [
+   0.2,
+   0.305,
+   0.305,
+   0.305,
+   0.471,
+   0.508
+  ],
+  "model_seconds": 0.0,
+  "model_tokens": 0
+ },
+ "hybrid": {
+  "launched": 6,
+  "kept": 5,
+  "failures": 1,
+  "scenes_with_a_failure": 1,
+  "dropped": 0,
+  "runs_to_goal": null,
+  "goal_progress": [
+   0,
+   0,
+   0,
+   0,
+   0
+  ],
+  "hardest": 0.448,
+  "hardest_progress": [
+   0.2,
+   0.287,
+   0.287,
+   0.287,
+   0.448
+  ],
+  "model_seconds": 8.5,
+  "model_tokens": 4888
+ }
+}

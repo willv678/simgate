@@ -94,6 +94,14 @@ SCENE_FACTS = HARNESS / "scene_facts.json"
 FAR_FROM_RECORDING_M = 3.5
 # Closest approach below which a run that did not fail counts as a near miss.
 NEAR_MISS_M = 5.0
+# A failure is the policy's: off the road, or a front or side collision that
+# began before any rear contact, counted from the first step the policy
+# drove (AlpaSim's eval_relevant; its evaluator drops the force-GT warm-up the
+# same way, "warmup frames that produce spurious metric events"). A collision
+# that starts at the ego's rear is the follower's (nuPlan counts it not at
+# fault): replayed traffic follows its recording and cannot brake for an ego
+# that drives slower than the human did. `failed_any` keeps the broad reading
+# (any front, side or off-road flag at any time) used before 8 Oct 2026.
 FAILURE_METRICS = ("collision_front", "collision_lateral", "offroad")
 TYPES = {
     "planner_delay_us": "integer",
@@ -138,35 +146,64 @@ def schema(varied: tuple[str, ...]) -> dict:
     }
 
 
+def _first(metrics: pd.DataFrame, name: str, since_us: float) -> float:
+    """When metric `name` first flags at or after `since_us`; inf if never."""
+    hits = metrics[
+        (metrics["name"] == name)
+        & (metrics["values"] > 0)
+        & (metrics["timestamps_us"] >= since_us)
+    ]
+    return float(hits["timestamps_us"].min()) if len(hits) else float("inf")
+
+
 def outcome(run_dir: Path) -> dict:
-    """Failure and the metrics that explain it, from the scored rollout. For a
-    failed run, also when it failed, how far the ego was from the recorded
-    trajectory at that moment, and whether any camera frame was black: far
-    from the recording the reconstructed scene renders less reliably, so such
-    a failure may be the simulator's rather than the policy's."""
+    """Failure and the metrics that explain it, from the scored rollout (the
+    failure definition above FAILURE_METRICS). For a failed run, also when it
+    failed, how far the ego was from the recorded trajectory at that moment,
+    and whether any camera frame was black: far from the recording the
+    reconstructed scene renders less reliably, so such a failure may be the
+    simulator's rather than the policy's. The closest approach counts from the
+    policy's first step until any rear contact."""
     metrics = pd.read_parquet(completed_rollout(run_dir) / "metrics.parquet")
+    relevant = metrics[metrics["name"] == "eval_relevant"]
+    driven = float(relevant.loc[relevant["values"] > 0, "timestamps_us"].min())
+    start = float(metrics["timestamps_us"].min())
     peak = metrics.groupby("name")["values"].max()
-    worst = metrics.groupby("name")["values"].min()
+    side_or_front = min(
+        _first(metrics, "collision_front", driven),
+        _first(metrics, "collision_lateral", driven),
+    )
+    rear = _first(metrics, "collision_rear", driven)
+    offroad = _first(metrics, "offroad", driven)
+    at_fault = side_or_front if side_or_front < rear else float("inf")
+    when = min(at_fault, offroad)
+    window = metrics[
+        (metrics["name"] == "min_distance_to_obstacle_m")
+        & (metrics["timestamps_us"] >= driven)
+        & (metrics["timestamps_us"] < rear)
+    ]
     found = {
-        "failed": bool(any(peak[name] > 0 for name in FAILURE_METRICS)),
-        **{name: bool(peak[name] > 0) for name in FAILURE_METRICS},
-        "min_distance_to_obstacle_m": round(
-            float(worst["min_distance_to_obstacle_m"]), 2
-        ),
+        "failed": when < float("inf"),
+        "collision_at_fault": at_fault < float("inf"),
+        "offroad": offroad < float("inf"),
+        "rear_ended": rear < float("inf"),
+        "failed_any": bool(any(peak[name] > 0 for name in FAILURE_METRICS)),
+        "handoff_s": round((driven - start) / 1e6, 1),
+        "min_distance_to_obstacle_m": round(float(window["values"].min()), 2)
+        if len(window)
+        else None,
         "progress": round(float(peak["progress"]), 2),
     }
     found["criticality"] = criticality(
         found["failed"], found["min_distance_to_obstacle_m"]
     )
     if found["failed"]:
-        hits = metrics[metrics["name"].isin(FAILURE_METRICS) & (metrics["values"] > 0)]
-        when = hits["timestamps_us"].min()
         track = metrics[metrics["name"] == "dist_to_gt_trajectory"]
         at = track.iloc[(track["timestamps_us"] - when).abs().argmin()]
         off = round(float(at["values"]), 1)
         black = bool(peak["img_is_black"] > 0)
         found |= {
-            "failed_at_s": round((when - metrics["timestamps_us"].min()) / 1e6, 1),
+            "failed_at_s": round((when - start) / 1e6, 1),
             "off_recording_at_failure_m": off,
             "black_frames": black,
             "possible_artifact": off > FAR_FROM_RECORDING_M or black,
@@ -174,12 +211,15 @@ def outcome(run_dir: Path) -> dict:
     return found
 
 
-def criticality(failed: bool, min_distance_m: float) -> float:
+def criticality(failed: bool, min_distance_m: float | None) -> float:
     """How close a run came to failing, in [0, 1]: 1 for a failure; otherwise
     the closest approach to another actor, 0.9 at contact falling linearly to 0
-    at NEAR_MISS_M. Ranks settings by how challenging they are."""
+    at NEAR_MISS_M (0 when the ego was rear-ended before it drove a step).
+    Ranks settings by how challenging they are."""
     if failed:
         return 1.0
+    if min_distance_m is None:
+        return 0.0
     return round(0.9 * max(0.0, 1.0 - min_distance_m / NEAR_MISS_M), 3)
 
 

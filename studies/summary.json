@@ -12,12 +12,12 @@
     "failures": 5,
     "scenes_with_a_failure": 4,
     "dropped": 0,
-    "runs_to_goal": 6,
-    "hardest": 0.612,
+    "runs_to_goal": null,
+    "hardest": 0.559,
     "model_seconds": 8.4,
     "model_tokens": 4827,
     "found": [
-     "linear fails less than feasible_best: the pooled 90% ranges separate"
+     "linear fails less than feasible_best: the pooled 90% ranges separate, but only over 1 knob settings on 4 scenes; the comparison needs 3 and 2"
     ]
    }
   }
@@ -35,55 +35,46 @@
    "rules": {
     "launched": 27,
     "kept": 27,
-    "failures": 16,
-    "scenes_with_a_failure": 6,
+    "failures": 7,
+    "scenes_with_a_failure": 3,
     "dropped": 0,
-    "runs_to_goal": 23,
-    "hardest": 1.0,
+    "runs_to_goal": null,
+    "hardest": 0.909,
     "model_seconds": 0.0,
     "model_tokens": 0,
     "found": [
      "023b7fcc at actor_time_shift_s 0.0, actor_speed_scale 1.25",
-     "054b5901 at actor_time_shift_s 0.0, actor_speed_scale 1.25",
-     "09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25",
-     "0e899dd3 at actor_time_shift_s 0.0, actor_speed_scale 1.25",
-     "19f339ba at actor_time_shift_s 0.0, actor_speed_scale 1.25"
+     "09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25"
     ]
    },
    "hybrid": {
     "launched": 29,
     "kept": 27,
-    "failures": 18,
-    "scenes_with_a_failure": 6,
+    "failures": 6,
+    "scenes_with_a_failure": 2,
     "dropped": 0,
-    "runs_to_goal": 19,
-    "hardest": 1.0,
+    "runs_to_goal": null,
+    "hardest": 0.934,
     "model_seconds": 36.7,
     "model_tokens": 33445,
     "found": [
-     "054b5901 at actor_time_shift_s 0, actor_speed_scale 1.25",
      "023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25",
-     "19f339ba at actor_time_shift_s 0, actor_speed_scale 1.25",
-     "09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25",
-     "0e899dd3 at actor_time_shift_s 0, actor_speed_scale 1.25"
+     "09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25"
     ]
    },
    "llm": {
     "launched": 27,
     "kept": 27,
-    "failures": 17,
-    "scenes_with_a_failure": 5,
+    "failures": 6,
+    "scenes_with_a_failure": 2,
     "dropped": 0,
-    "runs_to_goal": 19,
-    "hardest": 1.0,
+    "runs_to_goal": null,
+    "hardest": 0.933,
     "model_seconds": 56.5,
     "model_tokens": 31653,
     "found": [
-     "054b5901 at actor_time_shift_s -0.5, actor_speed_scale 1.25",
      "023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25",
-     "19f339ba at actor_time_shift_s 0, actor_speed_scale 1.25",
-     "09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5",
-     "0e899dd3 at actor_time_shift_s -1, actor_speed_scale 1.5"
+     "09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5"
     ]
    }
   }
@@ -126,7 +117,7 @@
     "scenes_with_a_failure": 0,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.65,
+    "hardest": 0.435,
     "model_seconds": 0.0,
     "model_tokens": 0,
     "found": []
@@ -138,7 +129,7 @@
     "scenes_with_a_failure": 1,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.748,
+    "hardest": 0.541,
     "model_seconds": 91.4,
     "model_tokens": 111125,
     "found": [
@@ -152,9 +143,45 @@
     "scenes_with_a_failure": 0,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.669,
+    "hardest": 0.462,
     "model_seconds": 116.2,
     "model_tokens": 108784,
+    "found": []
+   }
+  }
+ },
+ "intersection_ego_speed": {
+  "question": "At intersections with a recorded crossing car, which combinations of the ego's speed at hand-off and the crossing car's arrival time make VaVAM with the linear MPC collide or leave the road? The goal is the 5 most challenging cases, each on a different scene, confirmed by repeats.",
+  "goal": {
+   "type": "top_k",
+   "k": 5,
+   "high_min": 0.5,
+   "distinct_scenes": true
+  },
+  "budget": 49,
+  "arms": {
+   "rules": {
+    "launched": 7,
+    "kept": 6,
+    "failures": 1,
+    "scenes_with_a_failure": 1,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.508,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": []
+   },
+   "hybrid": {
+    "launched": 6,
+    "kept": 5,
+    "failures": 1,
+    "scenes_with_a_failure": 1,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.448,
+    "model_seconds": 8.5,
+    "model_tokens": 4888,
     "found": []
    }
   }
@@ -172,49 +199,43 @@
    "rules": {
     "launched": 49,
     "kept": 49,
-    "failures": 3,
-    "scenes_with_a_failure": 1,
+    "failures": 0,
+    "scenes_with_a_failure": 0,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.89,
+    "hardest": 0.846,
     "model_seconds": 0.0,
     "model_tokens": 0,
-    "found": [
-     "19f339ba at actor_time_shift_s 0.0, actor_speed_scale 1.25, planner_delay_us 200000"
-    ]
+    "found": []
    },
    "hybrid": {
     "launched": 50,
     "kept": 49,
-    "failures": 15,
-    "scenes_with_a_failure": 4,
+    "failures": 7,
+    "scenes_with_a_failure": 2,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.977,
+    "hardest": 0.92,
     "model_seconds": 110.8,
     "model_tokens": 131508,
     "found": [
-     "0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000",
      "12855a41 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000",
-     "09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000",
-     "19f339ba at actor_time_shift_s 0, actor_speed_scale 1.25, planner_delay_us 200000"
+     "09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000"
     ]
    },
    "llm": {
     "launched": 22,
     "kept": 21,
-    "failures": 19,
-    "scenes_with_a_failure": 6,
+    "failures": 13,
+    "scenes_with_a_failure": 5,
     "dropped": 0,
-    "runs_to_goal": 21,
-    "hardest": 1.0,
+    "runs_to_goal": null,
+    "hardest": 0.918,
     "model_seconds": 40.7,
     "model_tokens": 33105,
     "found": [
-     "023b7fcc at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0",
      "19f339ba at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0",
      "096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0",
-     "09a95ffa at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0",
      "12855a41 at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0"
     ]
    }
@@ -237,7 +258,7 @@
     "scenes_with_a_failure": 0,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.747,
+    "hardest": 0.643,
     "model_seconds": 0.0,
     "model_tokens": 0,
     "found": []
@@ -249,7 +270,7 @@
     "scenes_with_a_failure": 0,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.74,
+    "hardest": 0.636,
     "model_seconds": 90.1,
     "model_tokens": 106510,
     "found": []
@@ -261,7 +282,7 @@
     "scenes_with_a_failure": 1,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.795,
+    "hardest": 0.691,
     "model_seconds": 112.3,
     "model_tokens": 108766,
     "found": [
@@ -275,7 +296,7 @@
     "scenes_with_a_failure": 0,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.777,
+    "hardest": 0.673,
     "model_seconds": 0.0,
     "model_tokens": 0,
     "found": []
@@ -287,7 +308,7 @@
     "scenes_with_a_failure": 1,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.803,
+    "hardest": 0.699,
     "model_seconds": 0.0,
     "model_tokens": 0,
     "found": [

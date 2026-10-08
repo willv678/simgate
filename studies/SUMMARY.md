@@ -8,22 +8,24 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 
 | study | proposer | kept | failures | runs to goal | found | hardest | model s |
 |---|---|---|---|---|---|---|---|
-| controller_tuning_pedestrian | hybrid | 10/50 | 5 | 6 | 1 | 0.612 | 8.4 |
-| cut_in_merge | rules | 27/54 | 16 | 23 | 5 | 1.0 | 0.0 |
-| cut_in_merge | hybrid | 27/54 | 18 | 19 | 5 | 1.0 | 36.7 |
-| cut_in_merge | llm | 27/54 | 17 | 19 | 5 | 1.0 | 56.5 |
+| controller_tuning_pedestrian | hybrid | 10/50 | 5 | not reached | 1 | 0.559 | 8.4 |
+| cut_in_merge | rules | 27/54 | 7 | not reached | 2 | 0.909 | 0.0 |
+| cut_in_merge | hybrid | 27/54 | 6 | not reached | 2 | 0.934 | 36.7 |
+| cut_in_merge | llm | 27/54 | 6 | not reached | 2 | 0.933 | 56.5 |
 | ego_speed_smoke | grid | 5/5 | 1 | not reached | 0 | 0.2 | 0.0 |
-| intersection | rules | 49/49 | 0 | not reached | 0 | 0.65 | 0.0 |
-| intersection | hybrid | 49/49 | 6 | not reached | 1 | 0.748 | 91.4 |
-| intersection | llm | 49/49 | 0 | not reached | 0 | 0.669 | 116.2 |
-| lead_vehicle | rules | 49/49 | 3 | not reached | 1 | 0.89 | 0.0 |
-| lead_vehicle | hybrid | 49/49 | 15 | not reached | 4 | 0.977 | 110.8 |
-| lead_vehicle | llm | 21/49 | 19 | 21 | 5 | 1.0 | 40.7 |
-| pedestrian_crossing | rules | 49/49 | 0 | not reached | 0 | 0.747 | 0.0 |
-| pedestrian_crossing | hybrid | 49/49 | 0 | not reached | 0 | 0.74 | 90.1 |
-| pedestrian_crossing | llm | 49/49 | 5 | not reached | 1 | 0.795 | 112.3 |
-| pedestrian_crossing | random | 49/49 | 0 | not reached | 0 | 0.777 | 0.0 |
-| pedestrian_crossing | optuna | 49/49 | 3 | not reached | 1 | 0.803 | 0.0 |
+| intersection | rules | 49/49 | 0 | not reached | 0 | 0.435 | 0.0 |
+| intersection | hybrid | 49/49 | 6 | not reached | 1 | 0.541 | 91.4 |
+| intersection | llm | 49/49 | 0 | not reached | 0 | 0.462 | 116.2 |
+| intersection_ego_speed | rules | 6/49 | 1 | not reached | 0 | 0.508 | 0.0 |
+| intersection_ego_speed | hybrid | 5/49 | 1 | not reached | 0 | 0.448 | 8.5 |
+| lead_vehicle | rules | 49/49 | 0 | not reached | 0 | 0.846 | 0.0 |
+| lead_vehicle | hybrid | 49/49 | 7 | not reached | 2 | 0.92 | 110.8 |
+| lead_vehicle | llm | 21/49 | 13 | not reached | 3 | 0.918 | 40.7 |
+| pedestrian_crossing | rules | 49/49 | 0 | not reached | 0 | 0.643 | 0.0 |
+| pedestrian_crossing | hybrid | 49/49 | 0 | not reached | 0 | 0.636 | 90.1 |
+| pedestrian_crossing | llm | 49/49 | 5 | not reached | 1 | 0.691 | 112.3 |
+| pedestrian_crossing | random | 49/49 | 0 | not reached | 0 | 0.673 | 0.0 |
+| pedestrian_crossing | optuna | 49/49 | 3 | not reached | 1 | 0.699 | 0.0 |
 | pedestrian_ego_speed | rules | 30/50 | 17 | 25 | 5 | 1.0 | 0.0 |
 | pedestrian_ego_speed | hybrid | 30/50 | 18 | 24 | 5 | 1.0 | 46.0 |
 | pedestrian_ego_speed | llm | 30/50 | 18 | 28 | 5 | 1.0 | 52.5 |
@@ -33,15 +35,15 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 
 Does the tuned linear MPC (feasible_best: Riccati terminal cost, stiffer position tracking) fail less often than the default linear MPC when the key pedestrian steps out up to 2 s early and walks 1x to 2x their recorded speed?
 
-- **hybrid**: linear fails less than feasible_best: the pooled 90% ranges separate
+- **hybrid**: linear fails less than feasible_best: the pooled 90% ranges separate, but only over 1 knob settings on 4 scenes; the comparison needs 3 and 2
 
 ## cut_in_merge
 
 In merge and cut-in scenes, which timings and speeds of the other cars make the VaVAM policy collide or leave the road? Find the 5 most challenging settings, each on a different scene and confirmed by repeats.
 
-- **rules**: 023b7fcc at actor_time_shift_s 0.0, actor_speed_scale 1.25; 054b5901 at actor_time_shift_s 0.0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25; 0e899dd3 at actor_time_shift_s 0.0, actor_speed_scale 1.25; 19f339ba at actor_time_shift_s 0.0, actor_speed_scale 1.25
-- **hybrid**: 054b5901 at actor_time_shift_s 0, actor_speed_scale 1.25; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 19f339ba at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25; 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 1.25
-- **llm**: 054b5901 at actor_time_shift_s -0.5, actor_speed_scale 1.25; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 19f339ba at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5; 0e899dd3 at actor_time_shift_s -1, actor_speed_scale 1.5
+- **rules**: 023b7fcc at actor_time_shift_s 0.0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25
+- **hybrid**: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25
+- **llm**: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5
 
 ## ego_speed_smoke
 
@@ -57,13 +59,20 @@ At intersections with crossing traffic, which arrival times and speeds of the re
 - **hybrid**: 02eadd92 at actor_time_shift_s 1, actor_speed_scale 1.25
 - **llm**: nothing confirmed
 
+## intersection_ego_speed
+
+At intersections with a recorded crossing car, which combinations of the ego's speed at hand-off and the crossing car's arrival time make VaVAM with the linear MPC collide or leave the road? The goal is the 5 most challenging cases, each on a different scene, confirmed by repeats.
+
+- **rules**: nothing confirmed
+- **hybrid**: nothing confirmed
+
 ## lead_vehicle
 
 In lead-vehicle scenes, which timing shifts and speed scalings of the recorded lead car (with up to 200 ms planner delay if needed) make VaVAM run into it? Find the 5 most challenging cases, each on a different scene, confirmed by repeats.
 
-- **rules**: 19f339ba at actor_time_shift_s 0.0, actor_speed_scale 1.25, planner_delay_us 200000
-- **hybrid**: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000; 12855a41 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000; 19f339ba at actor_time_shift_s 0, actor_speed_scale 1.25, planner_delay_us 200000
-- **llm**: 023b7fcc at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 19f339ba at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 09a95ffa at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 12855a41 at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0
+- **rules**: nothing confirmed
+- **hybrid**: 12855a41 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000
+- **llm**: 19f339ba at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 12855a41 at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0
 
 ## pedestrian_crossing
 
