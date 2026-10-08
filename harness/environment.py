@@ -83,10 +83,13 @@ def _alpasim_networks() -> list[str]:
 
 
 def _gpu_free_mib() -> int:
-    out = _run(
+    """Free memory of the first GPU; 0 when nvidia-smi cannot answer."""
+    result = _run(
         ["nvidia-smi", "--query-gpu=memory.free", "--format=csv,noheader,nounits"]
-    ).stdout
-    return int(out.splitlines()[0])
+    )
+    if result.returncode != 0:
+        return 0
+    return int(result.stdout.splitlines()[0])
 
 
 def environment_problems() -> list[str]:

@@ -74,6 +74,7 @@ logged-in `claude` CLI. Clone this repository into the checkout as
 `research/`, then:
 
 ```bash
+research/simgate doctor     # checks the GPU, Docker, uv, claude, scenes, disk
 research/simgate serve      # web app at http://localhost:8765
 research/simgate worker     # runs queued studies on the GPU
 ```

@@ -6,6 +6,7 @@
     research/simgate plan my_question   # Claude plans it; code checks the plan
     research/simgate queue my_question --proposer rules hybrid llm
     research/simgate status             # studies, arms and jobs
+    research/simgate doctor             # is this machine ready?
 
 A brief is named by its path under research/briefs, without .md
 (categories/lead_vehicle). The worker and the web app share research/jobs/;
@@ -79,6 +80,7 @@ def main() -> int:
         help="independent repeats of each arm (2 3 queues two more)",
     )
     sub.add_parser("status", help="studies, their arms, and the job queue")
+    sub.add_parser("doctor", help="is this machine ready to run SimGate?")
     export = sub.add_parser("export", help="a read-only snapshot of the web app")
     export.add_argument("out", type=Path, nargs="?", default=ROOT / "research" / "site")
     args = parser.parse_args()
@@ -127,6 +129,10 @@ def main() -> int:
             print("no worker is running: start one with `simgate worker`")
     elif args.command == "status":
         status()
+    elif args.command == "doctor":
+        import doctor
+
+        return doctor.main()
     elif args.command == "export":
         web.export(args.out)
         print(f"{args.out}/index.html written; serve the repository to view it")
