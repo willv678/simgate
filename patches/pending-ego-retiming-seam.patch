@@ -1,0 +1,75 @@
+diff -ru a/src/runtime/alpasim_runtime/ego_retiming.py b/src/runtime/alpasim_runtime/ego_retiming.py
+--- a/src/runtime/alpasim_runtime/ego_retiming.py	2026-10-08 19:28:27.824493099 -0400
++++ b/src/runtime/alpasim_runtime/ego_retiming.py	2026-10-08 19:28:27.836493064 -0400
+@@ -17,8 +17,9 @@
+ 
+ The retimed trajectory starts at the rollout window start. When ``s > 1`` the
+ recording does not reach back that far, and the ego is placed on the straight
+-line through its first retimed second, extended backwards at that second's
+-mean velocity with the first recorded orientation.
++line extended backwards from the first recorded pose at the retimed
++recording's starting velocity (its first step) with the first recorded
++orientation, so the speed has no step where the recording begins.
+ 
+ The rollout window, render start and hand-off time come from the recorded rig
+ and do not change. Everything that follows the ego reference (context seeding,
+@@ -39,10 +40,6 @@
+ 
+ logger = logging.getLogger(__name__)
+ 
+-# Span of the retimed trajectory whose mean velocity is extended backwards.
+-_EXTRAPOLATION_FIT_US = 1_000_000
+-
+-
+ def validate_ego_speed_scale(config: SimulationConfig) -> None:
+     """Raise ``ValueError`` for an ego speed scale that cannot be applied."""
+     scale = config.ego_speed_scale
+@@ -102,10 +99,7 @@
+         positions = np.concatenate([[start_pose.vec3], positions[keep]])
+         quaternions = np.concatenate([[start_pose.quat], quaternions[keep]])
+     elif first_us > window_start_us:
+-        recorded = Trajectory(retimed_us.astype(np.uint64), positions, quaternions)
+-        fit_end_us = min(first_us + _EXTRAPOLATION_FIT_US, int(retimed_us[-1]))
+-        fit = recorded.interpolate(np.array([first_us, fit_end_us], dtype=np.uint64))
+-        velocity = (fit.positions[1] - fit.positions[0]) / (fit_end_us - first_us)
++        velocity = (positions[1] - positions[0]) / (retimed_us[1] - retimed_us[0])
+         start_position = positions[0] - velocity * (first_us - window_start_us)
+         retimed_us = np.concatenate([[window_start_us], retimed_us])
+         positions = np.concatenate([[start_position], positions])
+diff -ru a/src/runtime/tests/test_ego_retiming.py b/src/runtime/tests/test_ego_retiming.py
+--- a/src/runtime/tests/test_ego_retiming.py	2026-10-08 19:28:27.829493084 -0400
++++ b/src/runtime/tests/test_ego_retiming.py	2026-10-08 19:28:27.836493064 -0400
+@@ -80,18 +80,28 @@
+     assert _x_at(_retime(0.5), WINDOW_START_US) == pytest.approx(_x(2.5), abs=1e-4)
+ 
+ 
+-def test_faster_ego_is_extended_back_along_its_first_second() -> None:
++def test_faster_ego_is_extended_back_at_its_starting_velocity() -> None:
+     retimed = _retime(2.0)
+-    # The recording starts at 5 s - 5 s / 2 = 2.5 s; its first retimed second
+-    # covers recorded [0 s, 2 s], so 14 m/s, extended back to the window start.
++    # The recording starts at 5 s - 5 s / 2 = 2.5 s; its first step covers
++    # recorded [0, 50 ms] (0.2525 m) in 25 ms: 10.1 m/s, extended back to the
++    # window start.
+     assert _x_at(retimed, 2_500_000) == pytest.approx(0.0, abs=1e-4)
+-    assert _x_at(retimed, 1_250_000) == pytest.approx(-17.5, abs=1e-3)
+-    assert _x_at(retimed, WINDOW_START_US) == pytest.approx(-35.0, abs=1e-3)
++    assert _x_at(retimed, 1_250_000) == pytest.approx(-12.625, abs=1e-3)
++    assert _x_at(retimed, WINDOW_START_US) == pytest.approx(-25.25, abs=1e-3)
+     assert retimed.interpolate_pose(WINDOW_START_US).quat == pytest.approx(
+         [0.0, 0.0, 0.0, 1.0]
+     )
+ 
+ 
++def test_the_speed_has_no_step_where_the_recording_begins() -> None:
++    # An accelerating recording (5 m/s at its start, 7 m/s one second later):
++    # a mean over its first second would meet it with a step of several m/s.
++    retimed = _retime(2.0)
++    before = _speed_at(retimed, 2_400_000, half_span_us=50_000)
++    after = _speed_at(retimed, 2_600_000, half_span_us=50_000)
++    assert abs(after - before) < 1.0
++
++
+ def test_handoff_outside_the_recording_fails() -> None:
+     with pytest.raises(ValueError, match="hand-off"):
+         retime_ego_trajectory(
