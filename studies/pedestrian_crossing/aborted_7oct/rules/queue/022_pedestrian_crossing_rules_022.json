@@ -1,0 +1,69 @@
+{
+ "name": "pedestrian_crossing_rules_022",
+ "run_dir": "diag/aborted_pedestrian_7oct/pedestrian_crossing_rules_022",
+ "config": {
+  "context_length": 8,
+  "scene_file": "data/scenes/sim_scenes.csv",
+  "trafficsim_device": "cpu",
+  "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+  "traffic": "replay",
+  "retime_class": "person",
+  "planner_delay_us": 0,
+  "lateral_bias_m": 0.0,
+  "waypoint_noise_std": 0.0,
+  "actor_time_shift_s": -0.5,
+  "actor_speed_scale": 1.25
+ },
+ "attempt": 1,
+ "parent": null,
+ "launched": true,
+ "pid": 1773180,
+ "launched_at": 1791340689.7344942,
+ "environment": null,
+ "env_cleanups": 0,
+ "resolution": "RESTART_CLEANUP",
+ "diagnosis": {
+  "policy": "agent",
+  "input": {
+   "state": "FAILED",
+   "run": "pedestrian_crossing_rules_022",
+   "k_status": "process_lost: launcher gone, no exit code",
+   "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+    "traffic": "replay",
+    "retime_class": "person",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 1.25
+   },
+   "attempt": 1,
+   "max_attempts": 3,
+   "error_lines": [
+    "time=2026-10-07T02:38:16.659Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\""
+   ],
+   "machine_at_timeout": null
+  },
+  "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\npedestrian_crossing_rules_022_microservices_network\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n661 MiB, 23405 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  759G  152G  84% /\n",
+  "skill": "RESTART_CLEANUP",
+  "params": {},
+  "model": "claude-opus-5-5",
+  "context_tokens": 53303,
+  "output_tokens": 871,
+  "duration_ms": 11187,
+  "tool_calls": [
+   "Bash: docker ps -a; docker network ls; nvidia-smi --query-gpu=memory.used,memory.total --format=csv; df -h /home",
+   "Bash: ls -la /home/willvarner/alpasim/diag/pedestrian_crossing_rules_022; ls -la ./console.log",
+   "Bash: docker ps; nvidia-smi; df -h",
+   "Grep: (?i)error|killed|terminat|signal|oom|traceback|exception",
+   "Bash: tail -n 30 ./console.log"
+  ],
+  "denied": [],
+  "verdict": "accepted"
+ },
+ "fault": null
+}

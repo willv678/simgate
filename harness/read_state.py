@@ -255,9 +255,12 @@ def config_not_landed(entry: dict) -> list[str]:
         "traffic": "replay"
         if wizard["runtime"]["endpoints"]["trafficsim"]["skip"]
         else "catk",
-        "actor_retiming": wizard["runtime"]["simulation_config"]
-        .get("actor_retiming", {})
-        .get("rules", []),
+        "actor_retiming": [
+            {k: str(v) if k == "track_id" else v for k, v in rule.items()}
+            for rule in wizard["runtime"]["simulation_config"]
+            .get("actor_retiming", {})
+            .get("rules", [])
+        ],
         "frame_interval_us": wizard["runtime"]["simulation_config"]["cameras"][0][
             "frame_interval_us"
         ],

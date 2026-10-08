@@ -67,3 +67,9 @@ def test_a_scene_key_actor_is_retimed_alone(tmp_path):
     assert retime_not_applied({"run_dir": str(run), "config": config})  # wrong actor
     log.write_text("Retimed actor 17 (person): time_shift_s=-1.0\n")
     assert retime_not_applied({"run_dir": str(run), "config": config}) is None
+
+
+def test_a_track_id_is_passed_as_a_string():
+    config = {**PEDESTRIAN, "retime_track": "123"}
+    (arg,) = [a for a in traffic_args(config) if "actor_retiming" in a]
+    assert 'track_id:"123"' in arg

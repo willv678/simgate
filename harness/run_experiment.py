@@ -86,7 +86,10 @@ def traffic_args(config: dict) -> list[str]:
         args.append(f"trafficsim.catk.device={config['trafficsim_device']}")
     rule = retime_request(config)
     if rule is not None:
-        body = ",".join(f"{k}:{v}" for k, v in rule.items())
+        # Quoted, a track id stays a string: unquoted, Hydra reads "123" as 123.
+        body = ",".join(
+            f'{k}:"{v}"' if k == "track_id" else f"{k}:{v}" for k, v in rule.items()
+        )
         args.append(f"+runtime.simulation_config.actor_retiming.rules=[{{{body}}}]")
     return args
 
