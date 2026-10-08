@@ -10,7 +10,7 @@
  {
   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 0.0,
+  "s1_min_distance_to_obstacle_m": 0.02,
   "s1_progress": 0.6,
   "s1_top_speed_mps": 6.3,
   "s1_distance_m": 65.1
@@ -18,7 +18,7 @@
  {
   "scene_id": "clipgt-0245ff75-aa3f-46b7-ba87-16a7afb841af",
   "s1_failed_at_0_delay": true,
-  "s1_min_distance_to_obstacle_m": 1.48,
+  "s1_min_distance_to_obstacle_m": 1.71,
   "s1_progress": 0.27,
   "s1_top_speed_mps": 6.9,
   "s1_distance_m": 63.0
@@ -26,7 +26,7 @@
  {
   "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
   "s1_failed_at_0_delay": true,
-  "s1_min_distance_to_obstacle_m": 3.22,
+  "s1_min_distance_to_obstacle_m": 3.28,
   "s1_progress": 1.0,
   "s1_top_speed_mps": 10.8,
   "s1_distance_m": 123.3
@@ -42,7 +42,7 @@
  {
   "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 1.4,
+  "s1_min_distance_to_obstacle_m": 1.48,
   "s1_progress": 0.92,
   "s1_top_speed_mps": 8.7,
   "s1_distance_m": 87.7
@@ -58,15 +58,15 @@
  {
   "scene_id": "clipgt-04394343-92f3-409c-9695-e7cd5397fa02",
   "s1_failed_at_0_delay": true,
-  "s1_min_distance_to_obstacle_m": 1.8,
+  "s1_min_distance_to_obstacle_m": 4.73,
   "s1_progress": 0.46,
   "s1_top_speed_mps": 14.9,
   "s1_distance_m": 139.8
  },
  {
   "scene_id": "clipgt-04749bb9-9b37-495b-bed0-77f0e33ac7da",
-  "s1_failed_at_0_delay": true,
-  "s1_min_distance_to_obstacle_m": 0.0,
+  "s1_failed_at_0_delay": false,
+  "s1_min_distance_to_obstacle_m": 5.2,
   "s1_progress": 0.4,
   "s1_top_speed_mps": 24.8,
   "s1_distance_m": 186.2
@@ -90,7 +90,7 @@
  {
   "scene_id": "clipgt-04db1bb2-90fe-47a7-9d09-27d020c618d4",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 4.32,
+  "s1_min_distance_to_obstacle_m": 4.41,
   "s1_progress": 0.12,
   "s1_top_speed_mps": 2.7,
   "s1_distance_m": 8.2
@@ -130,7 +130,7 @@
  {
   "scene_id": "clipgt-05ecbbf5-d88c-41b7-97f2-f4ac2615a8c9",
   "s1_failed_at_0_delay": true,
-  "s1_min_distance_to_obstacle_m": 5.01,
+  "s1_min_distance_to_obstacle_m": 18.28,
   "s1_progress": 0.22,
   "s1_top_speed_mps": 6.1,
   "s1_distance_m": 53.3
@@ -170,7 +170,7 @@
  {
   "scene_id": "clipgt-07ab4a5b-e934-4fff-b5d1-47efedadac47",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 20.5,
+  "s1_min_distance_to_obstacle_m": 21.48,
   "s1_progress": 0.43,
   "s1_top_speed_mps": 13.4,
   "s1_distance_m": 116.6
@@ -178,7 +178,7 @@
  {
   "scene_id": "clipgt-08990ec8-0ba9-4284-9919-65b71750a5fa",
   "s1_failed_at_0_delay": true,
-  "s1_min_distance_to_obstacle_m": 1.76,
+  "s1_min_distance_to_obstacle_m": 1.87,
   "s1_progress": 0.17,
   "s1_top_speed_mps": 3.9,
   "s1_distance_m": 18.1
@@ -194,7 +194,7 @@
  {
   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 0.0,
+  "s1_min_distance_to_obstacle_m": 0.01,
   "s1_progress": 0.45,
   "s1_top_speed_mps": 5.7,
   "s1_distance_m": 49.7
@@ -226,7 +226,7 @@
  {
   "scene_id": "clipgt-0a18c5a4-9aca-4efd-b604-c75f3269c502",
   "s1_failed_at_0_delay": true,
-  "s1_min_distance_to_obstacle_m": 1.19,
+  "s1_min_distance_to_obstacle_m": 1.8,
   "s1_progress": 0.72,
   "s1_top_speed_mps": 10.0,
   "s1_distance_m": 92.6
@@ -250,7 +250,7 @@
  {
   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 1.5,
+  "s1_min_distance_to_obstacle_m": 3.27,
   "s1_progress": 0.11,
   "s1_top_speed_mps": 3.0,
   "s1_distance_m": 8.9
@@ -266,7 +266,7 @@
  {
   "scene_id": "clipgt-0b54c8d4-8119-431e-9ae8-5c70f5e64716",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 1.11,
+  "s1_min_distance_to_obstacle_m": 1.88,
   "s1_progress": 0.89,
   "s1_top_speed_mps": 10.3,
   "s1_distance_m": 73.7
@@ -330,7 +330,7 @@
  {
   "scene_id": "clipgt-0d76134f-350d-44b5-a694-208e9dab9600",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 7.43,
+  "s1_min_distance_to_obstacle_m": 7.75,
   "s1_progress": 0.09,
   "s1_top_speed_mps": 3.3,
   "s1_distance_m": 7.1
@@ -370,7 +370,7 @@
  {
   "scene_id": "clipgt-0e256b3c-e706-4d6c-ba17-751e4ab7f226",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 1.26,
+  "s1_min_distance_to_obstacle_m": 1.33,
   "s1_progress": 0.84,
   "s1_top_speed_mps": 8.6,
   "s1_distance_m": 82.6
@@ -418,7 +418,7 @@
  {
   "scene_id": "clipgt-0feb3afa-28c0-4a48-b74c-636676892966",
   "s1_failed_at_0_delay": true,
-  "s1_min_distance_to_obstacle_m": 2.07,
+  "s1_min_distance_to_obstacle_m": 8.99,
   "s1_progress": 0.45,
   "s1_top_speed_mps": 30.4,
   "s1_distance_m": 234.1
@@ -434,7 +434,7 @@
  {
   "scene_id": "clipgt-1089758a-8d07-48f8-9e9d-49f9a6bd18bd",
   "s1_failed_at_0_delay": true,
-  "s1_min_distance_to_obstacle_m": 2.47,
+  "s1_min_distance_to_obstacle_m": 2.55,
   "s1_progress": 0.32,
   "s1_top_speed_mps": 4.7,
   "s1_distance_m": 42.8
@@ -442,7 +442,7 @@
  {
   "scene_id": "clipgt-10d64934-74a5-40ce-b35e-6debe2cd3d9c",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 1.23,
+  "s1_min_distance_to_obstacle_m": 1.31,
   "s1_progress": 0.63,
   "s1_top_speed_mps": 3.1,
   "s1_distance_m": 8.7
@@ -458,7 +458,7 @@
  {
   "scene_id": "clipgt-118a3400-83ce-4a64-98dd-f38f786be4b2",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 1.28,
+  "s1_min_distance_to_obstacle_m": 6.97,
   "s1_progress": 1.0,
   "s1_top_speed_mps": 11.3,
   "s1_distance_m": 59.9
@@ -530,7 +530,7 @@
  {
   "scene_id": "clipgt-13d646af-4ff3-48e4-9a88-012a58eb6cd6",
   "s1_failed_at_0_delay": true,
-  "s1_min_distance_to_obstacle_m": 2.07,
+  "s1_min_distance_to_obstacle_m": 36.06,
   "s1_progress": 0.51,
   "s1_top_speed_mps": 16.9,
   "s1_distance_m": 155.4
@@ -578,7 +578,7 @@
  {
   "scene_id": "clipgt-16195ead-b47b-40cd-b944-851c82ecc519",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 1.97,
+  "s1_min_distance_to_obstacle_m": 2.36,
   "s1_progress": 0.45,
   "s1_top_speed_mps": 10.4,
   "s1_distance_m": 91.8
@@ -610,7 +610,7 @@
  {
   "scene_id": "clipgt-16db28cb-4a75-4216-b6c9-afd2d97c5f85",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 1.15,
+  "s1_min_distance_to_obstacle_m": 3.77,
   "s1_progress": 0.44,
   "s1_top_speed_mps": 7.4,
   "s1_distance_m": 64.7
@@ -625,8 +625,8 @@
  },
  {
   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
-  "s1_failed_at_0_delay": true,
-  "s1_min_distance_to_obstacle_m": 0.0,
+  "s1_failed_at_0_delay": false,
+  "s1_min_distance_to_obstacle_m": 0.23,
   "s1_progress": 0.5,
   "s1_top_speed_mps": 7.5,
   "s1_distance_m": 76.5
@@ -642,7 +642,7 @@
  {
   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 0.9,
+  "s1_min_distance_to_obstacle_m": 2.02,
   "s1_progress": 0.57,
   "s1_top_speed_mps": 9.8,
   "s1_distance_m": 95.9
@@ -674,7 +674,7 @@
  {
   "scene_id": "clipgt-1a7b81b8-9bca-4385-a591-64f74eb59db2",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 1.86,
+  "s1_min_distance_to_obstacle_m": 4.11,
   "s1_progress": 0.69,
   "s1_top_speed_mps": 10.6,
   "s1_distance_m": 94.3
@@ -690,7 +690,7 @@
  {
   "scene_id": "clipgt-1acf2f5d-f674-408f-ba18-6aacb4f4c739",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 1.1,
+  "s1_min_distance_to_obstacle_m": 1.95,
   "s1_progress": 0.49,
   "s1_top_speed_mps": 6.4,
   "s1_distance_m": 61.1
@@ -714,7 +714,7 @@
  {
   "scene_id": "clipgt-1ba6bd49-8153-48f9-8427-4241f95b00fb",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 5.29,
+  "s1_min_distance_to_obstacle_m": 12.36,
   "s1_progress": 0.45,
   "s1_top_speed_mps": 11.1,
   "s1_distance_m": 99.4
@@ -770,7 +770,7 @@
  {
   "scene_id": "clipgt-1c0c89e4-807f-4a5e-ac16-c52ef00dd313",
   "s1_failed_at_0_delay": false,
-  "s1_min_distance_to_obstacle_m": 1.14,
+  "s1_min_distance_to_obstacle_m": 1.26,
   "s1_progress": 0.58,
   "s1_top_speed_mps": 15.0,
   "s1_distance_m": 135.6
@@ -794,7 +794,7 @@
  {
   "scene_id": "clipgt-17a28ca0-d124-468c-bea3-6f2e75f23734",
   "s1_failed_at_0_delay": true,
-  "s1_min_distance_to_obstacle_m": 1.44,
+  "s1_min_distance_to_obstacle_m": 2.7,
   "s1_progress": 0.59,
   "s1_top_speed_mps": 8.7,
   "s1_distance_m": 81.8
