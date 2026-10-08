@@ -13,7 +13,7 @@ cd "$(dirname "$0")/../.."
 H=research/harness
 uv run pytest -q $H
 for script in campaign_report calibrate_physics jerk_separation \
-    plot_results plot_campaign plot_architecture; do
+    plot_results plot_campaign plot_architecture plot_framework; do
     echo "== $script"
     uv run python $H/$script.py > /dev/null
 done
