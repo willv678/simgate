@@ -11,6 +11,42 @@ week first. Every number has its source in `FACTS.md`; daily detail is in
 **Headline:** the full campaign is in. SimGate's guarantee held in every arm,
 and tier 1 matched the script's yield with fewer wasted launches.
 
+**Late week (7-9 Oct), in plain words**
+- **Five kinds of traffic scene, one search each.** Lead car, cut-in, crossing
+  car at an intersection, pedestrian, and pedestrian with the car's own speed
+  changed. For each, the system searched for the 5 hardest situations and
+  re-ran each one until it was sure (FACTS, "Category studies").
+- **The car's own speed is what breaks it** (Shao's suggestion). Moving the
+  pedestrian earlier or later almost never caused a crash (0-5 in 49 runs).
+  Changing how fast our car arrives did: every search method found and
+  confirmed 5 crash situations in 24-28 runs.
+- **We caught ourselves over-counting.** A picture gallery of the "hardest
+  cases" showed that many were not our car's fault: other cars, replaying a
+  recording, drove into it from behind when it went slower than the human
+  did, and a few contacts happened before our driver had even taken over.
+  1 in 4 counted crashes were like this (cut-in: 32 of 51). Now a crash only
+  counts if our car caused it after taking over (the simulator's own rule
+  for the warm-up, and the standard "hit from behind is not your fault").
+  Under the fixed count, the pedestrian-and-speed result stands; cut-in and
+  lead-car results shrink and are being re-measured.
+- **A fair race between search methods.** Plain random search found plenty
+  of crashes but never re-ran one to confirm it, so it could never "win". A
+  new baseline (random + the same confirmation) fixes that. Each method now
+  runs 3 independent times per scene type (running now, about 30 runs an
+  hour), so the comparison will have error bars.
+- **Replays are exact.** The same seed gives the same run to the millimetre;
+  a different seed changes it within 4 seconds.
+- **The checker caught our own bug again.** Speeding up the car's warm-up
+  created a 1.1 g jolt where the made-up start meets the real recording; the
+  physics check stopped those 2 runs. Fix written, applied after the repeats.
+- **Easy to use.** One command and a small web page: write a question, see
+  the plan and its checks, queue it, watch results arrive. A read-only copy
+  of the page shows every result without a GPU. Tests run on GitHub on every
+  change.
+- **The framework figure** (`figures/framework.png`): the outer loop searches
+  for the hardest cases; the inner loop runs each test and keeps it only if
+  every check passes; blue boxes are plain code, orange ones the AI.
+
 **Done**
 - Campaign results analysed (`harness/campaign_report.txt`). Six arms: C1
   (physics off) and C2 (physics on) × script, tier 1, tier 0; 50 planned runs
