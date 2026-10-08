@@ -20,7 +20,10 @@ reduces it to a few features that physics.json thresholds (K⁺) can bound:
 - car following: the gap and time headway to the nearest actor ahead in the
   ego's lane, and whether the ego's box overlapped any actor's box (real sizes
   from the log; actor_poses already gives every actor, the ego included, at
-  its box centre) without a collision being scored.
+  its box centre) without a collision being scored;
+- ego speed at hand-off (handoff_speeds): the ego's mean speed just before the
+  policy takes over against the recorded ego's there, which an ego_speed_scale
+  run must multiply.
 
 check() applies the bounds in rules/physics.json (or the file named by
 ALPASIM_PHYSICS) to a finished run. K⁺ runs it
@@ -54,6 +57,15 @@ LEAD_RANGE_M = 60.0
 # which the evaluator's rounded bumpers do not count.
 OVERLAP_M2 = 0.25
 BOUNDS = Path(__file__).resolve().parent / "rules" / "physics.json"
+# The ego's speed at hand-off is its mean speed over this span before it.
+HANDOFF_SPAN_US = 500_000
+# How far that speed may be from ego_speed_scale times the recorded speed:
+# ABSOLUTE m/s plus RELATIVE of the expected speed. Set from synthetic cases
+# only (test_ego_speed.py: exactly retimed poses give the scale to 1e-5; 2 cm
+# of noise on each pose moves the speed by under 0.1 m/s in 95% of draws);
+# calibrate on real runs before trusting a failure near the edge.
+HANDOFF_SPEED_ABSOLUTE_MPS = 0.2
+HANDOFF_SPEED_RELATIVE = 0.05
 
 
 def completed_rollout(run_dir: Path) -> Path:
@@ -85,6 +97,7 @@ def _footprint(x: float, y: float, yaw: float, size: tuple[float, float]):
 async def _read(path: Path) -> dict:
     ego, others, reported, recorded = {}, {}, {}, None
     sizes, handoffs, plans, warm_up_end, poses_at = {}, [], {}, 0, {}
+    handoff_us, ground_truth = None, []
     async for message in async_read_pb_log(str(path)):
         kind = message.WhichOneof("log_entry")
         if kind == "rollout_metadata":
@@ -94,6 +107,20 @@ async def _read(path: Path) -> dict:
             warm_up_end = (
                 meta.session_metadata.start_timestamp_us + meta.force_gt_duration
             )
+            handoff_us = (
+                meta.session_metadata.render_start_timestamp_us + meta.force_gt_duration
+            )
+            # The recorded rig poses, moved to the box centre like actor_poses.
+            offset = meta.transform_ego_coords_rig_to_aabb.vec
+            for p in meta.ego_rig_recorded_ground_truth_trajectory.poses:
+                yaw = _yaw(p.pose.quat)
+                ground_truth.append(
+                    (
+                        p.timestamp_us,
+                        p.pose.vec.x + np.cos(yaw) * offset.x - np.sin(yaw) * offset.y,
+                        p.pose.vec.y + np.sin(yaw) * offset.x + np.cos(yaw) * offset.y,
+                    )
+                )
         elif kind == "actor_poses":
             poses = message.actor_poses
             t = poses.timestamp_us
@@ -144,6 +171,8 @@ async def _read(path: Path) -> dict:
         "recorded": recorded,
         "sizes": sizes,
         "handoffs": handoffs,
+        "handoff_us": handoff_us,
+        "ground_truth": ground_truth,
     }
 
 
@@ -234,6 +263,46 @@ def signals(run_dir: Path) -> dict:
         "plan_age_ms": np.array([h[3] / 1e3 for h in raw["handoffs"]] or [0.0]),
         "plan_deviations": [_handoff_deviations(*h[:3]) for h in raw["handoffs"]],
     }
+
+
+def mean_speed(track: list, start_us: int, end_us: int) -> float:
+    """Path length of `track` ((t_us, x, y) in time order) over [start_us,
+    end_us], positions interpolated between samples, divided by the span."""
+    t = np.array([p[0] for p in track], dtype=float)
+    inside = (t > start_us) & (t < end_us)
+    times = np.concatenate([[start_us], t[inside], [end_us]])
+    x = np.interp(times, t, [p[1] for p in track])
+    y = np.interp(times, t, [p[2] for p in track])
+    return float(np.sum(np.hypot(np.diff(x), np.diff(y)))) / ((end_us - start_us) / 1e6)
+
+
+def handoff_speeds_from(raw: dict, scale: float) -> tuple[float, float]:
+    """The ego's mean speed over the HANDOFF_SPAN_US before the hand-off, and
+    the recorded ego's over the scale * HANDOFF_SPAN_US before it: the stretch
+    of the recorded path an ego driven `scale` times as fast covers in that
+    span, so the first should be `scale` times the second."""
+    handoff_us = raw["handoff_us"]
+    ego = [(t, *raw["ego"][t][:2]) for t in sorted(raw["ego"])]
+    ego_speed = mean_speed(ego, handoff_us - HANDOFF_SPAN_US, handoff_us)
+    recorded_span_us = round(scale * HANDOFF_SPAN_US)
+    recorded_speed = mean_speed(
+        raw["ground_truth"], handoff_us - recorded_span_us, handoff_us
+    )
+    return ego_speed, recorded_speed
+
+
+def handoff_speeds(run_dir: Path, scale: float) -> tuple[float, float]:
+    """handoff_speeds_from the scored rollout's log."""
+    raw = asyncio.run(_read(completed_rollout(run_dir) / "rollout.asl"))
+    return handoff_speeds_from(raw, scale)
+
+
+def handoff_speed_matches(
+    ego_speed: float, recorded_speed: float, scale: float
+) -> bool:
+    expected = scale * recorded_speed
+    tolerance = HANDOFF_SPEED_ABSOLUTE_MPS + HANDOFF_SPEED_RELATIVE * expected
+    return abs(ego_speed - expected) <= tolerance
 
 
 async def _session_seeds(path: Path) -> dict:

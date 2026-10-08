@@ -100,6 +100,7 @@ TYPES = {
     "waypoint_noise_std": "number",
     "actor_time_shift_s": "number",
     "actor_speed_scale": "number",
+    "ego_speed_scale": "number",
 }
 
 

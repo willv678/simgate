@@ -11,6 +11,8 @@ left behind, using the checks that already exist:
 - whether the requested values are the ones the wizard resolved (the
   controller among them), and for a seeded run whether its sessions were
   opened with that seed (the log);
+- for a run with a retimed ego, the runtime's line and the ego's speed at
+  hand-off in the log (physics.handoff_speeds);
 - the rules the tier 2 auditor proposed and promote.py admitted (rules.py);
 - when enabled, whether the motion was physically possible (physics.py).
 
@@ -38,7 +40,7 @@ from preflight import PreflightError, validate_preflight
 from rules import load_rules, violations
 
 from physics import check as physics_problems
-from physics import load_bounds, session_seeds
+from physics import handoff_speed_matches, handoff_speeds, load_bounds, session_seeds
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -292,6 +294,38 @@ def seed_not_logged(entry: dict) -> str | None:
     return None
 
 
+def ego_speed_request(config: dict) -> float:
+    """How many times its recorded speed the ego has when the policy takes
+    over (AlpaSim's ego_speed_scale). Entries queued before 7 Oct 2026 have no
+    ego_speed_scale: 1.0, the recorded speed."""
+    return config.get("ego_speed_scale", 1.0)
+
+
+def ego_speed_not_applied(entry: dict) -> str | None:
+    """A retimed ego is checked by its own measurement: the runtime logs one
+    "Retimed ego" line with the scale, and the ego's speed just before the
+    hand-off must be the scale times the recorded ego's there."""
+    scale = ego_speed_request(entry["config"])
+    if scale == 1.0:
+        return None
+    log = run_dir(entry) / "txt-logs" / "runtime_worker_0.log"
+    marker = f"Retimed ego: speed_scale={float(scale)},"
+    if not (
+        log.is_file() and marker in log.read_text(encoding="utf-8", errors="replace")
+    ):
+        return f"ego_speed_not_applied: no '{marker}' in the runtime log"
+    try:
+        ego, recorded = handoff_speeds(run_dir(entry), scale)
+    except FileNotFoundError as exc:
+        return f"ego_speed_not_applied: no rollout log ({exc})"
+    if not handoff_speed_matches(ego, recorded, scale):
+        return (
+            f"ego_speed_not_applied: ego at {ego:.2f} m/s before the hand-off, "
+            f"{scale} x the recorded {recorded:.2f} m/s is {scale * recorded:.2f}"
+        )
+    return None
+
+
 def frame_interval_us(config: dict) -> int:
     return config.get("frame_interval_us", LEGACY_FRAME_INTERVAL_US)
 
@@ -330,6 +364,10 @@ def config_not_landed(entry: dict) -> list[str]:
         # (run_experiment.seed_args).
         "seed": wizard["runtime"]["simulation_config"].get("random_seed"),
         "force_determinism": driver["model"].get("force_determinism", False),
+        # Written only when a launch sets it (run_experiment.ego_args).
+        "ego_speed_scale": wizard["runtime"]["simulation_config"].get(
+            "ego_speed_scale", 1.0
+        ),
     }
     # AlpaSim writes the plan-corruption block only when a launch sets it.
     injected = wizard["runtime"]["simulation_config"].get("fault_injection", {})
@@ -347,6 +385,7 @@ def config_not_landed(entry: dict) -> list[str]:
         "controller": requested_controller(config),
         "seed": seed_request(config),
         "force_determinism": seed_request(config) is not None,
+        "ego_speed_scale": ego_speed_request(config),
         **{key: plan_request(config)[key] for key in PLAN_KEYS},
     }
     # The CATK device only exists when CATK runs.
@@ -363,6 +402,7 @@ def config_not_landed(entry: dict) -> list[str]:
         "controller",
         "seed",
         "force_determinism",
+        "ego_speed_scale",
     )
     return [
         f"{key} requested {requested[key]}, resolved {resolved[key]}"
@@ -408,6 +448,10 @@ def read_state(entry: dict) -> RunState:
     unapplied = retime_not_applied(entry)
     if unapplied is not None:
         return RunState(State.FAILED, unapplied)
+
+    ego_speed = ego_speed_not_applied(entry)
+    if ego_speed is not None:
+        return RunState(State.FAILED, ego_speed)
 
     unseeded = seed_not_logged(entry)
     if unseeded is not None:

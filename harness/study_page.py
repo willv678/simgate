@@ -70,6 +70,13 @@ KNOBS = {
         "scale": 1,
         "unit": "x",
     },
+    "ego_speed_scale": {
+        "name": "ego speed",
+        "meaning": "speed of the test car when the driving policy takes over, "
+        "relative to its recording at that place",
+        "scale": 1,
+        "unit": "x",
+    },
     "controller": {
         "name": "controller",
         "meaning": "the controller that steers and brakes the car along the "

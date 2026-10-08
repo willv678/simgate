@@ -68,8 +68,8 @@ def test_lhs_covers_each_knob_and_the_scenes_evenly():
     for name, values in [("scene_id", SCENES)] + [(k, SCENARIO[k]) for k in ALL]:
         counts = Counter(run[name] for run in runs)
         assert set(counts) == set(values)
-        # 36 runs over 9, 4 or 3 values: every value equally often.
-        assert set(counts.values()) == {36 // len(values)}
+        # 36 runs over 3 to 9 values: every value equally often, up to one.
+        assert max(counts.values()) - min(counts.values()) <= 1
     # Fewer runs than values: no two runs in the same stratum.
     few = lhs_proposals(SCENES, 5, 0, DELAY, 0)["runs"]
     assert len({run["planner_delay_us"] for run in few}) == 5
