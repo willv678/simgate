@@ -469,6 +469,47 @@ rp1_other_seed.json).
   the A/B); the pedestrian study's five arms stay unseeded, as its first two
   began, so they compare like for like.
 
+## Category studies, 7-8 Oct (one replicate per method)
+
+Every study: VaVAM with the linear MPC, traffic replayed, the key actor of
+each scene retimed (`fixed.retime_tracks`), 500 ms frames, a top_k goal (the
+5 hardest settings, each on its own scene, failure rate surely above 0.5 by
+repeats), about 50 runs. Numbers from `analyze_methods.py` (METHODS.md); runs
+to goal is the kept run at which the fifth case was confirmed.
+
+| study | knobs | rules | hybrid | llm | baselines |
+|---|---|---|---|---|---|
+| pedestrian crossing | pedestrian time shift, speed | 0 failures in 49 | 0 in 49 | 5 in 49, 1 confirmed | random 0 in 49; optuna 3, 1 confirmed |
+| pedestrian x ego speed | ego speed, pedestrian time shift | goal at 25 | goal at 24 | goal at 28 | random: 31 failures in 48, 0 confirmed |
+| lead vehicle | lead time shift, speed, planner delay | 1 of 5 in 49 | 4 of 5 in 49 | goal at 21 | |
+| cut-in / merge | cutter time shift, speed | goal at 23 | goal at 19 | goal at 19 | |
+| intersection | crossing car time shift, speed | 0 failures in 49 | 6 in 49, 1 confirmed | 0 in 49 | |
+
+- Retiming another road user alone rarely makes VaVAM fail on pedestrian and
+  intersection scenes; changing the ego's own speed at hand-off does
+  (pedestrian x ego speed: every model and rule method confirms 5 cases in
+  24-28 runs). Shao's suggestion (ego speed with pedestrian timing) is the
+  stressor.
+- Where the search is hard (lead vehicle: three knobs, failures rarer), the
+  free Claude proposer confirmed all 5 in 21 runs; the rules found 1 and the
+  hybrid 4 in 49. Where it is easy (cut-in, pedestrian x ego speed) the three
+  are within a few runs of each other.
+- One replicate each: these are single comparisons. Replicates 2 and 3 of
+  rules, hybrid, llm and random_confirm on the four studies with failures are
+  queued (8 Oct night).
+
+## Controller A/B, 8 Oct (feasible_best against linear)
+
+Hybrid proposer, pedestrian scenes, pairs with shared seeds. Round 1: 5 pairs,
+linear 0 failures, feasible_best 5 (pooled 90% ranges 0-35% and 65-100%,
+sign test p 0.06). The study stopped there, its goal met, but every pair was
+at one setting (0 s shift, 1.25x pedestrian speed); triage puts none of
+feasible_best's failures on the pedestrian: at a RIGHT route command the ego
+turns too sharply into parked cars or veers left off the road, 6.7-14 m off
+the recording. So feasible_best (or how the uncommitted configuration.py
+passes its gains) breaks these scenes whatever the pedestrian does. The goal
+now needs 3 settings on 2 scenes (problem 22); the study is continued.
+
 ## Problems met building the loop, and how each was solved (for the paper)
 
 Each one would have made an unattended testing loop produce wrong results
@@ -495,6 +536,10 @@ quietly. Sources: LOG.md, the commits named.
 | 17 | A retiming that matches no actor would silently do nothing | (designed against, not hit) | runs fail unless the runtime logs the requested actor as retimed | gate design |
 | 18 | The kinematic controller passes physics on gentle scenes | no jerk statistic separates it from one clean highway run | left to the Auditor (config + same-scene reference); its rule was enacted | gate design |
 | 19 | Two runs at once collided | port race at start (both wizards picked the same free ports) and CUDA OOM peaks on 24 GB (about 1 in 5 launches each) | a base port per run name; crashed runs are never kept and the Investigator retries them (RE-RUN) | concurrency |
+| 20 | A gate bound too loose to catch its fault | the hand-off speed bound (0.2 m/s + 5%, set from synthetic cases) could not tell 0.8x from 1.0x on a scene recorded at 1 m/s | calibrated on real runs: 298 at scale 1 (worst 0.023 m/s) and the 5-run smoke test (worst 0.004 m/s); bound now 0.05 m/s + 2% | measurement |
+| 21 | The random baseline could never meet a top_k goal | it never repeats a setting, so it confirms nothing: 31 failures in 48 runs, 0 of 5 confirmed (pedestrian x ego speed) | random_confirm: random search plus the rules' confirmation (at most half of each round) | evaluation design |
+| 22 | A comparison goal met by one setting | the A/B stopped after its first round: 5 pairs, all at one pedestrian timing | a compare goal also needs its pairs to cover 3 knob settings on 2 scenes | goal design |
+| 23 | A continued study kept a stale crash analysis | triage ran only when no triage file existed | triage the failures the earlier triage lacks | orchestration |
 
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 
