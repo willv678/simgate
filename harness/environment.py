@@ -22,6 +22,8 @@ NETWORK_SUFFIX = "_microservices_network"
 PROBE_NETWORK = "alpasim_env_probe"
 # VaVAM plus the renderer used 10,849 MiB on the 12 GB card (FACTS.md, invariant 10).
 MIN_GPU_FREE_MIB = 10_500
+# Runs of any queues that may share the machine (24 GB GPU, ~11 GB per run).
+MAX_RUNS_IN_FLIGHT = 2
 GPU_RELEASE_WAIT_S = 60
 MIN_DISK_FREE_GB = 20
 
@@ -35,17 +37,38 @@ def _running_containers() -> list[dict]:
     return [json.loads(line) for line in out.splitlines() if line.strip()]
 
 
-def stale_container_ids(containers: list[dict]) -> list[str]:
-    """Running containers that belong to a wizard run in this checkout."""
-    stale = []
+def alpasim_runs(containers: list[dict]) -> dict[Path, list[str]]:
+    """Running containers of wizard runs in this checkout, by run directory
+    (the compose project's working directory is the run's log directory)."""
+    runs = {}
     for container in containers:
         labels = dict(
             item.split("=", 1) for item in container["Labels"].split(",") if "=" in item
         )
         working_dir = labels.get("com.docker.compose.project.working_dir", "")
         if working_dir.startswith(str(ROOT)):
-            stale.append(container["ID"])
-    return stale
+            runs.setdefault(Path(working_dir), []).append(container["ID"])
+    return runs
+
+
+def _ended(run: Path) -> bool:
+    """A run has ended once its exit code is written (read_state.exit_file)."""
+    return run.parent.joinpath(f"{run.name}_exit_code").exists()
+
+
+def stale_container_ids(containers: list[dict]) -> list[str]:
+    """Containers of runs that have ended: leftovers, safe to remove."""
+    return [
+        cid
+        for run, ids in alpasim_runs(containers).items()
+        if _ended(run)
+        for cid in ids
+    ]
+
+
+def in_flight_runs(containers: list[dict]) -> list[Path]:
+    """Runs whose containers are up and that have not ended."""
+    return [run for run in alpasim_runs(containers) if not _ended(run)]
 
 
 def _alpasim_networks() -> list[str]:
@@ -63,10 +86,14 @@ def _gpu_free_mib() -> int:
 def environment_problems() -> list[str]:
     """Reasons the machine cannot take a run now. Empty when it can."""
     problems = []
-    stale = stale_container_ids(_running_containers())
+    containers = _running_containers()
+    stale = stale_container_ids(containers)
     if stale:
+        problems.append(f"{len(stale)} AlpaSim containers of ended runs still running")
+    in_flight = in_flight_runs(containers)
+    if len(in_flight) >= MAX_RUNS_IN_FLIGHT:
         problems.append(
-            f"{len(stale)} AlpaSim containers from another run still running"
+            f"{len(in_flight)} runs already in flight (at most {MAX_RUNS_IN_FLIGHT})"
         )
 
     probe = _run(["docker", "network", "create", PROBE_NETWORK])
@@ -110,7 +137,9 @@ def machine_snapshot() -> str:
 
 
 def cleanup_environment() -> list[str]:
-    """Remove AlpaSim's own running leftovers and unused networks. Returns what it did."""
+    """Remove AlpaSim's leftovers: containers of ended runs, and networks no
+    container uses (a run in flight keeps its network, which docker refuses to
+    remove). Returns what it did."""
     actions = []
     stale = stale_container_ids(_running_containers())
     if stale:

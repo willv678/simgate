@@ -26,7 +26,10 @@ return can.
 - `k_status`: why the run is FAILED. One or more of, joined by `; `:
   `preflight_rejected: …` (the config was never launched),
   `environment: …` (the machine could not take a run, so nothing launched:
-  AlpaSim containers from another run still running, Docker cannot create a
+  containers of an ended AlpaSim run still running, the most runs allowed at
+  once already in flight (other queues can share the machine; that clears by
+  itself when one finishes, and CLEANUP_ENV puts this run back to READY
+  without touching runs in flight), Docker cannot create a
   network, too little free GPU memory or disk),
   `wizard_exit_code: N`, `postflight_failed: …` (no usable metrics file),
   `config_not_landed: …` (the wizard resolved a different value than requested),
@@ -53,7 +56,7 @@ return can.
 | CONFIGURE | one or more of `context_length` (int), `scene_file` (repo-relative path), `trafficsim_device` (`cpu` or `cuda`) | queues a new run with those values changed. `planner_delay_us` and `scene_id` are what the experiment measures, so no recovery may change them |
 | RE-RUN | `{}` | queues a new run with the same config |
 | RESTART_CLEANUP | `{}` | `docker compose down` on this run's containers, then queues a new run with the same config |
-| CLEANUP_ENV | `{}` | removes AlpaSim leftovers from the whole machine (running AlpaSim containers, AlpaSim Docker networks). A run that never launched becomes READY again; a launched run is queued again with the same config |
+| CLEANUP_ENV | `{}` | removes AlpaSim leftovers from the whole machine (containers of runs that have ended, Docker networks no container uses; runs still in flight are left alone). A run that never launched becomes READY again; a launched run is queued again with the same config |
 | HALT | `{}` | stops this run for a person and queues nothing. For a failure no skill can make a retry survive: every launch spent on it is wasted |
 | ACCEPT | — | never valid on FAILED |
 | LAUNCH | — | never valid on FAILED |
