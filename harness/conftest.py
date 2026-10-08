@@ -1,10 +1,13 @@
 """Fixtures that build finished-run directories without a simulator."""
 
+import asyncio
 from pathlib import Path
 
 import pandas as pd
 import pytest
 import yaml
+from alpasim_grpc.v0.logging_pb2 import LogEntry
+from alpasim_utils.logs import LogWriter
 
 SCENE_ID = "clipgt-test-scene"
 
@@ -27,6 +30,22 @@ def no_promoted_rules(tmp_path: Path, monkeypatch):
     physics.write_text('{"enabled": false, "max": {}}')
     monkeypatch.setenv("ALPASIM_PHYSICS", str(physics))
     return rules
+
+
+def write_session_seeds(rollout: Path, seed: int) -> None:
+    """A completed rollout whose log opens both sessions with `seed`."""
+
+    async def write() -> None:
+        async with LogWriter(str(rollout / "rollout.asl")) as log:
+            entry = LogEntry()
+            entry.driver_session_request.random_seed = seed
+            await log.on_message(entry)
+            entry = LogEntry()
+            entry.traffic_session_request.random_seed = seed
+            await log.on_message(entry)
+
+    asyncio.run(write())
+    (rollout / "_complete").touch()
 
 
 @pytest.fixture
@@ -54,7 +73,12 @@ def make_run(tmp_path: Path, scene_file: Path):
         env_cleanups: int = 0,
         at_fault: bool = False,
         attempt: int = 1,
+        seed: int | None = None,
+        resolved_seed: int | None = None,
+        logged_seed: int | None = None,
     ) -> dict:
+        """A seeded run's seed lands and is logged unless `resolved_seed` or
+        `logged_seed` says otherwise."""
         run_dir = tmp_path / "runs" / name
         entry = {
             "name": name,
@@ -77,6 +101,8 @@ def make_run(tmp_path: Path, scene_file: Path):
             "diagnosis": None,
             "fault": None,
         }
+        if seed is not None:
+            entry["config"]["seed"] = seed
         if not launched:
             return entry
         run_dir.mkdir(parents=True)
@@ -84,19 +110,28 @@ def make_run(tmp_path: Path, scene_file: Path):
             (run_dir.parent / f"{name}_exit_code").write_text(f"{exit_code}\n")
         (run_dir / "driver-config.yaml").write_text(
             yaml.safe_dump(
-                {"inference": {"context_length": context_length, "subsample_factor": 1}}
+                {
+                    "inference": {
+                        "context_length": context_length,
+                        "subsample_factor": 1,
+                    },
+                    "model": {"force_determinism": True} if seed is not None else {},
+                }
             )
         )
         delay = planner_delay_us if resolved_delay_us is None else resolved_delay_us
+        simulation = {
+            "planner_delay_us": delay,
+            "cameras": [{"frame_interval_us": 500_000}],
+        }
+        if seed is not None:
+            simulation["random_seed"] = seed if resolved_seed is None else resolved_seed
         (run_dir / "wizard-config.yaml").write_text(
             yaml.safe_dump(
                 {
                     "runtime": {
                         "endpoints": {"trafficsim": {"skip": False}},
-                        "simulation_config": {
-                            "planner_delay_us": delay,
-                            "cameras": [{"frame_interval_us": 500_000}],
-                        },
+                        "simulation_config": simulation,
                     },
                     "scenes": {
                         "scenes_csv": [str(scene_file)],
@@ -106,6 +141,10 @@ def make_run(tmp_path: Path, scene_file: Path):
                 }
             )
         )
+        if seed is not None:
+            rollout = run_dir / "rollouts" / SCENE_ID / "rollout-0"
+            rollout.mkdir(parents=True)
+            write_session_seeds(rollout, seed if logged_seed is None else logged_seed)
         if metrics:
             pd.DataFrame({"name": ["collision_rear"], "values": [[0.0]]}).to_parquet(
                 run_dir / "metrics.parquet"

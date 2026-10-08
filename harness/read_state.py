@@ -8,7 +8,8 @@ left behind, using the checks that already exist:
 - the environment problems run_experiment.py found instead of launching;
 - the wizard exit code, written next to the run by run_experiment.py;
 - postflight (K⁺) on the run directory;
-- whether the requested values are the ones the wizard resolved;
+- whether the requested values are the ones the wizard resolved, and for a
+  seeded run whether its sessions were opened with that seed (the log);
 - the rules the tier 2 auditor proposed and promote.py admitted (rules.py);
 - when enabled, whether the motion was physically possible (physics.py).
 
@@ -35,7 +36,7 @@ from preflight import PreflightError, validate_preflight
 from rules import load_rules, violations
 
 from physics import check as physics_problems
-from physics import load_bounds
+from physics import load_bounds, session_seeds
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -64,6 +65,9 @@ PLAN_KEYS = ("lateral_bias_m", "waypoint_noise_std")
 VAVAM_FRAME_SPACING_US = 500_000
 LEGACY_FRAME_INTERVAL_US = 500_000
 TRAFFICSIM_DEVICES = ("cpu", "cuda")
+# A run's seed is AlpaSim's RolloutSpec.random_seed, where 0 means random; the
+# driver adds its inference count to it, so seeds stay well below 2**32.
+SEED_LIMIT = 2**31
 
 
 class State(Enum):
@@ -138,6 +142,9 @@ def config_problem(config: dict) -> str | None:
         validate_preflight(preflight_config(config))
     except PreflightError as exc:
         return str(exc)
+    seed = seed_request(config)
+    if seed is not None and not (type(seed) is int and 1 <= seed < SEED_LIMIT):
+        return f"seed must be an int from 1 to {SEED_LIMIT - 1}, got {seed!r}"
     if config["trafficsim_device"] not in TRAFFICSIM_DEVICES:
         return f"trafficsim_device must be one of {TRAFFICSIM_DEVICES}, got {config['trafficsim_device']!r}"
     with (ROOT / config["scene_file"]).open(encoding="utf-8") as handle:
@@ -232,6 +239,31 @@ def retime_not_applied(entry: dict) -> str | None:
     return f"retime_not_applied: no {what} was retimed"
 
 
+def seed_request(config: dict) -> int | None:
+    """The run's seed, or None for a seed the runtime draws at random. A seeded
+    run is replayable: the runtime opens its driver and traffic sessions with
+    the seed, and VaVAM draws each plan's noise from it (force_determinism).
+    Entries queued before seeded runs (7 Oct 2026), and runs of a study whose
+    plan says `"seeded": false`, have no seed."""
+    return config.get("seed")
+
+
+def seed_not_logged(entry: dict) -> str | None:
+    """A seed that reached the config but not the sessions would label the run
+    replayable when it is not. The log records the seed each session was opened
+    with; the scored rollout is the spec's first, so it gets the seed itself."""
+    seed = seed_request(entry["config"])
+    if seed is None:
+        return None
+    try:
+        logged = session_seeds(run_dir(entry))
+    except FileNotFoundError as exc:
+        return f"seed_not_logged: no rollout log ({exc})"
+    if logged != {"driver": seed, "traffic": seed}:
+        return f"seed_not_logged: requested {seed}, sessions opened with {logged}"
+    return None
+
+
 def frame_interval_us(config: dict) -> int:
     return config.get("frame_interval_us", LEGACY_FRAME_INTERVAL_US)
 
@@ -265,6 +297,10 @@ def config_not_landed(entry: dict) -> list[str]:
             "frame_interval_us"
         ],
         "subsample_factor": driver["inference"]["subsample_factor"],
+        # AlpaSim writes these two only when a launch sets them
+        # (run_experiment.seed_args).
+        "seed": wizard["runtime"]["simulation_config"].get("random_seed"),
+        "force_determinism": driver["model"].get("force_determinism", False),
     }
     # AlpaSim writes the plan-corruption block only when a launch sets it.
     injected = wizard["runtime"]["simulation_config"].get("fault_injection", {})
@@ -279,6 +315,8 @@ def config_not_landed(entry: dict) -> list[str]:
         "actor_retiming": [r] if (r := retime_request(config)) else [],
         "frame_interval_us": frame_interval_us(config),
         "subsample_factor": subsample_factor(config),
+        "seed": seed_request(config),
+        "force_determinism": seed_request(config) is not None,
         **{key: plan_request(config)[key] for key in PLAN_KEYS},
     }
     # The CATK device only exists when CATK runs.
@@ -287,7 +325,14 @@ def config_not_landed(entry: dict) -> list[str]:
         keys.append("trafficsim_device")
         requested["trafficsim_device"] = config["trafficsim_device"]
         resolved["trafficsim_device"] = wizard["trafficsim"]["catk"]["device"]
-    extra = ("traffic", "actor_retiming", "frame_interval_us", "subsample_factor")
+    extra = (
+        "traffic",
+        "actor_retiming",
+        "frame_interval_us",
+        "subsample_factor",
+        "seed",
+        "force_determinism",
+    )
     return [
         f"{key} requested {requested[key]}, resolved {resolved[key]}"
         for key in (*keys, *extra, *PLAN_KEYS)
@@ -332,6 +377,10 @@ def read_state(entry: dict) -> RunState:
     unapplied = retime_not_applied(entry)
     if unapplied is not None:
         return RunState(State.FAILED, unapplied)
+
+    unseeded = seed_not_logged(entry)
+    if unseeded is not None:
+        return RunState(State.FAILED, unseeded)
 
     broken = violations(load_rules(), run_dir(entry), entry["config"])
     if broken:

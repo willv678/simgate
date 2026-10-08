@@ -18,6 +18,9 @@ and code deciding:
    report.md with its own counts next to every finding, so a number in the
    report comes from the table, not the model.
 
+Every run is seeded, so replay.py can re-run it with the same seed, unless
+plan.json says `"seeded": false` (a person adds it; the planner does not).
+
 Everything lands in research/studies/<brief name>/: brief.md, plan.json,
 queue/, trace.jsonl, rounds.jsonl, goal.json, triage.json, report.md. With
 --proposer grid, bisect or random, the same plan runs again with that
@@ -49,7 +52,7 @@ from knobs import (
     fixed_problems,
 )
 from outer import Study, history, results, run_study, scene_facts
-from read_state import ROOT
+from read_state import ROOT, load_entry, queue_entries
 from triage import triage_study
 
 HARNESS = Path(__file__).resolve().parent
@@ -222,6 +225,10 @@ def make_plan(brief: str, model: str) -> tuple[dict, dict]:
 
 def study_of(folder: Path, name: str, plan: dict, proposer: str, model: str) -> Study:
     facts = {f["scene_id"]: f for f in scene_facts()}
+    # Plans written before seeded runs have no "seeded"; their new runs are seeded.
+    seeded = plan.get("seeded", True)
+    if type(seeded) is not bool:
+        raise SystemExit(f"plan.json: seeded must be true or false, got {seeded!r}")
     return Study(
         name=name,
         queue=folder / "queue",
@@ -237,6 +244,7 @@ def study_of(folder: Path, name: str, plan: dict, proposer: str, model: str) -> 
         goal=None if plan["goal"]["type"] == "none" else plan["goal"],
         fixed=plan["fixed"],
         goal_file=folder / "goal.json",
+        seeded=seeded,
     )
 
 
@@ -352,6 +360,15 @@ def write_report(
             f"Plan: `plan.json` (rationale: {plan['rationale']}). Report written by "
             f"{call['model']} from `results` in {call['duration_ms'] / 1000:.0f} s; "
             "every count above is computed from the queue, not written by the model."
+        ),
+    ]
+    configs = [load_entry(p)["config"] for p in queue_entries(folder / "queue")]
+    seeded = sum("seed" in config for config in configs)
+    lines += [
+        "",
+        (
+            f"{seeded} of {len(configs)} queued runs are seeded (`seed` in the "
+            "run's queue config); `replay.py` queues a kept one again with it."
         ),
     ]
     path = folder / "report.md"

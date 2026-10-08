@@ -42,6 +42,7 @@ from read_state import (
     retime_request,
     run_dir,
     save_entry,
+    seed_request,
     subsample_factor,
     traffic_mode,
 )
@@ -89,6 +90,7 @@ def wizard_command(config: dict, log_dir: Path) -> list[str]:
         f"wizard.baseport={base_port(log_dir.name)}",
         *plan_args(plan_request(config)),
         *traffic_args(config),
+        *seed_args(config),
     ]
 
 
@@ -106,6 +108,18 @@ def traffic_args(config: dict) -> list[str]:
         )
         args.append(f"+runtime.simulation_config.actor_retiming.rules=[{{{body}}}]")
     return args
+
+
+def seed_args(config: dict) -> list[str]:
+    """The wizard overrides of a seeded run. Neither key is in AlpaSim's base
+    configs, so Hydra must add them (+)."""
+    seed = seed_request(config)
+    if seed is None:
+        return []
+    return [
+        f"+runtime.simulation_config.random_seed={seed}",
+        "+driver.model.force_determinism=true",
+    ]
 
 
 def main() -> int:

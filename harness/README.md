@@ -57,6 +57,16 @@ flowchart LR
   log: planner delay (plan age), lateral bias and waypoint noise on the plan
   (offset and scatter), and actor retiming (time shift and speed of a recorded
   actor class, with traffic replayed; AlpaSim's `actor_retiming` hook).
+- **Seeds** (`replay.py`, `check_replay.py`): every study run carries a `seed`
+  in its queue config, a hash of the study's name and the run's number, unless
+  plan.json says `"seeded": false`. The wizard gets
+  `+runtime.simulation_config.random_seed=<seed>` (AlpaSim's
+  `RolloutSpec.random_seed`) and `+driver.model.force_determinism=true` (VaVAM
+  draws each plan's noise from the session seed plus its inference count); the
+  gate checks both resolved and that the log's driver and traffic session
+  requests carry the seed. `replay.py <entry.json> <queue>` queues a kept run
+  again with the same config; `check_replay.py <run_a> <run_b>` says whether
+  two runs match and where they first part (frames, plans or poses).
 - **Outer loop** (`outer.py`): each round a proposer picks runs: `llm`
   (Claude, free), `hybrid` (Claude, only among rule candidates), `rules`
   (`guided.py`, no model), or the baselines `grid`, `bisect`, `random`, `lhs`,
@@ -133,6 +143,7 @@ uv run python research/harness/score_campaign.py research/harness/c1_queue
 | `outer.py`, `knobs.py`, `goals.py`, `guided.py`, `baselines.py`, `advisor/OUTER.md` | the outer loop, its knob catalog, code-checked goals, rule-guided candidates, and baseline proposers |
 | `triage.py`, `advisor/TRIAGE.md`, `study_page.py` | crash explanations and the study web page |
 | `compare_frames.py`, `jerk_separation.py` | analyses: VaVAM with fresh vs stale frames; why jerk cannot separate the kinematic fault |
+| `replay.py`, `check_replay.py` | re-run a kept seeded run, and compare two runs step by step |
 | `verify_supervisor.py`, `probe_fence.py` | checks on the gate and on the agent's fence |
 | `eval_auditor.py`, `eval_mining.py`, `repeat_auditor.py`, `compare_policies.py`, `repeat_tiers.py`, `calibrate_physics.py`, `eval_physics_audit.py`, `eval_plan_audit.py` | the evaluations |
 | `plot_results.py`, `plot_campaign.py`, `plot_architecture.py`, `rebuild.sh` | the paper's figures, into `../figures/`; `rebuild.sh` reruns the tests and every model-free table and figure |

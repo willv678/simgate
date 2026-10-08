@@ -106,7 +106,8 @@ def _launch(entry: dict, outcome: str) -> None:
                 "inference": {
                     "context_length": config["context_length"],
                     "subsample_factor": subsample_factor(config),
-                }
+                },
+                "model": {},
             }
         )
     )

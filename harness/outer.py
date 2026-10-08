@@ -29,10 +29,15 @@ Files, all named after the study: `<study>_queue/` (the inner loop's queue),
 the proposals, what was dropped and why, the model call). A rerun finishes the
 queue first, then continues from the next round.
 
+Every run of a seeded study (the default) carries a `seed` in its queue config,
+from the study's name and the run's number, so replay.py can re-run it with
+the same seed.
+
     uv run python research/harness/outer.py o1 --proposer llm --rounds 4 --per-round 5
 """
 
 import argparse
+import hashlib
 import json
 import random
 import subprocess
@@ -57,7 +62,7 @@ from goals import goal_status
 from guided import candidates, outside, rules_proposals
 from headless import ask
 from knobs import DESCRIPTIONS, SCENARIO, rejection, run_config
-from read_state import ROOT, load_entry, queue_entries
+from read_state import ROOT, SEED_LIMIT, load_entry, queue_entries
 
 from physics import completed_rollout, signals
 
@@ -313,6 +318,15 @@ class Study:
     goal: dict | None = None
     goal_file: Path | None = None
     fixed: dict | None = None
+    # Whether each run gets a seed (run_seed); `seed` above seeds the proposer.
+    seeded: bool = True
+
+
+def run_seed(study: str, number: int) -> int:
+    """The seed of a study's run `number`: a hash of both, so the same study
+    queues the same seeds, and repeats of one setting get different ones."""
+    digest = hashlib.sha256(f"{study}:{number}".encode()).digest()
+    return int.from_bytes(digest[:8], "big") % (SEED_LIMIT - 1) + 1
 
 
 def pilot(name: str, candidate_count: int, varied: tuple, **settings) -> Study:
@@ -451,9 +465,12 @@ def run_study(study: Study) -> list[dict]:
             if why_not:
                 dropped.append({**proposed, "dropped": why_not})
                 continue
-            name = f"{study.name}_{len(planned(study.queue)) + 1:03d}"
+            number = len(planned(study.queue)) + 1
+            name = f"{study.name}_{number:03d}"
             settings = {knob: proposed[knob] for knob in study.varied}
             config = run_config(proposed["scene_id"], settings, study.fixed or {})
+            if study.seeded:
+                config["seed"] = run_seed(study.name, number)
             add(study.queue, new_entry(name, f"{RUN_ROOT}/{name}", config))
             queued.append({**proposed, "run": name})
 
