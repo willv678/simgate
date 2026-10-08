@@ -36,6 +36,10 @@ snapshot in [`site/`](site/) (`research/simgate export`).
 
 ## How it works
 
+![SimGate: an outer loop that searches for the hardest cases around an inner loop that keeps only valid runs](figures/framework.png)
+
+The same as a flow:
+
 ```mermaid
 flowchart LR
     B["Brief<br/>a question in English"] --> P["Plan<br/>Claude proposes; code checks<br/>knobs, scenes, budget, goal"]
