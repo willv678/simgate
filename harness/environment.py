@@ -29,7 +29,13 @@ MIN_DISK_FREE_GB = 20
 
 
 def _run(cmd: list[str]) -> subprocess.CompletedProcess:
-    return subprocess.run(cmd, capture_output=True, text=True, check=False)
+    """A machine command's result; a tool the machine lacks (no docker, no
+    nvidia-smi) answers like a shell would, exit code 127, which every check
+    reads as a failure and every snapshot records."""
+    try:
+        return subprocess.run(cmd, capture_output=True, text=True, check=False)
+    except FileNotFoundError:
+        return subprocess.CompletedProcess(cmd, 127, "", f"{cmd[0]}: not found")
 
 
 def _running_containers() -> list[dict]:

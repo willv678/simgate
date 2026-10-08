@@ -186,6 +186,10 @@ def test_nested_rollout_metrics_use_aggregate():
     assert status.rear_contact is True
 
 
+@pytest.mark.skipif(
+    not Path("/home/willvarner/alpasim/diag/test_vavam_ctx8").is_dir(),
+    reason="a real run on the lab machine, not in the repository",
+)
 def test_real_test_vavam_ctx8():
     """Published aggregate for this run: at-fault 0, rear contact 1."""
     run_dir = "/home/willvarner/alpasim/diag/test_vavam_ctx8"
