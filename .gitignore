@@ -22,3 +22,5 @@ autolab_lora_adapter/
 
 # The job queue is local state (simgate worker, the web app).
 jobs/
+harness/web.log
+harness/worker.log
