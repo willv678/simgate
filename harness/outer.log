@@ -608,3 +608,14 @@ r1 settings kept: ['r1_001', 'r1_002', 'r1_003']
 005_pedestrian_crossing_hybrid_005.json: COMPLETE -> analyze.py {"appended": true}
 005_pedestrian_crossing_hybrid_005.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
 006_pedestrian_crossing_hybrid_006.json: READY -> run_experiment.py {"pid": 76489, "run_dir": "diag/pedestrian_crossing_hybrid_006"}
+006_pedestrian_crossing_rules_006.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 3.0}
+006_pedestrian_crossing_rules_006.json: COMPLETE -> analyze.py {"appended": true}
+006_pedestrian_crossing_rules_006.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+007_pedestrian_crossing_rules_007.json: READY -> run_experiment.py {"pid": 80879, "run_dir": "diag/pedestrian_crossing_rules_007"}
+006_pedestrian_crossing_hybrid_006.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
+006_pedestrian_crossing_hybrid_006.json: COMPLETE -> analyze.py {"appended": true}
+006_pedestrian_crossing_hybrid_006.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+007_pedestrian_crossing_hybrid_007.json: READY -> run_experiment.py {"pid": 84767, "run_dir": "diag/pedestrian_crossing_hybrid_007"}
+007_pedestrian_crossing_rules_007.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+007_pedestrian_crossing_rules_007.json: COMPLETE -> analyze.py {"appended": true}
+007_pedestrian_crossing_rules_007.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}

@@ -33,7 +33,9 @@ return can.
   network, too little free GPU memory or disk),
   `wizard_exit_code: N`, `postflight_failed: …` (no usable metrics file),
   `config_not_landed: …` (the wizard resolved a different value than requested),
-  `rule_violated: …` (a Rulebook rule failed), `physics: …` (the ego's motion
+  `rule_violated: …` (a Rulebook rule failed), `retime_not_applied: …` (the
+  run asked to retime an actor and the runtime retimed none), `seed_not_logged:
+  …` (a seeded run's sessions were not opened with its seed), `physics: …` (the ego's motion
   broke a physical bound: acceleration, turn rate, a reported speed that does
   not match the motion, the recorded human driving the whole run, or the
   controller tracking a different plan than the driver returned:

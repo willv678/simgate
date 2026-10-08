@@ -1,5 +1,6 @@
 """The outer loop queues only legal runs, and the random proposer is legal."""
 
+import dataclasses
 import random
 
 import pytest
@@ -73,6 +74,7 @@ def test_an_ab_study_queues_each_setting_once_per_controller(
 
     monkeypatch.setattr(outer, "run_inner_loop", lambda study: None)
     study = _study(tmp_path, proposer, compare={"a": "linear", "b": "nonlinear"})
+    study = dataclasses.replace(study, seeded=True)
     outer.run_study(study)
     entries = [load_entry(path) for path in queue_entries(study.queue)]
     assert len(entries) == 2 * study.rounds * study.per_round
@@ -82,6 +84,8 @@ def test_an_ab_study_queues_each_setting_once_per_controller(
             "nonlinear",
         )
         assert a["name"].removesuffix("_linear") == b["name"].removesuffix("_nonlinear")
+        # Same scene, knob values and seed.
+        assert "seed" in a["config"]
         same = {k: v for k, v in a["config"].items() if k != "controller"}
         assert same == {k: v for k, v in b["config"].items() if k != "controller"}
     assert entries[-1]["name"] == "ab_006_nonlinear"

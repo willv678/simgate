@@ -205,9 +205,9 @@ def signals(run_dir: Path) -> dict:
         ego_box = _footprint(x0, y0, heading, raw["sizes"][EGO])
         overlap = 0.0
         best = np.inf
-        for x, y, yaw, actor_id in raw["others"].get(t, []):
+        for x, y, actor_yaw, actor_id in raw["others"].get(t, []):
             if actor_id in raw["sizes"]:
-                other = _footprint(x, y, yaw, raw["sizes"][actor_id])
+                other = _footprint(x, y, actor_yaw, raw["sizes"][actor_id])
                 overlap = max(overlap, ego_box.intersection(other).area)
             dx, dy = x - x0, y - y0
             ahead = dx * np.cos(heading) + dy * np.sin(heading)
@@ -218,6 +218,8 @@ def signals(run_dir: Path) -> dict:
         overlaps.append(overlap)
     return {
         "times_us": times,
+        "xy": xy,
+        "yaw": yaw,
         "speed": speed,
         "accel": accel,
         "jerk": jerk,
@@ -232,6 +234,25 @@ def signals(run_dir: Path) -> dict:
         "plan_age_ms": np.array([h[3] / 1e3 for h in raw["handoffs"]] or [0.0]),
         "plan_deviations": [_handoff_deviations(*h[:3]) for h in raw["handoffs"]],
     }
+
+
+async def _session_seeds(path: Path) -> dict:
+    seeds = {}
+    async for message in async_read_pb_log(str(path)):
+        kind = message.WhichOneof("log_entry")
+        if kind in ("driver_session_request", "traffic_session_request"):
+            seeds[kind.removesuffix("_session_request")] = getattr(
+                message, kind
+            ).random_seed
+            if len(seeds) == 2:
+                break
+    return seeds
+
+
+def session_seeds(run_dir: Path) -> dict:
+    """The seeds the scored rollout's driver and traffic sessions were opened
+    with, as the runtime logged their session requests (near the log's start)."""
+    return asyncio.run(_session_seeds(completed_rollout(run_dir) / "rollout.asl"))
 
 
 def _collided(run_dir: Path) -> bool:
