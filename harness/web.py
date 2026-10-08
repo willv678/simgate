@@ -161,7 +161,11 @@ def running_arms(commands: list[str]) -> set[tuple[str, str]]:
         match = re.search(r"study\.py \S*?([\w-]+)\.md( .*)?$", c)
         if match and "--plan-only" not in c and "bin/python" in c:
             proposer = re.search(r"--proposer (\w+)", c)
-            found.add((match.group(1), proposer.group(1) if proposer else "llm"))
+            replicate = re.search(r"--replicate (\d+)", c)
+            arm = proposer.group(1) if proposer else "llm"
+            if replicate and replicate.group(1) != "1":
+                arm += f"_r{replicate.group(1)}"
+            found.add((match.group(1), arm))
     return found
 
 
@@ -312,7 +316,9 @@ def queue(body: dict) -> dict:
         problems = plan_of(study)["problems"]
         if problems:
             raise Refused("the plan has problems: " + "; ".join(problems))
-    job = jobs.add(brief, body.get("proposer", "llm"), kind)
+    job = jobs.add(
+        brief, body.get("proposer", "llm"), kind, int(body.get("replicate", 1))
+    )
     if kind == "plan":
         job = jobs.start(job)
     return job

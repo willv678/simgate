@@ -25,9 +25,12 @@ Four kinds:
   challenging scenarios".
 - compare: in an A/B study, which of two controllers fails less. Every
   setting runs on both; pooled over the settings' paired runs, met when the
-  90% ranges of the two failure rates separate; "no difference shown" while
-  they overlap, and at the end of the budget if they still do. Also the exact
-  two-sided sign test over the pairs where exactly one controller failed.
+  90% ranges of the two failure rates separate and the pairs cover at least
+  COMPARE_MIN_SETTINGS knob settings on COMPARE_MIN_SCENES scenes (a
+  difference found at one setting says nothing about the question's range);
+  "no difference shown" while the ranges overlap, and at the end of the
+  budget if they still do. Also the exact two-sided sign test over the pairs
+  where exactly one controller failed.
 
 In a study that varies several knobs, a goal reads only the runs where every
 other varied knob is at its unvaried value (knobs.UNVARIED).
@@ -39,6 +42,10 @@ from math import comb
 from knobs import SCENARIO, SIDES, UNVARIED
 
 TYPES = ("separate", "bracket", "top_k", "compare")
+# A compare goal is met only once its pairs cover this much of the question:
+# distinct knob settings (scene apart) and distinct scenes.
+COMPARE_MIN_SETTINGS = 3
+COMPARE_MIN_SCENES = 2
 KEYS = {
     "separate": {"type", "scene", "knob", "low", "high"},
     "top_k": {"type", "k", "high_min", "distinct_scenes"},
@@ -137,6 +144,9 @@ def challenging(table: list[dict], goal: dict) -> list[dict]:
     return found
 
 
+_NOT_KNOBS = {"id", "scene_id", *SIDES, "paired"}
+
+
 def compare_status(table: list[dict]) -> dict:
     """Which controller fails less, from an A/B results table: each side's
     failures pooled over the paired runs of every setting, with the 90% range
@@ -162,6 +172,13 @@ def compare_status(table: list[dict]) -> dict:
         "only_b_failed": only["b"],
         "p": round(sign_test(only["a"], only["b"]), 3),
     }
+    paired = [row for row in table if row["paired"]["pairs"]]
+    coverage = {
+        "knob_settings": len(
+            {tuple(v for k, v in row.items() if k not in _NOT_KNOBS) for row in paired}
+        ),
+        "scenes": len({row["scene_id"] for row in paired}),
+    }
     a, b = pooled["a"], pooled["b"]
     if a["failure_rate_90"][1] < b["failure_rate_90"][0]:
         safer, other = a, b
@@ -173,13 +190,31 @@ def compare_status(table: list[dict]) -> dict:
             "verdict": "no difference shown: the pooled 90% ranges overlap",
             "pooled": pooled,
             "sign_test": sign,
+            "coverage": coverage,
+        }
+    verdict = (
+        f"{safer['controller']} fails less than {other['controller']}: "
+        "the pooled 90% ranges separate"
+    )
+    if (
+        coverage["knob_settings"] < COMPARE_MIN_SETTINGS
+        or coverage["scenes"] < COMPARE_MIN_SCENES
+    ):
+        return {
+            "met": False,
+            "verdict": f"{verdict}, but only over {coverage['knob_settings']} knob "
+            f"settings on {coverage['scenes']} scenes; the comparison needs "
+            f"{COMPARE_MIN_SETTINGS} and {COMPARE_MIN_SCENES}",
+            "pooled": pooled,
+            "sign_test": sign,
+            "coverage": coverage,
         }
     return {
         "met": True,
-        "verdict": f"{safer['controller']} fails less than {other['controller']}: "
-        "the pooled 90% ranges separate",
+        "verdict": verdict,
         "pooled": pooled,
         "sign_test": sign,
+        "coverage": coverage,
     }
 
 

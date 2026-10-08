@@ -1,7 +1,7 @@
 """guided.py: the rules confirm near-failures, step from the most critical
 setting, and keep a hybrid proposer to their candidates."""
 
-from guided import candidates, outside, rules_proposals
+from guided import candidates, outside, rules_proposals, with_confirmation
 from knobs import rejection
 from outer import results
 
@@ -61,3 +61,27 @@ def test_a_hybrid_proposal_outside_the_candidates_is_dropped():
     inside = {"scene_id": "clipgt-a", "planner_delay_us": 200_000, "why": "x"}
     assert outside(inside, ranked, DELAY) is None
     assert outside({**inside, "planner_delay_us": 400_000}, ranked, DELAY)
+
+
+def _explore(n):
+    return {
+        "plan": "explore",
+        "runs": [{"scene_id": "clipgt-b", "planner_delay_us": 0, "why": "random"}] * n,
+    }
+
+
+def test_confirmation_takes_at_most_half_a_round_and_exploration_the_rest():
+    table = results(
+        _runs("clipgt-a", 200_000, 1, 0) + _runs("clipgt-b", 100_000, 1, 0), DELAY
+    )
+    answer = with_confirmation(SCENES, 3, table, TOP3, DELAY, _explore)
+    # Two near-failures to confirm, but a round of 3 gives them only 1 run.
+    assert answer["runs"][0]["why"].startswith("confirm")
+    assert [r["why"] for r in answer["runs"][1:]] == ["random", "random"]
+    assert answer["plan"] == "1 confirmations; explore"
+
+
+def test_without_near_failures_the_whole_round_explores():
+    table = results(_runs("clipgt-a", 200_000, 0, 2), DELAY)
+    answer = with_confirmation(SCENES, 4, table, TOP3, DELAY, _explore)
+    assert [r["why"] for r in answer["runs"]] == ["random"] * 4

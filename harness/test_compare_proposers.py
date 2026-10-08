@@ -1,6 +1,6 @@
 """compare_proposers.py: the goal's progress replayed run by run."""
 
-from compare_proposers import hardest, progress
+from compare_proposers import arms, hardest, progress, proposer_of
 
 DELAY = ("planner_delay_us",)
 
@@ -35,3 +35,22 @@ def test_hardest_ranks_near_misses_by_scene_when_nothing_fails():
         _run("clipgt-b", 0, False, 4, 0.3),
     ]
     assert hardest(runs, DELAY, 2) == [0.1, 0.3, 0.25, 0.4]
+
+
+def test_arms_finds_every_proposer_and_replicate(tmp_path):
+    for folder in [
+        "",
+        "rules",
+        "rules_r2",
+        "llm_r3",
+        "random_confirm",
+        "random",
+        "x_r2",
+    ]:
+        (tmp_path / folder).mkdir(exist_ok=True)
+        (tmp_path / folder / "rounds.jsonl").write_text("")
+    assert set(arms(tmp_path)) == {
+        "llm", "llm_r3", "rules", "rules_r2", "random", "random_confirm"
+    }  # fmt: skip
+    assert proposer_of("rules_r2") == "rules"
+    assert proposer_of("random_confirm") == "random_confirm"

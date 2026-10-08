@@ -156,3 +156,18 @@ def test_counts_written_by_hand_are_caught():
     assert HAND_COUNT.search("it failed 5 of 5 runs at 150 ms")
     assert HAND_COUNT.search("2/2 failed")
     assert not HAND_COUNT.search("every run at 150 ms and above failed (S10, S11)")
+
+
+def test_replicates_run_in_their_own_arm_folders(tmp_path):
+    from study import arm_of
+
+    assert arm_of(tmp_path, "llm", 1) == (tmp_path, tmp_path.name)
+    assert arm_of(tmp_path, "rules", 1) == (
+        tmp_path / "rules",
+        f"{tmp_path.name}_rules",
+    )
+    assert arm_of(tmp_path, "llm", 2) == (
+        tmp_path / "llm_r2",
+        f"{tmp_path.name}_llm_r2",
+    )
+    assert arm_of(tmp_path, "random_confirm", 3)[0] == tmp_path / "random_confirm_r3"

@@ -17,6 +17,11 @@ The rules, per scene:
   distinct scenes.
 Scores: confirming a near-failure first, then steps from the most critical
 settings, then first probes.
+
+`with_confirmation` gives any other proposer the same confirmation rule: up to
+half of a round repeats the near-failures the rules would confirm, and the
+proposer picks the rest. `random_confirm` is random search with it, the fair
+baseline for a top_k goal, which counts only confirmed settings.
 """
 
 from baselines import next_probe
@@ -24,6 +29,7 @@ from goals import goal_cells
 from knobs import SCENARIO, UNVARIED
 
 DEFAULT_HIGH_MIN = 0.5
+CONFIRM = "confirm "
 
 
 def _key(run: dict, varied: tuple) -> tuple:
@@ -94,7 +100,7 @@ def candidates(
                     scene,
                     values,
                     varied,
-                    f"confirm {best['id']}: near failure, not yet sure",
+                    f"{CONFIRM}{best['id']}: near failure, not yet sure",
                     0.6 + 0.4 * best["criticality"],
                 )
             )
@@ -137,6 +143,32 @@ def rules_proposals(
             {**{k: c[k] for k in ("scene_id", *varied)}, "why": c["reason"]}
             for c in picks
         ],
+    }
+
+
+def with_confirmation(
+    scenes: list[str],
+    count: int,
+    table: list[dict],
+    goal: dict | None,
+    varied: tuple,
+    explore,
+) -> dict:
+    """At most half the round confirms the rules' near-failures, best first;
+    `explore(n)` (a proposer's answer for n runs) fills the rest."""
+    confirm = [
+        c
+        for c in candidates(scenes, table, goal, varied)
+        if c["reason"].startswith(CONFIRM)
+    ][: count // 2]
+    rest = explore(count - len(confirm))
+    return {
+        "plan": f"{len(confirm)} confirmations; {rest['plan']}",
+        "runs": [
+            {**{k: c[k] for k in ("scene_id", *varied)}, "why": c["reason"]}
+            for c in confirm
+        ]
+        + rest["runs"],
     }
 
 

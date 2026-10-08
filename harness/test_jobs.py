@@ -13,9 +13,9 @@ def folders(tmp_path, monkeypatch):
     return tmp_path
 
 
-def _job(study, proposer, state, kind="study"):
+def _job(study, proposer, state, kind="study", replicate=1):
     return {"id": f"{study}_{proposer}", "study": study, "proposer": proposer,
-            "kind": kind, "state": state}  # fmt: skip
+            "replicate": replicate, "kind": kind, "state": state}  # fmt: skip
 
 
 def test_counts_studies_and_loops_outside_studies_not_plans():
@@ -73,3 +73,17 @@ def test_a_launcher_from_another_boot_is_never_running(folders, monkeypatch):
     job = {**jobs.add("categories/lead", "rules"), "pid": 123}
     assert jobs.state({**job, "boot_id": "this-boot"}) == "running"
     assert jobs.state({**job, "boot_id": "last-boot"}) == "failed"
+
+
+def test_another_replicate_of_a_running_arm_may_start():
+    found = [
+        _job("a", "rules", "running"),
+        {**_job("a", "rules", "queued", replicate=2), "id": "a_rules_r2"},
+    ]
+    assert jobs.next_job(found, running=1, pool=False)["id"] == "a_rules_r2"
+
+
+def test_a_replicate_job_runs_its_own_arm(folders):
+    job = jobs.add("categories/lead", "rules", replicate=2)
+    assert job["id"].endswith("_lead_rules_r2")
+    assert jobs.command(job)[-3:] == ["--replicate", "2", "--yes"]

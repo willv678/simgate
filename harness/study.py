@@ -250,7 +250,27 @@ def make_plan(brief: str, model: str) -> tuple[dict, dict]:
     return plan, call
 
 
-def study_of(folder: Path, name: str, plan: dict, proposer: str, model: str) -> Study:
+def arm_of(folder: Path, proposer: str, replicate: int) -> tuple[Path, str]:
+    """Where a proposer's arm runs and the name of its runs. The first
+    replicate of the llm arm is the study folder itself (as before arms
+    existed); replicate N > 1 runs in <study>/<proposer>_r<N>/, with run seeds
+    of its own (run_seed hashes the name)."""
+    if replicate < 1:
+        raise SystemExit("replicates count from 1")
+    arm = proposer if replicate == 1 else f"{proposer}_r{replicate}"
+    if arm == "llm":
+        return folder, folder.name
+    return folder / arm, f"{folder.name}_{arm}"
+
+
+def study_of(
+    folder: Path,
+    name: str,
+    plan: dict,
+    proposer: str,
+    model: str,
+    replicate: int = 1,
+) -> Study:
     facts = {f["scene_id"]: f for f in scene_facts()}
     # Seeding is opt-in until a seeded replay has been shown to reproduce a run.
     seeded = plan.get("seeded", False)
@@ -277,6 +297,8 @@ def study_of(folder: Path, name: str, plan: dict, proposer: str, model: str) -> 
         goal_file=folder / "goal.json",
         seeded=seeded,
         reuse=reuse,
+        # Seeds the proposer's own randomness (random, lhs, optuna, ga).
+        seed=replicate - 1,
     )
 
 
@@ -466,12 +488,19 @@ def main() -> int:
             "grid",
             "bisect",
             "random",
+            "random_confirm",
             "lhs",
             "optuna",
             "ga",
         ),
         default="llm",
         help="who picks the runs; baselines run the same plan in <study>/<proposer>/",
+    )
+    parser.add_argument(
+        "--replicate",
+        type=int,
+        default=1,
+        help="run the arm again, independently, in <study>/<proposer>_r<N>/",
     )
     args = parser.parse_args()
 
@@ -493,10 +522,9 @@ def main() -> int:
 
     if args.proposer == "bisect" and plan["goal"]["type"] != "bracket":
         raise SystemExit("bisect needs a bracket goal")
-    runs = folder if args.proposer == "llm" else folder / args.proposer
+    runs, name = arm_of(folder, args.proposer, args.replicate)
     runs.mkdir(exist_ok=True)
-    name = folder.name if args.proposer == "llm" else f"{folder.name}_{args.proposer}"
-    study = study_of(runs, name, plan, args.proposer, args.model)
+    study = study_of(runs, name, plan, args.proposer, args.model, args.replicate)
     if not args.report_only:
         if not args.yes and input("Run this plan? [y/N] ").strip().lower() != "y":
             return 1

@@ -71,6 +71,13 @@ def main() -> int:
     queue = sub.add_parser("queue", help="queue a planned brief for the worker")
     queue.add_argument("brief")
     queue.add_argument("--proposer", nargs="+", default=["llm"], choices=jobs.PROPOSERS)
+    queue.add_argument(
+        "--replicate",
+        nargs="+",
+        type=int,
+        default=[1],
+        help="independent repeats of each arm (2 3 queues two more)",
+    )
     sub.add_parser("status", help="studies, their arms, and the job queue")
     args = parser.parse_args()
 
@@ -108,9 +115,12 @@ def main() -> int:
             check=False,
         ).returncode
     elif args.command == "queue":
-        for proposer in args.proposer:
-            job = web.queue({"brief": args.brief, "proposer": proposer})
-            print(f"queued {job['id']}")
+        for replicate in args.replicate:
+            for proposer in args.proposer:
+                job = web.queue(
+                    {"brief": args.brief, "proposer": proposer, "replicate": replicate}
+                )
+                print(f"queued {job['id']}")
         if not web._worker_alive():
             print("no worker is running: start one with `simgate worker`")
     elif args.command == "status":

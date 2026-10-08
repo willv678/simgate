@@ -65,7 +65,7 @@ from baselines import (
 )
 from enqueue import RUN_ROOT, add, new_entry
 from goals import goal_status, rate_range
-from guided import candidates, outside, rules_proposals
+from guided import candidates, outside, rules_proposals, with_confirmation
 from headless import ask
 from knobs import (
     DEFAULT_CONTROLLER,
@@ -493,6 +493,16 @@ def run_study(study: Study) -> list[dict]:
                 study.per_round,
                 study.varied,
                 random.Random(study.seed * 1000 + round_index),
+            )
+        elif study.proposer == "random_confirm":
+            rng = random.Random(study.seed * 1000 + round_index)
+            answer = with_confirmation(
+                scenes,
+                study.per_round,
+                state["summary"],
+                study.goal,
+                study.varied,
+                lambda n: random_proposals(scenes, n, study.varied, rng),
             )
         elif study.proposer == "grid":
             answer = grid_proposals(

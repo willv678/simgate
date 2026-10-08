@@ -231,15 +231,31 @@ def test_compare_shows_no_difference_while_the_pooled_ranges_overlap():
     assert status["sign_test"] == {"only_a_failed": 1, "only_b_failed": 0, "p": 1.0}
 
 
-def test_compare_is_met_once_the_pooled_ranges_separate():
+def test_compare_is_met_once_the_pooled_ranges_separate_over_enough_settings():
     status = _compare(
         _pairs("clipgt-a", 0, [(True, False)] * 4 + [(False, False)]),
         _pairs("clipgt-b", 100_000, [(True, False)] * 4 + [(True, True)], 10),
+        _pairs("clipgt-b", 200_000, [(True, False)], 20),
     )
     assert status["met"]
     assert status["verdict"].startswith("nonlinear fails less than linear")
-    assert status["pooled"]["a"]["failed"] == 9 and status["pooled"]["b"]["failed"] == 1
-    assert status["sign_test"] == {"only_a_failed": 8, "only_b_failed": 0, "p": 0.008}
+    assert (
+        status["pooled"]["a"]["failed"] == 10 and status["pooled"]["b"]["failed"] == 1
+    )
+    assert status["sign_test"] == {"only_a_failed": 9, "only_b_failed": 0, "p": 0.004}
+    assert status["coverage"] == {"knob_settings": 3, "scenes": 2}
+
+
+def test_compare_is_not_met_by_a_difference_at_one_setting():
+    # The 8 Oct A/B stopped after one round: every pair at one knob setting.
+    status = _compare(
+        *(
+            _pairs(scene, 0, [(False, True)] * 2, 10 * i)
+            for i, scene in enumerate(["clipgt-a", "clipgt-b", "clipgt-c"])
+        )
+    )
+    assert not status["met"]
+    assert "only over 1 knob settings on 3 scenes" in status["verdict"]
 
 
 def test_the_sign_test_is_exact_and_two_sided():

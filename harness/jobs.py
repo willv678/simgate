@@ -35,6 +35,7 @@ PROPOSERS = (
     "grid",
     "bisect",
     "random",
+    "random_confirm",
     "lhs",
     "optuna",
     "ga",
@@ -96,22 +97,26 @@ def _write(job: dict) -> None:
     tmp.replace(path)
 
 
-def add(brief: str, proposer: str, kind: str = "study") -> dict:
+def add(brief: str, proposer: str, kind: str = "study", replicate: int = 1) -> dict:
     """Queue a study job (or a plan job, which `start` runs at once)."""
     if kind not in ("study", "plan"):
         raise ValueError(f"unknown job kind {kind!r}")
     if proposer not in PROPOSERS:
         raise ValueError(f"unknown proposer {proposer!r}")
+    if replicate < 1:
+        raise ValueError("replicates count from 1")
     path = brief_path(brief)
     JOBS.mkdir(parents=True, exist_ok=True)
     name = str(path.relative_to(BRIEFS).with_suffix(""))
     stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S%f")
     job = {
-        "id": f"{stamp}_{kind}_{path.stem}_{proposer}",
+        "id": f"{stamp}_{kind}_{path.stem}_{proposer}"
+        + (f"_r{replicate}" if replicate > 1 else ""),
         "kind": kind,
         "brief": name,
         "study": path.stem,
         "proposer": proposer,
+        "replicate": replicate,
         "queued_at": _now(),
         "cancelled": False,
     }
@@ -156,7 +161,8 @@ def command(job: dict) -> list[str]:
         ]
     return [
         "uv", "run", "--with", "optuna", "python", "research/harness/study.py",
-        brief, "--proposer", job["proposer"], "--yes",
+        brief, "--proposer", job["proposer"], "--replicate", str(job["replicate"]),
+        "--yes",
     ]  # fmt: skip
 
 
@@ -202,12 +208,16 @@ def next_job(found: list[dict], running: int, pool: bool) -> dict | None:
     arm is running (two loops on one arm's queue would refuse each other)."""
     if pool or running >= SLOTS:
         return None
-    busy = {(j["study"], j["proposer"]) for j in found if j["state"] == "running"}
+    busy = {
+        (j["study"], j["proposer"], j["replicate"])
+        for j in found
+        if j["state"] == "running"
+    }
     for job in found:
         if (
             job["kind"] == "study"
             and job["state"] == "queued"
-            and (job["study"], job["proposer"]) not in busy
+            and (job["study"], job["proposer"], job["replicate"]) not in busy
         ):
             return job
     return None

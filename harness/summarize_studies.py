@@ -22,7 +22,7 @@ import matplotlib.pyplot as plt
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from compare_proposers import COLORS, PROPOSERS, proposer_report
+from compare_proposers import COLORS, PROPOSERS, arms, proposer_of, proposer_report
 from goals import goal_status
 from outer import history, results
 from plot_results import SURFACE, TEXT, TEXT_SECONDARY, _save, _style
@@ -30,16 +30,6 @@ from read_state import ROOT
 from study import plan_runs
 
 STUDIES = ROOT / "research" / "studies"
-
-
-def arms(study: Path) -> dict[str, Path]:
-    """Each proposer that ran this study's plan, and its folder."""
-    found = {}
-    for proposer in PROPOSERS:
-        folder = study if proposer == "llm" else study / proposer
-        if (folder / "rounds.jsonl").exists():
-            found[proposer] = folder
-    return found
 
 
 def confirmed(folder: Path, plan: dict) -> list[str]:
@@ -159,27 +149,47 @@ def main() -> int:
     fig, ax = plt.subplots(figsize=(6.4, 2.8), facecolor=SURFACE)
     _style(ax)
     names = list(summary)
-    proposers = [p for p in PROPOSERS if any(p in s["arms"] for s in summary.values())]
+    proposers = [
+        p
+        for p in PROPOSERS
+        if any(proposer_of(a) == p for s in summary.values() for a in s["arms"])
+    ]
     width = 0.8 / max(len(proposers), 1)
     for j, proposer in enumerate(proposers):
         for i, name in enumerate(names):
-            r = summary[name]["arms"].get(proposer)
-            if r is None:
+            # Every replicate of the proposer: the bar is their mean, a dot
+            # each; a replicate that never met the goal counts the budget.
+            reps = [
+                r
+                for a, r in summary[name]["arms"].items()
+                if proposer_of(a) == proposer
+            ]
+            if not reps:
                 continue
-            value = r["runs_to_goal"] or summary[name]["budget"]
+            values = [r["runs_to_goal"] or summary[name]["budget"] for r in reps]
             x = i + (j - (len(proposers) - 1) / 2) * width
             ax.bar(
                 x,
-                value,
+                sum(values) / len(values),
                 width=width,
                 color=COLORS.get(proposer, TEXT_SECONDARY),
-                hatch=None if r["runs_to_goal"] else "//",
+                hatch=None if all(r["runs_to_goal"] for r in reps) else "//",
                 edgecolor=SURFACE,
-                label=proposer if i == 0 else None,
+                label=proposer
+                if not any(
+                    proposer_of(a) == proposer
+                    for n in names[:i]
+                    for a in summary[n]["arms"]
+                )
+                else None,
             )
+            if len(values) > 1:
+                ax.scatter([x] * len(values), values, s=6, color=TEXT, zorder=3)
     ax.set_xticks(range(len(names)), names, fontsize=7, color=TEXT)
     ax.set_ylabel(
-        "kept runs to goal (hatched: not reached)", fontsize=7, color=TEXT_SECONDARY
+        "kept runs to goal, mean of replicates\n(dots: each; hatched: not always reached)",
+        fontsize=7,
+        color=TEXT_SECONDARY,
     )
     ax.legend(fontsize=7, frameon=False)
     fig.tight_layout()

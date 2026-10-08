@@ -20,6 +20,7 @@ Writes
 
 import argparse
 import json
+import re
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -43,11 +44,42 @@ PROPOSERS = (
     "grid",
     "bisect",
     "random",
+    "random_confirm",
     "lhs",
     "optuna",
     "ga",
 )
-COLORS = {"rules": "#2a78d6", "hybrid": "#1baf7a", "llm": "#eb6834"}
+COLORS = {
+    "rules": "#2a78d6",
+    "hybrid": "#1baf7a",
+    "llm": "#eb6834",
+    "random_confirm": "#8a63d2",
+}
+REPLICATE = re.compile(r"_r(\d+)$")
+
+
+def proposer_of(arm: str) -> str:
+    """The proposer of an arm: "rules" for rules, rules_r2, rules_r3."""
+    return REPLICATE.sub("", arm)
+
+
+def arms(study: Path) -> dict[str, Path]:
+    """Each arm that ran this study's plan, and its folder: one per proposer
+    and replicate (the llm arm's first replicate is the study folder)."""
+    found = {}
+    for proposer in PROPOSERS:
+        first = study if proposer == "llm" else study / proposer
+        replicates = sorted(
+            (int(REPLICATE.search(p.name).group(1)), p)
+            for p in study.glob(f"{proposer}_r*")
+            if REPLICATE.search(p.name) and proposer_of(p.name) == proposer
+        )
+        for name, folder in [(proposer, first)] + [
+            (f"{proposer}_r{n}", p) for n, p in replicates
+        ]:
+            if (folder / "rounds.jsonl").exists():
+                found[name] = folder
+    return found
 
 
 def progress(
@@ -134,11 +166,7 @@ def main() -> int:
     goal = None if plan["goal"]["type"] == "none" else plan["goal"]
     varied = tuple(plan["vary"])
     compare = plan["fixed"].get("compare")
-    folders = {
-        p: args.study if p == "llm" else args.study / p
-        for p in PROPOSERS
-        if ((args.study if p == "llm" else args.study / p) / "rounds.jsonl").exists()
-    }
+    folders = arms(args.study)
     report = {p: proposer_report(f, goal, varied, compare) for p, f in folders.items()}
     (args.study / "comparison.json").write_text(json.dumps(report, indent=1) + "\n")
 
@@ -149,7 +177,7 @@ def main() -> int:
         hard.plot(
             range(1, len(r["hardest_progress"]) + 1),
             r["hardest_progress"],
-            color=COLORS.get(proposer, TEXT_SECONDARY),
+            color=COLORS.get(proposer_of(proposer), TEXT_SECONDARY),
             label=f"{proposer} ({r['hardest']})",
             linewidth=1.6,
         )
@@ -168,7 +196,7 @@ def main() -> int:
             range(1, len(r["goal_progress"]) + 1),
             r["goal_progress"],
             where="post",
-            color=COLORS.get(proposer, TEXT_SECONDARY),
+            color=COLORS.get(proposer_of(proposer), TEXT_SECONDARY),
             label=f"{proposer} (goal at {r['runs_to_goal'] or 'not reached'})",
             linewidth=1.6,
         )
