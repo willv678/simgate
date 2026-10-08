@@ -416,6 +416,8 @@ fresh frame) against S1/B2's frames every 500 ms (four of five plans reuse the
 last frames). Same scenes, 0 delay, CATK, full gate (`compare_frames.json`).
 - v1, 17 scenes paired with their S1 run: 11 failed with stale frames, 6 with
   fresh; 5 scenes flipped to pass, none the other way (sign test p 0.062).
+  Re-read with the policy-attributable definition (problem 25): 10 and 5, the
+  same 5 flips, p 0.062.
 - v2, B2's scene 20 times: 3 of 20 failed (90% range 6–32%) against 42 of 150
   in B2 (22–34%).
 - Out of GPU memory on 12 GB in 2 of the first 12 v1 runs (VaVAM keeps 40
