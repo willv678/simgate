@@ -4,11 +4,59 @@
 
 Paper title (working): **SimGate: Runtime Assurance for LLM-Operated Driving Simulation**
 
-This is the whole project in one place, as of 29 Sep 2026: what it is, how it
-works, what we measured, and what is left. Every number comes from a file
-named in [`FACTS.md`](FACTS.md). The last section is a slide plan.
+This is the whole project in one place: what it is, how it works, what we
+measured, and what is left. Every number comes from a file named in
+[`FACTS.md`](FACTS.md). Sections 1–9 describe the per-run system as of 29 Sep;
+**section 0 below is the direction since 6 Oct**: an AI-guided stress-testing
+framework built around that system.
 
 ---
+
+## 0. Since 6 Oct: accelerated AV testing with an AI in the loop
+
+Dr. Shao's framing (6 Oct): the paper is about **accelerating the testing of
+autonomous-driving control**. The AI agent is the new tool; the contribution
+is the framework (a state machine with an outer and an inner loop, and the
+checks around them) and evidence that it finds the challenging scenarios
+faster.
+
+```mermaid
+flowchart LR
+    B["Brief<br/>a question in plain English"] --> P["Plan<br/>knobs, scenes, budget, goal"]
+    P --> O["Outer loop<br/>pick the next runs"]
+    O --> I["Inner loop<br/>run + check every run"]
+    I -->|results| O
+    O -->|goal met or budget spent| T["Triage<br/>why each crash"]
+    T --> R["Report + web page<br/>the answer"]
+```
+
+- **A study starts from a brief** (`briefs/`), e.g. "which pedestrian timings
+  make the policy hit the pedestrian? find the 5 hardest cases". Claude turns
+  it into a plan; code checks the plan against what exists and the budget.
+- **Scenario knobs** the gate can verify from each run's own log: planner
+  delay, plan offset and noise (perception error), and **retiming a recorded
+  actor** (a pedestrian stepping out up to 2 s earlier or later, walking 0.5–2×
+  as fast), through a hook we added to AlpaSim. Scenes are real recorded
+  drives, so we retime real actors; we cannot add new ones.
+- **Five scenario categories** (car ahead braking, cut-in/merge, intersection,
+  unprotected left turn, pedestrian crossing), with scenes sorted by a tagger
+  that reads the recorded tracks and has Claude look at frames.
+- **The outer loop** picks the next runs each round, three ways that the paper
+  compares on the same plan and budget: **rules** (no AI: confirm near-crashes,
+  step to harder settings), **hybrid** (Claude, but only among the rules'
+  candidates), **llm** (Claude free); plus the standard baselines random,
+  Latin hypercube, grid, Bayesian optimisation (Optuna), genetic algorithm.
+- **The goal is checked by code** after every round: e.g. "5 settings, each on
+  its own scene, whose crash rate is surely above 50%", with 90% ranges on
+  every rate because identical runs can end differently. The study stops when
+  the goal is met; **runs to goal** is the headline number.
+- **After the runs**, Claude watches frames around each crash and names the
+  cause; crashes far off the recorded path are flagged as possibly the
+  simulator's; the report and a web page answer the brief, with every number
+  printed by code.
+- **Problems met and fixed** while building this (19 so far, each of which
+  would have made an unattended loop report wrong results quietly) are listed
+  in FACTS.md: the paper's "issues and how we overcame them" section.
 
 ## 1. One sentence
 

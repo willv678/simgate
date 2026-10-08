@@ -602,3 +602,9 @@ r1 settings kept: ['r1_001', 'r1_002', 'r1_003']
 005_pedestrian_crossing_hybrid_005.json: READY -> run_experiment.py {"pid": 67772, "run_dir": "diag/pedestrian_crossing_hybrid_005"}
 005_pedestrian_crossing_rules_005.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.9}
 005_pedestrian_crossing_rules_005.json: COMPLETE -> analyze.py {"appended": true}
+005_pedestrian_crossing_rules_005.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+006_pedestrian_crossing_rules_006.json: READY -> run_experiment.py {"pid": 71287, "run_dir": "diag/pedestrian_crossing_rules_006"}
+005_pedestrian_crossing_hybrid_005.json: RUNNING -> monitor.py {"timed_out": false, "stalled": false, "minutes": 2.8}
+005_pedestrian_crossing_hybrid_005.json: COMPLETE -> analyze.py {"appended": true}
+005_pedestrian_crossing_hybrid_005.json: COMPLETE -> archive.py {"resolution": "ACCEPT"}
+006_pedestrian_crossing_hybrid_006.json: READY -> run_experiment.py {"pid": 76489, "run_dir": "diag/pedestrian_crossing_hybrid_006"}
