@@ -33,6 +33,37 @@ flowchart LR
     P -->|a person enacts| G[rules/promoted.json, checked on every run]
 ```
 
+## Run it
+
+One command, `research/simgate`, or the same thing in the browser:
+
+```bash
+research/simgate serve        # http://localhost:8765: write a brief, check the plan, queue, watch
+research/simgate worker       # in another terminal: runs queued studies, two at a time
+```
+
+In the browser: **New study** turns a few fields (category, question, scope,
+budget) into a brief, Claude plans it, the plan is shown with the result of
+every check (and can be edited by hand; an edit is saved only if the same
+checks pass), and you queue it with one or more proposers. **Studies** shows
+each study's proposers side by side as runs land (kept runs, failures, runs to
+goal, the hardest case found), **Queue** the jobs and their logs, **Activity**
+the loop's log. From another machine: `ssh -L 8765:localhost:8765 <host>`; the
+app listens on localhost only, since it can queue GPU work.
+
+The same from a terminal:
+
+```bash
+research/simgate new night_pedestrians      # a brief to fill in, research/briefs/night_pedestrians.md
+research/simgate plan night_pedestrians     # Claude plans it; code checks the plan
+research/simgate queue night_pedestrians --proposer rules hybrid llm random
+research/simgate status                     # every study, its proposers, the queue
+```
+
+The worker counts every simulation on the machine (studies, and loops run by
+hand) against the GPU's two slots, and waits while a `run_pool` script is
+dispatching, so the two never race (`jobs.py`).
+
 ## Studies: from a question to an answer
 
 The loop above runs one queue of runs. A **study** wraps it: a researcher
@@ -172,6 +203,7 @@ uv run python research/harness/score_campaign.py research/harness/c1_queue
 | `compare_frames.py`, `jerk_separation.py` | analyses: VaVAM with fresh vs stale frames; why jerk cannot separate the kinematic fault |
 | `replay.py`, `check_replay.py` | re-run a kept seeded run, and compare two runs step by step |
 | `memory.py` | evidence from other studies' kept runs with the same effective settings |
+| `simgate.py` (`../simgate`), `web.py`, `web/index.html`, `jobs.py` | the command line, the web app, and the job queue with its worker |
 | `run_pool4.sh`, `refresh_results.sh`, `summarize_studies.py` | the overnight job pool (two studies at a time), hourly result pages, the cross-study summary |
 | `verify_supervisor.py`, `probe_fence.py` | checks on the gate and on the agent's fence |
 | `eval_auditor.py`, `eval_mining.py`, `repeat_auditor.py`, `compare_policies.py`, `repeat_tiers.py`, `calibrate_physics.py`, `eval_physics_audit.py`, `eval_plan_audit.py` | the evaluations |

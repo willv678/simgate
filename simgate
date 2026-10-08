@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# SimGate's command line; see research/harness/simgate.py, or run with --help.
+cd "$(dirname "$(readlink -f "$0")")/.." && exec uv run --with optuna python research/harness/simgate.py "$@"

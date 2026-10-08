@@ -19,3 +19,6 @@ autolab_lora_adapter/
 !harness/*.jsonl
 !harness/*_queue/*.jsonl
 .loop.lock
+
+# The job queue is local state (simgate worker, the web app).
+jobs/

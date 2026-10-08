@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SimGate</title>
+<style>
+:root {
+  --bg: #f7f6f2; --surface: #ffffff; --fg: #1d1c1a; --muted: #6b6965;
+  --line: #e3e1da; --accent: #2a62d6; --accent-soft: #e6edfb;
+  --good: #1b8a5a; --good-soft: #e3f4ec; --warn: #b4690e; --warn-soft: #fbf0e0;
+  --bad: #c0392b; --bad-soft: #fbe6e3; --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161615; --surface: #1f1f1d; --fg: #ecebe6; --muted: #a09e98;
+    --line: #34332f; --accent: #7aa2f7; --accent-soft: #1f2a42;
+    --good: #4cc38a; --good-soft: #17301f; --warn: #e3a64f; --warn-soft: #33270f;
+    --bad: #ef7a6c; --bad-soft: #3a1c18;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161615; --surface: #1f1f1d; --fg: #ecebe6; --muted: #a09e98;
+  --line: #34332f; --accent: #7aa2f7; --accent-soft: #1f2a42;
+  --good: #4cc38a; --good-soft: #17301f; --warn: #e3a64f; --warn-soft: #33270f;
+  --bad: #ef7a6c; --bad-soft: #3a1c18;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+header { position: sticky; top: 0; z-index: 2; background: var(--bg);
+  border-bottom: 1px solid var(--line); }
+.bar { max-width: 1080px; margin: 0 auto; padding: 12px 16px; display: flex;
+  flex-wrap: wrap; gap: 8px 16px; align-items: center; }
+.brand { font-weight: 650; font-size: 18px; letter-spacing: -0.01em; margin-right: auto; }
+.brand small { font-weight: 400; color: var(--muted); font-size: 13px; margin-left: 8px; }
+.pill { font-size: 12.5px; padding: 3px 10px; border-radius: 999px; background: var(--surface);
+  border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.pill b { color: var(--fg); font-weight: 600; }
+.pill.on b { color: var(--good); } .pill.off b { color: var(--warn); }
+nav { max-width: 1080px; margin: 0 auto; padding: 0 16px; display: flex; gap: 4px; overflow-x: auto; }
+nav button { border: 0; background: none; color: var(--muted); padding: 8px 12px;
+  font: inherit; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
+nav button.active { color: var(--fg); border-bottom-color: var(--accent); }
+main { max-width: 1080px; margin: 0 auto; padding: 20px 16px 64px; }
+section[hidden] { display: none; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+  padding: 16px; margin-bottom: 14px; }
+.card h2 { margin: 0 0 4px; font-size: 16px; display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.q { color: var(--muted); margin: 0 0 10px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.tag { font-size: 12px; padding: 1px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); }
+.tag.grey { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th { color: var(--muted); font-weight: 500; font-size: 12.5px; }
+td.num { font-variant-numeric: tabular-nums; }
+.progress { width: 90px; height: 6px; background: var(--line); border-radius: 3px; display: inline-block;
+  vertical-align: middle; margin-right: 6px; overflow: hidden; }
+.progress i { display: block; height: 100%; background: var(--accent); }
+.crit { display: inline-block; min-width: 46px; text-align: center; padding: 1px 6px; border-radius: 6px; font-size: 12.5px; }
+.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--good);
+  margin-right: 6px; animation: pulse 1.6s infinite; }
+@keyframes pulse { 50% { opacity: 0.3; } }
+@media (prefers-reduced-motion: reduce) { .dot { animation: none; } }
+.chip { font-size: 12px; padding: 1px 8px; border-radius: 6px; }
+.chip.queued { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+.chip.running { background: var(--accent-soft); color: var(--accent); }
+.chip.done { background: var(--good-soft); color: var(--good); }
+.chip.failed { background: var(--bad-soft); color: var(--bad); }
+.chip.cancelled { background: var(--bg); color: var(--muted); text-decoration: line-through; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+button.btn, a.btn { font: inherit; font-size: 14px; padding: 6px 12px; border-radius: 8px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--surface); color: var(--fg); text-decoration: none; }
+button.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+button.btn:disabled { opacity: 0.5; cursor: default; }
+select, input, textarea { font: inherit; font-size: 14px; color: var(--fg); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; max-width: 100%; }
+textarea { width: 100%; resize: vertical; }
+textarea.code { font-family: var(--mono); font-size: 12.5px; }
+label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 4px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 760px) { .grid2 { grid-template-columns: 1fr; } }
+pre { font-family: var(--mono); font-size: 12px; background: var(--bg); border: 1px solid var(--line);
+  border-radius: 8px; padding: 10px; overflow-x: auto; white-space: pre-wrap; word-break: break-word; margin: 0; }
+.steps { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.step { font-size: 13px; color: var(--muted); padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); }
+.step.now { color: var(--accent); border-color: var(--accent); }
+.step.ok { color: var(--good); border-color: var(--good); }
+.msg { font-size: 14px; padding: 8px 12px; border-radius: 8px; margin-top: 10px; }
+.msg.err { background: var(--bad-soft); color: var(--bad); }
+.msg.ok { background: var(--good-soft); color: var(--good); }
+.msg.info { background: var(--accent-soft); color: var(--accent); }
+.empty { color: var(--muted); text-align: center; padding: 32px; }
+.hint { font-size: 13px; color: var(--muted); }
+code { font-family: var(--mono); font-size: 12.5px; background: var(--bg); padding: 1px 5px; border-radius: 4px; }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; font-size: 14px; }
+.kv dt { color: var(--muted); } .kv dd { margin: 0; }
+.checks { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.checks label { display: inline-flex; gap: 6px; align-items: center; margin: 0; color: var(--fg); font-size: 14px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div class="brand">SimGate<small>the model proposes, the gate decides</small></div>
+    <span class="pill" id="p-gpu">GPU …</span>
+    <span class="pill" id="p-sims">simulations …</span>
+    <span class="pill" id="p-worker">worker …</span>
+  </div>
+  <nav>
+    <button data-tab="studies" class="active">Studies</button>
+    <button data-tab="new">New study</button>
+    <button data-tab="jobs">Queue</button>
+    <button data-tab="activity">Activity</button>
+  </nav>
+</header>
+<main>
+  <section id="tab-studies"><div id="studies"></div></section>
+
+  <section id="tab-new" hidden>
+    <div class="steps">
+      <span class="step" id="s1">1 · Write the brief</span>
+      <span class="step" id="s2">2 · Plan and check</span>
+      <span class="step" id="s3">3 · Queue</span>
+    </div>
+    <div class="card">
+      <div class="grid2">
+        <div>
+          <label for="b-existing">Start from</label>
+          <select id="b-existing"><option value="">a new brief</option></select>
+          <label for="b-name">Name (the study's folder; lower case, digits, _)</label>
+          <input id="b-name" placeholder="pedestrian_night_timing" style="width:100%">
+          <label for="b-cat">Scene category</label>
+          <select id="b-cat"></select>
+          <label for="b-question">Question: what do you want to know, in your own words?</label>
+          <textarea id="b-question" rows="3" placeholder="Which pedestrian timings make the driving policy hit the pedestrian? Find the 5 hardest cases, each on a different scene."></textarea>
+          <label for="b-scope">Scope: knobs and ranges</label>
+          <textarea id="b-scope" rows="3"></textarea>
+          <div class="grid2">
+            <div><label for="b-budget">Budget (runs)</label>
+              <input id="b-budget" type="number" min="5" value="50" style="width:100%"></div>
+            <div><label>Knobs available</label><div class="hint" id="b-knobs"></div></div>
+          </div>
+          <label for="b-counts">What counts as a failure</label>
+          <textarea id="b-counts" rows="2">A front or side collision, or leaving the road. Near misses rank next.</textarea>
+        </div>
+        <div>
+          <label for="b-text">The brief (edit freely; this file is what Claude reads)</label>
+          <textarea id="b-text" class="code" rows="24"></textarea>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn" id="b-save">Save brief</button>
+        <button class="btn primary" id="b-plan">Save and make the plan</button>
+        <span class="hint">Claude turns the brief into a plan; code checks every field before anything runs.</span>
+      </div>
+      <div id="b-msg"></div>
+    </div>
+    <div class="card" id="plan-card" hidden></div>
+  </section>
+
+  <section id="tab-jobs" hidden><div class="card"><div class="scroll" id="jobs"></div></div>
+    <div class="card" id="joblog" hidden></div></section>
+
+  <section id="tab-activity" hidden>
+    <div class="card"><p class="hint" style="margin-top:0">The last lines of the outer loop's log (research/harness/outer.log): every run's state changes as the loop moves it.</p><pre id="activity"></pre></div>
+  </section>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let catalog = null, state = null, planStudy = null, planTimer = null;
+
+async function api(path, body) {
+  const opts = body === undefined ? {} : {method: "POST", headers: {"Content-Type": "application/json", "X-SimGate": "1"}, body: JSON.stringify(body)};
+  const r = await fetch(path, opts);
+  const data = await r.json().catch(() => ({error: r.statusText}));
+  if (!r.ok) throw new Error(data.error || r.statusText);
+  return data;
+}
+function msg(el, kind, text) { el.innerHTML = `<div class="msg ${kind}">${esc(text)}</div>`; }
+
+document.querySelectorAll("nav button").forEach((b) => b.addEventListener("click", () => tab(b.dataset.tab)));
+function tab(name) {
+  if (location.hash !== "#" + name && !location.hash.startsWith("#plan=")) history.replaceState(null, "", "#" + name);
+  document.querySelectorAll("nav button").forEach((b) => b.classList.toggle("active", b.dataset.tab === name));
+  document.querySelectorAll("main > section").forEach((s) => s.hidden = s.id !== "tab-" + name);
+  try { localStorage.setItem("simgate-tab", name); } catch (e) {}
+}
+
+function critStyle(v) {
+  if (v === null || v === undefined) return "";
+  const hue = v >= 1 ? "var(--bad-soft);color:var(--bad)" : v >= 0.6 ? "var(--warn-soft);color:var(--warn)" : "var(--bg);color:var(--muted)";
+  return `background:${hue}`;
+}
+
+function renderHeader(s) {
+  const g = s.gpu;
+  $("p-gpu").innerHTML = g ? `GPU <b>${(g.used_mib/1024).toFixed(1)}/${(g.total_mib/1024).toFixed(0)} GB</b> · ${g.util}%` : "GPU <b>?</b>";
+  $("p-sims").innerHTML = `simulations <b>${s.simulations}/${s.slots}</b>`;
+  const w = $("p-worker");
+  w.className = "pill " + (s.worker || s.pool ? "on" : "off");
+  w.innerHTML = s.pool ? "dispatch <b>overnight pool</b>" : s.worker ? "worker <b>on</b>" : "worker <b>off</b>";
+  w.title = s.worker ? "Queued studies start as GPU slots free up." : s.pool ? "A run_pool script is dispatching; the worker waits for it." : "Nothing will start queued studies: run `research/simgate worker`.";
+}
+
+function renderStudies(s) {
+  const out = s.studies.map((st) => {
+    const arms = Object.entries(st.arms);
+    const rows = arms.map(([p, a]) => a.error
+      ? `<tr><td>${esc(p)}</td><td colspan="6" class="hint">${esc(a.error)}</td></tr>`
+      : `<tr><td>${a.running ? '<span class="dot"></span>' : ""}${esc(p)}</td>
+        <td class="num"><span class="progress"><i style="width:${Math.min(100, 100*a.kept/st.budget)}%"></i></span>${a.kept}/${st.budget}</td>
+        <td class="num">${a.failures}</td><td class="num">${a.scenes_with_a_failure}</td>
+        <td class="num">${a.runs_to_goal ?? '<span class="hint">not yet</span>'}</td>
+        <td><span class="crit" style="${critStyle(a.hardest)}">${a.hardest ?? "–"}</span></td>
+        <td class="num">${a.model_seconds}s</td></tr>`).join("");
+    const opts = catalog ? catalog.proposers.filter((p) => !st.arms[p] && !st.pool_pending.includes(p)).map((p) => `<option>${p}</option>`).join("") : "";
+    return `<div class="card"><h2>${esc(st.name)}${st.report ? '<span class="tag">report</span>' : ""}</h2>
+      <p class="q">${esc(st.question)}</p>
+      <div class="meta">${st.vary.map((v) => `<span class="tag">${esc(v)}</span>`).join("")}
+        <span class="tag grey">${st.scenes} scenes</span><span class="tag grey">${st.budget} runs</span>
+        <span class="tag grey">goal: ${esc(st.goal.type)}${st.goal.k ? " " + st.goal.k : ""}</span>
+        ${st.pool_pending.length ? `<span class="tag grey" title="Queued in the overnight run_pool script">pool will run: ${esc(st.pool_pending.join(", "))}</span>` : ""}</div>
+      ${arms.length ? `<div class="scroll"><table><tr><th>proposer</th><th>kept runs</th><th>failures</th><th>scenes failed</th><th>runs to goal</th><th title="Mean criticality of the hardest setting found on each of the k hardest scenes: 1 a crash, 0.9 contact, 0 at 5 m">hardest</th><th>model time</th></tr>${rows}</table></div>` : '<p class="hint">Planned; no proposer has run it yet.</p>'}
+      <div class="actions">
+        ${st.page ? `<a class="btn" href="/studies/${encodeURIComponent(st.name)}/index.html" target="_blank">Open the study page</a>` : ""}
+        <button class="btn" data-plan="${esc(st.name)}">View plan</button>
+        ${opts ? `<select data-arm="${esc(st.name)}">${opts}</select><button class="btn" data-run="${esc(st.name)}">Queue this proposer</button>` : ""}
+      </div><div data-msg="${esc(st.name)}"></div></div>`;
+  }).join("");
+  $("studies").innerHTML = out || '<div class="empty">No studies yet. Start one under “New study”.</div>';
+  $("studies").querySelectorAll("[data-plan]").forEach((b) => b.onclick = () => { tab("new"); showPlan(b.dataset.plan); });
+  $("studies").querySelectorAll("[data-run]").forEach((b) => b.onclick = async () => {
+    const name = b.dataset.run, box = document.querySelector(`[data-msg="${name}"]`);
+    const brief = state.briefs.find((x) => x.study === name);
+    if (!brief) return msg(box, "err", "No brief for this study under research/briefs.");
+    const proposer = document.querySelector(`[data-arm="${name}"]`).value;
+    try { await api("/api/jobs", {brief: brief.name, proposer}); msg(box, "ok", `Queued ${proposer}.`); refresh(); }
+    catch (e) { msg(box, "err", e.message); }
+  });
+}
+
+function renderJobs(s) {
+  const rows = s.jobs.slice().reverse().map((j) => `<tr><td><span class="chip ${j.state}">${j.state}</span></td>
+    <td>${esc(j.kind)}</td><td>${esc(j.brief)}</td><td>${esc(j.proposer)}</td>
+    <td class="hint">${esc((j.started_at || j.queued_at).replace("T", " ").slice(0, 16))}</td>
+    <td>${j.started_at ? `<button class="btn" data-log="${esc(j.id)}">log</button>` : ""}
+    ${j.state === "queued" ? `<button class="btn" data-cancel="${esc(j.id)}">cancel</button>` : ""}</td></tr>`).join("");
+  $("jobs").innerHTML = rows ? `<table><tr><th>state</th><th>kind</th><th>brief</th><th>proposer</th><th>since (UTC)</th><th></th></tr>${rows}</table>`
+    : '<div class="empty">The queue is empty. Queue a study from its card, or after planning a new one.</div>';
+  $("jobs").querySelectorAll("[data-log]").forEach((b) => b.onclick = async () => {
+    const d = await api("/api/job_log?id=" + encodeURIComponent(b.dataset.log));
+    $("joblog").hidden = false; $("joblog").innerHTML = `<pre>${esc(d.log || "(empty)")}</pre>`;
+  });
+  $("jobs").querySelectorAll("[data-cancel]").forEach((b) => b.onclick = async () => {
+    try { await api("/api/jobs/cancel", {id: b.dataset.cancel}); refresh(); } catch (e) { alert(e.message); }
+  });
+}
+
+async function refresh() {
+  try {
+    state = await api("/api/state");
+    renderHeader(state); renderStudies(state); renderJobs(state);
+    $("activity").textContent = state.activity || "(no activity yet)";
+    const sel = $("b-existing"), keep = sel.value;
+    sel.innerHTML = '<option value="">a new brief</option>' + state.briefs.map((b) => `<option value="${esc(b.name)}">${esc(b.name)}${b.planned ? " (planned)" : ""}</option>`).join("");
+    sel.value = keep;
+  } catch (e) { $("p-sims").innerHTML = "server <b>unreachable</b>"; }
+}
+
+// ---- New study ----
+function briefText() {
+  const name = $("b-name").value.trim() || "my_study";
+  return catalog.template.replace("{title}", name.replace(/_/g, " ").replace(/^./, (c) => c.toUpperCase()))
+    .replace("{question}", $("b-question").value.trim()).replace("{scope}", $("b-scope").value.trim())
+    .replace("{budget}", $("b-budget").value).replace("{counts}", $("b-counts").value.trim());
+}
+let textEdited = false;
+["b-name", "b-question", "b-scope", "b-budget", "b-counts"].forEach((id) => $(id).addEventListener("input", () => { if (!textEdited) $("b-text").value = briefText(); }));
+$("b-text").addEventListener("input", () => textEdited = true);
+$("b-cat").addEventListener("change", () => {
+  const c = $("b-cat").value;
+  if (c && !$("b-scope").value.trim()) $("b-scope").value = `Scenes tagged ${c}. `;
+  if (!textEdited) $("b-text").value = briefText();
+});
+$("b-existing").addEventListener("change", async () => {
+  const name = $("b-existing").value;
+  if (!name) { textEdited = false; $("b-text").value = briefText(); return; }
+  const d = await api("/api/brief?name=" + encodeURIComponent(name));
+  $("b-name").value = name.split("/").pop(); $("b-text").value = d.text; textEdited = true;
+  const b = state.briefs.find((x) => x.name === name);
+  if (b && b.planned) showPlan(b.study); else $("plan-card").hidden = true;
+});
+async function saveBrief() {
+  const name = $("b-name").value.trim();
+  const existing = $("b-existing").value;
+  if (existing && existing.split("/").pop() === name) return existing; // a brief already on disk
+  await api("/api/brief", {name, text: $("b-text").value});
+  return name;
+}
+$("b-save").onclick = async () => {
+  try { const n = await saveBrief(); msg($("b-msg"), "ok", `Saved research/briefs/${n}.md`); step(1); refresh(); }
+  catch (e) { msg($("b-msg"), "err", e.message); }
+};
+$("b-plan").onclick = async () => {
+  try {
+    const brief = await saveBrief();
+    const job = await api("/api/jobs", {brief, kind: "plan"});
+    step(2); msg($("b-msg"), "info", "Claude is planning (about a minute)…");
+    watchPlan(job.id, brief.split("/").pop());
+  } catch (e) { msg($("b-msg"), "err", e.message); }
+};
+function watchPlan(id, study) {
+  clearInterval(planTimer);
+  planTimer = setInterval(async () => {
+    const j = (await api("/api/state")).jobs.find((x) => x.id === id);
+    if (!j || j.state === "running" || j.state === "queued") return;
+    clearInterval(planTimer);
+    if (j.state === "done") { msg($("b-msg"), "ok", "Plan made and checked."); showPlan(study); }
+    else { const d = await api("/api/job_log?id=" + encodeURIComponent(id)); msg($("b-msg"), "err", "Planning failed: " + d.log.split("\n").slice(-3).join(" ")); }
+  }, 4000);
+}
+function step(n) { ["s1", "s2", "s3"].forEach((s, i) => $(s).className = "step" + (i < n - 1 ? " ok" : i === n - 1 ? " now" : "")); }
+
+async function showPlan(study) {
+  planStudy = study;
+  const card = $("plan-card");
+  let d;
+  try { d = await api("/api/plan?study=" + encodeURIComponent(study)); } catch (e) { card.hidden = false; card.innerHTML = `<div class="msg err">${esc(e.message)}</div>`; return; }
+  const p = d.plan; step(d.problems.length ? 2 : 3);
+  const fixed = Object.entries(p.fixed || {}).map(([k, v]) => `${k}: ${typeof v === "object" ? Object.keys(v).length + " entries" : v}`).join(", ") || "none";
+  const brief = state.briefs.find((x) => x.study === study);
+  const st = state.studies.find((s) => s.name === study) || {arms: {}, pool_pending: []};
+  const taken = (x) => st.arms[x] ? " (ran)" : st.pool_pending.includes(x) ? " (in the pool)" : "";
+  const boxes = catalog.proposers.map((x) => `<label><input type="checkbox" value="${x}" ${taken(x) ? "disabled" : ["rules", "hybrid", "llm"].includes(x) ? "checked" : ""}>${x}${taken(x)}</label>`).join("");
+  card.hidden = false;
+  card.innerHTML = `<h2>Plan: ${esc(study)}</h2><p class="q">${esc(p.question)}</p>
+    <dl class="kv"><dt>objective</dt><dd>${esc(p.objective)}</dd>
+    <dt>knobs varied</dt><dd>${p.vary.map((v) => `<span class="tag">${esc(v)}</span> <span class="hint">${esc(catalog.knobs[v].values.join(", "))}</span>`).join("<br>")}</dd>
+    <dt>scenes</dt><dd>${p.scenes.length}: <span class="hint">${p.scenes.map((x) => esc(x.slice(7, 15))).join(", ")}</span></dd>
+    <dt>budget</dt><dd>${p.rounds} rounds × ${p.per_round} = ${d.runs} runs</dd>
+    <dt>fixed</dt><dd>${esc(fixed)}</dd>
+    <dt>goal</dt><dd><code>${esc(JSON.stringify(p.goal))}</code></dd>
+    <dt>checks</dt><dd>${d.problems.length ? `<span style="color:var(--bad)">${d.problems.map(esc).join("<br>")}</span>` : '<span style="color:var(--good)">every field passes the knob catalog, scene and budget checks</span>'}</dd></dl>
+    <details style="margin-top:12px"><summary class="hint">Edit the plan by hand${d.locked ? " (locked: a proposer has run it)" : ""}</summary>
+      <textarea id="plan-json" class="code" rows="16" ${d.locked ? "disabled" : ""}>${esc(JSON.stringify(p, null, 1))}</textarea>
+      <div class="actions"><button class="btn" id="plan-save" ${d.locked ? "disabled" : ""}>Check and save</button><span class="hint">Saved only if the same checks a model's plan faces pass.</span></div></details>
+    <label>Run it with (each proposer runs the same plan separately, for comparison)</label>
+    <div class="checks" id="plan-props">${boxes}</div>
+    <div class="actions"><button class="btn primary" id="plan-queue" ${d.problems.length || !brief ? "disabled" : ""}>Queue</button>
+      <span class="hint">${state.worker ? "The worker starts them as GPU slots free up." : state.pool ? "The overnight pool is dispatching; the worker starts these after it." : "Start the worker (research/simgate worker) to run queued studies."}</span></div>
+    <div id="plan-msg"></div>`;
+  const save = $("plan-save");
+  if (save) save.onclick = async () => {
+    try { const plan = JSON.parse($("plan-json").value); await api("/api/plan", {study, plan}); msg($("plan-msg"), "ok", "Plan saved."); showPlan(study); }
+    catch (e) { msg($("plan-msg"), "err", e.message); }
+  };
+  $("plan-queue").onclick = async () => {
+    const chosen = [...document.querySelectorAll("#plan-props input:checked")].map((x) => x.value);
+    if (!chosen.length) return msg($("plan-msg"), "err", "Choose at least one proposer.");
+    try { for (const proposer of chosen) await api("/api/jobs", {brief: brief.name, proposer}); msg($("plan-msg"), "ok", `Queued: ${chosen.join(", ")}.`); refresh(); }
+    catch (e) { msg($("plan-msg"), "err", e.message); }
+  };
+}
+
+(async function init() {
+  catalog = await api("/api/catalog");
+  $("b-cat").innerHTML = '<option value="">choose…</option>' + Object.entries(catalog.categories).map(([c, n]) => `<option value="${esc(c)}">${esc(c)} (${n} scenes)</option>`).join("");
+  $("b-knobs").innerHTML = Object.entries(catalog.knobs).map(([k, v]) => `<span title="${esc(v.meaning)}">${esc(k)}</span>`).join(", ");
+  $("b-text").value = briefText(); step(1);
+  let saved = null; try { saved = localStorage.getItem("simgate-tab"); } catch (e) {}
+  const hash = location.hash.slice(1);
+  if (["studies", "new", "jobs", "activity"].includes(hash)) saved = hash;
+  if (saved) tab(saved);
+  await refresh();
+  if (hash.startsWith("plan=")) { tab("new"); showPlan(decodeURIComponent(hash.slice(5))); }
+  setInterval(refresh, 5000);
+})();
+</script>
+</body>
+</html>
