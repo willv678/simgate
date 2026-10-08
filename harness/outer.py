@@ -29,7 +29,7 @@ Files, all named after the study: `<study>_queue/` (the inner loop's queue),
 the proposals, what was dropped and why, the model call). A rerun finishes the
 queue first, then continues from the next round.
 
-Every run of a seeded study (the default) carries a `seed` in its queue config,
+Every run of a seeded study carries a `seed` in its queue config,
 from the study's name and the run's number, so replay.py can re-run it with
 the same seed.
 
@@ -319,7 +319,7 @@ class Study:
     goal_file: Path | None = None
     fixed: dict | None = None
     # Whether each run gets a seed (run_seed); `seed` above seeds the proposer.
-    seeded: bool = True
+    seeded: bool = False
 
 
 def run_seed(study: str, number: int) -> int:

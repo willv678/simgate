@@ -18,8 +18,8 @@ and code deciding:
    report.md with its own counts next to every finding, so a number in the
    report comes from the table, not the model.
 
-Every run is seeded, so replay.py can re-run it with the same seed, unless
-plan.json says `"seeded": false` (a person adds it; the planner does not).
+A study whose plan.json says `"seeded": true` (a person adds it; the planner
+does not) seeds every run, so replay.py can re-run it exactly.
 
 Everything lands in research/studies/<brief name>/: brief.md, plan.json,
 queue/, trace.jsonl, rounds.jsonl, goal.json, triage.json, report.md. With
@@ -225,8 +225,8 @@ def make_plan(brief: str, model: str) -> tuple[dict, dict]:
 
 def study_of(folder: Path, name: str, plan: dict, proposer: str, model: str) -> Study:
     facts = {f["scene_id"]: f for f in scene_facts()}
-    # Plans written before seeded runs have no "seeded"; their new runs are seeded.
-    seeded = plan.get("seeded", True)
+    # Seeding is opt-in until a seeded replay has been shown to reproduce a run.
+    seeded = plan.get("seeded", False)
     if type(seeded) is not bool:
         raise SystemExit(f"plan.json: seeded must be true or false, got {seeded!r}")
     return Study(
