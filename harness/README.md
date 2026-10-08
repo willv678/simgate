@@ -63,7 +63,7 @@ flowchart LR
   the ego's logged speed before the hand-off against the recording's).
 - **Seeds** (`replay.py`, `check_replay.py`): a study whose plan.json says
   `"seeded": true` gives every run a `seed` in its queue config, a hash of the
-  study's name and the run's number (opt-in until `run_pool3.sh`'s validation
+  study's name and the run's number (opt-in until `run_pool4.sh`'s validation
   shows a same-seed pair reproduces exactly). The wizard gets
   `+runtime.simulation_config.random_seed=<seed>` (AlpaSim's
   `RolloutSpec.random_seed`) and `+driver.model.force_determinism=true` (VaVAM
@@ -172,7 +172,7 @@ uv run python research/harness/score_campaign.py research/harness/c1_queue
 | `compare_frames.py`, `jerk_separation.py` | analyses: VaVAM with fresh vs stale frames; why jerk cannot separate the kinematic fault |
 | `replay.py`, `check_replay.py` | re-run a kept seeded run, and compare two runs step by step |
 | `memory.py` | evidence from other studies' kept runs with the same effective settings |
-| `run_pool3.sh`, `refresh_results.sh`, `summarize_studies.py` | the overnight job pool (two studies at a time), hourly result pages, the cross-study summary |
+| `run_pool4.sh`, `refresh_results.sh`, `summarize_studies.py` | the overnight job pool (two studies at a time), hourly result pages, the cross-study summary |
 | `verify_supervisor.py`, `probe_fence.py` | checks on the gate and on the agent's fence |
 | `eval_auditor.py`, `eval_mining.py`, `repeat_auditor.py`, `compare_policies.py`, `repeat_tiers.py`, `calibrate_physics.py`, `eval_physics_audit.py`, `eval_plan_audit.py` | the evaluations |
 | `plot_results.py`, `plot_campaign.py`, `plot_architecture.py`, `rebuild.sh` | the paper's figures, into `../figures/`; `rebuild.sh` reruns the tests and every model-free table and figure |
