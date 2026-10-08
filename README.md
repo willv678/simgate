@@ -1,32 +1,92 @@
 # SimGate
 
-**The model proposes, the gate decides.** Runtime assurance for LLM-operated
-driving simulation.
+**Find the scenarios that break a self-driving policy, fast, with an LLM in
+the loop that cannot corrupt the results.**
 
-SimGate runs batches of [AlpaSim](https://github.com/NVlabs/alpasim) driving
-simulations unattended, with Claude helping to run them, and guarantees that
-nothing the model says can put an invalid run into the dataset. Deterministic
-checks (the Gate) decide which runs are kept. The model only proposes: a fix
-from a five-item menu when a run fails (the Investigator), and flags and new
-checks after a batch (the Auditor). Admitted checks join the Gate (the
-Rulebook). An exhaustive search over every answer the model could give (the
-Verifier) shows none of them breaks the Gate.
+You ask a question in plain English: *"Which pedestrian timings and ego
+speeds make the policy hit someone? Find the 5 hardest cases."* SimGate turns
+it into a test plan, searches the scenario space round by round in the
+[AlpaSim](https://github.com/NVlabs/alpasim) closed-loop simulator, confirms
+each hard case by repeats, explains every crash from the camera frames, and
+answers with a report in which every number is computed by code.
 
-![Invalid runs kept](figures/campaign_invalid.png)
+Claude helps at every step, but only proposes. Deterministic checks (the
+**gate**) decide which simulation runs count: a run is kept only if the
+requested scenario provably happened (read back from the run's own logs) and
+the motion is physically plausible. When a run fails, the model may only
+choose a fix from a fixed menu, and an exhaustive check shows no answer it
+could give breaks the gate.
 
-*Fault-injection campaigns C1 (physics checks off) and C2 (on), three policies
-each, 50 runs per policy: invalid runs that would be kept with no checks, with
-the per-run Gate, and with the Gate plus the Auditor. 0 after the audit in all
-six arms.*
+![The SimGate web app](figures/simgate_app.png)
 
-| Start here | For |
+## What it found (Oct 2026, VaVAM driving policy, AlpaSim)
+
+| | |
 |---|---|
-| [`GUIDE.md`](GUIDE.md) | the whole project with diagrams and results |
-| [`harness/README.md`](harness/README.md) | the code, safety model, and quickstart |
-| [`FACTS.md`](FACTS.md) | every measurement and where it came from |
-| [`OUTLINE.md`](OUTLINE.md), [`paper/`](paper/) | the IEEE IV 2027 paper plan and draft |
+| **Ego speed is the stressor** | Retiming the pedestrian alone: 0-5 failures in 49 runs per method. Adding the ego's speed at hand-off: every method confirms the 5 hardest cases in 24-28 runs. |
+| **Claude searches hard spaces faster** | Lead vehicle (3 knobs): Claude confirmed 5 hardest cases in 21 runs; rule-based search found 1 in 49. |
+| **Fair baselines** | Random search found 31 crashes in 48 runs but confirmed none; `random_confirm` adds the same confirmation the rules use. Replicates of every method are running. |
+| **Valid by construction** | 778 runs across the studies, 759 kept (97.6%); 17 crashed launches retried automatically, 2 halted by the physics bound, none kept without passing every check. |
+| **Reproducible** | A seeded run replays bit for bit (0.0 m over 122 steps); a different seed parts at 3.6 s. |
+
+Live numbers: [`METHODS.md`](METHODS.md), [`GATE.md`](GATE.md),
+[`studies/SUMMARY.md`](studies/SUMMARY.md); every measurement and its source:
+[`FACTS.md`](FACTS.md). Browse every study without a GPU: the read-only
+snapshot in [`site/`](site/) (`research/simgate export`).
+
+## How it works
+
+```mermaid
+flowchart LR
+    B["Brief<br/>a question in English"] --> P["Plan<br/>Claude proposes; code checks<br/>knobs, scenes, budget, goal"]
+    P --> O["Outer loop<br/>a search method picks<br/>the next runs"]
+    O --> I["Inner loop<br/>run in AlpaSim, then the gate:<br/>config landed, knob verified,<br/>physics, rules"]
+    I -->|kept runs only| G{"Goal met?<br/>checked by code"}
+    G -->|no| O
+    G -->|yes, or budget spent| T["Triage<br/>why each crash, from frames"]
+    T --> R["Report and web page<br/>counts from code"]
+```
+
+- **Knobs** the search may turn, each verified from the run's own log:
+  planner delay (plan age), lateral bias and waypoint noise (plan offset and
+  scatter), a recorded actor's timing and speed (the runtime's retiming log),
+  and the ego's speed at hand-off (measured speed against the request).
+- **Search methods** on the same plan, budget and gate: `llm` (Claude, free),
+  `hybrid` (Claude choosing among rule candidates), `rules`, and baselines
+  `random_confirm`, `random`, `grid`, `bisect`, `lhs`, `optuna`, `ga`.
+- **Goals** checked by code after every round: `top_k` (the k hardest
+  settings, confirmed by repeats), `bracket` (where failure starts, to a
+  resolution), `separate`, `compare` (A/B of two controllers).
+- **Safety model**: the gate and the loop are plain Python with tests and an
+  exhaustive check over every answer a model could give; the model's
+  diagnosis, audit and plans are untrusted proposals. See
+  [`harness/README.md`](harness/README.md).
+
+## Run it
+
+Requirements: an AlpaSim checkout with its scenes, an NVIDIA GPU (24 GB runs
+two simulations at once), Docker, [uv](https://docs.astral.sh/uv/), and a
+logged-in `claude` CLI. Clone this repository into the checkout as
+`research/`, then:
+
+```bash
+research/simgate serve      # web app at http://localhost:8765
+research/simgate worker     # runs queued studies on the GPU
+```
+
+Write a brief in the app (or `research/simgate new my_question`), check the
+plan Claude proposes, and queue it with one or more search methods. The
+command-line equivalents, the knob catalog and the file map are in
+[`harness/README.md`](harness/README.md); the whole project with diagrams in
+[`GUIDE.md`](GUIDE.md); the paper plan in [`OUTLINE.md`](OUTLINE.md).
+
+Status: research code for an IEEE IV 2027 submission, in active development.
+The retiming and seed hooks it needs in AlpaSim are default-off changes to
+AlpaSim's runtime (`patches/`).
 
 ---
+
+# For the team
 
 ## Working in this repo
 
@@ -61,7 +121,7 @@ the gate. Full picture: `GUIDE.md`. Claims and evidence: `OUTLINE.md`,
 `FACTS.md`. Board: `STATUS.md`. Scripts from paused work are in `archive/`.
 
 This folder is its own git repo (ignored by NVlabs AlpaSim), pushed to
-https://github.com/willv678/simgate (private until the paper is out). New notes and harness scripts go
+https://github.com/willv678/simgate (public). New notes and harness scripts go
 here so they publish without copying into `~/autolab-harness`. That older mirror is
 frozen. Do not develop there. Griffin: clone or pull that repo for the week plan;
 run wizard from the AlpaSim checkout.
