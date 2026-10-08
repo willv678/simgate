@@ -82,6 +82,48 @@ def test_traffic_device_that_did_not_land_is_failed(make_run):
     )
 
 
+def test_a_controller_that_did_not_land_is_failed(make_run):
+    assert read_state(make_run("ab", controller="nonlinear")).state is State.COMPLETE
+    swapped = read_state(
+        make_run("swapped", controller="nonlinear", resolved_controller="linear")
+    )
+    assert swapped.k_status == (
+        "config_not_landed: controller requested nonlinear, resolved linear"
+    )
+    # Same MPC implementation, another config: told apart by the horizon.
+    short = read_state(
+        make_run("short", controller="nonlinear", resolved_controller="short_horizon")
+    )
+    assert short.k_status.endswith("requested nonlinear, resolved short_horizon")
+    # An entry without a controller key asked for the linear MPC.
+    legacy = read_state(make_run("legacy", resolved_controller="kinematic_ideal"))
+    assert legacy.k_status == (
+        "config_not_landed: controller requested linear, resolved kinematic_ideal"
+    )
+
+
+def test_each_controller_config_resolves_to_its_own_name():
+    """knobs.CONTROLLERS' identifying values are what AlpaSim's controller
+    configs compose to, and no other controller has them."""
+    import yaml
+    from knobs import CONTROLLERS
+    from read_state import ROOT, resolved_controller
+
+    configs = ROOT / "src" / "wizard" / "configs" / "controller"
+
+    def composed(name: str) -> dict:
+        raw = yaml.safe_load((configs / f"{name}.yaml").read_text(encoding="utf-8"))
+        block = {}
+        for parent in raw.pop("defaults", []):
+            if parent != "_self_":
+                block |= composed(parent)
+        return block | raw
+
+    assert {name: resolved_controller(composed(name)) for name in CONTROLLERS} == {
+        name: name for name in CONTROLLERS
+    }
+
+
 def test_physics_bounds_fail_a_run_the_other_checks_keep(
     make_run, tmp_path, monkeypatch
 ):

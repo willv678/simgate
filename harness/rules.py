@@ -10,8 +10,16 @@ data, not code, so checking it is deterministic and cannot do anything else:
      "label_key": "planner_delay_us", "reason": "..."}
 
 `eq_label` compares the value with the run's label, the config the experiment
-recorded for it. A missing file, path, or label key is a violation: a run
-whose config cannot show that it is right is not kept. The one exception is
+recorded for it. `when` (optional) scopes a rule to runs whose label has the
+given values, so a rule about one setup leaves runs that asked for another
+alone:
+
+    {"id": "controller_mpc_linear", "file": "wizard-config.yaml",
+     "path": "controller.mpc_implementation", "op": "eq", "value": "linear",
+     "when": {"controller": "linear"}, "reason": "..."}
+ A missing file, path, or label key is a violation: a run
+whose config cannot show that it is right is not kept, and so is a run whose
+label lacks a key the rule's `when` names. The one exception is
 `ne`: a value that is absent cannot equal the forbidden one, so "fault
 injection must not be enabled" holds on runs that have no fault-injection
 block. A `ne` rule with a wrong path therefore never fires, and promote.py
@@ -62,6 +70,8 @@ def rule_problem(rule: dict) -> str | None:
         return "in needs a list value"
     if rule["op"] in ("le", "ge") and not isinstance(rule["value"], int | float):
         return f"{rule['op']} needs a number"
+    if "when" in rule and (not isinstance(rule["when"], dict) or not rule["when"]):
+        return "when needs label keys and values"
     return None
 
 
@@ -74,7 +84,13 @@ def _lookup(config, path: str):
 
 
 def violation(rule: dict, run_path: Path, label: dict) -> str | None:
-    """How this run breaks the rule, or None when it satisfies it."""
+    """How this run breaks the rule, or None when it satisfies it or its
+    `when` leaves the run out."""
+    scope = rule.get("when", {})
+    if set(scope) - set(label):
+        return f"{rule['id']}: label has no {sorted(set(scope) - set(label))}"
+    if any(label[key] != value for key, value in scope.items()):
+        return None
     source = run_path / rule["file"]
     if not source.is_file():
         return f"{rule['id']}: {rule['file']} missing"

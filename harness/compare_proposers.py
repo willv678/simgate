@@ -44,11 +44,14 @@ PROPOSERS = (
 COLORS = {"rules": "#2a78d6", "hybrid": "#1baf7a", "llm": "#eb6834"}
 
 
-def progress(goal: dict, kept: list[dict], varied: tuple) -> list[int]:
-    """The goal's count after each kept run, in launch order."""
+def progress(
+    goal: dict, kept: list[dict], varied: tuple, compare: dict | None
+) -> list[int]:
+    """The goal's count after each kept run, in launch order. `compare`: the
+    controllers of an A/B study (its plan's fixed compare), or None."""
     counts = []
     for n in range(1, len(kept) + 1):
-        status = goal_status(goal, results(kept[:n], varied), varied)
+        status = goal_status(goal, results(kept[:n], varied, compare), varied)
         if goal["type"] == "top_k":
             counts.append(len(status["settings"]))
         elif goal["type"] == "bracket":
@@ -58,7 +61,9 @@ def progress(goal: dict, kept: list[dict], varied: tuple) -> list[int]:
     return counts
 
 
-def proposer_report(folder: Path, goal: dict | None, varied: tuple) -> dict:
+def proposer_report(
+    folder: Path, goal: dict | None, varied: tuple, compare: dict | None
+) -> dict:
     queue = folder / "queue"
     entries = [load_entry(p) for p in queue_entries(queue)]
     rows = {r["run"]: r for r in history(queue, varied)}
@@ -72,7 +77,7 @@ def proposer_report(folder: Path, goal: dict | None, varied: tuple) -> dict:
         for line in (folder / "rounds.jsonl").read_text(encoding="utf-8").splitlines()
     ]
     calls = [r["call"] for r in rounds if r["call"]]
-    counts = progress(goal, kept, varied) if goal else []
+    counts = progress(goal, kept, varied, compare) if goal else []
     target = (
         goal["k"]
         if goal and goal["type"] == "top_k"
@@ -101,12 +106,13 @@ def main() -> int:
     plan = json.loads((args.study / "plan.json").read_text(encoding="utf-8"))["plan"]
     goal = None if plan["goal"]["type"] == "none" else plan["goal"]
     varied = tuple(plan["vary"])
+    compare = plan["fixed"].get("compare")
     folders = {
         p: args.study if p == "llm" else args.study / p
         for p in PROPOSERS
         if ((args.study if p == "llm" else args.study / p) / "rounds.jsonl").exists()
     }
-    report = {p: proposer_report(f, goal, varied) for p, f in folders.items()}
+    report = {p: proposer_report(f, goal, varied, compare) for p, f in folders.items()}
     (args.study / "comparison.json").write_text(json.dumps(report, indent=1) + "\n")
 
     fig, ax = plt.subplots(figsize=(4.6, 2.8), facecolor=SURFACE)

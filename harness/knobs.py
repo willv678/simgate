@@ -20,6 +20,10 @@ Only knobs the inner loop can apply and verify from the log are listed:
   study's retime_class (AlpaSim's actor_retiming hook), with traffic replayed;
   postflight checks the rule landed and that the runtime retimed at least one
   actor of that class.
+
+The controller that tracks the plan is the system under test, not a knob: a
+study runs the linear MPC, or, in an A/B study (fixed setting `compare`),
+every proposed setting once on each of two controllers.
 """
 
 SCENE_FILE = "data/scenes/sim_scenes.csv"
@@ -60,6 +64,37 @@ DESCRIPTIONS = {
     "actor_speed_scale": "speed of the study's actor class relative to its "
     "recording (2.0: twice as fast along the same path)",
 }
+# The controller configs a run may use (AlpaSim's src/wizard/configs/controller/),
+# each with what it is and the values that identify it in the resolved
+# `controller` block of wizard-config.yaml, which postflight compares with the
+# request (read_state.config_not_landed).
+CONTROLLERS = {
+    "linear": {
+        "meaning": "linear MPC, stage terminal cost: the controller every study "
+        "used before A/B studies",
+        "resolved": {"mpc_implementation": "linear", "terminal_cost": "stage"},
+    },
+    "nonlinear": {
+        "meaning": "nonlinear MPC, 2 s horizon",
+        "resolved": {"mpc_implementation": "nonlinear", "n_horizon": 20},
+    },
+    "short_horizon": {
+        "meaning": "nonlinear MPC with a 1.5 s horizon",
+        "resolved": {"mpc_implementation": "nonlinear", "n_horizon": 15},
+    },
+    "feasible_best": {
+        "meaning": "linear MPC with Riccati terminal cost and high position "
+        "gains: the best tracking real vehicle physics allows",
+        "resolved": {"mpc_implementation": "linear", "terminal_cost": "riccati"},
+    },
+    "kinematic_ideal": {
+        "meaning": "no controller: the car is moved along the plan exactly, "
+        "an upper bound on tracking",
+        "resolved": {"mpc_implementation": "kinematic_ideal"},
+    },
+}
+DEFAULT_CONTROLLER = "linear"
+SIDES = ("a", "b")
 EXECUTION = {"context_length": 8, "scene_file": SCENE_FILE, "trafficsim_device": "cpu"}
 UNVARIED = {
     "planner_delay_us": 0,
@@ -70,17 +105,18 @@ UNVARIED = {
 }
 
 
-def run_config(scene_id: str, settings: dict, fixed: dict) -> dict:
-    """The queue config of a run: the scene, the study's fixed settings and
-    knob values, and every other scenario knob at its unvaried value. With
-    `retime_tracks` (scene -> the scene's key actor), the actor knobs retime
-    that one actor instead of its whole class."""
+def run_config(scene_id: str, settings: dict, fixed: dict, controller: str) -> dict:
+    """The queue config of a run: the scene, the controller, the study's fixed
+    settings and knob values, and every other scenario knob at its unvaried
+    value. With `retime_tracks` (scene -> the scene's key actor), the actor
+    knobs retime that one actor instead of its whole class."""
     tracks = fixed.get("retime_tracks", {})
-    shared = {k: v for k, v in fixed.items() if k != "retime_tracks"}
+    shared = {k: v for k, v in fixed.items() if k not in ("retime_tracks", "compare")}
     key_actor = {"retime_track": tracks[scene_id]} if scene_id in tracks else {}
     return {
         **EXECUTION,
         "scene_id": scene_id,
+        "controller": controller,
         **shared,
         **key_actor,
         **UNVARIED,
@@ -91,10 +127,19 @@ def run_config(scene_id: str, settings: dict, fixed: dict) -> dict:
 def fixed_problems(fixed: dict, varied: tuple) -> list[str]:
     """Why a study's fixed settings cannot run with the knobs it varies. Actor
     knobs retime recorded tracks; with CATK only the history before the
-    hand-over would follow them, so they need replayed traffic."""
+    hand-over would follow them, so they need replayed traffic. `compare`
+    names the two controllers of an A/B study, a and b."""
     problems = []
-    if set(fixed) - {"traffic", "retime_class", "retime_tracks"}:
-        problems.append("fixed settings: traffic, retime_class, retime_tracks")
+    if set(fixed) - {"traffic", "retime_class", "retime_tracks", "compare"}:
+        problems.append("fixed settings: traffic, retime_class, retime_tracks, compare")
+    if "compare" in fixed:
+        compare = fixed["compare"]
+        if set(compare) != set(SIDES) or set(compare.values()) - set(CONTROLLERS):
+            problems.append(
+                f"compare names a controller from {sorted(CONTROLLERS)} as a and as b"
+            )
+        elif compare["a"] == compare["b"]:
+            problems.append("compare needs two different controllers")
     if fixed.get("traffic", "catk") not in TRAFFIC_MODES:
         problems.append(f"traffic must be one of {TRAFFIC_MODES}")
     if set(varied) & set(ACTOR_KNOBS):

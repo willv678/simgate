@@ -16,9 +16,12 @@ retry that recover.py queues, like a bug that repeats on every launch.
 | rails | force-GT for the whole run: the recorded human drives | exit 0, near-perfect metrics |
 | kinematic | controller=kinematic_ideal: the car is moved along the plan | exit 0, no controller in the loop |
 
-rails and kinematic are silent: the run finishes, writes metrics, and passes
-every per-run check. Only an audit of the batch, or a rule it produced, can
-tell that the data does not measure a VaVAM-plus-MPC run.
+rails is silent: the run finishes, writes metrics, and passes every per-run
+check. Only an audit of the batch, or a rule it produced, can tell that the
+data does not measure a VaVAM-plus-MPC run. kinematic also finishes and writes
+metrics, but the run asked for the linear controller, so the landed check
+(read_state.config_not_landed) sees kinematic_ideal resolved instead, as does
+the promoted rule the C3 audit produced.
 """
 
 import shlex

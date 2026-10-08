@@ -3,7 +3,7 @@ its runs, and the page's knob values read in plain units."""
 
 from html.parser import HTMLParser
 
-from outer import rate_range
+from goals import rate_range
 from study_page import chart_svg, knob_text
 
 VARIED = ("planner_delay_us",)
@@ -62,3 +62,34 @@ def test_chart_has_one_range_bar_per_setting_and_one_square_per_run():
 def test_knob_values_read_in_plain_units():
     assert knob_text("planner_delay_us", 150_000) == "150 ms"
     assert knob_text("lateral_bias_m", -0.3) == "-0.3 m"
+
+
+def test_an_ab_table_charts_each_controller_at_each_setting():
+    from outer import results
+    from study_page import system_rows
+
+    rows = [
+        {
+            "run": f"r{i}_{controller}",
+            "scene_id": "clipgt-aaaaaaaa-1",
+            "planner_delay_us": delay,
+            "controller": controller,
+            "verdict": "kept",
+            "failed": controller == "linear",
+            "criticality": 1.0,
+        }
+        for i, delay in enumerate((0, 100_000))
+        for controller in ("linear", "nonlinear")
+    ]
+    table = system_rows(results(rows, VARIED, {"a": "linear", "b": "nonlinear"}))
+    assert [(r["id"], r["controller"]) for r in table] == [
+        ("S1", "linear"),
+        ("S1", "nonlinear"),
+        ("S2", "linear"),
+        ("S2", "nonlinear"),
+    ]
+    outcomes = {r["run"]: r["failed"] for r in rows}
+    svg = chart_svg(table, (*VARIED, "controller"), outcomes)
+    classes = [attrs.get("class") for _, attrs in _tags(svg)]
+    assert classes.count("range") == 4
+    assert knob_text("controller", "nonlinear") == "nonlinear"

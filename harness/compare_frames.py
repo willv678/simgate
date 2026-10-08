@@ -13,12 +13,12 @@ whether the difference is more than chance (McNemar).
 
 import json
 import sys
-from math import comb
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from outer import outcome, rate_range
+from goals import rate_range, sign_test
+from outer import outcome
 from read_state import ROOT, load_entry, queue_entries
 
 HARNESS = Path(__file__).resolve().parent
@@ -36,14 +36,6 @@ def kept(queue: str) -> dict[str, dict]:
                 {"run": entry["name"], **outcome(ROOT / entry["run_dir"])},
             )
     return found
-
-
-def sign_test(a: int, b: int) -> float:
-    """Exact two-sided p of a split of a + b flips at least this uneven."""
-    n, k = a + b, min(a, b)
-    if n == 0:
-        return 1.0
-    return min(1.0, 2 * sum(comb(n, i) for i in range(k + 1)) / 2**n)
 
 
 def main() -> int:

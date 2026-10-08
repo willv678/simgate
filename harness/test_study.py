@@ -48,6 +48,51 @@ def test_a_plan_outside_them_is_rejected(change):
     assert plan_problems(_plan(**change), SCENES)
 
 
+AB_FIXED = {"traffic": "catk", "compare": {"a": "linear", "b": "nonlinear"}}
+
+
+def test_an_ab_plan_compares_two_existing_controllers():
+    plan = _plan(fixed=AB_FIXED, goal={"type": "compare"})
+    assert plan_problems(plan, SCENES) == []
+
+
+@pytest.mark.parametrize(
+    "change",
+    [
+        {"goal": {"type": "none"}},  # an A/B study needs the compare goal
+        {"fixed": {"traffic": "catk"}},  # a compare goal needs two controllers
+        {"fixed": {**AB_FIXED, "compare": {"a": "linear", "b": "mpc9000"}}},
+        {"fixed": {**AB_FIXED, "compare": {"a": "linear", "b": "linear"}}},
+        {"fixed": {**AB_FIXED, "compare": {"a": "linear"}}},
+        {"fixed": AB_FIXED, "rounds": 4, "per_round": 10},  # 80 runs in pairs
+    ],
+)
+def test_an_ab_plan_outside_the_catalog_or_budget_is_rejected(change):
+    plan = _plan(**{"fixed": AB_FIXED, "goal": {"type": "compare"}, **change})
+    assert plan_problems(plan, SCENES)
+
+
+def test_ab_report_lines_show_both_controllers():
+    from study import setting_text
+
+    rows = [
+        {
+            "run": f"s_{i}_{controller}",
+            "scene_id": "clipgt-aaaaaaaa-1",
+            "planner_delay_us": 0,
+            "controller": controller,
+            "verdict": "kept",
+            "failed": controller == "linear",
+            "criticality": 1.0,
+        }
+        for i in range(2)
+        for controller in ("linear", "nonlinear")
+    ]
+    (row,) = results(rows, ("planner_delay_us",), AB_FIXED["compare"])
+    text = setting_text(row, ("planner_delay_us",))
+    assert "linear 2/2 failed" in text and "nonlinear 0/2 failed" in text
+
+
 def test_results_count_kept_runs_only_per_setting():
     rows = [
         {
@@ -90,7 +135,7 @@ def test_results_count_kept_runs_only_per_setting():
 
 
 def test_the_failure_rate_range_shrinks_with_runs():
-    from outer import rate_range
+    from goals import rate_range
 
     low, high = rate_range(2, 2)
     assert 0.3 < low < 0.5 and high == 1.0  # two failures: likely, not certain

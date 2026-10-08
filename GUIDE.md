@@ -233,7 +233,7 @@ where every launch fails, through the real code.
 | `drop_delay` | delay setting silently dropped, every retry | yes (landed check), **exit 0** |
 | `fill_network_pool` | Docker out of networks | yes (machine check) |
 | `rails` | a human recording drives the whole run | **no** |
-| `kinematic` | no controller in the loop | **no** |
+| `kinematic` | no controller in the loop | **no** in the campaigns; yes (landed check) since runs record the controller they ask for |
 
 ## 6. What we measured
 

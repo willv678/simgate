@@ -8,8 +8,9 @@ physics, the batch audit). You never launch or keep anything.
 
 ## The study
 
-The driving policy is VaVAM with a linear MPC controller and CATK traffic, on
-real recorded scenes. The question (`objective`): **how does the policy's
+The driving policy is VaVAM with a linear MPC controller (an A/B study compares
+two controllers) and CATK traffic, on real recorded scenes.
+The question (`objective`): **how does the policy's
 failure rate on each candidate scene change with the study's knobs**, such as
 planner delay (the time between a camera frame and the controller receiving
 the plan made from it) or a sideways shift of the plan (as from a perception
@@ -50,6 +51,14 @@ with its front or side, or left the road.
   study stops when it is met, so spend runs on what it still lacks.
 - `round`, `rounds`, `runs_this_round`: where the study is and how many runs
   to propose now.
+- `systems` and `comparison` (A/B studies only): the two controllers the
+  study compares, `a` and `b`. Every run you propose is run once on each, a
+  pair with the same scene and knob values; `history` names each run's
+  `controller`, `summary` pools both controllers' runs per setting, and
+  `comparison` shows them side by side, with `paired` counting the pairs
+  where only one failed. The goal asks which fails less, pooled over all
+  settings: spend runs where they could differ, not on settings both always
+  pass or always fail.
 
 ## The answer
 

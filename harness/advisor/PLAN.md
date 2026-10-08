@@ -7,8 +7,9 @@ plan before anything runs, and a person sees it before it starts.
 
 ## What a study is
 
-The driving policy is VaVAM with a linear MPC controller and CATK traffic, on
-real recorded scenes. A study varies one or more scenario knobs over a set of
+The driving policy is VaVAM with a linear MPC controller (an A/B study compares
+two controllers) and CATK traffic, on real recorded scenes.
+A study varies one or more scenario knobs over a set of
 candidate scenes. Each round, a proposer chooses the next runs from the
 history so far; every run goes through the inner loop, which keeps it only if
 it passes every validity check. A run **failed** if the ego hit something with
@@ -27,6 +28,8 @@ setting can pass once and fail the next time, so rates need repeats.
   frames), its recorded `turn`, and `key_actors`: the recorded actor ids a
   study could retime there (lead_vehicle, pedestrian closest to the ego's
   path, cut_in, crossing_vehicle, oncoming).
+- `controllers`: the controllers that can track the plan, each with what it
+  is. Studies run `linear` unless the brief compares controllers.
 - `max_runs`, `max_per_round`: the budget caps.
 
 ## The answer
@@ -52,6 +55,15 @@ setting can pass once and fail the next time, so rates need repeats.
   in that scene (a scene's `key_actors` give candidates, e.g. the pedestrian
   that comes closest to the ego's path); scenes not listed retime their whole
   `retime_class`.
+  `compare` (only for an A/B study): `{"a": ..., "b": ...}`, two different
+  controllers from `controllers`. Use it when the brief asks which of two
+  controllers is safer, or whether one fails less than the other: every
+  setting the proposer picks then runs once on each, a pair with the same
+  scene and knob values, so `per_round` settings cost twice as many runs and
+  `rounds` x `per_round` x 2 must fit `max_runs`. The knobs and scenes are
+  chosen as for any study: where the brief's situation happens and where the
+  controllers could differ (settings that fail always or never on both say
+  nothing about which is safer).
 - `goal`: the brief's win condition in a form code checks after every round;
   the study stops as soon as it is met, so a good goal saves runs. One of:
   - `{"type": "separate", "scene", "knob", "low", "high"}`: the failure rate
@@ -69,6 +81,11 @@ setting can pass once and fail the next time, so rates need repeats.
     most challenging settings: k settings whose failure rate is surely above
     `high_min` (0.5 to below 1), one per scene when `distinct_scenes`. For
     briefs that ask for the hardest or most critical cases.
+  - `{"type": "compare"}`: the goal of an A/B study, and only of one: which
+    controller fails less. Met when the 90% ranges of the two failure rates,
+    pooled over every setting's paired runs, separate; otherwise the study
+    runs its budget and reports no difference shown. Code also reports an
+    exact sign test over the pairs where only one controller failed.
   - `{"type": "none"}`: the brief has no checkable win condition; the study
     runs its whole budget.
   The goal's scenes and knob must be the plan's; its values legal ones.

@@ -10,6 +10,8 @@ the varied knob for each scene (inline SVG, 90% ranges from report.json),
 the findings with the settings they cite, why each failed run failed, every
 run, and where the numbers came from. Counts and ranges are the ones code
 computed (outer.results, outer.history); the page adds no numbers of its own.
+In an A/B study each setting shows once per controller, the controller read
+as one more setting.
 
     uv run python research/harness/study_page.py research/studies/confirm_break_02eadd92
     uv run python research/harness/study_page.py research/studies/pilot_o1 \
@@ -55,6 +57,24 @@ KNOBS = {
         "scale": 1,
         "unit": "m",
     },
+    "actor_time_shift_s": {
+        "name": "actor time shift",
+        "meaning": "seconds by which the retimed road user moves later than "
+        "recorded (negative: earlier)",
+        "scale": 1,
+        "unit": "s",
+    },
+    "actor_speed_scale": {
+        "name": "actor speed",
+        "meaning": "speed of the retimed road user relative to its recording",
+        "scale": 1,
+        "unit": "x",
+    },
+    "controller": {
+        "name": "controller",
+        "meaning": "the controller that steers and brakes the car along the "
+        "policy's plan: the system the A/B study compares",
+    },
 }
 CAUSES = {
     "no_brake_for_lead": "Did not brake enough for the car ahead",
@@ -80,6 +100,8 @@ SQUARE, SQUARE_GAP, SQUARES_PER_ROW = 8, 3, 6
 
 
 def knob_text(knob: str, value) -> str:
+    if knob == "controller":
+        return value
     spec = KNOBS[knob]
     return f"{value * spec['scale']:g} {spec['unit']}"
 
@@ -233,6 +255,17 @@ def failure_kind(row: dict) -> str:
     return ", ".join(text for key, text in FAILURE_KINDS.items() if row[key])
 
 
+def system_rows(table: list[dict]) -> list[dict]:
+    """An A/B results table as one row per setting and controller with kept
+    runs, each with the setting's id and the controller as one more setting."""
+    return [
+        {**{k: v for k, v in row.items() if k not in ("a", "b", "paired")}, **cell}
+        for row in table
+        for cell in (row["a"], row["b"])
+        if cell["runs"]
+    ]
+
+
 def goal_html(goal: dict | None) -> str:
     if goal is None:
         return (
@@ -243,10 +276,25 @@ def goal_html(goal: dict | None) -> str:
         f"<li>Scene {scene_short(scene)}: {escape(text)}</li>"
         for scene, text in goal.get("scenes", {}).items()
     )
+    pooled = "".join(
+        f"<li>{escape(p['controller'])}: {p['failed']} of {p['pairs']} paired runs "
+        f"failed, failure rate {percent(p['failure_rate_90'][0])}–"
+        f"{percent(p['failure_rate_90'][1])} (90% range)</li>"
+        for p in goal.get("pooled", {}).values()
+    )
+    sign = (
+        f"<p class=muted>Sign test over the pairs where only one controller "
+        f"failed: {goal['sign_test']['only_a_failed']} against "
+        f"{goal['sign_test']['only_b_failed']}, two-sided p = "
+        f"{goal['sign_test']['p']}.</p>"
+        if "sign_test" in goal
+        else ""
+    )
     return (
         f"<p class=goal><b>Goal, checked by code (not by the model):</b> "
         f"{escape(goal['verdict'])}, after {goal['after_rounds']} rounds.</p>"
         + (f"<ul>{scenes}</ul>" if scenes else "")
+        + (f"<ul>{pooled}</ul>{sign}" if pooled else "")
     )
 
 
@@ -410,7 +458,9 @@ def page(folder: Path, queue: Path) -> tuple[str, list[tuple[str, Path, float]]]
     shared = folder if (folder / "plan.json").exists() else folder.parent
     plan_file = json.loads((shared / "plan.json").read_text(encoding="utf-8"))
     plan = plan_file["plan"]
-    varied = tuple(plan["vary"])
+    # Plans written before 7 Oct have no fixed settings.
+    compare = plan.get("fixed", {}).get("compare")
+    varied = tuple(plan["vary"]) + (() if compare is None else ("controller",))
     report = json.loads((folder / "report.json").read_text(encoding="utf-8"))
     triage_file = folder / "triage.json"
     causes = (
@@ -445,14 +495,20 @@ def page(folder: Path, queue: Path) -> tuple[str, list[tuple[str, Path, float]]]
     thumbs = [
         (c["run"], dirs[c["run"]], by_run[c["run"]]["failed_at_s"]) for c in causes
     ]
-    table = report["results"]
+    table = report["results"] if compare is None else system_rows(report["results"])
     answer = report["answer"]
-    by_id = {row["id"]: row for row in table}
+    by_id = {}
+    for row in table:
+        by_id.setdefault(row["id"], []).append(row)
     outcomes = {row["run"]: row["failed"] for row in rows if row["verdict"] == "kept"}
 
     findings = "".join(
         f"<li><p>{escape(f['claim'])}</p><ul class=evidence>"
-        + "".join(f"<li>{evidence_line(by_id[s], varied)}</li>" for s in f["settings"])
+        + "".join(
+            f"<li>{evidence_line(row, varied)}</li>"
+            for s in f["settings"]
+            for row in by_id[s]
+        )
         + "</ul></li>"
         for f in answer["findings"]
     )

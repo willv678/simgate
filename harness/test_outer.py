@@ -17,7 +17,7 @@ def _run(**change):
 
 def test_a_legal_run_is_queued_with_the_inner_loops_settings():
     assert rejection(_run(), SCENES, DELAY) is None
-    config = run_config("clipgt-a", {"planner_delay_us": 100_000}, {})
+    config = run_config("clipgt-a", {"planner_delay_us": 100_000}, {}, "linear")
     assert config["planner_delay_us"] == 100_000
     assert config["lateral_bias_m"] == 0.0
     assert config["context_length"] == 8
@@ -42,6 +42,63 @@ def test_a_legal_run_is_queued_with_the_inner_loops_settings():
 )
 def test_illegal_runs_are_dropped(proposed, varied):
     assert rejection(proposed, SCENES, varied)
+
+
+def _study(tmp_path, proposer, **fixed):
+    from outer import Study
+
+    return Study(
+        name="ab",
+        queue=tmp_path / "queue",
+        trace=tmp_path / "trace.jsonl",
+        rounds_file=tmp_path / "rounds.jsonl",
+        objective="o",
+        candidates=[{"scene_id": scene} for scene in sorted(SCENES)],
+        varied=DELAY,
+        rounds=2,
+        per_round=3,
+        proposer=proposer,
+        goal={"type": "compare"} if "compare" in fixed else None,
+        goal_file=tmp_path / "goal.json",
+        fixed={"traffic": "catk", **fixed},
+    )
+
+
+@pytest.mark.parametrize("proposer", ["random", "grid", "rules", "lhs"])
+def test_an_ab_study_queues_each_setting_once_per_controller(
+    tmp_path, monkeypatch, proposer
+):
+    import outer
+    from read_state import load_entry, queue_entries
+
+    monkeypatch.setattr(outer, "run_inner_loop", lambda study: None)
+    study = _study(tmp_path, proposer, compare={"a": "linear", "b": "nonlinear"})
+    outer.run_study(study)
+    entries = [load_entry(path) for path in queue_entries(study.queue)]
+    assert len(entries) == 2 * study.rounds * study.per_round
+    for a, b in zip(entries[::2], entries[1::2]):
+        assert (a["config"]["controller"], b["config"]["controller"]) == (
+            "linear",
+            "nonlinear",
+        )
+        assert a["name"].removesuffix("_linear") == b["name"].removesuffix("_nonlinear")
+        same = {k: v for k, v in a["config"].items() if k != "controller"}
+        assert same == {k: v for k, v in b["config"].items() if k != "controller"}
+    assert entries[-1]["name"] == "ab_006_nonlinear"
+
+
+def test_a_study_without_compare_queues_one_linear_run_per_setting(
+    tmp_path, monkeypatch
+):
+    import outer
+    from read_state import load_entry, queue_entries
+
+    monkeypatch.setattr(outer, "run_inner_loop", lambda study: None)
+    study = _study(tmp_path, "random")
+    outer.run_study(study)
+    entries = [load_entry(path) for path in queue_entries(study.queue)]
+    assert [e["name"] for e in entries] == [f"ab_{i:03d}" for i in range(1, 7)]
+    assert {e["config"]["controller"] for e in entries} == {"linear"}
 
 
 @pytest.mark.parametrize("varied", [DELAY, BOTH])

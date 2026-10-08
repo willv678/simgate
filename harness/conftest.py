@@ -5,6 +5,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 import yaml
+from knobs import CONTROLLERS
 
 SCENE_ID = "clipgt-test-scene"
 
@@ -50,6 +51,8 @@ def make_run(tmp_path: Path, scene_file: Path):
         metrics: bool = True,
         resolved_delay_us: int | None = None,
         resolved_device: str | None = None,
+        controller: str | None = None,
+        resolved_controller: str | None = None,
         environment: list[str] | None = None,
         env_cleanups: int = 0,
         at_fault: bool = False,
@@ -65,6 +68,7 @@ def make_run(tmp_path: Path, scene_file: Path):
                 "scene_file": str(scene_file),
                 "scene_id": SCENE_ID,
                 "trafficsim_device": "cpu",
+                **({"controller": controller} if controller else {}),
             },
             "attempt": attempt,
             "parent": None,
@@ -103,6 +107,12 @@ def make_run(tmp_path: Path, scene_file: Path):
                         "scene_ids": [SCENE_ID],
                     },
                     "trafficsim": {"catk": {"device": resolved_device or "cpu"}},
+                    "controller": {
+                        "n_horizon": 20,
+                        **CONTROLLERS[resolved_controller or controller or "linear"][
+                            "resolved"
+                        ],
+                    },
                 }
             )
         )

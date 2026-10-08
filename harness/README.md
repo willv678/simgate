@@ -64,8 +64,22 @@ flowchart LR
 - **Goal** (`goals.py`): checked by code after every round; the study stops
   when it is met. `separate` (two settings' failure rates differ), `bracket`
   (where each scene starts to fail, to a set resolution), `top_k` (the k most
-  challenging settings, confirmed by repeats). Failure rates carry 90% ranges;
-  each run has a criticality (1 for a crash, up to 0.9 for a near miss).
+  challenging settings, confirmed by repeats), `compare` (which of two
+  controllers fails less, below). Failure rates carry 90% ranges; each run has
+  a criticality (1 for a crash, up to 0.9 for a near miss).
+- **A/B studies** ("which controller is safer?"): the plan fixes
+  `compare: {"a": "linear", "b": "nonlinear"}` (controllers from
+  `knobs.CONTROLLERS`, AlpaSim's `controller=` configs). The search over
+  scenes and knobs runs as usual, but every proposed setting runs once per
+  controller, a pair with the same scene and knob values (`<study>_007_linear`,
+  `<study>_007_nonlinear`). The `compare` goal pools each controller's
+  failures over the paired runs and is met when the 90% ranges separate,
+  otherwise "no difference shown"; code adds an exact sign test over the pairs
+  where only one failed. Tables and the report show a and b side by side.
+  Every run records its `controller`, and postflight checks the resolved one
+  is the one asked for (entries without the key asked for linear); the
+  promoted rule pinning the linear MPC applies only to runs that asked for
+  linear (`when` in `rules.py`).
 - **Triage** (`triage.py`, `advisor/TRIAGE.md`): Claude reads frames around each
   crash and names the cause; crashes far off the recorded path are flagged as
   possibly the simulator's.
@@ -77,6 +91,7 @@ flowchart LR
 uv run python research/harness/study.py research/briefs/latency_budget.md --plan-only
 uv run python research/harness/study.py research/briefs/latency_budget.md --yes
 uv run python research/harness/study.py research/briefs/latency_budget.md --proposer rules --yes
+uv run python research/harness/study.py research/briefs/ab/controller_pedestrian.md --plan-only
 uv run --with optuna python research/harness/study.py <brief> --proposer optuna --yes
 uv run python research/harness/study_page.py research/studies/latency_budget
 ```
@@ -108,7 +123,8 @@ uv run python research/harness/audit.py research/harness/s1_queue
 ```
 
 Fault-injection campaign (kill, hang, deleted or corrupt metrics, dropped delay,
-full Docker network pool, and two silent faults that pass every per-run check):
+full Docker network pool, rails, which passes every per-run check, and the
+kinematic controller, which the landed check now catches):
 
 ```bash
 uv run python research/harness/enqueue_campaign.py research/harness/c1_queue c1 --per-kind 10 --clean 20

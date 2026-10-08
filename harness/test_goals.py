@@ -173,3 +173,84 @@ def test_grid_over_several_knobs_uses_three_levels_each():
         (shift, speed) for shift in (-2.0, 0.0, 2.0) for speed in (0.5, 1.25, 2.0)
     }
     assert all(rejection(r, {"clipgt-a"}, both) is None for r in runs)
+
+
+AB = {"a": "linear", "b": "nonlinear"}
+
+
+def _pairs(scene, delay, outcomes, start=0):
+    """Kept runs of an A/B study: one linear and one nonlinear run per
+    (linear failed, nonlinear failed) outcome."""
+    return [
+        {
+            "run": f"r{start + i}_{controller}",
+            "scene_id": scene,
+            "planner_delay_us": delay,
+            "controller": controller,
+            "verdict": "kept",
+            "failed": failed,
+            "criticality": 1.0 if failed else 0.0,
+        }
+        for i, outcome in enumerate(outcomes)
+        for controller, failed in zip(("linear", "nonlinear"), outcome)
+    ]
+
+
+def _compare(*groups):
+    rows = [row for group in groups for row in group]
+    return goal_status({"type": "compare"}, results(rows, DELAY, AB), DELAY)
+
+
+def test_an_ab_table_shows_both_controllers_per_setting():
+    rows = _pairs("clipgt-a", 0, [(True, False), (True, True)])
+    rows.append({**rows[0], "run": "unpaired_linear"})  # its partner not kept
+    (row,) = results(rows, DELAY, AB)
+    assert (row["a"]["controller"], row["a"]["runs"], row["a"]["failed"]) == (
+        "linear",
+        3,
+        3,
+    )
+    assert (row["b"]["controller"], row["b"]["runs"], row["b"]["failed"]) == (
+        "nonlinear",
+        2,
+        1,
+    )
+    assert row["paired"] == {
+        "pairs": 2,
+        "a_failed": 2,
+        "b_failed": 1,
+        "only_a_failed": 1,
+        "only_b_failed": 0,
+    }
+
+
+def test_compare_shows_no_difference_while_the_pooled_ranges_overlap():
+    status = _compare(_pairs("clipgt-a", 0, [(True, False), (False, False)]))
+    assert not status["met"]
+    assert status["verdict"].startswith("no difference shown")
+    assert status["sign_test"] == {"only_a_failed": 1, "only_b_failed": 0, "p": 1.0}
+
+
+def test_compare_is_met_once_the_pooled_ranges_separate():
+    status = _compare(
+        _pairs("clipgt-a", 0, [(True, False)] * 4 + [(False, False)]),
+        _pairs("clipgt-b", 100_000, [(True, False)] * 4 + [(True, True)], 10),
+    )
+    assert status["met"]
+    assert status["verdict"].startswith("nonlinear fails less than linear")
+    assert status["pooled"]["a"]["failed"] == 9 and status["pooled"]["b"]["failed"] == 1
+    assert status["sign_test"] == {"only_a_failed": 8, "only_b_failed": 0, "p": 0.008}
+
+
+def test_the_sign_test_is_exact_and_two_sided():
+    from goals import sign_test
+
+    assert sign_test(0, 0) == 1.0
+    assert sign_test(8, 0) == sign_test(0, 8) == 2 / 2**8
+    assert sign_test(6, 1) == 2 * (1 + 7) / 2**7
+    assert sign_test(5, 5) == 1.0
+
+
+def test_a_compare_goal_has_only_its_type():
+    assert goal_problems({"type": "compare"}, SCENES, DELAY) == []
+    assert goal_problems({"type": "compare", "knob": "x"}, SCENES, DELAY)

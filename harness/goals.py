@@ -3,10 +3,10 @@
 The planner states the goal; plan_problems() in study.py checks it with
 goal_problems(); after each round outer.run_study() calls goal_status() on the
 kept runs and stops the study once the goal is met. The verdict comes from
-here, from the 90% ranges of the failure rates (outer.rate_range), never from
-the model.
+here, from the 90% ranges of the failure rates (rate_range), never from the
+model.
 
-Three kinds:
+Four kinds:
 
 - separate: the failure rate at `high` is higher than at `low`, on one scene,
   for one knob: met when the range at `high` lies wholly above the range at
@@ -23,21 +23,51 @@ Three kinds:
   by repeats, ranked by the lower end of that range and then by mean
   criticality (outer.criticality). The deliverable "after N runs, the k most
   challenging scenarios".
+- compare: in an A/B study, which of two controllers fails less. Every
+  setting runs on both; pooled over the settings' paired runs, met when the
+  90% ranges of the two failure rates separate; "no difference shown" while
+  they overlap, and at the end of the budget if they still do. Also the exact
+  two-sided sign test over the pairs where exactly one controller failed.
 
 In a study that varies several knobs, a goal reads only the runs where every
 other varied knob is at its unvaried value (knobs.UNVARIED).
 """
 
 from itertools import pairwise
+from math import comb
 
-from knobs import SCENARIO, UNVARIED
+from knobs import SCENARIO, SIDES, UNVARIED
 
-TYPES = ("separate", "bracket", "top_k")
+TYPES = ("separate", "bracket", "top_k", "compare")
 KEYS = {
     "separate": {"type", "scene", "knob", "low", "high"},
     "top_k": {"type", "k", "high_min", "distinct_scenes"},
     "bracket": {"type", "scenes", "knob", "low_max", "high_min", "max_gap"},
+    "compare": {"type"},
 }
+
+
+def rate_range(failed: int, runs: int, z: float = 1.645) -> tuple[float, float]:
+    """The 90% Wilson interval for a failure rate from `failed` of `runs`; with
+    no runs, every rate fits."""
+    if runs == 0:
+        return 0.0, 1.0
+    p = failed / runs
+    centre = (p + z * z / (2 * runs)) / (1 + z * z / runs)
+    half = (
+        z
+        / (1 + z * z / runs)
+        * ((p * (1 - p) / runs + z * z / (4 * runs * runs)) ** 0.5)
+    )
+    return round(max(0.0, centre - half), 2), round(min(1.0, centre + half), 2)
+
+
+def sign_test(a: int, b: int) -> float:
+    """Exact two-sided p of a split of a + b flips at least this uneven."""
+    n, k = a + b, min(a, b)
+    if n == 0:
+        return 1.0
+    return min(1.0, 2 * sum(comb(n, i) for i in range(k + 1)) / 2**n)
 
 
 def goal_problems(goal: dict, scenes: set[str], varied: tuple) -> list[str]:
@@ -47,6 +77,8 @@ def goal_problems(goal: dict, scenes: set[str], varied: tuple) -> list[str]:
         return [f"goal type must be one of {TYPES}"]
     if set(goal) != KEYS[kind]:
         return [f"a {kind} goal has exactly the keys {sorted(KEYS[kind])}"]
+    if kind == "compare":
+        return []
     if kind == "top_k":
         problems = []
         if not 1 <= goal["k"] <= 10:
@@ -105,8 +137,57 @@ def challenging(table: list[dict], goal: dict) -> list[dict]:
     return found
 
 
+def compare_status(table: list[dict]) -> dict:
+    """Which controller fails less, from an A/B results table: each side's
+    failures pooled over the paired runs of every setting, with the 90% range
+    of its failure rate, and the sign test over the pairs where exactly one
+    side failed."""
+    pairs = sum(row["paired"]["pairs"] for row in table)
+    pooled = {
+        side: {
+            "controller": table[0][side]["controller"] if table else None,
+            "pairs": pairs,
+            "failed": sum(row["paired"][f"{side}_failed"] for row in table),
+        }
+        for side in SIDES
+    }
+    for side in SIDES:
+        pooled[side]["failure_rate_90"] = rate_range(pooled[side]["failed"], pairs)
+    only = {
+        side: sum(row["paired"][f"only_{side}_failed"] for row in table)
+        for side in SIDES
+    }
+    sign = {
+        "only_a_failed": only["a"],
+        "only_b_failed": only["b"],
+        "p": round(sign_test(only["a"], only["b"]), 3),
+    }
+    a, b = pooled["a"], pooled["b"]
+    if a["failure_rate_90"][1] < b["failure_rate_90"][0]:
+        safer, other = a, b
+    elif b["failure_rate_90"][1] < a["failure_rate_90"][0]:
+        safer, other = b, a
+    else:
+        return {
+            "met": False,
+            "verdict": "no difference shown: the pooled 90% ranges overlap",
+            "pooled": pooled,
+            "sign_test": sign,
+        }
+    return {
+        "met": True,
+        "verdict": f"{safer['controller']} fails less than {other['controller']}: "
+        "the pooled 90% ranges separate",
+        "pooled": pooled,
+        "sign_test": sign,
+    }
+
+
 def goal_status(goal: dict, table: list[dict], varied: tuple) -> dict:
-    """{"met": bool, "verdict": str, ...} from outer.results()."""
+    """{"met": bool, "verdict": str, ...} from outer.results(); a compare goal
+    reads the A/B table, outer.results() with `compare`."""
+    if goal["type"] == "compare":
+        return compare_status(table)
     if goal["type"] == "top_k":
         found = challenging(table, goal)
         return {

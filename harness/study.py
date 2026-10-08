@@ -18,6 +18,11 @@ and code deciding:
    report.md with its own counts next to every finding, so a number in the
    report comes from the table, not the model.
 
+An A/B study asks which of two controllers is safer: its plan fixes
+`compare` ({"a": "linear", "b": "nonlinear"}, from knobs.CONTROLLERS) and has
+a compare goal (goals.py); every proposed setting runs once on each, and the
+report shows the two side by side.
+
 Everything lands in research/studies/<brief name>/: brief.md, plan.json,
 queue/, trace.jsonl, rounds.jsonl, goal.json, triage.json, report.md. With
 --proposer grid, bisect or random, the same plan runs again with that
@@ -42,9 +47,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from goals import goal_problems
 from headless import ask
 from knobs import (
+    CONTROLLERS,
     DESCRIPTIONS,
     RETIME_CLASSES,
     SCENARIO,
+    SIDES,
     TRAFFIC_MODES,
     fixed_problems,
 )
@@ -81,6 +88,15 @@ PLAN_SCHEMA = {
                     "type": "object",
                     "additionalProperties": {"type": "string"},
                 },
+                "compare": {
+                    "type": "object",
+                    "properties": {
+                        side: {"type": "string", "enum": list(CONTROLLERS)}
+                        for side in SIDES
+                    },
+                    "required": list(SIDES),
+                    "additionalProperties": False,
+                },
             },
             "required": ["traffic"],
             "additionalProperties": False,
@@ -90,7 +106,7 @@ PLAN_SCHEMA = {
             "properties": {
                 "type": {
                     "type": "string",
-                    "enum": ["separate", "bracket", "top_k", "none"],
+                    "enum": ["separate", "bracket", "top_k", "compare", "none"],
                 },
                 "k": {"type": "integer"},
                 "distinct_scenes": {"type": "boolean"},
@@ -143,6 +159,12 @@ REPORT_SCHEMA = {
 }
 
 
+def plan_runs(plan: dict) -> int:
+    """The runs a plan may launch: every proposed setting runs once per
+    controller, twice in an A/B study."""
+    return plan["rounds"] * plan["per_round"] * (2 if "compare" in plan["fixed"] else 1)
+
+
 def plan_problems(plan: dict, scenes: set[str]) -> list[str]:
     """Why a plan may not run; empty when it may."""
     problems = []
@@ -154,11 +176,15 @@ def plan_problems(plan: dict, scenes: set[str]) -> list[str]:
         problems.append(f"unknown scenes {sorted(set(plan['scenes']) - scenes)}")
     if not 1 <= plan["per_round"] <= MAX_PER_ROUND:
         problems.append(f"per_round must be 1 to {MAX_PER_ROUND}")
-    if plan["rounds"] < 1 or plan["rounds"] * plan["per_round"] > MAX_RUNS:
-        problems.append(f"rounds x per_round must be 1 to {MAX_RUNS} runs")
+    if plan["rounds"] < 1 or plan_runs(plan) > MAX_RUNS:
+        problems.append(
+            f"rounds x per_round (x 2 in an A/B study) must be 1 to {MAX_RUNS} runs"
+        )
     problems += fixed_problems(plan["fixed"], tuple(plan["vary"]))
     if set(plan["fixed"].get("retime_tracks", {})) - set(plan["scenes"]):
         problems.append("retime_tracks names scenes the plan does not have")
+    if ("compare" in plan["fixed"]) != (plan["goal"]["type"] == "compare"):
+        problems.append("an A/B study (fixed compare) has a compare goal, and only it")
     if plan["goal"]["type"] != "none" and not problems:
         problems += goal_problems(
             plan["goal"], set(plan["scenes"]), tuple(plan["vary"])
@@ -209,6 +235,7 @@ def make_plan(brief: str, model: str) -> tuple[dict, dict]:
             for knob, values in SCENARIO.items()
         },
         "scenes": facts,
+        "controllers": {name: spec["meaning"] for name, spec in CONTROLLERS.items()},
         "max_runs": MAX_RUNS,
         "max_per_round": MAX_PER_ROUND,
     }
@@ -240,19 +267,49 @@ def study_of(folder: Path, name: str, plan: dict, proposer: str, model: str) -> 
     )
 
 
-def setting_text(row: dict, varied: tuple) -> str:
-    knobs = ", ".join(f"{knob} {row[knob]}" for knob in varied)
-    low, high = row["failure_rate_90"]
+def counts_text(cell: dict) -> str:
+    """One setting's kept runs, or one controller's at a setting, in words."""
+    low, high = cell["failure_rate_90"]
     return (
-        f"{row['id']}: {row['scene_id'][7:15]} at {knobs}: "
-        f"{row['failed']}/{row['runs']} failed, rate {low:.0%}-{high:.0%} (90%)"
+        f"{cell['failed']}/{cell['runs']} failed, rate {low:.0%}-{high:.0%} (90%)"
         + (
-            f", {row['possible_artifacts']} possibly the simulator's"
-            if row["possible_artifacts"]
+            f", {cell['possible_artifacts']} possibly the simulator's"
+            if cell["possible_artifacts"]
             else ""
         )
-        + f" ({', '.join(row['run_names'])})"
+        + f" ({', '.join(cell['run_names'])})"
     )
+
+
+def setting_text(row: dict, varied: tuple) -> str:
+    """A setting of results() in words; in an A/B table, both controllers."""
+    knobs = ", ".join(f"{knob} {row[knob]}" for knob in varied)
+    if "paired" not in row:
+        return f"{row['id']}: {row['scene_id'][7:15]} at {knobs}: {counts_text(row)}"
+    sides = "; ".join(
+        f"{row[side]['controller']} {counts_text(row[side])}" for side in SIDES
+    )
+    return f"{row['id']}: {row['scene_id'][7:15]} at {knobs}: {sides}"
+
+
+def goal_text(goal: dict) -> str:
+    """The goal's status as code checked it, with a compare goal's pooled
+    counts and sign test."""
+    text = goal["verdict"] + (f"; {goal['scenes']}" if goal.get("scenes") else "")
+    if "pooled" in goal:
+        pooled = "; ".join(
+            f"{p['controller']} {p['failed']}/{p['pairs']} failed, rate "
+            f"{p['failure_rate_90'][0]:.0%}-{p['failure_rate_90'][1]:.0%} (90%)"
+            for p in goal["pooled"].values()
+        )
+        sign = goal["sign_test"]
+        a, b = (goal["pooled"][side]["controller"] for side in SIDES)
+        text += (
+            f". Pooled over paired runs: {pooled}. Sign test over the pairs "
+            f"where one failed: only {a} {sign['only_a_failed']}, only {b} "
+            f"{sign['only_b_failed']}, two-sided p = {sign['p']}"
+        )
+    return text
 
 
 def write_report(
@@ -264,7 +321,8 @@ def write_report(
     model: str,
 ) -> Path:
     varied = tuple(plan["vary"])
-    table = results(rows, varied)
+    compare = plan["fixed"].get("compare")
+    table = results(rows, varied, compare)
     not_kept = [row for row in rows if row["verdict"] != "kept"]
     triaged = [
         {k: c[k] for k in ("run", "cause", "policy_at_fault", "what_happened")}
@@ -299,20 +357,25 @@ def write_report(
             f"the report cites settings that do not exist: {sorted(unknown)}"
         )
 
+    kept = len(rows) - len(not_kept)
+    systems = (
+        f", every setting on {compare['a']} (a) and {compare['b']} (b)"
+        if compare
+        else ""
+    )
     lines = [
         f"# {plan['question']}",
         "",
         (
-            f"Study `{folder.name}`: {sum(r['runs'] for r in table)} kept runs on "
+            f"Study `{folder.name}`: {kept} kept runs on "
             f"{len({r['scene_id'] for r in table})} scenes, varying "
-            f"{', '.join(varied)}; {len(not_kept)} runs not kept by the gate. "
-            "Counts are kept runs only."
+            f"{', '.join(varied)}{systems}; {len(not_kept)} runs not kept by the "
+            "gate. Counts are kept runs only."
         ),
         "",
         (
-            f"**Goal (checked by code, not the model):** {goal['verdict']}"
-            + (f"; {goal['scenes']}" if goal.get("scenes") else "")
-            + f", after {goal['after_rounds']} rounds."
+            f"**Goal (checked by code, not the model):** {goal_text(goal)}, "
+            f"after {goal['after_rounds']} rounds."
             if goal
             else "**Goal:** none that code can check; the study ran its budget."
         ),

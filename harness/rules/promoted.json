@@ -5,6 +5,9 @@
   "path": "controller.mpc_implementation",
   "op": "eq",
   "value": "linear",
+  "when": {
+   "controller": "linear"
+  },
   "reason": "The batch setup and all known-good reference runs use the linear MPC; a different controller implementation changes what the run's tracking and motion metrics measure.",
   "source": "c3_agent audit",
   "evidence": {

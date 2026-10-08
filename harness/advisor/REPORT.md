@@ -14,6 +14,14 @@ numbers.
   true failure rate lies in with 90% confidence), `possible_artifacts`
   (failures with the ego over 3.5 m from the recorded trajectory, or black
   frames, which the simulator's rendering may explain), and the run names.
+- In an A/B study (`plan.fixed.compare` names controllers `a` and `b`), each
+  `results` row instead has `a` and `b`, each with its `controller` and the
+  counts above, and `paired`: the pairs (one run of each at the setting) and
+  how many only `a` or only `b` failed. `goal_status` then has each
+  controller's failures pooled over the pairs, with 90% ranges, and an exact
+  sign test (`p`) over the pairs where only one failed. Say which controller
+  is safer only if the goal says the ranges separate; otherwise say no
+  difference was shown, and what the sign test and the settings suggest.
 - `triage`: for each failed kept run, the cause read from its video and log
   (`no_brake_for_lead`, `turned_into_actor`, `left_road`, `actor_hit_ego`,
   `rendering`, `other`), whether the policy was at fault, and what happened.

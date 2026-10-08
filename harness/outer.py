@@ -24,6 +24,12 @@ the ego hit something with its front or side, or left the road (metrics).
 Candidates are the first `--candidates` scenes S1 kept, in S1's order, each
 with what S1's single run at 0 delay showed.
 
+An A/B study (study.py, fixed setting `compare`) compares two controllers:
+each proposed setting is queued once per controller, a pair with the same
+scene and knob values. The proposers search the settings as in any study, on
+the table that pools both controllers' runs per setting; the goal and the
+report read the table that puts them side by side (results with `compare`).
+
 Files, all named after the study: `<study>_queue/` (the inner loop's queue),
 `<study>_trace.jsonl` (its trace), `<study>_rounds.jsonl` (one row per round:
 the proposals, what was dropped and why, the model call). A rerun finishes the
@@ -53,11 +59,18 @@ from baselines import (
     optuna_proposals,
 )
 from enqueue import RUN_ROOT, add, new_entry
-from goals import goal_status
+from goals import goal_status, rate_range
 from guided import candidates, outside, rules_proposals
 from headless import ask
-from knobs import DESCRIPTIONS, SCENARIO, rejection, run_config
-from read_state import ROOT, load_entry, queue_entries
+from knobs import (
+    DEFAULT_CONTROLLER,
+    DESCRIPTIONS,
+    SCENARIO,
+    SIDES,
+    rejection,
+    run_config,
+)
+from read_state import ROOT, load_entry, queue_entries, requested_controller
 
 from physics import completed_rollout, signals
 
@@ -157,43 +170,64 @@ def criticality(failed: bool, min_distance_m: float) -> float:
     return round(0.9 * max(0.0, 1.0 - min_distance_m / NEAR_MISS_M), 3)
 
 
-def rate_range(failed: int, runs: int, z: float = 1.645) -> tuple[float, float]:
-    """The 90% Wilson interval for a failure rate from `failed` of `runs`."""
-    p = failed / runs
-    centre = (p + z * z / (2 * runs)) / (1 + z * z / runs)
-    half = (
-        z
-        / (1 + z * z / runs)
-        * ((p * (1 - p) / runs + z * z / (4 * runs * runs)) ** 0.5)
-    )
-    return round(max(0.0, centre - half), 2), round(min(1.0, centre + half), 2)
+def tally(runs: list[dict]) -> dict:
+    """Kept runs of one setting: failures, the 90% range of the failure rate,
+    failures that may be the simulator's, and mean criticality (None without
+    runs)."""
+    failed = sum(run["failed"] for run in runs)
+    return {
+        "runs": len(runs),
+        "failed": failed,
+        "failure_rate_90": rate_range(failed, len(runs)),
+        "possible_artifacts": sum(run.get("possible_artifact", False) for run in runs),
+        "criticality": round(sum(run["criticality"] for run in runs) / len(runs), 3)
+        if runs
+        else None,
+        "run_names": [run["run"] for run in runs],
+    }
 
 
-def results(rows: list[dict], varied: tuple) -> list[dict]:
-    """Kept runs per setting, numbered for citing: failures, the 90% range of
-    the failure rate, and failures that may be the simulator's."""
+def results(rows: list[dict], varied: tuple, compare: dict | None = None) -> list[dict]:
+    """Kept runs per setting, numbered for citing, tallied (tally) over every
+    controller's runs. With `compare` ({"a": controller, "b": controller}, an
+    A/B study), each setting instead has the two side by side, "a" and "b",
+    each tallied with its controller's name, and "paired": its a and b runs
+    matched in run order (the k-th kept a run with the k-th kept b run; a run
+    whose partner was not kept is left out), with the failures of each side
+    among the pairs and the pairs where only that side failed."""
     cells = defaultdict(list)
     for row in rows:
         if row["verdict"] == "kept":
             cells[(row["scene_id"], *(row[knob] for knob in varied))].append(row)
     table = []
     for index, (key, runs) in enumerate(sorted(cells.items()), start=1):
-        failed = sum(run["failed"] for run in runs)
+        setting = {"id": f"S{index}", "scene_id": key[0], **dict(zip(varied, key[1:]))}
+        if compare is None:
+            table.append({**setting, **tally(runs)})
+            continue
+        sides = {
+            side: [run for run in runs if run["controller"] == compare[side]]
+            for side in SIDES
+        }
+        pairs = list(zip(sides["a"], sides["b"]))
         table.append(
             {
-                "id": f"S{index}",
-                "scene_id": key[0],
-                **dict(zip(varied, key[1:])),
-                "runs": len(runs),
-                "failed": failed,
-                "failure_rate_90": rate_range(failed, len(runs)),
-                "possible_artifacts": sum(
-                    run.get("possible_artifact", False) for run in runs
-                ),
-                "criticality": round(
-                    sum(run["criticality"] for run in runs) / len(runs), 3
-                ),
-                "run_names": [run["run"] for run in runs],
+                **setting,
+                **{
+                    side: {"controller": compare[side], **tally(sides[side])}
+                    for side in SIDES
+                },
+                "paired": {
+                    "pairs": len(pairs),
+                    "a_failed": sum(a["failed"] for a, _ in pairs),
+                    "b_failed": sum(b["failed"] for _, b in pairs),
+                    "only_a_failed": sum(
+                        a["failed"] and not b["failed"] for a, b in pairs
+                    ),
+                    "only_b_failed": sum(
+                        b["failed"] and not a["failed"] for a, b in pairs
+                    ),
+                },
             }
         )
     return table
@@ -241,8 +275,8 @@ def first_scenes(count: int) -> list[dict]:
 
 
 def history(queue: Path, varied: tuple[str, ...]) -> list[dict]:
-    """Every run of the study: its setting and the gate's verdict; kept runs
-    also carry their outcome."""
+    """Every run of the study: its setting, its controller and the gate's
+    verdict; kept runs also carry their outcome."""
     rows = []
     for path in queue_entries(queue):
         entry = load_entry(path)
@@ -250,6 +284,7 @@ def history(queue: Path, varied: tuple[str, ...]) -> list[dict]:
             "run": entry["name"],
             "scene_id": entry["config"]["scene_id"],
             **{knob: entry["config"][knob] for knob in varied},
+            "controller": requested_controller(entry["config"]),
         }
         if "quarantine" in entry:
             row["verdict"] = f"quarantined: {entry['quarantine']}"
@@ -314,6 +349,18 @@ class Study:
     goal_file: Path | None = None
     fixed: dict | None = None
 
+    @property
+    def compare(self) -> dict | None:
+        """The two controllers of an A/B study, {"a": ..., "b": ...}, or None."""
+        return (self.fixed or {}).get("compare")
+
+    @property
+    def systems(self) -> tuple[str, ...]:
+        """The controllers each proposed setting runs on, once each."""
+        if self.compare is None:
+            return (DEFAULT_CONTROLLER,)
+        return tuple(self.compare[side] for side in SIDES)
+
 
 def pilot(name: str, candidate_count: int, varied: tuple, **settings) -> Study:
     """A study with its files in the harness folder, as the 6 Oct pilot ran."""
@@ -374,6 +421,7 @@ def run_study(study: Study) -> list[dict]:
                 json.dumps({"goal met": status["verdict"], "after_rounds": round_index})
             )
             break
+        proposed_before = len(planned(study.queue)) // len(study.systems)
         state = {
             "objective": study.objective,
             "candidates": study.candidates,
@@ -389,6 +437,9 @@ def run_study(study: Study) -> list[dict]:
             "rounds": study.rounds,
             "runs_this_round": study.per_round,
         }
+        if study.compare is not None:
+            state["systems"] = study.compare
+            state["comparison"] = results(past, study.varied, study.compare)
         call = None
         if study.proposer == "llm":
             answer, call = llm_proposals(state, study.varied, study.model)
@@ -403,7 +454,7 @@ def run_study(study: Study) -> list[dict]:
             answer = grid_proposals(
                 scenes,
                 study.per_round,
-                len(planned(study.queue)),
+                proposed_before,
                 study.goal,
                 study.varied,
             )
@@ -415,7 +466,7 @@ def run_study(study: Study) -> list[dict]:
             answer = lhs_proposals(
                 scenes,
                 study.per_round,
-                len(planned(study.queue)),
+                proposed_before,
                 study.varied,
                 study.seed,
             )
@@ -451,11 +502,19 @@ def run_study(study: Study) -> list[dict]:
             if why_not:
                 dropped.append({**proposed, "dropped": why_not})
                 continue
-            name = f"{study.name}_{len(planned(study.queue)) + 1:03d}"
+            number = len(planned(study.queue)) // len(study.systems) + 1
             settings = {knob: proposed[knob] for knob in study.varied}
-            config = run_config(proposed["scene_id"], settings, study.fixed or {})
-            add(study.queue, new_entry(name, f"{RUN_ROOT}/{name}", config))
-            queued.append({**proposed, "run": name})
+            names = []
+            for controller in study.systems:
+                name = f"{study.name}_{number:03d}" + (
+                    f"_{controller}" if study.compare else ""
+                )
+                config = run_config(
+                    proposed["scene_id"], settings, study.fixed or {}, controller
+                )
+                add(study.queue, new_entry(name, f"{RUN_ROOT}/{name}", config))
+                names.append(name)
+            queued.append({**proposed, "runs": names})
 
         row = {
             "round": round_index + 1,
@@ -484,7 +543,8 @@ def check_goal(study: Study, past: list[dict], rounds_done: int) -> dict | None:
     None for a study without a goal."""
     if study.goal is None:
         return None
-    status = goal_status(study.goal, results(past, study.varied), study.varied)
+    table = results(past, study.varied, study.compare)
+    status = goal_status(study.goal, table, study.varied)
     study.goal_file.write_text(
         json.dumps({**status, "after_rounds": rounds_done}, indent=1) + "\n",
         encoding="utf-8",

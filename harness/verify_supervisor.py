@@ -30,6 +30,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import recover
 from enqueue import add, new_entry
+from knobs import CONTROLLERS
 from read_state import (
     MAX_ATTEMPTS,
     State,
@@ -38,6 +39,7 @@ from read_state import (
     load_entry,
     queue_entries,
     read_state,
+    requested_controller,
     save_entry,
     subsample_factor,
 )
@@ -122,6 +124,7 @@ def _launch(entry: dict, outcome: str) -> None:
                 },
                 "scenes": {"scenes_csv": [config["scene_file"]], "scene_ids": [SCENE]},
                 "trafficsim": {"catk": {"device": config["trafficsim_device"]}},
+                "controller": CONTROLLERS[requested_controller(config)]["resolved"],
             }
         )
     )

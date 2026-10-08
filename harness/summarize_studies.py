@@ -27,6 +27,7 @@ from goals import goal_status
 from outer import history, results
 from plot_results import SURFACE, TEXT, TEXT_SECONDARY, _save, _style
 from read_state import ROOT
+from study import plan_runs
 
 STUDIES = ROOT / "research" / "studies"
 
@@ -48,7 +49,8 @@ def confirmed(folder: Path, plan: dict) -> list[str]:
     if goal["type"] == "none":
         return []
     varied = tuple(plan["vary"])
-    table = results(history(folder / "queue", varied), varied)
+    compare = plan["fixed"].get("compare")
+    table = results(history(folder / "queue", varied), varied, compare)
     status = goal_status(goal, table, varied)
     if goal["type"] == "top_k":
         by_id = {row["id"]: row for row in table}
@@ -76,12 +78,14 @@ def main() -> int:
         summary[study.name] = {
             "question": plan["question"],
             "goal": plan["goal"],
-            "budget": plan["rounds"] * plan["per_round"],
+            "budget": plan_runs(plan),
             "arms": {
                 proposer: {
                     **{
                         k: v
-                        for k, v in proposer_report(folder, goal, varied).items()
+                        for k, v in proposer_report(
+                            folder, goal, varied, plan["fixed"].get("compare")
+                        ).items()
                         if k != "goal_progress"
                     },
                     "found": confirmed(folder, plan),

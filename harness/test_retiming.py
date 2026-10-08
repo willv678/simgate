@@ -52,13 +52,13 @@ def test_a_scene_key_actor_is_retimed_alone(tmp_path):
         "retime_class": "person",
         "retime_tracks": {"clipgt-a": "17"},
     }
-    config = run_config("clipgt-a", {"actor_time_shift_s": -1.0}, fixed)
+    config = run_config("clipgt-a", {"actor_time_shift_s": -1.0}, fixed, "linear")
     assert retime_request(config) == {
         "track_id": "17",
         "time_shift_s": -1.0,
         "speed_scale": 1.0,
     }
-    other = run_config("clipgt-b", {"actor_time_shift_s": -1.0}, fixed)
+    other = run_config("clipgt-b", {"actor_time_shift_s": -1.0}, fixed, "linear")
     assert retime_request(other)["label_class"] == "person"
     run = tmp_path / "run"
     (run / "txt-logs").mkdir(parents=True)

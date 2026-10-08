@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 from promote import admission
-from read_state import State, read_state
+from read_state import State, read_state, rule_label
 from rules import rule_problem, violation
 
 CONTEXT_8 = {
@@ -94,6 +94,37 @@ def test_admission(make_run):
     )
 
 
+def test_the_promoted_controller_rule_spares_a_deliberate_nonlinear_run(
+    make_run, no_promoted_rules
+):
+    """The enacted rule pins the linear MPC only on runs that asked for it: an
+    A/B run that asked for the nonlinear MPC is kept, and a run that asked for
+    linear but ran kinematic_ideal (the injected fault) is still caught."""
+    from rules import PROMOTED
+
+    (rule,) = json.loads(PROMOTED.read_text(encoding="utf-8"))
+    deliberate = make_run("ab", controller="nonlinear")
+    injected = make_run("kinematic", resolved_controller="kinematic_ideal")
+    for entry, expected in ((deliberate, None), (injected, "rule eq 'linear'")):
+        found = violation(rule, Path(entry["run_dir"]), rule_label(entry["config"]))
+        assert found is None if expected is None else expected in found
+    no_promoted_rules.write_text(json.dumps([rule]))
+    assert read_state(deliberate).state is State.COMPLETE
+    assert read_state(injected).state is State.FAILED
+    # Without its when, the rule would fail the A/B run.
+    unscoped = {k: v for k, v in rule.items() if k != "when"}
+    no_promoted_rules.write_text(json.dumps([unscoped]))
+    assert read_state(deliberate).k_status.startswith("rule_violated")
+
+
+def test_a_rule_scoped_by_a_label_key_the_run_lacks_is_violated(make_run):
+    path, label = _run(make_run, "ok")
+    scoped = {**CONTEXT_8, "when": {"controller": "linear"}}
+    assert "label has no ['controller']" in violation(scoped, path, label)
+    assert violation(scoped, path, {**label, "controller": "linear"}) is None
+    assert rule_problem({**CONTEXT_8, "when": {}}) == "when needs label keys and values"
+
+
 def test_ne_holds_where_the_value_is_absent(make_run):
     """A forbidden setting that is absent is not set; a typo never fires."""
     path, label = _run(make_run, "ok")
@@ -108,4 +139,7 @@ def test_ne_holds_where_the_value_is_absent(make_run):
     assert violation(no_fault, path, label) is None
     batch = {"ok": (path, label)}
     typo = {**no_fault, "path": "runtime.simulation_config.fault_injecton.enabled"}
-    assert admission(typo, batch, {"ok"}, {})["reason"] == "fires on none of the flagged runs"
+    assert (
+        admission(typo, batch, {"ok"}, {})["reason"]
+        == "fires on none of the flagged runs"
+    )

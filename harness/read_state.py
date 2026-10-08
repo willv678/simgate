@@ -8,7 +8,8 @@ left behind, using the checks that already exist:
 - the environment problems run_experiment.py found instead of launching;
 - the wizard exit code, written next to the run by run_experiment.py;
 - postflight (K⁺) on the run directory;
-- whether the requested values are the ones the wizard resolved;
+- whether the requested values are the ones the wizard resolved, the
+  controller among them;
 - the rules the tier 2 auditor proposed and promote.py admitted (rules.py);
 - when enabled, whether the motion was physically possible (physics.py).
 
@@ -30,6 +31,7 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from analyze_cp2 import extract_resolved_config
+from knobs import CONTROLLERS, DEFAULT_CONTROLLER
 from postflight import validate_postflight
 from preflight import PreflightError, validate_preflight
 from rules import load_rules, violations
@@ -232,6 +234,32 @@ def retime_not_applied(entry: dict) -> str | None:
     return f"retime_not_applied: no {what} was retimed"
 
 
+def requested_controller(config: dict) -> str:
+    """The controller config the run asks for (knobs.CONTROLLERS). Entries
+    queued without a controller key ran the linear MPC, the only controller
+    run_experiment.py launched before 7 Oct 2026."""
+    return config.get("controller", DEFAULT_CONTROLLER)
+
+
+def resolved_controller(block: dict) -> str:
+    """The controller config whose identifying values the resolved controller
+    block of wizard-config.yaml has, or "unknown"."""
+    return next(
+        (
+            name
+            for name, spec in CONTROLLERS.items()
+            if all(block.get(k) == v for k, v in spec["resolved"].items())
+        ),
+        "unknown",
+    )
+
+
+def rule_label(config: dict) -> dict:
+    """The label the promoted rules read: the run's config, with the
+    controller it asked for."""
+    return {**config, "controller": requested_controller(config)}
+
+
 def frame_interval_us(config: dict) -> int:
     return config.get("frame_interval_us", LEGACY_FRAME_INTERVAL_US)
 
@@ -265,6 +293,7 @@ def config_not_landed(entry: dict) -> list[str]:
             "frame_interval_us"
         ],
         "subsample_factor": driver["inference"]["subsample_factor"],
+        "controller": resolved_controller(wizard["controller"]),
     }
     # AlpaSim writes the plan-corruption block only when a launch sets it.
     injected = wizard["runtime"]["simulation_config"].get("fault_injection", {})
@@ -279,6 +308,7 @@ def config_not_landed(entry: dict) -> list[str]:
         "actor_retiming": [r] if (r := retime_request(config)) else [],
         "frame_interval_us": frame_interval_us(config),
         "subsample_factor": subsample_factor(config),
+        "controller": requested_controller(config),
         **{key: plan_request(config)[key] for key in PLAN_KEYS},
     }
     # The CATK device only exists when CATK runs.
@@ -287,7 +317,13 @@ def config_not_landed(entry: dict) -> list[str]:
         keys.append("trafficsim_device")
         requested["trafficsim_device"] = config["trafficsim_device"]
         resolved["trafficsim_device"] = wizard["trafficsim"]["catk"]["device"]
-    extra = ("traffic", "actor_retiming", "frame_interval_us", "subsample_factor")
+    extra = (
+        "traffic",
+        "actor_retiming",
+        "frame_interval_us",
+        "subsample_factor",
+        "controller",
+    )
     return [
         f"{key} requested {requested[key]}, resolved {resolved[key]}"
         for key in (*keys, *extra, *PLAN_KEYS)
@@ -333,7 +369,7 @@ def read_state(entry: dict) -> RunState:
     if unapplied is not None:
         return RunState(State.FAILED, unapplied)
 
-    broken = violations(load_rules(), run_dir(entry), entry["config"])
+    broken = violations(load_rules(), run_dir(entry), rule_label(entry["config"]))
     if broken:
         return RunState(State.FAILED, "rule_violated: " + "; ".join(broken))
 
