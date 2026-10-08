@@ -406,7 +406,9 @@ def provenance_html(
 def page(folder: Path, queue: Path) -> tuple[str, list[tuple[str, Path, float]]]:
     """The page's HTML, and the thumbnails it refers to as (run, run dir,
     failure time)."""
-    plan_file = json.loads((folder / "plan.json").read_text(encoding="utf-8"))
+    # A proposer's arm (<study>/<proposer>/) shares the study's plan and brief.
+    shared = folder if (folder / "plan.json").exists() else folder.parent
+    plan_file = json.loads((shared / "plan.json").read_text(encoding="utf-8"))
     plan = plan_file["plan"]
     varied = tuple(plan["vary"])
     report = json.loads((folder / "report.json").read_text(encoding="utf-8"))
@@ -432,7 +434,7 @@ def page(folder: Path, queue: Path) -> tuple[str, list[tuple[str, Path, float]]]
         if rounds_file.exists()
         else []
     )
-    brief = (folder / "brief.md").read_text(encoding="utf-8")
+    brief = (shared / "brief.md").read_text(encoding="utf-8")
 
     rows = history(queue, varied)
     by_run = {row["run"]: row for row in rows}
