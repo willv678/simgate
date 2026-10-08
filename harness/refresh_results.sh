@@ -17,6 +17,7 @@ refresh() {
         done
     done
     uv run python $H/summarize_studies.py > /dev/null 2>&1
+    uv run python $H/simgate.py export > /dev/null 2>&1
     echo "$(date -Is) results refreshed"
 }
 refresh
