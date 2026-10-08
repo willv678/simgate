@@ -1,0 +1,40 @@
+{
+ "studies": {
+  "attempts": 778,
+  "kept": 759,
+  "resolutions": {
+   "ACCEPT": 759,
+   "RE-RUN": 17,
+   "pending": 8,
+   "HALT": 2
+  },
+  "failed_checks": {
+   "wizard_exit_code": 17,
+   "environment": 7,
+   "physics": 2
+  },
+  "outcomes": {
+   "wizard_exit_code -> RE-RUN": 17,
+   "environment -> ACCEPT": 7,
+   "physics -> HALT": 2
+  }
+ },
+ "archived": {
+  "attempts": 28,
+  "kept": 9,
+  "resolutions": {
+   "HALT": 18,
+   "pending": 8,
+   "ACCEPT": 9,
+   "RESTART_CLEANUP": 1
+  },
+  "failed_checks": {
+   "config_not_landed": 18,
+   "process_lost": 1
+  },
+  "outcomes": {
+   "config_not_landed -> HALT": 18,
+   "process_lost -> RESTART_CLEANUP": 1
+  }
+ }
+}
