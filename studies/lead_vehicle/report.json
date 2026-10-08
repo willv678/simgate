@@ -1,0 +1,268 @@
+{
+ "answer": {
+  "answer": "The goal is met on paper: five settings on five different scenes failed in every repeat, all with the lead car shifted +1 s and slowed to 0.5x at 0 ms planner delay (S1, S3, S5, S9, S10). But the triage weakens that result. On two of the five scenes, S1 and S10, every failure looks like a replay glitch: the lead car moves or sits where it never was in the recording, and the policy was not at fault. S9 looks mostly the same. Only S3 and S5 show the policy itself driving into a slower lead car without braking. The study only tried +1 s and +2 s at 0.5x, so it doesn't show which timings and speeds cause failures, only that this one harsh setting fails wherever it was repeated. The 90% ranges at three runs only just clear 0.5.",
+  "findings": [
+   {
+    "claim": "On 096988dd, shifting the lead truck +1 s at 0.5x speed failed every repeat. The ego sped up behind the slower truck in its lane and never braked. This is the clearest case of the policy failing to brake for a lead vehicle. The single run at +2 s, 0.5x failed the same way, with the policy at fault.",
+    "settings": [
+     "S3",
+     "S4"
+    ]
+   },
+   {
+    "claim": "On 09a95ffa, +1 s at 0.5x failed every repeat. The ego held about 8 m/s and never braked for the car ahead. One run is marked as the policy's fault. The others are unclear because a rear collision had already been logged in those runs, which hints the actor tracks don't match the recording.",
+    "settings": [
+     "S5"
+    ]
+   },
+   {
+    "claim": "On 19f339ba, the confirmed failures at +1 s, 0.5x are not the policy's. In every run the lead car is nearly stopped 0.6 s in on a moving highway, which looks like a broken replayed track. No policy could have stopped in time.",
+    "settings": [
+     "S10"
+    ]
+   },
+   {
+    "claim": "On 023b7fcc, the confirmed failures at +1 s, 0.5x look like replay or collision-box mismatches rather than braking errors. The ego was easing off on the exact recorded human path, and a rear collision with no at-fault flag was already logged. None of these failures is put on the policy. The single run at +2 s, 0.5x matches this.",
+    "settings": [
+     "S1",
+     "S2"
+    ]
+   },
+   {
+    "claim": "On 12855a41, the confirmed failures at +1 s, 0.5x are mostly not the policy's. The ego was braking steadily on the recorded path when contact was flagged with about 4 m still showing between the cars, which points to the lead car's box or track. One run is unclear; none is clearly the policy's fault.",
+    "settings": [
+     "S9"
+    ]
+   },
+   {
+    "claim": "On 0e899dd3, +1 s at 0.5x failed in both runs. The ego sped up into a pickup it could clearly see, and one run is marked as the policy's fault. This would be a credible case, but it has too few runs to count as confirmed.",
+    "settings": [
+     "S8"
+    ]
+   },
+   {
+    "claim": "On 0cf6368d and 0dbb91dd, the same +1 s, 0.5x setting passed its single run, though it came close. These scenes are near misses, not failures.",
+    "settings": [
+     "S6",
+     "S7"
+    ]
+   },
+   {
+    "claim": "In every triaged failure the ego was exactly on the recorded human path. This is not caught by the possible_artifacts flag, which only counts runs more than 3.5 m off the recorded path. So the confirmed rates may partly measure replay inconsistencies rather than policy behaviour.",
+    "settings": [
+     "S1",
+     "S3",
+     "S5",
+     "S9",
+     "S10"
+    ]
+   }
+  ],
+  "open": [
+   "The 5 confirmed cases are not all real policy failures. Swap S10 (19f339ba) and S1 (023b7fcc), and probably S9 (12855a41), for scenes where the policy is at fault. Repeat S8 (0e899dd3, +1 s, 0.5x) once or twice more to confirm it as a real case.",
+   "Where failures start was not mapped: only 0.5x speed at +1 s and +2 s was run. On 096988dd and 09a95ffa, run 0 s and +1 s at 0.75x and 1x to find the mildest setting that still fails.",
+   "The failures may come from replay itself. On 19f339ba, 023b7fcc and 12855a41, run the lead car at 0 s and 1x (no retiming) to check whether the lead car's position or collision box is already wrong.",
+   "The ego sits exactly on the recorded path in every run, which suggests the policy output may not be driving the car early in the run. Check this in the logs before trusting any of the confirmed cases.",
+   "Planner delay was never used, and 0cf6368d and 0dbb91dd passed at 0 delay. A few runs at +1 s, 0.5x with 100 to 200 ms delay would show whether those near misses tip into failure."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_002",
+    "lead_vehicle_011",
+    "lead_vehicle_015"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 2,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_007"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_001",
+    "lead_vehicle_010",
+    "lead_vehicle_016"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 2,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_006"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_012",
+    "lead_vehicle_019",
+    "lead_vehicle_020"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.592,
+   "run_names": [
+    "lead_vehicle_013"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.513,
+   "run_names": [
+    "lead_vehicle_005"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 2,
+   "failed": 2,
+   "failure_rate_90": [
+    0.42,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_014",
+    "lead_vehicle_021"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_004",
+    "lead_vehicle_008",
+    "lead_vehicle_017"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_003",
+    "lead_vehicle_009",
+    "lead_vehicle_018_a2"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 14195,
+  "output_tokens": 2388,
+  "duration_ms": 24147
+ }
+}

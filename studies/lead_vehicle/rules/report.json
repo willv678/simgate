@@ -1,0 +1,310 @@
+{
+ "answer": {
+  "answer": "The study did not find the 5 cases: one setting was confirmed, and it is not a rear-end of the lead car. On 19f339ba, at 0 s shift, 1.25x lead speed and 200 ms planner delay (S12), every run failed. In each one the ego slowed sharply with an open lane ahead and fell behind its recorded position. A replayed car coming from behind then ran into its right side, front or rear. The triage cannot say whether the policy was at fault, because replayed traffic does not react to the ego. Every other scene passed every run at that same setting. The study barely tried the knobs the brief named as the hard direction (lead speed below 1x, later timing, zero delay), so it cannot say which timings and speeds make VaVAM rear-end a braking lead car.",
+  "findings": [
+   {
+    "claim": "On 19f339ba at 0 s shift, 1.25x lead speed and 200 ms delay, every run failed, so this setting is confirmed as challenging. None of these failures is a rear-end of the lead car. In each run the ego braked hard with no visible reason and a clear lane ahead, dropped about 20 m behind its recorded position, and a replayed car (actor 28) coming from behind ran into its right side. The simulator did not blame the ego, and whether the policy was at fault is unclear. Because replayed traffic cannot react, part of each failure may be caused by the replay itself.",
+    "settings": [
+     "S12"
+    ]
+   },
+   {
+    "claim": "At 0 s shift, 1.25x lead speed and 200 ms delay, six scenes passed every run with enough repeats to rule out a high failure rate: 023b7fcc, 096988dd, 09a95ffa, 0cf6368d, 0e899dd3 and 12855a41. A faster lead car plus 200 ms of delay is not a challenging case on these scenes.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S10",
+     "S11"
+    ]
+   },
+   {
+    "claim": "On 0dbb91dd, shifting the lead car earlier by 0 to 2 s (1.25x speed, 200 ms delay) caused no failures. Each shift was run only once, so this is a hint, not a rate.",
+    "settings": [
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9"
+    ]
+   },
+   {
+    "claim": "Among the settings that passed, 09a95ffa and 0e899dd3 had the highest criticality, with 096988dd next. These are the strongest near-miss candidates to rank behind the confirmed case.",
+    "settings": [
+     "S3",
+     "S10",
+     "S2"
+    ]
+   }
+  ],
+  "open": [
+   "Slower lead cars (0.5x to 1.0x) were never run, although the brief names them as the harder stop. Screen each scene at 0.5x and 0.75x, at 0 shift and at later shifts (+1 s, +2 s), then repeat any setting that fails.",
+   "No setting was run at 0 ms planner delay, although the plan said to start there. It is unknown whether any failure needs the delay at all. Screening at 0 delay would settle this.",
+   "Positive time shifts (the lead car later) were never tried on any scene. Earlier shifts were tried only on 0dbb91dd, with one run each.",
+   "Is the 19f339ba failure the policy's fault? It may come from replay traffic that cannot react to an ego that brakes for no reason. Rerun S12's setting at 0 ms delay and at 1.0x speed to see whether the needless braking persists. Also check whether it happens without retiming.",
+   "Four more confirmed cases on distinct scenes are still needed. The likeliest candidates are the near misses on 09a95ffa, 0e899dd3 and 096988dd under slower lead speeds. Each would need about 4 to 5 repeats to confirm."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.613,
+   "run_names": [
+    "lead_vehicle_rules_005",
+    "lead_vehicle_rules_013",
+    "lead_vehicle_rules_021",
+    "lead_vehicle_rules_027",
+    "lead_vehicle_rules_034",
+    "lead_vehicle_rules_041",
+    "lead_vehicle_rules_048"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.862,
+   "run_names": [
+    "lead_vehicle_rules_004",
+    "lead_vehicle_rules_010",
+    "lead_vehicle_rules_018",
+    "lead_vehicle_rules_024",
+    "lead_vehicle_rules_031",
+    "lead_vehicle_rules_038",
+    "lead_vehicle_rules_045"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.9,
+   "run_names": [
+    "lead_vehicle_rules_006",
+    "lead_vehicle_rules_009",
+    "lead_vehicle_rules_016",
+    "lead_vehicle_rules_022",
+    "lead_vehicle_rules_029",
+    "lead_vehicle_rules_036",
+    "lead_vehicle_rules_043"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.789,
+   "run_names": [
+    "lead_vehicle_rules_007",
+    "lead_vehicle_rules_011",
+    "lead_vehicle_rules_019",
+    "lead_vehicle_rules_025",
+    "lead_vehicle_rules_032",
+    "lead_vehicle_rules_039",
+    "lead_vehicle_rules_046"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": -2.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "lead_vehicle_rules_049"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "lead_vehicle_rules_042"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "lead_vehicle_rules_035"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "lead_vehicle_rules_028"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "lead_vehicle_rules_001"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.9,
+   "run_names": [
+    "lead_vehicle_rules_014",
+    "lead_vehicle_rules_017",
+    "lead_vehicle_rules_023",
+    "lead_vehicle_rules_030",
+    "lead_vehicle_rules_037",
+    "lead_vehicle_rules_044"
+   ]
+  },
+  {
+   "id": "S11",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.726,
+   "run_names": [
+    "lead_vehicle_rules_003",
+    "lead_vehicle_rules_012",
+    "lead_vehicle_rules_020",
+    "lead_vehicle_rules_026",
+    "lead_vehicle_rules_033",
+    "lead_vehicle_rules_040",
+    "lead_vehicle_rules_047"
+   ]
+  },
+  {
+   "id": "S12",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_rules_002",
+    "lead_vehicle_rules_008",
+    "lead_vehicle_rules_015"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 11324,
+  "output_tokens": 1831,
+  "duration_ms": 18725
+ }
+}

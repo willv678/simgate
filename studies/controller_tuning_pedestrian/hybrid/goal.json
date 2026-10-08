@@ -1,0 +1,30 @@
+{
+ "met": true,
+ "verdict": "linear fails less than feasible_best: the pooled 90% ranges separate",
+ "pooled": {
+  "a": {
+   "controller": "linear",
+   "pairs": 5,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.35
+   ]
+  },
+  "b": {
+   "controller": "feasible_best",
+   "pairs": 5,
+   "failed": 5,
+   "failure_rate_90": [
+    0.65,
+    1.0
+   ]
+  }
+ },
+ "sign_test": {
+  "only_a_failed": 0,
+  "only_b_failed": 5,
+  "p": 0.062
+ },
+ "after_rounds": 1
+}

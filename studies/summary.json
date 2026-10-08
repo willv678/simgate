@@ -1,0 +1,377 @@
+{
+ "controller_tuning_pedestrian": {
+  "question": "Does the tuned linear MPC (feasible_best: Riccati terminal cost, stiffer position tracking) fail less often than the default linear MPC when the key pedestrian steps out up to 2 s early and walks 1x to 2x their recorded speed?",
+  "goal": {
+   "type": "compare"
+  },
+  "budget": 50,
+  "arms": {
+   "hybrid": {
+    "launched": 11,
+    "kept": 10,
+    "failures": 5,
+    "scenes_with_a_failure": 4,
+    "dropped": 0,
+    "runs_to_goal": 6,
+    "hardest": 0.612,
+    "model_seconds": 8.4,
+    "model_tokens": 4827,
+    "found": [
+     "linear fails less than feasible_best: the pooled 90% ranges separate"
+    ]
+   }
+  }
+ },
+ "cut_in_merge": {
+  "question": "In merge and cut-in scenes, which timings and speeds of the other cars make the VaVAM policy collide or leave the road? Find the 5 most challenging settings, each on a different scene and confirmed by repeats.",
+  "goal": {
+   "type": "top_k",
+   "k": 5,
+   "high_min": 0.5,
+   "distinct_scenes": true
+  },
+  "budget": 54,
+  "arms": {
+   "rules": {
+    "launched": 27,
+    "kept": 27,
+    "failures": 16,
+    "scenes_with_a_failure": 6,
+    "dropped": 0,
+    "runs_to_goal": 23,
+    "hardest": 1.0,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "023b7fcc at actor_time_shift_s 0.0, actor_speed_scale 1.25",
+     "054b5901 at actor_time_shift_s 0.0, actor_speed_scale 1.25",
+     "09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25",
+     "0e899dd3 at actor_time_shift_s 0.0, actor_speed_scale 1.25",
+     "19f339ba at actor_time_shift_s 0.0, actor_speed_scale 1.25"
+    ]
+   },
+   "hybrid": {
+    "launched": 29,
+    "kept": 27,
+    "failures": 18,
+    "scenes_with_a_failure": 6,
+    "dropped": 0,
+    "runs_to_goal": 19,
+    "hardest": 1.0,
+    "model_seconds": 36.7,
+    "model_tokens": 33445,
+    "found": [
+     "054b5901 at actor_time_shift_s 0, actor_speed_scale 1.25",
+     "023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25",
+     "19f339ba at actor_time_shift_s 0, actor_speed_scale 1.25",
+     "09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25",
+     "0e899dd3 at actor_time_shift_s 0, actor_speed_scale 1.25"
+    ]
+   },
+   "llm": {
+    "launched": 27,
+    "kept": 27,
+    "failures": 17,
+    "scenes_with_a_failure": 5,
+    "dropped": 0,
+    "runs_to_goal": 19,
+    "hardest": 1.0,
+    "model_seconds": 56.5,
+    "model_tokens": 31653,
+    "found": [
+     "054b5901 at actor_time_shift_s -0.5, actor_speed_scale 1.25",
+     "023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25",
+     "19f339ba at actor_time_shift_s 0, actor_speed_scale 1.25",
+     "09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5",
+     "0e899dd3 at actor_time_shift_s -1, actor_speed_scale 1.5"
+    ]
+   }
+  }
+ },
+ "ego_speed_smoke": {
+  "question": "Does the ego speed knob land and pass the gate on a real run at each value?",
+  "goal": {
+   "type": "none"
+  },
+  "budget": 5,
+  "arms": {
+   "grid": {
+    "launched": 5,
+    "kept": 5,
+    "failures": 1,
+    "scenes_with_a_failure": 1,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.2,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": []
+   }
+  }
+ },
+ "intersection": {
+  "question": "At intersections with crossing traffic, which arrival times and speeds of the recorded crossing car make the VaVAM policy collide or leave the road? Find the 5 most challenging settings, each on a different scene, confirmed by repeats.",
+  "goal": {
+   "type": "top_k",
+   "k": 5,
+   "high_min": 0.5,
+   "distinct_scenes": true
+  },
+  "budget": 49,
+  "arms": {
+   "rules": {
+    "launched": 49,
+    "kept": 49,
+    "failures": 0,
+    "scenes_with_a_failure": 0,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.65,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": []
+   },
+   "hybrid": {
+    "launched": 49,
+    "kept": 49,
+    "failures": 6,
+    "scenes_with_a_failure": 1,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.748,
+    "model_seconds": 91.4,
+    "model_tokens": 111125,
+    "found": [
+     "02eadd92 at actor_time_shift_s 1, actor_speed_scale 1.25"
+    ]
+   },
+   "llm": {
+    "launched": 49,
+    "kept": 49,
+    "failures": 0,
+    "scenes_with_a_failure": 0,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.669,
+    "model_seconds": 116.2,
+    "model_tokens": 108784,
+    "found": []
+   }
+  }
+ },
+ "lead_vehicle": {
+  "question": "In lead-vehicle scenes, which timing shifts and speed scalings of the recorded lead car (with up to 200 ms planner delay if needed) make VaVAM run into it? Find the 5 most challenging cases, each on a different scene, confirmed by repeats.",
+  "goal": {
+   "type": "top_k",
+   "k": 5,
+   "high_min": 0.5,
+   "distinct_scenes": true
+  },
+  "budget": 49,
+  "arms": {
+   "rules": {
+    "launched": 49,
+    "kept": 49,
+    "failures": 3,
+    "scenes_with_a_failure": 1,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.89,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "19f339ba at actor_time_shift_s 0.0, actor_speed_scale 1.25, planner_delay_us 200000"
+    ]
+   },
+   "hybrid": {
+    "launched": 50,
+    "kept": 49,
+    "failures": 15,
+    "scenes_with_a_failure": 4,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.977,
+    "model_seconds": 110.8,
+    "model_tokens": 131508,
+    "found": [
+     "0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000",
+     "12855a41 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000",
+     "09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000",
+     "19f339ba at actor_time_shift_s 0, actor_speed_scale 1.25, planner_delay_us 200000"
+    ]
+   },
+   "llm": {
+    "launched": 22,
+    "kept": 21,
+    "failures": 19,
+    "scenes_with_a_failure": 6,
+    "dropped": 0,
+    "runs_to_goal": 21,
+    "hardest": 1.0,
+    "model_seconds": 40.7,
+    "model_tokens": 33105,
+    "found": [
+     "023b7fcc at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0",
+     "19f339ba at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0",
+     "096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0",
+     "09a95ffa at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0",
+     "12855a41 at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0"
+    ]
+   }
+  }
+ },
+ "pedestrian_crossing": {
+  "question": "Which pedestrian step-out timings (\u00b12 s) and walking speeds (0.5x to 2x) make VaVAM hit the pedestrian or leave the road in pedestrian-crossing scenes, with the other traffic replayed as recorded? Find the 5 hardest cases, each on a different scene.",
+  "goal": {
+   "type": "top_k",
+   "k": 5,
+   "high_min": 0.5,
+   "distinct_scenes": true
+  },
+  "budget": 49,
+  "arms": {
+   "rules": {
+    "launched": 52,
+    "kept": 49,
+    "failures": 0,
+    "scenes_with_a_failure": 0,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.747,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": []
+   },
+   "hybrid": {
+    "launched": 51,
+    "kept": 49,
+    "failures": 0,
+    "scenes_with_a_failure": 0,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.74,
+    "model_seconds": 90.1,
+    "model_tokens": 106510,
+    "found": []
+   },
+   "llm": {
+    "launched": 50,
+    "kept": 49,
+    "failures": 5,
+    "scenes_with_a_failure": 1,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.795,
+    "model_seconds": 112.3,
+    "model_tokens": 108766,
+    "found": [
+     "13a9767e at actor_time_shift_s 0.5, actor_speed_scale 0.5"
+    ]
+   },
+   "random": {
+    "launched": 50,
+    "kept": 49,
+    "failures": 0,
+    "scenes_with_a_failure": 0,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.777,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": []
+   },
+   "optuna": {
+    "launched": 49,
+    "kept": 49,
+    "failures": 3,
+    "scenes_with_a_failure": 1,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.803,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "13a9767e at actor_time_shift_s 1.0, actor_speed_scale 0.5"
+    ]
+   }
+  }
+ },
+ "pedestrian_ego_speed": {
+  "question": "In pedestrian-crossing scenes, which combinations of ego speed at hand-off (0.6x\u20131.4x recorded) and pedestrian step-out time (\u00b12 s) make the VaVAM policy with the linear MPC collide or leave the road? Find the 5 most challenging cases, each on a different scene, confirmed by repeats.",
+  "goal": {
+   "type": "top_k",
+   "k": 5,
+   "high_min": 0.5,
+   "distinct_scenes": true
+  },
+  "budget": 50,
+  "arms": {
+   "rules": {
+    "launched": 30,
+    "kept": 30,
+    "failures": 17,
+    "scenes_with_a_failure": 6,
+    "dropped": 0,
+    "runs_to_goal": 25,
+    "hardest": 1.0,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "048b974e at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "18d28973 at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "1bbe02fc at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "07981e6a at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "0d4893f5 at ego_speed_scale 1.0, actor_time_shift_s 0.0"
+    ]
+   },
+   "hybrid": {
+    "launched": 31,
+    "kept": 30,
+    "failures": 18,
+    "scenes_with_a_failure": 6,
+    "dropped": 0,
+    "runs_to_goal": 24,
+    "hardest": 1.0,
+    "model_seconds": 46.0,
+    "model_tokens": 37035,
+    "found": [
+     "048b974e at ego_speed_scale 1, actor_time_shift_s 0",
+     "18d28973 at ego_speed_scale 1, actor_time_shift_s 0",
+     "1bbe02fc at ego_speed_scale 1, actor_time_shift_s 0",
+     "07981e6a at ego_speed_scale 1, actor_time_shift_s 0",
+     "0caa8f1a at ego_speed_scale 1, actor_time_shift_s 0"
+    ]
+   },
+   "llm": {
+    "launched": 31,
+    "kept": 30,
+    "failures": 18,
+    "scenes_with_a_failure": 5,
+    "dropped": 0,
+    "runs_to_goal": 28,
+    "hardest": 1.0,
+    "model_seconds": 52.5,
+    "model_tokens": 37839,
+    "found": [
+     "048b974e at ego_speed_scale 1.2, actor_time_shift_s -0.5",
+     "18d28973 at ego_speed_scale 1.2, actor_time_shift_s -0.5",
+     "1bbe02fc at ego_speed_scale 1.2, actor_time_shift_s -1",
+     "0d4893f5 at ego_speed_scale 1.2, actor_time_shift_s -0.5",
+     "0e002edd at ego_speed_scale 1.4, actor_time_shift_s -0.5"
+    ]
+   },
+   "random": {
+    "launched": 53,
+    "kept": 48,
+    "failures": 31,
+    "scenes_with_a_failure": 7,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 1.0,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": []
+   }
+  }
+ }
+}

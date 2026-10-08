@@ -1,0 +1,32 @@
+{
+  "name": "pedestrian_ego_speed_hybrid_016",
+  "run_dir": "diag/pedestrian_ego_speed_hybrid_016",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654",
+    "controller": "linear",
+    "traffic": "replay",
+    "retime_class": "person",
+    "retime_track": "51",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1,
+    "seed": 73395930
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 2208299,
+  "launched_at": 1791481896.9959204,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

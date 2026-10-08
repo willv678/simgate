@@ -1,0 +1,67 @@
+[
+ {
+  "run": "controller_tuning_pedestrian_hybrid_001_feasible_best",
+  "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+  "cause": "turned_into_actor",
+  "what_happened": "With a RIGHT command at the intersection, the ego turned right too sharply, accelerating from 3 to 4.4 m/s, and drove onto the curb lane. It hit the parked cars along the right side of the cross street (actors 16/90) at the curb. The recorded human path stayed wider, and the ego ended 6.7 m off it.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12856,
+   "output_tokens": 752,
+   "duration_ms": 9147
+  }
+ },
+ {
+  "run": "controller_tuning_pedestrian_hybrid_002_feasible_best",
+  "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+  "cause": "left_road",
+  "what_happened": "The route command was RIGHT and the planned path went straight or bore right. Instead, the ego (\u22489\u201310 m/s) steered left across several lanes. It went through the row of parked cars (34/52/54) on the far left and onto the sidewalk/building frontage, ending 11 m from the human trajectory. The camera view was clean at 5.3 s, so the drift came from the policy, not from a broken render.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15693,
+   "output_tokens": 517,
+   "duration_ms": 6130
+  }
+ },
+ {
+  "run": "controller_tuning_pedestrian_hybrid_003_feasible_best",
+  "scene_id": "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240",
+  "cause": "left_road",
+  "what_happened": "The route command was RIGHT, but the ego ended up on the far left edge of a multi-lane diagonal road, about 14 m from the recorded path, which runs several lanes to the right. Its planned path pointed up and left, across the road boundary toward a pedestrian on the sidewalk. The ego slowed from 9.7 to 2.5 m/s but still crossed the left boundary onto the curb and sidewalk at 9.5 s. The camera view was already smeared at 7.5 s, but by then the ego was far from the recorded path, so the smearing is more likely a result of the drift than its cause.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15671,
+   "output_tokens": 663,
+   "duration_ms": 7478
+  }
+ },
+ {
+  "run": "controller_tuning_pedestrian_hybrid_004_feasible_best",
+  "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+  "cause": "left_road",
+  "what_happened": "The ego started from near a stop at the intersection with a RIGHT command and a route going ahead and to the right, but it steered hard left instead. It crossed the crosswalk and sidewalk and ended off the road facing a roadside fence at 3.6 m/s, 5.2 m from the human trajectory. The camera view looked clean before the failure, so a rendering problem doesn't explain it.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15661,
+   "output_tokens": 701,
+   "duration_ms": 9404
+  }
+ },
+ {
+  "run": "controller_tuning_pedestrian_hybrid_005_feasible_best",
+  "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+  "cause": "turned_into_actor",
+  "what_happened": "The ego was following a RIGHT command through the intersection, though the human recording continued nearly straight. It turned far too sharply, crossed the whole cross street, and at about 4 m/s drove nose-first into the parked cars (ids 90/16) at the far curb, leaving the drivable area.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15679,
+   "output_tokens": 745,
+   "duration_ms": 7684
+  }
+ }
+]

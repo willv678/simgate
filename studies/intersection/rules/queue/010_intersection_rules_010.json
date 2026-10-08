@@ -1,0 +1,32 @@
+{
+  "name": "intersection_rules_010",
+  "run_dir": "diag/intersection_rules_010",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+    "controller": "linear",
+    "traffic": "replay",
+    "retime_class": "automobile",
+    "retime_track": "127",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.25,
+    "ego_speed_scale": 1.0,
+    "seed": 2094886906
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1375910,
+  "launched_at": 1791457795.0351543,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

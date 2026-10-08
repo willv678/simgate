@@ -1,0 +1,37 @@
+{
+ "hybrid": {
+  "launched": 11,
+  "kept": 10,
+  "failures": 5,
+  "scenes_with_a_failure": 4,
+  "dropped": 0,
+  "runs_to_goal": 6,
+  "goal_progress": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1,
+   1,
+   1,
+   1
+  ],
+  "hardest": 0.612,
+  "hardest_progress": [
+   0.144,
+   0.172,
+   0.32,
+   0.346,
+   0.346,
+   0.446,
+   0.572,
+   0.609,
+   0.618,
+   0.612
+  ],
+  "model_seconds": 8.4,
+  "model_tokens": 4827
+ }
+}

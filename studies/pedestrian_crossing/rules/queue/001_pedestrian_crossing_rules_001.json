@@ -1,0 +1,29 @@
+{
+  "name": "pedestrian_crossing_rules_001",
+  "run_dir": "diag/pedestrian_crossing_rules_001",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+    "traffic": "replay",
+    "retime_class": "person",
+    "retime_track": "12",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.25
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 39576,
+  "launched_at": 1791420982.954742,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

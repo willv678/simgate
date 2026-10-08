@@ -1,0 +1,32 @@
+{
+  "name": "lead_vehicle_rules_033",
+  "run_dir": "diag/lead_vehicle_rules_033",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+    "controller": "linear",
+    "traffic": "replay",
+    "retime_class": "automobile",
+    "retime_track": "5",
+    "planner_delay_us": 200000,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.25,
+    "ego_speed_scale": 1.0,
+    "seed": 382783978
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1001360,
+  "launched_at": 1791446908.7696471,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

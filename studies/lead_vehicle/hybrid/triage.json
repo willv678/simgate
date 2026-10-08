@@ -1,0 +1,197 @@
+[
+ {
+  "run": "lead_vehicle_hybrid_002",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "actor_hit_ego",
+  "what_happened": "On an open highway, with the nearest lead vehicle more than 50 m ahead, the ego kept slowing for no visible reason, from 13 to 7.8 m/s, and fell about 21 m behind where the recorded car was. Actor 28 is replayed from the recording and does not react to the ego. It came up from behind on the ego's right and moved into the ego's lane, overlapping its front-right corner at 9.0 s. A rear collision had already been flagged earlier in the run.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15701,
+   "output_tokens": 867,
+   "duration_ms": 9902
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_008",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "actor_hit_ego",
+  "what_happened": "On a straight highway, the ego slowed from 13 to 8 m/s with nothing close ahead and fell about 21 m behind where the recorded car was. Actor 28, a replayed vehicle that doesn't react to the ego, then came in from behind and the right and ran into the ego's spot, which the sim scores as a front/lateral hit with not-at-fault metrics and a run-level rear collision.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15684,
+   "output_tokens": 856,
+   "duration_ms": 9629
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_009",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "actor_hit_ego",
+  "what_happened": "On a clear multi-lane highway, the ego slowed steadily from 12.9 to 8.1 m/s for no visible reason and fell about 20 m behind where the real car was at that time. A replayed actor (28) coming up from the right and behind then merged into the ego's position (the gap to the actor ahead dropped from 58 m to 0.1 m) and overlapped the ego's front-right corner. The actor followed its recorded path without reacting, but the ego's needless braking is what put the two vehicles in the same place.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12873,
+   "output_tokens": 1080,
+   "duration_ms": 11838
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_015",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "actor_hit_ego",
+  "what_happened": "The route command was RIGHT, but the ego had moved one lane left of the recorded path (about 3\u20135 m off it) and kept a steady ~7.5 m/s. Actor 33, a replayed car coming up behind in that lane, ran into the ego from behind (rear collision already showing at 8.6s) and overlapped it until a front collision registered at 10.6s; the nearest car ahead was still about 14.5 m away.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12860,
+   "output_tokens": 993,
+   "duration_ms": 10947
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_025",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "turned_into_actor",
+  "what_happened": "In slow highway traffic with a RIGHT command, the recorded path moved right toward the lane with actor 5. The ego instead held a path about 1.8 m to the left, straddling the boundary with the left lane, and edged left as actor 51 came up alongside in that lane, so its front-left corner hit 51 at 10.6 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15666,
+   "output_tokens": 868,
+   "duration_ms": 9741
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_029",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "turned_into_actor",
+  "what_happened": "The ego was in slow highway traffic at about 3\u20134 m/s with a RIGHT command. Instead of following the recorded path, which bears right, it held its heading and drifted left of its lane by about 1.8 m. Vehicle 51 was passing on the left, and the ego's front corner ran into its side and rear as it went by.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15684,
+   "output_tokens": 908,
+   "duration_ms": 10263
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_030",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "turned_into_actor",
+  "what_happened": "In slow highway traffic (about 3\u20134 m/s), the ego's plan steered left, away from the recorded path, even though the route command was RIGHT. It moved into the lane on its left just as vehicle 51 was coming up alongside in that lane, and the ego's front clipped 51's right side.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15689,
+   "output_tokens": 655,
+   "duration_ms": 7536
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_031",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "actor_hit_ego",
+  "what_happened": "The route said RIGHT and the recorded human path moved right toward actor 5's lane, but the ego stayed in its own lane at about 3.7 m/s. Actor 51, replayed from the recording, came up from behind on the left and moved right into the space the human driver had left, so its rear clipped the ego's front-left corner.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12846,
+   "output_tokens": 995,
+   "duration_ms": 11048
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_032",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway, the ego braked hard behind lead vehicle 1 (from 7.9 to about 3.6 m/s) and then steered left into the adjacent lane, even though the route command said RIGHT. Its left side hit vehicle 33, which was coming up alongside in that lane at 7.5 s; this was a lateral collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12862,
+   "output_tokens": 687,
+   "duration_ms": 7377
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_033",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "actor_hit_ego",
+  "what_happened": "On a multi-lane freeway, the ego braked hard behind lead car 1 (7.9 \u2192 about 3.6 m/s with a gap of about 8 m) and drifted slightly left toward the lane the human driver moved into. That left it about 9 m behind where the human was at that moment. Car 23, replayed from the recording, came up from behind on the left and sideswiped the ego's left rear quarter (lateral collision at 7.5 s).",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15690,
+   "output_tokens": 1070,
+   "duration_ms": 12767
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_034",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was creeping straight in its lane at about 2.5 m/s, roughly 15\u201317 m behind where the human drove, with the lead car (5) more than 20 m ahead. Actor 10, a replayed vehicle following the recorded path, came up from behind, rear-ended the ego (collision_rear at 10.5 s) and kept moving forward until it overlapped the ego's front, which is what set off the collision_front flag at 11.5 s.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15692,
+   "output_tokens": 754,
+   "duration_ms": 22343
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_036",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "Behind lead car 1 on a multi-lane freeway, the ego slowed and then steered left out of its lane, even though the route command was STRAIGHT and then RIGHT. Its front-left corner hit actor 33, which was moving up in the left lane beside it.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15699,
+   "output_tokens": 665,
+   "duration_ms": 13651
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_037",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was crawling straight in slow highway traffic at about 2.5 m/s, 15\u201318 m behind where the human drove, with the nearest lead about 19 m ahead. Actor 10, replayed from the recording and not reacting to the ego, came up from behind: it registered as a rear collision at 10.4 s and by 11.4 s had driven through the ego's box, which tripped the front-collision flag.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15690,
+   "output_tokens": 757,
+   "duration_ms": 7802
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_038",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego crept straight along its lane at about 2.5 m/s, with a clear 25 m gap ahead, and ended up 12\u201317 m behind where the human drove. Actor 10, replayed from the recording, came up from behind in the same lane, hit the ego's rear at 10.5 s (collision_rear) and kept driving into and through it, which set off the front-collision flag at 11.5 s.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15694,
+   "output_tokens": 775,
+   "duration_ms": 8337
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_039_a2",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was creeping straight in slow highway traffic at about 2.5 m/s, 14\u201317 m behind where the human drove, with the lead vehicle about 18 m ahead and no brake needed. Actor 10 was replayed from the recording and does not react to the ego. It came up from behind, hit the ego's rear at 10.5s, then drove through it until it overlapped the ego's front at 11.5s, which triggered the front-collision flag. The ego did not hit anything itself, and the run's collision_at_fault metric is 0.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15691,
+   "output_tokens": 812,
+   "duration_ms": 8806
+  }
+ }
+]

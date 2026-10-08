@@ -1,0 +1,41 @@
+[
+ {
+  "run": "pedestrian_crossing_optuna_029",
+  "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was approaching the intersection for a right turn but was about 3 m left of where the human drove. A pedestrian (actor 279) crossing the crosswalk directly ahead was clearly visible from 9 s, about 12 m away. The ego slowed only gently, from 7.3 to 2.9 m/s, and struck the pedestrian with its front at 11 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15687,
+   "output_tokens": 799,
+   "duration_ms": 10120
+  }
+ },
+ {
+  "run": "pedestrian_crossing_optuna_039",
+  "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+  "cause": "other",
+  "what_happened": "The ego approached the intersection on a RIGHT command but stayed about 3.5 m left of the recorded path, and hit a pedestrian (actor ~27x) crossing the crosswalk directly ahead. The pedestrian was clearly visible from at least 9.3 s, but the ego only braked gently (6.8 to 2.3 m/s as the gap closed from 16 m to 3 m) and hit them at low speed.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12873,
+   "output_tokens": 797,
+   "duration_ms": 8887
+  }
+ },
+ {
+  "run": "pedestrian_crossing_optuna_043",
+  "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+  "cause": "other",
+  "what_happened": "The ego was approaching the intersection for a right turn, about 3.7 m left of the recorded path, while a pedestrian (actor 270) walked left to right across the crosswalk directly in front of it. The ego slowed steadily from 6.9 to 2.2 m/s but did not stop, and the gap closed from 16 m to 2.9 m before it hit the pedestrian with its front. This was a failure to yield to a crossing pedestrian, not a lead vehicle.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12873,
+   "output_tokens": 904,
+   "duration_ms": 9215
+  }
+ }
+]

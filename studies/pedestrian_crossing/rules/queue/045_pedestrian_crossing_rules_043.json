@@ -1,0 +1,73 @@
+{
+  "name": "pedestrian_crossing_rules_043",
+  "run_dir": "diag/pedestrian_crossing_rules_043",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+    "traffic": "replay",
+    "retime_class": "person",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 1.25
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 401676,
+  "launched_at": 1791428940.266781,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "pedestrian_crossing_rules_043",
+      "k_status": "wizard_exit_code: 1; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "trafficsim_device": "cpu",
+        "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+        "traffic": "replay",
+        "retime_class": "person",
+        "planner_delay_us": 0,
+        "lateral_bias_m": 0.0,
+        "waypoint_noise_std": 0.0,
+        "actor_time_shift_s": -0.5,
+        "actor_speed_scale": 1.25
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint pedestrian_crossing_rules_043-prometheus-0-1 (4e84ebf1fcbe69c8339f4d93056821d6758cd6324ce1e3b2b0b5e43af5254df0): ",
+        "Error executing job with overrides: ['deploy=local', 'topology=1gpu', 'driver=vavam', 'trafficsim=disabled', 'controller=linear', 'driver.inference.context_length=8', 'driver.inference.subsample_factor=1', 'runtime.simulation_config.cameras",
+        "raise CalledProcessError(retcode, process.args,",
+        "subprocess.CalledProcessError: Command '['docker', 'compose', '-f', '/home/willvarner/alpasim/diag/pedestrian_crossing_rules_043/docker-compose.yaml', 'up', '--remove-orphans', '--exit-code-from', 'runtime-0']' returned non-zero exit status"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n752 MiB, 23314 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  761G  151G  84% /\n",
+    "skill": "RE-RUN",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 61921,
+    "output_tokens": 1376,
+    "duration_ms": 18026,
+    "tool_calls": [
+      "Bash: docker ps -a --format '{{.Names}}\\t{{.Status}}\\t{{.Ports}}'; docker network ls",
+      "Grep: driver failed|address already in use|port is already|Bind for",
+      "Bash: docker ps --format '{{.Names}}\\t{{.Status}}\\t{{.Ports}}'",
+      "Grep: 39252",
+      "Bash: docker ps -a --filter name=pedestrian_crossing_rules_043 --format '{{.Names}}\\t{{.Status}}'"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

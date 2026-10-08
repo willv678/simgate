@@ -1,0 +1,32 @@
+{
+  "name": "pedestrian_ego_speed_019",
+  "run_dir": "diag/pedestrian_ego_speed_019",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-0d4893f5-f575-4d98-b33f-0bdf3816bbed",
+    "controller": "linear",
+    "traffic": "replay",
+    "retime_class": "person",
+    "retime_track": "73",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.2,
+    "seed": 786611325
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 2432281,
+  "launched_at": 1791487642.2044969,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

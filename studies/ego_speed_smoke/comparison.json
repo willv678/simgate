@@ -1,1 +1,21 @@
-{}
+{
+ "grid": {
+  "launched": 5,
+  "kept": 5,
+  "failures": 1,
+  "scenes_with_a_failure": 1,
+  "dropped": 0,
+  "runs_to_goal": null,
+  "goal_progress": [],
+  "hardest": 0.2,
+  "hardest_progress": [
+   0.152,
+   0.152,
+   0.152,
+   0.152,
+   0.2
+  ],
+  "model_seconds": 0.0,
+  "model_tokens": 0
+ }
+}

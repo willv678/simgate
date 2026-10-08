@@ -1,0 +1,339 @@
+{
+ "answer": {
+  "answer": "The study's check counts five settings as confirmed, all at the recorded timing (0 s shift) with the other cars at 1.25x speed (S1, S2, S6, S9, S13). Each range sits above one half, but each rests on only a few repeats. The videos show that only two of these are real policy failures. In 023b7fcc (S1) and 09a95ffa (S6), every repeat failed the same way: the ego was told to go STRAIGHT, steered left into the next lane anyway, and hit a car driving alongside. The other three don't count as policy collisions. In 054b5901 (S2), the ego starts the run already overlapping another car. In 19f339ba (S13), a replayed car hits the ego from behind, which the plan said to ignore. In 0e899dd3 (S9), a replayed car hits the ego from behind or the side after the ego slows for no clear reason. So the study supports two challenging cases, not five, and it does not show that the timing or speed change caused even those two, because no run used the recorded timing and speed as a baseline.",
+  "findings": [
+   {
+    "claim": "In 023b7fcc at 0 s and 1.25x, every repeat failed the same way and the policy was at fault. With a STRAIGHT command, the ego sped up, steered left into the next lane and hit vehicle 56 alongside it, while the recorded human path stayed in its lane.",
+    "settings": [
+     "S1"
+    ]
+   },
+   {
+    "claim": "In 09a95ffa at 0 s and 1.25x, every repeat failed and the policy was at fault. The ego drifted left with a STRAIGHT/RIGHT command and its front-left corner hit vehicle 33 in the left lane. The car ahead stayed about 25 m away, so this was not a failure to brake.",
+    "settings": [
+     "S6"
+    ]
+   },
+   {
+    "claim": "The failures counted in 054b5901 at 0 s and 1.25x are not driving failures. Every one was flagged in the first frame, before the policy acted, with a recorded actor's box already overlapping the ego and no car visible on camera. This looks like a setup or reconstruction artifact. The artifact flag missed it, so the setting counts as confirmed anyway.",
+    "settings": [
+     "S2"
+    ]
+   },
+   {
+    "claim": "In 19f339ba at 0 s and 1.25x, every failure was actor 28 hitting the ego from behind while the ego held the recorded path with open road ahead. The contact was then logged as a front collision. These are rear-end hits the plan says to ignore, and the policy was not at fault.",
+    "settings": [
+     "S13"
+    ]
+   },
+   {
+    "claim": "In 0e899dd3 at 0 s and 1.25x, the failures came from replayed actor 10 driving into the ego from behind or the right. That happened after the ego slowed for no clear reason with the car ahead about 25 m away. The policy shares the blame at most (fault judged no or unclear), so this is not a clear policy collision.",
+    "settings": [
+     "S9"
+    ]
+   },
+   {
+    "claim": "In 096988dd, speeding the cars up to 1.5x brought a single failure: the ego slowed for no clear reason and a replayed follower clipped its side, with the fault unclear. At 1.25x, with and without a -0.5 s shift, it did not fail. One run is a hint, not a rate.",
+    "settings": [
+     "S5",
+     "S4",
+     "S3"
+    ]
+   },
+   {
+    "claim": "Scenes 0cf6368d, 12855a41 and 1c45ce3a, the three where only the marked cut-in car was retimed, did not fail at 1.25x or 1.5x, or at -0.5 s in 12855a41. Each of these settings has a single run, so this does not show they are safe.",
+    "settings": [
+     "S7",
+     "S8",
+     "S10",
+     "S11",
+     "S12",
+     "S14",
+     "S15"
+    ]
+   }
+  ],
+  "open": [
+   "Whether retiming causes the failures at all: no setting at 0 s and 1.0x was run with replayed traffic. Running 023b7fcc and 09a95ffa at 0 s / 1.0x a few times each would show whether the left swerve happens without any speed-up.",
+   "The timing knob was barely explored: only 0 s and -0.5 s were tried, and nothing beyond \u00b10.5 s or with a later shift. Speed was tried only at 1.25x and 1.5x, never slower than recorded.",
+   "Three more real policy cases are still needed. Candidates: repeat 096988dd at 0 s / 1.5x (S5), and search 0cf6368d, 12855a41 and 1c45ce3a at larger shifts (\u00b11 to \u00b12 s) and 2x speed, where the single runs came close.",
+   "054b5901 needs its initial overlap checked: was actor 150/156 placed on top of the ego by the 1.25x retiming or by the reconstruction itself? Until then the scene gives no evidence about the policy.",
+   "The study cannot tell ego merges from cut-ins. Both policy failures were the ego changing lanes on its own, not another car cutting in."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.25,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_hybrid_004",
+    "cut_in_merge_hybrid_010",
+    "cut_in_merge_hybrid_011"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.25,
+   "runs": 5,
+   "failed": 5,
+   "failure_rate_90": [
+    0.65,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_hybrid_008",
+    "cut_in_merge_hybrid_018",
+    "cut_in_merge_hybrid_019",
+    "cut_in_merge_hybrid_020",
+    "cut_in_merge_hybrid_021"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.9,
+   "run_names": [
+    "cut_in_merge_hybrid_025"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.776,
+   "run_names": [
+    "cut_in_merge_hybrid_005"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_hybrid_024"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.25,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_hybrid_007",
+    "cut_in_merge_hybrid_015",
+    "cut_in_merge_hybrid_014_a2"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.7,
+   "run_names": [
+    "cut_in_merge_hybrid_001"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.725,
+   "run_names": [
+    "cut_in_merge_hybrid_026"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.25,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_hybrid_009",
+    "cut_in_merge_hybrid_016",
+    "cut_in_merge_hybrid_017"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.9,
+   "run_names": [
+    "cut_in_merge_hybrid_023"
+   ]
+  },
+  {
+   "id": "S11",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.799,
+   "run_names": [
+    "cut_in_merge_hybrid_002"
+   ]
+  },
+  {
+   "id": "S12",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.9,
+   "run_names": [
+    "cut_in_merge_hybrid_022"
+   ]
+  },
+  {
+   "id": "S13",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.25,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_hybrid_006",
+    "cut_in_merge_hybrid_012",
+    "cut_in_merge_hybrid_013"
+   ]
+  },
+  {
+   "id": "S14",
+   "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.634,
+   "run_names": [
+    "cut_in_merge_hybrid_003_a2"
+   ]
+  },
+  {
+   "id": "S15",
+   "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.9,
+   "run_names": [
+    "cut_in_merge_hybrid_027"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 14265,
+  "output_tokens": 2175,
+  "duration_ms": 21700
+ }
+}

@@ -1,0 +1,930 @@
+{
+ "answer": {
+  "answer": "The study did not find any of the five hardest cases. Across the six scenes, no pedestrian timing within \u00b12 s and no speed from 0.5x to 2x made VaVAM hit the pedestrian or leave the road, so the goal was not met. Almost every setting ran only once, and one clean run cannot show a setting is safe: the 90% range at each setting still allows a true failure rate well above one half. So this study shows no failures, but it does not show the policy is robust. Ranked as near misses by criticality, the hardest cases were on 13a9767e (pedestrians at their recorded speed, around the recorded step-out or 1 s earlier), on 0e002edd (stepping out 1.5 s late) and on 095cf563 (walking 1.25x, 1.5 s early or late).",
+  "findings": [
+   {
+    "claim": "No setting on any of the six scenes produced a collision or a road departure, so there was nothing to triage and no failure that could be blamed on the simulator.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9",
+     "S10",
+     "S11",
+     "S12",
+     "S13",
+     "S14",
+     "S15",
+     "S16",
+     "S17",
+     "S18",
+     "S19",
+     "S20",
+     "S21",
+     "S22",
+     "S23",
+     "S24",
+     "S25",
+     "S26",
+     "S27",
+     "S28",
+     "S29",
+     "S30",
+     "S31",
+     "S32",
+     "S33",
+     "S34",
+     "S35",
+     "S36",
+     "S37",
+     "S38",
+     "S39",
+     "S40",
+     "S41",
+     "S42",
+     "S43",
+     "S44",
+     "S45",
+     "S46",
+     "S47"
+    ]
+   },
+   {
+    "claim": "Scene 13a9767e had the most critical near misses of the study. They came at the recorded speed with the pedestrians stepping out on time or 1 s early, and at 1.5x stepping out 0.5 s early. Because the unshifted setting is among them, much of this closeness comes from the recorded scene, not from the retiming. All person-class actors were retimed here, not one identified pedestrian.",
+    "settings": [
+     "S35",
+     "S37",
+     "S36"
+    ]
+   },
+   {
+    "claim": "On 0e002edd, the scene with the closest recorded approach, the most critical runs came when the pedestrian stepped out 1.5 s late (at 1.25x and 0.5x). The repeated setting at +1.5 s and 1.0x did not fail either.",
+    "settings": [
+     "S28",
+     "S26",
+     "S27"
+    ]
+   },
+   {
+    "claim": "On 095cf563, the most critical runs came when the pedestrians walked 1.25x, stepping out 1.5 s early or late. No timing or speed tried there failed.",
+    "settings": [
+     "S2",
+     "S9"
+    ]
+   },
+   {
+    "claim": "On 0b10bce8 and 18f8dbd6, criticality was identical at every timing and speed tried, including the repeated setting on 0b10bce8. Retiming the chosen pedestrian did not change the interaction with the ego at all, which fits the plan's worry that the ego in 0b10bce8 barely moves.",
+    "settings": [
+     "S11",
+     "S12",
+     "S13",
+     "S14",
+     "S15",
+     "S16",
+     "S17",
+     "S18",
+     "S19",
+     "S20",
+     "S42",
+     "S43",
+     "S44",
+     "S45",
+     "S46",
+     "S47"
+    ]
+   },
+   {
+    "claim": "On 12a09194, criticality was zero at every setting tried. Within \u00b12 s and 0.5x to 2x, the pedestrian never came into conflict with the ego.",
+    "settings": [
+     "S29",
+     "S30",
+     "S31",
+     "S32",
+     "S33",
+     "S34"
+    ]
+   }
+  ],
+  "open": [
+   "Whether any of the near-miss settings fails sometimes. Each ran about once, which cannot rule out a high failure rate. Repeating S35, S37, S28, S26, S2 and S9 several times each (about 4 to 5 runs per setting) would settle it.",
+   "Whether 13a9767e and 095cf563 have one person-class actor whose timing matters. Retiming their whole person class may blur the conflict. Picking out the crossing pedestrian and retiming only that one would show this.",
+   "Whether 0b10bce8, 18f8dbd6 and 12a09194 can be made challenging at all. Their response to retiming was flat or zero, so they need wider shifts, a different pedestrian track, or swapping in other tagged scenes. Without that, five distinct challenging scenes cannot be reached from this candidate set.",
+   "Whether the replayed traffic hides conflicts that would happen with reactive (CATK) traffic. The earlier baseline used CATK, so its near misses may not carry over to replay.",
+   "Run pedestrian_crossing_random_039 was not kept and was re-run as S22. It is not evidence."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-095cf563-c5d6-4f4f-9e98-7f179e733560",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 0.75,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.691,
+   "run_names": [
+    "pedestrian_crossing_random_049"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-095cf563-c5d6-4f4f-9e98-7f179e733560",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.817,
+   "run_names": [
+    "pedestrian_crossing_random_043"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-095cf563-c5d6-4f4f-9e98-7f179e733560",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.724,
+   "run_names": [
+    "pedestrian_crossing_random_024"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-095cf563-c5d6-4f4f-9e98-7f179e733560",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.747,
+   "run_names": [
+    "pedestrian_crossing_random_042"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-095cf563-c5d6-4f4f-9e98-7f179e733560",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 0.75,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.747,
+   "run_names": [
+    "pedestrian_crossing_random_026"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-095cf563-c5d6-4f4f-9e98-7f179e733560",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.785,
+   "run_names": [
+    "pedestrian_crossing_random_018"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-095cf563-c5d6-4f4f-9e98-7f179e733560",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 2.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.716,
+   "run_names": [
+    "pedestrian_crossing_random_036"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-095cf563-c5d6-4f4f-9e98-7f179e733560",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.76,
+   "run_names": [
+    "pedestrian_crossing_random_021"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-095cf563-c5d6-4f4f-9e98-7f179e733560",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.808,
+   "run_names": [
+    "pedestrian_crossing_random_028"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-095cf563-c5d6-4f4f-9e98-7f179e733560",
+   "actor_time_shift_s": 2.0,
+   "actor_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.743,
+   "run_names": [
+    "pedestrian_crossing_random_034"
+   ]
+  },
+  {
+   "id": "S11",
+   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+   "actor_time_shift_s": -2.0,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.63,
+   "run_names": [
+    "pedestrian_crossing_random_044"
+   ]
+  },
+  {
+   "id": "S12",
+   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+   "actor_time_shift_s": -2.0,
+   "actor_speed_scale": 0.75,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.63,
+   "run_names": [
+    "pedestrian_crossing_random_033"
+   ]
+  },
+  {
+   "id": "S13",
+   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.63,
+   "run_names": [
+    "pedestrian_crossing_random_035"
+   ]
+  },
+  {
+   "id": "S14",
+   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 2.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.63,
+   "run_names": [
+    "pedestrian_crossing_random_016"
+   ]
+  },
+  {
+   "id": "S15",
+   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.63,
+   "run_names": [
+    "pedestrian_crossing_random_004"
+   ]
+  },
+  {
+   "id": "S16",
+   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.63,
+   "run_names": [
+    "pedestrian_crossing_random_046"
+   ]
+  },
+  {
+   "id": "S17",
+   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 0.75,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.63,
+   "run_names": [
+    "pedestrian_crossing_random_040",
+    "pedestrian_crossing_random_047"
+   ]
+  },
+  {
+   "id": "S18",
+   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 2.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.63,
+   "run_names": [
+    "pedestrian_crossing_random_023"
+   ]
+  },
+  {
+   "id": "S19",
+   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+   "actor_time_shift_s": 2.0,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.63,
+   "run_names": [
+    "pedestrian_crossing_random_037"
+   ]
+  },
+  {
+   "id": "S20",
+   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+   "actor_time_shift_s": 2.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.63,
+   "run_names": [
+    "pedestrian_crossing_random_002"
+   ]
+  },
+  {
+   "id": "S21",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.745,
+   "run_names": [
+    "pedestrian_crossing_random_015"
+   ]
+  },
+  {
+   "id": "S22",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.722,
+   "run_names": [
+    "pedestrian_crossing_random_039_a2"
+   ]
+  },
+  {
+   "id": "S23",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.742,
+   "run_names": [
+    "pedestrian_crossing_random_019"
+   ]
+  },
+  {
+   "id": "S24",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.76,
+   "run_names": [
+    "pedestrian_crossing_random_006"
+   ]
+  },
+  {
+   "id": "S25",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.722,
+   "run_names": [
+    "pedestrian_crossing_random_032"
+   ]
+  },
+  {
+   "id": "S26",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.81,
+   "run_names": [
+    "pedestrian_crossing_random_011"
+   ]
+  },
+  {
+   "id": "S27",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 1.0,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.732,
+   "run_names": [
+    "pedestrian_crossing_random_013",
+    "pedestrian_crossing_random_025"
+   ]
+  },
+  {
+   "id": "S28",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.833,
+   "run_names": [
+    "pedestrian_crossing_random_009"
+   ]
+  },
+  {
+   "id": "S29",
+   "scene_id": "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 2.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "pedestrian_crossing_random_038"
+   ]
+  },
+  {
+   "id": "S30",
+   "scene_id": "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "pedestrian_crossing_random_003"
+   ]
+  },
+  {
+   "id": "S31",
+   "scene_id": "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "pedestrian_crossing_random_001"
+   ]
+  },
+  {
+   "id": "S32",
+   "scene_id": "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 0.75,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "pedestrian_crossing_random_010"
+   ]
+  },
+  {
+   "id": "S33",
+   "scene_id": "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "pedestrian_crossing_random_012"
+   ]
+  },
+  {
+   "id": "S34",
+   "scene_id": "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240",
+   "actor_time_shift_s": 2.0,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "pedestrian_crossing_random_041"
+   ]
+  },
+  {
+   "id": "S35",
+   "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.869,
+   "run_names": [
+    "pedestrian_crossing_random_007"
+   ]
+  },
+  {
+   "id": "S36",
+   "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.832,
+   "run_names": [
+    "pedestrian_crossing_random_014"
+   ]
+  },
+  {
+   "id": "S37",
+   "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.855,
+   "run_names": [
+    "pedestrian_crossing_random_017"
+   ]
+  },
+  {
+   "id": "S38",
+   "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.769,
+   "run_names": [
+    "pedestrian_crossing_random_030"
+   ]
+  },
+  {
+   "id": "S39",
+   "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.808,
+   "run_names": [
+    "pedestrian_crossing_random_048"
+   ]
+  },
+  {
+   "id": "S40",
+   "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 2.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.77,
+   "run_names": [
+    "pedestrian_crossing_random_020"
+   ]
+  },
+  {
+   "id": "S41",
+   "scene_id": "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.774,
+   "run_names": [
+    "pedestrian_crossing_random_027"
+   ]
+  },
+  {
+   "id": "S42",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.738,
+   "run_names": [
+    "pedestrian_crossing_random_031"
+   ]
+  },
+  {
+   "id": "S43",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.738,
+   "run_names": [
+    "pedestrian_crossing_random_008"
+   ]
+  },
+  {
+   "id": "S44",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.738,
+   "run_names": [
+    "pedestrian_crossing_random_029"
+   ]
+  },
+  {
+   "id": "S45",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 0.75,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.738,
+   "run_names": [
+    "pedestrian_crossing_random_005"
+   ]
+  },
+  {
+   "id": "S46",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 2.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.738,
+   "run_names": [
+    "pedestrian_crossing_random_045"
+   ]
+  },
+  {
+   "id": "S47",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "actor_time_shift_s": 2.0,
+   "actor_speed_scale": 0.75,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.738,
+   "run_names": [
+    "pedestrian_crossing_random_022"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 16418,
+  "output_tokens": 2026,
+  "duration_ms": 19643
+ }
+}

@@ -1,0 +1,71 @@
+{
+  "name": "pedestrian_crossing_random_037",
+  "run_dir": "diag/pedestrian_crossing_random_037",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+    "controller": "linear",
+    "traffic": "replay",
+    "retime_class": "person",
+    "retime_track": "32",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 2.0,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.0
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 717878,
+  "launched_at": 1791438670.356553,
+  "environment": null,
+  "env_cleanups": 1,
+  "resolution": "ACCEPT",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "pedestrian_crossing_random_037",
+      "k_status": "environment: GPU free 9840 MiB < 10500 MiB",
+      "config": {
+        "context_length": 8,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "trafficsim_device": "cpu",
+        "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+        "controller": "linear",
+        "traffic": "replay",
+        "retime_class": "person",
+        "retime_track": "32",
+        "planner_delay_us": 0,
+        "lateral_bias_m": 0.0,
+        "waypoint_noise_std": 0.0,
+        "actor_time_shift_s": 2.0,
+        "actor_speed_scale": 0.5,
+        "ego_speed_scale": 1.0
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\npedestrian_crossing_036_a2-driver-0-1\tUp 2 minutes\npedestrian_crossing_036_a2-controller-0-1\tUp 2 minutes\npedestrian_crossing_036_a2-prometheus-0-1\tUp 2 minutes\npedestrian_crossing_036_a2-runtime-0-1\tUp 2 minutes\npedestrian_crossing_036_a2-physics-0-1\tUp 2 minutes\npedestrian_crossing_036_a2-renderer-0-1\tUp 2 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\npedestrian_crossing_036_a2_microservices_network\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n14226 MiB, 9840 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  763G  149G  84% /\n",
+    "skill": "CLEANUP_ENV",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 32909,
+    "output_tokens": 583,
+    "duration_ms": 8632,
+    "tool_calls": [
+      "Bash: nvidia-smi; docker ps -a",
+      "Read: /home/willvarner/.claude/projects/-tmp-tmpauuq6pm-/c060cbc7-ddff-4554-8924-e5eefa67f9fc/tool-results/bh2tm5dm3.txt"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

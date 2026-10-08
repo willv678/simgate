@@ -1,0 +1,249 @@
+[
+ {
+  "run": "lead_vehicle_001",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "no_brake_for_lead",
+  "what_happened": "In slow, rainy highway traffic, the ego kept speeding up from 3.8 to 5.4 m/s while the gap to the white utility truck ahead in its lane (actor 2) shrank steadily from 12.6 m to 4.9 m. It never braked and hit the truck's rear. The camera view was clean until the moment of impact.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12866,
+   "output_tokens": 711,
+   "duration_ms": 7478
+  }
+ },
+ {
+  "run": "lead_vehicle_002",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "other",
+  "what_happened": "The ego stayed exactly on the recorded human path (0.0 m off the recording, and dist_to_gt maxed at 0.00 for the whole run). It closed on lead car 12 in its own lane, going from a 10 m gap to 4.4 m while easing from 5.5 to 4.8 m/s, and the boxes overlapped at 1.6 s. The human driver drove this same path without a collision, so the lead actor was probably not where it was in the original recording (for example, the simulated car braked harder or was placed too far back), not a planning error. The metrics also show collision_at_fault at 0, and they log a rear collision during the run that the frames don't explain.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15579,
+   "output_tokens": 1148,
+   "duration_ms": 13501
+  }
+ },
+ {
+  "run": "lead_vehicle_003",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "other",
+  "what_happened": "0.6 s into the run, still exactly on the recorded human path (0.0 m off) at a steady 18.7 m/s, the ego hit the rear of lead car 18 in its lane on the highway. The gap shrank from 13.4 m to 4.1 m in 0.5 s, so the lead was moving at almost 0 m/s, which the recorded drive doesn't show. The lead car's simulated track looks broken (a replay or initialization artifact), and no policy could have stopped from 13 m at that speed in 0.6 s.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 14225,
+   "output_tokens": 848,
+   "duration_ms": 11975
+  }
+ },
+ {
+  "run": "lead_vehicle_004",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "other",
+  "what_happened": "In slowing highway traffic the ego followed lead vehicle 5 in its lane, braking steadily from 5.5 to 3.3 m/s, and a front collision was flagged with a 4.2 m gap. The ego was exactly on the recorded human path and position the whole time (0.00 m from both), so the collision almost certainly comes from a bad bounding box or track for actor 5, not from a driving mistake.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12859,
+   "output_tokens": 952,
+   "duration_ms": 10120
+  }
+ },
+ {
+  "run": "lead_vehicle_006",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "no_brake_for_lead",
+  "what_happened": "On a wet multi-lane freeway, the ego followed a slower white utility truck (actor 2) in its lane. It sped up from 3.5 to 5.0 m/s while the gap shrank from 14.8 m to 4.9 m, never braked, and hit the truck's rear. The camera showed the truck clearly until the impact, and the ego stayed on the recorded path the whole time.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15696,
+   "output_tokens": 760,
+   "duration_ms": 7864
+  }
+ },
+ {
+  "run": "lead_vehicle_007",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "other",
+  "what_happened": "On a straight multi-lane highway, the ego kept its lane at about 5 m/s, slowing only slightly, while the gap to lead vehicle 12, which was nearly stopped, closed from 9.5 m to 4.4 m. The ego hit 12's rear at 1.3 s. But dist_to_gt_trajectory and dist_to_gt_location stay at 0.00 for the whole run, so the ego was exactly where the human drove. That means actor 12 must have been placed or moving differently from the recording, and the run already had a collision_rear at the start, so this looks like a simulation/actor-replay inconsistency rather than a clear brake failure by the policy.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15540,
+   "output_tokens": 1301,
+   "duration_ms": 14077
+  }
+ },
+ {
+  "run": "lead_vehicle_008",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "no_brake_for_lead",
+  "what_happened": "In slow, dense highway traffic, the ego followed lead vehicle 5 (a dark SUV) in its own lane. Over 3 s it slowed only gently, from 5.5 to 3.3 m/s, while the gap shrank from 12 m to 4.2 m, and its front box touched actor 5's rear at 3.4 s. However, the ego was 0.0 m from the recorded human trajectory for the whole run, so it seems to have matched the human's path and speed. That means the contact probably comes from how actor 5's box is placed or sized, or from the actor slowing differently than in the real drive, rather than from a policy decision.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15692,
+   "output_tokens": 999,
+   "duration_ms": 10973
+  }
+ },
+ {
+  "run": "lead_vehicle_009",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "other",
+  "what_happened": "About 0.6 s into the run, the ego was still exactly on the recorded human path at 18.7 m/s when it ran into the back of lead car 18 in its lane. The gap shrank from 13.4 m to 4.1 m in 0.5 s, so car 18 was almost stopped on a moving highway. That points to a bad replay or track for car 18 at the start of the run, not a policy mistake. Avoiding it would have taken about 13 m/s\u00b2 of braking from the first frame.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 14231,
+   "output_tokens": 742,
+   "duration_ms": 9235
+  }
+ },
+ {
+  "run": "lead_vehicle_010",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "no_brake_for_lead",
+  "what_happened": "On a wet multi-lane highway heading straight, the ego sped up from 3.8 to 5.4 m/s while the gap to the white utility truck ahead in its lane (actor 2) shrank from 12.6 m to 4.9 m, and it rear-ended the truck without braking. The ego was exactly on the recorded human trajectory the whole run (0.00 m off), so the truck's simulated motion or box size may differ from the real drive.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15703,
+   "output_tokens": 1119,
+   "duration_ms": 11812
+  }
+ },
+ {
+  "run": "lead_vehicle_011",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "other",
+  "what_happened": "In stop-and-go highway traffic, the ego closes on the dark sedan ahead in its lane (actor 12): the gap drops from 10 m to 4.4 m while the ego only eases from 5.5 to 4.8 m/s, and a front collision is flagged at 1.6 s. But the ego is exactly on the recorded human trajectory the whole time (0.0 m off, and dist_to_gt is 0 in every frame), and a rear collision was already logged in the run. So the contact most likely comes from actor 12 moving differently than in the recording, or from bad box/collision geometry, not from the ego's driving.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15579,
+   "output_tokens": 1163,
+   "duration_ms": 14183
+  }
+ },
+ {
+  "run": "lead_vehicle_012",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego held about 8 m/s in its lane and never braked as the gap to lead car 1 shrank from 17.6 m to 4.4 m, then hit it from behind at 2.7 s. The ego was exactly on the recorded human path (0.0 m off) and a rear collision had already been logged earlier in the run. That suggests the lead actor (and the one behind) moved differently from the recording, so it is not clear the policy alone caused this.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12825,
+   "output_tokens": 980,
+   "duration_ms": 10044
+  }
+ },
+ {
+  "run": "lead_vehicle_014",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was following a dark blue pickup (actor 5) in its lane on a multi-lane highway. It sped up from 4.8 to 7.0 m/s while the gap closed from 16 m to under 5 m, and it ran into the pickup's rear without braking. The ego was exactly on the recorded human trajectory (0.0 m off), so the human never hit this truck in the real drive. That means the lead actor in the sim was likely closer or slower than it was in reality, which leaves blame unclear even though the policy clearly failed to brake for a visible lead.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15705,
+   "output_tokens": 922,
+   "duration_ms": 10173
+  }
+ },
+ {
+  "run": "lead_vehicle_015",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "other",
+  "what_happened": "In slow freeway traffic, the ego closed on lead car 12 in its lane, from a 10 m gap down to about 4 m, while only easing from 5.5 to 4.8 m/s, and its front touched 12's rear at 1.6 s. But the ego was exactly on the recorded human path (0.0 m off) and the run already shows a rear collision with no at-fault flag, so this looks like a log-replay or actor-box mismatch rather than a real failure to brake.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15597,
+   "output_tokens": 1201,
+   "duration_ms": 13226
+  }
+ },
+ {
+  "run": "lead_vehicle_016",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "no_brake_for_lead",
+  "what_happened": "On a multi-lane highway with the STRAIGHT command, the ego sped up from 3.8 to 5.4 m/s behind a slower white utility truck (actor 2) in its own lane. It never braked while the gap shrank from 12.6 m to contact at 3.8 s, a front collision. The ego was 0.0 m from the recorded human path for the whole run, so the human drove the same path; the logged truck may have braked harder in the replay or its box may be placed wrong. That leaves blame uncertain.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12868,
+   "output_tokens": 945,
+   "duration_ms": 10601
+  }
+ },
+ {
+  "run": "lead_vehicle_017",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "other",
+  "what_happened": "The ego was following lead vehicle 5 in slow highway traffic and slowing steadily (5.5\u21923.3 m/s, gap 12\u21924.2 m) when a front collision was flagged. But dist_to_gt_trajectory is 0.00 for the whole run, so the ego drove exactly the recorded human path, which didn't crash in reality; the contact most likely comes from the replayed actor's box size or placement, not from a mistake by the policy.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15694,
+   "output_tokens": 859,
+   "duration_ms": 13532
+  }
+ },
+ {
+  "run": "lead_vehicle_019",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "no_brake_for_lead",
+  "what_happened": "On a multi-lane highway, the ego held about 8 m/s and never slowed while the gap to the slower car ahead in its lane (actor 1) shrank from 17.6 m to 4.4 m. At 2.7 s the ego's front hit that car's rear. The ego was exactly on the recorded human path the whole time (0.0 m off), and a rear collision had already been flagged earlier in the run. That suggests the lead actor's motion or box doesn't match the log, so it's not clear the policy chose to drive into the car.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12833,
+   "output_tokens": 1043,
+   "duration_ms": 11429
+  }
+ },
+ {
+  "run": "lead_vehicle_020",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was going straight on a multi-lane highway behind a slower lead vehicle (actor 1) in its lane. It sped up slightly from 7.3 to 8.0 m/s while the gap shrank from 17.6 m to 4.4 m, never braked, and rear-ended actor 1 at 2.7 s. Something doesn't add up, though: the ego was 0.0 m from the recorded human path, and collision_rear is also 1.0 for the run, so the log or the actor tracks may be worth checking.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15644,
+   "output_tokens": 1373,
+   "duration_ms": 24518
+  }
+ },
+ {
+  "run": "lead_vehicle_021",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "In slow, dense highway traffic, the ego kept speeding up (4.8 \u2192 7.0 m/s) while the gap to the blue pickup ahead in its lane (actor 5) shrank from 16 m to under 5 m. It never braked and hit the pickup's rear at 3.3 s. The camera view of the lead truck was clear until the moment of impact.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15689,
+   "output_tokens": 699,
+   "duration_ms": 7039
+  }
+ },
+ {
+  "run": "lead_vehicle_018_a2",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "other",
+  "what_happened": "About 0.6 s into the run, the ego was cruising at 18.7 m/s exactly on the human driver's recorded path (0.0 m off) when the gap to lead vehicle 18 shrank from 13.4 m to 4.1 m in 0.5 s, and the ego hit it. That means the lead car almost stopped instantly in highway traffic while the cars around it kept moving, so this looks like a glitch in the replayed actor track rather than real braking. The policy had too little time and too little gap to avoid the collision, though it also never braked.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 14225,
+   "output_tokens": 940,
+   "duration_ms": 10819
+  }
+ }
+]

@@ -1,0 +1,145 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1"><title>Study grid</title><style>
+:root {
+  color-scheme: light;
+  --surface: #fcfcfb; --raised: #f3f2ef; --ink: #0b0b0b; --ink-2: #52514e;
+  --line: #dcdad4; --pass: #2a78d6; --fail: #eb6834; --fail-ink: #b0400f;
+  --pass-ink: #1d5aa6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface: #1a1a19; --raised: #252523; --ink: #ffffff; --ink-2: #c3c2b7;
+    --line: #3a3936; --pass: #3987e5; --fail: #d95926; --fail-ink: #f2986f;
+    --pass-ink: #8db8f0;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1a19; --raised: #252523; --ink: #ffffff; --ink-2: #c3c2b7;
+  --line: #3a3936; --pass: #3987e5; --fail: #d95926; --fail-ink: #f2986f;
+  --pass-ink: #8db8f0;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface); color: var(--ink);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+  Arial, sans-serif; }
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 1.6rem; line-height: 1.25; margin: 0.2em 0 0.4em; }
+h2 { font-size: 1.25rem; margin: 2.2em 0 0.6em; padding-top: 0.6em;
+  border-top: 1px solid var(--line); }
+h3 { font-size: 1rem; margin: 1.2em 0 0.3em; }
+p, li { overflow-wrap: anywhere; }
+.eyebrow, .muted, .how { color: var(--ink-2); }
+.eyebrow { font-size: 0.85rem; margin: 0; }
+.pre { white-space: pre-wrap; }
+details { margin: 0.8em 0; }
+summary { cursor: pointer; color: var(--pass-ink); }
+.terms ul { padding-left: 1.2em; }
+.answer { font-size: 1.1rem; }
+.goal { background: var(--raised); padding: 10px 14px; border-radius: 6px; }
+.panel { margin: 1em 0 0.5em; }
+.panel figcaption { font-weight: 600; }
+.panel svg { width: 100%; height: auto; display: block; }
+svg text { font: 13px system-ui, -apple-system, "Segoe UI", sans-serif; }
+svg .tick { fill: var(--ink-2); }
+svg .id { fill: var(--ink-2); font-size: 12px; }
+svg .grid { stroke: var(--line); stroke-width: 1; }
+svg .axis { stroke: var(--ink-2); stroke-width: 1; }
+svg .range { fill: var(--fail); fill-opacity: 0.3; }
+svg .rate { fill: var(--fail); stroke: var(--surface); stroke-width: 2; }
+svg .run.fail { fill: var(--fail); }
+svg .run.pass { fill: var(--pass); }
+svg .hit { fill: transparent; }
+svg .setting:hover .hit { fill: var(--raised); }
+.swatch-range { display: inline-block; width: 8px; height: 1em;
+  vertical-align: -0.15em; border-radius: 3px; background: var(--fail);
+  opacity: 0.35; }
+.key { font-weight: 600; }
+.key.fail { color: var(--fail-ink); }
+.key.pass { color: var(--pass-ink); }
+.findings > li { margin-bottom: 1em; }
+.findings p { margin: 0 0 0.3em; }
+.evidence { font-size: 0.9rem; padding-left: 1.1em; }
+.case { display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  padding: 14px 0; border-bottom: 1px solid var(--line); }
+.case img { width: 100%; height: auto; border-radius: 4px; }
+.case h3 { margin-top: 0; }
+.case p { margin: 0.3em 0; }
+@media (max-width: 600px) { .case { grid-template-columns: 1fr; } }
+.tag { display: inline-block; font-size: 0.85rem; padding: 1px 8px;
+  border-radius: 10px; border: 1px solid var(--line); background: var(--raised); }
+.tag.fail { border-color: var(--fail); color: var(--fail-ink); }
+.tag.pass { border-color: var(--pass); color: var(--pass-ink); }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line);
+  vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; }
+td.run { overflow-wrap: anywhere; min-width: 7em; }
+</style></head><body><main>
+<header>
+<p class=eyebrow>SimGate study · grid</p>
+<h1>Does the ego speed knob land and pass the gate on a real run at each value?</h1>
+<p class=muted>5 simulated drives on 1 scene(s) rebuilt from
+real recordings, varying ego speed.</p>
+<details class=terms><summary>What the words on this page mean</summary><ul>
+<li><b>Run</b>: one simulated drive of a scene by the driving policy under test.</li>
+<li><b>Scene</b>: a few seconds of a real recorded drive, rebuilt so the policy can
+drive it again; named by the first characters of its id.</li>
+<li><b>Test car</b> (the "ego"): the car the policy drives. The other road users
+replay what they did in the recording.</li>
+<li><b>Recorded drive</b>: the path the human driver took in the recording.</li>
+<li><b>Kept</b>: the run passed every automatic check that the simulator ran it
+as asked. Only kept runs count as evidence.</li>
+<li><b>Failed</b>: the test car hit something with its front or side, or left the
+road.</li>
+<li><b>Setting</b>: one scene at one knob value, numbered S1, S2, … so the
+findings can cite it.</li>
+<li><b>90% range</b>: the failure rates that fit what was seen, at 90% confidence.
+Few runs give a wide range.</li>
+</ul></details>
+</header>
+
+<section id=question><h2>1. The question</h2>
+<p>Does the ego speed knob land and pass the gate on a real run at each value?</p>
+<p><b>What was varied:</b> <b>ego speed</b>: speed of the test car when the driving policy takes over, relative to its recording at that place.</p>
+<details><summary>The researcher's brief, as written</summary>
+<p class=pre># Ego speed smoke test
+
+One run per ego_speed_scale value on one pedestrian scene (written by hand; see plan.json).
+</p></details>
+</section>
+
+<section id=answer><h2>2. The answer</h2>
+<p class=answer>Partly. At every ego_speed_scale value from 0.6 to 1.4, the run on this pedestrian scene passed the gate and was kept, and the gate rejected no runs. The results do not show whether the knob actually changed the ego&#x27;s speed, because they contain no measured speed to compare across values. The only hint is criticality: it was slightly higher at 0.6, identical at 0.8, 1.0 and 1.2, and highest at 1.4. The single failure, at 1.4, is flagged as a possible simulator artifact because the ego ended up more than 3.5 m from the recorded path. But triage of the video shows the policy itself left the path and turned into a parked car. With one run per value, this is a hint and not a failure rate.</p>
+<p class=goal>No goal that code can check was set, so the study ran its whole budget.</p>
+</section>
+
+<section id=chart><h2>3. Failure rate by setting</h2>
+<p class=how>How to read it: each dot is the share of runs that failed at that
+setting, the <span class=swatch-range></span> bar is its 90% range, and each
+square below the axis is one run (<span class="key fail">orange</span> failed,
+<span class="key pass">blue</span> passed). Hover a setting for its numbers.</p>
+<figure class=panel><figcaption>Scene 0e002edd</figcaption><svg viewBox="0 0 388 221" style="max-width:388px" role=img aria-label="Failure rate by setting on scene 0e002edd"><line class=grid x1=46 x2=376 y1=164.0 y2=164.0 /><text class=tick x=38 y=168.0 text-anchor=end>0%</text><line class=grid x1=46 x2=376 y1=89.0 y2=89.0 /><text class=tick x=38 y=93.0 text-anchor=end>50%</text><line class=grid x1=46 x2=376 y1=14.0 y2=14.0 /><text class=tick x=38 y=18.0 text-anchor=end>100%</text><text class=tick x=79.0 y=182 text-anchor=middle>0.6 x</text><text class=tick x=145.0 y=182 text-anchor=middle>0.8 x</text><text class=tick x=211.0 y=182 text-anchor=middle>1 x</text><text class=tick x=277.0 y=182 text-anchor=middle>1.2 x</text><text class=tick x=343.0 y=182 text-anchor=middle>1.4 x</text><line class=axis x1=46 x2=376 y1=164 y2=164 /><g class=setting><title>S1: ego speed 0.6 x. 0 of 1 run failed; failure rate 0% to 73% (90% range)</title><rect class=hit x=46.0 y=8 width=66 height=207 /><rect class=range x=73.0 y=54.5 width=12 height=109.5 rx=4 /><circle class=rate cx=79.0 cy=164.0 r=6 /><text class=id x=91.0 y=168.0>S1</text><rect class="run pass" x=75.0 y=192.0 width=8 height=8 rx=2 /></g><g class=setting><title>S2: ego speed 0.8 x. 0 of 1 run failed; failure rate 0% to 73% (90% range)</title><rect class=hit x=112.0 y=8 width=66 height=207 /><rect class=range x=139.0 y=54.5 width=12 height=109.5 rx=4 /><circle class=rate cx=145.0 cy=164.0 r=6 /><text class=id x=157.0 y=168.0>S2</text><rect class="run pass" x=141.0 y=192.0 width=8 height=8 rx=2 /></g><g class=setting><title>S3: ego speed 1 x. 0 of 1 run failed; failure rate 0% to 73% (90% range)</title><rect class=hit x=178.0 y=8 width=66 height=207 /><rect class=range x=205.0 y=54.5 width=12 height=109.5 rx=4 /><circle class=rate cx=211.0 cy=164.0 r=6 /><text class=id x=223.0 y=168.0>S3</text><rect class="run pass" x=207.0 y=192.0 width=8 height=8 rx=2 /></g><g class=setting><title>S4: ego speed 1.2 x. 0 of 1 run failed; failure rate 0% to 73% (90% range)</title><rect class=hit x=244.0 y=8 width=66 height=207 /><rect class=range x=271.0 y=54.5 width=12 height=109.5 rx=4 /><circle class=rate cx=277.0 cy=164.0 r=6 /><text class=id x=289.0 y=168.0>S4</text><rect class="run pass" x=273.0 y=192.0 width=8 height=8 rx=2 /></g><g class=setting><title>S5: ego speed 1.4 x. 1 of 1 run failed; failure rate 27% to 100% (90% range); 1 possibly the simulator&#x27;s</title><rect class=hit x=310.0 y=8 width=66 height=207 /><rect class=range x=337.0 y=14.0 width=12 height=109.5 rx=4 /><circle class=rate cx=343.0 cy=14.0 r=6 /><text class=id x=355.0 y=18.0>S5</text><rect class="run fail" x=339.0 y=192.0 width=8 height=8 rx=2 /></g></svg></figure>
+<details><summary>The chart as a table</summary><div class=scroll><table><thead><tr><th>Setting</th><th>Scene</th><th>ego speed</th><th>Failed</th><th>Failure rate (90% range)</th><th>Possibly the simulator's</th></tr></thead><tbody><tr><td>S1</td><td>0e002edd</td><td>0.6 x</td><td>0 of 1</td><td>0%–73%</td><td></td></tr><tr><td>S2</td><td>0e002edd</td><td>0.8 x</td><td>0 of 1</td><td>0%–73%</td><td></td></tr><tr><td>S3</td><td>0e002edd</td><td>1 x</td><td>0 of 1</td><td>0%–73%</td><td></td></tr><tr><td>S4</td><td>0e002edd</td><td>1.2 x</td><td>0 of 1</td><td>0%–73%</td><td></td></tr><tr><td>S5</td><td>0e002edd</td><td>1.4 x</td><td>1 of 1</td><td>27%–100%</td><td>1</td></tr></tbody></table></div></details>
+</section>
+
+<section id=findings><h2>4. Findings</h2>
+<p class=muted>Each finding is the model's reading; the lines under it are the
+counts code computed for the settings it cites.</p>
+<ol class=findings><li><p>Every ego_speed_scale value (0.6, 0.8, 1.0, 1.2, 1.4) produced a run that passed every validity check and was kept. The gate rejected no runs.</p><ul class=evidence><li><b>S1</b> · scene 0e002edd, ego speed 0.6 x: 0 of 1 run failed; failure rate 0%–73% (90% range) <span class=muted>· ego_speed_smoke_grid_001</span></li><li><b>S2</b> · scene 0e002edd, ego speed 0.8 x: 0 of 1 run failed; failure rate 0%–73% (90% range) <span class=muted>· ego_speed_smoke_grid_002</span></li><li><b>S3</b> · scene 0e002edd, ego speed 1 x: 0 of 1 run failed; failure rate 0%–73% (90% range) <span class=muted>· ego_speed_smoke_grid_003</span></li><li><b>S4</b> · scene 0e002edd, ego speed 1.2 x: 0 of 1 run failed; failure rate 0%–73% (90% range) <span class=muted>· ego_speed_smoke_grid_004</span></li><li><b>S5</b> · scene 0e002edd, ego speed 1.4 x: 1 of 1 run failed; failure rate 27%–100% (90% range); 1 possibly the simulator's <span class=muted>· ego_speed_smoke_grid_005</span></li></ul></li><li><p>The runs at 0.6 through 1.2 did not fail. With only one run each, this rules out a very high failure rate but says little more.</p><ul class=evidence><li><b>S1</b> · scene 0e002edd, ego speed 0.6 x: 0 of 1 run failed; failure rate 0%–73% (90% range) <span class=muted>· ego_speed_smoke_grid_001</span></li><li><b>S2</b> · scene 0e002edd, ego speed 0.8 x: 0 of 1 run failed; failure rate 0%–73% (90% range) <span class=muted>· ego_speed_smoke_grid_002</span></li><li><b>S3</b> · scene 0e002edd, ego speed 1 x: 0 of 1 run failed; failure rate 0%–73% (90% range) <span class=muted>· ego_speed_smoke_grid_003</span></li><li><b>S4</b> · scene 0e002edd, ego speed 1.2 x: 0 of 1 run failed; failure rate 0%–73% (90% range) <span class=muted>· ego_speed_smoke_grid_004</span></li></ul></li><li><p>The run at 1.4 failed because the policy was at fault. At the intersection the ego left the recorded straight-through path, turned sharply into the lane of parked cars, hit a parked car and mounted the curb. It was flagged as a possible artifact only because it ended up about 7 m off the recorded path, and the video shows that deviation was the policy&#x27;s own manoeuvre, not a rendering problem.</p><ul class=evidence><li><b>S5</b> · scene 0e002edd, ego speed 1.4 x: 1 of 1 run failed; failure rate 27%–100% (90% range); 1 possibly the simulator's <span class=muted>· ego_speed_smoke_grid_005</span></li></ul></li><li><p>Criticality was identical at 0.8, 1.0 and 1.2 and differed only at 0.6 and 1.4. This hints that the knob may have had little effect across the middle of the range. It does not confirm that the knob changed the ego&#x27;s speed.</p><ul class=evidence><li><b>S2</b> · scene 0e002edd, ego speed 0.8 x: 0 of 1 run failed; failure rate 0%–73% (90% range) <span class=muted>· ego_speed_smoke_grid_002</span></li><li><b>S3</b> · scene 0e002edd, ego speed 1 x: 0 of 1 run failed; failure rate 0%–73% (90% range) <span class=muted>· ego_speed_smoke_grid_003</span></li><li><b>S4</b> · scene 0e002edd, ego speed 1.2 x: 0 of 1 run failed; failure rate 0%–73% (90% range) <span class=muted>· ego_speed_smoke_grid_004</span></li><li><b>S1</b> · scene 0e002edd, ego speed 0.6 x: 0 of 1 run failed; failure rate 0%–73% (90% range) <span class=muted>· ego_speed_smoke_grid_001</span></li><li><b>S5</b> · scene 0e002edd, ego speed 1.4 x: 1 of 1 run failed; failure rate 27%–100% (90% range); 1 possibly the simulator's <span class=muted>· ego_speed_smoke_grid_005</span></li></ul></li></ol>
+<h3>Still open</h3><ul><li>Whether the knob actually changes the ego&#x27;s speed: the results contain no measured ego speed. To settle it, check the logged ego speed (or its ratio to the recorded speed) in runs ego_speed_smoke_grid_001 to ego_speed_smoke_grid_005 against the target scale. The triaged run at 1.4 was turning at about 4 m/s, and that should be checked too.</li><li>Whether 1.4 reliably causes this policy-at-fault turn into parked cars, or whether it was a one-off. Several more runs at 1.4 (and at 1.2) on this scene would show it.</li><li>Whether runs at extreme speed values that leave the recorded path will routinely trip the possible-artifact flag (over 3.5 m off the path) even when the policy is at fault. If so, the artifact check may need calibrating before any study varies this knob.</li></ul>
+</section>
+
+<section id=why><h2>5. Why the runs failed</h2>
+<p>For each failed run, Claude looked at the camera frames just before and at the failure, and at the speed and the gap to the car ahead, and named a cause from a fixed list. The picture is the front camera at the failure moment.</p><p><b>Causes:</b> steered into another road user: 1.</p><article class=case><a href="frames/ego_speed_smoke_grid_005.png"><img src="frames/ego_speed_smoke_grid_005.png" loading=lazy width=480 alt="Front camera of run ego_speed_smoke_grid_005 at 9.1 s, the moment it failed"></a><div><h3>ego_speed_smoke_grid_005</h3><p class=muted>Scene 0e002edd, ego speed 1.4 x</p><p><span class=tag>Steered into another road user</span> <span class="tag fail">Driving policy at fault</span></p><p>At the intersection, the ego left the recorded straight-through path (green line) and swung into a sharp turn across the intersection at about 4 m/s. It turned into the curbside lane of parked cars and hit parked car 90 with its front, mounting the curb toward the building, about 7 m off the recorded trajectory.</p><p class=muted>Failed at 9.1 s (front collision, side collision, left the road), 7.0 m from the recorded drive — far enough that the picture may be unreliable.</p></div></article>
+</section>
+
+<section id=runs><h2>6. Every run</h2>
+<div class=scroll><table><thead><tr><th>Run</th><th>Scene</th><th>ego speed</th><th>Kept</th><th>Result</th><th>Failed at</th><th>Off the recorded drive at failure</th></tr></thead><tbody><tr><td class=run>ego_speed_smoke_grid_001</td><td>0e002edd</td><td>0.6 x</td><td>Yes</td><td><span class="tag pass">Passed</span></td><td></td><td></td></tr><tr><td class=run>ego_speed_smoke_grid_002</td><td>0e002edd</td><td>0.8 x</td><td>Yes</td><td><span class="tag pass">Passed</span></td><td></td><td></td></tr><tr><td class=run>ego_speed_smoke_grid_003</td><td>0e002edd</td><td>1 x</td><td>Yes</td><td><span class="tag pass">Passed</span></td><td></td><td></td></tr><tr><td class=run>ego_speed_smoke_grid_004</td><td>0e002edd</td><td>1.2 x</td><td>Yes</td><td><span class="tag pass">Passed</span></td><td></td><td></td></tr><tr><td class=run>ego_speed_smoke_grid_005</td><td>0e002edd</td><td>1.4 x</td><td>Yes</td><td><span class="tag fail">Failed</span> front collision, side collision, left the road</td><td>9.1 s</td><td>7.0 m <span class=muted>(possibly the simulator's)</span></td></tr></tbody></table></div>
+</section>
+
+<section id=provenance><h2>7. Where this came from</h2>
+<p>The plan was fixed by a script, not written by a model. The runs were chosen in 1 rounds by grid; code rejected any choice outside the plan before it ran. Failures were explained by claude-opus-5-5. The answer and findings were written by claude-opus-5-5.</p><p><b>Runs:</b> 5 in the study, 5 kept, 0 not kept; 1 of the kept runs failed.</p><p><b>How the numbers were computed:</b> a run counts only if it passed every automatic check of the simulator (it is <i>kept</i>). A run failed if the test car hit something with its front or side, or left the road. For each setting, code counts the kept runs that failed and gives the 90% Wilson range of the failure rate. A failure is flagged as possibly the simulator's when the test car was more than 3.5 m (about a lane) from the recorded drive, or a camera frame was black, because there the rebuilt scene is drawn less reliably. The model wrote the words; every count and range on this page is computed from the run records, not written by the model.</p><details><summary>Why the plan looks the way it does</summary><p class=pre>Written by hand to calibrate the ego speed check on real runs before any study varies it.</p></details>
+</section>
+</main></body></html>

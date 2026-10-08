@@ -1,0 +1,31 @@
+{
+  "name": "cut_in_merge_hybrid_005",
+  "run_dir": "diag/cut_in_merge_hybrid_005",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+    "controller": "linear",
+    "traffic": "replay",
+    "retime_class": "automobile",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 1.25,
+    "ego_speed_scale": 1.0,
+    "seed": 420362750
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1913437,
+  "launched_at": 1791472821.5410633,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}
