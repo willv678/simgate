@@ -21,8 +21,10 @@ breaks.
 Each run is one random sample: the same scene and delay can end differently,
 because traffic is sampled. In an earlier batch, one scene at 0 delay crashed
 in 46 of 150 identical runs. So one run proves little; repeats at the same
-setting are how a rate is estimated. A run **failed** if the ego hit something
-with its front or side, or left the road.
+setting are how a rate is estimated. A run **failed** if, after the policy took over,
+the ego left the road or hit something with its front or side before anything
+hit it from behind (replayed traffic cannot brake for a slower ego, so being
+rear-ended is not the policy's failure).
 
 ## The input (on stdin, JSON)
 

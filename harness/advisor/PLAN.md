@@ -12,8 +12,10 @@ two controllers) and CATK traffic, on real recorded scenes.
 A study varies one or more scenario knobs over a set of
 candidate scenes. Each round, a proposer chooses the next runs from the
 history so far; every run goes through the inner loop, which keeps it only if
-it passes every validity check. A run **failed** if the ego hit something with
-its front or side, or left the road. Runs are random samples: one scene at one
+it passes every validity check. A run **failed** if, after the policy took over,
+the ego left the road or hit something with its front or side before anything
+hit it from behind (replayed traffic cannot brake for a slower ego, so being
+rear-ended is not the policy's failure). Runs are random samples: one scene at one
 setting can pass once and fail the next time, so rates need repeats.
 
 ## The input (on stdin, JSON)
