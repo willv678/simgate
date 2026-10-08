@@ -1,0 +1,58 @@
+{
+ "one reference": {
+  "flags": {
+   "g3_001": "physics.txt median_plan_handoff_m 0.518 with plan_noise_m 0.267 (clean runs \u22640.002): the controller tracked a randomly perturbed plan, not VaVAM's, contradicting the nominal claim.",
+   "g3_010": "physics.txt median_plan_handoff_m 0.517 with plan_noise_m 0.258 (clean runs \u22640.002): noise was injected into the plan between driver and controller, so the run is not nominal.",
+   "g3_004": "physics.txt median_plan_handoff_m 0.510 with plan_noise_m 0.262 (clean runs \u22640.002): the plan handed to the MPC was perturbed, so the run is not nominal.",
+   "g3_007": "physics.txt median_plan_handoff_m 0.497 with plan_noise_m 0.260 (clean runs \u22640.002): the plan handed to the MPC was perturbed, so the run is not nominal.",
+   "g3_008": "physics.txt median_plan_handoff_m 0.300 with median_plan_offset_m 0.300: a constant 0.3 m sideways offset was added to the plan before the controller, so the run is not nominal.",
+   "g3_005": "physics.txt median_plan_handoff_m 0.300 with median_plan_offset_m 0.299: a constant sideways plan offset was injected, so the run is not nominal (tracking_error 4.82).",
+   "g3_011": "physics.txt median_plan_handoff_m 0.300 with median_plan_offset_m 0.298: a constant sideways plan offset was injected, so the run is not nominal (tracking_error 4.53).",
+   "g3_002": "physics.txt median_plan_handoff_m 0.300 with median_plan_offset_m 0.299: a constant sideways plan offset was injected, so the run is not nominal (tracking_error 4.84)."
+  },
+  "caught": [
+   "g3_001",
+   "g3_002",
+   "g3_004",
+   "g3_005",
+   "g3_007",
+   "g3_008",
+   "g3_010",
+   "g3_011"
+  ],
+  "by_kind": {
+   "lateral_bias_small": 4,
+   "waypoint_noise": 4
+  },
+  "clean_flagged": [],
+  "refs_flagged": []
+ },
+ "a reference per scene": {
+  "flags": {
+   "g3_011": "physics.txt median_plan_handoff_m 0.300 with median_plan_offset_m 0.298 and plan_noise_m 0.003: the controller got a plan shifted a constant 0.3 m sideways from what VaVAM returned, so this is not the nominal setup (clean runs and reference r04 on the same scene are at about 0.00).",
+   "g3_005": "physics.txt median_plan_handoff_m 0.300 / median_plan_offset_m 0.299: the plan given to the MPC was shifted a constant 0.3 m sideways, while reference r10 and r13 on the same scene show 0.003/0.002.",
+   "g3_002": "physics.txt median_plan_handoff_m 0.300 / median_plan_offset_m 0.299: the plan was shifted 0.3 m sideways between driver and controller, so this is not the nominal setup (reference r01 and r07 are at 0.003/0.002).",
+   "g3_008": "physics.txt median_plan_handoff_m 0.300 / median_plan_offset_m 0.300: the plan was shifted 0.3 m sideways before the controller got it, while reference r15 and r14 on the same scene are at 0.000.",
+   "g3_010": "physics.txt median_plan_handoff_m 0.517 with plan_noise_m 0.258: random sideways noise was added to the plan before the controller got it, so this is not the nominal setup (reference r04 is at 0.004/0.001).",
+   "g3_004": "physics.txt median_plan_handoff_m 0.510 with plan_noise_m 0.262: the plan given to the MPC was perturbed with noise, while reference r10 shows 0.003/0.000.",
+   "g3_001": "physics.txt median_plan_handoff_m 0.518 with plan_noise_m 0.267: the plan was noised between driver and controller, while reference r01 shows 0.003/0.001.",
+   "g3_007": "physics.txt median_plan_handoff_m 0.497 with plan_noise_m 0.260: the plan was noised between driver and controller, while reference r15 and r14 on the same scene show 0.000."
+  },
+  "caught": [
+   "g3_001",
+   "g3_002",
+   "g3_004",
+   "g3_005",
+   "g3_007",
+   "g3_008",
+   "g3_010",
+   "g3_011"
+  ],
+  "by_kind": {
+   "lateral_bias_small": 4,
+   "waypoint_noise": 4
+  },
+  "clean_flagged": [],
+  "refs_flagged": []
+ }
+}

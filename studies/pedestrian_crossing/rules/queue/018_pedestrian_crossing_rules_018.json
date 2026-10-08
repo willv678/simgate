@@ -1,0 +1,71 @@
+{
+  "name": "pedestrian_crossing_rules_018",
+  "run_dir": "diag/pedestrian_crossing_rules_018",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+    "traffic": "replay",
+    "retime_class": "person",
+    "retime_track": "97",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.25
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1759542,
+  "launched_at": 1791339981.4380128,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "HALT",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "pedestrian_crossing_rules_018",
+      "k_status": "config_not_landed: actor_retiming requested [{'track_id': '97', 'time_shift_s': 0.0, 'speed_scale': 1.25}], resolved [{'track_id': 97, 'time_shift_s': 0.0, 'speed_scale': 1.25}]",
+      "config": {
+        "context_length": 8,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "trafficsim_device": "cpu",
+        "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+        "traffic": "replay",
+        "retime_class": "person",
+        "retime_track": "97",
+        "planner_delay_us": 0,
+        "lateral_bias_m": 0.0,
+        "waypoint_noise_std": 0.0,
+        "actor_time_shift_s": 0.0,
+        "actor_speed_scale": 1.25
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-07T02:26:28.235Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 2314389120629 outside range [2314386020629, 2314389020630)",
+        "ValueError: Interpolation timestamp 2314389120629 outside range [2314386020629, 2314389020630)",
+        "controller-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n845 MiB, 11007 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  758G  153G  84% /\n",
+    "skill": "HALT",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 7289,
+    "output_tokens": 798,
+    "duration_ms": 8411,
+    "tool_calls": [],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null
+}

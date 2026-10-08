@@ -1,0 +1,39 @@
+{
+ "waypoint_noise": {
+  "lineages": 4,
+  "detected": 4,
+  "recovered": 0,
+  "halted": 4,
+  "launches": 4,
+  "skills": {
+   "HALT": 4
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 4,
+  "no_gate_invalid_kept": 4
+ },
+ "lateral_bias_small": {
+  "lineages": 4,
+  "detected": 4,
+  "recovered": 0,
+  "halted": 4,
+  "launches": 4,
+  "skills": {
+   "HALT": 4
+  },
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 4,
+  "no_gate_invalid_kept": 4
+ },
+ "clean": {
+  "lineages": 4,
+  "detected": 0,
+  "recovered": 4,
+  "halted": 0,
+  "launches": 4,
+  "skills": {},
+  "gate_invalid_kept": 0,
+  "no_gate_kept": 4,
+  "no_gate_invalid_kept": 0
+ }
+}

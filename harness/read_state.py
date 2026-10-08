@@ -154,6 +154,22 @@ def _exit_code(entry: dict) -> int | None:
     return int(path.read_text(encoding="utf-8").strip())
 
 
+BOOT_ID = Path("/proc/sys/kernel/random/boot_id")
+
+
+def boot_id() -> str:
+    return BOOT_ID.read_text(encoding="utf-8").strip()
+
+
+def launcher_alive(entry: dict) -> bool:
+    """Whether the run's launcher still runs. A pid from before a reboot can
+    belong to an unrelated process now, so a run launched in another boot is
+    never alive. Entries launched before 7 Oct 2026 have no boot_id."""
+    if entry.get("boot_id", boot_id()) != boot_id():
+        return False
+    return _alive(entry["pid"])
+
+
 def _alive(pid: int) -> bool:
     try:
         os.kill(pid, 0)
@@ -293,7 +309,7 @@ def read_state(entry: dict) -> RunState:
 
     code = _exit_code(entry)
     if code is None:
-        if entry["pid"] is not None and _alive(entry["pid"]):
+        if entry["pid"] is not None and launcher_alive(entry):
             return RunState(State.RUNNING, f"pid {entry['pid']}")
         return RunState(State.FAILED, "process_lost: launcher gone, no exit code")
 

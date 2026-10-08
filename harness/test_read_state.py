@@ -94,3 +94,14 @@ def test_physics_bounds_fail_a_run_the_other_checks_keep(
     # The fixture run has no completed rollout, so nothing shows the motion was possible.
     assert result.state is State.FAILED
     assert result.k_status.startswith("physics: no rollout log")
+
+
+def test_a_launcher_from_another_boot_is_never_alive():
+    import os
+
+    from read_state import boot_id, launcher_alive
+
+    me = {"pid": os.getpid(), "boot_id": boot_id()}
+    assert launcher_alive(me)
+    assert not launcher_alive({**me, "boot_id": "an-earlier-boot"})
+    assert launcher_alive({"pid": os.getpid()})  # launched before boot ids were kept

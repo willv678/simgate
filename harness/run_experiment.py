@@ -31,6 +31,7 @@ from read_state import (
     PLAN_KEYS,
     ROOT,
     State,
+    boot_id,
     console_log,
     exit_file,
     frame_interval_us,
@@ -135,6 +136,7 @@ def main() -> int:
     entry["launched"] = True
     entry["pid"] = proc.pid
     entry["launched_at"] = time.time()
+    entry["boot_id"] = boot_id()
     save_entry(entry_path, entry)
     print(json.dumps({"pid": proc.pid, "run_dir": entry["run_dir"]}))
     return 0
