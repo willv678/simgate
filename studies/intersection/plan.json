@@ -34,7 +34,8 @@
    "k": 5,
    "high_min": 0.5,
    "distinct_scenes": true
-  }
+  },
+  "seeded": true
  },
  "call": {
   "model": "claude-opus-5-5",

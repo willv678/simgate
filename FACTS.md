@@ -440,6 +440,22 @@ The tolerance (0.2 m/s + 5% of the expected speed) is ten times the worst
 real error at scale 1. What retiming itself adds at other scales is the smoke
 test's question (`studies/ego_speed_smoke`, below when it has run).
 
+## Seeded replay, rp1, 7 Oct night
+
+One pedestrian scene (0e002edd), traffic replayed, 0 delay, through the full
+gate; all three runs kept (`check_replay.py`, harness/rp1_same_seed.json and
+rp1_other_seed.json).
+- Seed 4242 twice: identical. 122 steps, 85 plans and 25 frames compared;
+  pose difference 0.0 m, yaw 0.0 rad.
+- Seed 4242 against 4243: the plans part at 3.64 s, the frames at 5.14 s, the
+  poses at 4.74 s; 1.98 m and 0.62 rad apart at the end.
+- Reading: a run is a function of its config and its seed, so a kept run can
+  be replayed exactly (a failure can be shown again, frame for frame), and
+  the variation between repeats is the seed's, not the machine's. Seeding is
+  on for the studies started after this (lead vehicle, intersection, cut-in,
+  the A/B); the pedestrian study's five arms stay unseeded, as its first two
+  began, so they compare like for like.
+
 ## Problems met building the loop, and how each was solved (for the paper)
 
 Each one would have made an unattended testing loop produce wrong results

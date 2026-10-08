@@ -1,0 +1,24 @@
+{
+ "seeds": {
+  "a": {
+   "driver": 4242,
+   "traffic": 4242
+  },
+  "b": {
+   "driver": 4243,
+   "traffic": 4243
+  }
+ },
+ "same_seeds": false,
+ "steps_compared": 122,
+ "same_steps": true,
+ "max_pose_diff_m": 1.9800459328733362,
+ "final_pose_diff_m": 1.9800459328733362,
+ "max_yaw_diff_rad": 0.6199286306541407,
+ "first_frame_divergence_s": 5.14,
+ "first_plan_divergence_s": 3.64,
+ "first_pose_divergence_s": 4.74,
+ "frames_compared": 25,
+ "plans_compared": 85,
+ "identical": false
+}

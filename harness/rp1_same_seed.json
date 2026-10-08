@@ -1,0 +1,24 @@
+{
+ "seeds": {
+  "a": {
+   "driver": 4242,
+   "traffic": 4242
+  },
+  "b": {
+   "driver": 4242,
+   "traffic": 4242
+  }
+ },
+ "same_seeds": true,
+ "steps_compared": 122,
+ "same_steps": true,
+ "max_pose_diff_m": 0.0,
+ "final_pose_diff_m": 0.0,
+ "max_yaw_diff_rad": 0.0,
+ "first_frame_divergence_s": null,
+ "first_plan_divergence_s": null,
+ "first_pose_divergence_s": null,
+ "frames_compared": 25,
+ "plans_compared": 85,
+ "identical": true
+}
