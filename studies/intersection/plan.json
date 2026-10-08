@@ -1,0 +1,45 @@
+{
+ "plan": {
+  "question": "At intersections with crossing traffic, which arrival times and speeds of the recorded crossing car make the VaVAM policy collide or leave the road? Find the 5 most challenging settings, each on a different scene, confirmed by repeats.",
+  "objective": "Find (time shift, speed scale) settings of the crossing car that make the ego fail (front or side collision, or leaving the road), and confirm each one with repeats until its failure rate is clearly above 0.5. We want 5 such settings, each on a different scene. Once a scene has a confirmed setting, spend the remaining runs on other scenes. If no setting fails, rank by closest approach to another actor (near misses). Ignore failures that the crossing car does not cause, and ignore rear-end contact.",
+  "vary": [
+   "actor_time_shift_s",
+   "actor_speed_scale"
+  ],
+  "scenes": [
+   "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc",
+   "clipgt-118a3400-83ce-4a64-98dd-f38f786be4b2",
+   "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+   "clipgt-1a7b81b8-9bca-4385-a591-64f74eb59db2",
+   "clipgt-0d76134f-350d-44b5-a694-208e9dab9600"
+  ],
+  "rounds": 7,
+  "per_round": 7,
+  "rationale": "Scope: the brief asks for intersection scenes with crossing cars. I chose the six intersection-tagged scenes that have a recorded crossing_vehicle key actor and that passed the earlier 0-delay run. A scene that already fails cannot show that the retiming caused the failure. Five of these scenes came within 2 m of another actor (054b5901 at 0.26 m, 13a9767e at 0.12 m, 118a3400, 02eadd92, 1a7b81b8), so they are likely to break under small shifts. 0d76134f is a spare: its ego moved only 7 m in the earlier run. Having six scenes leaves room for one to never break while still reaching 5 distinct scenes.\n\nHow it runs: traffic is replay, as the brief asks. The retime class is automobile, but retime_tracks pins each scene to its crossing car only. That way, lead vehicles in scenes also tagged lead_vehicle or merge_cut_in are not moved, which would confound the result. The two knobs cover the brief's full ranges: -2 to +2 s and 0.5x to 2x speed.\n\nGoal and budget: the goal is top_k, k=5, one per scene, high_min 0.5. With 90% ranges, each confirmed case needs roughly 5 or more mostly failing repeats, so 5 cases take about 25\u201330 runs. The remaining ~20 runs of the ~50 budget go to searching. Seven rounds of 7 (49 runs) let the proposer search first and then confirm, and the study stops early if 5 are confirmed.\n\nLimits:\n- The goal cannot rank near misses. The proposer is told to use closest approach as the tiebreak, but the stopping rule only counts failures.\n- 'Crossing traffic' comes from automatically derived key_actors, not checked by hand. All six scenes record the ego going straight (turn 'none'). The intersection scenes where the ego turns (e.g. 16db28cb left; 1be86721 and 1be9be8f right) have no identified crossing car, so turning cases are not covered.\n- The 0-delay baselines were run with CATK traffic, not replay, so the baseline passes are only a guide.\n- Under replay the crossing car does not react to the ego. A collision may therefore partly reflect a scripted actor that would have yielded in reality.",
+  "fixed": {
+   "traffic": "replay",
+   "retime_class": "automobile",
+   "retime_tracks": {
+    "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02": "93",
+    "clipgt-13a9767e-35c2-4d91-bba1-4326fc018dfc": "223",
+    "clipgt-118a3400-83ce-4a64-98dd-f38f786be4b2": "100",
+    "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6": "127",
+    "clipgt-1a7b81b8-9bca-4385-a591-64f74eb59db2": "47",
+    "clipgt-0d76134f-350d-44b5-a694-208e9dab9600": "50"
+   }
+  },
+  "goal": {
+   "type": "top_k",
+   "k": 5,
+   "high_min": 0.5,
+   "distinct_scenes": true
+  }
+ },
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 26356,
+  "output_tokens": 2844,
+  "duration_ms": 27753
+ }
+}
