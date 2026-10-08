@@ -51,6 +51,13 @@ setting can pass once and fail the next time, so rates need repeats.
   "automobile", "heavy_truck"). Varying `actor_time_shift_s` or
   `actor_speed_scale` requires "replay" and a `retime_class`; a scene with no
   actor of that class fails its runs, so choose scenes that have one.
+  `ego_speed_scale` needs neither: it sets how fast the ego is going when the
+  policy takes over (1.2: 20% faster than recorded), at the recorded place and
+  time, by replaying the ego's recorded warm-up faster or slower. Varied with
+  `actor_time_shift_s` it asks, for example, how the outcome depends on the
+  ego's speed and on when a pedestrian steps out. A scale above 1 starts the
+  ego behind its recorded start, off the scene's recording for the first
+  second or two of the warm-up.
   `retime_tracks` (optional): scene id -> the id of the one actor to retime
   in that scene (a scene's `key_actors` give candidates, e.g. the pedestrian
   that comes closest to the ego's path); scenes not listed retime their whole

@@ -34,6 +34,7 @@ from read_state import (
     State,
     boot_id,
     console_log,
+    ego_speed_request,
     exit_file,
     frame_interval_us,
     load_entry,
@@ -92,6 +93,7 @@ def wizard_command(config: dict, log_dir: Path) -> list[str]:
         *plan_args(plan_request(config)),
         *traffic_args(config),
         *seed_args(config),
+        *ego_args(config),
     ]
 
 
@@ -121,6 +123,15 @@ def seed_args(config: dict) -> list[str]:
         f"+runtime.simulation_config.random_seed={seed}",
         "+driver.model.force_determinism=true",
     ]
+
+
+def ego_args(config: dict) -> list[str]:
+    """The ego speed scale when it is not the recorded speed. The key is not
+    in AlpaSim's base config, so Hydra must add it (+)."""
+    scale = ego_speed_request(config)
+    if scale == 1.0:
+        return []
+    return [f"+runtime.simulation_config.ego_speed_scale={scale}"]
 
 
 def main() -> int:

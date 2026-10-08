@@ -55,8 +55,12 @@ flowchart LR
   catalog, the scenes and a 60-run cap before anything runs.
 - **Knobs** (`knobs.py`): only settings the gate can verify from the run's own
   log: planner delay (plan age), lateral bias and waypoint noise on the plan
-  (offset and scatter), and actor retiming (time shift and speed of a recorded
-  actor class, with traffic replayed; AlpaSim's `actor_retiming` hook).
+  (offset and scatter), actor retiming (time shift and speed of a recorded
+  actor class, with traffic replayed; AlpaSim's `actor_retiming` hook), and
+  the ego's speed at hand-off (`ego_speed_scale`: the recorded warm-up replayed
+  that many times as fast, reaching the recorded hand-off pose on time;
+  AlpaSim's `ego_speed_scale`, checked by the runtime's "Retimed ego" line and
+  the ego's logged speed before the hand-off against the recording's).
 - **Seeds** (`replay.py`, `check_replay.py`): a study whose plan.json says
   `"seeded": true` gives every run a `seed` in its queue config, a hash of the
   study's name and the run's number (opt-in until `run_pool3.sh`'s validation

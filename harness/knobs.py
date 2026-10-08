@@ -19,7 +19,13 @@ Only knobs the inner loop can apply and verify from the log are listed:
 - actor_time_shift_s, actor_speed_scale: retime the recorded actors of the
   study's retime_class (AlpaSim's actor_retiming hook), with traffic replayed;
   postflight checks the rule landed and that the runtime retimed at least one
-  actor of that class.
+  actor of that class;
+- ego_speed_scale: the ego drives its recorded path this many times as fast
+  during the force-GT warm-up and reaches the recorded hand-off pose on time,
+  so the policy takes over at the recorded place with this times the recorded
+  speed (AlpaSim's ego_speed_scale); postflight checks the resolved config, the
+  runtime's "Retimed ego" line, and the ego's speed before the hand-off in the
+  log against the recording's (physics.handoff_speeds).
 
 The controller that tracks the plan is the system under test, not a knob: a
 study runs the linear MPC, or, in an A/B study (fixed setting `compare`),
@@ -32,12 +38,14 @@ BIASES_M = (-0.5, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.5)
 NOISES_M = (0.0, 0.1, 0.2, 0.3)
 SHIFTS_S = (-2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0)
 SPEED_SCALES = (0.5, 0.75, 1.0, 1.25, 1.5, 2.0)
+EGO_SPEED_SCALES = (0.6, 0.8, 1.0, 1.2, 1.4)
 SCENARIO = {
     "planner_delay_us": DELAYS_US,
     "lateral_bias_m": BIASES_M,
     "waypoint_noise_std": NOISES_M,
     "actor_time_shift_s": SHIFTS_S,
     "actor_speed_scale": SPEED_SCALES,
+    "ego_speed_scale": EGO_SPEED_SCALES,
 }
 TYPES = {
     "planner_delay_us": (int,),
@@ -45,6 +53,7 @@ TYPES = {
     "waypoint_noise_std": (int, float),
     "actor_time_shift_s": (int, float),
     "actor_speed_scale": (int, float),
+    "ego_speed_scale": (int, float),
 }
 ACTOR_KNOBS = ("actor_time_shift_s", "actor_speed_scale")
 # A study's fixed settings: how other actors move, and which recorded actors
@@ -63,6 +72,8 @@ DESCRIPTIONS = {
     "than recorded (negative: earlier), e.g. a pedestrian stepping out sooner",
     "actor_speed_scale": "speed of the study's actor class relative to its "
     "recording (2.0: twice as fast along the same path)",
+    "ego_speed_scale": "speed of the ego when the driving policy takes over, "
+    "relative to its recording at that place (1.2: 20% faster)",
 }
 # The controller configs a run may use (AlpaSim's src/wizard/configs/controller/),
 # each with what it is and the values that identify it in the resolved
@@ -102,6 +113,7 @@ UNVARIED = {
     "waypoint_noise_std": 0.0,
     "actor_time_shift_s": 0.0,
     "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.0,
 }
 
 

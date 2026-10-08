@@ -13,8 +13,9 @@ two controllers) and CATK traffic, on real recorded scenes.
 The question (`objective`): **how does the policy's
 failure rate on each candidate scene change with the study's knobs**, such as
 planner delay (the time between a camera frame and the controller receiving
-the plan made from it) or a sideways shift of the plan (as from a perception
-error)? AV teams want to know which scenes are fragile and roughly where each
+the plan made from it), a sideways shift of the plan (as from a perception
+error), or the ego's speed when the policy takes over (`ego_speed_scale`, a
+multiple of its recorded speed at the same place)? AV teams want to know which scenes are fragile and roughly where each
 breaks.
 
 Each run is one random sample: the same scene and delay can end differently,
@@ -71,4 +72,5 @@ dropped, not run.
 Spend runs where they change what the study can conclude: settings whose
 failure rate is most uncertain, and settings near where a scene starts to fail.
 Settings that already failed or passed many times teach little more. Every
-other scenario knob stays at its unperturbed value (0).
+other scenario knob stays at its unperturbed value (0, or 1 for a speed
+scale).
