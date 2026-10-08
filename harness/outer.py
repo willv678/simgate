@@ -75,6 +75,7 @@ from knobs import (
     rejection,
     run_config,
 )
+from memory import prior_runs
 from read_state import (
     ROOT,
     SEED_LIMIT,
@@ -285,27 +286,30 @@ def first_scenes(count: int) -> list[dict]:
     return scene_facts()[:count]
 
 
+def history_row(entry: dict, varied: tuple) -> dict:
+    """One run: its setting, its controller and the gate's verdict; a kept run
+    also carries its outcome, and a prior study's run (memory.py) its source."""
+    row = {
+        "run": entry["name"],
+        "scene_id": entry["config"]["scene_id"],
+        **{knob: entry["config"][knob] for knob in varied},
+        "controller": requested_controller(entry["config"]),
+    }
+    if "prior" in entry:
+        row["prior"] = entry["prior"]
+    if "quarantine" in entry:
+        row["verdict"] = f"quarantined: {entry['quarantine']}"
+    elif entry["resolution"] == "ACCEPT":
+        row["verdict"] = "kept"
+        row.update(outcome(ROOT / entry["run_dir"]))
+    else:
+        row["verdict"] = f"not kept: {entry['resolution']}"
+    return row
+
+
 def history(queue: Path, varied: tuple[str, ...]) -> list[dict]:
-    """Every run of the study: its setting, its controller and the gate's
-    verdict; kept runs also carry their outcome."""
-    rows = []
-    for path in queue_entries(queue):
-        entry = load_entry(path)
-        row = {
-            "run": entry["name"],
-            "scene_id": entry["config"]["scene_id"],
-            **{knob: entry["config"][knob] for knob in varied},
-            "controller": requested_controller(entry["config"]),
-        }
-        if "quarantine" in entry:
-            row["verdict"] = f"quarantined: {entry['quarantine']}"
-        elif entry["resolution"] == "ACCEPT":
-            row["verdict"] = "kept"
-            row.update(outcome(ROOT / entry["run_dir"]))
-        else:
-            row["verdict"] = f"not kept: {entry['resolution']}"
-        rows.append(row)
-    return rows
+    """Every run of the study, in queue order (history_row)."""
+    return [history_row(load_entry(path), varied) for path in queue_entries(queue)]
 
 
 def planned(queue: Path) -> list[dict]:
@@ -361,6 +365,9 @@ class Study:
     fixed: dict | None = None
     # Whether each run gets a seed (run_seed); `seed` above seeds the proposer.
     seeded: bool = False
+    # Whether kept runs of other studies with this study's settings count as
+    # evidence (memory.prior_runs).
+    reuse: bool = False
 
     @property
     def compare(self) -> dict | None:
@@ -433,8 +440,24 @@ def run_study(study: Study) -> list[dict]:
     if done:
         run_inner_loop(study)
 
+    prior = (
+        [
+            history_row(entry, study.varied)
+            for entry in prior_runs(
+                study.queue,
+                scenes,
+                study.fixed or {},
+                list(study.compare.values()) if study.compare else ["linear"],
+                study.varied,
+            )
+        ]
+        if study.reuse
+        else []
+    )
     for round_index in range(done, study.rounds):
         past = history(study.queue, study.varied) if study.queue.is_dir() else []
+        if study.reuse:
+            past = prior + past
         status = check_goal(study, past, round_index)
         if status is not None and status["met"]:
             print(

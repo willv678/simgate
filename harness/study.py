@@ -256,6 +256,10 @@ def study_of(folder: Path, name: str, plan: dict, proposer: str, model: str) -> 
     seeded = plan.get("seeded", False)
     if type(seeded) is not bool:
         raise SystemExit(f"plan.json: seeded must be true or false, got {seeded!r}")
+    # Reusing other studies' runs is opt-in, set by a person (memory.py).
+    reuse = plan.get("reuse_prior", False)
+    if type(reuse) is not bool:
+        raise SystemExit(f"plan.json: reuse_prior must be true or false, got {reuse!r}")
     return Study(
         name=name,
         queue=folder / "queue",
@@ -272,6 +276,7 @@ def study_of(folder: Path, name: str, plan: dict, proposer: str, model: str) -> 
         fixed=plan["fixed"],
         goal_file=folder / "goal.json",
         seeded=seeded,
+        reuse=reuse,
     )
 
 
