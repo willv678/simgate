@@ -1,5 +1,7 @@
 # SimGate
 
+[![tests](https://github.com/willv678/simgate/actions/workflows/tests.yml/badge.svg)](https://github.com/willv678/simgate/actions/workflows/tests.yml)
+
 **Find the scenarios that break a self-driving policy, fast, with an LLM in
 the loop that cannot corrupt the results.**
 

@@ -309,6 +309,11 @@ async function renderResults() {
       <p class="q">${g.attempts} simulation runs finished across every study; <b>${g.kept}</b> passed every check and were kept (${(100*g.kept/Math.max(g.attempts,1)).toFixed(1)}%). No run enters the results without passing the gate; the model can only propose a fix from a fixed menu.</p>
       ${rows ? `<div class="scroll"><table><tr><th>first failed check</th><th>what happened</th><th>attempts</th></tr>${rows}</table></div>` : ""}</div>`);
   }
+  if (r.gallery && r.gallery.length) {
+    parts.push(`<div class="card"><h2>The hardest cases, as the camera saw them</h2>
+      <p class="q">Each study's confirmed hardest settings, one failed run each, at the moment of failure, with the cause read from the video (GALLERY.md has every case in words).</p>
+      ${r.gallery.map((g) => `<h3 style="font-size:14px;margin:14px 0 6px">${esc(g)}</h3><img src="${ROOT}figures/gallery_${encodeURIComponent(g)}.png" alt="Hardest cases of ${esc(g)}" style="max-width:100%;height:auto;border-radius:8px">`).join("")}</div>`);
+  }
   $("results").innerHTML = parts.join("") || '<div class="empty">No results yet: run research/harness/analyze_methods.py and gate_report.py.</div>';
 }
 

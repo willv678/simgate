@@ -293,7 +293,11 @@ def _worker_alive() -> bool:
 def results_summary() -> dict:
     """The cross-study numbers analyze_methods.py and gate_report.py wrote,
     or None for each not yet made."""
-    found = {}
+    found = {
+        "gallery": sorted(
+            p.stem.removeprefix("gallery_") for p in FIGURES.glob("gallery_*.png")
+        )
+    }
     for name in ("methods", "gate"):
         path = ROOT / "research" / f"{name}.json"
         found[name] = (
