@@ -51,6 +51,11 @@ goal, the hardest case found), **Queue** the jobs and their logs, **Activity**
 the loop's log. From another machine: `ssh -L 8765:localhost:8765 <host>`; the
 app listens on localhost only, since it can queue GPU work.
 
+`research/simgate export` writes a read-only snapshot of the app to
+research/site/ (the page and its data as JSON; study pages linked where they
+are), so the repository served as it is, e.g. by GitHub Pages, shows every
+study without a GPU or a server.
+
 The same from a terminal:
 
 ```bash
@@ -58,6 +63,8 @@ research/simgate new night_pedestrians      # a brief to fill in, research/brief
 research/simgate plan night_pedestrians     # Claude plans it; code checks the plan
 research/simgate queue night_pedestrians --proposer rules hybrid llm random
 research/simgate status                     # every study, its proposers, the queue
+research/simgate queue night_pedestrians --proposer rules llm --replicate 2 3   # independent repeats
+research/simgate export                     # read-only snapshot in research/site/
 ```
 
 The worker counts every simulation on the machine (studies, and loops run by

@@ -79,6 +79,8 @@ def main() -> int:
         help="independent repeats of each arm (2 3 queues two more)",
     )
     sub.add_parser("status", help="studies, their arms, and the job queue")
+    export = sub.add_parser("export", help="a read-only snapshot of the web app")
+    export.add_argument("out", type=Path, nargs="?", default=ROOT / "research" / "site")
     args = parser.parse_args()
 
     if args.command == "serve":
@@ -125,6 +127,9 @@ def main() -> int:
             print("no worker is running: start one with `simgate worker`")
     elif args.command == "status":
         status()
+    elif args.command == "export":
+        web.export(args.out)
+        print(f"{args.out}/index.html written; serve the repository to view it")
     return 0
 
 

@@ -214,6 +214,9 @@ def studies(commands: list[str]) -> list[dict]:
                     proposer: {
                         **arm_report(arm, plan),
                         "running": (folder.name, proposer) in running,
+                        "page": str(arm.relative_to(STUDIES) / "index.html")
+                        if (arm / "index.html").exists()
+                        else None,
                     }
                     for proposer, arm in arms(folder).items()
                 },
@@ -400,6 +403,36 @@ class Handler(BaseHTTPRequestHandler):
         except (Refused, ValueError, KeyError, json.JSONDecodeError) as exc:
             return self._json({"error": str(exc)}, HTTPStatus.BAD_REQUEST)
         self._send(404, b"not found", "text/plain")
+
+
+def export(out: Path) -> None:
+    """A read-only snapshot of the app: the page, and the answers of every
+    GET it makes as JSON files beside it. Study pages and figures are linked
+    where they are in the repository (out must sit one folder below
+    research/, as research/site/ does), so GitHub Pages can serve the
+    repository as it is."""
+    if out.resolve().parent != (ROOT / "research").resolve():
+        raise Refused("export to a folder directly under research/, e.g. research/site")
+    (out / "api" / "plan").mkdir(parents=True, exist_ok=True)
+    snapshot = {**state(), "jobs": [], "worker": False, "pool": False, "gpu": None}
+    for study in snapshot["studies"]:
+        for arm in study["arms"].values():
+            arm["running"] = False
+    (out / "api" / "state.json").write_text(json.dumps(snapshot), encoding="utf-8")
+    (out / "api" / "catalog.json").write_text(json.dumps(catalog()), encoding="utf-8")
+    for study in snapshot["studies"]:
+        (out / "api" / "plan" / f"{study['name']}.json").write_text(
+            json.dumps(plan_of(study["name"])), encoding="utf-8"
+        )
+    from datetime import date
+
+    page = PAGE.read_text(encoding="utf-8").replace(
+        "<script>",
+        f"<script>window.SIMGATE_STATIC = {json.dumps(str(date.today()))};</script>"
+        "\n<script>",
+        1,
+    )
+    (out / "index.html").write_text(page, encoding="utf-8")
 
 
 def serve(port: int = 8765) -> None:
