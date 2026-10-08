@@ -422,9 +422,23 @@ last frames). Same scenes, 0 delay, CATK, full gate (`compare_frames.json`).
   1080p frames to take 8 from); these were halted, not counted.
 - Reading: stale frames explain part of VaVAM's failure rate; the direction
   is consistent, the size not yet significant. New studies should run with
-  fresh frames once the GPU has the memory (from Thursday). Tonight's
-  pedestrian studies use 500 ms frames in all three arms, so their comparison
-  is like for like.
+  fresh frames once the GPU has the memory (from Thursday). The category
+  studies of 7-8 Oct (every arm, every category, and the A/B) all run with
+  500 ms frames (`knobs.EXECUTION` sets no frame interval), so their
+  comparisons are like for like; fresh frames with two runs in flight on 24 GB
+  were not tested before the overnight pool, and an untested memory change
+  mid-pool could halt arms unevenly.
+
+## The ego speed check against real logs, 7 Oct night
+
+`physics.handoff_speeds` at scale 1.0 (the ego replays its recording before
+the hand-off, so the ego's speed over the last 0.5 s must equal the
+recording's) on 300 kept runs sampled from diag/: error median 0.004 m/s,
+95th percentile 0.013 m/s, worst 0.023 m/s on the 298 study and campaign runs
+(the 2 others, `test_force_gt_*`, are debug runs with the ego held still).
+The tolerance (0.2 m/s + 5% of the expected speed) is ten times the worst
+real error at scale 1. What retiming itself adds at other scales is the smoke
+test's question (`studies/ego_speed_smoke`, below when it has run).
 
 ## Problems met building the loop, and how each was solved (for the paper)
 
