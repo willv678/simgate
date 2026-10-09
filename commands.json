@@ -1,0 +1,46 @@
+{
+ "kept_runs": 850,
+ "failures": 167,
+ "policy_steps": 62321,
+ "commands": {
+  "LEFT": {
+   "share_of_steps": 0.009,
+   "failures_under_it": 0,
+   "share_of_failures": 0.0,
+   "runs_that_got_it": 25,
+   "scenes_that_got_it": 6,
+   "failure_rate_of_those_runs": 1.0,
+   "failure_rate_90": [
+    0.9,
+    1.0
+   ],
+   "scenes_with_a_failure_under_it": 0
+  },
+  "STRAIGHT": {
+   "share_of_steps": 0.392,
+   "failures_under_it": 26,
+   "share_of_failures": 0.156,
+   "runs_that_got_it": 823,
+   "scenes_that_got_it": 24,
+   "failure_rate_of_those_runs": 0.17,
+   "failure_rate_90": [
+    0.15,
+    0.19
+   ],
+   "scenes_with_a_failure_under_it": 6
+  },
+  "RIGHT": {
+   "share_of_steps": 0.598,
+   "failures_under_it": 141,
+   "share_of_failures": 0.844,
+   "runs_that_got_it": 725,
+   "scenes_that_got_it": 24,
+   "failure_rate_of_those_runs": 0.225,
+   "failure_rate_90": [
+    0.2,
+    0.25
+   ],
+   "scenes_with_a_failure_under_it": 16
+  }
+ }
+}

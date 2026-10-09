@@ -1,0 +1,157 @@
+"""Does the policy fail more under some route commands than others?
+
+The driver gets a route command each step (LEFT, STRAIGHT or RIGHT), computed
+by AlpaSim from the route it is sent: the first route waypoint at least 5 m
+ahead, LEFT if it lies more than 2 m to the left, RIGHT if more than 2 m to
+the right (alpasim_driver.navigation.determine_command_from_route; VaVAM was
+trained with the same 2 m rule). This reads every route_request of every kept
+study run after the policy took over and asks:
+
+- how the policy's steps divide between the commands (the base rate);
+- which command was in force at each failure (the last route before it);
+- the failure rate of runs that ever got each command, and over how many
+  scenes, since commands cluster on scenes.
+
+Failures follow outer.outcome (the policy's, after hand-off). Writes
+research/COMMANDS.md and research/commands.json.
+
+    uv run python research/harness/command_analysis.py
+"""
+
+import asyncio
+import json
+import sys
+from collections import Counter
+from pathlib import Path
+
+import numpy as np
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from alpasim_utils.logs import async_read_pb_log
+from goals import rate_range
+from outer import outcome
+from physics import completed_rollout
+from read_state import ROOT, load_entry, queue_entries
+
+STUDIES = ROOT / "research" / "studies"
+THRESHOLD_M = 2.0
+LOOKAHEAD_M = 5.0
+COMMANDS = ("LEFT", "STRAIGHT", "RIGHT")
+
+
+def command(waypoints: list[tuple[float, float]]) -> str:
+    """AlpaSim's determine_command_from_route, on (x, y) rig-frame waypoints."""
+    for x, y in waypoints:
+        if np.hypot(x, y) >= LOOKAHEAD_M:
+            if y > THRESHOLD_M:
+                return "LEFT"
+            if y < -THRESHOLD_M:
+                return "RIGHT"
+            return "STRAIGHT"
+    return "STRAIGHT"
+
+
+async def _routes(path: Path) -> list[tuple[int, str]]:
+    found = []
+    async for message in async_read_pb_log(str(path)):
+        if message.WhichOneof("log_entry") == "route_request":
+            route = message.route_request.route
+            points = [(w.x, w.y) for w in route.waypoints]
+            found.append((route.timestamp_us, command(points)))
+    return found
+
+
+def run_commands(run_dir: Path, result: dict) -> dict:
+    """The commands after hand-off, step by step, and the one in force when
+    the run failed (None if it did not)."""
+    routes = asyncio.run(_routes(completed_rollout(run_dir) / "rollout.asl"))
+    start = routes[0][0] if routes else 0
+    handoff_us = start + result["handoff_s"] * 1e6
+    after = [(t, c) for t, c in routes if t >= handoff_us]
+    at_failure = None
+    if result["failed"]:
+        fail_us = start + result["failed_at_s"] * 1e6
+        before = [c for t, c in after if t <= fail_us]
+        at_failure = before[-1] if before else None
+    return {"steps": Counter(c for _, c in after), "at_failure": at_failure}
+
+
+def main() -> int:
+    runs = []
+    for queue in sorted(STUDIES.rglob("queue")):
+        if "aborted_" in str(queue):
+            continue
+        for path in queue_entries(queue):
+            entry = load_entry(path)
+            if entry["resolution"] != "ACCEPT" or "quarantine" in entry:
+                continue
+            run_dir = ROOT / entry["run_dir"]
+            result = outcome(run_dir)
+            runs.append(
+                {
+                    "run": entry["name"],
+                    "scene": entry["config"]["scene_id"],
+                    "failed": result["failed"],
+                    **run_commands(run_dir, result),
+                }
+            )
+
+    steps = Counter()
+    for run in runs:
+        steps.update(run["steps"])
+    total_steps = sum(steps.values())
+    failures = [r for r in runs if r["failed"]]
+    at_failure = Counter(r["at_failure"] for r in failures)
+    per_command = {}
+    for name in COMMANDS:
+        got = [r for r in runs if r["steps"][name] > 0]
+        failed = sum(r["failed"] for r in got)
+        per_command[name] = {
+            "share_of_steps": round(steps[name] / max(total_steps, 1), 3),
+            "failures_under_it": at_failure[name],
+            "share_of_failures": round(at_failure[name] / max(len(failures), 1), 3),
+            "runs_that_got_it": len(got),
+            "scenes_that_got_it": len({r["scene"] for r in got}),
+            "failure_rate_of_those_runs": round(failed / max(len(got), 1), 3),
+            "failure_rate_90": rate_range(failed, len(got)),
+            "scenes_with_a_failure_under_it": len(
+                {r["scene"] for r in failures if r["at_failure"] == name}
+            ),
+        }
+    report = {
+        "kept_runs": len(runs),
+        "failures": len(failures),
+        "policy_steps": total_steps,
+        "commands": per_command,
+    }
+    (ROOT / "research" / "commands.json").write_text(
+        json.dumps(report, indent=1) + "\n"
+    )
+    lines = [
+        "# Failures by route command",
+        "",
+        "Generated by `harness/command_analysis.py` from every kept study run:",
+        f"{len(runs)} runs, {len(failures)} failures (the policy's, after hand-off),",
+        f"{total_steps} policy steps. The command at a failure is the last one the",
+        "driver got before it.",
+        "",
+        "| command | share of policy steps | share of failures | failures (scenes) "
+        "| runs that got it (scenes) | failure rate of those runs (90%) |",
+        "|---|---|---|---|---|---|",
+    ]
+    for name, c in per_command.items():
+        low, high = c["failure_rate_90"]
+        lines.append(
+            f"| {name} | {c['share_of_steps']:.1%} | {c['share_of_failures']:.1%} "
+            f"| {c['failures_under_it']} ({c['scenes_with_a_failure_under_it']}) "
+            f"| {c['runs_that_got_it']} ({c['scenes_that_got_it']}) "
+            f"| {c['failure_rate_of_those_runs']:.0%} ({low:.0%}-{high:.0%}) |"
+        )
+    (ROOT / "research" / "COMMANDS.md").write_text("\n".join(lines) + "\n")
+    print("\n".join(lines))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

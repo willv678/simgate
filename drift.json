@@ -1,0 +1,233 @@
+{
+ "studies": {
+  "after_handoff": {
+   "0.0": {
+    "n": 855,
+    "median_m": 0.0,
+    "left": 0.0,
+    "right": 0.0
+   },
+   "1.0": {
+    "n": 846,
+    "median_m": 0.23,
+    "left": 0.01,
+    "right": 0.0
+   },
+   "2.0": {
+    "n": 813,
+    "median_m": 0.99,
+    "left": 0.63,
+    "right": 0.0
+   },
+   "3.0": {
+    "n": 790,
+    "median_m": 2.19,
+    "left": 0.82,
+    "right": 0.0
+   },
+   "5.0": {
+    "n": 720,
+    "median_m": 3.53,
+    "left": 0.86,
+    "right": 0.0
+   },
+   "7.0": {
+    "n": 688,
+    "median_m": 3.53,
+    "left": 0.87,
+    "right": 0.01
+   }
+  },
+  "at_end": {
+   "n": 855,
+   "median_m": 3.81,
+   "left": 0.88,
+   "right": 0.01
+  },
+  "at_failure": {
+   "n": 168,
+   "median_m": 3.99,
+   "left": 0.89,
+   "right": 0.0
+  }
+ },
+ "b2_queue": {
+  "after_handoff": {
+   "0.0": {
+    "n": 150,
+    "median_m": 0.0,
+    "left": 0.0,
+    "right": 0.0
+   },
+   "1.0": {
+    "n": 150,
+    "median_m": 0.01,
+    "left": 0.0,
+    "right": 0.0
+   },
+   "2.0": {
+    "n": 150,
+    "median_m": 0.15,
+    "left": 0.0,
+    "right": 0.0
+   },
+   "3.0": {
+    "n": 149,
+    "median_m": 0.39,
+    "left": 0.01,
+    "right": 0.0
+   },
+   "5.0": {
+    "n": 135,
+    "median_m": 0.83,
+    "left": 0.98,
+    "right": 0.0
+   },
+   "7.0": {
+    "n": 114,
+    "median_m": 1.0,
+    "left": 0.97,
+    "right": 0.0
+   }
+  },
+  "at_end": {
+   "n": 150,
+   "median_m": 1.01,
+   "left": 0.97,
+   "right": 0.0
+  },
+  "at_failure": {
+   "n": 40,
+   "median_m": 0.95,
+   "left": 0.93,
+   "right": 0.0
+  }
+ },
+ "s1_queue": {
+  "after_handoff": {
+   "0.0": {
+    "n": 100,
+    "median_m": 0.0,
+    "left": 0.0,
+    "right": 0.0
+   },
+   "1.0": {
+    "n": 99,
+    "median_m": 0.2,
+    "left": 0.01,
+    "right": 0.0
+   },
+   "2.0": {
+    "n": 91,
+    "median_m": 1.06,
+    "left": 0.64,
+    "right": 0.02
+   },
+   "3.0": {
+    "n": 86,
+    "median_m": 2.32,
+    "left": 0.71,
+    "right": 0.02
+   },
+   "5.0": {
+    "n": 69,
+    "median_m": 2.51,
+    "left": 0.77,
+    "right": 0.0
+   },
+   "7.0": {
+    "n": 53,
+    "median_m": 2.28,
+    "left": 0.74,
+    "right": 0.02
+   }
+  },
+  "at_end": {
+   "n": 100,
+   "median_m": 3.15,
+   "left": 0.84,
+   "right": 0.01
+  },
+  "at_failure": {
+   "n": 48,
+   "median_m": 4.44,
+   "left": 0.96,
+   "right": 0.0
+  }
+ },
+ "v1_queue": {
+  "after_handoff": {
+   "0.0": {
+    "n": 17,
+    "median_m": 0.0,
+    "left": 0.0,
+    "right": 0.0
+   },
+   "1.0": {
+    "n": 16,
+    "median_m": 0.29,
+    "left": 0.0,
+    "right": 0.0
+   },
+   "2.0": {
+    "n": 15,
+    "median_m": 1.51,
+    "left": 0.93,
+    "right": 0.0
+   },
+   "3.0": {
+    "n": 15,
+    "median_m": 3.35,
+    "left": 0.93,
+    "right": 0.0
+   },
+   "5.0": {
+    "n": 12,
+    "median_m": 4.37,
+    "left": 1.0,
+    "right": 0.0
+   },
+   "7.0": {
+    "n": 12,
+    "median_m": 4.32,
+    "left": 0.83,
+    "right": 0.0
+   }
+  },
+  "at_end": {
+   "n": 17,
+   "median_m": 4.37,
+   "left": 0.82,
+   "right": 0.06
+  },
+  "at_failure": {
+   "n": 5,
+   "median_m": 3.55,
+   "left": 0.8,
+   "right": 0.0
+  }
+ },
+ "open_loop_warmup_plans": {
+  "1.0": {
+   "n": 6322,
+   "median_m": 0.24,
+   "left": 0.19,
+   "right": 0.07,
+   "mean_m": 0.9
+  },
+  "2.0": {
+   "n": 6322,
+   "median_m": 0.21,
+   "left": 0.23,
+   "right": 0.14,
+   "mean_m": 1.13
+  },
+  "3.0": {
+   "n": 6322,
+   "median_m": 0.24,
+   "left": 0.31,
+   "right": 0.13,
+   "mean_m": 1.3
+  }
+ }
+}

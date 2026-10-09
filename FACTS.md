@@ -530,6 +530,41 @@ the recording. So feasible_best (or how the uncommitted configuration.py
 passes its gains) breaks these scenes whatever the pedestrian does. The goal
 now needs 3 settings on 2 scenes (problem 22); the study is continued.
 
+## The policy drifts left, 8-9 Oct (`DRIFT.md`, `COMMANDS.md`)
+
+Found reading the triage: "despite a RIGHT command, the ego drifted left"
+in failure after failure. Measured on every kept study run
+(`drift_analysis.py`; the ego's signed lateral offset from the recorded
+human path, left positive):
+- **Closed loop:** 0 at the hand-off (a check: the ego replays its recording
+  up to there), then left: median +0.99 m at 2 s, +2.19 m at 3 s, +3.53 m at
+  5 s (about one lane), and 88% of the 853 runs end more than 0.5 m left of
+  the recording, 1% right. 89% of failures happen left of it, none right.
+- **Not new:** the same in B2 (28 Sep, one scene, +1.0 m, 97% left), S1
+  (29 Sep, 100 scenes, +3.2 m at the end, 84% left) and v1 (fresh frames,
+  6 Oct, 82% left). So neither the recent changes nor stale frames cause it.
+- **Open loop already leans left:** during the warm-up the ego is on its
+  recording while VaVAM still plans; its plans end left of where the human
+  went: median +0.21-0.24 m at 1-3 s, mean +0.9-1.3 m, 19-31% of 6322 plans
+  more than 0.5 m left against 7-14% right. Closed loop compounds the lean.
+- **Not an integration bug found:** AlpaSim's command (2 m rule, y left) and
+  its map to VaVAM's encoding (RIGHT 0, LEFT 1, STRAIGHT 2) match VaVAM's
+  training code; the camera is centred (1.66 m ahead, 1.4 cm right, 1.52 m
+  up, within 0.5 deg of nominal) with the field of view VaVAM expects (64
+  deg; 1920x1080 scales exactly to 1600x900).
+- **Route commands are an effect, not a cause:** 84% of failures happened
+  under a RIGHT command, but at the hand-off 194 of 200 runs had STRAIGHT;
+  RIGHT builds up as the ego leaves its route to the left, so "ignored a
+  RIGHT command" in the triage mostly describes the drift.
+- Untested hypothesis: VaVAM's training data (nuScenes, nuPlan) include
+  Singapore, where traffic keeps left. A mirror test (flip the camera image,
+  swap LEFT and RIGHT commands, mirror the plan's y) would tell a learned
+  lean from a scene-reading one; it needs a driver change.
+- For the paper: the hardest cases a search finds are mostly places where
+  this drift meets other traffic or the road edge; that is a real weakness
+  of the policy under test, found by the system, and it should be stated as
+  the dominant failure mode.
+
 ## Problems met building the loop, and how each was solved (for the paper)
 
 Each one would have made an unattended testing loop produce wrong results
