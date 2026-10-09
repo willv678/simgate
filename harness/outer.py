@@ -576,6 +576,15 @@ def run_study(study: Study) -> list[dict]:
             answer = rules_proposals(
                 scenes, study.per_round, state["summary"], study.goal, study.varied
             )
+        elif study.proposer == "rules_corners":
+            answer = rules_proposals(
+                scenes,
+                study.per_round,
+                state["summary"],
+                study.goal,
+                study.varied,
+                corners=True,
+            )
         elif study.proposer == "hybrid":
             ranked = candidates(scenes, state["summary"], study.goal, study.varied)
             answer, call = llm_proposals(

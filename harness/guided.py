@@ -18,11 +18,20 @@ The rules, per scene:
 Scores: confirming a near-failure first, then steps from the most critical
 settings, then first probes.
 
+With `corners`, a scene whose settings so far are all far from failing
+(criticality below CORNER_BELOW) also offers its untried corners, every knob
+at an end of its range (as Euro NCAP grids test the extremes), scored after
+every untried scene's first probe and before small steps from a weak
+setting: one-notch steps from the middle never reach a failure that needs an
+extreme value within a study's budget (FACTS, random + confirmation).
+
 `with_confirmation` gives any other proposer the same confirmation rule: up to
 half of a round repeats the near-failures the rules would confirm, and the
 proposer picks the rest. `random_confirm` is random search with it, the fair
 baseline for a top_k goal, which counts only confirmed settings.
 """
+
+from itertools import product
 
 from baselines import next_probe
 from goals import goal_cells
@@ -30,6 +39,8 @@ from knobs import SCENARIO, UNVARIED
 
 DEFAULT_HIGH_MIN = 0.5
 CONFIRM = "confirm "
+CORNER_BELOW = 0.5
+CORNER_SCORE = 0.25
 
 
 def _key(run: dict, varied: tuple) -> tuple:
@@ -59,7 +70,11 @@ def _neighbours(values: dict, varied: tuple) -> list[dict]:
 
 
 def candidates(
-    scenes: list[str], table: list[dict], goal: dict | None, varied: tuple
+    scenes: list[str],
+    table: list[dict],
+    goal: dict | None,
+    varied: tuple,
+    corners: bool = False,
 ) -> list[dict]:
     """Ranked candidate runs, best first, each with its reason and score."""
     if goal is not None and goal["type"] == "bracket":
@@ -105,6 +120,19 @@ def candidates(
                 )
             )
         seen = {_key(r, varied) for r in rows}
+        if corners and best["criticality"] < CORNER_BELOW:
+            for ends in product(*((SCENARIO[k][0], SCENARIO[k][-1]) for k in varied)):
+                corner = dict(zip(varied, ends))
+                if (scene, *ends) not in seen:
+                    found.append(
+                        _setting(
+                            scene,
+                            corner,
+                            varied,
+                            "a corner: the scene is far from failing so far",
+                            CORNER_SCORE,
+                        )
+                    )
         for step in _neighbours(values, varied):
             if (scene, *(step[k] for k in varied)) not in seen:
                 found.append(
@@ -121,11 +149,16 @@ def candidates(
 
 
 def rules_proposals(
-    scenes: list[str], count: int, table: list[dict], goal: dict | None, varied: tuple
+    scenes: list[str],
+    count: int,
+    table: list[dict],
+    goal: dict | None,
+    varied: tuple,
+    corners: bool = False,
 ) -> dict:
     """The best `count` candidates, one scene at a time in turn so no scene
     takes the whole round; candidates repeat when there are too few."""
-    ranked = candidates(scenes, table, goal, varied)
+    ranked = candidates(scenes, table, goal, varied, corners)
     if not ranked:
         return {"plan": "rules: nothing left to try", "runs": []}
     by_scene = {}

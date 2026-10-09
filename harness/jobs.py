@@ -34,6 +34,7 @@ PROPOSERS = (
     "llm",
     "hybrid",
     "rules",
+    "rules_corners",
     "grid",
     "bisect",
     "random",

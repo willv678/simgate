@@ -285,7 +285,7 @@ function renderJobs(s) {
   });
 }
 
-const LABEL = {rules: "rules", hybrid: "hybrid (Claude picks among the rules' candidates)", llm: "llm (Claude, free)",
+const LABEL = {rules: "rules", rules_corners: "rules + corners", hybrid: "hybrid (Claude picks among the rules' candidates)", llm: "llm (Claude, free)",
   random_confirm: "random + confirmation", random: "random", optuna: "optuna (Bayesian)", grid: "grid", lhs: "latin hypercube", ga: "genetic"};
 async function renderResults() {
   let r;

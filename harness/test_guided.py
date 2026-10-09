@@ -85,3 +85,44 @@ def test_without_near_failures_the_whole_round_explores():
     table = results(_runs("clipgt-a", 200_000, 0, 2), DELAY)
     answer = with_confirmation(SCENES, 4, table, TOP3, DELAY, _explore)
     assert [r["why"] for r in answer["runs"]] == ["random"] * 4
+
+
+TWO = ("actor_time_shift_s", "actor_speed_scale")
+
+
+def _two(scene, shift, speed, criticality, i):
+    return {
+        "run": f"{scene}_{i}",
+        "scene_id": scene,
+        "actor_time_shift_s": shift,
+        "actor_speed_scale": speed,
+        "verdict": "kept",
+        "failed": False,
+        "criticality": criticality,
+    }
+
+
+def test_corners_are_offered_once_a_scene_looks_far_from_failing():
+    table = results([_two("clipgt-a", 0.0, 1.25, 0.1, 1)], TWO)
+    found = candidates(["clipgt-a"], table, TOP3, TWO, corners=True)
+    corners = {
+        (c["actor_time_shift_s"], c["actor_speed_scale"])
+        for c in found
+        if c["reason"].startswith("a corner")
+    }
+    assert corners == {(-2.0, 0.5), (-2.0, 2.0), (2.0, 0.5), (2.0, 2.0)}
+    # They come before the weak setting's one-notch steps.
+    assert found[0]["reason"].startswith("a corner")
+
+
+def test_no_corners_near_a_failure_or_without_the_option():
+    near = results([_two("clipgt-a", 0.0, 1.25, 0.7, 1)], TWO)
+    assert not any(
+        c["reason"].startswith("a corner")
+        for c in candidates(["clipgt-a"], near, TOP3, TWO, corners=True)
+    )
+    far = results([_two("clipgt-a", 0.0, 1.25, 0.1, 1)], TWO)
+    assert not any(
+        c["reason"].startswith("a corner")
+        for c in candidates(["clipgt-a"], far, TOP3, TWO)
+    )

@@ -39,6 +39,7 @@ from read_state import load_entry, queue_entries
 
 PROPOSERS = (
     "rules",
+    "rules_corners",
     "hybrid",
     "llm",
     "grid",
@@ -51,6 +52,7 @@ PROPOSERS = (
 )
 COLORS = {
     "rules": "#2a78d6",
+    "rules_corners": "#0b4f9e",
     "hybrid": "#1baf7a",
     "llm": "#eb6834",
     "random_confirm": "#8a63d2",
