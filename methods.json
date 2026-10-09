@@ -3,6 +3,52 @@
   "k": 5,
   "budget": 54,
   "proposers": {
+   "rules": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     54
+    ],
+    "median_runs_to_goal": 54,
+    "confirmed": [
+     2
+    ],
+    "hardest": [
+     0.948
+    ],
+    "failures": [
+     9
+    ],
+    "kept": [
+     54
+    ],
+    "model_seconds": [
+     0.0
+    ]
+   },
+   "hybrid": {
+    "replicates": 1,
+    "reached": 1,
+    "runs_to_goal": [
+     32
+    ],
+    "median_runs_to_goal": 32,
+    "confirmed": [
+     5
+    ],
+    "hardest": [
+     1.0
+    ],
+    "failures": [
+     17
+    ],
+    "kept": [
+     36
+    ],
+    "model_seconds": [
+     51.7
+    ]
+   },
    "random_confirm": {
     "replicates": 1,
     "reached": 0,

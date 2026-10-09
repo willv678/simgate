@@ -9,6 +9,8 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 
 | study | method | replicates | kept runs (each) | reached goal | runs to goal (each) | median | confirmed (each) | hardest (each) | failures (each) | model s (each) |
 |---|---|---|---|---|---|---|---|---|---|---|
+| cut_in_merge | rules | 1 | 54 | 0 | 54 | 54 | 2 of 5 | 0.948 | 9 | 0.0 |
+| cut_in_merge | hybrid | 1 | 36 | 1 | 32 | 32 | 5 of 5 | 1.0 | 17 | 51.7 |
 | cut_in_merge | random_confirm | 1 | 54 | 0 | 54 | 54 | 3 of 5 | 0.952 | 18 | 0.0 |
 | intersection | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.435 | 0 | 0.0 |
 | intersection | hybrid | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.541 | 6 | 91.4 |
