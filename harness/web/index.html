@@ -263,16 +263,22 @@ function renderStudies(s) {
 }
 
 function renderJobs(s) {
-  const rows = s.jobs.slice().reverse().map((j) => `<tr><td><span class="chip ${j.state}">${j.state}</span></td>
+  // Queued jobs in the order the worker takes them, then the rest, newest first.
+  const queued = s.jobs.filter((j) => j.state === "queued").sort((a, b) => (b.priority - a.priority) || a.id.localeCompare(b.id));
+  const rest = s.jobs.filter((j) => j.state !== "queued").reverse();
+  const rows = rest.filter((j) => j.state === "running").concat(queued, rest.filter((j) => j.state !== "running")).map((j) => `<tr><td><span class="chip ${j.state}">${j.state}</span></td>
     <td>${esc(j.kind)}</td><td>${esc(j.brief)}</td><td>${esc(j.proposer)}</td>
     <td class="hint">${esc((j.started_at || j.queued_at).replace("T", " ").slice(0, 16))}</td>
     <td>${j.started_at ? `<button class="btn" data-log="${esc(j.id)}">log</button>` : ""}
-    ${j.state === "queued" ? `<button class="btn" data-cancel="${esc(j.id)}">cancel</button>` : ""}</td></tr>`).join("");
+    ${j.state === "queued" ? `<button class="btn" data-front="${esc(j.id)}">to front</button> <button class="btn" data-cancel="${esc(j.id)}">cancel</button>` : ""}</td></tr>`).join("");
   $("jobs").innerHTML = rows ? `<table><tr><th>state</th><th>kind</th><th>brief</th><th>proposer</th><th>since (UTC)</th><th></th></tr>${rows}</table>`
     : '<div class="empty">The queue is empty. Queue a study from its card, or after planning a new one.</div>';
   $("jobs").querySelectorAll("[data-log]").forEach((b) => b.onclick = async () => {
     const d = await api("/api/job_log?id=" + encodeURIComponent(b.dataset.log));
     $("joblog").hidden = false; $("joblog").innerHTML = `<pre>${esc(d.log || "(empty)")}</pre>`;
+  });
+  $("jobs").querySelectorAll("[data-front]").forEach((b) => b.onclick = async () => {
+    try { await api("/api/jobs/front", {id: b.dataset.front}); refresh(); } catch (e) { alert(e.message); }
   });
   $("jobs").querySelectorAll("[data-cancel]").forEach((b) => b.onclick = async () => {
     try { await api("/api/jobs/cancel", {id: b.dataset.cancel}); refresh(); } catch (e) { alert(e.message); }

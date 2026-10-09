@@ -15,7 +15,7 @@ def folders(tmp_path, monkeypatch):
 
 def _job(study, proposer, state, kind="study", replicate=1):
     return {"id": f"{study}_{proposer}", "study": study, "proposer": proposer,
-            "replicate": replicate, "kind": kind, "state": state}  # fmt: skip
+            "replicate": replicate, "kind": kind, "state": state, "priority": 0}  # fmt: skip
 
 
 def test_counts_studies_and_loops_outside_studies_not_plans():
@@ -87,3 +87,11 @@ def test_a_replicate_job_runs_its_own_arm(folders):
     job = jobs.add("categories/lead", "rules", replicate=2)
     assert job["id"].endswith("_lead_rules_r2")
     assert jobs.command(job)[-3:] == ["--replicate", "2", "--yes"]
+
+
+def test_a_prioritized_job_goes_first(folders):
+    first = jobs.add("categories/lead", "rules")
+    second = jobs.add("categories/lead", "hybrid")
+    jobs.prioritize(second["id"])
+    assert jobs.next_job(jobs.jobs(), running=0, pool=False)["id"] == second["id"]
+    assert jobs.jobs()[0]["id"] == first["id"]  # files keep their order

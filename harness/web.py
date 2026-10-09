@@ -418,6 +418,8 @@ class Handler(BaseHTTPRequestHandler):
                 return self._json(queue(body))
             if url.path == "/api/jobs/cancel":
                 return self._json(jobs.cancel(body["id"]))
+            if url.path == "/api/jobs/front":
+                return self._json(jobs.prioritize(body["id"]))
         except (Refused, ValueError, KeyError, json.JSONDecodeError) as exc:
             return self._json({"error": str(exc)}, HTTPStatus.BAD_REQUEST)
         self._send(404, b"not found", "text/plain")

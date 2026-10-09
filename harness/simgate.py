@@ -25,7 +25,7 @@ import web
 from read_state import ROOT
 
 
-def status() -> None:
+def status(ids: bool = False) -> None:
     state = web.state()
     gpu = state["gpu"]
     if gpu:
@@ -79,8 +79,11 @@ def main() -> int:
         default=[1],
         help="independent repeats of each arm (2 3 queues two more)",
     )
-    sub.add_parser("status", help="studies, their arms, and the job queue")
+    status_cmd = sub.add_parser("status", help="studies, their arms, and the job queue")
+    status_cmd.add_argument("--ids", action="store_true", help="show job ids")
     sub.add_parser("doctor", help="is this machine ready to run SimGate?")
+    front = sub.add_parser("front", help="move a queued job to the front")
+    front.add_argument("job", help="a job id, or a unique part of one (status --ids)")
     export = sub.add_parser("export", help="a read-only snapshot of the web app")
     export.add_argument("out", type=Path, nargs="?", default=ROOT / "research" / "site")
     args = parser.parse_args()
@@ -128,7 +131,17 @@ def main() -> int:
         if not web._worker_alive():
             print("no worker is running: start one with `simgate worker`")
     elif args.command == "status":
-        status()
+        status(args.ids)
+    elif args.command == "front":
+        matches = [
+            j["id"]
+            for j in jobs.jobs()
+            if args.job in j["id"] and j["state"] == "queued"
+        ]
+        if len(matches) != 1:
+            raise SystemExit(f"{len(matches)} queued jobs match {args.job!r}")
+        jobs.prioritize(matches[0])
+        print(f"{matches[0]} is next")
     elif args.command == "doctor":
         import doctor
 

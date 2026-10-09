@@ -119,6 +119,7 @@ def add(brief: str, proposer: str, kind: str = "study", replicate: int = 1) -> d
         "replicate": replicate,
         "queued_at": _now(),
         "cancelled": False,
+        "priority": 0,
     }
     _write(job)
     return job
@@ -202,8 +203,22 @@ def cancel(job_id: str) -> dict:
     return job
 
 
+def prioritize(job_id: str) -> dict:
+    """Move a queued job to the front: a priority above every other job's."""
+    path = JOBS / f"{job_id}.json"
+    if path.parent != JOBS or not path.is_file():
+        raise ValueError(f"no job {job_id!r}")
+    job = json.loads(path.read_text(encoding="utf-8"))
+    if state(job) != "queued":
+        raise ValueError(f"job {job_id} is {state(job)}, not queued")
+    job["priority"] = 1 + max(j["priority"] for j in jobs())
+    _write(job)
+    return job
+
+
 def next_job(found: list[dict], running: int, pool: bool) -> dict | None:
-    """The job the worker starts now: the oldest queued study job, if a slot
+    """The job the worker starts now: the queued study job of highest
+    priority, oldest first among equals, if a slot
     is free, no run_pool script is dispatching, and no job of the same study
     arm is running (two loops on one arm's queue would refuse each other)."""
     if pool or running >= SLOTS:
@@ -213,7 +228,8 @@ def next_job(found: list[dict], running: int, pool: bool) -> dict | None:
         for j in found
         if j["state"] == "running"
     }
-    for job in found:
+    # Highest priority first (prioritize), then oldest.
+    for job in sorted(found, key=lambda j: (-j["priority"], j["id"])):
         if (
             job["kind"] == "study"
             and job["state"] == "queued"
