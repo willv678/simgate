@@ -1,0 +1,126 @@
+--- a/src/driver/src/alpasim_driver/schema.py
++++ b/src/driver/src/alpasim_driver/schema.py
+@@ -48,6 +48,7 @@
+     # instruction to blend towards.
+     cfg_guidance_weight: float | None = None
+     force_determinism: bool = False  # Alpamayo and VAM models only
++    mirror: bool = False  # VAM only: see VAMModel (a diagnostic, mirror checkout)
+     num_trajectory_samples: int = 1  # Alpamayo models only
+     # Where camera JPEGs are decoded.  ``cuda`` leaves the frames on the
+     # device, so the model's preprocessing resizes there too (Alpamayo models
+--- a/src/driver/src/alpasim_driver/models/vam_model.py
++++ b/src/driver/src/alpasim_driver/models/vam_model.py
+@@ -106,6 +106,7 @@
+             camera_ids=camera_ids,
+             context_length=context_length or 8,
+             force_determinism=model_cfg.force_determinism,
++            mirror=model_cfg.mirror,
+         )
+ 
+     def __init__(
+@@ -116,6 +117,7 @@
+         camera_ids: list[str],
+         context_length: int = 8,
+         force_determinism: bool = False,
++        mirror: bool = False,
+     ):
+         """Initialize VAM model.
+ 
+@@ -128,6 +130,11 @@
+             force_determinism: Draw each prediction's flow-matching noise from
+                 its inference seed, one forward pass per input, so a session's
+                 plans repeat from its seed whatever shares its batch.
++            mirror: Drive the mirror image of the scene: every camera frame is
++                flipped left to right, LEFT and RIGHT commands are swapped, and
++                the plan's lateral axis is negated back. A diagnostic of a
++                lateral lean: one the model learned turns with the mirror, one
++                the scene presents does not.
+         """
+         if len(camera_ids) != self.NUM_CAMERAS:
+             raise ValueError(
+@@ -143,6 +150,9 @@
+         self._preproc_pipeline = NeuroNCAPTransform()
+         self._use_autocast = device.type == "cuda" and platform.machine() != "aarch64"
+         self._force_determinism = force_determinism
++        self._mirror = mirror
++        if mirror:
++            logger.info("VAM mirror: on (frames flipped, LEFT/RIGHT swapped, plan y negated)")
+ 
+     @property
+     def camera_ids(self) -> list[str]:
+@@ -248,8 +258,14 @@
+                     f"VAM expects {self._context_length} frames, got {len(frames)}"
+                 )
+             for _ts, img in frames:
+-                all_images.append(img)
+-            all_commands.append(self._encode_command(inp.command))
++                all_images.append(np.ascontiguousarray(img[:, ::-1]) if self._mirror else img)
++            command = inp.command
++            if self._mirror:
++                command = {
++                    DriveCommand.LEFT: DriveCommand.RIGHT,
++                    DriveCommand.RIGHT: DriveCommand.LEFT,
++                }.get(command, command)
++            all_commands.append(self._encode_command(command))
+ 
+         # --- Batch tokenize: (B*T, C, H, W) -> (B*T, h, w) ---
+         all_tokens = self._tokenize_frames(all_images)
+@@ -294,6 +310,8 @@
+         results: list[ModelPrediction] = []
+         for i in range(batch_size):
+             trajectory_xy = _format_trajs(trajectories[i : i + 1])
++            if self._mirror:
++                trajectory_xy = trajectory_xy * np.array([1.0, -1.0])
+             headings = self._compute_headings_from_trajectory(trajectory_xy)
+             results.append(ModelPrediction.from_planar(trajectory_xy, headings))
+ 
+--- a/src/driver/src/alpasim_driver/tests/test_vam_batched.py
++++ b/src/driver/src/alpasim_driver/tests/test_vam_batched.py
+@@ -297,3 +297,47 @@
+         a = self._positions(model, [_make_prediction_input(seed=7)])
+         b = self._positions(model, [_make_prediction_input(seed=8)])
+         assert not np.array_equal(a[0], b[0])
++
++
++class TestMirror:
++    """With mirror, VaVAM drives the mirror image of the scene."""
++
++    def _fixed_plan(self, mock_vam):
++        plan = torch.zeros(1, 1, 6, 2)
++        plan[..., 0] = torch.arange(1, 7, dtype=torch.float32)
++        plan[..., 1] = 0.5  # half a metre left in VaVAM's frame
++        mock_vam.side_effect = lambda tokens, commands, dtype: plan.repeat(
++            tokens.shape[0], 1, 1, 1
++        )
++
++    def test_commands_swap_left_and_right(self, vam_model):
++        model, _, mock_vam = vam_model
++        model._mirror = True
++        for given, sent in (
++            (DriveCommand.RIGHT, 1),  # VAM LEFT
++            (DriveCommand.LEFT, 0),  # VAM RIGHT
++            (DriveCommand.STRAIGHT, 2),
++        ):
++            model.predict(_make_prediction_input(command=given))
++            assert mock_vam.call_args.args[1].item() == sent
++
++    def test_frames_are_flipped_left_to_right(self, vam_model):
++        model, _, _ = vam_model
++        model._mirror = True
++        seen = []
++        model._preproc_pipeline.side_effect = lambda img: (
++            seen.append(img),
++            torch.rand(3, 224, 224),
++        )[1]
++        with mock.patch.object(model, "_resize_and_center_crop", lambda img, h, w: img):
++            model.predict(_make_prediction_input(seed=0))
++        np.testing.assert_array_equal(seen[0], _make_image(0)[:, ::-1])
++
++    def test_the_plan_is_mirrored_back(self, vam_model):
++        model, _, mock_vam = vam_model
++        self._fixed_plan(mock_vam)
++        plain = model.predict(_make_prediction_input()).selected_positions
++        model._mirror = True
++        mirrored = model.predict(_make_prediction_input()).selected_positions
++        np.testing.assert_allclose(mirrored[:, 0], plain[:, 0])
++        np.testing.assert_allclose(mirrored[:, 1], -plain[:, 1])
