@@ -72,6 +72,7 @@ MAX_PER_ROUND = 10
 MODEL = "claude-opus-5-5"
 # "4 of 4", "2/2": counts belong to the rendered table, not the prose.
 HAND_COUNT = re.compile(r"\b\d+\s*(?:of|/|out of)\s*\d+\b")
+REPORT_ATTEMPTS = 2
 PLAN_SCHEMA = {
     "type": "object",
     "properties": {
@@ -347,6 +348,18 @@ def goal_text(goal: dict) -> str:
     return text
 
 
+def report_refusal(answer: dict, by_id: dict) -> str | None:
+    """Why a model's report cannot be printed, or None: counts written by
+    hand (code prints every count), or settings that do not exist."""
+    prose = " ".join([answer["answer"], *(f["claim"] for f in answer["findings"])])
+    if HAND_COUNT.search(prose):
+        return f"it writes counts by hand: {HAND_COUNT.findall(prose)}"
+    unknown = {s for f in answer["findings"] for s in f["settings"]} - set(by_id)
+    if unknown:
+        return f"it cites settings that do not exist: {sorted(unknown)}"
+    return None
+
+
 def write_report(
     folder: Path,
     brief: str,
@@ -379,18 +392,22 @@ def write_report(
         "not_kept": not_kept,
     }
     prompt = "The brief, the plan and the results are on stdin. Answer the question."
-    answer, call = ask(prompt, data, REPORTER, REPORT_SCHEMA, model)
-    prose = " ".join([answer["answer"], *(f["claim"] for f in answer["findings"])])
-    if HAND_COUNT.search(prose):
-        raise SystemExit(
-            f"the report writes counts by hand: {HAND_COUNT.findall(prose)}"
-        )
     by_id = {row["id"]: row for row in table}
-    unknown = {s for f in answer["findings"] for s in f["settings"]} - set(by_id)
-    if unknown:
-        raise SystemExit(
-            f"the report cites settings that do not exist: {sorted(unknown)}"
+    # A refused answer is asked for once more, told why; a second refusal
+    # stops the report (the runs and the goal stand without it).
+    for attempt in range(REPORT_ATTEMPTS):
+        answer, call = ask(prompt, data, REPORTER, REPORT_SCHEMA, model)
+        refusal = report_refusal(answer, by_id)
+        if refusal is None:
+            break
+        prompt = (
+            "The brief, the plan and the results are on stdin. Answer the "
+            f"question. Your previous answer was refused: {refusal}. Write no "
+            "counts or fractions (code prints them next to each finding) and "
+            "cite only setting ids that are in `results`."
         )
+    else:
+        raise SystemExit(f"the report was refused twice: {refusal}")
 
     kept = len(rows) - len(not_kept)
     systems = (

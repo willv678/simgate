@@ -171,3 +171,15 @@ def test_replicates_run_in_their_own_arm_folders(tmp_path):
         f"{tmp_path.name}_llm_r2",
     )
     assert arm_of(tmp_path, "random_confirm", 3)[0] == tmp_path / "random_confirm_r3"
+
+
+def test_a_report_with_hand_counts_or_unknown_settings_is_refused():
+    from study import report_refusal
+
+    finding = {"claim": "fails often", "settings": ["S1"]}
+    ok = {"answer": "Yes.", "findings": [finding]}
+    assert report_refusal(ok, {"S1": {}}) is None
+    counted = {"answer": "85/86 runs passed.", "findings": [finding]}
+    assert "by hand" in report_refusal(counted, {"S1": {}})
+    unknown = {"answer": "Yes.", "findings": [{"claim": "x", "settings": ["S9"]}]}
+    assert "do not exist" in report_refusal(unknown, {"S1": {}})
