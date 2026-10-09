@@ -318,7 +318,8 @@ async function renderResults() {
     const st = r.drift.studies, ol = r.drift.open_loop_warmup_plans;
     parts.splice(1, 0, `<div class="card"><h2>The policy's dominant failure mode: it drifts left</h2>
       <p class="q">Once the driving policy takes over, the car moves left of where the human drove: about one lane within 5 s, in ${Math.round(100 * st.at_end.left)}% of ${st.at_end.n} runs (${Math.round(100 * st.at_end.right)}% drift right). Its plans lean left even before it drives (median ${ol["3.0"].median_m} m at 3 s). Most of the hardest cases the searches found are where this drift meets traffic or the road edge.</p>
-      <img src="${ROOT}figures/drift.png" alt="Lateral offset from the human's path against time after hand-off" style="width:100%;max-width:520px;height:auto"></div>`);
+      <img src="${ROOT}figures/drift.png" alt="Lateral offset from the human's path against time after hand-off" style="width:100%;max-width:520px;height:auto">
+      ${r.mirror ? `<p class="q" style="margin-top:12px"><b>Mirror test.</b> The same ${r.mirror.pairs} scene and seed pairs with the policy's camera and plan mirrored: plain runs end left in ${r.mirror.plain.left} of ${r.mirror.pairs} (median ${r.mirror.plain.median_end_m} m), mirrored runs end right in ${r.mirror.mirror.right} of ${r.mirror.pairs} (median ${r.mirror.mirror.median_end_m} m). The drift turns with the mirror, so the lean is the model's own, not the simulator's.</p>` : ""}</div>`);
   }
   if (r.gallery && r.gallery.length) {
     parts.push(`<div class="card"><h2>The hardest cases, as the camera saw them</h2>

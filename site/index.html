@@ -172,7 +172,7 @@ code { font-family: var(--mono); font-size: 12.5px; background: var(--bg); paddi
     <div class="card"><p class="hint" style="margin-top:0">The last lines of the outer loop's log (research/harness/outer.log): every run's state changes as the loop moves it.</p><pre id="activity"></pre></div>
   </section>
 </main>
-<script>window.SIMGATE_STATIC = "2026-10-08";</script>
+<script>window.SIMGATE_STATIC = "2026-10-09";</script>
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -264,23 +264,29 @@ function renderStudies(s) {
 }
 
 function renderJobs(s) {
-  const rows = s.jobs.slice().reverse().map((j) => `<tr><td><span class="chip ${j.state}">${j.state}</span></td>
+  // Queued jobs in the order the worker takes them, then the rest, newest first.
+  const queued = s.jobs.filter((j) => j.state === "queued").sort((a, b) => (b.priority - a.priority) || a.id.localeCompare(b.id));
+  const rest = s.jobs.filter((j) => j.state !== "queued").reverse();
+  const rows = rest.filter((j) => j.state === "running").concat(queued, rest.filter((j) => j.state !== "running")).map((j) => `<tr><td><span class="chip ${j.state}">${j.state}</span></td>
     <td>${esc(j.kind)}</td><td>${esc(j.brief)}</td><td>${esc(j.proposer)}</td>
     <td class="hint">${esc((j.started_at || j.queued_at).replace("T", " ").slice(0, 16))}</td>
     <td>${j.started_at ? `<button class="btn" data-log="${esc(j.id)}">log</button>` : ""}
-    ${j.state === "queued" ? `<button class="btn" data-cancel="${esc(j.id)}">cancel</button>` : ""}</td></tr>`).join("");
+    ${j.state === "queued" ? `<button class="btn" data-front="${esc(j.id)}">to front</button> <button class="btn" data-cancel="${esc(j.id)}">cancel</button>` : ""}</td></tr>`).join("");
   $("jobs").innerHTML = rows ? `<table><tr><th>state</th><th>kind</th><th>brief</th><th>proposer</th><th>since (UTC)</th><th></th></tr>${rows}</table>`
     : '<div class="empty">The queue is empty. Queue a study from its card, or after planning a new one.</div>';
   $("jobs").querySelectorAll("[data-log]").forEach((b) => b.onclick = async () => {
     const d = await api("/api/job_log?id=" + encodeURIComponent(b.dataset.log));
     $("joblog").hidden = false; $("joblog").innerHTML = `<pre>${esc(d.log || "(empty)")}</pre>`;
   });
+  $("jobs").querySelectorAll("[data-front]").forEach((b) => b.onclick = async () => {
+    try { await api("/api/jobs/front", {id: b.dataset.front}); refresh(); } catch (e) { alert(e.message); }
+  });
   $("jobs").querySelectorAll("[data-cancel]").forEach((b) => b.onclick = async () => {
     try { await api("/api/jobs/cancel", {id: b.dataset.cancel}); refresh(); } catch (e) { alert(e.message); }
   });
 }
 
-const LABEL = {rules: "rules", hybrid: "hybrid (Claude picks among the rules' candidates)", llm: "llm (Claude, free)",
+const LABEL = {rules: "rules", rules_corners: "rules + corners", rules_v2: "rules v2 (corners, stop confirming what surely passes)", hybrid: "hybrid (Claude picks among the rules' candidates)", llm: "llm (Claude, free)",
   random_confirm: "random + confirmation", random: "random", optuna: "optuna (Bayesian)", grid: "grid", lhs: "latin hypercube", ga: "genetic"};
 async function renderResults() {
   let r;
@@ -313,7 +319,8 @@ async function renderResults() {
     const st = r.drift.studies, ol = r.drift.open_loop_warmup_plans;
     parts.splice(1, 0, `<div class="card"><h2>The policy's dominant failure mode: it drifts left</h2>
       <p class="q">Once the driving policy takes over, the car moves left of where the human drove: about one lane within 5 s, in ${Math.round(100 * st.at_end.left)}% of ${st.at_end.n} runs (${Math.round(100 * st.at_end.right)}% drift right). Its plans lean left even before it drives (median ${ol["3.0"].median_m} m at 3 s). Most of the hardest cases the searches found are where this drift meets traffic or the road edge.</p>
-      <img src="${ROOT}figures/drift.png" alt="Lateral offset from the human's path against time after hand-off" style="width:100%;max-width:520px;height:auto"></div>`);
+      <img src="${ROOT}figures/drift.png" alt="Lateral offset from the human's path against time after hand-off" style="width:100%;max-width:520px;height:auto">
+      ${r.mirror ? `<p class="q" style="margin-top:12px"><b>Mirror test.</b> The same ${r.mirror.pairs} scene and seed pairs with the policy's camera and plan mirrored: plain runs end left in ${r.mirror.plain.left} of ${r.mirror.pairs} (median ${r.mirror.plain.median_end_m} m), mirrored runs end right in ${r.mirror.mirror.right} of ${r.mirror.pairs} (median ${r.mirror.mirror.median_end_m} m). The drift turns with the mirror, so the lean is the model's own, not the simulator's.</p>` : ""}</div>`);
   }
   if (r.gallery && r.gallery.length) {
     parts.push(`<div class="card"><h2>The hardest cases, as the camera saw them</h2>
