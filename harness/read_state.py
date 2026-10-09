@@ -356,6 +356,22 @@ def ego_speed_not_applied(entry: dict) -> str | None:
     return None
 
 
+# The control step every run used before 9 Oct 2026, and the rollout length
+# it gave (120 steps). A run that sets another step keeps the rollout length.
+LEGACY_CONTROL_TIMESTEP_US = 100_000
+ROLLOUT_US = 12_000_000
+
+
+def control_timestep_us(config: dict) -> int:
+    """How often the driver plans and the controller acts. AlpaSim's own
+    VaVAM setup uses 500 ms, with the camera in step."""
+    return config.get("control_timestep_us", LEGACY_CONTROL_TIMESTEP_US)
+
+
+def n_sim_steps(config: dict) -> int:
+    return ROLLOUT_US // control_timestep_us(config)
+
+
 def frame_interval_us(config: dict) -> int:
     return config.get("frame_interval_us", LEGACY_FRAME_INTERVAL_US)
 
@@ -400,6 +416,10 @@ def config_not_landed(entry: dict) -> list[str]:
         ),
         # Written only by a mirrored launch (run_experiment.mirror_args).
         "mirror": driver["model"].get("mirror", False),
+        "control_timestep_us": wizard["runtime"]["simulation_config"][
+            "control_timestep_us"
+        ],
+        "n_sim_steps": wizard["runtime"]["simulation_config"]["n_sim_steps"],
     }
     # AlpaSim writes the plan-corruption block only when a launch sets it.
     injected = wizard["runtime"]["simulation_config"].get("fault_injection", {})
@@ -419,6 +439,8 @@ def config_not_landed(entry: dict) -> list[str]:
         "force_determinism": seed_request(config) is not None,
         "ego_speed_scale": ego_speed_request(config),
         "mirror": mirror_request(config),
+        "control_timestep_us": control_timestep_us(config),
+        "n_sim_steps": n_sim_steps(config),
         **{key: plan_request(config)[key] for key in PLAN_KEYS},
     }
     # The CATK device only exists when CATK runs.
@@ -437,6 +459,8 @@ def config_not_landed(entry: dict) -> list[str]:
         "force_determinism",
         "ego_speed_scale",
         "mirror",
+        "control_timestep_us",
+        "n_sim_steps",
     )
     return [
         f"{key} requested {requested[key]}, resolved {resolved[key]}"

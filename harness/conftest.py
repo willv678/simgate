@@ -127,6 +127,8 @@ def make_run(tmp_path: Path, scene_file: Path):
         simulation = {
             "planner_delay_us": delay,
             "cameras": [{"frame_interval_us": 500_000}],
+            "control_timestep_us": 100_000,
+            "n_sim_steps": 120,
         }
         if seed is not None:
             simulation["random_seed"] = seed if resolved_seed is None else resolved_seed

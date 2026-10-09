@@ -16,6 +16,7 @@ from pathlib import Path
 from knobs import SCENARIO, UNVARIED, run_config
 from read_state import (
     ROOT,
+    control_timestep_us,
     frame_interval_us,
     load_entry,
     mirror_request,
@@ -43,6 +44,7 @@ def effective(config: dict) -> dict:
     found["traffic"] = traffic_mode(config)
     found["controller"] = requested_controller(config)
     found["mirror"] = mirror_request(config)
+    found["control_timestep_us"] = control_timestep_us(config)
     rule = retime_request(config)
     found["retime"] = None if rule is None else rule
     return found

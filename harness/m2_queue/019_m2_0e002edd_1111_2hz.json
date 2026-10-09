@@ -1,0 +1,32 @@
+{
+  "name": "m2_0e002edd_1111_2hz",
+  "run_dir": "diag/m2_0e002edd_1111_2hz",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.0,
+    "seed": 1111,
+    "control_timestep_us": 500000,
+    "frame_interval_us": 500000,
+    "subsample_factor": 1
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": false,
+  "pid": null,
+  "launched_at": null,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": null,
+  "diagnosis": null,
+  "fault": null
+}
