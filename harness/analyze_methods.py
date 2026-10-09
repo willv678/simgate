@@ -46,6 +46,14 @@ def stopped_early(folder: Path, report: dict) -> bool:
     return met and report["runs_to_goal"] is None
 
 
+def finished(folder: Path) -> bool:
+    """A study arm is finished once its report was written after its last
+    round (study.py writes the report when the outer loop ends)."""
+    report = folder / "report.md"
+    rounds = folder / "rounds.jsonl"
+    return report.exists() and report.stat().st_mtime >= rounds.stat().st_mtime
+
+
 def replicate_rows(study: Path, plan: dict) -> tuple[dict[str, list[dict]], list[str]]:
     """Each proposer's comparable replicates, each a proposer_report plus its
     arm name; and the arms left out because they stopped early."""
@@ -53,6 +61,8 @@ def replicate_rows(study: Path, plan: dict) -> tuple[dict[str, list[dict]], list
     found: dict[str, list[dict]] = {}
     left_out = []
     for arm, folder in arms(study).items():
+        if not finished(folder):
+            continue
         report = proposer_report(
             folder, goal, tuple(plan["vary"]), plan["fixed"].get("compare")
         )
