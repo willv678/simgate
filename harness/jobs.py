@@ -1,7 +1,9 @@
 """A queue of studies to run, and the worker that runs them two at a time.
 
 A job is one file in research/jobs/: a brief and a proposer to run it with
-(kind "study"), or a brief to plan (kind "plan", no GPU, started at once).
+(kind "study"), a brief to plan (kind "plan", no GPU, started at once), or a
+hand-made queue under research/harness to run through the inner loop (kind
+"batch").
 The worker (`simgate worker`, one per machine: it takes an exclusive lock)
 starts queued study jobs, oldest first, while fewer than SLOTS simulations
 run. It counts every study and every loop outside a study, so a run started
@@ -125,6 +127,30 @@ def add(brief: str, proposer: str, kind: str = "study", replicate: int = 1) -> d
     return job
 
 
+def add_batch(queue: str) -> dict:
+    """Queue a batch: a hand-made queue under research/harness (e.g. a
+    validation or diagnostic batch, made with read_state.new_entry), run
+    through the inner loop like a study's rounds, with no outer loop."""
+    path = (ROOT / "research" / "harness" / queue).resolve()
+    if path.parent != (ROOT / "research" / "harness").resolve() or not path.is_dir():
+        raise ValueError(f"no queue {queue!r} in research/harness")
+    JOBS.mkdir(parents=True, exist_ok=True)
+    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S%f")
+    job = {
+        "id": f"{stamp}_batch_{path.name}",
+        "kind": "batch",
+        "brief": f"harness/{path.name}",
+        "study": path.name,
+        "proposer": "loop",
+        "replicate": 1,
+        "queued_at": _now(),
+        "cancelled": False,
+        "priority": 0,
+    }
+    _write(job)
+    return job
+
+
 def jobs() -> list[dict]:
     """Every job, oldest first, each with its state."""
     if not JOBS.is_dir():
@@ -150,6 +176,14 @@ def state(job: dict) -> str:
 
 
 def command(job: dict) -> list[str]:
+    if job["kind"] == "batch":
+        queue = f"research/harness/{job['study']}"
+        return [
+            "uv", "run", "python", "research/harness/loop.py", queue,
+            "--policy", "agent", "--timeout-min", "15", "--stall-s", "120",
+            "--poll-s", "5", "--audit", "--trace",
+            f"research/harness/{job['study'].removesuffix('_queue')}_trace.jsonl",
+        ]  # fmt: skip
     brief = f"research/briefs/{job['brief']}.md"
     if job["kind"] == "plan":
         return [
@@ -231,7 +265,7 @@ def next_job(found: list[dict], running: int, pool: bool) -> dict | None:
     # Highest priority first (prioritize), then oldest.
     for job in sorted(found, key=lambda j: (-j["priority"], j["id"])):
         if (
-            job["kind"] == "study"
+            job["kind"] in ("study", "batch")
             and job["state"] == "queued"
             and (job["study"], job["proposer"], job["replicate"]) not in busy
         ):

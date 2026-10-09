@@ -1,0 +1,30 @@
+{
+  "name": "m1_054b5901_2222_mirror",
+  "run_dir": "diag/m1_054b5901_2222_mirror",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.0,
+    "seed": 2222,
+    "mirror": true
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": false,
+  "pid": null,
+  "launched_at": null,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": null,
+  "diagnosis": null,
+  "fault": null
+}

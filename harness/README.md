@@ -65,6 +65,8 @@ research/simgate queue night_pedestrians --proposer rules hybrid llm random
 research/simgate status                     # every study, its proposers, the queue
 research/simgate queue night_pedestrians --proposer rules llm --replicate 2 3   # independent repeats
 research/simgate export                     # read-only snapshot in research/site/
+research/simgate batch m1_queue             # a hand-made queue through the inner loop
+research/simgate front m1_queue             # move a queued job to the front
 ```
 
 The worker counts every simulation on the machine (studies, and loops run by
@@ -110,6 +112,13 @@ flowchart LR
   requests carry the seed. `replay.py <entry.json> <queue>` queues a kept run
   again with the same config; `check_replay.py <run_a> <run_b>` says whether
   two runs match and where they first part (frames, plans or poses).
+- **Mirror test** (`m1_queue`): a run whose config says `"mirror": true`
+  launches from a second AlpaSim checkout beside this one
+  (`../alpasim-mirror`, the same src plus a VaVAM switch that flips every
+  camera frame left to right, swaps LEFT and RIGHT commands and mirrors the
+  plan back). The gate checks the switch resolved and that the driver logged
+  "VAM mirror: on" (and that no other run did). It tells a learned lateral
+  lean from one the scene presents (FACTS, "The policy drifts left").
 - **Memory across studies** (`memory.py`): a plan with `"reuse_prior": true`
   starts with the kept runs of other studies that it would have run itself
   (same effective settings, seed apart). A study's proposer arms never share

@@ -1,0 +1,29 @@
+{
+  "name": "m1_023b7fcc_2222_plain",
+  "run_dir": "diag/m1_023b7fcc_2222_plain",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.0,
+    "seed": 2222
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": false,
+  "pid": null,
+  "launched_at": null,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": null,
+  "diagnosis": null,
+  "fault": null
+}

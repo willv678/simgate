@@ -82,6 +82,8 @@ def main() -> int:
     status_cmd = sub.add_parser("status", help="studies, their arms, and the job queue")
     status_cmd.add_argument("--ids", action="store_true", help="show job ids")
     sub.add_parser("doctor", help="is this machine ready to run SimGate?")
+    batch = sub.add_parser("batch", help="queue a hand-made queue for the loop")
+    batch.add_argument("queue", help="a queue folder under research/harness")
     front = sub.add_parser("front", help="move a queued job to the front")
     front.add_argument("job", help="a job id, or a unique part of one (status --ids)")
     export = sub.add_parser("export", help="a read-only snapshot of the web app")
@@ -132,6 +134,8 @@ def main() -> int:
             print("no worker is running: start one with `simgate worker`")
     elif args.command == "status":
         status(args.ids)
+    elif args.command == "batch":
+        print(f"queued {jobs.add_batch(args.queue)['id']}")
     elif args.command == "front":
         matches = [
             j["id"]

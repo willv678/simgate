@@ -29,6 +29,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from environment import environment_problems
 from faults import before_launch, plan_hook_args, shell_around, wizard_args
 from read_state import (
+    MIRROR_CHECKOUT,
     PLAN_KEYS,
     ROOT,
     State,
@@ -38,6 +39,7 @@ from read_state import (
     exit_file,
     frame_interval_us,
     load_entry,
+    mirror_request,
     plan_request,
     read_state,
     requested_controller,
@@ -94,6 +96,7 @@ def wizard_command(config: dict, log_dir: Path) -> list[str]:
         *traffic_args(config),
         *seed_args(config),
         *ego_args(config),
+        *mirror_args(config),
     ]
 
 
@@ -134,6 +137,18 @@ def ego_args(config: dict) -> list[str]:
     return [f"+runtime.simulation_config.ego_speed_scale={scale}"]
 
 
+def mirror_args(config: dict) -> list[str]:
+    """VaVAM's mirror switch, which exists only in the mirror checkout's
+    driver schema, so Hydra must add it (+)."""
+    return ["+driver.model.mirror=true"] if mirror_request(config) else []
+
+
+def launch_root(config: dict) -> Path:
+    """The AlpaSim checkout a run launches from: its src/ is what the
+    simulation's containers mount. The mirror checkout for a mirrored run."""
+    return MIRROR_CHECKOUT if mirror_request(config) else ROOT
+
+
 def main() -> int:
     entry_path = Path(sys.argv[1])
     entry = load_entry(entry_path)
@@ -170,7 +185,7 @@ def main() -> int:
     log_dir.parent.mkdir(parents=True, exist_ok=True)
     proc = subprocess.Popen(
         ["bash", "-c", script],
-        cwd=ROOT,
+        cwd=launch_root(entry["config"]),
         stdin=subprocess.DEVNULL,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,

@@ -151,6 +151,8 @@ def config_problem(config: dict) -> str | None:
         return f"seed must be an int from 1 to {SEED_LIMIT - 1}, got {seed!r}"
     if config["trafficsim_device"] not in TRAFFICSIM_DEVICES:
         return f"trafficsim_device must be one of {TRAFFICSIM_DEVICES}, got {config['trafficsim_device']!r}"
+    if mirror_request(config) and not (MIRROR_CHECKOUT / "src").is_dir():
+        return f"mirror runs need the mirror checkout at {MIRROR_CHECKOUT}"
     with (ROOT / config["scene_file"]).open(encoding="utf-8") as handle:
         scene_ids = {row["scene_id"] for row in csv.DictReader(handle)}
     if config["scene_id"] not in scene_ids:
@@ -301,6 +303,34 @@ def ego_speed_request(config: dict) -> float:
     return config.get("ego_speed_scale", 1.0)
 
 
+# A second AlpaSim checkout beside this one whose VaVAM driver has the
+# diagnostic `mirror` switch (the scene mirrored left to right); only runs
+# that ask for it launch from there (run_experiment.launch_root).
+MIRROR_CHECKOUT = ROOT.parent / "alpasim-mirror"
+MIRROR_MARKER = "VAM mirror: on"
+
+
+def mirror_request(config: dict) -> bool:
+    """Whether VaVAM drives the mirrored scene. Entries without the key do
+    not."""
+    return config.get("mirror", False)
+
+
+def mirror_not_applied(entry: dict) -> str | None:
+    """A mirrored run's driver logs MIRROR_MARKER when it loads; any other
+    run's must not, so a run cannot come from the wrong checkout unseen."""
+    log = console_log(entry)
+    logged = log.is_file() and MIRROR_MARKER in log.read_text(
+        encoding="utf-8", errors="replace"
+    )
+    if logged != mirror_request(entry["config"]):
+        return (
+            f"mirror_not_applied: requested {mirror_request(entry['config'])}, "
+            f"driver {'logged' if logged else 'did not log'} '{MIRROR_MARKER}'"
+        )
+    return None
+
+
 def ego_speed_not_applied(entry: dict) -> str | None:
     """A retimed ego is checked by its own measurement: the runtime logs one
     "Retimed ego" line with the scale, and the ego's speed just before the
@@ -368,6 +398,8 @@ def config_not_landed(entry: dict) -> list[str]:
         "ego_speed_scale": wizard["runtime"]["simulation_config"].get(
             "ego_speed_scale", 1.0
         ),
+        # Written only by a mirrored launch (run_experiment.mirror_args).
+        "mirror": driver["model"].get("mirror", False),
     }
     # AlpaSim writes the plan-corruption block only when a launch sets it.
     injected = wizard["runtime"]["simulation_config"].get("fault_injection", {})
@@ -386,6 +418,7 @@ def config_not_landed(entry: dict) -> list[str]:
         "seed": seed_request(config),
         "force_determinism": seed_request(config) is not None,
         "ego_speed_scale": ego_speed_request(config),
+        "mirror": mirror_request(config),
         **{key: plan_request(config)[key] for key in PLAN_KEYS},
     }
     # The CATK device only exists when CATK runs.
@@ -403,6 +436,7 @@ def config_not_landed(entry: dict) -> list[str]:
         "seed",
         "force_determinism",
         "ego_speed_scale",
+        "mirror",
     )
     return [
         f"{key} requested {requested[key]}, resolved {resolved[key]}"
@@ -456,6 +490,10 @@ def read_state(entry: dict) -> RunState:
     unseeded = seed_not_logged(entry)
     if unseeded is not None:
         return RunState(State.FAILED, unseeded)
+
+    unmirrored = mirror_not_applied(entry)
+    if unmirrored is not None:
+        return RunState(State.FAILED, unmirrored)
 
     broken = violations(load_rules(), run_dir(entry), rule_label(entry["config"]))
     if broken:
