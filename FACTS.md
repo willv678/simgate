@@ -518,6 +518,21 @@ claims that survive: ego speed is the stressor for pedestrian scenes; the
 method comparison on cut-in and lead vehicle waits for replicates 2-4, run
 under the new definition from their first round.
 
+### Random + confirmation, first replicate (9 Oct night)
+
+- pedestrian x ego speed: goal at 31 kept runs (rules 25, hybrid 24, llm 28).
+- lead vehicle: **goal at 43**; rules 0 of 5 and hybrid 2 of 5 in 49 runs.
+  Not scene coverage: on 023b7fcc and 096988dd the rules ran 7 runs each
+  with no failure where random found 3 of 4 and 5 of 8. Every case random
+  confirmed sits at a knob extreme (lead slowed to 0.5x, or 200-400 ms
+  delay), and the rules start each scene at the middle of every knob and
+  step one notch per run, so with 8 scenes and 3 knobs in 49 runs they never
+  reach a corner. A design weakness of the rule proposer to state (and a
+  fix to try: probe the corners first, as Euro NCAP grids do); one
+  replicate, so replicates 2-4 decide.
+- cut-in: 3 of 5 confirmed in 40 runs (the first replicate's other arms
+  stopped early on the broad count).
+
 ## Controller A/B, 8 Oct (feasible_best against linear)
 
 Hybrid proposer, pedestrian scenes, pairs with shared seeds. Round 1: 5 pairs,
