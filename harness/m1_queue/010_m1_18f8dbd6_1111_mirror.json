@@ -19,12 +19,13 @@
   },
   "attempt": 1,
   "parent": null,
-  "launched": false,
-  "pid": null,
-  "launched_at": null,
+  "launched": true,
+  "pid": 1234595,
+  "launched_at": 1791566880.6557112,
   "environment": null,
   "env_cleanups": 0,
-  "resolution": null,
+  "resolution": "ACCEPT",
   "diagnosis": null,
-  "fault": null
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
 }

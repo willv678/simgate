@@ -588,10 +588,23 @@ human path, left positive):
   under a RIGHT command, but at the hand-off 194 of 200 runs had STRAIGHT;
   RIGHT builds up as the ego leaves its route to the left, so "ignored a
   RIGHT command" in the triage mostly describes the drift.
-- Untested hypothesis: VaVAM's training data (nuScenes, nuPlan) include
-  Singapore, where traffic keeps left. A mirror test (flip the camera image,
-  swap LEFT and RIGHT commands, mirror the plan's y) would tell a learned
-  lean from a scene-reading one; it needs a driver change.
+- **Mirror test (9 Oct, `MIRROR.md`, `harness/m1_queue`):** 10 drift-heavy
+  scenes x seeds 1111/2222, each run plain and with VaVAM's input and output
+  mirrored (camera frames flipped left to right, LEFT/RIGHT commands
+  swapped, the plan mirrored back; a switch in a second checkout, checked by
+  the gate), traffic replayed; all 40 kept (3 crashed launches retried).
+  Plain: 20 of 20 pairs end left of the recording, median +6.4 m. Mirrored:
+  18 of 20 end right, median -2.1 m, 2 near the path; at +3 s mirrored runs
+  are already 1.0-3.3 m right where they have not failed. The drift turns
+  with the mirror. So the lean is in VaVAM itself, between the image and the
+  plan: not downstream (the controller and vehicle model see the same world
+  in both runs, so a bias there would push both the same way), not the
+  traffic side of the scene (a mirrored right-hand scene looks like
+  left-hand traffic; a model confused about the traffic side would settle,
+  not drift right), and not an asymmetric image pipeline (the principal
+  point is the image centre). Mirrored runs fail more (16 of 20 against 6):
+  drifting right meets the curb and parked cars sooner. A learned lean in
+  the model's own frame, e.g. from its training data, is the reading left.
 - For the paper: the hardest cases a search finds are mostly places where
   this drift meets other traffic or the road edge; that is a real weakness
   of the policy under test, found by the system, and it should be stated as

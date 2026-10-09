@@ -12,7 +12,11 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
    median +0.2 m). It has been there since the first batches in September
    and with fresh frames. No integration bug found (command rule and
    encoding match VaVAM's training code; camera centred, right field of
-   view). This is the dominant failure mode: most "hardest cases" are this
+   view). **The mirror test settles where it comes from:** with VaVAM's
+   input and output mirrored, the same scenes and seeds drift *right* (18
+   of 20 pairs, median -2.1 m against +6.4 m plain). The lean is in the
+   model itself, not the simulator, the controller or the traffic side.
+   `MIRROR.md`. This is the dominant failure mode: most "hardest cases" are this
    drift meeting traffic or the road edge. `figures/drift.png`, `DRIFT.md`.
 2. **We were over-counting failures by a quarter.** 49 of 200 counted
    crashes were replayed cars rear-ending our slowed ego, or contacts before
@@ -60,8 +64,9 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
 - Kept `rules` and `hybrid` unchanged mid-experiment; fixes go in new arms.
 - Left the warm-up seam fix (problem 24) unapplied until the replicates end,
   so they all see the same warm-up: `patches/pending-ego-retiming-seam.patch`.
-- Mirror test set up in a second checkout (`~/alpasim-mirror`), queued after
-  the replicates (`research/simgate front m1_queue` to run it sooner).
+- Mirror test in a second checkout (`~/alpasim-mirror`, your working copy
+  untouched); run on 9 Oct after you said to cut the intersection
+  replicates (~10 GPU hours saved).
 
 ## What needs you
 
