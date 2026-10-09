@@ -25,8 +25,12 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
 4. **The rule proposer had a real bug.** It kept confirming near misses that
    never fail until the budget ran out (lead vehicle: 0 failures in 49
    runs), while random + confirmation found 5 cases at knob extremes in 43.
-   `rules_v2` stops confirming what surely passes; it still steps locally
-   before trying corners (running; see FACTS problem 26).
+   `rules_v2` stops confirming what surely passes, but still searched
+   locally and also found 0 of 5. Reading: rule-guided local search is
+   reliable in small spaces (pedestrian x ego speed: rules at 25 runs in
+   both replicates) and needs global coverage first in larger ones. I did
+   not keep tuning rule variants on lead vehicle (that would fit the method
+   to its test); FACTS problem 26 and "Rule variants".
 5. **Your feasible_best tuning breaks these scenes.** A/B over 4 settings and
    4 scenes: linear 0 of 10 failed, feasible_best 10 of 10 (p 0.002), none
    involving the pedestrian: it turns too sharply or veers off at RIGHT
@@ -71,5 +75,5 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
 ## Still running
 
 The GPU queue (two runs at a time, ~39 runs an hour): replicates 2-4 of
-rules, hybrid, llm and random_confirm on the studies with failures,
-rules_v2, then the mirror test. `research/simgate status` or the Queue tab.
+rules, hybrid, llm and random_confirm on the studies with failures, then
+the mirror test. `research/simgate status` or the Queue tab.
