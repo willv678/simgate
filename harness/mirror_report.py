@@ -101,7 +101,7 @@ def main() -> int:
         "| scene | seed | plain +3 s | mirror +3 s | plain end | mirror end |",
         "|---|---|---|---|---|---|",
     ]
-    fmt = lambda v: "-" if v is None else f"{v:+.2f}"  # noqa: E731
+    fmt = lambda v: "-" if v is None else f"{v:+.2f}"
     for r in rows:
         lines.append(
             f"| {r['scene']} | {r['seed']} | {fmt(r['plain']['at_3s'])} "
