@@ -530,8 +530,20 @@ under the new definition from their first round.
   reach a corner. A design weakness of the rule proposer to state (and a
   fix to try: probe the corners first, as Euro NCAP grids do); one
   replicate, so replicates 2-4 decide.
-- cut-in: 3 of 5 confirmed in 40 runs (the first replicate's other arms
+- cut-in: 3 of 5 confirmed in 54 runs (the first replicate's other arms
   stopped early on the broad count).
+- intersection x ego speed: random + confirmation 2 of 5, as rules, hybrid
+  and llm: the scene type does not separate the methods.
+- Rule variants on lead vehicle, one replicate each: rules + corners 0 of 5
+  (it confirmed near misses every round, problem 26), rules_v2 (stops
+  confirming what surely passes) 0 of 5: it then steps one notch around the
+  near misses, which outrank the corners, and 3 knobs x 8 scenes do not fit
+  local search in 49 runs. No further variants tuned on this study (that
+  would fit the method to its test). Reading: rule-guided local search is
+  reliable in small spaces (pedestrian x ego speed, 2 knobs: rules at 25
+  runs in both replicates) and loses to random + confirmation where the
+  failures sit at the extremes of a larger space; a rule design for that
+  needs global coverage first (corners or a coarse grid) before local steps.
 
 ## Controller A/B, 8 Oct (feasible_best against linear)
 
