@@ -486,6 +486,7 @@ def main() -> int:
             "hybrid",
             "rules",
             "rules_corners",
+            "rules_v2",
             "grid",
             "bisect",
             "random",

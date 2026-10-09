@@ -126,3 +126,15 @@ def test_no_corners_near_a_failure_or_without_the_option():
         c["reason"].startswith("a corner")
         for c in candidates(["clipgt-a"], far, TOP3, TWO)
     )
+
+
+def test_a_near_miss_that_surely_fails_rarely_is_not_confirmed_again():
+    # Three near misses, no failure: the rate's 90% range tops out below 0.5.
+    rows = [_two("clipgt-a", 0.0, 1.25, 0.7, i) for i in range(3)]
+    table = results(rows, TWO)
+    assert table[0]["failure_rate_90"][1] < 0.5
+    plain = candidates(["clipgt-a"], table, TOP3, TWO)
+    assert plain[0]["reason"].startswith("confirm")  # rules: confirmed forever
+    settled = candidates(["clipgt-a"], table, TOP3, TWO, corners=True, settle=True)
+    assert not any(c["reason"].startswith("confirm") for c in settled)
+    assert any(c["reason"].startswith("a corner") for c in settled)

@@ -18,6 +18,13 @@ The rules, per scene:
 Scores: confirming a near-failure first, then steps from the most critical
 settings, then first probes.
 
+With `settle` (rules_v2), a setting whose failure rate is surely below the
+goal's `high_min` (the top of its 90% range below it) is never confirmed:
+without it a near miss that never fails is confirmed until the budget runs
+out (lead vehicle, 9 Oct: every round after the first went to confirming the
+middle probes, 0 failures in 38 runs), since a rate of 0 is never surely
+above high_min. Such a scene also gets its corners.
+
 With `corners`, a scene whose settings so far are all far from failing
 (criticality below CORNER_BELOW) also offers its untried corners, every knob
 at an end of its range (as Euro NCAP grids test the extremes), scored after
@@ -75,6 +82,7 @@ def candidates(
     goal: dict | None,
     varied: tuple,
     corners: bool = False,
+    settle: bool = False,
 ) -> list[dict]:
     """Ranked candidate runs, best first, each with its reason and score."""
     if goal is not None and goal["type"] == "bracket":
@@ -109,7 +117,12 @@ def candidates(
             continue
         best = max(rows, key=lambda r: (r["criticality"], r["failure_rate_90"][0]))
         values = {k: best[k] for k in varied}
-        if best["criticality"] >= 0.5 and best["failure_rate_90"][0] <= high_min:
+        settled_low = settle and best["failure_rate_90"][1] < high_min
+        if (
+            best["criticality"] >= 0.5
+            and best["failure_rate_90"][0] <= high_min
+            and not settled_low
+        ):
             found.append(
                 _setting(
                     scene,
@@ -120,7 +133,7 @@ def candidates(
                 )
             )
         seen = {_key(r, varied) for r in rows}
-        if corners and best["criticality"] < CORNER_BELOW:
+        if corners and (best["criticality"] < CORNER_BELOW or settled_low):
             for ends in product(*((SCENARIO[k][0], SCENARIO[k][-1]) for k in varied)):
                 corner = dict(zip(varied, ends))
                 if (scene, *ends) not in seen:
@@ -129,7 +142,9 @@ def candidates(
                             scene,
                             corner,
                             varied,
-                            "a corner: the scene is far from failing so far",
+                            "a corner: the scene is far from failing so far"
+                            if not settled_low
+                            else "a corner: its nearest miss surely fails rarely",
                             CORNER_SCORE,
                         )
                     )
@@ -155,10 +170,11 @@ def rules_proposals(
     goal: dict | None,
     varied: tuple,
     corners: bool = False,
+    settle: bool = False,
 ) -> dict:
     """The best `count` candidates, one scene at a time in turn so no scene
     takes the whole round; candidates repeat when there are too few."""
-    ranked = candidates(scenes, table, goal, varied, corners)
+    ranked = candidates(scenes, table, goal, varied, corners, settle)
     if not ranked:
         return {"plan": "rules: nothing left to try", "runs": []}
     by_scene = {}
