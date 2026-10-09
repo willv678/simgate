@@ -1,4 +1,33 @@
 {
+ "cut_in_merge": {
+  "k": 5,
+  "budget": 54,
+  "proposers": {
+   "random_confirm": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     54
+    ],
+    "median_runs_to_goal": 54,
+    "confirmed": [
+     3
+    ],
+    "hardest": [
+     0.952
+    ],
+    "failures": [
+     18
+    ],
+    "kept": [
+     54
+    ],
+    "model_seconds": [
+     0.0
+    ]
+   }
+  }
+ },
  "intersection": {
   "k": 5,
   "budget": 49,
@@ -86,65 +115,13 @@
     ],
     "median_runs_to_goal": 49,
     "confirmed": [
-     0
+     2
     ],
     "hardest": [
-     0.508
+     0.617
     ],
     "failures": [
-     1
-    ],
-    "kept": [
-     6
-    ],
-    "model_seconds": [
-     0.0
-    ]
-   },
-   "hybrid": {
-    "replicates": 1,
-    "reached": 0,
-    "runs_to_goal": [
-     49
-    ],
-    "median_runs_to_goal": 49,
-    "confirmed": [
-     0
-    ],
-    "hardest": [
-     0.485
-    ],
-    "failures": [
-     1
-    ],
-    "kept": [
-     6
-    ],
-    "model_seconds": [
-     8.5
-    ]
-   }
-  }
- },
- "lead_vehicle": {
-  "k": 5,
-  "budget": 49,
-  "proposers": {
-   "rules": {
-    "replicates": 1,
-    "reached": 0,
-    "runs_to_goal": [
-     49
-    ],
-    "median_runs_to_goal": 49,
-    "confirmed": [
-     0
-    ],
-    "hardest": [
-     0.846
-    ],
-    "failures": [
-     0
+     9
     ],
     "kept": [
      49
@@ -164,16 +141,224 @@
      2
     ],
     "hardest": [
-     0.92
+     0.626
     ],
     "failures": [
-     7
+     9
     ],
     "kept": [
      49
     ],
     "model_seconds": [
-     110.8
+     123.1
+    ]
+   },
+   "llm": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     49
+    ],
+    "median_runs_to_goal": 49,
+    "confirmed": [
+     2
+    ],
+    "hardest": [
+     0.599
+    ],
+    "failures": [
+     8
+    ],
+    "kept": [
+     49
+    ],
+    "model_seconds": [
+     117.7
+    ]
+   },
+   "random_confirm": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     49
+    ],
+    "median_runs_to_goal": 49,
+    "confirmed": [
+     2
+    ],
+    "hardest": [
+     0.606
+    ],
+    "failures": [
+     12
+    ],
+    "kept": [
+     49
+    ],
+    "model_seconds": [
+     0.0
+    ]
+   }
+  }
+ },
+ "lead_vehicle": {
+  "k": 5,
+  "budget": 49,
+  "proposers": {
+   "rules": {
+    "replicates": 2,
+    "reached": 0,
+    "runs_to_goal": [
+     49,
+     49
+    ],
+    "median_runs_to_goal": 49.0,
+    "confirmed": [
+     0,
+     0
+    ],
+    "hardest": [
+     0.846,
+     0.851
+    ],
+    "failures": [
+     0,
+     0
+    ],
+    "kept": [
+     49,
+     49
+    ],
+    "model_seconds": [
+     0.0,
+     0.0
+    ]
+   },
+   "rules_corners": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     49
+    ],
+    "median_runs_to_goal": 49,
+    "confirmed": [
+     0
+    ],
+    "hardest": [
+     0.853
+    ],
+    "failures": [
+     0
+    ],
+    "kept": [
+     49
+    ],
+    "model_seconds": [
+     0.0
+    ]
+   },
+   "rules_v2": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     49
+    ],
+    "median_runs_to_goal": 49,
+    "confirmed": [
+     0
+    ],
+    "hardest": [
+     0.891
+    ],
+    "failures": [
+     1
+    ],
+    "kept": [
+     49
+    ],
+    "model_seconds": [
+     0.0
+    ]
+   },
+   "hybrid": {
+    "replicates": 2,
+    "reached": 0,
+    "runs_to_goal": [
+     49,
+     49
+    ],
+    "median_runs_to_goal": 49.0,
+    "confirmed": [
+     2,
+     3
+    ],
+    "hardest": [
+     0.92,
+     0.952
+    ],
+    "failures": [
+     7,
+     10
+    ],
+    "kept": [
+     49,
+     49
+    ],
+    "model_seconds": [
+     110.8,
+     100.4
+    ]
+   },
+   "llm": {
+    "replicates": 1,
+    "reached": 1,
+    "runs_to_goal": [
+     23
+    ],
+    "median_runs_to_goal": 23,
+    "confirmed": [
+     5
+    ],
+    "hardest": [
+     1.0
+    ],
+    "failures": [
+     21
+    ],
+    "kept": [
+     28
+    ],
+    "model_seconds": [
+     59.8
+    ]
+   },
+   "random_confirm": {
+    "replicates": 2,
+    "reached": 1,
+    "runs_to_goal": [
+     43,
+     49
+    ],
+    "median_runs_to_goal": 46.0,
+    "confirmed": [
+     5,
+     4
+    ],
+    "hardest": [
+     1.0,
+     0.978
+    ],
+    "failures": [
+     17,
+     17
+    ],
+    "kept": [
+     49,
+     49
+    ],
+    "model_seconds": [
+     0.0,
+     0.0
     ]
    }
   }
@@ -304,72 +489,90 @@
   "budget": 50,
   "proposers": {
    "rules": {
-    "replicates": 1,
-    "reached": 1,
+    "replicates": 2,
+    "reached": 2,
     "runs_to_goal": [
+     25,
      25
     ],
-    "median_runs_to_goal": 25,
+    "median_runs_to_goal": 25.0,
     "confirmed": [
+     5,
      5
     ],
     "hardest": [
+     1.0,
      1.0
     ],
     "failures": [
-     17
+     17,
+     18
     ],
     "kept": [
+     30,
      30
     ],
     "model_seconds": [
+     0.0,
      0.0
     ]
    },
    "hybrid": {
-    "replicates": 1,
-    "reached": 1,
+    "replicates": 2,
+    "reached": 2,
     "runs_to_goal": [
-     24
+     24,
+     28
     ],
-    "median_runs_to_goal": 24,
+    "median_runs_to_goal": 26.0,
     "confirmed": [
+     5,
      5
     ],
     "hardest": [
+     1.0,
      1.0
     ],
     "failures": [
-     18
+     18,
+     19
     ],
     "kept": [
+     30,
      30
     ],
     "model_seconds": [
-     46.0
+     46.0,
+     45.6
     ]
    },
    "llm": {
-    "replicates": 1,
-    "reached": 1,
+    "replicates": 2,
+    "reached": 2,
     "runs_to_goal": [
-     28
+     28,
+     40
     ],
-    "median_runs_to_goal": 28,
+    "median_runs_to_goal": 34.0,
     "confirmed": [
+     5,
      5
     ],
     "hardest": [
+     1.0,
      1.0
     ],
     "failures": [
-     18
-    ],
-    "kept": [
+     18,
      30
     ],
+    "kept": [
+     30,
+     49
+    ],
     "model_seconds": [
-     52.5
+     52.5,
+     88.1
     ]
    },
    "random": {
@@ -392,6 +595,35 @@
      48
     ],
     "model_seconds": [
+     0.0
+    ]
+   },
+   "random_confirm": {
+    "replicates": 2,
+    "reached": 2,
+    "runs_to_goal": [
+     31,
+     32
+    ],
+    "median_runs_to_goal": 31.5,
+    "confirmed": [
+     5,
+     5
+    ],
+    "hardest": [
+     1.0,
+     1.0
+    ],
+    "failures": [
+     28,
+     29
+    ],
+    "kept": [
+     39,
+     39
+    ],
+    "model_seconds": [
+     0.0,
      0.0
     ]
    }

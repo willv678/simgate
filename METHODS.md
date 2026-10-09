@@ -9,22 +9,30 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 
 | study | method | replicates | kept runs (each) | reached goal | runs to goal (each) | median | confirmed (each) | hardest (each) | failures (each) | model s (each) |
 |---|---|---|---|---|---|---|---|---|---|---|
+| cut_in_merge | random_confirm | 1 | 54 | 0 | 54 | 54 | 3 of 5 | 0.952 | 18 | 0.0 |
 | intersection | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.435 | 0 | 0.0 |
 | intersection | hybrid | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.541 | 6 | 91.4 |
 | intersection | llm | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.462 | 0 | 116.2 |
-| intersection_ego_speed | rules | 1 | 6 | 0 | 49 | 49 | 0 of 5 | 0.508 | 1 | 0.0 |
-| intersection_ego_speed | hybrid | 1 | 6 | 0 | 49 | 49 | 0 of 5 | 0.485 | 1 | 8.5 |
-| lead_vehicle | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.846 | 0 | 0.0 |
-| lead_vehicle | hybrid | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.92 | 7 | 110.8 |
+| intersection_ego_speed | rules | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.617 | 9 | 0.0 |
+| intersection_ego_speed | hybrid | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.626 | 9 | 123.1 |
+| intersection_ego_speed | llm | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.599 | 8 | 117.7 |
+| intersection_ego_speed | random_confirm | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.606 | 12 | 0.0 |
+| lead_vehicle | rules | 2 | 49, 49 | 0 | 49, 49 | 49.0 | 0, 0 of 5 | 0.846, 0.851 | 0, 0 | 0.0, 0.0 |
+| lead_vehicle | rules_corners | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.853 | 0 | 0.0 |
+| lead_vehicle | rules_v2 | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.891 | 1 | 0.0 |
+| lead_vehicle | hybrid | 2 | 49, 49 | 0 | 49, 49 | 49.0 | 2, 3 of 5 | 0.92, 0.952 | 7, 10 | 110.8, 100.4 |
+| lead_vehicle | llm | 1 | 28 | 1 | 23 | 23 | 5 of 5 | 1.0 | 21 | 59.8 |
+| lead_vehicle | random_confirm | 2 | 49, 49 | 1 | 43, 49 | 46.0 | 5, 4 of 5 | 1.0, 0.978 | 17, 17 | 0.0, 0.0 |
 | pedestrian_crossing | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.643 | 0 | 0.0 |
 | pedestrian_crossing | hybrid | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.636 | 0 | 90.1 |
 | pedestrian_crossing | llm | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.691 | 5 | 112.3 |
 | pedestrian_crossing | random | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.673 | 0 | 0.0 |
 | pedestrian_crossing | optuna | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.699 | 3 | 0.0 |
-| pedestrian_ego_speed | rules | 1 | 30 | 1 | 25 | 25 | 5 of 5 | 1.0 | 17 | 0.0 |
-| pedestrian_ego_speed | hybrid | 1 | 30 | 1 | 24 | 24 | 5 of 5 | 1.0 | 18 | 46.0 |
-| pedestrian_ego_speed | llm | 1 | 30 | 1 | 28 | 28 | 5 of 5 | 1.0 | 18 | 52.5 |
+| pedestrian_ego_speed | rules | 2 | 30, 30 | 2 | 25, 25 | 25.0 | 5, 5 of 5 | 1.0, 1.0 | 17, 18 | 0.0, 0.0 |
+| pedestrian_ego_speed | hybrid | 2 | 30, 30 | 2 | 24, 28 | 26.0 | 5, 5 of 5 | 1.0, 1.0 | 18, 19 | 46.0, 45.6 |
+| pedestrian_ego_speed | llm | 2 | 30, 49 | 2 | 28, 40 | 34.0 | 5, 5 of 5 | 1.0, 1.0 | 18, 30 | 52.5, 88.1 |
 | pedestrian_ego_speed | random | 1 | 48 | 0 | 50 | 50 | 0 of 5 | 1.0 | 31 | 0.0 |
+| pedestrian_ego_speed | random_confirm | 2 | 39, 39 | 2 | 31, 32 | 31.5 | 5, 5 of 5 | 1.0, 1.0 | 28, 29 | 0.0, 0.0 |
 
 Left out: arms that stopped believing their goal met under the broad
 failure definition used before 8 Oct 2026 (any front, side or off-road

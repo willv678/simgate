@@ -39,7 +39,14 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
    4 scenes: linear 0 of 10 failed, feasible_best 10 of 10 (p 0.002), none
    involving the pedestrian: it turns too sharply or veers off at RIGHT
    commands. Worth checking its gains, or the uncommitted configuration.py.
-6. **Replays are exact** (same seed, 0.0 m over 122 steps) and **the ego
+6. **Which search method is fastest depends on the space** (replicates so
+   far, `METHODS.md`): pedestrian x ego speed (2 knobs) rules 25/25, hybrid
+   24/28, llm 28/40, random + confirmation 31/32 runs to the goal; lead
+   vehicle (3 knobs, failures at the extremes) llm 5 of 5 by run 23 (one
+   clean replicate), random + confirmation 5 by 43 and 4 of 5, hybrid 2 and
+   3 of 5, rules 0 and 0. Plain random never confirms anything. More
+   replicates are running.
+7. **Replays are exact** (same seed, 0.0 m over 122 steps) and **the ego
    speed knob works** (measured within 0.004 m/s of the request).
 
 ## What got built
