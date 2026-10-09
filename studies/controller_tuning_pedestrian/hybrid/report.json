@@ -1,51 +1,64 @@
 {
  "answer": {
-  "answer": "No. The tuned MPC (feasible_best) was less safe than the default linear MPC. The pooled 90% ranges separate, so the study stopped after its first round: feasible_best failed on every pair and linear on none. The exact sign test lands just above 0.05, though, so the result is strong but rests on few pairs. Two caveats limit what this says about early pedestrians. First, every pair ran at a single timing: no time shift (0 s) and 1.25x walking speed. The early step-outs of up to 2 s were never tested. Second, none of the feasible_best failures involved the pedestrian. In each one the ego steered wrongly at a RIGHT command, either turning too sharply into parked cars or veering left off the road. Every one was flagged as a possible simulator artifact because the ego ended far from the recorded path, but triage of the videos and logs blames the policy, not the rendering. So feasible_best seems to fail on these scenes whatever the pedestrian does, not because the pedestrian steps out early.",
+  "answer": "No. The tuned controller (feasible_best) was not safer: the default linear MPC failed less, and the pooled 90% ranges of the two controllers separate. feasible_best failed in every pair, on all four scenes, and linear failed in none. The sign test over pairs where only one controller failed points the same way. Two things limit this. First, none of feasible_best's failures involved the pedestrian. On a RIGHT command it turned too sharply into parked cars or steered left off the road. It did this even at the recorded timing and speed, so the result shows that feasible_best is broken in these scenes, not that it handles early pedestrians worse. Second, the study stopped after two rounds and only tried step-outs of 0 to 0.5 s early at 1.0x to 1.5x speed. Most settings have one pair each, so how linear handles a pedestrian 1 to 2 s early is still untested.",
   "findings": [
    {
-    "claim": "At 0 s shift and 1.25x speed, feasible_best failed in all four scenes and the default linear MPC passed in all four. Every pair split the same way, with only feasible_best failing.",
+    "claim": "feasible_best failed at every setting tried, on all four scenes, while linear passed at every one of them, so every pair that differed went against feasible_best.",
     "settings": [
      "S1",
      "S2",
      "S3",
-     "S4"
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9"
     ]
    },
    {
-    "claim": "feasible_best failed on scene 0e002edd in both pairs run there. Both times it took the right turn too sharply and drove into the parked cars at the far curb. The policy was at fault, and the pedestrian was not involved.",
+    "claim": "feasible_best fails even with the pedestrian on its recorded timing and speed (no shift, 1.0x), so its failures do not depend on the pedestrian stepping out early.",
     "settings": [
+     "S8"
+    ]
+   },
+   {
+    "claim": "The video and log review put every feasible_best failure on the policy: on a RIGHT command it either turned too tightly into parked cars at the curb (0e002edd) or steered left across lanes and off the road (18f8dbd6, 12a09194, 0b10bce8). None was a collision with the retimed pedestrian. All are flagged as possible artifacts because the ego ended more than 3.5 m off the recorded path, but the review found the camera view clean before the drift. That points to the drift causing the large offset, not rendering.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9"
+    ]
+   },
+   {
+    "claim": "On 0e002edd, the scene where the pedestrian comes closest, linear passed at every timing tried up to 0.5 s early and 1.5x speed. Its criticality stayed well below 1 there, so it was not close to failing.",
+    "settings": [
+     "S3",
+     "S4",
+     "S5"
+    ]
+   },
+   {
+    "claim": "On 12a09194 the pedestrian never came near the linear ego (criticality 0). On 0b10bce8 linear's criticality stayed low. These two scenes say little about how either controller reacts to a pedestrian stepping out early.",
+    "settings": [
+     "S6",
+     "S1",
      "S2"
-    ]
-   },
-   {
-    "claim": "On scenes 0b10bce8, 12a09194 and 18f8dbd6, feasible_best left the road. Despite a RIGHT command it steered left across lanes or the crosswalk and onto the curb or sidewalk. Triage found the camera view clean before the drift in two of these runs and judged the smearing in the third (12a09194) to be a result of the drift, not its cause.",
-    "settings": [
-     "S1",
-     "S3",
-     "S4"
-    ]
-   },
-   {
-    "claim": "feasible_best also failed on 12a09194, where linear's criticality was 0 and the pedestrian likely never reaches the ego's path. This supports the reading that feasible_best's failures come from its own path tracking, not from the pedestrian's timing.",
-    "settings": [
-     "S3"
-    ]
-   },
-   {
-    "claim": "Every feasible_best failure was flagged as a possible artifact because the ego ended over 3.5 m from the recorded trajectory. Triage, however, attributes all of them to the policy.",
-    "settings": [
-     "S1",
-     "S2",
-     "S3",
-     "S4"
     ]
    }
   ],
   "open": [
-   "Pedestrians stepping out early were never tested. Every pair used a 0 s shift and 1.25x speed, so the study does not show how either controller handles shifts of -0.5 to -2.0 s or speeds up to 2.0x. Pairs at, say, -1.0 s and -2.0 s with 1.5x and 2.0x on 0e002edd and 18f8dbd6 would settle this.",
-   "Does feasible_best fail on these scenes even with the pedestrian left as recorded (0 s shift, 1.0x speed)? If it does, its failures are a baseline steering problem at right turns and have nothing to do with the pedestrian. A paired baseline run on each of the four scenes would settle this.",
-   "Repeat runs would show whether feasible_best's failures are consistent or occasional. So far each setting has only one or two pairs, which is a hint rather than a per-scene rate. Two or three more pairs per scene would settle this.",
-   "One linear run on 0e002edd (hybrid_005_linear) was not kept and had to be re-run. Its replacement passed, but the reason the gate rejected the first run is not recorded here."
+   "How linear handles a pedestrian stepping out 1 to 2 s early, or walking faster than 1.5x, is untested: no setting went past -0.5 s or 1.5x. Linear-only runs on 0e002edd and 18f8dbd6 at shifts of -1.0, -1.5 and -2.0 s and at 1.5x to 2.0x speed would settle whether linear holds up there.",
+   "Whether feasible_best fails on these scenes with no retiming at all, which would confirm that its failures come from the tuning rather than the pedestrian. Unmodified baseline runs of feasible_best on all four scenes, repeated a few times, would settle it.",
+   "Whether the pedestrian scenario can tell the controllers apart at all. That needs a controller that can complete the right turn (fix feasible_best's turning first), then paired runs on the same early timings.",
+   "Most settings have a single pair, so the per-setting results are hints. The separation rests on pooling across settings, and the study stopped after 2 of the 5 planned rounds.",
+   "One linear run at S4 (hybrid_005_linear) was not kept and had to be re-run. The replacement (hybrid_005_linear_a2) is the one counted."
   ]
  },
  "results": [
@@ -63,7 +76,7 @@
      0.73
     ],
     "possible_artifacts": 0,
-    "criticality": 0.63,
+    "criticality": 0.311,
     "run_names": [
      "controller_tuning_pedestrian_hybrid_004_linear"
     ]
@@ -92,6 +105,88 @@
   },
   {
    "id": "S2",
+   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.5,
+   "a": {
+    "controller": "linear",
+    "runs": 1,
+    "failed": 0,
+    "failure_rate_90": [
+     0.0,
+     0.73
+    ],
+    "possible_artifacts": 0,
+    "criticality": 0.311,
+    "run_names": [
+     "controller_tuning_pedestrian_hybrid_009_linear"
+    ]
+   },
+   "b": {
+    "controller": "feasible_best",
+    "runs": 1,
+    "failed": 1,
+    "failure_rate_90": [
+     0.27,
+     1.0
+    ],
+    "possible_artifacts": 1,
+    "criticality": 1.0,
+    "run_names": [
+     "controller_tuning_pedestrian_hybrid_009_feasible_best"
+    ]
+   },
+   "paired": {
+    "pairs": 1,
+    "a_failed": 0,
+    "b_failed": 1,
+    "only_a_failed": 0,
+    "only_b_failed": 1
+   }
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.25,
+   "a": {
+    "controller": "linear",
+    "runs": 1,
+    "failed": 0,
+    "failure_rate_90": [
+     0.0,
+     0.73
+    ],
+    "possible_artifacts": 0,
+    "criticality": 0.722,
+    "run_names": [
+     "controller_tuning_pedestrian_hybrid_006_linear"
+    ]
+   },
+   "b": {
+    "controller": "feasible_best",
+    "runs": 1,
+    "failed": 1,
+    "failure_rate_90": [
+     0.27,
+     1.0
+    ],
+    "possible_artifacts": 1,
+    "criticality": 1.0,
+    "run_names": [
+     "controller_tuning_pedestrian_hybrid_006_feasible_best"
+    ]
+   },
+   "paired": {
+    "pairs": 1,
+    "a_failed": 0,
+    "b_failed": 1,
+    "only_a_failed": 0,
+    "only_b_failed": 1
+   }
+  },
+  {
+   "id": "S4",
    "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
    "actor_time_shift_s": 0,
    "actor_speed_scale": 1.25,
@@ -134,7 +229,48 @@
    }
   },
   {
-   "id": "S3",
+   "id": "S5",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.5,
+   "a": {
+    "controller": "linear",
+    "runs": 1,
+    "failed": 0,
+    "failure_rate_90": [
+     0.0,
+     0.73
+    ],
+    "possible_artifacts": 0,
+    "criticality": 0.736,
+    "run_names": [
+     "controller_tuning_pedestrian_hybrid_008_linear"
+    ]
+   },
+   "b": {
+    "controller": "feasible_best",
+    "runs": 1,
+    "failed": 1,
+    "failure_rate_90": [
+     0.27,
+     1.0
+    ],
+    "possible_artifacts": 1,
+    "criticality": 1.0,
+    "run_names": [
+     "controller_tuning_pedestrian_hybrid_008_feasible_best"
+    ]
+   },
+   "paired": {
+    "pairs": 1,
+    "a_failed": 0,
+    "b_failed": 1,
+    "only_a_failed": 0,
+    "only_b_failed": 1
+   }
+  },
+  {
+   "id": "S6",
    "scene_id": "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240",
    "actor_time_shift_s": 0,
    "actor_speed_scale": 1.25,
@@ -175,7 +311,89 @@
    }
   },
   {
-   "id": "S4",
+   "id": "S7",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.25,
+   "a": {
+    "controller": "linear",
+    "runs": 1,
+    "failed": 0,
+    "failure_rate_90": [
+     0.0,
+     0.73
+    ],
+    "possible_artifacts": 0,
+    "criticality": 0.536,
+    "run_names": [
+     "controller_tuning_pedestrian_hybrid_007_linear"
+    ]
+   },
+   "b": {
+    "controller": "feasible_best",
+    "runs": 1,
+    "failed": 1,
+    "failure_rate_90": [
+     0.27,
+     1.0
+    ],
+    "possible_artifacts": 1,
+    "criticality": 1.0,
+    "run_names": [
+     "controller_tuning_pedestrian_hybrid_007_feasible_best"
+    ]
+   },
+   "paired": {
+    "pairs": 1,
+    "a_failed": 0,
+    "b_failed": 1,
+    "only_a_failed": 0,
+    "only_b_failed": 1
+   }
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1,
+   "a": {
+    "controller": "linear",
+    "runs": 1,
+    "failed": 0,
+    "failure_rate_90": [
+     0.0,
+     0.73
+    ],
+    "possible_artifacts": 0,
+    "criticality": 0.536,
+    "run_names": [
+     "controller_tuning_pedestrian_hybrid_010_linear"
+    ]
+   },
+   "b": {
+    "controller": "feasible_best",
+    "runs": 1,
+    "failed": 1,
+    "failure_rate_90": [
+     0.27,
+     1.0
+    ],
+    "possible_artifacts": 1,
+    "criticality": 1.0,
+    "run_names": [
+     "controller_tuning_pedestrian_hybrid_010_feasible_best"
+    ]
+   },
+   "paired": {
+    "pairs": 1,
+    "a_failed": 0,
+    "b_failed": 1,
+    "only_a_failed": 0,
+    "only_b_failed": 1
+   }
+  },
+  {
+   "id": "S9",
    "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
    "actor_time_shift_s": 0,
    "actor_speed_scale": 1.25,
@@ -188,7 +406,7 @@
      0.73
     ],
     "possible_artifacts": 0,
-    "criticality": 0.738,
+    "criticality": 0.536,
     "run_names": [
      "controller_tuning_pedestrian_hybrid_002_linear"
     ]
@@ -218,8 +436,8 @@
  ],
  "call": {
   "model": "claude-opus-5-5",
-  "context_tokens": 10569,
-  "output_tokens": 1592,
-  "duration_ms": 16227
+  "context_tokens": 13584,
+  "output_tokens": 1675,
+  "duration_ms": 17329
  }
 }

@@ -544,6 +544,11 @@ turns too sharply into parked cars or veers left off the road, 6.7-14 m off
 the recording. So feasible_best (or how the uncommitted configuration.py
 passes its gains) breaks these scenes whatever the pedestrian does. The goal
 now needs 3 settings on 2 scenes (problem 22); the study is continued.
+Continued (9 Oct): 10 pairs over 4 knob settings on 4 scenes, linear 0 of 10,
+feasible_best 10 of 10 (pooled ranges separate, sign test p 0.002); still
+none of feasible_best's failures involves the pedestrian. Will should check
+the feasible_best gains (or the uncommitted configuration.py that passes
+them) before any tuned-controller claim.
 
 ## The policy drifts left, 8-9 Oct (`DRIFT.md`, `COMMANDS.md`)
 

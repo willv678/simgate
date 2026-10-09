@@ -1,11 +1,11 @@
 {
  "hybrid": {
-  "launched": 11,
-  "kept": 10,
-  "failures": 5,
+  "launched": 21,
+  "kept": 20,
+  "failures": 10,
   "scenes_with_a_failure": 4,
   "dropped": 0,
-  "runs_to_goal": null,
+  "runs_to_goal": 16,
   "goal_progress": [
    0,
    0,
@@ -16,7 +16,17 @@
    0,
    0,
    0,
-   0
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1,
+   1,
+   1,
+   1
   ],
   "hardest": 0.559,
   "hardest_progress": [
@@ -29,9 +39,19 @@
    0.488,
    0.557,
    0.566,
+   0.559,
+   0.559,
+   0.559,
+   0.559,
+   0.559,
+   0.559,
+   0.559,
+   0.559,
+   0.559,
+   0.559,
    0.559
   ],
-  "model_seconds": 8.4,
-  "model_tokens": 4827
+  "model_seconds": 21.7,
+  "model_tokens": 17613
  }
 }

@@ -4,27 +4,31 @@
  "pooled": {
   "a": {
    "controller": "linear",
-   "pairs": 5,
+   "pairs": 10,
    "failed": 0,
    "failure_rate_90": [
     0.0,
-    0.35
+    0.21
    ]
   },
   "b": {
    "controller": "feasible_best",
-   "pairs": 5,
-   "failed": 5,
+   "pairs": 10,
+   "failed": 10,
    "failure_rate_90": [
-    0.65,
+    0.79,
     1.0
    ]
   }
  },
  "sign_test": {
   "only_a_failed": 0,
-  "only_b_failed": 5,
-  "p": 0.062
+  "only_b_failed": 10,
+  "p": 0.002
  },
- "after_rounds": 1
+ "coverage": {
+  "knob_settings": 4,
+  "scenes": 4
+ },
+ "after_rounds": 2
 }

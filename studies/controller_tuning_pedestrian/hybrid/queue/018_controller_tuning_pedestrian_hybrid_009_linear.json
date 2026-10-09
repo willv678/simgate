@@ -1,0 +1,32 @@
+{
+  "name": "controller_tuning_pedestrian_hybrid_009_linear",
+  "run_dir": "diag/controller_tuning_pedestrian_hybrid_009_linear",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+    "controller": "linear",
+    "traffic": "replay",
+    "retime_class": "person",
+    "retime_track": "32",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 1.5,
+    "ego_speed_scale": 1.0,
+    "seed": 1864223982
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 28796,
+  "launched_at": 1791537180.6428785,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}
