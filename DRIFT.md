@@ -6,7 +6,7 @@ left or right means more than 0.5 m. 0 at the hand-off by construction.
 
 | runs | +0 s | +1 s | +2 s | +3 s | +5 s | +7 s | at the end | at a failure |
 |---|---|---|---|---|---|---|---|---|
-| studies (n=855) | +0.00 m, 0% left, 0% right | +0.23 m, 1% left, 0% right | +0.99 m, 63% left, 0% right | +2.19 m, 82% left, 0% right | +3.53 m, 86% left, 0% right | +3.53 m, 87% left, 1% right | +3.81 m, 88% left, 1% right | +3.99 m, 89% left, 0% right |
+| studies (n=859) | +0.00 m, 0% left, 0% right | +0.23 m, 1% left, 0% right | +1.00 m, 63% left, 0% right | +2.19 m, 82% left, 0% right | +3.54 m, 86% left, 0% right | +3.53 m, 87% left, 1% right | +3.81 m, 88% left, 1% right | +4.02 m, 90% left, 0% right |
 | b2_queue (n=150) | +0.00 m, 0% left, 0% right | +0.01 m, 0% left, 0% right | +0.15 m, 0% left, 0% right | +0.39 m, 1% left, 0% right | +0.83 m, 98% left, 0% right | +1.00 m, 97% left, 0% right | +1.01 m, 97% left, 0% right | +0.95 m, 93% left, 0% right |
 | s1_queue (n=100) | +0.00 m, 0% left, 0% right | +0.20 m, 1% left, 0% right | +1.06 m, 64% left, 2% right | +2.32 m, 71% left, 2% right | +2.51 m, 77% left, 0% right | +2.28 m, 74% left, 2% right | +3.15 m, 84% left, 1% right | +4.44 m, 96% left, 0% right |
 | v1_queue (n=17) | +0.00 m, 0% left, 0% right | +0.29 m, 0% left, 0% right | +1.51 m, 93% left, 0% right | +3.35 m, 93% left, 0% right | +4.37 m, 100% left, 0% right | +4.32 m, 83% left, 0% right | +4.37 m, 82% left, 6% right | +3.55 m, 80% left, 0% right |
@@ -17,6 +17,6 @@ more than the side threshold.
 
 | plan horizon | plans | median | mean | left | right |
 |---|---|---|---|---|---|
-| +1 s | 6322 | +0.24 m | +0.90 m | 19% | 7% |
-| +2 s | 6322 | +0.21 m | +1.13 m | 23% | 14% |
-| +3 s | 6322 | +0.24 m | +1.30 m | 31% | 13% |
+| +1 s | 6331 | +0.24 m | +0.90 m | 19% | 7% |
+| +2 s | 6331 | +0.21 m | +1.13 m | 23% | 14% |
+| +3 s | 6331 | +0.24 m | +1.30 m | 31% | 13% |

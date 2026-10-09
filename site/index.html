@@ -309,6 +309,12 @@ async function renderResults() {
       <p class="q">${g.attempts} simulation runs finished across every study; <b>${g.kept}</b> passed every check and were kept (${(100*g.kept/Math.max(g.attempts,1)).toFixed(1)}%). No run enters the results without passing the gate; the model can only propose a fix from a fixed menu.</p>
       ${rows ? `<div class="scroll"><table><tr><th>first failed check</th><th>what happened</th><th>attempts</th></tr>${rows}</table></div>` : ""}</div>`);
   }
+  if (r.drift) {
+    const st = r.drift.studies, ol = r.drift.open_loop_warmup_plans;
+    parts.splice(1, 0, `<div class="card"><h2>The policy's dominant failure mode: it drifts left</h2>
+      <p class="q">Once the driving policy takes over, the car moves left of where the human drove: about one lane within 5 s, in ${Math.round(100 * st.at_end.left)}% of ${st.at_end.n} runs (${Math.round(100 * st.at_end.right)}% drift right). Its plans lean left even before it drives (median ${ol["3.0"].median_m} m at 3 s). Most of the hardest cases the searches found are where this drift meets traffic or the road edge.</p>
+      <img src="${ROOT}figures/drift.png" alt="Lateral offset from the human's path against time after hand-off" style="width:100%;max-width:520px;height:auto"></div>`);
+  }
   if (r.gallery && r.gallery.length) {
     parts.push(`<div class="card"><h2>The hardest cases, as the camera saw them</h2>
       <p class="q">Each study's confirmed hardest settings, one failed run each, at the moment of failure, with the cause read from the video (GALLERY.md has every case in words).</p>

@@ -26,6 +26,7 @@ could give breaks the gate.
 | | |
 |---|---|
 | **Ego speed is the stressor** | Retiming the pedestrian alone: 0-5 failures in 49 runs per method. Adding the ego's speed at hand-off: every method confirms the 5 hardest cases in 24-28 runs. |
+| **The policy's dominant failure mode** | Once it takes over, the VaVAM policy drifts left of the human's path, about a lane within 5 s, in 88% of 853 runs (1% drift right); its plans already lean left before it drives. Most hardest cases are this drift meeting traffic or the road edge (`DRIFT.md`). |
 | **A quarter of naive "failures" are not the policy's** | Counting every collision flag, 49 of 200 failures were replayed cars rear-ending a slowed ego, or contacts before the policy drove. SimGate counts only failures the policy is responsible for, from the moment it takes over. |
 | **Fair baselines** | Random search found 31 crashes in 48 runs but confirmed none; `random_confirm` adds the same confirmation the rules use. Which method finds hard cases fastest is being measured over replicates of every method (`METHODS.md`). |
 | **Valid by construction** | 778 runs across the studies, 759 kept (97.6%); 17 crashed launches retried automatically, 2 halted by the physics bound, none kept without passing every check. |

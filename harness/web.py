@@ -298,7 +298,7 @@ def results_summary() -> dict:
             p.stem.removeprefix("gallery_") for p in FIGURES.glob("gallery_*.png")
         )
     }
-    for name in ("methods", "gate"):
+    for name in ("methods", "gate", "drift"):
         path = ROOT / "research" / f"{name}.json"
         found[name] = (
             json.loads(path.read_text(encoding="utf-8")) if path.exists() else None

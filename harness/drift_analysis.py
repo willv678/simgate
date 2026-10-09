@@ -21,18 +21,25 @@ import json
 import sys
 from pathlib import Path
 
+import matplotlib
 import numpy as np
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from alpasim_utils.logs import async_read_pb_log
 from outer import outcome
 from physics import _read, completed_rollout
+from plot_results import SURFACE, TEXT, TEXT_SECONDARY, _save, _style
 from read_state import ROOT, load_entry, queue_entries
 
 STUDIES = ROOT / "research" / "studies"
 HARNESS = ROOT / "research" / "harness"
 AFTER_S = (0.0, 1.0, 2.0, 3.0, 5.0, 7.0)
+# The figure's time axis: every half second after the hand-off.
+CURVE_S = tuple(x / 2 for x in range(0, 17))
 SIDE_M = 0.5
 BATCHES = ("b2_queue", "s1_queue", "v1_queue")
 
@@ -61,7 +68,7 @@ def run_offsets(run_dir: Path) -> dict:
         "failed": result["failed"],
         "after": {
             s: signed_offset(raw, handoff + s * 1e6)
-            for s in AFTER_S
+            for s in sorted(set(AFTER_S) | set(CURVE_S))
             if handoff + s * 1e6 <= end
         },
         "at_end": signed_offset(raw, end),
@@ -147,8 +154,30 @@ def main() -> int:
         name: [HARNESS / name] for name in (sys.argv[1:] or BATCHES)
     }
     report = {}
+    fig, ax = plt.subplots(figsize=(4.6, 2.8), facecolor=SURFACE)
+    _style(ax)
+    colors = {
+        "studies": "#eb6834",
+        "s1_queue": "#2a78d6",
+        "b2_queue": "#8c8c8c",
+        "v1_queue": "#1baf7a",
+    }
     for name, queues in groups.items():
         runs = [run_offsets(ROOT / e["run_dir"]) for e in kept(queues)]
+        curve = [(s, [r["after"][s] for r in runs if s in r["after"]]) for s in CURVE_S]
+        curve = [(s, v) for s, v in curve if len(v) >= 5]
+        xs = [s for s, _ in curve]
+        color = colors.get(name, TEXT_SECONDARY)
+        ax.plot(xs, [np.median(v) for _, v in curve], color=color, linewidth=1.6,
+                label=f"{name.removesuffix('_queue')} (n={len(runs)})")  # fmt: skip
+        ax.fill_between(
+            xs,
+            [np.percentile(v, 25) for _, v in curve],
+            [np.percentile(v, 75) for _, v in curve],
+            color=color,
+            alpha=0.15,
+            linewidth=0,
+        )
         report[name] = {
             "after_handoff": {
                 s: summary([r["after"][s] for r in runs if s in r["after"]])
@@ -157,6 +186,17 @@ def main() -> int:
             "at_end": summary([r["at_end"] for r in runs]),
             "at_failure": summary([r["at_end"] for r in runs if r["failed"]]),
         }
+    ax.axhline(0, color=TEXT_SECONDARY, linewidth=0.6)
+    ax.set_xlabel(
+        "seconds after the policy takes over", fontsize=8, color=TEXT_SECONDARY
+    )
+    ax.set_ylabel("offset from the human's path, m\n(left +; median, quartiles)",
+                  fontsize=8, color=TEXT_SECONDARY)  # fmt: skip
+    ax.set_title("The policy drifts left", fontsize=9, color=TEXT, loc="left")
+    ax.legend(fontsize=7, frameon=False)
+    fig.tight_layout()
+    _save(fig, "drift")
+
     open_loop = {h: [] for h in PLAN_HORIZONS_S}
     for entry in kept(study_queues):
         if entry["config"].get("ego_speed_scale", 1.0) != 1.0:
