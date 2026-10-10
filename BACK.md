@@ -50,9 +50,9 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
    far, `METHODS.md`): pedestrian x ego speed (2 knobs, three replicates
    each, complete) hybrid 24/28/24, rules 25/25/25, random + confirmation
    31/32/32, llm 28/40/37 runs to the goal; lead
-   vehicle (3 knobs, failures at the extremes) llm 5 of 5 by run 23 (one
-   clean replicate), random + confirmation 5 by 43 and 4 of 5, hybrid 2 and
-   3 of 5, rules 0 and 0; cut-in (clean replicates only) hybrid 5 of 5 by
+   vehicle (3 knobs, failures at the extremes) llm 5 of 5 by runs 23 and
+   30 (two clean replicates), random + confirmation 5 by 43 and 4 of 5,
+   hybrid 2, 3 and 3 of 5, rules 0, 0 and 0; cut-in (clean replicates only) hybrid 5 of 5 by
    run 32, random + confirmation 3 of 5, rules 2 of 5 in 54. Plain random
    never confirms anything. Where the space is small every method does
    about as well; where it is large, the Claude methods find the hardest

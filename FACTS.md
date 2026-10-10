@@ -554,6 +554,17 @@ space (2 knobs, 10 scenes) the rule candidates, alone or chosen by Claude,
 are the fastest and most consistent; the free Claude proposer is the
 slowest and most variable.
 
+### Lead vehicle, replicates so far (10 Oct)
+
+Hardest 5 confirmed in 49 runs (llm: runs to the goal): llm 5 of 5 at 23
+and at 30 (both clean replicates; replicate 1 stopped on the broad count,
+left out); random + confirmation 5 at 43, then 4; hybrid 2, 3, 3; rules 0,
+0, 0 (also rules + corners 0, rules_v2 0). In this larger space (3 knobs,
+failures at the knob extremes) the free Claude proposer is fastest and
+most consistent; the rule candidates, alone or under Claude (hybrid), stay
+near the recorded setting and miss the extremes. Random + confirmation
+replicate 3 running.
+
 ### Replicates under replayed traffic are nearly deterministic (9 Oct)
 
 pedestrian x ego speed, rules, three replicates with different run seeds
