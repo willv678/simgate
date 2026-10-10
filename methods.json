@@ -33,26 +33,32 @@
     ]
    },
    "hybrid": {
-    "replicates": 1,
-    "reached": 1,
+    "replicates": 2,
+    "reached": 2,
     "runs_to_goal": [
-     32
+     32,
+     36
     ],
-    "median_runs_to_goal": 32,
+    "median_runs_to_goal": 34.0,
     "confirmed": [
+     5,
      5
     ],
     "hardest": [
+     1.0,
      1.0
     ],
     "failures": [
-     17
+     17,
+     20
     ],
     "kept": [
+     36,
      36
     ],
     "model_seconds": [
-     51.7
+     51.7,
+     50.0
     ]
    },
    "llm": {
