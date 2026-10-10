@@ -565,6 +565,14 @@ most consistent; the rule candidates, alone or under Claude (hybrid), stay
 near the recorded setting and miss the extremes. A fourth llm replicate
 is queued (to replace the left-out one).
 
+### Cut-in, replicates so far (10 Oct)
+
+Clean replicates only (replicate 1 of rules, hybrid and llm stopped on the
+broad count, left out; fourth replicates queued): hybrid 5 of 5 at 32
+runs; llm 4 of 5 in 54; random + confirmation 3, 3 of 5 in 54; rules 2, 2
+of 5 in 54 (the same two settings both times, as replay determinism
+predicts). Replicates 3-4 of hybrid and llm running or queued.
+
 ### Replicates under replayed traffic are nearly deterministic (9 Oct)
 
 pedestrian x ego speed, rules, three replicates with different run seeds
