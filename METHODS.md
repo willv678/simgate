@@ -25,7 +25,7 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | lead_vehicle | rules_v2 | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.891 | 1 | 0.0 |
 | lead_vehicle | hybrid | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 2, 3, 3 of 5 | 0.92, 0.952, 0.955 | 7, 10, 9 | 110.8, 100.4, 101.3 |
 | lead_vehicle | llm | 2 | 28, 35 | 2 | 23, 30 | 26.5 | 5, 5 of 5 | 1.0, 1.0 | 21, 23 | 59.8, 75.8 |
-| lead_vehicle | random_confirm | 2 | 49, 49 | 1 | 43, 49 | 46.0 | 5, 4 of 5 | 1.0, 0.978 | 17, 17 | 0.0, 0.0 |
+| lead_vehicle | random_confirm | 3 | 49, 49, 49 | 1 | 43, 49, 49 | 49 | 5, 4, 3 of 5 | 1.0, 0.978, 0.953 | 17, 17, 11 | 0.0, 0.0, 0.0 |
 | pedestrian_crossing | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.643 | 0 | 0.0 |
 | pedestrian_crossing | hybrid | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.636 | 0 | 90.1 |
 | pedestrian_crossing | llm | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.691 | 5 | 112.3 |

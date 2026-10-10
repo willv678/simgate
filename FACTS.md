@@ -558,12 +558,12 @@ slowest and most variable.
 
 Hardest 5 confirmed in 49 runs (llm: runs to the goal): llm 5 of 5 at 23
 and at 30 (both clean replicates; replicate 1 stopped on the broad count,
-left out); random + confirmation 5 at 43, then 4; hybrid 2, 3, 3; rules 0,
+left out); random + confirmation 5 at 43, then 4, then 3; hybrid 2, 3, 3; rules 0,
 0, 0 (also rules + corners 0, rules_v2 0). In this larger space (3 knobs,
 failures at the knob extremes) the free Claude proposer is fastest and
 most consistent; the rule candidates, alone or under Claude (hybrid), stay
-near the recorded setting and miss the extremes. Random + confirmation
-replicate 3 running.
+near the recorded setting and miss the extremes. A fourth llm replicate
+is queued (to replace the left-out one).
 
 ### Replicates under replayed traffic are nearly deterministic (9 Oct)
 
