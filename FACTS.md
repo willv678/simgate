@@ -635,6 +635,9 @@ human path, left positive):
   under a RIGHT command, but at the hand-off 194 of 200 runs had STRAIGHT;
   RIGHT builds up as the ego leaves its route to the left, so "ignored a
   RIGHT command" in the triage mostly describes the drift.
+  Refreshed 10 Oct over all 2428 kept runs (736 failures): 68% of failures
+  under RIGHT, 32% STRAIGHT, 0.4% LEFT (`COMMANDS.md`); the hand-off count
+  was not re-checked.
 - **Mirror test (9 Oct, `MIRROR.md`, `harness/m1_queue`):** 10 drift-heavy
   scenes x seeds 1111/2222, each run plain and with VaVAM's input and output
   mirrored (camera frames flipped left to right, LEFT/RIGHT commands
