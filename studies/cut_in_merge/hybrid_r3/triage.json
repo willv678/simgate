@@ -1,0 +1,262 @@
+[
+ {
+  "run": "cut_in_merge_hybrid_r3_004",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway with the command STRAIGHT, the policy's planned path (orange) swung left toward the adjacent lane, away from the route (green). The ego steered left into actor 56, which was driving alongside it in that lane. The result was a front/side collision at 6.7 s about 1.1 m off the recorded path; the later rear contact came after this collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15848,
+   "output_tokens": 613,
+   "duration_ms": 6166
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_007",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "After the 4.6 s handoff, the ego was cruising at about 8 m/s on the highway. Its plan (orange) bent left toward the next lane, and the ego drifted left into actor 33, which was coming up alongside in that lane, so the ego's front-left corner hit it at 6.2 s. The route command at that moment was RIGHT, and the 25 m gap to the car ahead rules out a rear-end on a lead vehicle.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15848,
+   "output_tokens": 685,
+   "duration_ms": 7822
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_010",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "The route command was STRAIGHT (RIGHT at the final frame), but after handoff the policy began a lane change to the left on the highway. It sped up from 4.2 to 5.8 m/s and cut into the lane where actor 56 was driving alongside it, and its front hit that car.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15848,
+   "output_tokens": 459,
+   "duration_ms": 5337
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_011",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "Traffic was clear ahead, but the policy (orange path) changed lanes to the left. Vehicle 56 was in that lane, slightly behind and then alongside the ego, and the ego's front hit it at 6.7 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15850,
+   "output_tokens": 613,
+   "duration_ms": 7033
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_012",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "Right after handoff on a straight multi-lane highway, the policy's plan (orange) veered left toward the next lane while the recorded path went straight. The ego sped up from 4.2 to 5.8 m/s and its front hit vehicle 56, which was driving in the left lane slightly ahead of it.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15843,
+   "output_tokens": 480,
+   "duration_ms": 5526
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_013",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway the ego held about 8 m/s and stayed well back from the car ahead (gap over 24 m). Car 33 came up from behind in the lane to the left. By 6.2 s the ego had drifted about 0.9 m off the recorded path, apparently to the left, and its front-left overlapped car 33 as it went past, so this is a side-swipe of a passing car, not a lead-vehicle crash. The camera smear at impact is only the close-range reconstruction artifact.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13018,
+   "output_tokens": 1221,
+   "duration_ms": 13063
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_014",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane freeway with the command STRAIGHT, the ego drifted left out of its lane toward the adjacent left lane at about 8 m/s, while the recorded path stayed straight. Vehicle 33 was coming up alongside in that lane, and the ego's front swept into it at 6.2 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15830,
+   "output_tokens": 557,
+   "duration_ms": 6371
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_015",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway at about 8 m/s, the policy took over at 4.6 s. Its planned path then swung left toward the adjacent lane while the recorded human path stayed straight in the lane, and the command later changed to RIGHT. At 6.2 s the ego's front-left cut into vehicle 33, which was alongside it in the left lane, causing a front collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15846,
+   "output_tokens": 518,
+   "duration_ms": 5632
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_018",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "actor_hit_ego",
+  "what_happened": "At 3.7s, actor 16 was right behind the ego in the same lane. By 4.7s it had driven up into and over the ego's footprint, so its box overlaps the ego's front and the camera shows it as a smeared car right in front. The ego was still exactly on the recorded human path (0.0 m off) and the failure fell on the handoff instant, so the policy had no chance to act. This looks like a replayed actor overtaking through the ego, which got scored as a front collision.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15833,
+   "output_tokens": 649,
+   "duration_ms": 8491
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_019",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "actor_hit_ego",
+  "what_happened": "At 3.7 s, actor 16 was directly behind the ego in the same lane. By 4.7 s it had driven into and through the ego, so it overlapped the ego's front, which registered as a front collision. The ego was still on the recorded human path (0.0 m off) and slowing slightly, and the failure came at the handoff moment (4.7 s), so the policy never had control.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15813,
+   "output_tokens": 698,
+   "duration_ms": 7437
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_020",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "actor_hit_ego",
+  "what_happened": "At 3.7 s, actor 16 is directly behind the ego in the same lane, and by 4.7 s it overlaps the ego's front: the replayed actor drove up through the ego from behind. The ego was still exactly on the recorded human path (0.0 m off) at about 14 m/s. The front contact was logged at 4.7 s, the same moment the policy took over, so the policy had no chance to act.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15824,
+   "output_tokens": 602,
+   "duration_ms": 6263
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_021",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "actor_hit_ego",
+  "what_happened": "At 3.7s actor 16 was directly behind the ego. By 4.7s, the handoff moment, it had moved up through the ego and overlapped its front, which counted as a front collision. The ego was still exactly on the recorded human path (0 m off) at about 14 m/s, so the policy had no time in control and this looks like an actor-replay artifact, not a policy mistake.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15820,
+   "output_tokens": 659,
+   "duration_ms": 6953
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_022",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway the route command switched from STRAIGHT to RIGHT, and the human driver moved right, but the ego stayed on the left side of its lane and its planned path bent left toward actor 23, which was slower and just ahead-left. Actor 23 was also closing toward the ego's lane. The ego slowed to about 3 m/s but its front still clipped 23. The recorded ego position ends up about 1.5 m to the right. Rear contact from a following car came only after this collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15850,
+   "output_tokens": 1064,
+   "duration_ms": 12212
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_023",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "turned_into_actor",
+  "what_happened": "On a crowded multi-lane highway the ego slowed from 6.5 to 3.3 m/s, but its output path (orange) veered left toward the next lane instead of following the route, even though the command was STRAIGHT and then RIGHT. It cut left into the slower vehicle 23 just ahead-left of it, and its front hit 23 at 7.7 s, about 1.4 m off the recorded human path.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13018,
+   "output_tokens": 924,
+   "duration_ms": 10319
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_028",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "actor_hit_ego",
+  "what_happened": "On a multi-lane highway, the recorded human drifted right (the command was RIGHT) to make room for actor 23, which was merging in from the left lane. The policy instead stayed in its lane and slowed to about 3 m/s, so the replayed actor 23, which does not react to the ego, cut down onto it and its front-left corner made contact. Actor 21 also hit the ego from behind as it slowed.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15855,
+   "output_tokens": 1130,
+   "duration_ms": 17137
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_029",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "turned_into_actor",
+  "what_happened": "In slow freeway traffic, the ego's plan bent left, away from the recorded path, even though the command was STRAIGHT and then RIGHT. The ego drifted into the left lane and its front hit vehicle 23 at about 3 m/s; it slowed but did not hold its lane. The left-side car in the camera view was heavily smeared, which may have contributed, but the policy steered into an occupied lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15834,
+   "output_tokens": 726,
+   "duration_ms": 7698
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_030",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "turned_into_actor",
+  "what_happened": "After handoff on a multi-lane highway, the human driver moved right, but the policy's plan (orange) angled left toward actor 23 in the adjacent left lane. The ego edged onto the lane line and, slowing only gradually from 3.8 to 3.0 m/s, its front hit 23 as the gap closed from 7.7 m to 4.2 m.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15857,
+   "output_tokens": 1502,
+   "duration_ms": 16734
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_034",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was still replaying the recorded path on the highway (0.0 m off the recording) when actor 9 came up from behind and hit its rear at 3.7 s, before the policy took over. By 4.7 s, the moment of handoff, actor 9 had driven right through the ego and overlapped it, so a front collision was logged even though nothing ahead was within about 40 m just before.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13018,
+   "output_tokens": 651,
+   "duration_ms": 6505
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_035",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "actor_hit_ego",
+  "what_happened": "At 3.7s, before the policy took over, the ego was replaying the recorded trajectory in its lane when actor 9 came up from behind and hit its rear (collision_rear = 1). Actor 9 then kept driving through the ego, and at handoff (4.7s) it overlapped the ego's front, so the run was flagged as a front collision at fault even though the ego had just been rear-ended.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13018,
+   "output_tokens": 632,
+   "duration_ms": 6540
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_r3_036",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was still replaying the recorded trajectory, 0.0 m off it, at about 5.5 m/s in its highway lane. Replayed actor 9 came up from behind and hit the ego's rear by 3.7 s, then drove through and on top of the ego box, so by 4.7 s, the handoff moment, the overlap also counted as a front collision. The road ahead was clear, with the nearest lead about 40 m away.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15846,
+   "output_tokens": 571,
+   "duration_ms": 5688
+  }
+ }
+]

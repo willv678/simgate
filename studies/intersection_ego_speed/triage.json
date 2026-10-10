@@ -1,0 +1,106 @@
+[
+ {
+  "run": "intersection_ego_speed_004",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "left_road",
+  "what_happened": "The command was RIGHT, and the recorded route curved right toward the turn lanes. Instead the policy kept the ego straight and then drifted left across the lanes onto the median/island at the intersection while slowing from 12.5 to 7.6 m/s. It went off-road about 8 m from the human path; the camera view was clean before the failure.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13001,
+   "output_tokens": 541,
+   "duration_ms": 6184
+  }
+ },
+ {
+  "run": "intersection_ego_speed_005",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "turned_into_actor",
+  "what_happened": "The route command was RIGHT, but the ego drifted left out of its recorded lane, ending 6.9 m off the human's path. That put it in the lane of bus 127, which was coming the other way: the gap shrank by about 15 m/s while the ego was only doing about 8.5 m/s. The ego barely slowed (8.9\u21928.2 m/s), and its front hit the bus at 9.0 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15823,
+   "output_tokens": 839,
+   "duration_ms": 9098
+  }
+ },
+ {
+  "run": "intersection_ego_speed_008",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "turned_into_actor",
+  "what_happened": "The route command was RIGHT and the recorded path stayed to the right, but the ego steered left into the next lane, where bus 127 had just turned in and was moving slowly. The ego kept going at about 8.5 m/s while the gap closed from 32 m to 10 m and hit the bus with its front. The rear contact happened at some other point.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15851,
+   "output_tokens": 919,
+   "duration_ms": 9580
+  }
+ },
+ {
+  "run": "intersection_ego_speed_009",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "turned_into_actor",
+  "what_happened": "Although the command was RIGHT, the ego veered left off the recorded path (about 7 m off by the end) and into the lane of bus 127. The bus was coming toward it, and the gap closed from 39 m to 10 m. The ego's front hit the bus at about 8 m/s with almost no braking.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15855,
+   "output_tokens": 730,
+   "duration_ms": 8028
+  }
+ },
+ {
+  "run": "intersection_ego_speed_010",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "left_road",
+  "what_happened": "The route command was RIGHT and the recorded path curved right through the intersection. Instead, the ego stayed a lane or more to the left of the recorded path, kept its plan pointed straight ahead, and slowed from 11.6 to 6.7 m/s before running into the nose of the median island on its left, 7.5 m off the recording. The camera view was mostly clean before the failure, and no actor was involved.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13004,
+   "output_tokens": 553,
+   "duration_ms": 6076
+  }
+ },
+ {
+  "run": "intersection_ego_speed_011",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "left_road",
+  "what_happened": "The route command was RIGHT and the recorded path curves right toward the turn lanes, but the ego kept going straight with a slight drift left while slowing from 12.6 to 7.2 m/s. It ran onto the median island at the intersection approach, about 7.5 m off the recorded path. The camera view looked fine before the failure.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13010,
+   "output_tokens": 533,
+   "duration_ms": 8060
+  }
+ },
+ {
+  "run": "intersection_ego_speed_015",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "left_road",
+  "what_happened": "The route command was RIGHT and the recorded path curves right toward the right-turn lanes. The policy instead held a straight, slightly left-drifting line along the left edge of the lanes, slowing from about 12 to 7 m/s. At 9.4 s it ran onto the median/curb at the intersection, about 7.6 m from the recorded path; it did not hit anything, and the camera view was still intact before the failure.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15840,
+   "output_tokens": 520,
+   "duration_ms": 5842
+  }
+ },
+ {
+  "run": "intersection_ego_speed_049",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "left_road",
+  "what_happened": "The route command was RIGHT, and the recorded path curved right through the intersection. The ego instead held a straight, slightly left-drifting path along the left edge of the lanes while slowing from 10 to 7 m/s. At 9.5 s it ran onto the raised median nose ahead of the stop line, about 7.5 m from the recorded path. No other actor was involved, and the camera view was clear enough to show the lanes, apart from smearing that grew as the ego moved further from the recorded path.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15842,
+   "output_tokens": 611,
+   "duration_ms": 6910
+  }
+ }
+]

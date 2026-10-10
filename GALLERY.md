@@ -10,6 +10,7 @@ In merge and cut-in scenes, which timings and speeds of the other cars make the 
 
 - **023b7fcc**, 0 s, 1.25 x (3/3 failed, found by rules): turned into actor. The route said STRAIGHT and then RIGHT, but the ego planned and steered left into the next lane while speeding up from 4.2 to 5.8 m/s. Its front hit actor 56, which was driving in that lane next to it and slightly ahead. The camera only smeared at the moment of impact. (`cut_in_merge_rules_004`)
 - **09a95ffa**, 0 s, 1.25 x (3/3 failed, found by rules): actor hit ego. On a multi-lane highway the ego held about 8 m/s, staying within 0.9 m of the recorded human path, with the lead car more than 24 m ahead. Actor 33 came up from behind in the lane to the left and closed in alongside the ego's front-left corner, where the contact was flagged as a front collision. The ego made no clear lateral move toward it, and the smeared car in the camera view at impact is from being so close. (`cut_in_merge_rules_007`)
+- **096988dd**, 2 s, 1.25 x (3/3 failed, found by random_confirm): turned into actor. On the multi-lane highway the route command was RIGHT and the recorded path moved right, but the policy's planned path (orange) veered left. The ego drifted into the left lane and its front-left corner hit vehicle 41 as that car came alongside. (`cut_in_merge_random_confirm_002`)
 
 ![cut_in_merge](figures/gallery_cut_in_merge.png)
 
@@ -21,6 +22,15 @@ At intersections with crossing traffic, which arrival times and speeds of the re
 
 ![intersection](figures/gallery_intersection.png)
 
+## intersection_ego_speed
+
+At intersections with a recorded crossing car, which combinations of the ego's speed at hand-off and the crossing car's arrival time make VaVAM with the linear MPC collide or leave the road? The goal is the 5 most challenging cases, each on a different scene, confirmed by repeats.
+
+- **02eadd92**, 1 x, 0 s (3/3 failed, found by rules): no brake for lead. With a RIGHT command and the recorded path to its right, the ego drifted left into the bus's lane (actor 127). It then closed on the slow or stopped bus at about 8 m/s, with the gap falling from 36 m to 7.6 m, and braked only slightly before hitting the bus's rear with its front. (`intersection_ego_speed_rules_001`)
+- **054b5901**, 1.2 x, 0 s (3/3 failed, found by rules): left road. Approaching an intersection with a RIGHT command, the ego left the recorded path, which went to the right, and drifted left behind lead car 9. Its planned path kept bending left, and while slowing from 10.8 to 5.4 m/s it ran onto the edge of the median island on the left (offroad; 7.6 m off the recorded path at 10.2 s). The input JSON also flags a front collision, but the frames' metrics table shows collision_front at 0, so the offroad is the clear failure. (`intersection_ego_speed_rules_025`)
+
+![intersection_ego_speed](figures/gallery_intersection_ego_speed.png)
+
 ## lead_vehicle
 
 In lead-vehicle scenes, which timing shifts and speed scalings of the recorded lead car (with up to 200 ms planner delay if needed) make VaVAM run into it? Find the 5 most challenging cases, each on a different scene, confirmed by repeats.
@@ -29,6 +39,7 @@ In lead-vehicle scenes, which timing shifts and speed scalings of the recorded l
 - **09a95ffa**, 0 s, 0.75 x, 200 ms (3/3 failed, found by hybrid): turned into actor. On a multi-lane highway, the ego braked hard behind lead vehicle 1 (from 7.9 to about 3.6 m/s) and then steered left into the adjacent lane, even though the route command said RIGHT. Its left side hit vehicle 33, which was coming up alongside in that lane at 7.5 s; this was a lateral collision. (`lead_vehicle_hybrid_032`)
 - **19f339ba**, 1 s, 0.5 x, 0 ms (3/3 failed, found by llm): other. 0.6 s into the run, still exactly on the recorded human path (0.0 m off) at a steady 18.7 m/s, the ego hit the rear of lead car 18 in its lane on the highway. The gap shrank from 13.4 m to 4.1 m in 0.5 s, so the lead was moving at almost 0 m/s, which the recorded drive doesn't show. The lead car's simulated track looks broken (a replay or initialization artifact), and no policy could have stopped from 13 m at that speed in 0.6 s. (`lead_vehicle_003`)
 - **096988dd**, 1 s, 0.5 x, 0 ms (3/3 failed, found by llm): no brake for lead. In slow, rainy highway traffic, the ego kept speeding up from 3.8 to 5.4 m/s while the gap to the white utility truck ahead in its lane (actor 2) shrank steadily from 12.6 m to 4.9 m. It never braked and hit the truck's rear. The camera view was clean until the moment of impact. (`lead_vehicle_001`)
+- **023b7fcc**, -1 s, 0.5 x, 200 ms (3/3 failed, found by random_confirm): other. The front collision with lead car 12 was recorded at 4.7 s, the same moment the policy took over (handoff_s = 4.7). Before that the ego was replaying the human's recorded path (0.0 m off the recording) and slowly closing on car 12 (gap 9.5 m down to 4.2 m at about 4.4 m/s), so the overlap came from the replayed log and the reconstructed actor, not from anything the policy did. A rear contact was also flagged, from an actor coming up behind the ego. (`lead_vehicle_random_confirm_004`)
 
 ![lead_vehicle](figures/gallery_lead_vehicle.png)
 

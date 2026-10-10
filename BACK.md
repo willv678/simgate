@@ -1,4 +1,4 @@
-# While you were away (8-9 Oct)
+# While you were away (8-10 Oct)
 
 Short version for Will. Every number has its source in `FACTS.md`; the day
 by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
@@ -7,8 +7,8 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
 ## What we found
 
 1. **The policy drifts left.** Once VaVAM takes over, the car moves left of
-   where the human drove: about one lane within 5 s, in 88% of 853 runs (1%
-   drift right). Its plans already lean left before it drives (open loop,
+   where the human drove: median 2.4 m within 5 s; 88% of all 2428 kept
+   study runs are more than 0.5 m left by then, none right. Its plans already lean left before it drives (open loop,
    median +0.2 m). It has been there since the first batches in September
    and with fresh frames. No integration bug found (command rule and
    encoding match VaVAM's training code; camera centred, right field of
@@ -46,17 +46,21 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
    4 scenes: linear 0 of 10 failed, feasible_best 10 of 10 (p 0.002), none
    involving the pedestrian: it turns too sharply or veers off at RIGHT
    commands. Worth checking its gains, or the uncommitted configuration.py.
-6. **Which search method is fastest depends on the space** (replicates so
-   far, `METHODS.md`): pedestrian x ego speed (2 knobs, three replicates
-   each, complete) hybrid 24/28/24, rules 25/25/25, random + confirmation
-   31/32/32, llm 28/40/37 runs to the goal; lead
-   vehicle (3 knobs, failures at the extremes) llm 5 of 5 by runs 23, 30
-   and 23 (three clean replicates), random + confirmation 5 by 43, then 4 and 3 of 5,
-   hybrid 2, 3 and 3 of 5, rules 0, 0 and 0; cut-in (clean replicates only) hybrid 5 of 5 by
-   runs 32, 36 and 46, llm 4 and 4 of 5, random + confirmation 3, 3 and 2 of 5, rules 2, 2 and 2 of 5 in 54. Plain random
-   never confirms anything. Where the space is small every method does
-   about as well; where it is large, the Claude methods find the hardest
-   cases first. More replicates are running.
+6. **Which search method is fastest depends on the space.** All
+   replicates are done (three clean ones per method and study,
+   `METHODS.md`). Hardest 5 confirmed, runs to the goal or count found:
+
+   | study | rules | hybrid | llm | random + confirmation |
+   |---|---|---|---|---|
+   | pedestrian x ego speed (2 knobs) | 25, 25, 25 | 24, 28, 24 | 28, 40, 37 | 31, 32, 32 |
+   | lead vehicle (3 knobs) | 0, 0, 0 of 5 | 2, 3, 3 of 5 | 23, 30, 23 | 43, 4 of 5, 3 of 5 |
+   | cut-in (2 knobs, 9 scenes) | 2, 2, 2 of 5 | 32, 36, 46 | 4 of 5, 4 of 5, 47 | 3, 3, 2 of 5 |
+
+   Plain random never confirms anything. In the small space every method
+   does about as well (rules most consistent). In the larger ones a Claude
+   method wins every replicate, but not the same one: free llm on lead
+   vehicle (failures at the knob extremes), hybrid on cut-in. Why
+   each wins where it does is not yet analysed. Rules alone never reach the goal there.
 7. **Replays are exact** (same seed, 0.0 m over 122 steps) and **the ego
    speed knob works** (measured within 0.004 m/s of the request).
 
@@ -80,8 +84,12 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
 
 - New failure definition (above); old reading kept as `failed_any`.
 - Kept `rules` and `hybrid` unchanged mid-experiment; fixes go in new arms.
-- Left the warm-up seam fix (problem 24) unapplied until the replicates end,
-  so they all see the same warm-up: `patches/pending-ego-retiming-seam.patch`.
+- Held the warm-up seam fix (problem 24) until the replicates ended, so
+  they all saw the same warm-up; applied to your checkout on 10 Oct
+  (`src/runtime/alpasim_runtime/ego_retiming.py` and its test, 14 tests
+  pass; originals in `~/alpasim_seam_backup_10oct/`, undo with
+  `git apply -R research/patches/pending-ego-retiming-seam.patch`). Not yet
+  re-checked in a simulation.
 - Mirror test in a second checkout (`~/alpasim-mirror`, your working copy
   untouched); run on 9 Oct after you said to cut the intersection
   replicates (~10 GPU hours saved).
@@ -95,8 +103,8 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
   `~/alpasim_format_restore_7oct/`). Your call.
 - A license for the repo before the OSS push.
 
-## Still running
+## Queue
 
-The GPU queue (two runs at a time, ~39 runs an hour): replicates 2-4 of
-rules, hybrid, llm and random_confirm on the studies with failures, then
-the mirror test. `research/simgate status` or the Queue tab.
+Empty since 10 Oct 20:29 UTC; the GPU is free. Next studies should plan at
+2 Hz (`control_timestep_us: 500000`, finding 1). `research/simgate status`
+or the Queue tab.

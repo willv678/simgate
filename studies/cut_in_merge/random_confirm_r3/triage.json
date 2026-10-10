@@ -1,0 +1,119 @@
+[
+ {
+  "run": "cut_in_merge_random_confirm_r3_018",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane freeway at about 8 m/s, the ego took over at 4.6s. Its plan swung left toward the next lane, even though the recorded path went straight. It moved left into vehicle 33, which was travelling alongside in that lane, and hit it with its front-left corner at 6.0s. The lead vehicle was 25 m ahead, so the gap ahead was not the problem.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15843,
+   "output_tokens": 618,
+   "duration_ms": 6888
+  }
+ },
+ {
+  "run": "cut_in_merge_random_confirm_r3_019",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "At a steady 8 m/s on a multi-lane freeway, the ego started a lane change to the left (following the logged human path, about 0.9 m off it) while vehicle 33 was coming up alongside in that lane. The ego's front corner cut into car 33 at 6.0 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15848,
+   "output_tokens": 768,
+   "duration_ms": 9226
+  }
+ },
+ {
+  "run": "cut_in_merge_random_confirm_r3_026",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "other",
+  "what_happened": "The ego followed the recorded human path exactly (0.0 m off) at about 6.5\u20136.9 m/s while the gap to pickup truck 5 ahead in its lane shrank from 13.5 m to 3.1 m, and the front collision was logged at 4.7 s, the same moment the policy took over. The ego was still replaying the log, so the policy never controlled the car before the crash. The likely cause is a simulated lead actor that moved more slowly than in the real drive, not the policy failing to brake.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15855,
+   "output_tokens": 684,
+   "duration_ms": 7506
+  }
+ },
+ {
+  "run": "cut_in_merge_random_confirm_r3_028",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "After the policy took over at 4.6 s on a multi-lane freeway at about 8 m/s, the ego angled left toward the adjacent lane, roughly following the recorded human lane change (orange path). Its front-left corner then hit vehicle 33, which was coming up alongside in that left lane. The lead vehicle stayed about 25 m ahead, so this was not a following-distance failure.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15832,
+   "output_tokens": 877,
+   "duration_ms": 10269
+  }
+ },
+ {
+  "run": "cut_in_merge_random_confirm_r3_034",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego stayed one lane left of the recorded path (about 5 m off), ignoring the RIGHT command, and closed on slower car 87 in its own lane. The gap shrank from 11.9 m to 4.3 m while the ego only eased from 5.8 to 4.5 m/s, so it ran into 87's rear with its front. The camera view was smeared, but car 87 was visible in every frame.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15829,
+   "output_tokens": 610,
+   "duration_ms": 6661
+  }
+ },
+ {
+  "run": "cut_in_merge_random_confirm_r3_029_a2",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "other",
+  "what_happened": "The ego drove straight in its lane at about 6.5\u20136.9 m/s and closed on the pickup ahead (actor 5) from 13.5 m to 3.1 m, then made front contact at 4.7 s. Handoff was also at 4.7 s and the ego was exactly on the recorded human path (0.0 m off), so the policy never controlled the closing approach. The collision likely comes from the lead actor moving differently than in the recording during replay.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15848,
+   "output_tokens": 646,
+   "duration_ms": 7548
+  }
+ },
+ {
+  "run": "cut_in_merge_random_confirm_r3_042",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "other",
+  "what_happened": "The ego was replaying the recorded drive (0 m off the recording, about 4.5 m/s, no braking) when actor 12's box started overlapping its front: collision_front is already 1.00 at 2.7 s, two seconds before the policy took over at 4.7 s. In the camera, actor 12 is a smeared car sitting on the ego's hood, so it looks like a mis-tracked or mis-placed actor in the log, and the failure was counted at the handoff frame.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15848,
+   "output_tokens": 790,
+   "duration_ms": 8927
+  }
+ },
+ {
+  "run": "cut_in_merge_random_confirm_r3_037_a2",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "other",
+  "what_happened": "Before handoff the ego was replaying the recorded drive at about 6.5\u20136.9 m/s while the gap to lead pickup 5 shrank from 13.5 m to 3.1 m. The front collision was flagged at 4.7 s, the same moment the policy took over, so the crash was already set up before the policy had control.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15837,
+   "output_tokens": 666,
+   "duration_ms": 7080
+  }
+ },
+ {
+  "run": "cut_in_merge_random_confirm_r3_046",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "other",
+  "what_happened": "Actor 12 already overlaps the ego's box at 2.7s and 3.7s, while the ego was still replaying the human log (0.0 m from the recorded path). The camera shows actor 12 as a smeared car right on the ego's hood. The collision was already happening when the policy took over at 4.7s, so the failure was scored at the moment of handoff. This looks like a bad reconstructed track for actor 12 that conflicts with the logged ego trajectory, not a mistake by the driving policy.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15841,
+   "output_tokens": 675,
+   "duration_ms": 7310
+  }
+ }
+]

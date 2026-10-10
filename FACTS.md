@@ -564,14 +564,15 @@ failures at the knob extremes) the free Claude proposer is fastest and
 most consistent; the rule candidates, alone or under Claude (hybrid), stay
 near the recorded setting and miss the extremes.
 
-### Cut-in, replicates so far (10 Oct)
+### Cut-in, three replicates of every method (10 Oct)
 
 Clean replicates only (replicate 1 of rules, hybrid and llm stopped on the
-broad count, left out; fourth replicates queued): hybrid 5 of 5 at 32,
-36 and 46 runs; llm 4, 4 of 5 in 54; random + confirmation 3, 3, 2 of 5 in 54; rules 2, 2, 2
+broad count, left out, replaced by a fourth): hybrid 5 of 5 at 32,
+36 and 46 runs; llm 4, 4 of 5 in 54, then 5 of 5 at 47; random + confirmation 3, 3, 2 of 5 in 54; rules 2, 2, 2
 of 5 in 54, the same two each time (1.25x speed, no time shift, scenes
 023b7fcc and 09a95ffa; setting ids differ between arms), as replay
-determinism predicts. Replicates 3-4 of hybrid and llm running or queued.
+determinism predicts. In this space hybrid is the only method that reaches the goal every
+time; llm reaches it once in three.
 
 ### Replicates under replayed traffic are nearly deterministic (9 Oct)
 
@@ -614,6 +615,10 @@ human path, left positive):
   up to there), then left: median +0.99 m at 2 s, +2.19 m at 3 s, +3.53 m at
   5 s (about one lane), and 88% of the 853 runs end more than 0.5 m left of
   the recording, 1% right. 89% of failures happen left of it, none right.
+  Refreshed 10 Oct over all 2428 kept study runs (replicates and ego speed
+  settings included): +0.52 m at 2 s, +1.34 m at 3 s, +2.39 m at 5 s (88%
+  left, 0% right); at the end 86% left, 1% right; 75% of failures left of
+  it, none right. Smaller medians than the first 853, same direction.
 - **Not new:** the same in B2 (28 Sep, one scene, +1.0 m, 97% left), S1
   (29 Sep, 100 scenes, +3.2 m at the end, 84% left) and v1 (fresh frames,
   6 Oct, 82% left). So neither the recent changes nor stale frames cause it.
@@ -689,7 +694,7 @@ quietly. Sources: LOG.md, the commits named.
 | 21 | The random baseline could never meet a top_k goal | it never repeats a setting, so it confirms nothing: 31 failures in 48 runs, 0 of 5 confirmed (pedestrian x ego speed) | random_confirm: random search plus the rules' confirmation (at most half of each round) | evaluation design |
 | 22 | A comparison goal met by one setting | the A/B stopped after its first round: 5 pairs, all at one pedestrian timing | a compare goal also needs its pairs to cover 3 knob settings on 2 scenes | goal design |
 | 23 | A continued study kept a stale crash analysis | triage ran only when no triage file existed | triage the failures the earlier triage lacks | orchestration |
-| 24 | Our own knob produced implausible motion before the policy drove | pedestrian x ego speed, scene 07981e6a at 1.2x: 10.7 m/s^2 at 3.7 s before the hand-off, where the warm-up extrapolated before the recording (extended at the first recorded second's mean velocity, 5.72 m/s) meets the recording (4.65 m/s) | the physics bound halted both runs (not kept); the extrapolation should match the recording's speed at the seam; fixed after the replicate studies, so every replicate sees the same warm-up | gate catch (simulator setup) |
+| 24 | Our own knob produced implausible motion before the policy drove | pedestrian x ego speed, scene 07981e6a at 1.2x: 10.7 m/s^2 at 3.7 s before the hand-off, where the warm-up extrapolated before the recording (extended at the first recorded second's mean velocity, 5.72 m/s) meets the recording (4.65 m/s) | the physics bound halted both runs (not kept); the extrapolation should match the recording's speed at the seam; held until the replicate studies ended (so every replicate saw the same warm-up), applied 10 Oct (`patches/pending-ego-retiming-seam.patch`; unit tests pass, not yet re-checked in a simulation) | gate catch (simulator setup) |
 | 25 | A quarter of the "failures" were not the policy's | the gallery of confirmed hardest cases showed collisions at t = 0 s, collisions while the ego still replayed its recording, and replayed cars rear-ending a slower ego and then overlapping its front (counted "front"): 49 of 200 counted failures (cut-in 32 of 51, lead vehicle 17 of 37; pedestrian x ego speed 0 of 84) | a failure is now off-road, or a front or side collision that begins before any rear contact, counted from the policy's first step (AlpaSim's own eval_relevant warm-up filter; nuPlan's rear-collision rule); the closest approach uses the same window; `failed_any` keeps the broad reading; arms that stopped under it are left out of the method comparison and replaced by a fourth replicate | evaluation design |
 | 26 | The rule proposer spent its budget confirming near misses that never fail | lead vehicle: rules 0 failures in 49 runs; rules + corners repeated "confirm S#: near failure" every round after the first (38 runs, 0 failures), while random + confirmation confirmed 5 cases at knob extremes | a rate of 0 is never surely above high_min, and nothing stopped confirmation once a rate was surely below it; rules_v2 stops confirming a setting whose 90% range tops out below high_min (3 straight passes) and then tries the scene's corners; rules and hybrid keep the old rule so their replicates stay comparable | search design |
 

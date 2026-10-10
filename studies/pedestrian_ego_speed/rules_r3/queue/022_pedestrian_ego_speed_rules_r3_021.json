@@ -1,0 +1,73 @@
+{
+  "name": "pedestrian_ego_speed_rules_r3_021",
+  "run_dir": "diag/pedestrian_ego_speed_rules_r3_021",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa",
+    "controller": "linear",
+    "traffic": "replay",
+    "retime_class": "person",
+    "retime_track": "82",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.0,
+    "seed": 617758216
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 2602541,
+  "launched_at": 1791599020.3793862,
+  "environment": null,
+  "env_cleanups": 1,
+  "resolution": "ACCEPT",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "pedestrian_ego_speed_rules_r3_021",
+      "k_status": "environment: GPU free 9841 MiB < 10500 MiB",
+      "config": {
+        "context_length": 8,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "trafficsim_device": "cpu",
+        "scene_id": "clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa",
+        "controller": "linear",
+        "traffic": "replay",
+        "retime_class": "person",
+        "retime_track": "82",
+        "planner_delay_us": 0,
+        "lateral_bias_m": 0.0,
+        "waypoint_noise_std": 0.0,
+        "actor_time_shift_s": 0.0,
+        "actor_speed_scale": 1.0,
+        "ego_speed_scale": 1.0,
+        "seed": 617758216
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\npedestrian_ego_speed_hybrid_r3_001_a2-controller-0-1\tUp 2 minutes\npedestrian_ego_speed_hybrid_r3_001_a2-prometheus-0-1\tUp 2 minutes\npedestrian_ego_speed_hybrid_r3_001_a2-runtime-0-1\tUp 2 minutes\npedestrian_ego_speed_hybrid_r3_001_a2-physics-0-1\tUp 2 minutes\npedestrian_ego_speed_hybrid_r3_001_a2-driver-0-1\tUp 2 minutes\npedestrian_ego_speed_hybrid_r3_001_a2-renderer-0-1\tUp 2 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\npedestrian_ego_speed_hybrid_r3_001_a2_microservices_network\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n14225 MiB, 9841 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  793G  119G  88% /\n",
+    "skill": "CLEANUP_ENV",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 33062,
+    "output_tokens": 600,
+    "duration_ms": 9475,
+    "tool_calls": [
+      "Bash: nvidia-smi; docker ps -a; docker network ls",
+      "Bash: nvidia-smi --query-compute-apps=pid,used_memory --format=csv; docker ps --format '{{.Names}}\\t{{.Status}}' | head -50; docker ps -a --format '{{.Names}}\\t{{.Status}}' | wc -l"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

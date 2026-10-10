@@ -1,0 +1,275 @@
+[
+ {
+  "run": "lead_vehicle_llm_r2_001",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "other",
+  "what_happened": "Before handoff the ego was replaying the recorded human drive (0.0 m off the recording) and sped up from 4.3 to 5.7 m/s behind the white utility truck (actor 2) in its lane. The gap shrank to contact at exactly 4.7 s, the same moment the policy took over, so the front collision happened before the policy controlled anything. Because the replay hit the truck even though the human did not, the simulated truck is probably placed or timed differently from the real one.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13025,
+   "output_tokens": 744,
+   "duration_ms": 7862
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_002",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "other",
+  "what_happened": "The ego was still replaying the human log (0 m from it) when its front box began overlapping lead car 12 in the same lane. Collision_front is already 1 at 3.7 s, a full second before the policy took over at 4.7 s, so the failure is counted at the instant of handoff. This looks like an actor box or replay artifact (the ego is too close to or overlapping actor 12 in the recorded log), not a choice the policy made.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15855,
+   "output_tokens": 600,
+   "duration_ms": 6861
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_003",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On the highway after handoff, the ego braked for no clear reason (17 to 10.7 m/s, with no lead vehicle close ahead) and drifted left over the lane line while car 1 was passing in the left lane. The ego's front hit car 1. The route command was RIGHT, and the recorded path went the other way. The hard braking probably also explains the later rear contact.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15817,
+   "output_tokens": 693,
+   "duration_ms": 7824
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_004",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "no_brake_for_lead",
+  "what_happened": "In slow highway traffic, the ego's front hit lead vehicle 5 in its own lane. The ego was going about 3.2\u20133.3 m/s and the gap (about 4\u20135 m, which looks like the distance between vehicle centres) had been shrinking since before handoff, while the ego was still replaying the human's path (0 m off the recording). The policy took over only 0.4 s before the collision and slowed only slightly (3.3 to 2.8 m/s), so it had almost no room to avoid a collision the replay had already set up.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15850,
+   "output_tokens": 912,
+   "duration_ms": 10110
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_006",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "other",
+  "what_happened": "The overlap with lead actor 2 (a white utility truck) began at about 3.7s. That was before the policy took over at 4.7s, while the ego was still replaying the recorded human trajectory (0.0 m off the log). By 4.7s the actor 2 box sits right on top of the ego, but the camera shows no truck ahead. The actor's track doesn't match the real drive, so this is a simulation or replay artifact, not a driving decision.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13000,
+   "output_tokens": 815,
+   "duration_ms": 8558
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_007",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "other",
+  "what_happened": "While the ego was still replaying the recorded human drive (0.0 m off the recording), it closed slowly on lead car 12 in its lane, from about 4.8 to 4.2 m/s with the gap shrinking from 9.5 to 4.2 m. A front collision was flagged at 4.7 s, the same moment the policy took over, so the policy had no time to act; the touching boxes look like an artifact of the replayed recording and the box sizes, not a driving mistake.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15841,
+   "output_tokens": 646,
+   "duration_ms": 7299
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_008",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "other",
+  "what_happened": "The ego was still replaying the recorded human trajectory (0.0 m off the log) and overlapped lead car 12 in its lane. collision_front was already 1.00 at 3.7 s, a full second before the policy took over at 4.7 s, so the failure was flagged the moment control was handed off. This is a mismatch between the replayed log and the simulated actor (or their box sizes), not something the policy did.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15834,
+   "output_tokens": 685,
+   "duration_ms": 9363
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_009",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "other",
+  "what_happened": "The ego followed the recorded human trajectory exactly (0.0 m off) and sped up from 4.3 to 5.7 m/s behind the white utility truck (actor 2) in its lane. The gap shrank from 12.6 to 4.6 m, and the front collision was flagged at 4.7 s, the same instant the policy took over, so the policy never had a chance to brake. The sim actor and the replayed ego disagree, which points to a replay or setup artifact rather than a driving mistake.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15839,
+   "output_tokens": 764,
+   "duration_ms": 8287
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_010",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "no_brake_for_lead",
+  "what_happened": "In slow highway traffic, the ego closed in on lead vehicle 5, which had its brake lights on, in the same lane. The gap shrank steadily from 8.2 m to 4.1 m, and the ego's front clipped the lead at 5.1 s, only 0.4 s after the policy took over. During that time the policy slowed from 3.3 to 2.8 m/s and stayed on the recorded path, so the close approach was mostly set up by the replay before handoff.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15853,
+   "output_tokens": 868,
+   "duration_ms": 9751
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_011",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "The ego was braking from about 17 to 12 m/s on a straight multi-lane highway when it drifted left, about 1 m off the recorded path. Its front hit actor 1, a car driving just ahead in the lane to its left. There was no lead vehicle in the ego's own lane, and the route command was STRAIGHT and then RIGHT, so the move left was the policy's own mistake.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12992,
+   "output_tokens": 736,
+   "duration_ms": 8216
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_015",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "no_brake_for_lead",
+  "what_happened": "In slow, dense highway traffic, the ego was following lead vehicle 5 in its lane. The gap shrank steadily from 8.2 m to 4.1 m, and the ego's front hit vehicle 5 at 5.1 s while doing about 2.8 m/s, only 0.4 s after the policy took over at 4.7 s. Most of the closing happened before handoff, and the ego was still exactly on the recorded human path (0.0 m off). So the policy had almost no time to react, and the lead actor's box may not match the real drive. Separately, actor 6 also hit the ego from behind.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15855,
+   "output_tokens": 970,
+   "duration_ms": 10368
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_016",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "no_brake_for_lead",
+  "what_happened": "In slow stop-and-go highway traffic, the ego followed the recorded path at about 3 m/s and kept closing on lead vehicle 5 in its own lane (gap 8.2 m \u2192 4.1 m). It got a front collision with that car at 5.1 s, only 0.4 s after the policy took over at 4.7 s; the ego was 0 m off the recording and had already started slowing (3.3 \u2192 2.8 m/s), and the reported 4.1 m gap at contact suggests the bounding boxes or the replayed lead don't match the camera.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15850,
+   "output_tokens": 904,
+   "duration_ms": 9905
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_017",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway, after taking over at 4.6 s the policy braked (16.8 \u2192 10.8 m/s) and steered left away from the recorded straight path. Its front-left corner hit actor 1, which was driving alongside in the adjacent left lane. The rear contact came later and was probably caused by the hard braking.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15810,
+   "output_tokens": 690,
+   "duration_ms": 7343
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_018",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "After the policy took over at 4.6 s on a straight multi-lane highway, the ego drifted left of the recorded path (about 1 m off) and braked from 16.8 to 11.6 m/s. Its front-left corner moved into the left-adjacent lane and hit vehicle 1 as it drew level, while the recorded human car stayed in its lane to the right.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12992,
+   "output_tokens": 875,
+   "duration_ms": 9264
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_019",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "other",
+  "what_happened": "The ego was still replaying the recorded human drive (0.0 m off the log) while the gap to actor 12 ahead in its lane shrank from 6.8 m to 1.6 m, and the front collision was already being flagged at 3.7s. The policy only took over at 4.7s, the same moment the failure was scored, so the overlap comes from the replayed log and actor 12's reconstruction, not from anything the policy did.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15832,
+   "output_tokens": 651,
+   "duration_ms": 6505
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_020",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "other",
+  "what_happened": "The collision is flagged at 4.7 s, the same moment the policy took over. Before that, the ego was replaying the recorded human drive (0.0 m off the recording) and closing on the box truck ahead (actor 2) in its lane, speeding up from 4.9 to 5.7 m/s. On the map, actor 2's box already overlaps the ego's front at handoff, even though the reported gap is still 4.6 m. A rear contact is also flagged, so this looks like a mismatch in the log replay or actor tracks, not a decision the policy made.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15855,
+   "output_tokens": 722,
+   "duration_ms": 7600
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_021",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "other",
+  "what_happened": "The ego was replaying the recorded human trajectory (0.0 m off the log) at about 6.9 m/s while the gap to pickup 5 ahead in its lane closed steadily from 13.5 m to 3.1 m. The front collision is logged at 4.7 s, the same moment the policy took over. So the crash was already locked in by the replay and the actor's behaviour, and the policy had no time to brake.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15850,
+   "output_tokens": 682,
+   "duration_ms": 7628
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_022",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "other",
+  "what_happened": "The ego was replaying the recorded human trajectory (0.0 m off) at about 6.8 m/s behind a lead pickup (actor 5) in the same lane, and the gap shrank from 13.5 m to 3.1 m. The front collision registered at 4.7 s, the same instant the policy took over, so it comes from the replay where the lead's motion didn't match the recording, not from anything the policy did.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13014,
+   "output_tokens": 726,
+   "duration_ms": 7753
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_023",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "other",
+  "what_happened": "The policy took over at 4.7 s, the same moment as the failure. Until then the ego was replaying the recorded trajectory (0.0 m off the recording) at about 6.5\u20136.9 m/s. During that replay the gap to pickup 5 ahead in the same lane shrank from 13.5 m to 3.1 m, and the front-collision flag fired right at handoff. The contact happened during log replay, so it is a setup or replay artifact, not a policy decision (the run is also flagged rear_ended).",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15839,
+   "output_tokens": 732,
+   "duration_ms": 7890
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_024",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "other",
+  "what_happened": "The ego was still replaying the recorded human drive (0.0 m off the recording) at about 6.9 m/s and closed from 13.5 m to 3.1 m on the slower blue pickup (actor 5) ahead in its lane. The front contact was flagged at 4.7 s, the same moment the policy took over, so the policy never had a chance to brake. This looks like a replay or actor-track mismatch, not a policy decision.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15846,
+   "output_tokens": 787,
+   "duration_ms": 7885
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_025",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "other",
+  "what_happened": "The ego was replaying the recorded human trajectory (0.0 m off the recording) in a straight highway lane and closing on the blue pickup ahead (actor 4) at about 6.5\u20136.9 m/s, with the gap shrinking from 13.5 m to 3.1 m. The front collision is flagged at 4.7 s, the same instant the policy took over, so the overlap comes from the log replay or actor boxes, not from anything the policy chose. The camera smear in the last frame only appears at impact.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15848,
+   "output_tokens": 713,
+   "duration_ms": 7294
+  }
+ }
+]

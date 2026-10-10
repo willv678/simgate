@@ -1,0 +1,345 @@
+{
+ "answer": {
+  "answer": "The code-checked goal is met: five settings on five different scenes failed in every repeat, and each one's range sits above 0.5. They are 0e899dd3 (S12), 12855a41 (S13), 19f339ba (S14), 023b7fcc (S2) and 096988dd (S3). All five use the lead car at 0.5x speed with no time shift and no planner delay. However, the video and log review shows that in three of the five cases the policy did not crash into the lead car. On 0e899dd3, 023b7fcc and 096988dd, every crash happened while the ego was still replaying the recorded human drive, at or before the moment the policy took over. Slowing the lead car closed the gap to an ego that could not yet react, so these failures come from the replay and the setup, not from VaVAM. Only 12855a41 is a plausible rear-end by the policy, and it is uncertain: the policy had well under a second of control before contact. On 19f339ba the policy is at fault, but it drifted left into a car in the next lane rather than hitting the car ahead. So the study has not shown that any retiming makes VaVAM itself rear-end the lead car.",
+  "findings": [
+   {
+    "claim": "On 0e899dd3, the lead at 0.5x speed with no shift failed in every repeat. Every failure was a front contact flagged at the instant of handoff, while the ego was still exactly on the recorded path. Review judged none of them the policy's fault.",
+    "settings": [
+     "S12"
+    ]
+   },
+   {
+    "claim": "On 023b7fcc, the lead at 0.5x failed with no shift and with a 1 s earlier shift. In every run the ego's box overlapped the lead car during replay, in some runs a full second before handoff. These are replay or actor-box artifacts, not policy decisions.",
+    "settings": [
+     "S2",
+     "S1"
+    ]
+   },
+   {
+    "claim": "On 096988dd, the lead truck at 0.5x failed with no shift and with a 1 s later shift. Every contact came during replay, at or before handoff. In one run the camera showed no truck where its box overlapped the ego, so these runs are not evidence against the policy.",
+    "settings": [
+     "S3",
+     "S4"
+    ]
+   },
+   {
+    "claim": "On 12855a41, the lead at 0.5x failed in every repeat as a front hit on the lead car in slow traffic. It is the only confirmed case that looks like a rear-end. Most of the closing happened during replay, though, and the policy had about 0.4 s to act and slowed only slightly, so whether the policy is at fault is unclear.",
+    "settings": [
+     "S13"
+    ]
+   },
+   {
+    "claim": "On 19f339ba, the lead at 0.5x failed in every repeat, and each failure was the policy's own. After handoff it braked hard with no close lead and drifted left into a car passing in the adjacent lane. This is a real policy failure, but a side-lane collision, not a rear-end of the lead car.",
+    "settings": [
+     "S14"
+    ]
+   },
+   {
+    "claim": "The lead at 0.5x caused no failure on 09a95ffa or 0cf6368d, with no shift or a 1 s later shift on 0cf6368d. Each of these settings has a single run, so they are a hint, not a rate.",
+    "settings": [
+     "S5",
+     "S6",
+     "S7"
+    ]
+   },
+   {
+    "claim": "0dbb91dd did not fail with the lead at 0.5x, whether shifted \u22121 s, 0 s or +1 s, nor with 100 ms planner delay added. Each setting has a single run.",
+    "settings": [
+     "S8",
+     "S9",
+     "S10",
+     "S11"
+    ]
+   },
+   {
+    "claim": "The automatic artifact flag was clear on every setting, yet triage traced most failures to the replay before handoff. Off-trajectory distance does not catch this kind of artifact, because the ego was exactly on the recorded path when it made contact.",
+    "settings": [
+     "S2",
+     "S3",
+     "S12"
+    ]
+   }
+  ],
+  "open": [
+   "Whether VaVAM rear-ends a braking lead car when it controls the approach. Every setting slowed the lead from the start of the clip while the ego replayed the human drive until about 4.7 s, so contact was set up before handoff. Rerun the 0.5x settings on 0e899dd3, 023b7fcc, 096988dd and 12855a41 with the retiming applied only after handoff, or with an earlier handoff.",
+   "Whether the 12855a41 case (S13) is the policy's fault. Repeat it with a retiming that leaves the ego a larger gap at handoff, for example the lead at 0.75x or shifted later, and check whether the policy brakes in time.",
+   "Speed scales other than 0.5x and most time shifts were never tried. Screen 0.75x to 2x and shifts of \u00b12 s, at least on the scenes that did not fail.",
+   "Whether the 19f339ba lateral drift depends on the retiming at all. Run 19f339ba at 1.0x speed with no shift to see if the policy also drifts into the left lane there.",
+   "The scenes with single passing runs (09a95ffa, 0cf6368d, 0dbb91dd) are not settled. 0cf6368d (S7) and 0dbb91dd (S11) came closest. Repeat them, or add planner delay up to 200 ms; only 100 ms on 0dbb91dd was tried."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": -1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_llm_r2_007"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_llm_r2_002",
+    "lead_vehicle_llm_r2_008",
+    "lead_vehicle_llm_r2_019"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_llm_r2_001",
+    "lead_vehicle_llm_r2_009",
+    "lead_vehicle_llm_r2_020"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_llm_r2_006"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "lead_vehicle_llm_r2_013"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.463,
+   "run_names": [
+    "lead_vehicle_llm_r2_014"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.594,
+   "run_names": [
+    "lead_vehicle_llm_r2_026"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": -1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.385,
+   "run_names": [
+    "lead_vehicle_llm_r2_012"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.41,
+   "run_names": [
+    "lead_vehicle_llm_r2_005"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 100000,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.036,
+   "run_names": [
+    "lead_vehicle_llm_r2_028"
+   ]
+  },
+  {
+   "id": "S11",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.488,
+   "run_names": [
+    "lead_vehicle_llm_r2_027"
+   ]
+  },
+  {
+   "id": "S12",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 5,
+   "failed": 5,
+   "failure_rate_90": [
+    0.65,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_llm_r2_021",
+    "lead_vehicle_llm_r2_022",
+    "lead_vehicle_llm_r2_023",
+    "lead_vehicle_llm_r2_024",
+    "lead_vehicle_llm_r2_025"
+   ]
+  },
+  {
+   "id": "S13",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 4,
+   "failed": 4,
+   "failure_rate_90": [
+    0.6,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_llm_r2_004",
+    "lead_vehicle_llm_r2_010",
+    "lead_vehicle_llm_r2_015",
+    "lead_vehicle_llm_r2_016"
+   ]
+  },
+  {
+   "id": "S14",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 4,
+   "failed": 4,
+   "failure_rate_90": [
+    0.6,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_llm_r2_003",
+    "lead_vehicle_llm_r2_011",
+    "lead_vehicle_llm_r2_017",
+    "lead_vehicle_llm_r2_018"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 15245,
+  "output_tokens": 2403,
+  "duration_ms": 23814
+ }
+}

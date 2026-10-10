@@ -1,0 +1,242 @@
+{
+ "answer": {
+  "answer": "The study found no case where VaVAM runs into the lead car, so none of the 5 challenging cases was confirmed. Every kept run passed. But all of them used one setting on each of the eight scenes: no time shift, the lead car at 1.25x its recorded speed (faster, which should make the stop easier), and the maximum 200 ms planner delay. The question of which timings and speeds cause rear-ends is still open. Earlier or later timing and slower lead cars (0.5x to 1x) were never tried. The result only shows that this one fairly easy setting rarely or never fails on seven of the scenes. On 0dbb91dd it rests on a single run, which is a hint, not a rate.",
+  "findings": [
+   {
+    "claim": "With no time shift, the lead car at 1.25x speed and 200 ms planner delay, every repeated run passed on 023b7fcc, 096988dd, 09a95ffa, 0cf6368d, 12855a41 and 19f339ba. Each range stays well below the goal's 0.5 threshold, so this setting is not a challenging case on any of these scenes.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S7",
+     "S8"
+    ]
+   },
+   {
+    "claim": "On 0e899dd3 every kept run at the same setting also passed. Two runs had to be re-run and are not counted as evidence.",
+    "settings": [
+     "S6"
+    ]
+   },
+   {
+    "claim": "On 0dbb91dd this setting got only one run, which passed. That is too few to say whether the setting fails.",
+    "settings": [
+     "S5"
+    ]
+   },
+   {
+    "claim": "No failures occurred, so nothing was triaged. The study gives no evidence on how the policy fails with a lead car, and none of the results depends on possible simulator artifacts.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8"
+    ]
+   }
+  ],
+  "open": [
+   "The search never ran the settings the brief describes as harder: a slower lead car (0.5x to 1x speed) and time shifts between -2 s and +2 s. On each scene, start by screening 0.5x speed with shifts of -2, 0 and +2 s at no planner delay, then add delay up to 200 ms only where retiming alone does not fail.",
+   "The whole budget went on repeating one corner setting where the lead car is faster than recorded, which is probably the easiest point in the range. A new study should spread its first rounds across the speed and timing grid and repeat only settings that fail or come close.",
+   "0dbb91dd was tried only once. It needs its own screen at slow lead speeds.",
+   "Near-miss ranking (closest approach) is not in these results, so the study cannot say which scenes came closest to a collision."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.594,
+   "run_names": [
+    "lead_vehicle_rules_corners_005",
+    "lead_vehicle_rules_corners_013",
+    "lead_vehicle_rules_corners_021",
+    "lead_vehicle_rules_corners_028",
+    "lead_vehicle_rules_corners_035",
+    "lead_vehicle_rules_corners_042",
+    "lead_vehicle_rules_corners_049"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.868,
+   "run_names": [
+    "lead_vehicle_rules_corners_004",
+    "lead_vehicle_rules_corners_009",
+    "lead_vehicle_rules_corners_017",
+    "lead_vehicle_rules_corners_024",
+    "lead_vehicle_rules_corners_031",
+    "lead_vehicle_rules_corners_038",
+    "lead_vehicle_rules_corners_045"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.879,
+   "run_names": [
+    "lead_vehicle_rules_corners_006",
+    "lead_vehicle_rules_corners_008",
+    "lead_vehicle_rules_corners_016",
+    "lead_vehicle_rules_corners_023",
+    "lead_vehicle_rules_corners_030",
+    "lead_vehicle_rules_corners_037",
+    "lead_vehicle_rules_corners_043"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.793,
+   "run_names": [
+    "lead_vehicle_rules_corners_007",
+    "lead_vehicle_rules_corners_011",
+    "lead_vehicle_rules_corners_019",
+    "lead_vehicle_rules_corners_026",
+    "lead_vehicle_rules_corners_033",
+    "lead_vehicle_rules_corners_040",
+    "lead_vehicle_rules_corners_047"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "lead_vehicle_rules_corners_001"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.876,
+   "run_names": [
+    "lead_vehicle_rules_corners_014_a2",
+    "lead_vehicle_rules_corners_015",
+    "lead_vehicle_rules_corners_022",
+    "lead_vehicle_rules_corners_029_a2",
+    "lead_vehicle_rules_corners_036",
+    "lead_vehicle_rules_corners_044"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.733,
+   "run_names": [
+    "lead_vehicle_rules_corners_003",
+    "lead_vehicle_rules_corners_012",
+    "lead_vehicle_rules_corners_020",
+    "lead_vehicle_rules_corners_027",
+    "lead_vehicle_rules_corners_034",
+    "lead_vehicle_rules_corners_041",
+    "lead_vehicle_rules_corners_048"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "planner_delay_us": 200000,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.852,
+   "run_names": [
+    "lead_vehicle_rules_corners_002",
+    "lead_vehicle_rules_corners_010",
+    "lead_vehicle_rules_corners_018",
+    "lead_vehicle_rules_corners_025",
+    "lead_vehicle_rules_corners_032",
+    "lead_vehicle_rules_corners_039",
+    "lead_vehicle_rules_corners_046"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 7320,
+  "output_tokens": 1062,
+  "duration_ms": 12280
+ }
+}
