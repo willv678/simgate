@@ -49,7 +49,7 @@
      51.7
     ]
    },
-   "random_confirm": {
+   "llm": {
     "replicates": 1,
     "reached": 0,
     "runs_to_goal": [
@@ -57,10 +57,10 @@
     ],
     "median_runs_to_goal": 54,
     "confirmed": [
-     3
+     4
     ],
     "hardest": [
-     0.952
+     0.983
     ],
     "failures": [
      18
@@ -69,6 +69,35 @@
      54
     ],
     "model_seconds": [
+     101.3
+    ]
+   },
+   "random_confirm": {
+    "replicates": 2,
+    "reached": 0,
+    "runs_to_goal": [
+     54,
+     54
+    ],
+    "median_runs_to_goal": 54.0,
+    "confirmed": [
+     3,
+     3
+    ],
+    "hardest": [
+     0.952,
+     0.949
+    ],
+    "failures": [
+     18,
+     18
+    ],
+    "kept": [
+     54,
+     54
+    ],
+    "model_seconds": [
+     0.0,
      0.0
     ]
    }

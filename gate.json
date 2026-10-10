@@ -1,22 +1,23 @@
 {
  "studies": {
-  "attempts": 783,
-  "kept": 764,
+  "attempts": 1750,
+  "kept": 1702,
   "resolutions": {
-   "ACCEPT": 764,
-   "RE-RUN": 17,
-   "pending": 3,
-   "HALT": 2
+   "ACCEPT": 1702,
+   "RE-RUN": 42,
+   "RESTART_CLEANUP": 1,
+   "HALT": 5
   },
   "failed_checks": {
-   "wizard_exit_code": 17,
-   "environment": 7,
-   "physics": 2
+   "wizard_exit_code": 43,
+   "environment": 10,
+   "physics": 5
   },
   "outcomes": {
-   "wizard_exit_code -> RE-RUN": 17,
-   "environment -> ACCEPT": 7,
-   "physics -> HALT": 2
+   "wizard_exit_code -> RE-RUN": 42,
+   "environment -> ACCEPT": 10,
+   "physics -> HALT": 5,
+   "wizard_exit_code -> RESTART_CLEANUP": 1
   }
  },
  "archived": {
