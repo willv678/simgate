@@ -7,17 +7,17 @@
   "budget": 50,
   "arms": {
    "hybrid": {
-    "launched": 11,
-    "kept": 10,
-    "failures": 5,
+    "launched": 21,
+    "kept": 20,
+    "failures": 10,
     "scenes_with_a_failure": 4,
     "dropped": 0,
-    "runs_to_goal": null,
+    "runs_to_goal": 16,
     "hardest": 0.559,
-    "model_seconds": 8.4,
-    "model_tokens": 4827,
+    "model_seconds": 21.7,
+    "model_tokens": 17613,
     "found": [
-     "linear fails less than feasible_best: the pooled 90% ranges separate, but only over 1 knob settings on 4 scenes; the comparison needs 3 and 2"
+     "linear fails less than feasible_best: the pooled 90% ranges separate"
     ]
    }
   }
@@ -47,6 +47,36 @@
      "09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25"
     ]
    },
+   "rules_r2": {
+    "launched": 55,
+    "kept": 54,
+    "failures": 9,
+    "scenes_with_a_failure": 4,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.948,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "023b7fcc at actor_time_shift_s 0.0, actor_speed_scale 1.25",
+     "09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25"
+    ]
+   },
+   "rules_r3": {
+    "launched": 41,
+    "kept": 39,
+    "failures": 9,
+    "scenes_with_a_failure": 4,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.929,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "023b7fcc at actor_time_shift_s 0.0, actor_speed_scale 1.25",
+     "09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25"
+    ]
+   },
    "hybrid": {
     "launched": 29,
     "kept": 27,
@@ -57,6 +87,39 @@
     "hardest": 0.934,
     "model_seconds": 36.7,
     "model_tokens": 33445,
+    "found": [
+     "023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25",
+     "09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25"
+    ]
+   },
+   "hybrid_r2": {
+    "launched": 37,
+    "kept": 36,
+    "failures": 17,
+    "scenes_with_a_failure": 5,
+    "dropped": 0,
+    "runs_to_goal": 32,
+    "hardest": 1.0,
+    "model_seconds": 51.7,
+    "model_tokens": 55746,
+    "found": [
+     "0e899dd3 at actor_time_shift_s 0, actor_speed_scale 2",
+     "096988dd at actor_time_shift_s 0, actor_speed_scale 2",
+     "023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25",
+     "054b5901 at actor_time_shift_s 0, actor_speed_scale 1.5",
+     "09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25"
+    ]
+   },
+   "hybrid_r3": {
+    "launched": 15,
+    "kept": 14,
+    "failures": 7,
+    "scenes_with_a_failure": 2,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.886,
+    "model_seconds": 23.6,
+    "model_tokens": 22319,
     "found": [
      "023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25",
      "09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25"
@@ -75,6 +138,55 @@
     "found": [
      "023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25",
      "09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5"
+    ]
+   },
+   "llm_r2": {
+    "launched": 55,
+    "kept": 54,
+    "failures": 18,
+    "scenes_with_a_failure": 5,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.983,
+    "model_seconds": 101.3,
+    "model_tokens": 103342,
+    "found": [
+     "09a95ffa at actor_time_shift_s 0.5, actor_speed_scale 1",
+     "023b7fcc at actor_time_shift_s -0.5, actor_speed_scale 1",
+     "19f339ba at actor_time_shift_s 0.5, actor_speed_scale 1",
+     "054b5901 at actor_time_shift_s -1, actor_speed_scale 1.25"
+    ]
+   },
+   "random_confirm": {
+    "launched": 55,
+    "kept": 54,
+    "failures": 18,
+    "scenes_with_a_failure": 4,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.952,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "096988dd at actor_time_shift_s 2.0, actor_speed_scale 1.25",
+     "09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25",
+     "023b7fcc at actor_time_shift_s -2.0, actor_speed_scale 1.5"
+    ]
+   },
+   "random_confirm_r2": {
+    "launched": 56,
+    "kept": 54,
+    "failures": 18,
+    "scenes_with_a_failure": 4,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.949,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "09a95ffa at actor_time_shift_s -1.5, actor_speed_scale 1.25",
+     "023b7fcc at actor_time_shift_s 0.5, actor_speed_scale 2.0",
+     "054b5901 at actor_time_shift_s -1.0, actor_speed_scale 1.25"
     ]
    }
   }
@@ -161,28 +273,64 @@
   "budget": 49,
   "arms": {
    "rules": {
-    "launched": 7,
-    "kept": 6,
-    "failures": 1,
-    "scenes_with_a_failure": 1,
+    "launched": 49,
+    "kept": 49,
+    "failures": 9,
+    "scenes_with_a_failure": 2,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.508,
+    "hardest": 0.617,
     "model_seconds": 0.0,
     "model_tokens": 0,
-    "found": []
+    "found": [
+     "02eadd92 at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "054b5901 at ego_speed_scale 1.2, actor_time_shift_s 0.0"
+    ]
    },
    "hybrid": {
-    "launched": 6,
-    "kept": 5,
-    "failures": 1,
-    "scenes_with_a_failure": 1,
+    "launched": 49,
+    "kept": 49,
+    "failures": 9,
+    "scenes_with_a_failure": 3,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.448,
-    "model_seconds": 8.5,
-    "model_tokens": 4888,
-    "found": []
+    "hardest": 0.626,
+    "model_seconds": 123.1,
+    "model_tokens": 124966,
+    "found": [
+     "02eadd92 at ego_speed_scale 1, actor_time_shift_s 0",
+     "054b5901 at ego_speed_scale 1.2, actor_time_shift_s 0"
+    ]
+   },
+   "llm": {
+    "launched": 49,
+    "kept": 49,
+    "failures": 8,
+    "scenes_with_a_failure": 2,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.599,
+    "model_seconds": 117.7,
+    "model_tokens": 112141,
+    "found": [
+     "02eadd92 at ego_speed_scale 1.2, actor_time_shift_s 0",
+     "054b5901 at ego_speed_scale 1.2, actor_time_shift_s -0.5"
+    ]
+   },
+   "random_confirm": {
+    "launched": 54,
+    "kept": 49,
+    "failures": 12,
+    "scenes_with_a_failure": 2,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.606,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "054b5901 at ego_speed_scale 1.4, actor_time_shift_s -1.5",
+     "02eadd92 at ego_speed_scale 1.2, actor_time_shift_s 1.0"
+    ]
    }
   }
  },
@@ -208,6 +356,54 @@
     "model_tokens": 0,
     "found": []
    },
+   "rules_r2": {
+    "launched": 53,
+    "kept": 49,
+    "failures": 0,
+    "scenes_with_a_failure": 0,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.851,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": []
+   },
+   "rules_r3": {
+    "launched": 50,
+    "kept": 49,
+    "failures": 0,
+    "scenes_with_a_failure": 0,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.854,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": []
+   },
+   "rules_corners": {
+    "launched": 51,
+    "kept": 49,
+    "failures": 0,
+    "scenes_with_a_failure": 0,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.853,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": []
+   },
+   "rules_v2": {
+    "launched": 49,
+    "kept": 49,
+    "failures": 1,
+    "scenes_with_a_failure": 1,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.891,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": []
+   },
    "hybrid": {
     "launched": 50,
     "kept": 49,
@@ -221,6 +417,38 @@
     "found": [
      "12855a41 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000",
      "09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000"
+    ]
+   },
+   "hybrid_r2": {
+    "launched": 50,
+    "kept": 49,
+    "failures": 10,
+    "scenes_with_a_failure": 3,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.952,
+    "model_seconds": 100.4,
+    "model_tokens": 137924,
+    "found": [
+     "12855a41 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000",
+     "09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000",
+     "19f339ba at actor_time_shift_s -0.5, actor_speed_scale 1.25, planner_delay_us 200000"
+    ]
+   },
+   "hybrid_r3": {
+    "launched": 52,
+    "kept": 49,
+    "failures": 9,
+    "scenes_with_a_failure": 3,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.955,
+    "model_seconds": 101.3,
+    "model_tokens": 135589,
+    "found": [
+     "023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000",
+     "12855a41 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000",
+     "19f339ba at actor_time_shift_s -0.5, actor_speed_scale 1.25, planner_delay_us 200000"
     ]
    },
    "llm": {
@@ -237,6 +465,93 @@
      "19f339ba at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0",
      "096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0",
      "12855a41 at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0"
+    ]
+   },
+   "llm_r2": {
+    "launched": 28,
+    "kept": 28,
+    "failures": 21,
+    "scenes_with_a_failure": 5,
+    "dropped": 0,
+    "runs_to_goal": 23,
+    "hardest": 1.0,
+    "model_seconds": 59.8,
+    "model_tokens": 52193,
+    "found": [
+     "0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0",
+     "12855a41 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0",
+     "19f339ba at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0",
+     "023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0",
+     "096988dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0"
+    ]
+   },
+   "llm_r3": {
+    "launched": 36,
+    "kept": 35,
+    "failures": 23,
+    "scenes_with_a_failure": 6,
+    "dropped": 0,
+    "runs_to_goal": 30,
+    "hardest": 1.0,
+    "model_seconds": 75.8,
+    "model_tokens": 70383,
+    "found": [
+     "0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0",
+     "023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0",
+     "12855a41 at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0",
+     "19f339ba at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0",
+     "096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0"
+    ]
+   },
+   "random_confirm": {
+    "launched": 52,
+    "kept": 49,
+    "failures": 17,
+    "scenes_with_a_failure": 5,
+    "dropped": 0,
+    "runs_to_goal": 43,
+    "hardest": 1.0,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "023b7fcc at actor_time_shift_s -1.0, actor_speed_scale 0.5, planner_delay_us 200000",
+     "09a95ffa at actor_time_shift_s 2.0, actor_speed_scale 1.25, planner_delay_us 400000",
+     "0e899dd3 at actor_time_shift_s -1.0, actor_speed_scale 0.5, planner_delay_us 50000",
+     "12855a41 at actor_time_shift_s 0.0, actor_speed_scale 0.5, planner_delay_us 50000",
+     "096988dd at actor_time_shift_s -1.5, actor_speed_scale 1.25, planner_delay_us 0"
+    ]
+   },
+   "random_confirm_r2": {
+    "launched": 51,
+    "kept": 49,
+    "failures": 17,
+    "scenes_with_a_failure": 5,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.978,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "09a95ffa at actor_time_shift_s 1.5, actor_speed_scale 0.75, planner_delay_us 250000",
+     "023b7fcc at actor_time_shift_s 1.5, actor_speed_scale 0.75, planner_delay_us 50000",
+     "12855a41 at actor_time_shift_s 0.5, actor_speed_scale 0.5, planner_delay_us 400000",
+     "096988dd at actor_time_shift_s -2.0, actor_speed_scale 1.5, planner_delay_us 350000"
+    ]
+   },
+   "random_confirm_r3": {
+    "launched": 51,
+    "kept": 49,
+    "failures": 11,
+    "scenes_with_a_failure": 3,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.953,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "19f339ba at actor_time_shift_s 0.0, actor_speed_scale 1.5, planner_delay_us 200000",
+     "023b7fcc at actor_time_shift_s 1.5, actor_speed_scale 0.75, planner_delay_us 50000",
+     "096988dd at actor_time_shift_s -2.0, actor_speed_scale 1.5, planner_delay_us 350000"
     ]
    }
   }
@@ -345,6 +660,42 @@
      "0d4893f5 at ego_speed_scale 1.0, actor_time_shift_s 0.0"
     ]
    },
+   "rules_r2": {
+    "launched": 31,
+    "kept": 30,
+    "failures": 18,
+    "scenes_with_a_failure": 6,
+    "dropped": 0,
+    "runs_to_goal": 25,
+    "hardest": 1.0,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "048b974e at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "18d28973 at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "1bbe02fc at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "07981e6a at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "0caa8f1a at ego_speed_scale 1.0, actor_time_shift_s 0.0"
+    ]
+   },
+   "rules_r3": {
+    "launched": 31,
+    "kept": 30,
+    "failures": 18,
+    "scenes_with_a_failure": 6,
+    "dropped": 0,
+    "runs_to_goal": 25,
+    "hardest": 1.0,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "048b974e at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "18d28973 at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "1bbe02fc at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "07981e6a at ego_speed_scale 1.0, actor_time_shift_s 0.0",
+     "0caa8f1a at ego_speed_scale 1.0, actor_time_shift_s 0.0"
+    ]
+   },
    "hybrid": {
     "launched": 31,
     "kept": 30,
@@ -355,6 +706,42 @@
     "hardest": 1.0,
     "model_seconds": 46.0,
     "model_tokens": 37035,
+    "found": [
+     "048b974e at ego_speed_scale 1, actor_time_shift_s 0",
+     "18d28973 at ego_speed_scale 1, actor_time_shift_s 0",
+     "1bbe02fc at ego_speed_scale 1, actor_time_shift_s 0",
+     "07981e6a at ego_speed_scale 1, actor_time_shift_s 0",
+     "0caa8f1a at ego_speed_scale 1, actor_time_shift_s 0"
+    ]
+   },
+   "hybrid_r2": {
+    "launched": 32,
+    "kept": 30,
+    "failures": 19,
+    "scenes_with_a_failure": 7,
+    "dropped": 0,
+    "runs_to_goal": 28,
+    "hardest": 1.0,
+    "model_seconds": 45.6,
+    "model_tokens": 43994,
+    "found": [
+     "048b974e at ego_speed_scale 1, actor_time_shift_s 0",
+     "18d28973 at ego_speed_scale 1, actor_time_shift_s 0",
+     "1bbe02fc at ego_speed_scale 1, actor_time_shift_s 0",
+     "07981e6a at ego_speed_scale 1, actor_time_shift_s 0",
+     "0caa8f1a at ego_speed_scale 1, actor_time_shift_s 0"
+    ]
+   },
+   "hybrid_r3": {
+    "launched": 31,
+    "kept": 30,
+    "failures": 19,
+    "scenes_with_a_failure": 7,
+    "dropped": 0,
+    "runs_to_goal": 24,
+    "hardest": 1.0,
+    "model_seconds": 42.3,
+    "model_tokens": 40869,
     "found": [
      "048b974e at ego_speed_scale 1, actor_time_shift_s 0",
      "18d28973 at ego_speed_scale 1, actor_time_shift_s 0",
@@ -381,6 +768,42 @@
      "0e002edd at ego_speed_scale 1.4, actor_time_shift_s -0.5"
     ]
    },
+   "llm_r2": {
+    "launched": 51,
+    "kept": 49,
+    "failures": 30,
+    "scenes_with_a_failure": 5,
+    "dropped": 0,
+    "runs_to_goal": 40,
+    "hardest": 1.0,
+    "model_seconds": 88.1,
+    "model_tokens": 81999,
+    "found": [
+     "048b974e at ego_speed_scale 1.4, actor_time_shift_s -1",
+     "0e002edd at ego_speed_scale 1.4, actor_time_shift_s 0",
+     "18d28973 at ego_speed_scale 1.2, actor_time_shift_s -0.5",
+     "1bbe02fc at ego_speed_scale 1.2, actor_time_shift_s -0.5",
+     "0d4893f5 at ego_speed_scale 1.2, actor_time_shift_s -0.5"
+    ]
+   },
+   "llm_r3": {
+    "launched": 42,
+    "kept": 39,
+    "failures": 25,
+    "scenes_with_a_failure": 6,
+    "dropped": 0,
+    "runs_to_goal": 37,
+    "hardest": 1.0,
+    "model_seconds": 78.2,
+    "model_tokens": 58525,
+    "found": [
+     "048b974e at ego_speed_scale 1.2, actor_time_shift_s 0",
+     "0e002edd at ego_speed_scale 1.4, actor_time_shift_s 0",
+     "18d28973 at ego_speed_scale 1, actor_time_shift_s 0",
+     "1bbe02fc at ego_speed_scale 1.2, actor_time_shift_s 0",
+     "0caa8f1a at ego_speed_scale 1.2, actor_time_shift_s 0"
+    ]
+   },
    "random": {
     "launched": 53,
     "kept": 48,
@@ -392,6 +815,60 @@
     "model_seconds": 0.0,
     "model_tokens": 0,
     "found": []
+   },
+   "random_confirm": {
+    "launched": 40,
+    "kept": 39,
+    "failures": 28,
+    "scenes_with_a_failure": 7,
+    "dropped": 0,
+    "runs_to_goal": 31,
+    "hardest": 1.0,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "048b974e at ego_speed_scale 0.6, actor_time_shift_s -1.5",
+     "0caa8f1a at ego_speed_scale 1.0, actor_time_shift_s 1.5",
+     "0d4893f5 at ego_speed_scale 1.2, actor_time_shift_s 1.0",
+     "18d28973 at ego_speed_scale 0.8, actor_time_shift_s 0.0",
+     "07981e6a at ego_speed_scale 1.4, actor_time_shift_s -0.5"
+    ]
+   },
+   "random_confirm_r2": {
+    "launched": 40,
+    "kept": 39,
+    "failures": 29,
+    "scenes_with_a_failure": 7,
+    "dropped": 0,
+    "runs_to_goal": 32,
+    "hardest": 1.0,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "0d4893f5 at ego_speed_scale 0.8, actor_time_shift_s 2.0",
+     "0e002edd at ego_speed_scale 1.4, actor_time_shift_s -1.5",
+     "07981e6a at ego_speed_scale 0.6, actor_time_shift_s 1.5",
+     "18d28973 at ego_speed_scale 1.2, actor_time_shift_s -1.0",
+     "0caa8f1a at ego_speed_scale 0.6, actor_time_shift_s 1.0"
+    ]
+   },
+   "random_confirm_r3": {
+    "launched": 40,
+    "kept": 40,
+    "failures": 31,
+    "scenes_with_a_failure": 7,
+    "dropped": 0,
+    "runs_to_goal": 32,
+    "hardest": 1.0,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "0caa8f1a at ego_speed_scale 0.8, actor_time_shift_s -1.0",
+     "0d4893f5 at ego_speed_scale 0.6, actor_time_shift_s 1.5",
+     "18d28973 at ego_speed_scale 1.4, actor_time_shift_s 0.5",
+     "048b974e at ego_speed_scale 0.8, actor_time_shift_s -1.0",
+     "07981e6a at ego_speed_scale 1.4, actor_time_shift_s 1.0"
+    ]
    }
   }
  }
