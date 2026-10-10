@@ -32,10 +32,10 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | pedestrian_crossing | random | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.673 | 0 | 0.0 |
 | pedestrian_crossing | optuna | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.699 | 3 | 0.0 |
 | pedestrian_ego_speed | rules | 3 | 30, 30, 30 | 3 | 25, 25, 25 | 25 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 17, 18, 18 | 0.0, 0.0, 0.0 |
-| pedestrian_ego_speed | hybrid | 2 | 30, 30 | 2 | 24, 28 | 26.0 | 5, 5 of 5 | 1.0, 1.0 | 18, 19 | 46.0, 45.6 |
-| pedestrian_ego_speed | llm | 2 | 30, 49 | 2 | 28, 40 | 34.0 | 5, 5 of 5 | 1.0, 1.0 | 18, 30 | 52.5, 88.1 |
+| pedestrian_ego_speed | hybrid | 3 | 30, 30, 30 | 3 | 24, 28, 24 | 24 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 18, 19, 19 | 46.0, 45.6, 42.3 |
+| pedestrian_ego_speed | llm | 3 | 30, 49, 39 | 3 | 28, 40, 37 | 37 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 18, 30, 25 | 52.5, 88.1, 78.2 |
 | pedestrian_ego_speed | random | 1 | 48 | 0 | 50 | 50 | 0 of 5 | 1.0 | 31 | 0.0 |
-| pedestrian_ego_speed | random_confirm | 2 | 39, 39 | 2 | 31, 32 | 31.5 | 5, 5 of 5 | 1.0, 1.0 | 28, 29 | 0.0, 0.0 |
+| pedestrian_ego_speed | random_confirm | 3 | 39, 39, 40 | 3 | 31, 32, 32 | 32 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 28, 29, 31 | 0.0, 0.0, 0.0 |
 
 Left out: arms that stopped believing their goal met under the broad
 failure definition used before 8 Oct 2026 (any front, side or off-road

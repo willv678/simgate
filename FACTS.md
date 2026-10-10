@@ -545,6 +545,15 @@ under the new definition from their first round.
   failures sit at the extremes of a larger space; a rule design for that
   needs global coverage first (corners or a coarse grid) before local steps.
 
+### Pedestrian x ego speed, three replicates of every method (10 Oct)
+
+Runs to the goal (5 hardest settings, each confirmed): hybrid 24, 28, 24
+(median 24); rules 25, 25, 25; random + confirmation 31, 32, 32; llm 28, 40,
+37 (median 37); plain random never (it confirms nothing). In this small
+space (2 knobs, 10 scenes) the rule candidates, alone or chosen by Claude,
+are the fastest and most consistent; the free Claude proposer is the
+slowest and most variable.
+
 ### Replicates under replayed traffic are nearly deterministic (9 Oct)
 
 pedestrian x ego speed, rules, three replicates with different run seeds

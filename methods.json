@@ -599,61 +599,73 @@
     ]
    },
    "hybrid": {
-    "replicates": 2,
-    "reached": 2,
+    "replicates": 3,
+    "reached": 3,
     "runs_to_goal": [
      24,
-     28
+     28,
+     24
     ],
-    "median_runs_to_goal": 26.0,
+    "median_runs_to_goal": 24,
     "confirmed": [
+     5,
      5,
      5
     ],
     "hardest": [
      1.0,
+     1.0,
      1.0
     ],
     "failures": [
      18,
+     19,
      19
     ],
     "kept": [
+     30,
      30,
      30
     ],
     "model_seconds": [
      46.0,
-     45.6
+     45.6,
+     42.3
     ]
    },
    "llm": {
-    "replicates": 2,
-    "reached": 2,
+    "replicates": 3,
+    "reached": 3,
     "runs_to_goal": [
      28,
-     40
+     40,
+     37
     ],
-    "median_runs_to_goal": 34.0,
+    "median_runs_to_goal": 37,
     "confirmed": [
+     5,
      5,
      5
     ],
     "hardest": [
      1.0,
+     1.0,
      1.0
     ],
     "failures": [
      18,
-     30
+     30,
+     25
     ],
     "kept": [
      30,
-     49
+     49,
+     39
     ],
     "model_seconds": [
      52.5,
-     88.1
+     88.1,
+     78.2
     ]
    },
    "random": {
@@ -680,30 +692,36 @@
     ]
    },
    "random_confirm": {
-    "replicates": 2,
-    "reached": 2,
+    "replicates": 3,
+    "reached": 3,
     "runs_to_goal": [
      31,
+     32,
      32
     ],
-    "median_runs_to_goal": 31.5,
+    "median_runs_to_goal": 32,
     "confirmed": [
+     5,
      5,
      5
     ],
     "hardest": [
      1.0,
+     1.0,
      1.0
     ],
     "failures": [
      28,
-     29
+     29,
+     31
     ],
     "kept": [
      39,
-     39
+     39,
+     40
     ],
     "model_seconds": [
+     0.0,
      0.0,
      0.0
     ]
