@@ -50,8 +50,8 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
    far, `METHODS.md`): pedestrian x ego speed (2 knobs, three replicates
    each, complete) hybrid 24/28/24, rules 25/25/25, random + confirmation
    31/32/32, llm 28/40/37 runs to the goal; lead
-   vehicle (3 knobs, failures at the extremes) llm 5 of 5 by runs 23 and
-   30 (two clean replicates), random + confirmation 5 by 43, then 4 and 3 of 5,
+   vehicle (3 knobs, failures at the extremes) llm 5 of 5 by runs 23, 30
+   and 23 (three clean replicates), random + confirmation 5 by 43, then 4 and 3 of 5,
    hybrid 2, 3 and 3 of 5, rules 0, 0 and 0; cut-in (clean replicates only) hybrid 5 of 5 by
    runs 32, 36 and 46, llm 4 and 4 of 5, random + confirmation 3, 3 and 2 of 5, rules 2, 2 and 2 of 5 in 54. Plain random
    never confirms anything. Where the space is small every method does

@@ -433,32 +433,38 @@
     ]
    },
    "llm": {
-    "replicates": 2,
-    "reached": 2,
+    "replicates": 3,
+    "reached": 3,
     "runs_to_goal": [
      23,
-     30
+     30,
+     23
     ],
-    "median_runs_to_goal": 26.5,
+    "median_runs_to_goal": 23,
     "confirmed": [
+     5,
      5,
      5
     ],
     "hardest": [
      1.0,
+     1.0,
      1.0
     ],
     "failures": [
      21,
-     23
+     23,
+     17
     ],
     "kept": [
      28,
-     35
+     35,
+     28
     ],
     "model_seconds": [
      59.8,
-     75.8
+     75.8,
+     59.1
     ]
    },
    "random_confirm": {
