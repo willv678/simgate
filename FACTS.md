@@ -569,7 +569,7 @@ is queued (to replace the left-out one).
 
 Clean replicates only (replicate 1 of rules, hybrid and llm stopped on the
 broad count, left out; fourth replicates queued): hybrid 5 of 5 at 32
-and at 36 runs; llm 4, 4 of 5 in 54; random + confirmation 3, 3 of 5 in 54; rules 2, 2
+and at 36 runs; llm 4, 4 of 5 in 54; random + confirmation 3, 3, 2 of 5 in 54; rules 2, 2
 of 5 in 54, the same two both times (1.25x speed, no time shift, scenes
 023b7fcc and 09a95ffa; setting ids differ between arms), as replay
 determinism predicts. Replicates 3-4 of hybrid and llm running or queued.
