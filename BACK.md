@@ -16,7 +16,14 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
    input and output mirrored, the same scenes and seeds drift *right* (18
    of 20 pairs, median -2.1 m against +6.4 m plain). The lean is in the
    model itself, not the simulator, the controller or the traffic side.
-   `MIRROR.md`. This is the dominant failure mode: most "hardest cases" are this
+   `MIRROR.md`. **It is documented that VaVAM is weak in AlpaSim** (ECO,
+   arXiv 2609.31383: scene score 11.0, 18% at-fault collisions, 28%
+   off-road, in the 4 m corridor 57.6% of the time), but not why; our lean
+   finding appears new. **Our 10 Hz loop doubles the drift:** at VaVAM's
+   own 2 Hz rhythm the same runs drift +3.0 m instead of +6.4 m and crash 4
+   times instead of 6. New studies should plan at 2 Hz
+   (`control_timestep_us: 500000`); the running replicates stay at 10 Hz
+   so they compare like for like. This is the dominant failure mode: most "hardest cases" are this
    drift meeting traffic or the road edge. `figures/drift.png`, `DRIFT.md`.
 2. **We were over-counting failures by a quarter.** 49 of 200 counted
    crashes were replayed cars rear-ending our slowed ego, or contacts before

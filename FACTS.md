@@ -602,7 +602,14 @@ human path, left positive):
   traffic side of the scene (a mirrored right-hand scene looks like
   left-hand traffic; a model confused about the traffic side would settle,
   not drift right), and not an asymmetric image pipeline (the principal
-  point is the image centre). Mirrored runs fail more (16 of 20 against 6):
+  point is the image centre). **Planning rhythm (m2, 9 Oct):** the same 20
+  plain configs at 500 ms control steps (VaVAM's training rhythm: a plan
+  per fresh frame, 8 frames at 2 Hz; AlpaSim's own VaVAM config also plans
+  at 2 Hz) against our 100 ms steps (4 of 5 plans from a reused frame):
+  failures 4 against 6 (2 flip to pass, none the other way); median offset
+  at the end +3.0 m against +6.4 m, at +3 s +1.5 m against +3.7 m; 17 of 20
+  still end left. Our loop about doubles the drift; the lean stays.
+  Mirrored runs fail more (16 of 20 against 6):
   drifting right meets the curb and parked cars sooner. A learned lean in
   the model's own frame, e.g. from its training data, is the reading left.
 - For the paper: the hardest cases a search finds are mostly places where
