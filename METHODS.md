@@ -31,7 +31,7 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | pedestrian_crossing | llm | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.691 | 5 | 112.3 |
 | pedestrian_crossing | random | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.673 | 0 | 0.0 |
 | pedestrian_crossing | optuna | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.699 | 3 | 0.0 |
-| pedestrian_ego_speed | rules | 2 | 30, 30 | 2 | 25, 25 | 25.0 | 5, 5 of 5 | 1.0, 1.0 | 17, 18 | 0.0, 0.0 |
+| pedestrian_ego_speed | rules | 3 | 30, 30, 30 | 3 | 25, 25, 25 | 25 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 17, 18, 18 | 0.0, 0.0, 0.0 |
 | pedestrian_ego_speed | hybrid | 2 | 30, 30 | 2 | 24, 28 | 26.0 | 5, 5 of 5 | 1.0, 1.0 | 18, 19 | 46.0, 45.6 |
 | pedestrian_ego_speed | llm | 2 | 30, 49 | 2 | 28, 40 | 34.0 | 5, 5 of 5 | 1.0, 1.0 | 18, 30 | 52.5, 88.1 |
 | pedestrian_ego_speed | random | 1 | 48 | 0 | 50 | 50 | 0 of 5 | 1.0 | 31 | 0.0 |

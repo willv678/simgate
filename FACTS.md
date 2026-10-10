@@ -545,6 +545,20 @@ under the new definition from their first round.
   failures sit at the extremes of a larger space; a rule design for that
   needs global coverage first (corners or a coarse grid) before local steps.
 
+### Replicates under replayed traffic are nearly deterministic (9 Oct)
+
+pedestrian x ego speed, rules, three replicates with different run seeds
+(checked by the gate: seeds differ, sessions opened with them): goal at 25
+runs each time; replicates 2 and 3 have identical pass/fail sequences over
+30 runs, replicate 1 differs in 3 places. With traffic replayed, an outcome
+at a given scene and setting barely depends on the seed (the policy's lean
+is systematic; the seed only moves VaVAM's sampled plan, which parts runs by
+about 2 m, rp1). So a deterministic proposer (rules) repeats its search, and
+the spread across replicates comes from the model's sampling (llm, hybrid)
+and from random's draws. Confirmation by repeats is still needed (the
+goal's 90% ranges count runs), but a "failure rate" here is close to 0 or
+1 per setting; with CATK traffic it was not (B2: 46 of 150 identical runs).
+
 ## Controller A/B, 8 Oct (feasible_best against linear)
 
 Hybrid proposer, pedestrian scenes, pairs with shared seeds. Round 1: 5 pairs,

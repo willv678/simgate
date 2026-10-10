@@ -564,30 +564,36 @@
   "budget": 50,
   "proposers": {
    "rules": {
-    "replicates": 2,
-    "reached": 2,
+    "replicates": 3,
+    "reached": 3,
     "runs_to_goal": [
+     25,
      25,
      25
     ],
-    "median_runs_to_goal": 25.0,
+    "median_runs_to_goal": 25,
     "confirmed": [
+     5,
      5,
      5
     ],
     "hardest": [
      1.0,
+     1.0,
      1.0
     ],
     "failures": [
      17,
+     18,
      18
     ],
     "kept": [
      30,
+     30,
      30
     ],
     "model_seconds": [
+     0.0,
      0.0,
      0.0
     ]
