@@ -631,6 +631,12 @@ the recording, problem 27). In progress; numbers as of the arm named.
   recording (1.0x, 0 s): 048b974e, 07981e6a, 0d4893f5, 1bbe02fc, every
   repeat failed, none involving the pedestrian. No off-recording setting
   it tried failed (it tried slower: 0.6x, 0.8x, and 1.2x once).
+- pedestrian x ego speed, rules_v3 (12 Oct 03:20): also 4 of 5 in 50
+  runs, the same four scenes at the recording. One off-recording failure:
+  18f8dbd6 at 1.4x, 0 s, a single run (ego drifted into the next lane's
+  car); not repeated, so not confirmed. Both rule variants spend their
+  budget re-confirming the recording and probing slower speeds; of the 32
+  hard settings off the recording at 10 Hz, 20 are at 1.2x-1.4x.
 - At the recording, scene by scene, all arms pooled: two scenes that fail
   every time at 10 Hz pass at 2 Hz: 0caa8f1a 17 of 18 failed at 10 Hz,
   0 of 9 at 2 Hz; 18d28973 22 of 22 against 0 of 2. The other four hard

@@ -37,6 +37,7 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | pedestrian_ego_speed | random | 1 | 48 | 0 | 50 | 50 | 0 of 5 | 1.0 | 31 | 0.0 |
 | pedestrian_ego_speed | random_confirm | 3 | 39, 39, 40 | 3 | 31, 32, 32 | 32 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 28, 29, 31 | 0.0, 0.0, 0.0 |
 | pedestrian_ego_speed_2hz | rules | 1 | 50 | 0 | 50 | 50 | 4 of 5 | 0.949 | 12 | 0.0 |
+| pedestrian_ego_speed_2hz | rules_v3 | 1 | 50 | 0 | 50 | 50 | 4 of 5 | 1.0 | 14 | 0.0 |
 
 Left out: arms that stopped believing their goal met under the broad
 failure definition used before 8 Oct 2026 (any front, side or off-road

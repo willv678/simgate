@@ -826,6 +826,29 @@
     "model_seconds": [
      0.0
     ]
+   },
+   "rules_v3": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     50
+    ],
+    "median_runs_to_goal": 50,
+    "confirmed": [
+     4
+    ],
+    "hardest": [
+     1.0
+    ],
+    "failures": [
+     14
+    ],
+    "kept": [
+     50
+    ],
+    "model_seconds": [
+     0.0
+    ]
    }
   }
  }
