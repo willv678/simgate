@@ -14,7 +14,12 @@ ego could only have avoided by braking harder than a normal driver would; a
 contact that started before the policy was driving; an ego that drifted
 partly into the next lane and was hit there.
 
-> FILL IN
+> A crash that an average human driver would get into and the AI crashed as well is not
+the policy's fault. It is only the policy's fault if the AI has a different outcome then an
+average human driver. For example if the ego is rear ended it is not the policy's fault unless 
+the braked unreasonably hard. If thhe crash happens before the policy takes over that is not the
+policy's fault. If the policy had under 1.5 seconds to react and crashed the policy is not at fault.
+Unless the policy was already heading into a crash.
 
 ## What you are looking at
 

@@ -1,14 +1,14 @@
 id,scene,video,topdown,handoff_video_s,contact_video_s,fault,what_happened,minutes
-L01,12855a41,videos/L01.mp4,topdown/L01.png,4.9,5.3,,,
-L02,07981e6a,videos/L02.mp4,topdown/L02.png,4.6,6.9,,,
-L03,18d28973,videos/L03.mp4,topdown/L03.png,4.9,9.2,,,
-L04,0d4893f5,videos/L04.mp4,topdown/L04.png,4.6,6.2,,,
-L05,18d28973,videos/L05.mp4,topdown/L05.png,4.9,9.2,,,
-L06,048b974e,videos/L06.mp4,topdown/L06.png,4.8,9.2,,,
-L07,0e899dd3,videos/L07.mp4,topdown/L07.png,4.6,5.1,,,
-L08,09a95ffa,videos/L08.mp4,topdown/L08.png,4.6,6.2,,,
-L09,19f339ba,videos/L09.mp4,topdown/L09.png,4.8,4.8,,,
-L10,12855a41,videos/L10.mp4,topdown/L10.png,4.9,5.3,,,
+L01,12855a41,videos/L01.mp4,topdown/L01.png,4.9,5.3,policy,ego did not brake in time,2
+L02,07981e6a,videos/L02.mp4,topdown/L02.png,4.6,6.9,not_policy,less the 1 s to react,2
+L03,18d28973,videos/L03.mp4,topdown/L03.png,4.9,9.2,policy,more then 1 s to react,3
+L04,0d4893f5,videos/L04.mp4,topdown/L04.png,4.6,6.2,not_policy,less then 1 s to react ,2
+L05,18d28973,videos/L05.mp4,topdown/L05.png,4.9,9.2,policy,more  then 1 s to react (note: same scene as 3),2
+L06,048b974e,videos/L06.mp4,topdown/L06.png,4.8,9.2,not_policy,less then 1 s to react ,2
+L07,0e899dd3,videos/L07.mp4,topdown/L07.png,4.6,5.1,not_policy,less then 1 s to react ,2
+L08,09a95ffa,videos/L08.mp4,topdown/L08.png,4.6,6.2,policy,more then 1 s to react ,2
+L09,19f339ba,videos/L09.mp4,topdown/L09.png,4.8,4.8,not_policy,less then 1 s to react ,2
+L10,12855a41,videos/L10.mp4,topdown/L10.png,4.9,5.3,not_policy,less then 1 s to react ,2
 L11,19f339ba,videos/L11.mp4,topdown/L11.png,4.6,8.1,,,
 L12,096988dd,videos/L12.mp4,topdown/L12.png,4.9,7.8,,,
 L13,09a95ffa,videos/L13.mp4,topdown/L13.png,4.6,7.5,,,
@@ -21,10 +21,10 @@ L19,048b974e,videos/L19.mp4,topdown/L19.png,4.6,8.2,,,
 L20,023b7fcc,videos/L20.mp4,topdown/L20.png,4.6,8.2,,,
 L21,0d4893f5,videos/L21.mp4,topdown/L21.png,4.6,6.2,,,
 L22,023b7fcc,videos/L22.mp4,topdown/L22.png,4.9,7.8,,,
-L23,0e899dd3,videos/L23.mp4,topdown/L23.png,4.6,8.0,,,
+L23,0e899dd3,videos/L23.mp4,topdown/L23.png,4.6,8,,,
 L24,0e899dd3,videos/L24.mp4,topdown/L24.png,4.9,10.7,,,
 L25,18d28973,videos/L25.mp4,topdown/L25.png,4.9,9.2,,,
-L26,19f339ba,videos/L26.mp4,topdown/L26.png,4.6,8.0,,,
+L26,19f339ba,videos/L26.mp4,topdown/L26.png,4.6,8,,,
 L27,09a95ffa,videos/L27.mp4,topdown/L27.png,4.6,6.2,,,
 L28,09a95ffa,videos/L28.mp4,topdown/L28.png,4.6,6.2,,,
 L29,09a95ffa,videos/L29.mp4,topdown/L29.png,4.6,6.2,,,
@@ -42,7 +42,7 @@ L40,023b7fcc,videos/L40.mp4,topdown/L40.png,4.9,4.9,,,
 L41,09a95ffa,videos/L41.mp4,topdown/L41.png,4.9,5.3,,,
 L42,12855a41,videos/L42.mp4,topdown/L42.png,4.6,4.6,,,
 L43,07981e6a,videos/L43.mp4,topdown/L43.png,4.6,6.9,,,
-L44,0caa8f1a,videos/L44.mp4,topdown/L44.png,4.6,9.0,,,
+L44,0caa8f1a,videos/L44.mp4,topdown/L44.png,4.6,9,,,
 L45,09a95ffa,videos/L45.mp4,topdown/L45.png,4.6,8.7,,,
 L46,0e899dd3,videos/L46.mp4,topdown/L46.png,4.9,8.3,,,
 L47,19f339ba,videos/L47.mp4,topdown/L47.png,4.8,7.8,,,
