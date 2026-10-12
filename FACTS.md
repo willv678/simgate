@@ -873,6 +873,11 @@ the recording, problem 27). In progress; numbers as of the arm named.
   pedestrian early, on time or late; the ego drifted left into a slower car
   in the next lane). Replicate 1 had probed 18f8dbd6 once and moved on.
   None of the five involves the pedestrian.
+- pedestrian x ego speed, llm replicate 2 (12 Oct 19:15): goal met at 47
+  runs: 1bbe02fc, 07981e6a, 0d4893f5, 18f8dbd6, 0e002edd, every one at
+  1.2x or 1.4x with the pedestrian 0.5-1 s early; never the recorded
+  setting. As in replicate 1 it searched only faster settings, and this
+  time reached the fifth scene. None involves the pedestrian.
 - Study reports (report.md) of arms finished before 12 Oct 09:37 state
   their goal under the old count; `METHODS.md` and these notes use the fix.
 - lead vehicle, rules_v3 (12 Oct 06:10): 0 of 5 in 49 runs, 2 failures,
