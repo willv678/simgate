@@ -8,8 +8,8 @@ it and still in its own lane? Compared with each run's triage cause
 
 | study | collisions | actor closed (lane 3.3 / 3.6 / 3.9 m) | rule and triage: actor | rule only | triage only | neither |
 |---|---|---|---|---|---|---|
-| cut_in_merge | 208 | 49 / 49 / 72 | 45 | 4 | 12 | 147 |
-| lead_vehicle | 145 | 0 / 0 / 0 | 0 | 0 | 5 | 140 |
+| cut_in_merge | 173 | 24 / 24 / 47 | 24 | 0 | 12 | 137 |
+| lead_vehicle | 77 | 0 / 0 / 0 | 0 | 0 | 4 | 73 |
 | pedestrian_ego_speed | 199 | 0 / 0 / 0 | 0 | 0 | 0 | 199 |
 
 Runs to the goal (or confirmed of 5), as counted and with actor-closed
@@ -17,14 +17,14 @@ contacts not counted:
 
 | study | count | rules | rules_v3 | hybrid | llm | random_confirm |
 |---|---|---|---|---|---|---|
-| cut_in_merge | as counted | 2 of 5, 2 of 5, 2 of 5 | - | 32, 36, 46 | 4 of 5, 4 of 5, 5 of 5 | 3 of 5, 3 of 5, 2 of 5 |
-| cut_in_merge | without, lane 3.3 m | 2 of 5, 2 of 5, 2 of 5 | - | 3 of 5, 3 of 5, 3 of 5 | 3 of 5, 4 of 5, 3 of 5 | 2 of 5, 1 of 5, 2 of 5 |
-| cut_in_merge | without, lane 3.6 m | 2 of 5, 2 of 5, 2 of 5 | - | 3 of 5, 3 of 5, 3 of 5 | 3 of 5, 4 of 5, 3 of 5 | 2 of 5, 1 of 5, 2 of 5 |
-| cut_in_merge | without, lane 3.9 m | 1 of 5, 1 of 5, 1 of 5 | - | 2 of 5, 2 of 5, 2 of 5 | 3 of 5, 4 of 5, 3 of 5 | 1 of 5, 1 of 5, 1 of 5 |
-| lead_vehicle | as counted | 0 of 5, 0 of 5, 0 of 5 | - | 2 of 5, 3 of 5, 3 of 5 | 23, 30, 23 | 5 of 5, 4 of 5, 3 of 5 |
-| lead_vehicle | without, lane 3.3 m | 0 of 5, 0 of 5, 0 of 5 | - | 2 of 5, 3 of 5, 3 of 5 | 23, 30, 23 | 5 of 5, 4 of 5, 3 of 5 |
-| lead_vehicle | without, lane 3.6 m | 0 of 5, 0 of 5, 0 of 5 | - | 2 of 5, 3 of 5, 3 of 5 | 23, 30, 23 | 5 of 5, 4 of 5, 3 of 5 |
-| lead_vehicle | without, lane 3.9 m | 0 of 5, 0 of 5, 0 of 5 | - | 2 of 5, 3 of 5, 3 of 5 | 23, 30, 23 | 5 of 5, 4 of 5, 3 of 5 |
+| cut_in_merge | as counted | 2 of 5, 2 of 5, 2 of 5 | - | 4 of 5 | 3 of 5, 4 of 5, 3 of 5 | 3 of 5, 0 of 5, 1 of 5 |
+| cut_in_merge | without, lane 3.3 m | 2 of 5, 2 of 5, 2 of 5 | - | 3 of 5 | 3 of 5, 4 of 5, 3 of 5 | 2 of 5, 0 of 5, 1 of 5 |
+| cut_in_merge | without, lane 3.6 m | 2 of 5, 2 of 5, 2 of 5 | - | 3 of 5 | 3 of 5, 4 of 5, 3 of 5 | 2 of 5, 0 of 5, 1 of 5 |
+| cut_in_merge | without, lane 3.9 m | 1 of 5, 1 of 5, 1 of 5 | - | 2 of 5 | 3 of 5, 4 of 5, 3 of 5 | 1 of 5, 0 of 5, 0 of 5 |
+| lead_vehicle | as counted | 0 of 5, 0 of 5, 0 of 5 | - | 2 of 5, 3 of 5, 3 of 5 | - | 4 of 5, 1 of 5, 2 of 5 |
+| lead_vehicle | without, lane 3.3 m | 0 of 5, 0 of 5, 0 of 5 | - | 2 of 5, 3 of 5, 3 of 5 | - | 4 of 5, 1 of 5, 2 of 5 |
+| lead_vehicle | without, lane 3.6 m | 0 of 5, 0 of 5, 0 of 5 | - | 2 of 5, 3 of 5, 3 of 5 | - | 4 of 5, 1 of 5, 2 of 5 |
+| lead_vehicle | without, lane 3.9 m | 0 of 5, 0 of 5, 0 of 5 | - | 2 of 5, 3 of 5, 3 of 5 | - | 4 of 5, 1 of 5, 2 of 5 |
 | pedestrian_ego_speed | as counted | 25, 25, 25 | - | 24, 28, 24 | 28, 40, 37 | 31, 32, 32 |
 | pedestrian_ego_speed | without, lane 3.3 m | 25, 25, 25 | - | 24, 28, 24 | 28, 40, 37 | 31, 32, 32 |
 | pedestrian_ego_speed | without, lane 3.6 m | 25, 25, 25 | - | 24, 28, 24 | 28, 40, 37 | 31, 32, 32 |

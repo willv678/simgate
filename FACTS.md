@@ -698,6 +698,13 @@ lane; nuPlan's rule, an ego in two lanes is at fault in a side contact).
   should be reported both ways, or rerun with the stricter count; the
   pedestrian and lead vehicle comparisons stand. Not changed in
   `outer.outcome` (every finished arm was scored with it).
+- After problem 30's fix (12 Oct 11:30, `CLOSED.md` regenerated): cut-in
+  has 173 collision failures, of them 24 actor-closed (at 3.3 and 3.6 m;
+  47 at 3.9 m), and rule and triage agree on all 24 (triage only 12,
+  neither 137: 93% agree); lead vehicle 77, none actor-closed. Half of the
+  49 above were contacts carried across the hand-off. Without the 24, the
+  finished cut-in arms: rules 2, 2, 2; hybrid 3 (r4); llm 3, 4, 3; random +
+  confirmation 2, 0, 1.
 - 2 Hz cut-in rules_v3: 2 of its 3 counted failures were triaged
   actor_hit_ego (19f339ba, 1c45ce3a; the ego braked hard on an open road).
 
