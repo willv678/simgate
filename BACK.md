@@ -68,6 +68,12 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
    ran 100% at 0.5x. On cut-in the hard cases sit 1-2 steps from the
    recording; hybrid stays close (45% of runs on hard settings), llm finds
    all 6 hard scenes but spreads too thin to confirm 5. Rules alone never reach the goal there.
+   **Caveat found 12 Oct (`CLOSED.md`, FACTS problem 29):** 49 of cut-in's
+   208 counted crashes are a replayed car (which cannot react) running into
+   an ego braking in its own lane, first touching its front corner, so the
+   rear-end rule kept them. Without those, no method reaches 5 on cut-in
+   (hybrid 3, 3, 3; llm 3, 4, 3). Pedestrian and lead vehicle do not change.
+   So hybrid's cut-in win should be reported with this caveat or rerun.
 7. **Replays are exact** (same seed, 0.0 m over 122 steps) and **the ego
    speed knob works** (measured within 0.004 m/s of the request).
 
