@@ -100,7 +100,10 @@ NEAR_MISS_M = 5.0
 # same way, "warmup frames that produce spurious metric events"). A collision
 # that starts at the ego's rear is the follower's (nuPlan counts it not at
 # fault): replayed traffic follows its recording and cannot brake for an ego
-# that drives slower than the human did. `failed_any` keeps the broad reading
+# that drives slower than the human did. A contact already under way when the
+# policy takes over is not the policy's either: collisions count from the
+# first step after it ends (a lead car slowed by actor_speed_scale can meet
+# the ego while the warm-up still replays the human's path). `failed_any` keeps the broad reading
 # (any front, side or off-road flag at any time) used before 8 Oct 2026.
 FAILURE_METRICS = ("collision_front", "collision_lateral", "offroad")
 TYPES = {
@@ -146,6 +149,21 @@ def schema(varied: tuple[str, ...]) -> dict:
     }
 
 
+def _contact_cleared(metrics: pd.DataFrame, driven_us: float) -> float:
+    """The first step from `driven_us` with no collision flagged: `driven_us`
+    itself unless a contact is under way at the hand-off; inf if that
+    contact never ends."""
+    flags = metrics[
+        metrics["name"].isin(("collision_front", "collision_lateral", "collision_rear"))
+    ]
+    touching = flags.groupby("timestamps_us")["values"].max() > 0
+    before = touching[touching.index < driven_us]
+    if not len(before) or not before.iloc[-1]:
+        return driven_us
+    after = touching[(touching.index >= driven_us) & ~touching]
+    return float(after.index.min()) if len(after) else float("inf")
+
+
 def _first(metrics: pd.DataFrame, name: str, since_us: float) -> float:
     """When metric `name` first flags at or after `since_us`; inf if never."""
     hits = metrics[
@@ -169,17 +187,18 @@ def outcome(run_dir: Path) -> dict:
     driven = float(relevant.loc[relevant["values"] > 0, "timestamps_us"].min())
     start = float(metrics["timestamps_us"].min())
     peak = metrics.groupby("name")["values"].max()
+    clear = _contact_cleared(metrics, driven)
     side_or_front = min(
-        _first(metrics, "collision_front", driven),
-        _first(metrics, "collision_lateral", driven),
+        _first(metrics, "collision_front", clear),
+        _first(metrics, "collision_lateral", clear),
     )
-    rear = _first(metrics, "collision_rear", driven)
+    rear = _first(metrics, "collision_rear", clear)
     offroad = _first(metrics, "offroad", driven)
     at_fault = side_or_front if side_or_front < rear else float("inf")
     when = min(at_fault, offroad)
     window = metrics[
         (metrics["name"] == "min_distance_to_obstacle_m")
-        & (metrics["timestamps_us"] >= driven)
+        & (metrics["timestamps_us"] >= clear)
         & (metrics["timestamps_us"] < rear)
     ]
     found = {
@@ -187,6 +206,7 @@ def outcome(run_dir: Path) -> dict:
         "collision_at_fault": at_fault < float("inf"),
         "offroad": offroad < float("inf"),
         "rear_ended": rear < float("inf"),
+        "contact_at_handoff": clear > driven,
         "failed_any": bool(any(peak[name] > 0 for name in FAILURE_METRICS)),
         "handoff_s": round((driven - start) / 1e6, 1),
         "min_distance_to_obstacle_m": round(float(window["values"].min()), 2)
