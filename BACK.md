@@ -95,8 +95,9 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
   they all saw the same warm-up; applied to your checkout on 10 Oct
   (`src/runtime/alpasim_runtime/ego_retiming.py` and its test, 14 tests
   pass; originals in `~/alpasim_seam_backup_10oct/`, undo with
-  `git apply -R research/patches/pending-ego-retiming-seam.patch`). Not yet
-  re-checked in a simulation.
+  `git apply -R research/patches/pending-ego-retiming-seam.patch`).
+  Re-checked in a simulation on 12 Oct: the scene that halted at 1.2x now
+  passes the gate at every speed (peak 3.7 m/s^2, was 10.7).
 - Mirror test in a second checkout (`~/alpasim-mirror`, your working copy
   untouched); run on 9 Oct after you said to cut the intersection
   replicates (~10 GPU hours saved).
