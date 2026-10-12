@@ -1,10 +1,95 @@
-# While you were away (8-10 Oct)
+# While you were away (8-13 Oct)
 
 Short version for Will. Every number has its source in `FACTS.md`; the day
 by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
-`METHODS.md`, `GATE.md`, `DRIFT.md`.
+`METHODS.md`, `GATE.md`, `DRIFT.md`, `HZ.md`, `WHERE.md`, `CLOSED.md`.
 
-## What we found
+## 11-13 Oct: the studies again at 2 Hz, and two scoring fixes
+
+1. **At 2 Hz the policy fails less, and no method finds 5 hardest cases.**
+   You said to use the free GPU; I re-ran all three studies with VaVAM
+   planning every 500 ms, its training rhythm (finding 1 below), with the
+   same methods plus `rules_v3` (rules starting at the recording). First
+   replicate, hardest cases confirmed of 5:
+
+   | study | rules | rules_v3 | hybrid | llm | random + confirmation |
+   |---|---|---|---|---|---|
+   | pedestrian x ego speed | 4 | 4 | 4 | 4 | 4 |
+   | cut-in | 2 | 0 | 3 | 3 | 4 |
+   | lead vehicle | 0 | 0 | 1 | 5 (in 46 runs) | 1 |
+
+   llm on lead vehicle is the only arm at 2 Hz that reaches 5: it is the
+   only one that slowed the lead car to half speed and shifted its timing.
+   One of its five is not a fair failure, though: the warm-up left the ego
+   0.5 m behind a lead car closing at 4 m/s, which no braking could stop.
+   Without that case it is 4.
+
+   Run on the same settings at both rates, pedestrian x ego speed fails
+   far less at 2 Hz: of 63 settings, 17 fail at both rates, 17 only at
+   10 Hz, 2 only at 2 Hz (p 0.0007), and the drift at 5 s halves (+1.9 m
+   against +3.9 m). Two scenes that crash every time as recorded at 10 Hz
+   pass at 2 Hz. At 2 Hz there are 6 hard pedestrian scenes; every method
+   found 4 of them, and which 4 depends on the method: the rule methods
+   and hybrid find the ones that fail as recorded; llm only finds the ones
+   that need a faster ego. So at 2 Hz ego speed matters more. `HZ.md`,
+   `WHERE.md`.
+2. **The 10 Hz method table changed** (finding 6, now final): a crash that
+   had already started before the policy took over no longer counts
+   (problem 30). Lead vehicle llm's earlier win (23-30 runs) came from those:
+   a lead car slowed to 0.5x met the ego while the ego was still replaying
+   the human's drive. With the fix, no method reaches 5 on lead vehicle or
+   cut-in. On pedestrian x ego speed every method still does. At 2 Hz the
+   same thing happens one step later (poses every 500 ms), so the hand-off
+   step itself now counts as warm-up. The arms that had stopped early were
+   re-run to their full budget.
+3. **Replayed cars running into the ego are mostly covered by fix 2**
+   (problem 29, `CLOSED.md`). A replayed car cannot react, so it can
+   drive into an ego braking in its own lane. I wrote a check for this
+   from the car positions. It first flagged 49 cut-in crashes, but almost
+   all were crashes already under way at the hand-off, which fix 2 now
+   ignores. On what is left, at 10 Hz none are of this kind, and the
+   method table is unchanged. At 2 Hz there are 6 on cut-in, and they lower
+   random + confirmation from 4 to 3. The failure definition is
+   unchanged; `CLOSED.md` has the tables both ways.
+4. **The warm-up seam fix works in a real run** (problem 24): the scene
+   that halted at 1.2x now passes the gate at all five speeds (peak
+   3.7 m/s^2, was 10.7).
+5. **One new robustness issue** (problem 28): the archive step crashed once
+   at exit after saving its run. Re-running it now recognizes the saved
+   run, and the study continued.
+
+**Queue (12 Oct 19:45 UTC):** replicate 2 of the 2 Hz arms is under way
+(pedestrian: rules 4, hybrid goal at 32, llm goal at 47, random +
+confirmation running), then replicate 3: 2 running, 20 queued, about 8
+more hours. `research/simgate status` or the Queue tab.
+
+**Report files:** the `report.md` of an arm that finished before 12 Oct
+15:37 UTC gives its goal under the old count; `METHODS.md` and FACTS use
+the fix.
+
+## What needs you
+
+- **Which rate the paper uses.** 2 Hz is VaVAM's own rhythm and drifts
+  half as much, so its failures are more fairly the policy's; 10 Hz has
+  three full replicates. My suggestion: 10 Hz for the method comparison,
+  with 2 Hz as the check that the ranking holds (replicates 2 and 3 are
+  queued).
+- **Whether a replayed car running into the ego counts** (problem 29).
+  It is left counted for now; `CLOSED.md` has both tables.
+- **A slowed lead car meets the ego in the warm-up** (problem 30). The
+  scoring now ignores that crash. Keeping the lead car clear until the
+  hand-off would need a change to the retiming in alpasim `src/`, so I
+  left it to you.
+- feasible_best's gains (finding 5 below).
+- `patches/alpasim-src.diff` is from 29 Sep and lacks the retiming and seed
+  hooks; refreshing it would also publish your uncommitted src edits,
+  including the 7 files the formatter touched on 7 Oct (reconstructions in
+  `~/alpasim_format_restore_7oct/`). Your call.
+- A license for the repo before the OSS push.
+
+## 8-10 Oct
+
+### What we found
 
 1. **The policy drifts left.** Once VaVAM takes over, the car moves left of
    where the human drove: median 2.4 m within 5 s; 88% of all 2428 kept
@@ -70,13 +155,12 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
    start at the middle of every knob's range: the recording on pedestrian
    (hard there), two settings they confirm on cut-in, and a faster lead car
    on lead vehicle (easy). On cut-in hybrid stays near the recording, where
-   the hard cases are. A second caveat on cut-in (`CLOSED.md`, problem 29):
-   24 of its counted crashes are a replayed car running into an ego braking
-   in its own lane; without them hybrid and llm tie (3, 4, 3).
+   the hard cases are. Replayed cars running into the ego (`CLOSED.md`,
+   problem 29) do not change this table (point 3 above).
 7. **Replays are exact** (same seed, 0.0 m over 122 steps) and **the ego
    speed knob works** (measured within 0.004 m/s of the request).
 
-## What got built
+### What got built
 
 - `research/simgate`: one command (`serve`, `worker`, `new`, `plan`,
   `queue`, `status`, `front`, `batch`, `export`, `doctor`) and a local web
@@ -92,7 +176,7 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
   environment), `simgate doctor`, problems 20-26 in FACTS for the paper's
   "issues met" table.
 
-## Decisions I made (tell me if you disagree)
+### Decisions I made (tell me if you disagree)
 
 - New failure definition (above); old reading kept as `failed_any`.
 - Kept `rules` and `hybrid` unchanged mid-experiment; fixes go in new arms.
@@ -106,18 +190,3 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
 - Mirror test in a second checkout (`~/alpasim-mirror`, your working copy
   untouched); run on 9 Oct after you said to cut the intersection
   replicates (~10 GPU hours saved).
-
-## What needs you
-
-- feasible_best's gains (finding 5).
-- `patches/alpasim-src.diff` is from 29 Sep and lacks the retiming and seed
-  hooks; refreshing it would also publish your uncommitted src edits,
-  including the 7 files the formatter touched on 7 Oct (reconstructions in
-  `~/alpasim_format_restore_7oct/`). Your call.
-- A license for the repo before the OSS push.
-
-## Queue
-
-Empty since 10 Oct 20:29 UTC; the GPU is free. Next studies should plan at
-2 Hz (`control_timestep_us: 500000`, finding 1). `research/simgate status`
-or the Queue tab.
