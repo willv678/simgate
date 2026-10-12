@@ -799,5 +799,34 @@
     ]
    }
   }
+ },
+ "pedestrian_ego_speed_2hz": {
+  "k": 5,
+  "budget": 50,
+  "proposers": {
+   "rules": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     50
+    ],
+    "median_runs_to_goal": 50,
+    "confirmed": [
+     4
+    ],
+    "hardest": [
+     0.949
+    ],
+    "failures": [
+     12
+    ],
+    "kept": [
+     50
+    ],
+    "model_seconds": [
+     0.0
+    ]
+   }
+  }
  }
 }

@@ -618,6 +618,27 @@ and from random's draws. Confirmation by repeats is still needed (the
 goal's 90% ranges count runs), but a "failure rate" here is close to 0 or
 1 per setting; with CATK traffic it was not (B2: 46 of 150 identical runs).
 
+### Planning at 2 Hz, the three studies again (12 Oct, `HZ.md`)
+
+Each of the three studies repeated with the policy planning every 500 ms
+(`studies/<name>_2hz`, same plan with `fixed.control_timestep_us: 500000`;
+lead vehicle without the planner delay, which 2 Hz cannot vary, problem
+in `knobs.plan_problems`). Same methods, plus `rules_v3` (first probe at
+the recording, problem 27). In progress; numbers as of the arm named.
+
+- pedestrian x ego speed, rules (12 Oct 03:05): 4 of 5 confirmed in 50
+  runs (10 Hz: goal at 25 in all three replicates). All four at the
+  recording (1.0x, 0 s): 048b974e, 07981e6a, 0d4893f5, 1bbe02fc, every
+  repeat failed, none involving the pedestrian. No off-recording setting
+  it tried failed (it tried slower: 0.6x, 0.8x, and 1.2x once).
+- At the recording, scene by scene, all arms pooled: two scenes that fail
+  every time at 10 Hz pass at 2 Hz: 0caa8f1a 17 of 18 failed at 10 Hz,
+  0 of 9 at 2 Hz; 18d28973 22 of 22 against 0 of 2. The other four hard
+  scenes fail at both; none fails only at 2 Hz. So at 2 Hz only 4 of 10
+  scenes fail as recorded, and a fifth hard case needs a changed setting:
+  the goal is harder to reach, as finding 1 (our loop doubles the drift)
+  predicts.
+
 ## Controller A/B, 8 Oct (feasible_best against linear)
 
 Hybrid proposer, pedestrian scenes, pairs with shared seeds. Round 1: 5 pairs,

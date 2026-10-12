@@ -19,26 +19,12 @@ it queued, retries included.
 | random_confirm | 3 | 120 | 3.83 | 0% | 97% | 25.7 | 48% | 7 of 7 |
 | rules | 3 | 92 | 0.16 | 89% | 5% | 4.7 | 59% | 6 of 7 |
 
-## lead_vehicle
+## pedestrian_ego_speed_2hz
 
-171 settings tried by any method; 23 hard, on 6 of 8 scenes (0 of them hard as recorded). Hard settings by distance from the recording: 2 steps: 5, 3 steps: 1, 4 steps: 6, 5 steps: 5, 6 steps: 1, 8 steps: 1, 9 steps: 1, 11 steps: 1, 13 steps: 2.
-
-| method | arms | runs | mean distance | at the recording | 2+ steps away | settings per arm | runs on hard settings | hard scenes touched |
-|---|---|---|---|---|---|---|---|---|
-| hybrid | 3 | 152 | 5.24 | 0% | 100% | 13.3 | 14% | 3 of 6 |
-| llm | 4 | 115 | 3.5 | 0% | 100% | 7.0 | 63% | 6 of 6 |
-| random_confirm | 3 | 154 | 7.77 | 0% | 99% | 31.0 | 26% | 6 of 6 |
-| rules | 3 | 152 | 5.07 | 0% | 100% | 4.0 | 0% | 0 of 6 |
-| rules_corners | 1 | 51 | 5.0 | 0% | 100% | 8.0 | 0% | 0 of 6 |
-| rules_v2 | 1 | 49 | 5.51 | 0% | 100% | 23.0 | 0% | 0 of 6 |
-
-## cut_in_merge
-
-159 settings tried by any method; 18 hard, on 6 of 9 scenes (0 of them hard as recorded). Hard settings by distance from the recording: 1 steps: 5, 2 steps: 2, 3 steps: 4, 4 steps: 4, 5 steps: 1, 6 steps: 2.
+33 settings tried by any method; 4 hard, on 4 of 10 scenes (4 of them hard as recorded). Hard settings by distance from the recording: 0 steps: 4.
 
 | method | arms | runs | mean distance | at the recording | 2+ steps away | settings per arm | runs on hard settings | hard scenes touched |
 |---|---|---|---|---|---|---|---|---|
-| hybrid | 4 | 156 | 1.86 | 0% | 53% | 6.8 | 45% | 5 of 6 |
-| llm | 4 | 191 | 3.03 | 0% | 77% | 15.2 | 31% | 6 of 6 |
-| random_confirm | 3 | 168 | 3.61 | 3% | 89% | 32.0 | 16% | 5 of 6 |
-| rules | 4 | 196 | 1.32 | 0% | 19% | 6.0 | 13% | 3 of 6 |
+| hybrid | 1 | 10 | 0.0 | 100% | 0% | 10.0 | 40% | 4 of 4 |
+| rules | 1 | 50 | 0.72 | 56% | 22% | 29.0 | 24% | 4 of 4 |
+| rules_v3 | 1 | 50 | 1.08 | 52% | 24% | 29.0 | 24% | 4 of 4 |
