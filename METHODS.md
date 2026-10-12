@@ -16,6 +16,7 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | cut_in_merge_2hz | rules | 1 | 53 | 0 | 54 | 54 | 2 of 5 | 0.889 | 7 | 0.0 |
 | cut_in_merge_2hz | rules_v3 | 1 | 54 | 0 | 54 | 54 | 0 of 5 | 0.862 | 3 | 0.0 |
 | cut_in_merge_2hz | hybrid | 1 | 54 | 0 | 54 | 54 | 3 of 5 | 0.938 | 10 | 87.6 |
+| cut_in_merge_2hz | llm | 1 | 54 | 0 | 54 | 54 | 3 of 5 | 0.984 | 13 | 101.6 |
 | intersection | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.435 | 0 | 0.0 |
 | intersection | hybrid | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.541 | 6 | 91.4 |
 | intersection | llm | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.462 | 0 | 116.2 |

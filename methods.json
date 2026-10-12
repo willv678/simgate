@@ -205,6 +205,29 @@
     "model_seconds": [
      87.6
     ]
+   },
+   "llm": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     54
+    ],
+    "median_runs_to_goal": 54,
+    "confirmed": [
+     3
+    ],
+    "hardest": [
+     0.984
+    ],
+    "failures": [
+     13
+    ],
+    "kept": [
+     54
+    ],
+    "model_seconds": [
+     101.6
+    ]
    }
   }
  },

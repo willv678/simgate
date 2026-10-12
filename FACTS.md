@@ -757,6 +757,19 @@ the recording, problem 27). In progress; numbers as of the arm named.
   09a95ffa: a car came up from behind-left into the ego's front-left corner
   while the ego held its path (triage: not the policy's or unclear,
   problem 29).
+- cut-in, hybrid (12 Oct 09:34): its report says 4 of 5, but scored under
+  the old count; under problem 30's fix 3 of 5 in 54 runs. Of its four, two
+  (cars at 1.5x and 2x) were a replayed car driving through the ego from
+  behind at the hand-off, one a car overtaking and cutting across; only
+  023b7fcc (1.25x, 0 s) was clearly the policy's (drifted left into a car
+  alongside).
+- cut-in, llm (12 Oct 10:33): 3 of 5 in 54 runs under the fix (its report,
+  written under the old count, says 4 and itself flags the fourth,
+  096988dd, as a car running into the ego before the hand-off). The three:
+  023b7fcc 1.25x/0 s, 0e899dd3 1.5x/-1.5 s, 09a95ffa 1.5x/-1 s, each the
+  ego drifting left out of its lane into a car beside or ahead.
+- Study reports (report.md) of arms finished before 12 Oct 09:37 state
+  their goal under the old count; `METHODS.md` and these notes use the fix.
 - lead vehicle, rules_v3 (12 Oct 06:10): 0 of 5 in 49 runs, 2 failures,
   both side or front contact with a car in the next lane after the ego
   drifted out of its lane, not a rear-end of the lead. One setting slowed
