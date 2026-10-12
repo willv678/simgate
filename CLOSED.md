@@ -9,8 +9,11 @@ it and still in its own lane? Compared with each run's triage cause
 | study | collisions | actor closed (lane 3.3 / 3.6 / 3.9 m) | rule and triage: actor | rule only | triage only | neither |
 |---|---|---|---|---|---|---|
 | cut_in_merge | 181 | 29 / 29 / 52 | 24 | 5 | 12 | 140 |
-| lead_vehicle | 86 | 0 / 0 / 0 | 0 | 0 | 4 | 82 |
+| lead_vehicle | 85 | 0 / 0 / 0 | 0 | 0 | 4 | 81 |
 | pedestrian_ego_speed | 199 | 0 / 0 / 0 | 0 | 0 | 0 | 199 |
+| cut_in_merge_2hz | 51 | 15 / 16 / 25 | 16 | 0 | 7 | 28 |
+| lead_vehicle_2hz | 29 | 0 / 0 / 1 | 0 | 0 | 1 | 28 |
+| pedestrian_ego_speed_2hz | 75 | 0 / 0 / 0 | 0 | 0 | 1 | 74 |
 
 Runs to the goal (or confirmed of 5), as counted and with actor-closed
 contacts not counted:
@@ -29,3 +32,15 @@ contacts not counted:
 | pedestrian_ego_speed | without, lane 3.3 m | 25, 25, 25 | - | 24, 28, 24 | 28, 40, 37 | 31, 32, 32 |
 | pedestrian_ego_speed | without, lane 3.6 m | 25, 25, 25 | - | 24, 28, 24 | 28, 40, 37 | 31, 32, 32 |
 | pedestrian_ego_speed | without, lane 3.9 m | 25, 25, 25 | - | 24, 28, 24 | 28, 40, 37 | 31, 32, 32 |
+| cut_in_merge_2hz | as counted | 2 of 5 | 0 of 5 | 3 of 5 | 3 of 5 | 4 of 5 |
+| cut_in_merge_2hz | without, lane 3.3 m | 2 of 5 | 0 of 5 | 2 of 5 | 3 of 5 | 2 of 5 |
+| cut_in_merge_2hz | without, lane 3.6 m | 2 of 5 | 0 of 5 | 2 of 5 | 3 of 5 | 2 of 5 |
+| cut_in_merge_2hz | without, lane 3.9 m | 1 of 5 | 0 of 5 | 1 of 5 | 3 of 5 | 2 of 5 |
+| lead_vehicle_2hz | as counted | 0 of 5 | 0 of 5 | 1 of 5 | - | 1 of 5 |
+| lead_vehicle_2hz | without, lane 3.3 m | 0 of 5 | 0 of 5 | 1 of 5 | - | 1 of 5 |
+| lead_vehicle_2hz | without, lane 3.6 m | 0 of 5 | 0 of 5 | 1 of 5 | - | 1 of 5 |
+| lead_vehicle_2hz | without, lane 3.9 m | 0 of 5 | 0 of 5 | 1 of 5 | - | 1 of 5 |
+| pedestrian_ego_speed_2hz | as counted | 4 of 5 | 4 of 5 | 4 of 5 | 4 of 5 | 4 of 5 |
+| pedestrian_ego_speed_2hz | without, lane 3.3 m | 4 of 5 | 4 of 5 | 4 of 5 | 4 of 5 | 4 of 5 |
+| pedestrian_ego_speed_2hz | without, lane 3.6 m | 4 of 5 | 4 of 5 | 4 of 5 | 4 of 5 | 4 of 5 |
+| pedestrian_ego_speed_2hz | without, lane 3.9 m | 4 of 5 | 4 of 5 | 4 of 5 | 4 of 5 | 4 of 5 |

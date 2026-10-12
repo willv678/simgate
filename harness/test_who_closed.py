@@ -29,5 +29,11 @@ def test_an_ego_over_the_lane_line_is_in_the_passing_cars_lane():
     assert actor_closed(_contact(-6.1, 11.7, 0.85), lane_m=3.9)
 
 
+def test_an_ego_stopped_in_the_next_lane_is_out_of_its_own():
+    # pedestrian_ego_speed_2hz_015: the ego 7.9 m off its path, away from
+    # the car that came into it.
+    assert not actor_closed(_contact(-0.1, 6.9, -7.9))
+
+
 def test_a_parked_or_slower_actor_never_closed_the_gap():
     assert not actor_closed(_contact(-0.5, 0.3, 0.0))

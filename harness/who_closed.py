@@ -12,9 +12,10 @@ path toward the actor's side (drift_analysis.signed_offset).
 
 The actor closed the gap when the ego was not moving toward it
 (EGO_STILL_MPS), the actor was, and the ego was still inside its lane: its
-offset toward the actor less than the room a car of its width has to the
-lane line in a lane LANE_WIDTH_M wide (nuPlan's rule: an ego in two lanes is
-at fault in a side contact). Comparing the two closing speeds instead would
+offset from the recorded path, to either side, less than the room a car of
+its width has to the lane line in a lane LANE_WIDTH_M wide (nuPlan's rule:
+an ego in two lanes is at fault in a side contact; an ego stopped in the
+next lane over is out of its own, whichever side the actor came from). Comparing the two closing speeds instead would
 blame the faster car in a head-on (the ego drifting into an oncoming lane at
 10 m/s, met at 17 m/s); and an ego that drifted over seconds onto the lane
 line (the policy's lean, DRIFT.md) and was passed by a faster car is in
@@ -124,7 +125,7 @@ def actor_closed(c: dict, lane_m: float = LANE_WIDTH_M) -> bool:
     return (
         c["ego_closing_mps"] <= EGO_STILL_MPS
         and c["actor_closing_mps"] > EGO_STILL_MPS
-        and c["toward_actor_m"] < (lane_m - c["ego_width_m"]) / 2
+        and abs(c["toward_actor_m"]) < (lane_m - c["ego_width_m"]) / 2
     )
 
 
