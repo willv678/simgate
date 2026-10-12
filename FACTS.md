@@ -618,6 +618,40 @@ and from random's draws. Confirmation by repeats is still needed (the
 goal's 90% ranges count runs), but a "failure rate" here is close to 0 or
 1 per setting; with CATK traffic it was not (B2: 46 of 150 identical runs).
 
+### Contacts carried across the hand-off (12 Oct, problem 30)
+
+The failure definition counted collisions from the policy's first step,
+but a contact that began in the warm-up and was still under way then was
+counted at that first step. lead_vehicle_001 (lead car at 0.5x, +1 s): front
+collision flagged from 3.76 s while the ego replayed the human's path,
+still flagged at the 4.66 s hand-off, counted as the policy's. Slowing the
+lead car makes it meet an ego that is still on rails.
+
+- Counted collision failures (old definition) whose contact was under way
+  at the hand-off: lead vehicle 75 of 145, of them 70 of llm's 74 (llm ran
+  100% at 0.5x, WHERE.md); cut-in 61 of 208; pedestrian x ego speed 0 of
+  242; 2 Hz: cut-in 13 of 34, pedestrian 0 of 65.
+- Fixed in `outer.outcome`: collisions count from the first step after a
+  contact carried across the hand-off ends (`contact_at_handoff`); tests in
+  `test_outcome.py`.
+- Method results under the fix, 10 Hz, before the resumed arms finish:
+  pedestrian unchanged (25, 25, 25 / 24, 28, 24 / 28, 40, 37 / 31, 32, 32).
+  Lead vehicle: no method reaches 5. rules 0, 0, 0; hybrid 2, 3, 3; llm
+  2, 1, 1 of 5 (its arms had stopped at the old goal after 28, 35, 28
+  runs); random + confirmation 4, 1, 2. Cut-in: no method reaches 5. rules
+  2, 2, 2; hybrid 4, 4, 4 (two arms stopped at 36 runs); llm 3, 4, 3;
+  random + confirmation 3, 0, 1.
+- The arms that stopped early (lead llm r2-r4, cut-in hybrid r2-r3) were
+  re-queued on 12 Oct 09:37 to finish their rounds under the fixed count
+  (outer.run_study continues after the last round, re-checking the goal);
+  `analyze_methods.py` compares an arm once it has run every round.
+- So the "llm wins lead vehicle" result of 10 Oct came from warm-up
+  contacts its own setting choice (0.5x lead) produced. Its brief-reading
+  prior did point at a real stressor: at 0.5x the lead car is reached in
+  the warm-up, which says the scenario's warm-up is too long for that
+  speed, not that the policy fails. A study of slow leads needs the
+  retiming to keep the lead clear of the ego until the hand-off.
+
 ### Replayed cars that close on the ego (12 Oct, `CLOSED.md`)
 
 The failure definition (problem 25) drops contacts that begin at the ego's
@@ -846,6 +880,7 @@ quietly. Sources: LOG.md, the commits named.
 | 27 | The rule proposer's results mostly reflect where it starts | rules confirmed exactly the settings at the middle of each knob's range: 1.25x and 0 s on cut-in in every replicate, nothing on lead vehicle where the middle (1.25x, 200 ms) is the easy direction (100% of runs at 1.25x, 0 of 6 hard scenes touched) | found by pooling every arm's runs per setting (`where_found.py`, `WHERE.md`); not changed in `rules`, whose replicates are done; a rule design should start at the recording and step in the direction the brief calls harder, or sweep the corners first | search design |
 | 28 | A study stopped after a native crash at interpreter exit | pedestrian x ego speed at 2 Hz, hybrid, 12 Oct: archive.py saved the run's ACCEPT, then aborted at exit (signal 6), the first such crash in about 2,500 runs; the inner loop re-runs monitor and analyze after a signal crash but not archive, and archive refused a run already accepted, so the arm stopped after 7 runs | archive.py returns at once for a run already accepted, and the loop re-runs it after a signal crash (`RERUNNABLE`, tests in `test_loop.py`); the arm re-queued and resumed from its queue, nothing lost | robustness |
 | 29 | The failure count still included replayed cars running into the ego | cut-in: 49 of 208 counted collision failures were a replayed car closing on an ego that was braking in its own lane, first contact at the ego's front corner (so the rear rule of problem 25 kept them); triage saw it too but judged 28 identical contacts two ways (22 against 6) | a geometric rule from the poses (`who_closed.py`: who closed the gap, was the ego in its lane), checked against triage (92% agree on cut-in, 0 such contacts in pedestrian); the method table recomputed without them: cut-in's winner (hybrid, 5 of 5) drops to 3 of 5, no method reaches the goal; pedestrian and lead vehicle unchanged | evaluation design |
+| 30 | Contacts under way at the hand-off counted as the policy's | lead vehicle: 75 of 145 counted collision failures (70 of llm's 74) began in the warm-up, when a lead car slowed to 0.5x met the ego still replaying the human's path, and were still flagged at the policy's first step; cut-in 61 of 208 | collisions now count from the first step after a carried contact ends (`outer.outcome`, `contact_at_handoff`); arms that had stopped at the old goal re-queued to finish; lead vehicle's winner (llm, 23-30 runs) drops to 1-2 of 5, no method reaches the goal on lead vehicle or cut-in; pedestrian unchanged | evaluation design |
 
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 

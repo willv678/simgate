@@ -34,16 +34,20 @@ from study import plan_runs
 STUDIES = ROOT / "research" / "studies"
 
 
-def stopped_early(folder: Path, report: dict) -> bool:
-    """An arm that stopped believing its goal met (its goal.json) where code
-    now finds it unmet: it stopped under the broad failure definition used
-    before 8 Oct 2026 (outer.FAILURE_METRICS) and did not spend its budget,
-    so its runs to goal cannot be compared."""
+def stopped_early(folder: Path, report: dict, rounds: int) -> bool:
+    """An arm that stopped before its last round believing its goal met
+    (its goal.json) where code now finds it unmet: it stopped under an
+    earlier failure definition (the broad one used before 8 Oct 2026, or
+    before contacts carried across the hand-off were dropped on 12 Oct) and
+    did not spend its budget, so its runs to goal cannot be compared. An
+    arm resumed under the current definition (outer.run_study continues
+    after its last round) is compared once it finishes."""
     goal_file = folder / "goal.json"
     if not goal_file.exists():
         return False
     met = json.loads(goal_file.read_text(encoding="utf-8"))["met"]
-    return met and report["runs_to_goal"] is None
+    done = len((folder / "rounds.jsonl").read_text(encoding="utf-8").splitlines())
+    return met and report["runs_to_goal"] is None and done < rounds
 
 
 def finished(folder: Path) -> bool:
@@ -66,7 +70,7 @@ def replicate_rows(study: Path, plan: dict) -> tuple[dict[str, list[dict]], list
         report = proposer_report(
             folder, goal, tuple(plan["vary"]), plan["fixed"].get("compare")
         )
-        if stopped_early(folder, report):
+        if stopped_early(folder, report, plan["rounds"]):
             left_out.append(arm)
             continue
         found.setdefault(proposer_of(arm), []).append({"arm": arm, **report})
@@ -228,11 +232,12 @@ def main() -> int:
     if out:
         lines += [
             "",
-            "Left out: arms that stopped believing their goal met under the broad",
-            "failure definition used before 8 Oct 2026 (any front, side or off-road",
-            "flag, warm-up and rear-ended collisions included), which code no longer",
-            "finds met; they did not spend their budget, so their runs to goal",
-            "cannot be compared.",
+            "Left out: arms that stopped before their last round believing their",
+            "goal met under an earlier failure definition (before 8 Oct 2026 any",
+            "front, side or off-road flag counted; before 12 Oct a contact under",
+            "way at the hand-off counted), which code no longer finds met; they did",
+            "not spend their budget, so their runs to goal cannot be compared.",
+            "Re-queued, such an arm continues from its last round.",
             "",
             *out,
         ]
