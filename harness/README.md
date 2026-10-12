@@ -125,8 +125,14 @@ flowchart LR
   runs, so their comparison stays independent.
 - **Outer loop** (`outer.py`): each round a proposer picks runs: `llm`
   (Claude, free), `hybrid` (Claude, only among rule candidates), `rules`
-  (`guided.py`, no model), or the baselines `grid`, `bisect`, `random`, `lhs`,
-  `optuna`, `ga` (`baselines.py`). All share the same knob check, gate and goal.
+  (`guided.py`, no model; variants `rules_corners`, `rules_v2`, and
+  `rules_v3`, which starts at the recorded setting), `random_confirm` (random
+  search with the rules' confirmation), or the baselines `grid`, `bisect`,
+  `random`, `lhs`, `optuna`, `ga` (`baselines.py`). All share the same knob
+  check, gate and goal.
+- **Planning rate**: a plan's `fixed` may set `control_timestep_us` to 500000
+  (the policy plans at 2 Hz, VaVAM's own rhythm) instead of 100000 (10 Hz);
+  the gate checks it landed. Planner delay cannot be varied at 2 Hz.
 - **Goal** (`goals.py`): checked by code after every round; the study stops
   when it is met. `separate` (two settings' failure rates differ), `bracket`
   (where each scene starts to fail, to a set resolution), `top_k` (the k most

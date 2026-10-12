@@ -59,8 +59,10 @@ flowchart LR
   scatter), a recorded actor's timing and speed (the runtime's retiming log),
   and the ego's speed at hand-off (measured speed against the request).
 - **Search methods** on the same plan, budget and gate: `llm` (Claude, free),
-  `hybrid` (Claude choosing among rule candidates), `rules`, and baselines
-  `random_confirm`, `random`, `grid`, `bisect`, `lhs`, `optuna`, `ga`.
+  `hybrid` (Claude choosing among rule candidates), `rules` (and variants up
+  to `rules_v3`), and baselines `random_confirm`, `random`, `grid`, `bisect`,
+  `lhs`, `optuna`, `ga`. `WHERE.md` shows where each looked and why it won or
+  lost.
 - **Goals** checked by code after every round: `top_k` (the k hardest
   settings, confirmed by repeats), `bracket` (where failure starts, to a
   resolution), `separate`, `compare` (A/B of two controllers).
