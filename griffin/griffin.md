@@ -22,11 +22,20 @@ Stretch, if there is time: a Review tab in the web app (section 5).
 - **Do not touch** `research/studies/`, `research/jobs/`,
   `research/harness/*_queue/`, the traces in `research/harness/*.jsonl`, or
   anything in `src/` (AlpaSim itself). Read them as much as you like.
-- **Work on a branch:** `git -C ~/alpasim/research checkout -b griffin/oct12`.
-  Push the branch; do not push to `main`. Will merges.
+- **Work in `~/alpasim/research-griffin`**, a separate copy (git worktree)
+  on branch `griffin/oct12`. Never switch branches in `~/alpasim/research`:
+  that is the live code the GPU queue runs. Push your branch; do not push to
+  `main`. Will merges.
+- Scripts in your copy still read the live study data (`read_state.ROOT` is
+  `~/alpasim`, so `ROOT / "research" / "studies"` is the main checkout's).
+  Write your outputs next to your script instead:
+  `Path(__file__).resolve().parents[1] / "griffin"`, which is
+  `~/alpasim/research-griffin/griffin`. Run from `~/alpasim`, e.g.
+  `uv run python research-griffin/harness/label_sheet.py make` and
+  `uv run pytest research-griffin/harness`.
 - **Python through `uv run`** from `~/alpasim` (e.g.
   `uv run python research/harness/who_closed.py`), never an activated venv.
-- **Tests stay green:** `uv run pytest research/harness` (about 25 s).
+- **Tests stay green:** `uv run pytest research-griffin/harness` (about 25 s).
 - Every number you write down says where it came from (a file or a command).
 
 Read first (30 min): `research/README.md`, then the top of
@@ -164,9 +173,9 @@ respect to studies and the queue.
 
 ## Starter prompts for Claude Code
 
-Start every session with: *"Read research/griffin/griffin.md and follow its
-ground rules. Do not launch simulations, do not edit research/studies,
-research/jobs, the queue folders, or src/."* Then, for example:
+Start Claude Code in `~/alpasim` and begin every session with: *"Read research-griffin/griffin/griffin.md and follow its
+ground rules. Work only in research-griffin/. Do not launch simulations, do not
+edit anything in research/ or src/."* Then, for example:
 
 - Task 2: *"Write research/harness/label_sheet.py as described in task 2.
   Start with `make`. Reuse who_closed.classify and physics._read; show me
