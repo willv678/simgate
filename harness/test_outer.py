@@ -4,7 +4,7 @@ import dataclasses
 import random
 
 import pytest
-from knobs import SCENARIO, rejection, run_config
+from knobs import SCENARIO, fixed_problems, rejection, run_config
 from outer import random_proposals
 
 SCENES = {"clipgt-a", "clipgt-b"}
@@ -112,3 +112,12 @@ def test_random_proposals_are_legal(varied):
     assert all(rejection(run, SCENES, varied) is None for run in answer["runs"])
     for knob in varied:
         assert {run[knob] for run in answer["runs"]} <= set(SCENARIO[knob])
+
+
+def test_a_study_can_plan_at_2_hz_but_then_not_vary_the_delay():
+    fixed = {"traffic": "replay", "control_timestep_us": 500_000}
+    assert fixed_problems(fixed, ("ego_speed_scale",)) == []
+    config = run_config("clipgt-a", {"ego_speed_scale": 1.2}, fixed, "linear")
+    assert config["control_timestep_us"] == 500_000
+    assert fixed_problems(fixed, DELAY) != []
+    assert fixed_problems({"control_timestep_us": 250_000}, ()) != []

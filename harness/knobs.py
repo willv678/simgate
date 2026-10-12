@@ -60,6 +60,11 @@ ACTOR_KNOBS = ("actor_time_shift_s", "actor_speed_scale")
 # the actor knobs retime (AlpaSim label classes: person = pedestrian, rider =
 # cyclist).
 TRAFFIC_MODES = ("catk", "replay")
+# How often the policy plans (AlpaSim's control_timestep_us): every 100 ms,
+# or every 500 ms, VaVAM's own rhythm, at which its left drift halves (m2).
+# The plan-age check resolves delays to 100 ms, so a 500 ms step cannot vary
+# the planner delay.
+CONTROL_STEPS_US = (100_000, 500_000)
 RETIME_CLASSES = ("person", "rider", "automobile", "heavy_truck")
 DESCRIPTIONS = {
     "planner_delay_us": "planner delay in microseconds (camera frame to the "
@@ -140,10 +145,17 @@ def fixed_problems(fixed: dict, varied: tuple) -> list[str]:
     """Why a study's fixed settings cannot run with the knobs it varies. Actor
     knobs retime recorded tracks; with CATK only the history before the
     hand-over would follow them, so they need replayed traffic. `compare`
-    names the two controllers of an A/B study, a and b."""
+    names the two controllers of an A/B study, a and b; `control_timestep_us`
+    how often the policy plans (CONTROL_STEPS_US)."""
     problems = []
-    if set(fixed) - {"traffic", "retime_class", "retime_tracks", "compare"}:
-        problems.append("fixed settings: traffic, retime_class, retime_tracks, compare")
+    allowed = {"traffic", "retime_class", "retime_tracks", "compare", "control_timestep_us"}
+    if set(fixed) - allowed:
+        problems.append(f"fixed settings: {', '.join(sorted(allowed))}")
+    step = fixed.get("control_timestep_us", CONTROL_STEPS_US[0])
+    if step not in CONTROL_STEPS_US:
+        problems.append(f"control_timestep_us must be one of {CONTROL_STEPS_US}")
+    elif step != CONTROL_STEPS_US[0] and "planner_delay_us" in varied:
+        problems.append("planner delay can be varied only at a 100000 us control step")
     if "compare" in fixed:
         compare = fixed["compare"]
         if set(compare) != set(SIDES) or set(compare.values()) - set(CONTROLLERS):
