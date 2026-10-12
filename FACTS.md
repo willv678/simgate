@@ -735,12 +735,28 @@ lane; nuPlan's rule, an ego in two lanes is at fault in a side contact).
   room to the line. No 10 Hz count changed; at 2 Hz lead vehicle went from
   5 to 0 (an ego 0.7-1.1 m over the far line, hit by car 28), pedestrian
   from 2 to 0, cut-in from 17 to 16.
-- At 2 Hz: cut-in 16 of 51 collision failures actor-closed (31%, against
-  16% at 10 Hz: the policy drifts less, so a larger share of what is left
-  is replayed cars), and triage says actor_hit_ego for all 16; lead vehicle
-  0 of 29, pedestrian 0 of 75. Without them, 2 Hz cut-in, first
-  replicate: rules 2, rules_v3 0, hybrid 2, llm 3, random + confirmation 2
-  (counted 2, 0, 3, 3, 4). Lead vehicle and pedestrian unchanged.
+- At 2 Hz (before the fix below): cut-in 16 of 51 collision failures
+  actor-closed, lead vehicle 0 of 29, pedestrian 0 of 75.
+- The rule read the wrong contact (12 Oct 18:10): `contact()` took the
+  first front or side flag from the hand-off, so when a contact was under
+  way at the hand-off it classified that one, not the later contact
+  `outer.outcome` counts (problem 30). It now starts where outcome does.
+  Every actor-closed contact on 10 Hz cut-in was such a carried one: of
+  the 35 cut-in failures with a contact at the hand-off, the counted
+  contact comes 2-7 s later, mostly the ego 1.5 m over the line into the
+  lane of a car coming up at 13 m/s (car 29), or closing on car 9 ahead.
+  After the fix: cut-in 0 of 185 actor-closed at a 3.3 or 3.6 m lane (23
+  at 3.9 m), lead vehicle 0 of 85, pedestrian 0 of 199; at 2 Hz cut-in 6
+  of 55 (15 at 3.9 m; triage agrees on all 6), lead vehicle 0 of 40,
+  pedestrian 0 of 81. Triage was written about the first contact, so it
+  still says actor_hit_ego for 37 cut-in runs.
+- So at 10 Hz, problem 29 is covered by problem 30's fix: the method table
+  is the same with and without actor-closed contacts at 3.3 and 3.6 m
+  (cut-in hybrid 4, goal at 48, 4; llm 3, 4, 3). At 3.9 m: rules 1, hybrid
+  3, 4, 3, llm 3, 4, 3, random + confirmation 2, 0, 0. At 2 Hz cut-in only
+  random + confirmation changes, 4 to 3 (rules 2, rules_v3 0, hybrid 3, llm
+  3). The bullets above that give 29 of 181, 16 of 51 and the tie on cut-in
+  were computed with the wrong contact.
 - 2 Hz cut-in rules_v3: 2 of its 3 counted failures were triaged
   actor_hit_ego (19f339ba, 1c45ce3a; the ego braked hard on an open road).
 
@@ -836,6 +852,21 @@ the recording, problem 27). In progress; numbers as of the arm named.
   runs, the same four recorded settings as replicate 1 (048b974e, 07981e6a,
   0d4893f5, 1bbe02fc at 1.0x, 0 s); no off-recording setting failed. As at
   10 Hz, rules repeat themselves across replicates.
+- lead vehicle, llm, resumed to its full budget (12 Oct 17:35): goal met
+  at 46 runs, the only 2 Hz arm to reach 5 in any study. All five slow the
+  lead car to 0.5x, each 3 of 3 failed: 12855a41 0 s, 19f339ba -1 s,
+  09a95ffa -1.5 s, 096988dd +1.5 s, 023b7fcc -1.5 s. What the ego met:
+  12855a41 and 023b7fcc a lead car 0.3-0.9 m ahead at the hand-off, closing
+  at 1.3-1.6 m/s (avoidable with 1.5-2.7 m/s^2); 09a95ffa a lead car 0.54 m
+  ahead closing at 4.2 m/s, which needs 16 m/s^2 at the hand-off: set up
+  by the warm-up, not avoidable (above 8 m/s^2, "Contacts carried across the hand-off");
+  19f339ba hard braking on an open road and car 28 from behind into the
+  front-right corner, the ego 1 m off its path (triage: the policy's);
+  096988dd a contact carried across the hand-off, then 3 s later the ego
+  drifting left into car 41 beside it (a new contact, the policy's).
+  Without the unavoidable one: 4 of 5. The other methods never slowed the
+  lead car this far with these shifts (rules and rules_v3 stay at the
+  grid middle).
 - Study reports (report.md) of arms finished before 12 Oct 09:37 state
   their goal under the old count; `METHODS.md` and these notes use the fix.
 - lead vehicle, rules_v3 (12 Oct 06:10): 0 of 5 in 49 runs, 2 failures,
@@ -965,7 +996,7 @@ quietly. Sources: LOG.md, the commits named.
 | 26 | The rule proposer spent its budget confirming near misses that never fail | lead vehicle: rules 0 failures in 49 runs; rules + corners repeated "confirm S#: near failure" every round after the first (38 runs, 0 failures), while random + confirmation confirmed 5 cases at knob extremes | a rate of 0 is never surely above high_min, and nothing stopped confirmation once a rate was surely below it; rules_v2 stops confirming a setting whose 90% range tops out below high_min (3 straight passes) and then tries the scene's corners; rules and hybrid keep the old rule so their replicates stay comparable | search design |
 | 27 | The rule proposer's results mostly reflect where it starts | rules confirmed exactly the settings at the middle of each knob's range: 1.25x and 0 s on cut-in in every replicate, nothing on lead vehicle where the middle (1.25x, 200 ms) is the easy direction (100% of runs at 1.25x, 0 of 6 hard scenes touched) | found by pooling every arm's runs per setting (`where_found.py`, `WHERE.md`); not changed in `rules`, whose replicates are done; a rule design should start at the recording and step in the direction the brief calls harder, or sweep the corners first | search design |
 | 28 | A study stopped after a native crash at interpreter exit | pedestrian x ego speed at 2 Hz, hybrid, 12 Oct: archive.py saved the run's ACCEPT, then aborted at exit (signal 6), the first such crash in about 2,500 runs; the inner loop re-runs monitor and analyze after a signal crash but not archive, and archive refused a run already accepted, so the arm stopped after 7 runs | archive.py returns at once for a run already accepted, and the loop re-runs it after a signal crash (`RERUNNABLE`, tests in `test_loop.py`); the arm re-queued and resumed from its queue, nothing lost | robustness |
-| 29 | The failure count still included replayed cars running into the ego | cut-in: a replayed car closing on an ego that was braking in its own lane, first contact at the ego's front corner (so the rear rule of problem 25 kept it); 49 of 208 counted collision failures before problem 30's fix, 29 of 181 after; at 2 Hz 16 of 51; triage saw it too but judged 28 identical contacts two ways (22 against 6) | a geometric rule from the poses (`who_closed.py`: who closed the gap, was the ego in its lane, two-sided), checked against triage (91% agree on cut-in, 0 such contacts in pedestrian or lead vehicle at 10 Hz); the method table recomputed without them: on cut-in hybrid (4, 5, 4) drops to 3, 4, 3 and ties llm; at 2 Hz random + confirmation's 4 drops to 2 and llm (3) leads; pedestrian and lead vehicle unchanged; `outcome` not changed (reported both ways) | evaluation design |
+| 29 | The failure count still included replayed cars running into the ego | cut-in: a replayed car closing on an ego that was braking in its own lane, first contact at the ego's front corner (so the rear rule of problem 25 kept it): 49 of 208 counted collision failures; triage saw it too but judged 28 identical contacts two ways (22 against 6) | a geometric rule from the poses (`who_closed.py`: who closed the gap, was the ego in its lane, two-sided), checked against triage; most such contacts were under way at the hand-off, and once problem 30's fix skips those (and the rule reads the contact outcome counts) none are left at 10 Hz in a 3.3-3.6 m lane, so the 10 Hz method table stands; at 2 Hz cut-in 6 of 55, random + confirmation 4 to 3; `outcome` not changed | evaluation design |
 | 30 | Contacts under way at the hand-off counted as the policy's | lead vehicle: 75 of 145 counted collision failures (70 of llm's 74) began in the warm-up, when a lead car slowed to 0.5x met the ego still replaying the human's path, and were still flagged at the policy's first step; cut-in 61 of 208 | collisions now count from the first step after a contact under way at the hand-off step ends (`outer.outcome`, `contact_at_handoff`; the hand-off step counts as the warm-up's, which matters at 2 Hz); arms that had stopped at the old goal re-queued to finish; lead vehicle's winner (llm, 23-30 runs) drops to 3, 1, 3 of 5, no method reaches the goal on lead vehicle or cut-in; pedestrian unchanged | evaluation design |
 
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)

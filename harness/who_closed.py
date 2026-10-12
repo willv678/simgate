@@ -74,15 +74,17 @@ def _at(track: dict, t: float) -> tuple:
 def contact(run_dir: Path) -> dict | None:
     """The first at-fault contact's actor, closing speeds and the ego's
     offset toward the actor; None when the run has no at-fault collision or
-    went off-road first."""
+    went off-road first. As in outer.outcome, a contact under way at the
+    hand-off is skipped: the first at-fault contact is the one after it."""
     metrics = pd.read_parquet(completed_rollout(run_dir) / "metrics.parquet")
     relevant = metrics[metrics["name"] == "eval_relevant"]
     driven = float(relevant.loc[relevant["values"] > 0, "timestamps_us"].min())
+    clear = outer._contact_cleared(metrics, driven)
     hit = min(
-        outer._first(metrics, "collision_front", driven),
-        outer._first(metrics, "collision_lateral", driven),
+        outer._first(metrics, "collision_front", clear),
+        outer._first(metrics, "collision_lateral", clear),
     )
-    rear = outer._first(metrics, "collision_rear", driven)
+    rear = outer._first(metrics, "collision_rear", clear)
     offroad = outer._first(metrics, "offroad", driven)
     if not hit < rear or not hit <= offroad:
         return None
