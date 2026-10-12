@@ -654,6 +654,12 @@ lead car makes it meet an ego that is still on rails.
   49 runs, 12 Oct 12:46): rules 0, 0, 0; hybrid 2, 3, 3; llm 3, 1, 3;
   random + confirmation 4, 1, 2 of 5. No method reaches 5; every method
   but rules confirms 1-4, and none is ahead across replicates.
+- Cut-in, final under the fix (hybrid r2-r3 resumed and finished, 12 Oct
+  13:40): rules 2, 2, 2; hybrid 4, goal at 48, 4; llm 3, 4, 3; random +
+  confirmation 3, 0, 1 of 5. hybrid is still ahead on cut-in, by about one
+  case. Without the actor-closed contacts of problem 29 (lane 3.6 m,
+  `CLOSED.md`): hybrid 3, 4, 3 and llm 3, 4, 3, a tie; rules 2, 2, 2;
+  random + confirmation 2, 0, 1.
 - So the "llm wins lead vehicle" result of 10 Oct came from warm-up
   contacts its own setting choice (0.5x lead) produced. Its brief-reading
   prior did point at a real stressor: at 0.5x the lead car is reached in

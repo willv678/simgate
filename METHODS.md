@@ -10,7 +10,7 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | study | method | replicates | kept runs (each) | reached goal | runs to goal (each) | median | confirmed (each) | hardest (each) | failures (each) | model s (each) |
 |---|---|---|---|---|---|---|---|---|---|---|
 | cut_in_merge | rules | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 2, 2 of 5 | 0.925, 0.943, 0.936 | 8, 10, 10 | 0.0, 0.0, 0.0 |
-| cut_in_merge | hybrid | 1 | 54 | 0 | 54 | 54 | 4 of 5 | 0.979 | 23 | 86.7 |
+| cut_in_merge | hybrid | 3 | 54, 54, 54 | 1 | 54, 48, 54 | 54 | 4, 5, 4 of 5 | 0.981, 1.0, 0.979 | 18, 20, 23 | 81.0, 96.1, 86.7 |
 | cut_in_merge | llm | 3 | 54, 53, 54 | 0 | 54, 54, 54 | 54 | 3, 4, 3 of 5 | 0.962, 0.979, 0.977 | 15, 18, 24 | 101.3, 108.2, 86.6 |
 | cut_in_merge | random_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 0, 1 of 5 | 0.959, 0.954, 0.907 | 16, 10, 4 | 0.0, 0.0, 0.0 |
 | cut_in_merge_2hz | rules | 1 | 53 | 0 | 54 | 54 | 2 of 5 | 0.889 | 7 | 0.0 |
@@ -55,5 +55,5 @@ way at the hand-off counted), which code no longer finds met; they did
 not spend their budget, so their runs to goal cannot be compared.
 Re-queued, such an arm continues from its last round.
 
-- cut_in_merge: rules, hybrid, hybrid_r3, llm
+- cut_in_merge: rules, hybrid, llm
 - lead_vehicle: llm
