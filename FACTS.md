@@ -576,6 +576,11 @@ time; llm reaches it once in three.
 
 ### Why each method wins where it does (11 Oct, `WHERE.md`)
 
+Read with problem 30 (12 Oct): the lead-vehicle numbers below counted
+contacts carried across the hand-off; under the fix most of llm's hard
+lead-vehicle settings at 0.5x are no longer failures. `WHERE.md` is
+regenerated hourly under the current definition.
+
 All kept runs of a study pooled per setting (replay makes outcomes nearly
 seed-free); hard = pooled failure rate surely above 0.5; distance = grid
 steps from the recorded setting (`harness/where_found.py`).

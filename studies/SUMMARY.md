@@ -24,9 +24,10 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 | cut_in_merge | random_confirm | 54/54 | 18 | not reached | 3 | 0.952 | 0.0 |
 | cut_in_merge | random_confirm_r2 | 54/54 | 18 | not reached | 3 | 0.949 | 0.0 |
 | cut_in_merge | random_confirm_r3 | 54/54 | 9 | not reached | 2 | 0.951 | 0.0 |
-| cut_in_merge_2hz | rules | 41/54 | 6 | not reached | 2 | 0.887 | 0.0 |
+| cut_in_merge_2hz | rules | 53/54 | 7 | not reached | 2 | 0.889 | 0.0 |
 | cut_in_merge_2hz | rules_v3 | 54/54 | 3 | not reached | 0 | 0.862 | 0.0 |
-| cut_in_merge_2hz | hybrid | 17/54 | 6 | not reached | 2 | 0.859 | 21.1 |
+| cut_in_merge_2hz | hybrid | 50/54 | 14 | not reached | 4 | 0.97 | 87.6 |
+| cut_in_merge_2hz | llm | 19/54 | 9 | not reached | 3 | 0.938 | 48.5 |
 | ego_speed_smoke | grid | 5/5 | 1 | not reached | 0 | 0.2 | 0.0 |
 | intersection | rules | 49/49 | 0 | not reached | 0 | 0.435 | 0.0 |
 | intersection | hybrid | 49/49 | 6 | not reached | 1 | 0.541 | 91.4 |
@@ -108,7 +109,8 @@ In merge and cut-in scenes, which timings and speeds of the other cars make the 
 
 - **rules**: 023b7fcc at actor_time_shift_s 0.0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25
 - **rules_v3**: nothing confirmed
-- **hybrid**: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25
+- **hybrid**: 054b5901 at actor_time_shift_s 0, actor_speed_scale 1.5; 096988dd at actor_time_shift_s 0, actor_speed_scale 2; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25
+- **llm**: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5; 0e899dd3 at actor_time_shift_s -1.5, actor_speed_scale 1.5
 
 ## ego_speed_smoke
 

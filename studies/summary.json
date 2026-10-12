@@ -288,13 +288,13 @@
   "budget": 54,
   "arms": {
    "rules": {
-    "launched": 43,
-    "kept": 41,
-    "failures": 6,
-    "scenes_with_a_failure": 2,
+    "launched": 56,
+    "kept": 53,
+    "failures": 7,
+    "scenes_with_a_failure": 3,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.887,
+    "hardest": 0.889,
     "model_seconds": 0.0,
     "model_tokens": 0,
     "found": [
@@ -315,18 +315,36 @@
     "found": []
    },
    "hybrid": {
-    "launched": 18,
-    "kept": 17,
-    "failures": 6,
-    "scenes_with_a_failure": 2,
+    "launched": 51,
+    "kept": 50,
+    "failures": 14,
+    "scenes_with_a_failure": 4,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.859,
-    "model_seconds": 21.1,
-    "model_tokens": 21952,
+    "hardest": 0.97,
+    "model_seconds": 87.6,
+    "model_tokens": 107299,
     "found": [
+     "054b5901 at actor_time_shift_s 0, actor_speed_scale 1.5",
+     "096988dd at actor_time_shift_s 0, actor_speed_scale 2",
      "023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25",
      "09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25"
+    ]
+   },
+   "llm": {
+    "launched": 20,
+    "kept": 19,
+    "failures": 9,
+    "scenes_with_a_failure": 3,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.938,
+    "model_seconds": 48.5,
+    "model_tokens": 33040,
+    "found": [
+     "023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25",
+     "09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5",
+     "0e899dd3 at actor_time_shift_s -1.5, actor_speed_scale 1.5"
     ]
    }
   }
