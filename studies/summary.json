@@ -287,14 +287,26 @@
   },
   "budget": 54,
   "arms": {
+   "rules": {
+    "launched": 10,
+    "kept": 9,
+    "failures": 2,
+    "scenes_with_a_failure": 2,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.83,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": []
+   },
    "rules_v3": {
-    "launched": 52,
-    "kept": 49,
+    "launched": 56,
+    "kept": 54,
     "failures": 3,
     "scenes_with_a_failure": 2,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.865,
+    "hardest": 0.862,
     "model_seconds": 0.0,
     "model_tokens": 0,
     "found": []
@@ -695,13 +707,13 @@
   "budget": 49,
   "arms": {
    "rules_v3": {
-    "launched": 23,
-    "kept": 19,
-    "failures": 0,
-    "scenes_with_a_failure": 0,
+    "launched": 53,
+    "kept": 49,
+    "failures": 2,
+    "scenes_with_a_failure": 2,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.773,
+    "hardest": 0.835,
     "model_seconds": 0.0,
     "model_tokens": 0,
     "found": []
@@ -1083,6 +1095,39 @@
      "1bbe02fc at ego_speed_scale 1, actor_time_shift_s 0",
      "0d4893f5 at ego_speed_scale 1, actor_time_shift_s 0",
      "07981e6a at ego_speed_scale 1, actor_time_shift_s 0"
+    ]
+   },
+   "llm": {
+    "launched": 51,
+    "kept": 49,
+    "failures": 24,
+    "scenes_with_a_failure": 5,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.986,
+    "model_seconds": 95.7,
+    "model_tokens": 80256,
+    "found": [
+     "0e002edd at ego_speed_scale 1.4, actor_time_shift_s 0",
+     "18f8dbd6 at ego_speed_scale 1.4, actor_time_shift_s 0",
+     "1bbe02fc at ego_speed_scale 1.2, actor_time_shift_s -0.5",
+     "0d4893f5 at ego_speed_scale 1.2, actor_time_shift_s -0.5"
+    ]
+   },
+   "random_confirm": {
+    "launched": 37,
+    "kept": 34,
+    "failures": 15,
+    "scenes_with_a_failure": 5,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.983,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": [
+     "048b974e at ego_speed_scale 0.6, actor_time_shift_s -1.5",
+     "0d4893f5 at ego_speed_scale 1.2, actor_time_shift_s 1.0",
+     "07981e6a at ego_speed_scale 1.2, actor_time_shift_s 2.0"
     ]
    }
   }

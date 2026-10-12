@@ -24,7 +24,8 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 | cut_in_merge | random_confirm | 54/54 | 18 | not reached | 3 | 0.952 | 0.0 |
 | cut_in_merge | random_confirm_r2 | 54/54 | 18 | not reached | 3 | 0.949 | 0.0 |
 | cut_in_merge | random_confirm_r3 | 54/54 | 9 | not reached | 2 | 0.951 | 0.0 |
-| cut_in_merge_2hz | rules_v3 | 49/54 | 3 | not reached | 0 | 0.865 | 0.0 |
+| cut_in_merge_2hz | rules | 9/54 | 2 | not reached | 0 | 0.83 | 0.0 |
+| cut_in_merge_2hz | rules_v3 | 54/54 | 3 | not reached | 0 | 0.862 | 0.0 |
 | ego_speed_smoke | grid | 5/5 | 1 | not reached | 0 | 0.2 | 0.0 |
 | intersection | rules | 49/49 | 0 | not reached | 0 | 0.435 | 0.0 |
 | intersection | hybrid | 49/49 | 6 | not reached | 1 | 0.541 | 91.4 |
@@ -48,7 +49,7 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 | lead_vehicle | random_confirm | 49/49 | 17 | 43 | 5 | 1.0 | 0.0 |
 | lead_vehicle | random_confirm_r2 | 49/49 | 17 | not reached | 4 | 0.978 | 0.0 |
 | lead_vehicle | random_confirm_r3 | 49/49 | 11 | not reached | 3 | 0.953 | 0.0 |
-| lead_vehicle_2hz | rules_v3 | 19/49 | 0 | not reached | 0 | 0.773 | 0.0 |
+| lead_vehicle_2hz | rules_v3 | 49/49 | 2 | not reached | 0 | 0.835 | 0.0 |
 | pedestrian_crossing | rules | 49/49 | 0 | not reached | 0 | 0.643 | 0.0 |
 | pedestrian_crossing | hybrid | 49/49 | 0 | not reached | 0 | 0.636 | 90.1 |
 | pedestrian_crossing | llm | 49/49 | 5 | not reached | 1 | 0.691 | 112.3 |
@@ -70,6 +71,8 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 | pedestrian_ego_speed_2hz | rules | 50/50 | 12 | not reached | 4 | 0.949 | 0.0 |
 | pedestrian_ego_speed_2hz | rules_v3 | 50/50 | 14 | not reached | 4 | 1.0 | 0.0 |
 | pedestrian_ego_speed_2hz | hybrid | 50/50 | 14 | not reached | 4 | 0.952 | 88.8 |
+| pedestrian_ego_speed_2hz | llm | 49/50 | 24 | not reached | 4 | 0.986 | 95.7 |
+| pedestrian_ego_speed_2hz | random_confirm | 34/50 | 15 | not reached | 3 | 0.983 | 0.0 |
 | seam_check | grid | 5/5 | 5 | not reached | 0 | 0.2 | 0.0 |
 
 ## controller_tuning_pedestrian
@@ -102,6 +105,7 @@ In merge and cut-in scenes, which timings and speeds of the other cars make the 
 
 In merge and cut-in scenes, which timings and speeds of the other cars make the VaVAM policy collide or leave the road? Find the 5 most challenging settings, each on a different scene and confirmed by repeats.
 
+- **rules**: nothing confirmed
 - **rules_v3**: nothing confirmed
 
 ## ego_speed_smoke
@@ -188,6 +192,8 @@ In pedestrian-crossing scenes, which combinations of ego speed at hand-off (0.6x
 - **rules**: 048b974e at ego_speed_scale 1.0, actor_time_shift_s 0.0; 0d4893f5 at ego_speed_scale 1.0, actor_time_shift_s 0.0; 07981e6a at ego_speed_scale 1.0, actor_time_shift_s 0.0; 1bbe02fc at ego_speed_scale 1.0, actor_time_shift_s 0.0
 - **rules_v3**: 048b974e at ego_speed_scale 1.0, actor_time_shift_s 0.0; 0d4893f5 at ego_speed_scale 1.0, actor_time_shift_s 0.0; 07981e6a at ego_speed_scale 1.0, actor_time_shift_s 0.0; 1bbe02fc at ego_speed_scale 1.0, actor_time_shift_s 0.0
 - **hybrid**: 048b974e at ego_speed_scale 1, actor_time_shift_s 0; 1bbe02fc at ego_speed_scale 1, actor_time_shift_s 0; 0d4893f5 at ego_speed_scale 1, actor_time_shift_s 0; 07981e6a at ego_speed_scale 1, actor_time_shift_s 0
+- **llm**: 0e002edd at ego_speed_scale 1.4, actor_time_shift_s 0; 18f8dbd6 at ego_speed_scale 1.4, actor_time_shift_s 0; 1bbe02fc at ego_speed_scale 1.2, actor_time_shift_s -0.5; 0d4893f5 at ego_speed_scale 1.2, actor_time_shift_s -0.5
+- **random_confirm**: 048b974e at ego_speed_scale 0.6, actor_time_shift_s -1.5; 0d4893f5 at ego_speed_scale 1.2, actor_time_shift_s 1.0; 07981e6a at ego_speed_scale 1.2, actor_time_shift_s 2.0
 
 ## seam_check
 

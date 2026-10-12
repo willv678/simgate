@@ -705,8 +705,8 @@ the recording, problem 27). In progress; numbers as of the arm named.
   (sign test p = 0.0007). Drift at +5 s: +1.91 m at 2 Hz (73% of runs more
   than 0.5 m left) against +3.94 m (83%) at 10 Hz; at +3 s +1.09 m against
   +2.20 m. Same settings, same scenes: planning at VaVAM's own rate removes
-  about half the drift and most of the failures it caused, as the mirror
-  study's m2 runs showed on 20 configs (problem: our 10 Hz loop).
+  about half the drift and most of the failures it caused, as the m2 runs
+  showed on 20 configs ("The policy drifts left", planning rhythm).
 - cut-in, rules_v3 (12 Oct 05:21): 0 of 5 in 54 runs, 3 failures, at the
   recording on 19f339ba (2 of 6) and 0.5 s earlier on 1c45ce3a (1 of 3);
   2 of the 3 triaged actor_hit_ego (the ego braked hard on an open road and
