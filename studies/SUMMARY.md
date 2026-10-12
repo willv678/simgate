@@ -24,6 +24,7 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 | cut_in_merge | random_confirm | 54/54 | 18 | not reached | 3 | 0.952 | 0.0 |
 | cut_in_merge | random_confirm_r2 | 54/54 | 18 | not reached | 3 | 0.949 | 0.0 |
 | cut_in_merge | random_confirm_r3 | 54/54 | 9 | not reached | 2 | 0.951 | 0.0 |
+| cut_in_merge_2hz | rules_v3 | 17/54 | 1 | not reached | 0 | 0.827 | 0.0 |
 | ego_speed_smoke | grid | 5/5 | 1 | not reached | 0 | 0.2 | 0.0 |
 | intersection | rules | 49/49 | 0 | not reached | 0 | 0.435 | 0.0 |
 | intersection | hybrid | 49/49 | 6 | not reached | 1 | 0.541 | 91.4 |
@@ -65,6 +66,10 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 | pedestrian_ego_speed | random_confirm | 39/50 | 28 | 31 | 5 | 1.0 | 0.0 |
 | pedestrian_ego_speed | random_confirm_r2 | 39/50 | 29 | 32 | 5 | 1.0 | 0.0 |
 | pedestrian_ego_speed | random_confirm_r3 | 40/50 | 31 | 32 | 5 | 1.0 | 0.0 |
+| pedestrian_ego_speed_2hz | rules | 50/50 | 12 | not reached | 4 | 0.949 | 0.0 |
+| pedestrian_ego_speed_2hz | rules_v3 | 50/50 | 14 | not reached | 4 | 1.0 | 0.0 |
+| pedestrian_ego_speed_2hz | hybrid | 39/50 | 14 | not reached | 4 | 0.969 | 64.6 |
+| seam_check | grid | 5/5 | 5 | not reached | 0 | 0.2 | 0.0 |
 
 ## controller_tuning_pedestrian
 
@@ -91,6 +96,12 @@ In merge and cut-in scenes, which timings and speeds of the other cars make the 
 - **random_confirm**: 096988dd at actor_time_shift_s 2.0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25; 023b7fcc at actor_time_shift_s -2.0, actor_speed_scale 1.5
 - **random_confirm_r2**: 09a95ffa at actor_time_shift_s -1.5, actor_speed_scale 1.25; 023b7fcc at actor_time_shift_s 0.5, actor_speed_scale 2.0; 054b5901 at actor_time_shift_s -1.0, actor_speed_scale 1.25
 - **random_confirm_r3**: 09a95ffa at actor_time_shift_s -1.5, actor_speed_scale 1.0; 0e899dd3 at actor_time_shift_s 0.0, actor_speed_scale 0.5
+
+## cut_in_merge_2hz
+
+In merge and cut-in scenes, which timings and speeds of the other cars make the VaVAM policy collide or leave the road? Find the 5 most challenging settings, each on a different scene and confirmed by repeats.
+
+- **rules_v3**: nothing confirmed
 
 ## ego_speed_smoke
 
@@ -162,3 +173,17 @@ In pedestrian-crossing scenes, which combinations of ego speed at hand-off (0.6x
 - **random_confirm**: 048b974e at ego_speed_scale 0.6, actor_time_shift_s -1.5; 0caa8f1a at ego_speed_scale 1.0, actor_time_shift_s 1.5; 0d4893f5 at ego_speed_scale 1.2, actor_time_shift_s 1.0; 18d28973 at ego_speed_scale 0.8, actor_time_shift_s 0.0; 07981e6a at ego_speed_scale 1.4, actor_time_shift_s -0.5
 - **random_confirm_r2**: 0d4893f5 at ego_speed_scale 0.8, actor_time_shift_s 2.0; 0e002edd at ego_speed_scale 1.4, actor_time_shift_s -1.5; 07981e6a at ego_speed_scale 0.6, actor_time_shift_s 1.5; 18d28973 at ego_speed_scale 1.2, actor_time_shift_s -1.0; 0caa8f1a at ego_speed_scale 0.6, actor_time_shift_s 1.0
 - **random_confirm_r3**: 0caa8f1a at ego_speed_scale 0.8, actor_time_shift_s -1.0; 0d4893f5 at ego_speed_scale 0.6, actor_time_shift_s 1.5; 18d28973 at ego_speed_scale 1.4, actor_time_shift_s 0.5; 048b974e at ego_speed_scale 0.8, actor_time_shift_s -1.0; 07981e6a at ego_speed_scale 1.4, actor_time_shift_s 1.0
+
+## pedestrian_ego_speed_2hz
+
+In pedestrian-crossing scenes, which combinations of ego speed at hand-off (0.6x–1.4x recorded) and pedestrian step-out time (±2 s) make the VaVAM policy with the linear MPC collide or leave the road? Find the 5 most challenging cases, each on a different scene, confirmed by repeats.
+
+- **rules**: 048b974e at ego_speed_scale 1.0, actor_time_shift_s 0.0; 0d4893f5 at ego_speed_scale 1.0, actor_time_shift_s 0.0; 07981e6a at ego_speed_scale 1.0, actor_time_shift_s 0.0; 1bbe02fc at ego_speed_scale 1.0, actor_time_shift_s 0.0
+- **rules_v3**: 048b974e at ego_speed_scale 1.0, actor_time_shift_s 0.0; 0d4893f5 at ego_speed_scale 1.0, actor_time_shift_s 0.0; 07981e6a at ego_speed_scale 1.0, actor_time_shift_s 0.0; 1bbe02fc at ego_speed_scale 1.0, actor_time_shift_s 0.0
+- **hybrid**: 048b974e at ego_speed_scale 1, actor_time_shift_s 0; 1bbe02fc at ego_speed_scale 1, actor_time_shift_s 0; 0d4893f5 at ego_speed_scale 1, actor_time_shift_s 0; 07981e6a at ego_speed_scale 1, actor_time_shift_s 0
+
+## seam_check
+
+With the warm-up seam fix applied, does every ego speed on 07981e6a pass the physics gate?
+
+- **grid**: nothing confirmed

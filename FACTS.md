@@ -637,6 +637,11 @@ the recording, problem 27). In progress; numbers as of the arm named.
   car); not repeated, so not confirmed. Both rule variants spend their
   budget re-confirming the recording and probing slower speeds; of the 32
   hard settings off the recording at 10 Hz, 20 are at 1.2x-1.4x.
+- pedestrian x ego speed, hybrid (12 Oct 04:30, resumed after problem
+  28's abort): 4 of 5 in 50 runs, the same four scenes at the recording.
+  Its off-recording probes (0caa8f1a, 0e002edd, 18f8dbd6) all passed.
+  Three methods, one answer so far: at 2 Hz only the four recorded
+  failures are found, none involving the pedestrian.
 - At the recording, scene by scene, all arms pooled: two scenes that fail
   every time at 10 Hz pass at 2 Hz: 0caa8f1a 17 of 18 failed at 10 Hz,
   0 of 9 at 2 Hz; 18d28973 22 of 22 against 0 of 2. The other four hard
@@ -758,6 +763,7 @@ quietly. Sources: LOG.md, the commits named.
 | 25 | A quarter of the "failures" were not the policy's | the gallery of confirmed hardest cases showed collisions at t = 0 s, collisions while the ego still replayed its recording, and replayed cars rear-ending a slower ego and then overlapping its front (counted "front"): 49 of 200 counted failures (cut-in 32 of 51, lead vehicle 17 of 37; pedestrian x ego speed 0 of 84) | a failure is now off-road, or a front or side collision that begins before any rear contact, counted from the policy's first step (AlpaSim's own eval_relevant warm-up filter; nuPlan's rear-collision rule); the closest approach uses the same window; `failed_any` keeps the broad reading; arms that stopped under it are left out of the method comparison and replaced by a fourth replicate | evaluation design |
 | 26 | The rule proposer spent its budget confirming near misses that never fail | lead vehicle: rules 0 failures in 49 runs; rules + corners repeated "confirm S#: near failure" every round after the first (38 runs, 0 failures), while random + confirmation confirmed 5 cases at knob extremes | a rate of 0 is never surely above high_min, and nothing stopped confirmation once a rate was surely below it; rules_v2 stops confirming a setting whose 90% range tops out below high_min (3 straight passes) and then tries the scene's corners; rules and hybrid keep the old rule so their replicates stay comparable | search design |
 | 27 | The rule proposer's results mostly reflect where it starts | rules confirmed exactly the settings at the middle of each knob's range: 1.25x and 0 s on cut-in in every replicate, nothing on lead vehicle where the middle (1.25x, 200 ms) is the easy direction (100% of runs at 1.25x, 0 of 6 hard scenes touched) | found by pooling every arm's runs per setting (`where_found.py`, `WHERE.md`); not changed in `rules`, whose replicates are done; a rule design should start at the recording and step in the direction the brief calls harder, or sweep the corners first | search design |
+| 28 | A study stopped after a native crash at interpreter exit | pedestrian x ego speed at 2 Hz, hybrid, 12 Oct: archive.py saved the run's ACCEPT, then aborted at exit (signal 6), the first such crash in about 2,500 runs; the inner loop re-runs monitor and analyze after a signal crash but not archive, and archive refused a run already accepted, so the arm stopped after 7 runs | archive.py returns at once for a run already accepted, and the loop re-runs it after a signal crash (`RERUNNABLE`, tests in `test_loop.py`); the arm re-queued and resumed from its queue, nothing lost | infrastructure |
 
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 
