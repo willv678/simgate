@@ -7,24 +7,14 @@ the seed). Hard: pooled failure rate surely above the goal's high_min
 varied knobs. A method's numbers pool all its arms and count every run
 it queued, retries included.
 
-## pedestrian_ego_speed
-
-139 settings tried by any method; 38 hard, on 7 of 10 scenes (6 of them hard as recorded). Hard settings by distance from the recording: 0 steps: 6, 1 steps: 5, 2 steps: 5, 3 steps: 11, 4 steps: 5, 5 steps: 6.
-
-| method | arms | runs | mean distance | at the recording | 2+ steps away | settings per arm | runs on hard settings | hard scenes touched |
-|---|---|---|---|---|---|---|---|---|
-| hybrid | 3 | 94 | 0.31 | 74% | 5% | 6.7 | 57% | 6 of 7 |
-| llm | 3 | 124 | 2.39 | 2% | 77% | 12.7 | 53% | 6 of 7 |
-| random | 1 | 53 | 3.7 | 2% | 92% | 49.0 | 21% | 6 of 7 |
-| random_confirm | 3 | 120 | 3.83 | 0% | 97% | 25.7 | 48% | 7 of 7 |
-| rules | 3 | 92 | 0.16 | 89% | 5% | 4.7 | 59% | 6 of 7 |
-
 ## pedestrian_ego_speed_2hz
 
-33 settings tried by any method; 4 hard, on 4 of 10 scenes (4 of them hard as recorded). Hard settings by distance from the recording: 0 steps: 4.
+82 settings tried by any method; 10 hard, on 6 of 10 scenes (4 of them hard as recorded). Hard settings by distance from the recording: 0 steps: 4, 2 steps: 4, 5 steps: 2.
 
 | method | arms | runs | mean distance | at the recording | 2+ steps away | settings per arm | runs on hard settings | hard scenes touched |
 |---|---|---|---|---|---|---|---|---|
-| hybrid | 1 | 10 | 0.0 | 100% | 0% | 10.0 | 40% | 4 of 4 |
-| rules | 1 | 50 | 0.72 | 56% | 22% | 29.0 | 24% | 4 of 4 |
-| rules_v3 | 1 | 50 | 1.08 | 52% | 24% | 29.0 | 24% | 4 of 4 |
+| hybrid | 1 | 51 | 1.25 | 39% | 49% | 28.0 | 27% | 4 of 6 |
+| llm | 1 | 51 | 2.8 | 0% | 100% | 26.0 | 33% | 4 of 6 |
+| random_confirm | 1 | 30 | 3.83 | 0% | 93% | 20.0 | 20% | 2 of 6 |
+| rules | 1 | 50 | 0.72 | 56% | 22% | 29.0 | 24% | 4 of 6 |
+| rules_v3 | 1 | 50 | 1.08 | 52% | 24% | 29.0 | 26% | 5 of 6 |

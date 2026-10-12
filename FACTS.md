@@ -686,6 +686,16 @@ the recording, problem 27). In progress; numbers as of the arm named.
   Its off-recording probes (0caa8f1a, 0e002edd, 18f8dbd6) all passed.
   Three methods, one answer so far: at 2 Hz only the four recorded
   failures are found, none involving the pedestrian.
+- pedestrian x ego speed, llm (12 Oct 07:00): 4 of 5 in 49 runs, a
+  different four: 0d4893f5 1.2x/-0.5 s, 0e002edd 1.4x/0 s, 18f8dbd6
+  1.4x/0 s, 1bbe02fc 1.2x/-0.5 s; every failure at 1.2x or 1.4x, none
+  with the pedestrian. It never ran the recorded setting (0% of runs).
+- Pooled at 2 Hz after these four arms (WHERE.md): 10 hard settings on 6
+  of 10 scenes: 4 scenes hard as recorded, 2 (0e002edd, 18f8dbd6) hard only
+  at 1.4x. So 5 distinct hard scenes exist, and each method stopped at 4:
+  the rule methods and hybrid confirm the recorded failures and never the
+  1.4x ones, llm the faster settings and never the recorded ones. At 2 Hz
+  ego speed is needed to reach 5; at 10 Hz the recording alone gave 6.
 - cut-in, rules_v3 (12 Oct 05:21): 0 of 5 in 54 runs, 3 failures, at the
   recording on 19f339ba (2 of 6) and 0.5 s earlier on 1c45ce3a (1 of 3);
   2 of the 3 triaged actor_hit_ego (the ego braked hard on an open road and
