@@ -1076,8 +1076,8 @@
  "llm_r3": {
   "launched": 51,
   "kept": 49,
-  "failures": 6,
-  "scenes_with_a_failure": 3,
+  "failures": 5,
+  "scenes_with_a_failure": 2,
   "dropped": 0,
   "runs_to_goal": null,
   "goal_progress": [
@@ -1131,7 +1131,7 @@
    1,
    1
   ],
-  "hardest": 0.959,
+  "hardest": 0.937,
   "hardest_progress": [
    0.175,
    0.354,
@@ -1179,9 +1179,9 @@
    0.938,
    0.938,
    0.938,
-   0.959,
-   0.959,
-   0.959
+   0.938,
+   0.938,
+   0.937
   ],
   "model_seconds": 108.2,
   "model_tokens": 113044

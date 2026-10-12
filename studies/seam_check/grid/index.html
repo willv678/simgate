@@ -1,0 +1,149 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1"><title>Study grid</title><style>
+:root {
+  color-scheme: light;
+  --surface: #fcfcfb; --raised: #f3f2ef; --ink: #0b0b0b; --ink-2: #52514e;
+  --line: #dcdad4; --pass: #2a78d6; --fail: #eb6834; --fail-ink: #b0400f;
+  --pass-ink: #1d5aa6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --surface: #1a1a19; --raised: #252523; --ink: #ffffff; --ink-2: #c3c2b7;
+    --line: #3a3936; --pass: #3987e5; --fail: #d95926; --fail-ink: #f2986f;
+    --pass-ink: #8db8f0;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --surface: #1a1a19; --raised: #252523; --ink: #ffffff; --ink-2: #c3c2b7;
+  --line: #3a3936; --pass: #3987e5; --fail: #d95926; --fail-ink: #f2986f;
+  --pass-ink: #8db8f0;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--surface); color: var(--ink);
+  font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+  Arial, sans-serif; }
+main { max-width: 960px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 1.6rem; line-height: 1.25; margin: 0.2em 0 0.4em; }
+h2 { font-size: 1.25rem; margin: 2.2em 0 0.6em; padding-top: 0.6em;
+  border-top: 1px solid var(--line); }
+h3 { font-size: 1rem; margin: 1.2em 0 0.3em; }
+p, li { overflow-wrap: anywhere; }
+.eyebrow, .muted, .how { color: var(--ink-2); }
+.eyebrow { font-size: 0.85rem; margin: 0; }
+.pre { white-space: pre-wrap; }
+details { margin: 0.8em 0; }
+summary { cursor: pointer; color: var(--pass-ink); }
+.terms ul { padding-left: 1.2em; }
+.answer { font-size: 1.1rem; }
+.goal { background: var(--raised); padding: 10px 14px; border-radius: 6px; }
+.panel { margin: 1em 0 0.5em; }
+.panel figcaption { font-weight: 600; }
+.panel svg { width: 100%; height: auto; display: block; }
+svg text { font: 13px system-ui, -apple-system, "Segoe UI", sans-serif; }
+svg .tick { fill: var(--ink-2); }
+svg .id { fill: var(--ink-2); font-size: 12px; }
+svg .grid { stroke: var(--line); stroke-width: 1; }
+svg .axis { stroke: var(--ink-2); stroke-width: 1; }
+svg .range { fill: var(--fail); fill-opacity: 0.3; }
+svg .rate { fill: var(--fail); stroke: var(--surface); stroke-width: 2; }
+svg .run.fail { fill: var(--fail); }
+svg .run.pass { fill: var(--pass); }
+svg .hit { fill: transparent; }
+svg .setting:hover .hit { fill: var(--raised); }
+.swatch-range { display: inline-block; width: 8px; height: 1em;
+  vertical-align: -0.15em; border-radius: 3px; background: var(--fail);
+  opacity: 0.35; }
+.key { font-weight: 600; }
+.key.fail { color: var(--fail-ink); }
+.key.pass { color: var(--pass-ink); }
+.findings > li { margin-bottom: 1em; }
+.findings p { margin: 0 0 0.3em; }
+.evidence { font-size: 0.9rem; padding-left: 1.1em; }
+.case { display: grid; grid-template-columns: 240px 1fr; gap: 16px;
+  padding: 14px 0; border-bottom: 1px solid var(--line); }
+.case img { width: 100%; height: auto; border-radius: 4px; }
+.case h3 { margin-top: 0; }
+.case p { margin: 0.3em 0; }
+@media (max-width: 600px) { .case { grid-template-columns: 1fr; } }
+.tag { display: inline-block; font-size: 0.85rem; padding: 1px 8px;
+  border-radius: 10px; border: 1px solid var(--line); background: var(--raised); }
+.tag.fail { border-color: var(--fail); color: var(--fail-ink); }
+.tag.pass { border-color: var(--pass); color: var(--pass-ink); }
+.scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line);
+  vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; }
+td.run { overflow-wrap: anywhere; min-width: 7em; }
+</style></head><body><main>
+<header>
+<p class=eyebrow>SimGate study · grid</p>
+<h1>With the warm-up seam fix applied, does every ego speed on 07981e6a pass the physics gate?</h1>
+<p class=muted>5 simulated drives on 1 scene(s) rebuilt from
+real recordings, varying ego speed.</p>
+<details class=terms><summary>What the words on this page mean</summary><ul>
+<li><b>Run</b>: one simulated drive of a scene by the driving policy under test.</li>
+<li><b>Scene</b>: a few seconds of a real recorded drive, rebuilt so the policy can
+drive it again; named by the first characters of its id.</li>
+<li><b>Test car</b> (the "ego"): the car the policy drives. The other road users
+replay what they did in the recording.</li>
+<li><b>Recorded drive</b>: the path the human driver took in the recording.</li>
+<li><b>Kept</b>: the run passed every automatic check that the simulator ran it
+as asked. Only kept runs count as evidence.</li>
+<li><b>Failed</b>: the test car hit something with its front or side, or left the
+road.</li>
+<li><b>Setting</b>: one scene at one knob value, numbered S1, S2, … so the
+findings can cite it.</li>
+<li><b>90% range</b>: the failure rates that fit what was seen, at 90% confidence.
+Few runs give a wide range.</li>
+</ul></details>
+</header>
+
+<section id=question><h2>1. The question</h2>
+<p>With the warm-up seam fix applied, does every ego speed on 07981e6a pass the physics gate?</p>
+<p><b>What was varied:</b> <b>ego speed</b>: speed of the test car when the driving policy takes over, relative to its recording at that place.</p>
+<details><summary>The researcher's brief, as written</summary>
+<p class=pre># Warm-up seam check
+
+One run per ego_speed_scale value on scene 07981e6a, where the warm-up&#x27;s
+extrapolation before the recording once met the recording at 10.7 m/s^2
+(1.2x, FACTS problem 24) and the physics bound halted both runs. Checks the
+seam fix in a simulation: every run should pass the physics gate (written by
+hand; see plan.json).
+</p></details>
+</section>
+
+<section id=answer><h2>2. The answer</h2>
+<p class=answer>Yes. Every ego speed from 0.6x to 1.4x on 07981e6a passed the physics gate. That includes 1.2x, the setting that halted before. Every run passed every validity check, and no run was dropped, so the warm-up seam fix held in simulation. This rests on one run per speed. It shows the seam stays within the physics bound for this scene, but it doesn&#x27;t measure how often a later run might fail the gate. Apart from the gate, every run crashed. Triage blames the policy in each case, not the simulator: after handoff the ego drifted left into the parked cars even though the route command was RIGHT.</p>
+<p class=goal>No goal that code can check was set, so the study ran its whole budget.</p>
+</section>
+
+<section id=chart><h2>3. Failure rate by setting</h2>
+<p class=how>How to read it: each dot is the share of runs that failed at that
+setting, the <span class=swatch-range></span> bar is its 90% range, and each
+square below the axis is one run (<span class="key fail">orange</span> failed,
+<span class="key pass">blue</span> passed). Hover a setting for its numbers.</p>
+<figure class=panel><figcaption>Scene 07981e6a</figcaption><svg viewBox="0 0 388 221" style="max-width:388px" role=img aria-label="Failure rate by setting on scene 07981e6a"><line class=grid x1=46 x2=376 y1=164.0 y2=164.0 /><text class=tick x=38 y=168.0 text-anchor=end>0%</text><line class=grid x1=46 x2=376 y1=89.0 y2=89.0 /><text class=tick x=38 y=93.0 text-anchor=end>50%</text><line class=grid x1=46 x2=376 y1=14.0 y2=14.0 /><text class=tick x=38 y=18.0 text-anchor=end>100%</text><text class=tick x=79.0 y=182 text-anchor=middle>0.6 x</text><text class=tick x=145.0 y=182 text-anchor=middle>0.8 x</text><text class=tick x=211.0 y=182 text-anchor=middle>1 x</text><text class=tick x=277.0 y=182 text-anchor=middle>1.2 x</text><text class=tick x=343.0 y=182 text-anchor=middle>1.4 x</text><line class=axis x1=46 x2=376 y1=164 y2=164 /><g class=setting><title>S1: ego speed 0.6 x. 1 of 1 run failed; failure rate 27% to 100% (90% range)</title><rect class=hit x=46.0 y=8 width=66 height=207 /><rect class=range x=73.0 y=14.0 width=12 height=109.5 rx=4 /><circle class=rate cx=79.0 cy=14.0 r=6 /><text class=id x=91.0 y=18.0>S1</text><rect class="run fail" x=75.0 y=192.0 width=8 height=8 rx=2 /></g><g class=setting><title>S2: ego speed 0.8 x. 1 of 1 run failed; failure rate 27% to 100% (90% range)</title><rect class=hit x=112.0 y=8 width=66 height=207 /><rect class=range x=139.0 y=14.0 width=12 height=109.5 rx=4 /><circle class=rate cx=145.0 cy=14.0 r=6 /><text class=id x=157.0 y=18.0>S2</text><rect class="run fail" x=141.0 y=192.0 width=8 height=8 rx=2 /></g><g class=setting><title>S3: ego speed 1 x. 1 of 1 run failed; failure rate 27% to 100% (90% range)</title><rect class=hit x=178.0 y=8 width=66 height=207 /><rect class=range x=205.0 y=14.0 width=12 height=109.5 rx=4 /><circle class=rate cx=211.0 cy=14.0 r=6 /><text class=id x=223.0 y=18.0>S3</text><rect class="run fail" x=207.0 y=192.0 width=8 height=8 rx=2 /></g><g class=setting><title>S4: ego speed 1.2 x. 1 of 1 run failed; failure rate 27% to 100% (90% range)</title><rect class=hit x=244.0 y=8 width=66 height=207 /><rect class=range x=271.0 y=14.0 width=12 height=109.5 rx=4 /><circle class=rate cx=277.0 cy=14.0 r=6 /><text class=id x=289.0 y=18.0>S4</text><rect class="run fail" x=273.0 y=192.0 width=8 height=8 rx=2 /></g><g class=setting><title>S5: ego speed 1.4 x. 1 of 1 run failed; failure rate 27% to 100% (90% range)</title><rect class=hit x=310.0 y=8 width=66 height=207 /><rect class=range x=337.0 y=14.0 width=12 height=109.5 rx=4 /><circle class=rate cx=343.0 cy=14.0 r=6 /><text class=id x=355.0 y=18.0>S5</text><rect class="run fail" x=339.0 y=192.0 width=8 height=8 rx=2 /></g></svg></figure>
+<details><summary>The chart as a table</summary><div class=scroll><table><thead><tr><th>Setting</th><th>Scene</th><th>ego speed</th><th>Failed</th><th>Failure rate (90% range)</th><th>Possibly the simulator's</th></tr></thead><tbody><tr><td>S1</td><td>07981e6a</td><td>0.6 x</td><td>1 of 1</td><td>27%–100%</td><td></td></tr><tr><td>S2</td><td>07981e6a</td><td>0.8 x</td><td>1 of 1</td><td>27%–100%</td><td></td></tr><tr><td>S3</td><td>07981e6a</td><td>1 x</td><td>1 of 1</td><td>27%–100%</td><td></td></tr><tr><td>S4</td><td>07981e6a</td><td>1.2 x</td><td>1 of 1</td><td>27%–100%</td><td></td></tr><tr><td>S5</td><td>07981e6a</td><td>1.4 x</td><td>1 of 1</td><td>27%–100%</td><td></td></tr></tbody></table></div></details>
+</section>
+
+<section id=findings><h2>4. Findings</h2>
+<p class=muted>Each finding is the model's reading; the lines under it are the
+counts code computed for the settings it cites.</p>
+<ol class=findings><li><p>The warm-up seam fix held: the run at each speed (0.6x, 0.8x, 1.0x, 1.2x, 1.4x) passed every validity check, including the physics gate, and no run was dropped. That includes 1.2x, where the seam once reached 10.7 m/s^2 and halted both runs.</p><ul class=evidence><li><b>S1</b> · scene 07981e6a, ego speed 0.6 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_001</span></li><li><b>S2</b> · scene 07981e6a, ego speed 0.8 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_002</span></li><li><b>S3</b> · scene 07981e6a, ego speed 1 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_003</span></li><li><b>S4</b> · scene 07981e6a, ego speed 1.2 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_004</span></li><li><b>S5</b> · scene 07981e6a, ego speed 1.4 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_005</span></li></ul></li><li><p>The run at every speed ended in a collision, and none of these failures is flagged as a possible simulator artifact. With one run per speed, this only hints at a failure rate. It does not measure one.</p><ul class=evidence><li><b>S1</b> · scene 07981e6a, ego speed 0.6 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_001</span></li><li><b>S2</b> · scene 07981e6a, ego speed 0.8 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_002</span></li><li><b>S3</b> · scene 07981e6a, ego speed 1 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_003</span></li><li><b>S4</b> · scene 07981e6a, ego speed 1.2 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_004</span></li><li><b>S5</b> · scene 07981e6a, ego speed 1.4 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_005</span></li></ul></li><li><p>The policy caused the crashes, not the simulator or the warm-up. After handoff the ego drifted left into the parking lane along the left curb, even though the route command was RIGHT and the recorded path stayed right. It then hit the parked cars with little or no braking. At 0.6x it stayed at the left edge of its own lane and its planned path bent left into the parked cars. At 0.8x and above it left its lane completely.</p><ul class=evidence><li><b>S1</b> · scene 07981e6a, ego speed 0.6 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_001</span></li><li><b>S2</b> · scene 07981e6a, ego speed 0.8 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_002</span></li><li><b>S3</b> · scene 07981e6a, ego speed 1 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_003</span></li><li><b>S4</b> · scene 07981e6a, ego speed 1.2 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_004</span></li><li><b>S5</b> · scene 07981e6a, ego speed 1.4 x: 1 of 1 run failed; failure rate 27%–100% (90% range) <span class=muted>· seam_check_grid_005</span></li></ul></li></ol>
+<h3>Still open</h3><ul><li>How reliable the fix is: one run per speed shows the gate can pass at each speed, but not how often it does. Repeating several runs at 1.2x and its neighbours (1.0x, 1.4x) would show whether the seam ever comes near the physics bound again.</li><li>Why the policy drifts left on 07981e6a at every speed when told to go RIGHT: more runs per speed, or a different controller on the same scene, would show whether this crash happens every time and whether it comes from this policy alone.</li></ul>
+</section>
+
+<section id=why><h2>5. Why the runs failed</h2>
+<p>For each failed run, Claude looked at the camera frames just before and at the failure, and at the speed and the gap to the car ahead, and named a cause from a fixed list. The picture is the front camera at the failure moment.</p><p><b>Causes:</b> left the road: 4; steered into another road user: 1.</p><article class=case><a href="frames/seam_check_grid_001.png"><img src="frames/seam_check_grid_001.png" loading=lazy width=480 alt="Front camera of run seam_check_grid_001 at 6.6 s, the moment it failed"></a><div><h3>seam_check_grid_001</h3><p class=muted>Scene 07981e6a, ego speed 0.6 x</p><p><span class=tag>Steered into another road user</span> <span class="tag fail">Driving policy at fault</span></p><p>The route went straight and then right, along the right lane. Instead of following it, the ego stayed on the left edge of its lane and its planned path bent left toward the parked cars, with no braking (speed rose from 6.4 to 7.1 m/s). At 6.6 s its front hit the line of parked cars on the left (actors 15/31, gap to the car ahead closing to 2.7 m), while the logged trajectory stayed in the clear lane to the right.</p><p class=muted>Failed at 6.6 s (front or side collision, left the road), 1.2 m from the recorded drive.</p></div></article><article class=case><a href="frames/seam_check_grid_002.png"><img src="frames/seam_check_grid_002.png" loading=lazy width=480 alt="Front camera of run seam_check_grid_002 at 6.8 s, the moment it failed"></a><div><h3>seam_check_grid_002</h3><p class=muted>Scene 07981e6a, ego speed 0.8 x</p><p><span class=tag>Left the road</span> <span class="tag fail">Driving policy at fault</span></p><p>After the 4.6 s handoff, the ego sped up from about 8.6 to 9.4 m/s on a narrow residential street. Its planned path (orange) hugged the left curb instead of following the lane. By 6.8 s the ego had drifted about 1.6 m off the recorded human path into the left parking lane and hit parked car 31 with its front. The route command was RIGHT.</p><p class=muted>Failed at 6.8 s (front or side collision, left the road), 1.6 m from the recorded drive.</p></div></article><article class=case><a href="frames/seam_check_grid_003.png"><img src="frames/seam_check_grid_003.png" loading=lazy width=480 alt="Front camera of run seam_check_grid_003 at 7.5 s, the moment it failed"></a><div><h3>seam_check_grid_003</h3><p class=muted>Scene 07981e6a, ego speed 1 x</p><p><span class=tag>Left the road</span> <span class="tag fail">Driving policy at fault</span></p><p>After handoff, the ego drifted left out of its travel lane into the parking lane along the left curb. The recorded path stayed right and set up the upcoming right turn (command RIGHT). The ego kept going about 10–11 m/s toward the line of parked cars, the gap closing from 37.6 m to 4.1 m with barely any braking, and its front hit the parked car (id 6) at 7.5 s.</p><p class=muted>Failed at 7.5 s (front or side collision, left the road), 1.8 m from the recorded drive.</p></div></article><article class=case><a href="frames/seam_check_grid_004.png"><img src="frames/seam_check_grid_004.png" loading=lazy width=480 alt="Front camera of run seam_check_grid_004 at 7.2 s, the moment it failed"></a><div><h3>seam_check_grid_004</h3><p class=muted>Scene 07981e6a, ego speed 1.2 x</p><p><span class=tag>Left the road</span> <span class="tag fail">Driving policy at fault</span></p><p>After handoff, the ego drifted left out of its travel lane into the parked-car lane at the curb. The route command was RIGHT, and the recorded path stays in the right lane before turning right. The ego kept going about 11–12 m/s along its planned path through the parking lane and hit parked car 6 head-on as the gap closed from 45 m to 4 m with almost no braking.</p><p class=muted>Failed at 7.2 s (front or side collision, left the road), 2.9 m from the recorded drive.</p></div></article><article class=case><a href="frames/seam_check_grid_005.png"><img src="frames/seam_check_grid_005.png" loading=lazy width=480 alt="Front camera of run seam_check_grid_005 at 6.9 s, the moment it failed"></a><div><h3>seam_check_grid_005</h3><p class=muted>Scene 07981e6a, ego speed 1.4 x</p><p><span class=tag>Left the road</span> <span class="tag fail">Driving policy at fault</span></p><p>After handoff the ego (about 13–14 m/s) drifted left out of its travel lane into the parking lane on the left. That path ran straight into the row of parked cars (6, 3, 87), and the ego hit parked car 6 from behind, only slowing from about 14.6 to 12.2 m/s. Meanwhile the route command was RIGHT and the planned path turned right at the intersection ahead.</p><p class=muted>Failed at 6.9 s (front or side collision, left the road), 2.1 m from the recorded drive.</p></div></article>
+</section>
+
+<section id=runs><h2>6. Every run</h2>
+<div class=scroll><table><thead><tr><th>Run</th><th>Scene</th><th>ego speed</th><th>Kept</th><th>Result</th><th>Failed at</th><th>Off the recorded drive at failure</th></tr></thead><tbody><tr><td class=run>seam_check_grid_001</td><td>07981e6a</td><td>0.6 x</td><td>Yes</td><td><span class="tag fail">Failed</span> front or side collision, left the road</td><td>6.6 s</td><td>1.2 m</td></tr><tr><td class=run>seam_check_grid_002</td><td>07981e6a</td><td>0.8 x</td><td>Yes</td><td><span class="tag fail">Failed</span> front or side collision, left the road</td><td>6.8 s</td><td>1.6 m</td></tr><tr><td class=run>seam_check_grid_003</td><td>07981e6a</td><td>1 x</td><td>Yes</td><td><span class="tag fail">Failed</span> front or side collision, left the road</td><td>7.5 s</td><td>1.8 m</td></tr><tr><td class=run>seam_check_grid_004</td><td>07981e6a</td><td>1.2 x</td><td>Yes</td><td><span class="tag fail">Failed</span> front or side collision, left the road</td><td>7.2 s</td><td>2.9 m</td></tr><tr><td class=run>seam_check_grid_005</td><td>07981e6a</td><td>1.4 x</td><td>Yes</td><td><span class="tag fail">Failed</span> front or side collision, left the road</td><td>6.9 s</td><td>2.1 m</td></tr></tbody></table></div>
+</section>
+
+<section id=provenance><h2>7. Where this came from</h2>
+<p>The plan was fixed by a script, not written by a model. The runs were chosen in 1 rounds by grid; code rejected any choice outside the plan before it ran. Failures were explained by claude-opus-5-5. The answer and findings were written by claude-opus-5-5.</p><p><b>Runs:</b> 5 in the study, 5 kept, 0 not kept; 5 of the kept runs failed.</p><p><b>How the numbers were computed:</b> a run counts only if it passed every automatic check of the simulator (it is <i>kept</i>). A run failed if the test car hit something with its front or side, or left the road. For each setting, code counts the kept runs that failed and gives the 90% Wilson range of the failure rate. A failure is flagged as possibly the simulator's when the test car was more than 3.5 m (about a lane) from the recorded drive, or a camera frame was black, because there the rebuilt scene is drawn less reliably. The model wrote the words; every count and range on this page is computed from the run records, not written by the model.</p><details><summary>Why the plan looks the way it does</summary><p class=pre>Written by hand to re-check the warm-up seam fix (problem 24) in a simulation.</p></details>
+</section>
+</main></body></html>

@@ -1,21 +1,21 @@
 {
  "studies": {
-  "attempts": 3200,
-  "kept": 3108,
+  "attempts": 3398,
+  "kept": 3304,
   "resolutions": {
-   "ACCEPT": 3108,
-   "RE-RUN": 80,
+   "ACCEPT": 3304,
+   "RE-RUN": 82,
    "HALT": 11,
    "RESTART_CLEANUP": 1,
-   "pending": 3
+   "pending": 1
   },
   "failed_checks": {
-   "wizard_exit_code": 82,
+   "wizard_exit_code": 84,
    "environment": 18,
    "physics": 9
   },
   "outcomes": {
-   "wizard_exit_code -> RE-RUN": 80,
+   "wizard_exit_code -> RE-RUN": 82,
    "environment -> ACCEPT": 17,
    "physics -> HALT": 9,
    "environment -> HALT": 1,

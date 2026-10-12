@@ -1,0 +1,408 @@
+{
+ "answer": {
+  "answer": "The goal was not met: the study confirmed 2 of the 5 cases it was asked to find. Both are at the same setting, with recorded timing (0 s shift) and cars at 1.25x speed. On 023b7fcc (S1) every run failed because the policy drifted left into a car in the next lane, so the policy was at fault. On 09a95ffa (S5) every run also failed, but each time a car came up from behind-left and cut into the ego's front-left corner while the ego held near its recorded path. Triage judged the policy not at fault or unclear in those S5 runs, so S5 shows a cut-in the policy did not avoid more than an error by the policy. Both cases rest on only a few repeats, so their failure-rate ranges are wide, though they stay above one half. Nearly every setting kept the 1.25x speed and 0 s shift, so the study cannot say which timings or speeds cause the failures. Neither failing scene was run at 1.0x, so it is not even shown that the retiming caused them.",
+  "findings": [
+   {
+    "claim": "On 023b7fcc at 0 s shift and 1.25x speed, every run failed with a front-left collision. The policy steered left off the recorded path (going STRAIGHT) into actor 56 in the adjacent lane, and triage put the policy at fault every time. Planning at 2 Hz did not stop this left drift.",
+    "settings": [
+     "S1"
+    ]
+   },
+   {
+    "claim": "On 09a95ffa at 0 s shift and 1.25x speed, every run failed when actor 33 came from behind-left and cut into the ego's front-left corner. The ego stayed within about 0.9 m of the recorded path and did not react to the cut-in. Triage judged the policy not at fault or unclear in each run, so this confirmed case may say more about the replayed cut-in than about the policy.",
+    "settings": [
+     "S5"
+    ]
+   },
+   {
+    "claim": "On 19f339ba only one setting produced a failure: a 1.0 s earlier shift at 1.25x speed, with one failed run among a few. The ego was drifting left at low speed when a small, fast actor (possibly a motorcycle) appeared at its front-left, and fault is unclear. Nearby settings on this scene (-2.0 s, -1.5 s, -0.5 s and 0 s shifts at 1.25x, and -1.0 s at 1.0x) did not fail, so this is a hint, not a confirmed case.",
+    "settings": [
+     "S15",
+     "S12",
+     "S13",
+     "S14",
+     "S16",
+     "S17"
+    ]
+   },
+   {
+    "claim": "Five scenes look safe at 0 s shift and 1.25x speed: 096988dd, 0cf6368d, 0e899dd3, 12855a41 and 1c45ce3a. None of their repeated runs failed, and their ranges stay below one half. This includes 12855a41 and 096988dd, which came close at baseline. 054b5901 at -0.5 s shift and 1.25x was also repeated without a failure.",
+    "settings": [
+     "S4",
+     "S6",
+     "S7",
+     "S10",
+     "S18",
+     "S2"
+    ]
+   },
+   {
+    "claim": "Single runs on 12855a41 at -0.5 s and +0.5 s shift (1.25x) and at 1.0x speed, and on 054b5901 at 0 s shift (1.25x), passed. One run each cannot rule these settings out.",
+    "settings": [
+     "S8",
+     "S9",
+     "S11",
+     "S3"
+    ]
+   }
+  ],
+  "open": [
+   "Whether retiming causes the two confirmed failures at all: S1 (023b7fcc) and S5 (09a95ffa) were never run at 1.0x speed and 0 s shift. A few repeats there would show whether these scenes fail as recorded under replay traffic.",
+   "Which timings and speeds matter: the search stayed almost entirely at 1.25x speed and 0 s shift. The 0.5x and 2x speeds and shifts of \u00b11 to \u00b12 s were barely tried or not tried at all. A sweep over these on 023b7fcc, 09a95ffa and 19f339ba would answer the question as asked.",
+   "Whether 19f339ba at -1.0 s and 1.25x (S15) is a real case: about four more repeats would confirm or drop it, and a review of the motorcycle actor would settle fault.",
+   "Whether S5 counts as a policy failure: a review of the 09a95ffa videos would show whether a reasonable driver could have braked or yielded before actor 33's cut-in.",
+   "Three more confirmed scenes are still needed to reach five. The scenes that look safe at 1.25x/0 s (096988dd, 0cf6368d, 0e899dd3, 12855a41, 1c45ce3a, 054b5901) were never tried at the extreme speeds or shifts.",
+   "1c45ce3a lost runs to the gate (re-run, then halted). Those runs are not evidence, and the harness issue behind them is unresolved.",
+   "How this compares with the 10 Hz cut_in_merge study is not settled here: a side-by-side of the same scenes and settings is needed, especially 023b7fcc, where left drift still caused failures at 2 Hz."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_2hz_rules_004",
+    "cut_in_merge_2hz_rules_010",
+    "cut_in_merge_2hz_rules_019"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.25,
+   "runs": 5,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.35
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.731,
+   "run_names": [
+    "cut_in_merge_2hz_rules_017",
+    "cut_in_merge_2hz_rules_024",
+    "cut_in_merge_2hz_rules_032",
+    "cut_in_merge_2hz_rules_041",
+    "cut_in_merge_2hz_rules_050"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.464,
+   "run_names": [
+    "cut_in_merge_2hz_rules_008"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.695,
+   "run_names": [
+    "cut_in_merge_2hz_rules_005",
+    "cut_in_merge_2hz_rules_014",
+    "cut_in_merge_2hz_rules_023",
+    "cut_in_merge_2hz_rules_033",
+    "cut_in_merge_2hz_rules_042",
+    "cut_in_merge_2hz_rules_051"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_2hz_rules_007",
+    "cut_in_merge_2hz_rules_011",
+    "cut_in_merge_2hz_rules_020"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.561,
+   "run_names": [
+    "cut_in_merge_2hz_rules_001",
+    "cut_in_merge_2hz_rules_016",
+    "cut_in_merge_2hz_rules_026",
+    "cut_in_merge_2hz_rules_034",
+    "cut_in_merge_2hz_rules_043",
+    "cut_in_merge_2hz_rules_052"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.744,
+   "run_names": [
+    "cut_in_merge_2hz_rules_009",
+    "cut_in_merge_2hz_rules_013",
+    "cut_in_merge_2hz_rules_022",
+    "cut_in_merge_2hz_rules_031",
+    "cut_in_merge_2hz_rules_040",
+    "cut_in_merge_2hz_rules_049"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.788,
+   "run_names": [
+    "cut_in_merge_2hz_rules_035"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.803,
+   "run_names": [
+    "cut_in_merge_2hz_rules_054"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.801,
+   "run_names": [
+    "cut_in_merge_2hz_rules_002",
+    "cut_in_merge_2hz_rules_012",
+    "cut_in_merge_2hz_rules_021",
+    "cut_in_merge_2hz_rules_028",
+    "cut_in_merge_2hz_rules_038",
+    "cut_in_merge_2hz_rules_047"
+   ]
+  },
+  {
+   "id": "S11",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.772,
+   "run_names": [
+    "cut_in_merge_2hz_rules_045"
+   ]
+  },
+  {
+   "id": "S12",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": -2.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.821,
+   "run_names": [
+    "cut_in_merge_2hz_rules_044"
+   ]
+  },
+  {
+   "id": "S13",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 1.25,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.716,
+   "run_names": [
+    "cut_in_merge_2hz_rules_036",
+    "cut_in_merge_2hz_rules_037"
+   ]
+  },
+  {
+   "id": "S14",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "cut_in_merge_2hz_rules_053"
+   ]
+  },
+  {
+   "id": "S15",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 1.25,
+   "runs": 3,
+   "failed": 1,
+   "failure_rate_90": [
+    0.08,
+    0.75
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.898,
+   "run_names": [
+    "cut_in_merge_2hz_rules_027",
+    "cut_in_merge_2hz_rules_029",
+    "cut_in_merge_2hz_rules_046"
+   ]
+  },
+  {
+   "id": "S16",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "cut_in_merge_2hz_rules_018"
+   ]
+  },
+  {
+   "id": "S17",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "cut_in_merge_2hz_rules_006"
+   ]
+  },
+  {
+   "id": "S18",
+   "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 5,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.35
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.743,
+   "run_names": [
+    "cut_in_merge_2hz_rules_003",
+    "cut_in_merge_2hz_rules_015",
+    "cut_in_merge_2hz_rules_025",
+    "cut_in_merge_2hz_rules_030",
+    "cut_in_merge_2hz_rules_048"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 10460,
+  "output_tokens": 2425,
+  "duration_ms": 23362
+ }
+}

@@ -1,0 +1,67 @@
+[
+ {
+  "run": "seam_check_grid_001",
+  "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+  "cause": "turned_into_actor",
+  "what_happened": "The route went straight and then right, along the right lane. Instead of following it, the ego stayed on the left edge of its lane and its planned path bent left toward the parked cars, with no braking (speed rose from 6.4 to 7.1 m/s). At 6.6 s its front hit the line of parked cars on the left (actors 15/31, gap to the car ahead closing to 2.7 m), while the logged trajectory stayed in the clear lane to the right.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15821,
+   "output_tokens": 1155,
+   "duration_ms": 13102
+  }
+ },
+ {
+  "run": "seam_check_grid_002",
+  "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+  "cause": "left_road",
+  "what_happened": "After the 4.6 s handoff, the ego sped up from about 8.6 to 9.4 m/s on a narrow residential street. Its planned path (orange) hugged the left curb instead of following the lane. By 6.8 s the ego had drifted about 1.6 m off the recorded human path into the left parking lane and hit parked car 31 with its front. The route command was RIGHT.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15831,
+   "output_tokens": 788,
+   "duration_ms": 8221
+  }
+ },
+ {
+  "run": "seam_check_grid_003",
+  "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+  "cause": "left_road",
+  "what_happened": "After handoff, the ego drifted left out of its travel lane into the parking lane along the left curb. The recorded path stayed right and set up the upcoming right turn (command RIGHT). The ego kept going about 10\u201311 m/s toward the line of parked cars, the gap closing from 37.6 m to 4.1 m with barely any braking, and its front hit the parked car (id 6) at 7.5 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 12997,
+   "output_tokens": 993,
+   "duration_ms": 10581
+  }
+ },
+ {
+  "run": "seam_check_grid_004",
+  "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+  "cause": "left_road",
+  "what_happened": "After handoff, the ego drifted left out of its travel lane into the parked-car lane at the curb. The route command was RIGHT, and the recorded path stays in the right lane before turning right. The ego kept going about 11\u201312 m/s along its planned path through the parking lane and hit parked car 6 head-on as the gap closed from 45 m to 4 m with almost no braking.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13015,
+   "output_tokens": 1156,
+   "duration_ms": 12214
+  }
+ },
+ {
+  "run": "seam_check_grid_005",
+  "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+  "cause": "left_road",
+  "what_happened": "After handoff the ego (about 13\u201314 m/s) drifted left out of its travel lane into the parking lane on the left. That path ran straight into the row of parked cars (6, 3, 87), and the ego hit parked car 6 from behind, only slowing from about 14.6 to 12.2 m/s. Meanwhile the route command was RIGHT and the planned path turned right at the intersection ahead.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15841,
+   "output_tokens": 829,
+   "duration_ms": 7898
+  }
+ }
+]

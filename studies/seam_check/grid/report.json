@@ -1,0 +1,129 @@
+{
+ "answer": {
+  "answer": "Yes. Every ego speed from 0.6x to 1.4x on 07981e6a passed the physics gate. That includes 1.2x, the setting that halted before. Every run passed every validity check, and no run was dropped, so the warm-up seam fix held in simulation. This rests on one run per speed. It shows the seam stays within the physics bound for this scene, but it doesn't measure how often a later run might fail the gate. Apart from the gate, every run crashed. Triage blames the policy in each case, not the simulator: after handoff the ego drifted left into the parked cars even though the route command was RIGHT.",
+  "findings": [
+   {
+    "claim": "The warm-up seam fix held: the run at each speed (0.6x, 0.8x, 1.0x, 1.2x, 1.4x) passed every validity check, including the physics gate, and no run was dropped. That includes 1.2x, where the seam once reached 10.7 m/s^2 and halted both runs.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5"
+    ]
+   },
+   {
+    "claim": "The run at every speed ended in a collision, and none of these failures is flagged as a possible simulator artifact. With one run per speed, this only hints at a failure rate. It does not measure one.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5"
+    ]
+   },
+   {
+    "claim": "The policy caused the crashes, not the simulator or the warm-up. After handoff the ego drifted left into the parking lane along the left curb, even though the route command was RIGHT and the recorded path stayed right. It then hit the parked cars with little or no braking. At 0.6x it stayed at the left edge of its own lane and its planned path bent left into the parked cars. At 0.8x and above it left its lane completely.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5"
+    ]
+   }
+  ],
+  "open": [
+   "How reliable the fix is: one run per speed shows the gate can pass at each speed, but not how often it does. Repeating several runs at 1.2x and its neighbours (1.0x, 1.4x) would show whether the seam ever comes near the physics bound again.",
+   "Why the policy drifts left on 07981e6a at every speed when told to go RIGHT: more runs per speed, or a different controller on the same scene, would show whether this crash happens every time and whether it comes from this policy alone."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "seam_check_grid_001"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+   "ego_speed_scale": 0.8,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "seam_check_grid_002"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+   "ego_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "seam_check_grid_003"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "seam_check_grid_004"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "seam_check_grid_005"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 7496,
+  "output_tokens": 952,
+  "duration_ms": 10113
+ }
+}

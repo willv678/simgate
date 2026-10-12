@@ -703,6 +703,29 @@
     "model_seconds": [
      94.5
     ]
+   },
+   "random_confirm": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     49
+    ],
+    "median_runs_to_goal": 49,
+    "confirmed": [
+     1
+    ],
+    "hardest": [
+     0.882
+    ],
+    "failures": [
+     4
+    ],
+    "kept": [
+     49
+    ],
+    "model_seconds": [
+     0.0
+    ]
    }
   }
  },

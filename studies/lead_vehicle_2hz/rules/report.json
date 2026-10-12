@@ -1,0 +1,235 @@
+{
+ "answer": {
+  "answer": "No challenging cases were found, and none of the 5 was confirmed. The study never varied the knobs. Every setting it ran used the recorded timing (0 s shift) and the lead car at 1.25x its recorded speed. That is a faster lead car and an easier case, and the harder region (slower or earlier leads) was never tried. At this setting the policy did not rear-end a lead car in any scene, and on most scenes the ranges put the true failure rate well below 0.5. The only failure (S8) was not a rear-end: the policy braked hard for no visible reason and a following car hit it from behind-right. So the study says nothing yet about which timings and speeds make VaVAM hit the car ahead at 2 Hz.",
+  "findings": [
+   {
+    "claim": "With the lead car on its recorded timing at 1.25x speed, no kept run rear-ended the lead car on any of the eight scenes. The ranges rule out a failure rate above 0.5 on every scene except 0dbb91dd.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8"
+    ]
+   },
+   {
+    "claim": "On 0dbb91dd only a single run was kept at this setting. That is a hint, not a rate, and its range still allows a high failure rate.",
+    "settings": [
+     "S5"
+    ]
+   },
+   {
+    "claim": "The only failure, on 19f339ba, came from phantom braking on an open highway with the lead car far ahead. A replayed car following the ego then hit it on the right side and rear. Triage puts the fault on the policy, but this is not the lead-vehicle rear-end the question asks about.",
+    "settings": [
+     "S8"
+    ]
+   },
+   {
+    "claim": "The study spent its whole budget repeating one easy setting (0 s shift, 1.25x speed) on every scene. It never tested slower lead speeds (down to 0.5x) or time shifts (\u00b12 s), so this study cannot answer the question.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S6",
+     "S7",
+     "S8"
+    ]
+   }
+  ],
+  "open": [
+   "Which time shifts and speed scalings make VaVAM rear-end the lead car at 2 Hz is still unknown. To settle it, screen each scene at slower lead speeds (0.5x and 0.75x) and at time shifts of -2 s and +2 s, then repeat any setting that fails until its range clears 0.5.",
+   "Whether the phantom braking on 19f339ba (S8) happens again at other settings, and whether it is a 2 Hz effect. It would show up in repeats on that scene and in a comparison with the 10 Hz lead_vehicle study at the same settings.",
+   "0dbb91dd has only a single kept run (S5). It needs repeats at whatever settings are screened next.",
+   "The 2 Hz and 10 Hz studies cannot be compared yet, because this study did not cover the knob ranges that the brief shares with the 10 Hz study."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.613,
+   "run_names": [
+    "lead_vehicle_2hz_rules_005",
+    "lead_vehicle_2hz_rules_012",
+    "lead_vehicle_2hz_rules_020",
+    "lead_vehicle_2hz_rules_027",
+    "lead_vehicle_2hz_rules_034",
+    "lead_vehicle_2hz_rules_041",
+    "lead_vehicle_2hz_rules_048"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.859,
+   "run_names": [
+    "lead_vehicle_2hz_rules_004",
+    "lead_vehicle_2hz_rules_008",
+    "lead_vehicle_2hz_rules_015",
+    "lead_vehicle_2hz_rules_022",
+    "lead_vehicle_2hz_rules_029",
+    "lead_vehicle_2hz_rules_036",
+    "lead_vehicle_2hz_rules_043"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.779,
+   "run_names": [
+    "lead_vehicle_2hz_rules_006",
+    "lead_vehicle_2hz_rules_011",
+    "lead_vehicle_2hz_rules_017",
+    "lead_vehicle_2hz_rules_024",
+    "lead_vehicle_2hz_rules_032",
+    "lead_vehicle_2hz_rules_038",
+    "lead_vehicle_2hz_rules_045"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.6,
+   "run_names": [
+    "lead_vehicle_2hz_rules_007",
+    "lead_vehicle_2hz_rules_013",
+    "lead_vehicle_2hz_rules_021",
+    "lead_vehicle_2hz_rules_028",
+    "lead_vehicle_2hz_rules_035",
+    "lead_vehicle_2hz_rules_042",
+    "lead_vehicle_2hz_rules_049"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "lead_vehicle_2hz_rules_001"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.777,
+   "run_names": [
+    "lead_vehicle_2hz_rules_014_a2",
+    "lead_vehicle_2hz_rules_019",
+    "lead_vehicle_2hz_rules_025",
+    "lead_vehicle_2hz_rules_033",
+    "lead_vehicle_2hz_rules_039",
+    "lead_vehicle_2hz_rules_046"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 7,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.28
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.751,
+   "run_names": [
+    "lead_vehicle_2hz_rules_003",
+    "lead_vehicle_2hz_rules_010",
+    "lead_vehicle_2hz_rules_018",
+    "lead_vehicle_2hz_rules_026",
+    "lead_vehicle_2hz_rules_031",
+    "lead_vehicle_2hz_rules_040",
+    "lead_vehicle_2hz_rules_047"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 7,
+   "failed": 1,
+   "failure_rate_90": [
+    0.03,
+    0.45
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.837,
+   "run_names": [
+    "lead_vehicle_2hz_rules_002",
+    "lead_vehicle_2hz_rules_009",
+    "lead_vehicle_2hz_rules_016",
+    "lead_vehicle_2hz_rules_023",
+    "lead_vehicle_2hz_rules_030",
+    "lead_vehicle_2hz_rules_037",
+    "lead_vehicle_2hz_rules_044"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 7464,
+  "output_tokens": 1182,
+  "duration_ms": 12631
+ }
+}
