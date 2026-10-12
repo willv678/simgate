@@ -686,6 +686,16 @@ the recording, problem 27). In progress; numbers as of the arm named.
   Its off-recording probes (0caa8f1a, 0e002edd, 18f8dbd6) all passed.
   Three methods, one answer so far: at 2 Hz only the four recorded
   failures are found, none involving the pedestrian.
+- cut-in, rules_v3 (12 Oct 05:21): 0 of 5 in 54 runs, 3 failures, at the
+  recording on 19f339ba (2 of 6) and 0.5 s earlier on 1c45ce3a (1 of 3);
+  2 of the 3 triaged actor_hit_ego (the ego braked hard on an open road and
+  a replayed car came up into it, problem 29). It stayed near the recording
+  (1.0x, within 0.5 s).
+- lead vehicle, rules_v3 (12 Oct 06:10): 0 of 5 in 49 runs, 2 failures,
+  both side or front contact with a car in the next lane after the ego
+  drifted out of its lane, not a rear-end of the lead. One setting slowed
+  the lead car, none shifted more than 1 s; at 10 Hz the hard lead-vehicle
+  settings are at 0.5x (llm, WHERE.md).
 - At the recording, scene by scene, all arms pooled: two scenes that fail
   every time at 10 Hz pass at 2 Hz: 0caa8f1a 17 of 18 failed at 10 Hz,
   0 of 9 at 2 Hz; 18d28973 22 of 22 against 0 of 2. The other four hard
