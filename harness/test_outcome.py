@@ -49,6 +49,12 @@ def test_a_contact_under_way_at_the_hand_off_is_not_the_policys(tmp_path):
     assert not found["failed"] and found["contact_at_handoff"]
 
 
+def test_a_contact_first_flagged_at_the_hand_off_step_is_not_the_policys(tmp_path):
+    # lead_vehicle_2hz_006: at 2 Hz begun in the warm-up's last 500 ms.
+    found = outcome(_run(tmp_path, {"collision_front": [5, 6, 7]}))
+    assert not found["failed"] and found["contact_at_handoff"]
+
+
 def test_a_new_contact_after_the_carried_one_ends_is_the_policys(tmp_path):
     found = outcome(_run(tmp_path, {"collision_front": [4, 5, 9]}))
     assert found["failed"] and found["failed_at_s"] == 0.9

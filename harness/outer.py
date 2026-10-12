@@ -103,7 +103,10 @@ NEAR_MISS_M = 5.0
 # that drives slower than the human did. A contact already under way when the
 # policy takes over is not the policy's either: collisions count from the
 # first step after it ends (a lead car slowed by actor_speed_scale can meet
-# the ego while the warm-up still replays the human's path). `failed_any` keeps the broad reading
+# the ego while the warm-up still replays the human's path). The hand-off
+# step's pose is still the warm-up's (the policy's first command acts after
+# it), and at 2 Hz a contact begun in the last 500 ms of the warm-up is first
+# flagged there. `failed_any` keeps the broad reading
 # (any front, side or off-road flag at any time) used before 8 Oct 2026.
 FAILURE_METRICS = ("collision_front", "collision_lateral", "offroad")
 TYPES = {
@@ -151,16 +154,16 @@ def schema(varied: tuple[str, ...]) -> dict:
 
 def _contact_cleared(metrics: pd.DataFrame, driven_us: float) -> float:
     """The first step from `driven_us` with no collision flagged: `driven_us`
-    itself unless a contact is under way at the hand-off; inf if that
+    itself unless a contact is under way at the hand-off step; inf if that
     contact never ends."""
     flags = metrics[
         metrics["name"].isin(("collision_front", "collision_lateral", "collision_rear"))
     ]
     touching = flags.groupby("timestamps_us")["values"].max() > 0
-    before = touching[touching.index < driven_us]
-    if not len(before) or not before.iloc[-1]:
+    until = touching[touching.index <= driven_us]
+    if not len(until) or not until.iloc[-1]:
         return driven_us
-    after = touching[(touching.index >= driven_us) & ~touching]
+    after = touching[(touching.index > driven_us) & ~touching]
     return float(after.index.min()) if len(after) else float("inf")
 
 
