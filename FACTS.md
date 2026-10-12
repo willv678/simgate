@@ -768,6 +768,8 @@ the recording, problem 27). In progress; numbers as of the arm named.
   096988dd, as a car running into the ego before the hand-off). The three:
   023b7fcc 1.25x/0 s, 0e899dd3 1.5x/-1.5 s, 09a95ffa 1.5x/-1 s, each the
   ego drifting left out of its lane into a car beside or ahead.
+- cut-in, random + confirmation (12 Oct 11:20): 4 of 5 in 54 runs, the
+  most of any method on 2 Hz cut-in (rules 2, rules_v3 0, hybrid 3, llm 3).
 - Study reports (report.md) of arms finished before 12 Oct 09:37 state
   their goal under the old count; `METHODS.md` and these notes use the fix.
 - lead vehicle, rules_v3 (12 Oct 06:10): 0 of 5 in 49 runs, 2 failures,
