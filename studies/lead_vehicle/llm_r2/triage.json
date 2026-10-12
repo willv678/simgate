@@ -271,5 +271,135 @@
    "output_tokens": 713,
    "duration_ms": 7294
   }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_035",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "no_brake_for_lead",
+  "what_happened": "In slow freeway traffic after handoff (4.7 s), the ego kept moving at about 3.3 m/s and closed to 0.2 m on the vehicle ahead at about 6.1 s, which registered as a front collision. By 7.1 s that lead was no longer ahead (the gap jumped to about 33 m), and actor 12 was in contact with the ego's rear. Then, at 9.1 s, the ego scraped actor 56 on its left side while steering right for the RIGHT command, so the side contact is secondary.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15853,
+   "output_tokens": 1400,
+   "duration_ms": 15913
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_037",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway, the ego fell behind the recorded drive. Replayed actor 12 drove into its rear from about 7 s on. The ego was told to go RIGHT, but its plan pulled left of the recorded path, and at 9.0 s it drifted about 1.6 m left and side-swiped vehicle 56 in the next lane to the left, reaching 5.8 m/s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13016,
+   "output_tokens": 1119,
+   "duration_ms": 12343
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_039",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "The ego was on a multi-lane highway at about 5 m/s with the command STRAIGHT. Its planned path (orange) bent left toward the adjacent left lane, and the ego drifted about 1.5 m left of where the recorded car drove. Its front-left hit the white pickup (actor 41), which was overtaking in that left lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15853,
+   "output_tokens": 554,
+   "duration_ms": 6581
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_043",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane freeway with a STRAIGHT and then RIGHT command, the policy's planned path drifted left, away from the recorded trajectory. At about 5 m/s the ego cut into the adjacent left lane and its front struck the side/rear of vehicle 41, which was travelling alongside in that lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13014,
+   "output_tokens": 676,
+   "duration_ms": 7402
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_044",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a wet multi-lane highway, the route command was STRAIGHT, then RIGHT, but the policy planned a path to the left (the orange line) and drifted toward the lane on its left. Its front hit vehicle 41, which was driving alongside in that lane, while the ego was going about 5 m/s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15842,
+   "output_tokens": 604,
+   "duration_ms": 7019
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_045",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a wet multi-lane highway at about 5 m/s, the policy's planned path (orange) kept bending left, away from the recorded straight route (green). The ego drifted left into the lane where vehicle 41 was coming up alongside, and its front corner hit 41's side at 7.6 s, 1.3 m left of where the real car drove.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15836,
+   "output_tokens": 662,
+   "duration_ms": 6679
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_046",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a straight multi-lane highway, the ego slowed from about 5.7 to 4.9 m/s and drifted left, about 1.3 m off the recorded path, into the next lane. Actor 41, a white pickup passing on the left, was already there, and the ego's front corner hit it at 7.6 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13020,
+   "output_tokens": 804,
+   "duration_ms": 8706
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_047",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "The route command was STRAIGHT and then RIGHT, but the policy's plan (orange) drifted left, away from the recorded path (green), into the next lane on the left. At 9.0 s the ego's side hit actor 56, which was driving alongside in that lane. Earlier problems muddy the picture: actor 12 had been touching the ego's rear around 7\u20138 s, and the ego was 0.3 m from the car ahead at 6.0 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15841,
+   "output_tokens": 772,
+   "duration_ms": 8591
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_048",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "From about 7 s, replayed actor 12 overlaps the ego from behind (rear contact) as the ego crawls along at 3\u20135 m/s. The route then calls for RIGHT, but the policy's planned path bends left across the lane line, and at 9.0 s the ego side-swipes actor 56 in the adjacent left lane (lateral collision, 1.5 m off the recording).",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13013,
+   "output_tokens": 935,
+   "duration_ms": 10632
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r2_049",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "The route command was RIGHT and the logged path bore right, but the ego planned and steered left into the adjacent lane. At 9.0 s it sideswiped vehicle 56, which was travelling alongside on its left (lateral collision). Earlier, vehicle 12 had been touching the ego's rear at 7\u20138 s. That contact did not push the ego sideways, because the ego chose the leftward drift itself.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15825,
+   "output_tokens": 682,
+   "duration_ms": 7224
+  }
  }
 ]

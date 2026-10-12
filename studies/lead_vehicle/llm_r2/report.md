@@ -1,52 +1,61 @@
 # In lead-vehicle scenes, which timing shifts and speed scalings of the recorded lead car (with up to 200 ms planner delay if needed) make VaVAM run into it? Find the 5 most challenging cases, each on a different scene, confirmed by repeats.
 
-Study `llm_r2`: 28 kept runs on 8 scenes, varying actor_time_shift_s, actor_speed_scale, planner_delay_us; 0 runs not kept by the gate. Counts are kept runs only.
+Study `llm_r2`: 49 kept runs on 8 scenes, varying actor_time_shift_s, actor_speed_scale, planner_delay_us; 0 runs not kept by the gate. Counts are kept runs only.
 
-**Goal (checked by code, not the model):** 5 of 5 challenging settings confirmed, after 4 rounds.
+**Goal (checked by code, not the model):** 3 of 5 challenging settings confirmed, after 7 rounds.
 
 ## Answer
 
-The code-checked goal is met: five settings on five different scenes failed in every repeat, and each one's range sits above 0.5. They are 0e899dd3 (S12), 12855a41 (S13), 19f339ba (S14), 023b7fcc (S2) and 096988dd (S3). All five use the lead car at 0.5x speed with no time shift and no planner delay. However, the video and log review shows that in three of the five cases the policy did not crash into the lead car. On 0e899dd3, 023b7fcc and 096988dd, every crash happened while the ego was still replaying the recorded human drive, at or before the moment the policy took over. Slowing the lead car closed the gap to an ego that could not yet react, so these failures come from the replay and the setup, not from VaVAM. Only 12855a41 is a plausible rear-end by the policy, and it is uncertain: the policy had well under a second of control before contact. On 19f339ba the policy is at fault, but it drifted left into a car in the next lane rather than hitting the car ahead. So the study has not shown that any retiming makes VaVAM itself rear-end the lead car.
+The goal was not met: three of the five cases were confirmed, on three different scenes. They are 12855a41 with the lead car at 0.5x speed and no time shift (S21), 19f339ba at 0.5x with no shift (S22), and 096988dd at 0.5x with a +2 s shift and 200 ms planner delay (S8). Each failed in every run, and each range sits above 0.5. None of the three clearly shows the policy rear-ending a car that slows ahead of it. At 19f339ba and 096988dd the ego drifted left and hit a car passing in the next lane, not the lead car. At 12855a41 the ego did hit the lead car, but the gap had mostly closed while the recording was still driving the ego, and the policy had about 0.4 s to react. So that case may come from the replay setup rather than the policy. A fourth case, 023b7fcc at 0.5x with 200 ms delay (S3), failed in most runs but its range still reaches below 0.5, so it is not confirmed. Every run used 0.5x speed, so the study says nothing about other speeds.
 
 ## Findings
 
-- On 0e899dd3, the lead at 0.5x speed with no shift failed in every repeat. Every failure was a front contact flagged at the instant of handoff, while the ego was still exactly on the recorded path. Review judged none of them the policy's fault.
-  - S12: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 5/5 failed, rate 65%-100% (90%) (lead_vehicle_llm_r2_021, lead_vehicle_llm_r2_022, lead_vehicle_llm_r2_023, lead_vehicle_llm_r2_024, lead_vehicle_llm_r2_025)
-- On 023b7fcc, the lead at 0.5x failed with no shift and with a 1 s earlier shift. In every run the ego's box overlapped the lead car during replay, in some runs a full second before handoff. These are replay or actor-box artifacts, not policy decisions.
-  - S2: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 3/3 failed, rate 53%-100% (90%) (lead_vehicle_llm_r2_002, lead_vehicle_llm_r2_008, lead_vehicle_llm_r2_019)
-  - S1: 023b7fcc at actor_time_shift_s -1, actor_speed_scale 0.5, planner_delay_us 0: 1/1 failed, rate 27%-100% (90%) (lead_vehicle_llm_r2_007)
-- On 096988dd, the lead truck at 0.5x failed with no shift and with a 1 s later shift. Every contact came during replay, at or before handoff. In one run the camera showed no truck where its box overlapped the ego, so these runs are not evidence against the policy.
-  - S3: 096988dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 3/3 failed, rate 53%-100% (90%) (lead_vehicle_llm_r2_001, lead_vehicle_llm_r2_009, lead_vehicle_llm_r2_020)
-  - S4: 096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 1/1 failed, rate 27%-100% (90%) (lead_vehicle_llm_r2_006)
-- On 12855a41, the lead at 0.5x failed in every repeat as a front hit on the lead car in slow traffic. It is the only confirmed case that looks like a rear-end. Most of the closing happened during replay, though, and the policy had about 0.4 s to act and slowed only slightly, so whether the policy is at fault is unclear.
-  - S13: 12855a41 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 4/4 failed, rate 60%-100% (90%) (lead_vehicle_llm_r2_004, lead_vehicle_llm_r2_010, lead_vehicle_llm_r2_015, lead_vehicle_llm_r2_016)
-- On 19f339ba, the lead at 0.5x failed in every repeat, and each failure was the policy's own. After handoff it braked hard with no close lead and drifted left into a car passing in the adjacent lane. This is a real policy failure, but a side-lane collision, not a rear-end of the lead car.
-  - S14: 19f339ba at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 4/4 failed, rate 60%-100% (90%) (lead_vehicle_llm_r2_003, lead_vehicle_llm_r2_011, lead_vehicle_llm_r2_017, lead_vehicle_llm_r2_018)
-- The lead at 0.5x caused no failure on 09a95ffa or 0cf6368d, with no shift or a 1 s later shift on 0cf6368d. Each of these settings has a single run, so they are a hint, not a rate.
-  - S5: 09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_013)
-  - S6: 0cf6368d at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_014)
-  - S7: 0cf6368d at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_026)
-- 0dbb91dd did not fail with the lead at 0.5x, whether shifted −1 s, 0 s or +1 s, nor with 100 ms planner delay added. Each setting has a single run.
-  - S8: 0dbb91dd at actor_time_shift_s -1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_012)
-  - S9: 0dbb91dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_005)
-  - S10: 0dbb91dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 100000: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_028)
-  - S11: 0dbb91dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_027)
-- The automatic artifact flag was clear on every setting, yet triage traced most failures to the replay before handoff. Off-trajectory distance does not catch this kind of artifact, because the ego was exactly on the recorded path when it made contact.
-  - S2: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 3/3 failed, rate 53%-100% (90%) (lead_vehicle_llm_r2_002, lead_vehicle_llm_r2_008, lead_vehicle_llm_r2_019)
-  - S3: 096988dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 3/3 failed, rate 53%-100% (90%) (lead_vehicle_llm_r2_001, lead_vehicle_llm_r2_009, lead_vehicle_llm_r2_020)
-  - S12: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 5/5 failed, rate 65%-100% (90%) (lead_vehicle_llm_r2_021, lead_vehicle_llm_r2_022, lead_vehicle_llm_r2_023, lead_vehicle_llm_r2_024, lead_vehicle_llm_r2_025)
+- At 12855a41, slowing the lead car to 0.5x with no time shift and no delay made the ego hit it from behind in every run. But the ego closed most of the gap while it was still following the recorded drive, and the policy took over only about 0.4 s before contact. Triage could not say whether the policy was at fault.
+  - S21: 12855a41 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 4/4 failed, rate 60%-100% (90%) (lead_vehicle_llm_r2_004, lead_vehicle_llm_r2_010, lead_vehicle_llm_r2_015, lead_vehicle_llm_r2_016)
+- At 19f339ba, 0.5x with no delay failed in every run, but not by rear-ending the lead car. After taking over, the policy braked hard with no close lead ahead and drifted left into a car passing in the left lane. The policy was at fault in every run.
+  - S22: 19f339ba at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 4/4 failed, rate 60%-100% (90%) (lead_vehicle_llm_r2_003, lead_vehicle_llm_r2_011, lead_vehicle_llm_r2_017, lead_vehicle_llm_r2_018)
+- At 096988dd the lead car needed both a +2 s shift and 200 ms planner delay to cause failures. At that setting every run failed, and in each one the policy drifted left into a pickup overtaking in the adjacent lane, not into the lead car. Earlier shifts, or zero delay, produced no counted failures in the few runs tried.
+  - S8: 096988dd at actor_time_shift_s 2, actor_speed_scale 0.5, planner_delay_us 200000: 5/5 failed, rate 65%-100% (90%) (lead_vehicle_llm_r2_039, lead_vehicle_llm_r2_043, lead_vehicle_llm_r2_044, lead_vehicle_llm_r2_045, lead_vehicle_llm_r2_046)
+  - S4: 096988dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/3 failed, rate 0%-47% (90%) (lead_vehicle_llm_r2_001, lead_vehicle_llm_r2_009, lead_vehicle_llm_r2_020)
+  - S5: 096988dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 200000: 0/2 failed, rate 0%-58% (90%) (lead_vehicle_llm_r2_031, lead_vehicle_llm_r2_032)
+  - S6: 096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_006)
+  - S7: 096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 200000: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_042)
+- At 023b7fcc, 0.5x with 200 ms delay failed in most runs, but the range still reaches below 0.5, so it is not confirmed. Most of these failures were sideswipes into a car in the left lane while the policy steered left against a RIGHT command. In one run the policy closed on the car ahead. Without delay this scene mostly passed, and its single failure there happened during replay before handoff and is flagged as a possible simulator artifact.
+  - S3: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 200000: 5/7 failed, rate 41%-90% (90%) (lead_vehicle_llm_r2_035, lead_vehicle_llm_r2_036, lead_vehicle_llm_r2_037, lead_vehicle_llm_r2_038, lead_vehicle_llm_r2_047, lead_vehicle_llm_r2_048, lead_vehicle_llm_r2_049)
+  - S1: 023b7fcc at actor_time_shift_s -1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_007)
+  - S2: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 1/3 failed, rate 8%-75% (90%), 1 possibly the simulator's (lead_vehicle_llm_r2_002, lead_vehicle_llm_r2_008, lead_vehicle_llm_r2_019)
+- No setting tried on 0e899dd3, 09a95ffa, 0dbb91dd or 0cf6368d produced a failure. 0e899dd3 at 0.5x with zero delay passed every one of several runs. The other scenes rest on one or two runs per setting, which is a hint, not a rate.
+  - S18: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/5 failed, rate 0%-35% (90%) (lead_vehicle_llm_r2_021, lead_vehicle_llm_r2_022, lead_vehicle_llm_r2_023, lead_vehicle_llm_r2_024, lead_vehicle_llm_r2_025)
+  - S19: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 200000: 0/2 failed, rate 0%-58% (90%) (lead_vehicle_llm_r2_029, lead_vehicle_llm_r2_030)
+  - S20: 0e899dd3 at actor_time_shift_s 2, actor_speed_scale 0.5, planner_delay_us 200000: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_041)
+  - S9: 09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_013)
+  - S10: 09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 200000: 0/2 failed, rate 0%-58% (90%) (lead_vehicle_llm_r2_033, lead_vehicle_llm_r2_034)
+  - S11: 09a95ffa at actor_time_shift_s 2, actor_speed_scale 0.5, planner_delay_us 200000: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_040)
+  - S14: 0dbb91dd at actor_time_shift_s -1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_012)
+  - S15: 0dbb91dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_005)
+  - S16: 0dbb91dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 100000: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_028)
+  - S17: 0dbb91dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_027)
+  - S12: 0cf6368d at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_014)
+  - S13: 0cf6368d at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_026)
+- Several triaged collisions on 096988dd, 0e899dd3 and 023b7fcc at zero delay began while the ego was still replaying the recorded drive, before the policy took over. Triage says the policy was not at fault in those runs, and none of them counts as evidence about the policy.
+  - S4: 096988dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/3 failed, rate 0%-47% (90%) (lead_vehicle_llm_r2_001, lead_vehicle_llm_r2_009, lead_vehicle_llm_r2_020)
+  - S6: 096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_006)
+  - S18: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/5 failed, rate 0%-35% (90%) (lead_vehicle_llm_r2_021, lead_vehicle_llm_r2_022, lead_vehicle_llm_r2_023, lead_vehicle_llm_r2_024, lead_vehicle_llm_r2_025)
+  - S1: 023b7fcc at actor_time_shift_s -1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_007)
+  - S2: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 1/3 failed, rate 8%-75% (90%), 1 possibly the simulator's (lead_vehicle_llm_r2_002, lead_vehicle_llm_r2_008, lead_vehicle_llm_r2_019)
 
 ## Open
 
-- Whether VaVAM rear-ends a braking lead car when it controls the approach. Every setting slowed the lead from the start of the clip while the ego replayed the human drive until about 4.7 s, so contact was set up before handoff. Rerun the 0.5x settings on 0e899dd3, 023b7fcc, 096988dd and 12855a41 with the retiming applied only after handoff, or with an earlier handoff.
-- Whether the 12855a41 case (S13) is the policy's fault. Repeat it with a retiming that leaves the ego a larger gap at handoff, for example the lead at 0.75x or shifted later, and check whether the policy brakes in time.
-- Speed scales other than 0.5x and most time shifts were never tried. Screen 0.75x to 2x and shifts of ±2 s, at least on the scenes that did not fail.
-- Whether the 19f339ba lateral drift depends on the retiming at all. Run 19f339ba at 1.0x speed with no shift to see if the policy also drifts into the left lane there.
-- The scenes with single passing runs (09a95ffa, 0cf6368d, 0dbb91dd) are not settled. 0cf6368d (S7) and 0dbb91dd (S11) came closest. Repeat them, or add planner delay up to 200 ms; only 100 ms on 0dbb91dd was tried.
+- Two more confirmed scenes are needed. 023b7fcc at 0.5x with 200 ms delay (S3) is closest; a few more repeats would settle whether its rate is above 0.5.
+- Only 0.5x lead speed was tested. Speeds between 0.5x and 2x, and negative time shifts beyond -1 s, were never run, so 'which speeds' is largely unanswered.
+- Two confirmed cases (S8, S22) are left-lane sideswipes, not rear-ends. Runs with the adjacent-lane traffic removed, or a check of the lane-keeping failure at the baseline setting, would show whether retiming the lead car matters at all there.
+- S21's rear-ends were set up during replay before handoff. Runs with an earlier handoff, or a larger starting gap to the lead car, would show whether the policy itself fails to brake.
+- Triage describes collisions flagged at handoff on settings that show no counted failures (for example 0e899dd3 at zero delay, S18). How handoff-time contacts are scored should be checked.
+- 09a95ffa, 0dbb91dd and 0cf6368d had only one or two runs per setting, so their passes are hints. 0dbb91dd and 0cf6368d were never tried at 200 ms delay.
 
 ## Why the runs failed (triage from the video and log)
 
-other 13, turned_into_actor 4, no_brake_for_lead 4
+other 13, turned_into_actor 13, no_brake_for_lead 5
 
 - lead_vehicle_llm_r2_001: other, policy at fault: no. Before handoff the ego was replaying the recorded human drive (0.0 m off the recording) and sped up from 4.3 to 5.7 m/s behind the white utility truck (actor 2) in its lane. The gap shrank to contact at exactly 4.7 s, the same moment the policy took over, so the front collision happened before the policy controlled anything. Because the replay hit the truck even though the human did not, the simulated truck is probably placed or timed differently from the real one.
 - lead_vehicle_llm_r2_002: other, policy at fault: no. The ego was still replaying the human log (0 m from it) when its front box began overlapping lead car 12 in the same lane. Collision_front is already 1 at 3.7 s, a full second before the policy took over at 4.7 s, so the failure is counted at the instant of handoff. This looks like an actor box or replay artifact (the ego is too close to or overlapping actor 12 in the recorded log), not a choice the policy made.
@@ -69,23 +78,41 @@ other 13, turned_into_actor 4, no_brake_for_lead 4
 - lead_vehicle_llm_r2_023: other, policy at fault: no. The policy took over at 4.7 s, the same moment as the failure. Until then the ego was replaying the recorded trajectory (0.0 m off the recording) at about 6.5–6.9 m/s. During that replay the gap to pickup 5 ahead in the same lane shrank from 13.5 m to 3.1 m, and the front-collision flag fired right at handoff. The contact happened during log replay, so it is a setup or replay artifact, not a policy decision (the run is also flagged rear_ended).
 - lead_vehicle_llm_r2_024: other, policy at fault: no. The ego was still replaying the recorded human drive (0.0 m off the recording) at about 6.9 m/s and closed from 13.5 m to 3.1 m on the slower blue pickup (actor 5) ahead in its lane. The front contact was flagged at 4.7 s, the same moment the policy took over, so the policy never had a chance to brake. This looks like a replay or actor-track mismatch, not a policy decision.
 - lead_vehicle_llm_r2_025: other, policy at fault: no. The ego was replaying the recorded human trajectory (0.0 m off the recording) in a straight highway lane and closing on the blue pickup ahead (actor 4) at about 6.5–6.9 m/s, with the gap shrinking from 13.5 m to 3.1 m. The front collision is flagged at 4.7 s, the same instant the policy took over, so the overlap comes from the log replay or actor boxes, not from anything the policy chose. The camera smear in the last frame only appears at impact.
+- lead_vehicle_llm_r2_035: no_brake_for_lead, policy at fault: yes. In slow freeway traffic after handoff (4.7 s), the ego kept moving at about 3.3 m/s and closed to 0.2 m on the vehicle ahead at about 6.1 s, which registered as a front collision. By 7.1 s that lead was no longer ahead (the gap jumped to about 33 m), and actor 12 was in contact with the ego's rear. Then, at 9.1 s, the ego scraped actor 56 on its left side while steering right for the RIGHT command, so the side contact is secondary.
+- lead_vehicle_llm_r2_037: turned_into_actor, policy at fault: yes. On a multi-lane highway, the ego fell behind the recorded drive. Replayed actor 12 drove into its rear from about 7 s on. The ego was told to go RIGHT, but its plan pulled left of the recorded path, and at 9.0 s it drifted about 1.6 m left and side-swiped vehicle 56 in the next lane to the left, reaching 5.8 m/s.
+- lead_vehicle_llm_r2_039: turned_into_actor, policy at fault: yes. The ego was on a multi-lane highway at about 5 m/s with the command STRAIGHT. Its planned path (orange) bent left toward the adjacent left lane, and the ego drifted about 1.5 m left of where the recorded car drove. Its front-left hit the white pickup (actor 41), which was overtaking in that left lane.
+- lead_vehicle_llm_r2_043: turned_into_actor, policy at fault: yes. On a multi-lane freeway with a STRAIGHT and then RIGHT command, the policy's planned path drifted left, away from the recorded trajectory. At about 5 m/s the ego cut into the adjacent left lane and its front struck the side/rear of vehicle 41, which was travelling alongside in that lane.
+- lead_vehicle_llm_r2_044: turned_into_actor, policy at fault: yes. On a wet multi-lane highway, the route command was STRAIGHT, then RIGHT, but the policy planned a path to the left (the orange line) and drifted toward the lane on its left. Its front hit vehicle 41, which was driving alongside in that lane, while the ego was going about 5 m/s.
+- lead_vehicle_llm_r2_045: turned_into_actor, policy at fault: yes. On a wet multi-lane highway at about 5 m/s, the policy's planned path (orange) kept bending left, away from the recorded straight route (green). The ego drifted left into the lane where vehicle 41 was coming up alongside, and its front corner hit 41's side at 7.6 s, 1.3 m left of where the real car drove.
+- lead_vehicle_llm_r2_046: turned_into_actor, policy at fault: yes. On a straight multi-lane highway, the ego slowed from about 5.7 to 4.9 m/s and drifted left, about 1.3 m off the recorded path, into the next lane. Actor 41, a white pickup passing on the left, was already there, and the ego's front corner hit it at 7.6 s.
+- lead_vehicle_llm_r2_047: turned_into_actor, policy at fault: yes. The route command was STRAIGHT and then RIGHT, but the policy's plan (orange) drifted left, away from the recorded path (green), into the next lane on the left. At 9.0 s the ego's side hit actor 56, which was driving alongside in that lane. Earlier problems muddy the picture: actor 12 had been touching the ego's rear around 7–8 s, and the ego was 0.3 m from the car ahead at 6.0 s.
+- lead_vehicle_llm_r2_048: turned_into_actor, policy at fault: yes. From about 7 s, replayed actor 12 overlaps the ego from behind (rear contact) as the ego crawls along at 3–5 m/s. The route then calls for RIGHT, but the policy's planned path bends left across the lane line, and at 9.0 s the ego side-swipes actor 56 in the adjacent left lane (lateral collision, 1.5 m off the recording).
+- lead_vehicle_llm_r2_049: turned_into_actor, policy at fault: yes. The route command was RIGHT and the logged path bore right, but the ego planned and steered left into the adjacent lane. At 9.0 s it sideswiped vehicle 56, which was travelling alongside on its left (lateral collision). Earlier, vehicle 12 had been touching the ego's rear at 7–8 s. That contact did not push the ego sideways, because the ego chose the leftward drift itself.
 
 ## Every setting
 
-- S1: 023b7fcc at actor_time_shift_s -1, actor_speed_scale 0.5, planner_delay_us 0: 1/1 failed, rate 27%-100% (90%) (lead_vehicle_llm_r2_007)
-- S2: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 3/3 failed, rate 53%-100% (90%) (lead_vehicle_llm_r2_002, lead_vehicle_llm_r2_008, lead_vehicle_llm_r2_019)
-- S3: 096988dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 3/3 failed, rate 53%-100% (90%) (lead_vehicle_llm_r2_001, lead_vehicle_llm_r2_009, lead_vehicle_llm_r2_020)
-- S4: 096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 1/1 failed, rate 27%-100% (90%) (lead_vehicle_llm_r2_006)
-- S5: 09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_013)
-- S6: 0cf6368d at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_014)
-- S7: 0cf6368d at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_026)
-- S8: 0dbb91dd at actor_time_shift_s -1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_012)
-- S9: 0dbb91dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_005)
-- S10: 0dbb91dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 100000: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_028)
-- S11: 0dbb91dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_027)
-- S12: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 5/5 failed, rate 65%-100% (90%) (lead_vehicle_llm_r2_021, lead_vehicle_llm_r2_022, lead_vehicle_llm_r2_023, lead_vehicle_llm_r2_024, lead_vehicle_llm_r2_025)
-- S13: 12855a41 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 4/4 failed, rate 60%-100% (90%) (lead_vehicle_llm_r2_004, lead_vehicle_llm_r2_010, lead_vehicle_llm_r2_015, lead_vehicle_llm_r2_016)
-- S14: 19f339ba at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 4/4 failed, rate 60%-100% (90%) (lead_vehicle_llm_r2_003, lead_vehicle_llm_r2_011, lead_vehicle_llm_r2_017, lead_vehicle_llm_r2_018)
+- S1: 023b7fcc at actor_time_shift_s -1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_007)
+- S2: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 1/3 failed, rate 8%-75% (90%), 1 possibly the simulator's (lead_vehicle_llm_r2_002, lead_vehicle_llm_r2_008, lead_vehicle_llm_r2_019)
+- S3: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 200000: 5/7 failed, rate 41%-90% (90%) (lead_vehicle_llm_r2_035, lead_vehicle_llm_r2_036, lead_vehicle_llm_r2_037, lead_vehicle_llm_r2_038, lead_vehicle_llm_r2_047, lead_vehicle_llm_r2_048, lead_vehicle_llm_r2_049)
+- S4: 096988dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/3 failed, rate 0%-47% (90%) (lead_vehicle_llm_r2_001, lead_vehicle_llm_r2_009, lead_vehicle_llm_r2_020)
+- S5: 096988dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 200000: 0/2 failed, rate 0%-58% (90%) (lead_vehicle_llm_r2_031, lead_vehicle_llm_r2_032)
+- S6: 096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_006)
+- S7: 096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 200000: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_042)
+- S8: 096988dd at actor_time_shift_s 2, actor_speed_scale 0.5, planner_delay_us 200000: 5/5 failed, rate 65%-100% (90%) (lead_vehicle_llm_r2_039, lead_vehicle_llm_r2_043, lead_vehicle_llm_r2_044, lead_vehicle_llm_r2_045, lead_vehicle_llm_r2_046)
+- S9: 09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_013)
+- S10: 09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 200000: 0/2 failed, rate 0%-58% (90%) (lead_vehicle_llm_r2_033, lead_vehicle_llm_r2_034)
+- S11: 09a95ffa at actor_time_shift_s 2, actor_speed_scale 0.5, planner_delay_us 200000: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_040)
+- S12: 0cf6368d at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_014)
+- S13: 0cf6368d at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_026)
+- S14: 0dbb91dd at actor_time_shift_s -1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_012)
+- S15: 0dbb91dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_005)
+- S16: 0dbb91dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 100000: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_028)
+- S17: 0dbb91dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_027)
+- S18: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 0/5 failed, rate 0%-35% (90%) (lead_vehicle_llm_r2_021, lead_vehicle_llm_r2_022, lead_vehicle_llm_r2_023, lead_vehicle_llm_r2_024, lead_vehicle_llm_r2_025)
+- S19: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 200000: 0/2 failed, rate 0%-58% (90%) (lead_vehicle_llm_r2_029, lead_vehicle_llm_r2_030)
+- S20: 0e899dd3 at actor_time_shift_s 2, actor_speed_scale 0.5, planner_delay_us 200000: 0/1 failed, rate 0%-73% (90%) (lead_vehicle_llm_r2_041)
+- S21: 12855a41 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 4/4 failed, rate 60%-100% (90%) (lead_vehicle_llm_r2_004, lead_vehicle_llm_r2_010, lead_vehicle_llm_r2_015, lead_vehicle_llm_r2_016)
+- S22: 19f339ba at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0: 4/4 failed, rate 60%-100% (90%) (lead_vehicle_llm_r2_003, lead_vehicle_llm_r2_011, lead_vehicle_llm_r2_017, lead_vehicle_llm_r2_018)
 
 ## Provenance
 
@@ -99,6 +126,6 @@ Limits:
 (1) Budget. Confirming a rate above 0.5 at 90% takes about 4 to 5 failures per setting, so 5 confirmed cases need roughly 25 runs or more. That leaves little room for screening, and the study may end with fewer than 5 confirmed.
 (2) Failure is any front or side collision or leaving the road. The check cannot tell a rear-end from other contact, and near misses are only a soft ranking for the proposer, not part of the goal.
 (3) The 200 ms delay cap is given to the proposer as an instruction. The knob itself allows up to 400 ms, so the code does not enforce the cap.
-(4) Under replay the lead car never reacts to the ego, and changing its speed stretches its recorded braking profile rather than making a new braking event.). Report written by claude-opus-5-5 from `results` in 24 s; every count above is computed from the queue, not written by the model.
+(4) Under replay the lead car never reacts to the ego, and changing its speed stretches its recorded braking profile rather than making a new braking event.). Report written by claude-opus-5-5 from `results` in 28 s; every count above is computed from the queue, not written by the model.
 
-28 of 28 queued runs are seeded (`seed` in the run's queue config); `replay.py` queues a kept one again with it.
+49 of 49 queued runs are seeded (`seed` in the run's queue config); `replay.py` queues a kept one again with it.

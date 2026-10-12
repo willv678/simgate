@@ -297,5 +297,44 @@
    "output_tokens": 666,
    "duration_ms": 7065
   }
+ },
+ {
+  "run": "lead_vehicle_llm_r3_043",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "left_road",
+  "what_happened": "On a multi-lane highway with a RIGHT command, the ego ignored the recorded path, which moved right across the lanes. Instead it held to the far left edge next to the median barrier and slowly drifted left onto the shoulder while speeding up from 5.5 to 7.2 m/s, until it was off the drivable area at 10.3 s, 4 m from the human's path. Some of the right side of the camera view is smeared, but the left edge and barrier are rendered clearly.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15833,
+   "output_tokens": 807,
+   "duration_ms": 9541
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r3_048",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "other",
+  "what_happened": "The ego was following the recorded human path at about 6.9 m/s. The gap to the pickup ahead (actor 5) in the same lane shrank steadily from 15 m to 4.7 m. A front collision was logged at 4.7 s, the same instant the policy took over, with the ego 0.0 m from the recorded path. So the contact came from replaying the log or a mismatch in the actor's box or behaviour, not from any decision the policy made.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15841,
+   "output_tokens": 754,
+   "duration_ms": 8821
+  }
+ },
+ {
+  "run": "lead_vehicle_llm_r3_049",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a straight multi-lane highway, the policy took over at 4.6 s and braked with nothing ahead, dropping from 16.8 to 11.5 m/s. It also edged left toward the lane line, and its front-left corner hit the right side of actor 1, which had been just ahead in the left lane and was now alongside. A later rear contact came from the ego's unnecessary slowdown and happened after the front collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 15824,
+   "output_tokens": 1054,
+   "duration_ms": 11933
+  }
  }
 ]

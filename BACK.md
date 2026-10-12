@@ -46,39 +46,33 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
    4 scenes: linear 0 of 10 failed, feasible_best 10 of 10 (p 0.002), none
    involving the pedestrian: it turns too sharply or veers off at RIGHT
    commands. Worth checking its gains, or the uncommitted configuration.py.
-6. **Which search method is fastest depends on the space.** All
-   replicates are done (three clean ones per method and study,
-   `METHODS.md`). Hardest 5 confirmed, runs to the goal or count found:
+6. **Which search method is fastest depends on the space, and on lead
+   vehicle and cut-in none reaches the goal.** Three replicates per method,
+   every arm run to its full budget, scored with the 12 Oct fix (a contact
+   already under way when the policy takes over is not the policy's, FACTS
+   problem 30). Hardest 5 confirmed: runs to the goal, or how many found.
 
    | study | rules | hybrid | llm | random + confirmation |
    |---|---|---|---|---|
    | pedestrian x ego speed (2 knobs) | 25, 25, 25 | 24, 28, 24 | 28, 40, 37 | 31, 32, 32 |
-   | lead vehicle (3 knobs) | 0, 0, 0 of 5 | 2, 3, 3 of 5 | 23, 30, 23 | 43, 4 of 5, 3 of 5 |
-   | cut-in (2 knobs, 9 scenes) | 2, 2, 2 of 5 | 32, 36, 46 | 4 of 5, 4 of 5, 47 | 3, 3, 2 of 5 |
+   | lead vehicle (3 knobs) | 0, 0, 0 of 5 | 2, 3, 3 of 5 | 3, 1, 3 of 5 | 4, 1, 2 of 5 |
+   | cut-in (2 knobs, 9 scenes) | 2, 2, 2 of 5 | 4, goal at 48, 4 of 5 | 3, 4, 3 of 5 | 3, 0, 1 of 5 |
 
    Plain random never confirms anything. In the small space every method
-   does about as well (rules most consistent). In the larger ones a Claude
-   method wins every replicate, but not the same one: free llm on lead
-   vehicle (failures at the knob extremes), hybrid on cut-in. **Why** (`WHERE.md`): a
-   method wins where its starting guess matches where failures sit. The
-   rules start at the middle of every knob's range, which is the recording
-   on pedestrian (hard there), the 2 settings they confirm on cut-in, and on
-   lead vehicle a *faster* lead car (easy): 100% of their runs there, 0 of 6
-   hard scenes touched. llm read the brief ("slower lead = harder stop") and
-   ran 100% at 0.5x. On cut-in the hard cases sit 1-2 steps from the
-   recording; hybrid stays close (45% of runs on hard settings), llm finds
-   all 6 hard scenes but spreads too thin to confirm 5. Rules alone never reach the goal there.
-   **Correction, 12 Oct (FACTS problems 29 and 30): the lead vehicle and
-   cut-in rows above are wrong.** 75 of lead vehicle's 145 counted crashes
-   (70 of llm's 74) were contacts that began in the warm-up, while the ego
-   still replayed the human's path, and were still under way when the
-   policy took over: a lead car slowed to 0.5x is reached before the
-   hand-off. Fixed in `outer.outcome`. Under the fix no method reaches 5 on
-   lead vehicle or cut-in (lead: hybrid 2, 3, 3; llm 2, 1, 1 in the runs it
-   took; cut-in: hybrid 4, 4, 4; llm 3, 4, 3). Pedestrian x ego speed is
-   unchanged. The arms that had stopped at the old goal are re-running to
-   their full budget. Separately, replayed cars running into an ego braking
-   in its own lane (`CLOSED.md`) inflate cut-in further.
+   reaches the goal (rules most consistent). In the larger ones none does;
+   rules alone are the weakest, hybrid is about one case ahead on cut-in,
+   and on lead vehicle no method is ahead across replicates. **This
+   replaces the 10 Oct table**, where llm "won" lead vehicle in 23-30 runs:
+   70 of its 74 failures were a lead car slowed to 0.5x that the ego met
+   during the warm-up, while it still replayed the human's path, and was
+   still touching when the policy took over. **Why a method does well**
+   (`WHERE.md`): where its starting guess matches where failures sit. Rules
+   start at the middle of every knob's range: the recording on pedestrian
+   (hard there), two settings they confirm on cut-in, and a faster lead car
+   on lead vehicle (easy). On cut-in hybrid stays near the recording, where
+   the hard cases are. A second caveat on cut-in (`CLOSED.md`, problem 29):
+   24 of its counted crashes are a replayed car running into an ego braking
+   in its own lane; without them hybrid and llm tie (3, 4, 3).
 7. **Replays are exact** (same seed, 0.0 m over 122 steps) and **the ego
    speed knob works** (measured within 0.004 m/s of the request).
 

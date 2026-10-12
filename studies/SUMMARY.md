@@ -9,25 +9,26 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 | study | proposer | kept | failures | runs to goal | found | hardest | model s |
 |---|---|---|---|---|---|---|---|
 | controller_tuning_pedestrian | hybrid | 20/50 | 10 | 16 | 1 | 0.559 | 21.7 |
-| cut_in_merge | rules | 27/54 | 7 | not reached | 2 | 0.909 | 0.0 |
-| cut_in_merge | rules_r2 | 54/54 | 9 | not reached | 2 | 0.948 | 0.0 |
-| cut_in_merge | rules_r3 | 54/54 | 9 | not reached | 2 | 0.925 | 0.0 |
+| cut_in_merge | rules | 27/54 | 7 | not reached | 2 | 0.917 | 0.0 |
+| cut_in_merge | rules_r2 | 54/54 | 8 | not reached | 2 | 0.925 | 0.0 |
+| cut_in_merge | rules_r3 | 54/54 | 10 | not reached | 2 | 0.943 | 0.0 |
 | cut_in_merge | rules_r4 | 54/54 | 10 | not reached | 2 | 0.936 | 0.0 |
 | cut_in_merge | hybrid | 27/54 | 6 | not reached | 2 | 0.934 | 36.7 |
-| cut_in_merge | hybrid_r2 | 36/54 | 17 | 32 | 5 | 1.0 | 51.7 |
-| cut_in_merge | hybrid_r3 | 36/54 | 20 | 36 | 5 | 1.0 | 50.0 |
-| cut_in_merge | hybrid_r4 | 54/54 | 27 | 46 | 5 | 1.0 | 86.7 |
-| cut_in_merge | llm | 27/54 | 6 | not reached | 2 | 0.933 | 56.5 |
-| cut_in_merge | llm_r2 | 54/54 | 18 | not reached | 4 | 0.983 | 101.3 |
+| cut_in_merge | hybrid_r2 | 54/54 | 18 | not reached | 4 | 0.981 | 81.0 |
+| cut_in_merge | hybrid_r3 | 53/54 | 20 | 48 | 5 | 1.0 | 96.1 |
+| cut_in_merge | hybrid_r4 | 54/54 | 23 | not reached | 4 | 0.979 | 86.7 |
+| cut_in_merge | llm | 27/54 | 7 | not reached | 2 | 0.94 | 56.5 |
+| cut_in_merge | llm_r2 | 54/54 | 15 | not reached | 3 | 0.962 | 101.3 |
 | cut_in_merge | llm_r3 | 53/54 | 18 | not reached | 4 | 0.979 | 108.2 |
-| cut_in_merge | llm_r4 | 54/54 | 28 | 47 | 5 | 1.0 | 86.6 |
-| cut_in_merge | random_confirm | 54/54 | 18 | not reached | 3 | 0.952 | 0.0 |
-| cut_in_merge | random_confirm_r2 | 54/54 | 18 | not reached | 3 | 0.949 | 0.0 |
-| cut_in_merge | random_confirm_r3 | 54/54 | 9 | not reached | 2 | 0.951 | 0.0 |
+| cut_in_merge | llm_r4 | 54/54 | 24 | not reached | 3 | 0.977 | 86.6 |
+| cut_in_merge | random_confirm | 54/54 | 16 | not reached | 3 | 0.959 | 0.0 |
+| cut_in_merge | random_confirm_r2 | 54/54 | 10 | not reached | 0 | 0.954 | 0.0 |
+| cut_in_merge | random_confirm_r3 | 54/54 | 4 | not reached | 1 | 0.907 | 0.0 |
 | cut_in_merge_2hz | rules | 53/54 | 7 | not reached | 2 | 0.889 | 0.0 |
 | cut_in_merge_2hz | rules_v3 | 54/54 | 3 | not reached | 0 | 0.862 | 0.0 |
-| cut_in_merge_2hz | hybrid | 50/54 | 14 | not reached | 4 | 0.97 | 87.6 |
-| cut_in_merge_2hz | llm | 19/54 | 9 | not reached | 3 | 0.938 | 48.5 |
+| cut_in_merge_2hz | hybrid | 54/54 | 10 | not reached | 3 | 0.938 | 87.6 |
+| cut_in_merge_2hz | llm | 54/54 | 13 | not reached | 3 | 0.984 | 101.6 |
+| cut_in_merge_2hz | random_confirm | 54/54 | 20 | not reached | 4 | 1.0 | 0.0 |
 | ego_speed_smoke | grid | 5/5 | 1 | not reached | 0 | 0.2 | 0.0 |
 | intersection | rules | 49/49 | 0 | not reached | 0 | 0.435 | 0.0 |
 | intersection | hybrid | 49/49 | 6 | not reached | 1 | 0.541 | 91.4 |
@@ -44,13 +45,14 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 | lead_vehicle | hybrid | 49/49 | 7 | not reached | 2 | 0.92 | 110.8 |
 | lead_vehicle | hybrid_r2 | 49/49 | 10 | not reached | 3 | 0.952 | 100.4 |
 | lead_vehicle | hybrid_r3 | 49/49 | 9 | not reached | 3 | 0.955 | 101.3 |
-| lead_vehicle | llm | 21/49 | 13 | not reached | 3 | 0.918 | 40.7 |
-| lead_vehicle | llm_r2 | 28/49 | 21 | 23 | 5 | 1.0 | 59.8 |
-| lead_vehicle | llm_r3 | 35/49 | 23 | 30 | 5 | 1.0 | 75.8 |
-| lead_vehicle | llm_r4 | 28/49 | 17 | 23 | 5 | 1.0 | 59.1 |
-| lead_vehicle | random_confirm | 49/49 | 17 | 43 | 5 | 1.0 | 0.0 |
-| lead_vehicle | random_confirm_r2 | 49/49 | 17 | not reached | 4 | 0.978 | 0.0 |
-| lead_vehicle | random_confirm_r3 | 49/49 | 11 | not reached | 3 | 0.953 | 0.0 |
+| lead_vehicle | llm | 21/49 | 5 | not reached | 1 | 0.942 | 40.7 |
+| lead_vehicle | llm_r2 | 49/49 | 19 | not reached | 3 | 0.972 | 113.3 |
+| lead_vehicle | llm_r3 | 49/49 | 6 | not reached | 1 | 0.959 | 108.2 |
+| lead_vehicle | llm_r4 | 49/49 | 9 | not reached | 3 | 0.958 | 113.4 |
+| lead_vehicle | random_confirm | 49/49 | 12 | not reached | 4 | 0.979 | 0.0 |
+| lead_vehicle | random_confirm_r2 | 49/49 | 6 | not reached | 1 | 0.934 | 0.0 |
+| lead_vehicle | random_confirm_r3 | 49/49 | 8 | not reached | 2 | 0.93 | 0.0 |
+| lead_vehicle_2hz | rules | 18/49 | 0 | not reached | 0 | 0.786 | 0.0 |
 | lead_vehicle_2hz | rules_v3 | 49/49 | 2 | not reached | 0 | 0.835 | 0.0 |
 | pedestrian_crossing | rules | 49/49 | 0 | not reached | 0 | 0.643 | 0.0 |
 | pedestrian_crossing | hybrid | 49/49 | 0 | not reached | 0 | 0.636 | 90.1 |
@@ -92,16 +94,16 @@ In merge and cut-in scenes, which timings and speeds of the other cars make the 
 - **rules_r3**: 023b7fcc at actor_time_shift_s 0.0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25
 - **rules_r4**: 023b7fcc at actor_time_shift_s 0.0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25
 - **hybrid**: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25
-- **hybrid_r2**: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 2; 096988dd at actor_time_shift_s 0, actor_speed_scale 2; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 054b5901 at actor_time_shift_s 0, actor_speed_scale 1.5; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25
-- **hybrid_r3**: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 2; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 054b5901 at actor_time_shift_s 0, actor_speed_scale 1.5; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25; 096988dd at actor_time_shift_s 0, actor_speed_scale 2
-- **hybrid_r4**: 096988dd at actor_time_shift_s 0, actor_speed_scale 2; 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 2; 054b5901 at actor_time_shift_s 0, actor_speed_scale 1.5; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25
+- **hybrid_r2**: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 2; 096988dd at actor_time_shift_s 0, actor_speed_scale 2; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25
+- **hybrid_r3**: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 2; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25; 19f339ba at actor_time_shift_s 0, actor_speed_scale 2; 096988dd at actor_time_shift_s 0, actor_speed_scale 2
+- **hybrid_r4**: 096988dd at actor_time_shift_s 0, actor_speed_scale 2; 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 2; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25
 - **llm**: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5
-- **llm_r2**: 09a95ffa at actor_time_shift_s 0.5, actor_speed_scale 1; 023b7fcc at actor_time_shift_s -0.5, actor_speed_scale 1; 19f339ba at actor_time_shift_s 0.5, actor_speed_scale 1; 054b5901 at actor_time_shift_s -1, actor_speed_scale 1.25
+- **llm_r2**: 09a95ffa at actor_time_shift_s 0.5, actor_speed_scale 1; 023b7fcc at actor_time_shift_s -0.5, actor_speed_scale 1; 19f339ba at actor_time_shift_s 0.5, actor_speed_scale 1
 - **llm_r3**: 09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5; 023b7fcc at actor_time_shift_s -0.5, actor_speed_scale 1; 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 2; 096988dd at actor_time_shift_s -0.5, actor_speed_scale 2
-- **llm_r4**: 096988dd at actor_time_shift_s -0.5, actor_speed_scale 2; 09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 0e899dd3 at actor_time_shift_s -1.5, actor_speed_scale 2; 054b5901 at actor_time_shift_s -1, actor_speed_scale 1.25
+- **llm_r4**: 096988dd at actor_time_shift_s -0.5, actor_speed_scale 2; 09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25
 - **random_confirm**: 096988dd at actor_time_shift_s 2.0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25; 023b7fcc at actor_time_shift_s -2.0, actor_speed_scale 1.5
-- **random_confirm_r2**: 09a95ffa at actor_time_shift_s -1.5, actor_speed_scale 1.25; 023b7fcc at actor_time_shift_s 0.5, actor_speed_scale 2.0; 054b5901 at actor_time_shift_s -1.0, actor_speed_scale 1.25
-- **random_confirm_r3**: 09a95ffa at actor_time_shift_s -1.5, actor_speed_scale 1.0; 0e899dd3 at actor_time_shift_s 0.0, actor_speed_scale 0.5
+- **random_confirm_r2**: nothing confirmed
+- **random_confirm_r3**: 09a95ffa at actor_time_shift_s -1.5, actor_speed_scale 1.0
 
 ## cut_in_merge_2hz
 
@@ -109,8 +111,9 @@ In merge and cut-in scenes, which timings and speeds of the other cars make the 
 
 - **rules**: 023b7fcc at actor_time_shift_s 0.0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25
 - **rules_v3**: nothing confirmed
-- **hybrid**: 054b5901 at actor_time_shift_s 0, actor_speed_scale 1.5; 096988dd at actor_time_shift_s 0, actor_speed_scale 2; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25
-- **llm**: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5; 0e899dd3 at actor_time_shift_s -1.5, actor_speed_scale 1.5
+- **hybrid**: 096988dd at actor_time_shift_s 0, actor_speed_scale 2; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25
+- **llm**: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25; 0e899dd3 at actor_time_shift_s -1.5, actor_speed_scale 1.5; 09a95ffa at actor_time_shift_s -1, actor_speed_scale 1.5
+- **random_confirm**: 096988dd at actor_time_shift_s 2.0, actor_speed_scale 1.25; 023b7fcc at actor_time_shift_s -2.0, actor_speed_scale 1.5; 19f339ba at actor_time_shift_s -0.5, actor_speed_scale 1.5; 1c45ce3a at actor_time_shift_s 0.0, actor_speed_scale 0.75
 
 ## ego_speed_smoke
 
@@ -147,18 +150,19 @@ In lead-vehicle scenes, which timing shifts and speed scalings of the recorded l
 - **hybrid**: 12855a41 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000
 - **hybrid_r2**: 12855a41 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000; 09a95ffa at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000; 19f339ba at actor_time_shift_s -0.5, actor_speed_scale 1.25, planner_delay_us 200000
 - **hybrid_r3**: 023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000; 12855a41 at actor_time_shift_s 0, actor_speed_scale 0.75, planner_delay_us 200000; 19f339ba at actor_time_shift_s -0.5, actor_speed_scale 1.25, planner_delay_us 200000
-- **llm**: 19f339ba at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 12855a41 at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0
-- **llm_r2**: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0; 12855a41 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0; 19f339ba at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0; 096988dd at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0
-- **llm_r3**: 0e899dd3 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0; 12855a41 at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 19f339ba at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0
-- **llm_r4**: 0e899dd3 at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 023b7fcc at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0; 12855a41 at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 19f339ba at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 096988dd at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0
-- **random_confirm**: 023b7fcc at actor_time_shift_s -1.0, actor_speed_scale 0.5, planner_delay_us 200000; 09a95ffa at actor_time_shift_s 2.0, actor_speed_scale 1.25, planner_delay_us 400000; 0e899dd3 at actor_time_shift_s -1.0, actor_speed_scale 0.5, planner_delay_us 50000; 12855a41 at actor_time_shift_s 0.0, actor_speed_scale 0.5, planner_delay_us 50000; 096988dd at actor_time_shift_s -1.5, actor_speed_scale 1.25, planner_delay_us 0
-- **random_confirm_r2**: 09a95ffa at actor_time_shift_s 1.5, actor_speed_scale 0.75, planner_delay_us 250000; 023b7fcc at actor_time_shift_s 1.5, actor_speed_scale 0.75, planner_delay_us 50000; 12855a41 at actor_time_shift_s 0.5, actor_speed_scale 0.5, planner_delay_us 400000; 096988dd at actor_time_shift_s -2.0, actor_speed_scale 1.5, planner_delay_us 350000
-- **random_confirm_r3**: 19f339ba at actor_time_shift_s 0.0, actor_speed_scale 1.5, planner_delay_us 200000; 023b7fcc at actor_time_shift_s 1.5, actor_speed_scale 0.75, planner_delay_us 50000; 096988dd at actor_time_shift_s -2.0, actor_speed_scale 1.5, planner_delay_us 350000
+- **llm**: 19f339ba at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0
+- **llm_r2**: 096988dd at actor_time_shift_s 2, actor_speed_scale 0.5, planner_delay_us 200000; 12855a41 at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0; 19f339ba at actor_time_shift_s 0, actor_speed_scale 0.5, planner_delay_us 0
+- **llm_r3**: 19f339ba at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0
+- **llm_r4**: 12855a41 at actor_time_shift_s 2, actor_speed_scale 0.5, planner_delay_us 0; 19f339ba at actor_time_shift_s 1, actor_speed_scale 0.5, planner_delay_us 0; 096988dd at actor_time_shift_s 2, actor_speed_scale 0.5, planner_delay_us 0
+- **random_confirm**: 09a95ffa at actor_time_shift_s 2.0, actor_speed_scale 1.25, planner_delay_us 400000; 0e899dd3 at actor_time_shift_s -1.0, actor_speed_scale 0.5, planner_delay_us 50000; 12855a41 at actor_time_shift_s 0.0, actor_speed_scale 0.5, planner_delay_us 50000; 096988dd at actor_time_shift_s -1.5, actor_speed_scale 1.25, planner_delay_us 0
+- **random_confirm_r2**: 096988dd at actor_time_shift_s -2.0, actor_speed_scale 1.5, planner_delay_us 350000
+- **random_confirm_r3**: 19f339ba at actor_time_shift_s 0.0, actor_speed_scale 1.5, planner_delay_us 200000; 096988dd at actor_time_shift_s -2.0, actor_speed_scale 1.5, planner_delay_us 350000
 
 ## lead_vehicle_2hz
 
 In lead-vehicle scenes, which timing shifts and speed scalings of the recorded lead car make VaVAM run into it? Find the 5 most challenging cases, each on a different scene, confirmed by repeats.
 
+- **rules**: nothing confirmed
 - **rules_v3**: nothing confirmed
 
 ## pedestrian_crossing

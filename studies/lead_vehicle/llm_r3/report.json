@@ -1,45 +1,46 @@
 {
  "answer": {
-  "answer": "The goal check passed: five settings on five different scenes failed in every repeat. All five slow the lead car to 0.5x its recorded speed, with no planner delay (S16, S1, S18, S19, S4). Most of these failures were not the policy's, though. Triage of the videos and logs shows that at S16, S1 and S4, and in two of the three S18 runs, the ego was still replaying the recorded human path. It was already touching the slowed lead car at or before the moment the policy took over, so these are artifacts of the replay setup, not rear-ends by VaVAM. Only S19 (scene 19f339ba, +1 s, 0.5x) shows the policy failing in every repeat, and those were not rear-ends: VaVAM braked hard for no clear reason, drifted left and clipped a car in the next lane. So the study has not shown which timings and speeds make VaVAM run into a lead car that slows or stops.",
+  "answer": "The study confirmed only one challenging case of the five the brief asked for, and that case is not a rear-end. On scene 19f339ba, shifting the lead car +1 s at 0.5x speed with no planner delay (S30) made every repeat fail. In each one, the policy braked hard with nothing close ahead, drifted left and clipped the car in the next lane (actor 1), not the retimed lead car. The range there only just clears the 0.5 threshold. No setting showed the policy rear-ending the lead car. The other single-run failures are hints, and two of them don't count: on 0e899dd3 (S22) the contact came from the replay before the policy took control, and on 12855a41 (S28) the ego left the road, which may be a rendering artifact. The study tried only 0.5x speed and mostly delays of zero or 200 ms, so whether other timings or speeds cause rear-ends is still untested.",
   "findings": [
    {
-    "claim": "On scene 0e899dd3, slowing the lead to 0.5x made every run fail at both 0 s and +1 s. Every failure happened before or at the moment the policy took over, while the ego was still replaying the recorded path, so none is VaVAM's fault.",
+    "claim": "Scene 19f339ba at +1 s, 0.5x, 0 ms delay is the only confirmed challenging case: every kept repeat failed. The failure is the policy's fault but is not a rear-end. The ego braked for no clear reason, drifted about 1 m left, and its front-left corner hit actor 1 in the adjacent lane. In some runs a follower then hit it from behind.",
     "settings": [
-     "S16",
-     "S17"
+     "S30"
     ]
    },
    {
-    "claim": "On scenes 023b7fcc (0 s), 096988dd (+1 s) and 09a95ffa (-1 s), every run at 0.5x failed, but triage traces all of them to the replayed ego overlapping the slowed lead before the policy took over. They are not evidence about the policy.",
+    "claim": "The same failure, with the ego braking and clipping the left-lane car, also showed up on 19f339ba at 0 s shift in a single run. That suggests this scene fails across timings near the recorded one, but one run is only a hint.",
+    "settings": [
+     "S29"
+    ]
+   },
+   {
+    "claim": "The failure on 0e899dd3 at -0.5 s, 0.5x, 200 ms was not the policy's fault. The ego was still replaying the recorded path and closed on the pickup ahead, and contact was logged at the moment of handoff. The other settings on this scene had no counted failures.",
+    "settings": [
+     "S22",
+     "S23",
+     "S24",
+     "S25"
+    ]
+   },
+   {
+    "claim": "The failure on 12855a41 at +2 s, 0.5x, 200 ms was the ego drifting left onto the shoulder, not a collision with the lead car. It was a single run and is flagged as a possible rendering artifact, so it does not count as a confirmed lead-vehicle case.",
+    "settings": [
+     "S28",
+     "S26",
+     "S27"
+    ]
+   },
+   {
+    "claim": "No counted failures appeared on 023b7fcc, 096988dd, 09a95ffa, 0cf6368d or 0dbb91dd at any timing tried, at 0.5x speed and 0 or 200 ms delay. Most of these settings had only one or two runs, so they show that failure isn't common there, not that the scenes are safe.",
     "settings": [
      "S1",
-     "S4",
-     "S5"
-    ]
-   },
-   {
-    "claim": "On scene 12855a41 at +1 s and 0.5x, every run failed. In two of them the ego was already touching the lead before the policy took over; the third failure has no triage, so it is unexplained.",
-    "settings": [
-     "S18"
-    ]
-   },
-   {
-    "claim": "The only failures the policy caused came on scene 19f339ba at +1 s and 0.5x, and every repeat failed. VaVAM braked hard with nothing close ahead, drifted about 1 m left and clipped a car alongside in the left lane. That is a side collision, not a rear-end of the retimed lead.",
-    "settings": [
-     "S19"
-    ]
-   },
-   {
-    "claim": "Nearby timings on the same scenes did not fail: 023b7fcc at +1 s, and 09a95ffa at 0 s and +1 s. These are single runs or a pair, so they are hints, not rates.",
-    "settings": [
      "S2",
+     "S3",
+     "S4",
+     "S5",
      "S6",
-     "S7"
-    ]
-   },
-   {
-    "claim": "Scenes 0dbb91dd and 0cf6368d never failed at 0.5x, at any shift tried from -1 to +2 s. On 0dbb91dd this held even with 200 ms of planner delay. Each setting has a single run, so this is a hint.",
-    "settings": [
+     "S7",
      "S8",
      "S9",
      "S10",
@@ -47,21 +48,34 @@
      "S12",
      "S13",
      "S14",
-     "S15"
+     "S15",
+     "S16",
+     "S17",
+     "S18",
+     "S19",
+     "S20",
+     "S21"
     ]
    },
    {
-    "claim": "The single failure on scene 096988dd at +0.5 s was also a replay collision before the policy took over.",
+    "claim": "The triage found that many runs at 0.5x speed, on 023b7fcc, 096988dd, 09a95ffa, 0e899dd3 and 12855a41, already had the ego's box overlapping the lead car before the policy took over. The slowed replayed lead and the recorded ego path conflict, so these contacts reflect the setup, not the policy.",
     "settings": [
-     "S3"
+     "S1",
+     "S7",
+     "S5",
+     "S9",
+     "S23",
+     "S25",
+     "S26"
     ]
    }
   ],
   "open": [
-   "Whether VaVAM rear-ends a slowing lead car at all is unsettled. At 0.5x, the slowed lead meets the replayed ego before the policy takes over. Settling it needs one of two changes: start the retiming at handoff, or use milder slowdowns between 0.6x and 0.9x so the gap is still open when VaVAM takes over. Then repeat on 0e899dd3, 023b7fcc, 096988dd, 09a95ffa and 12855a41.",
-   "Whether the retiming caused the policy failure on 19f339ba is unknown. It happened with no lead close ahead, so a few repeats at the recorded timing (0 s, 1x) would show whether VaVAM drifts left there anyway.",
-   "The third S18 failure has no triage, so its cause is unknown.",
-   "Lead speeds above 1x and time shifts of -2 s were never tried. Planner delay was tried only once (S14, 200 ms on 0dbb91dd)."
+   "Whether any setting makes VaVAM rear-end the lead car while the policy is in control. No case in this study did.",
+   "Speed scales above 0.5x and most negative time shifts were never tried. A sweep at 1x to 2x speed and -2 to -1 s shift would test timings where the ego reaches the lead car only after handoff.",
+   "At 0.5x, the slowed lead often overlaps the replayed ego before handoff. The study needs either settings where the lead's slowdown happens after handoff (larger positive shifts) or a check that drops runs with contact before handoff.",
+   "Four more confirmed cases on different scenes are still needed. Repeats at S29 (19f339ba, 0 s) would firm up that scene's range, but it can supply only one case. Repeats at S28 (12855a41) would show whether its road departure is real or a rendering artifact.",
+   "Whether the failure on 19f339ba depends on the retiming at all. Its mode, braking with nothing ahead and then a side contact, may happen at the recorded timing too, so baseline repeats on that scene are needed."
   ]
  },
  "results": [
@@ -72,13 +86,13 @@
    "actor_speed_scale": 0.5,
    "planner_delay_us": 0,
    "runs": 3,
-   "failed": 3,
+   "failed": 0,
    "failure_rate_90": [
-    0.53,
-    1.0
+    0.0,
+    0.47
    ],
    "possible_artifacts": 0,
-   "criticality": 1.0,
+   "criticality": 0.0,
    "run_names": [
     "lead_vehicle_llm_r3_014",
     "lead_vehicle_llm_r3_016",
@@ -98,43 +112,97 @@
     0.73
    ],
    "possible_artifacts": 0,
-   "criticality": 0.0,
+   "criticality": 0.895,
    "run_names": [
     "lead_vehicle_llm_r3_002"
    ]
   },
   {
    "id": "S3",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.884,
+   "run_names": [
+    "lead_vehicle_llm_r3_042"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 2,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.88,
+   "run_names": [
+    "lead_vehicle_llm_r3_046"
+   ]
+  },
+  {
+   "id": "S5",
    "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
    "actor_time_shift_s": 0.5,
    "actor_speed_scale": 0.5,
    "planner_delay_us": 0,
    "runs": 1,
-   "failed": 1,
+   "failed": 0,
    "failure_rate_90": [
-    0.27,
-    1.0
+    0.0,
+    0.73
    ],
    "possible_artifacts": 0,
-   "criticality": 1.0,
+   "criticality": 0.898,
    "run_names": [
     "lead_vehicle_llm_r3_007"
    ]
   },
   {
-   "id": "S4",
+   "id": "S6",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.896,
+   "run_names": [
+    "lead_vehicle_llm_r3_040"
+   ]
+  },
+  {
+   "id": "S7",
    "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
    "actor_time_shift_s": 1,
    "actor_speed_scale": 0.5,
    "planner_delay_us": 0,
    "runs": 3,
-   "failed": 3,
+   "failed": 0,
    "failure_rate_90": [
-    0.53,
-    1.0
+    0.0,
+    0.47
    ],
    "possible_artifacts": 0,
-   "criticality": 1.0,
+   "criticality": 0.884,
    "run_names": [
     "lead_vehicle_llm_r3_001",
     "lead_vehicle_llm_r3_012",
@@ -142,19 +210,37 @@
    ]
   },
   {
-   "id": "S5",
+   "id": "S8",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.871,
+   "run_names": [
+    "lead_vehicle_llm_r3_044"
+   ]
+  },
+  {
+   "id": "S9",
    "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
    "actor_time_shift_s": -1,
    "actor_speed_scale": 0.5,
    "planner_delay_us": 0,
    "runs": 3,
-   "failed": 3,
+   "failed": 0,
    "failure_rate_90": [
-    0.53,
-    1.0
+    0.0,
+    0.47
    ],
    "possible_artifacts": 0,
-   "criticality": 1.0,
+   "criticality": 0.867,
    "run_names": [
     "lead_vehicle_llm_r3_028",
     "lead_vehicle_llm_r3_034",
@@ -162,7 +248,7 @@
    ]
   },
   {
-   "id": "S6",
+   "id": "S10",
    "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
    "actor_time_shift_s": 0,
    "actor_speed_scale": 0.5,
@@ -174,14 +260,33 @@
     0.58
    ],
    "possible_artifacts": 0,
-   "criticality": 0.0,
+   "criticality": 0.892,
    "run_names": [
     "lead_vehicle_llm_r3_018",
     "lead_vehicle_llm_r3_019"
    ]
   },
   {
-   "id": "S7",
+   "id": "S11",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 200000,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.888,
+   "run_names": [
+    "lead_vehicle_llm_r3_038",
+    "lead_vehicle_llm_r3_039"
+   ]
+  },
+  {
+   "id": "S12",
    "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
    "actor_time_shift_s": 1,
    "actor_speed_scale": 0.5,
@@ -193,13 +298,31 @@
     0.73
    ],
    "possible_artifacts": 0,
-   "criticality": 0.0,
+   "criticality": 0.886,
    "run_names": [
     "lead_vehicle_llm_r3_006"
    ]
   },
   {
-   "id": "S8",
+   "id": "S13",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.884,
+   "run_names": [
+    "lead_vehicle_llm_r3_045"
+   ]
+  },
+  {
+   "id": "S14",
    "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
    "actor_time_shift_s": 0,
    "actor_speed_scale": 0.5,
@@ -217,7 +340,7 @@
    ]
   },
   {
-   "id": "S9",
+   "id": "S15",
    "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
    "actor_time_shift_s": 1,
    "actor_speed_scale": 0.5,
@@ -235,7 +358,7 @@
    ]
   },
   {
-   "id": "S10",
+   "id": "S16",
    "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
    "actor_time_shift_s": -1,
    "actor_speed_scale": 0.5,
@@ -253,7 +376,7 @@
    ]
   },
   {
-   "id": "S11",
+   "id": "S17",
    "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
    "actor_time_shift_s": 0,
    "actor_speed_scale": 0.5,
@@ -271,7 +394,7 @@
    ]
   },
   {
-   "id": "S12",
+   "id": "S18",
    "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
    "actor_time_shift_s": 0.5,
    "actor_speed_scale": 0.5,
@@ -289,7 +412,7 @@
    ]
   },
   {
-   "id": "S13",
+   "id": "S19",
    "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
    "actor_time_shift_s": 1,
    "actor_speed_scale": 0.5,
@@ -307,7 +430,7 @@
    ]
   },
   {
-   "id": "S14",
+   "id": "S20",
    "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
    "actor_time_shift_s": 1,
    "actor_speed_scale": 0.5,
@@ -325,7 +448,7 @@
    ]
   },
   {
-   "id": "S15",
+   "id": "S21",
    "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
    "actor_time_shift_s": 2,
    "actor_speed_scale": 0.5,
@@ -343,19 +466,37 @@
    ]
   },
   {
-   "id": "S16",
+   "id": "S22",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_llm_r3_048"
+   ]
+  },
+  {
+   "id": "S23",
    "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
    "actor_time_shift_s": 0,
    "actor_speed_scale": 0.5,
    "planner_delay_us": 0,
    "runs": 4,
-   "failed": 4,
+   "failed": 0,
    "failure_rate_90": [
-    0.6,
-    1.0
+    0.0,
+    0.4
    ],
    "possible_artifacts": 0,
-   "criticality": 1.0,
+   "criticality": 0.885,
    "run_names": [
     "lead_vehicle_llm_r3_024",
     "lead_vehicle_llm_r3_029",
@@ -364,19 +505,38 @@
    ]
   },
   {
-   "id": "S17",
+   "id": "S24",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 200000,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.893,
+   "run_names": [
+    "lead_vehicle_llm_r3_041",
+    "lead_vehicle_llm_r3_047_a2"
+   ]
+  },
+  {
+   "id": "S25",
    "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
    "actor_time_shift_s": 1,
    "actor_speed_scale": 0.5,
    "planner_delay_us": 0,
    "runs": 3,
-   "failed": 3,
+   "failed": 0,
    "failure_rate_90": [
-    0.53,
-    1.0
+    0.0,
+    0.47
    ],
    "possible_artifacts": 0,
-   "criticality": 1.0,
+   "criticality": 0.0,
    "run_names": [
     "lead_vehicle_llm_r3_025",
     "lead_vehicle_llm_r3_032",
@@ -384,19 +544,19 @@
    ]
   },
   {
-   "id": "S18",
+   "id": "S26",
    "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
    "actor_time_shift_s": 1,
    "actor_speed_scale": 0.5,
    "planner_delay_us": 0,
    "runs": 3,
-   "failed": 3,
+   "failed": 0,
    "failure_rate_90": [
-    0.53,
-    1.0
+    0.0,
+    0.47
    ],
    "possible_artifacts": 0,
-   "criticality": 1.0,
+   "criticality": 0.89,
    "run_names": [
     "lead_vehicle_llm_r3_004",
     "lead_vehicle_llm_r3_008",
@@ -404,7 +564,62 @@
    ]
   },
   {
-   "id": "S19",
+   "id": "S27",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 200000,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.893,
+   "run_names": [
+    "lead_vehicle_llm_r3_036",
+    "lead_vehicle_llm_r3_037"
+   ]
+  },
+  {
+   "id": "S28",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 2,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 200000,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_llm_r3_043"
+   ]
+  },
+  {
+   "id": "S29",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 0.5,
+   "planner_delay_us": 0,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lead_vehicle_llm_r3_049"
+   ]
+  },
+  {
+   "id": "S30",
    "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
    "actor_time_shift_s": 1,
    "actor_speed_scale": 0.5,
@@ -426,8 +641,8 @@
  ],
  "call": {
   "model": "claude-opus-5-5",
-  "context_tokens": 16798,
-  "output_tokens": 1822,
-  "duration_ms": 18568
+  "context_tokens": 16831,
+  "output_tokens": 2166,
+  "duration_ms": 23220
  }
 }
