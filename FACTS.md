@@ -574,6 +574,36 @@ of 5 in 54, the same two each time (1.25x speed, no time shift, scenes
 determinism predicts. In this space hybrid is the only method that reaches the goal every
 time; llm reaches it once in three.
 
+### Why each method wins where it does (11 Oct, `WHERE.md`)
+
+All kept runs of a study pooled per setting (replay makes outcomes nearly
+seed-free); hard = pooled failure rate surely above 0.5; distance = grid
+steps from the recorded setting (`harness/where_found.py`).
+- **Where the hard cases are:** pedestrian x ego speed, 38 hard settings on
+  7 of 10 scenes, 6 of those scenes hard as recorded (distance 0). Lead
+  vehicle, 23 on 6 of 8 scenes, none as recorded, all 2+ steps away (mostly
+  the lead car slowed to 0.5x). Cut-in, 18 on 6 of 9 scenes, none as
+  recorded, 5 of them 1 step away (1.25x speed or a small shift).
+- **The rules start at the middle of every knob's range**, not at the
+  recording (`guided.py`, "first probe, middle of every knob"), then confirm
+  near misses there (problem 26). The middle is the recording on pedestrian x
+  ego speed (1.0x, 0 s: hard, so rules win), 1.25x and 0 s on cut-in (the two
+  settings rules confirmed in every replicate), and 1.25x with 200 ms on lead
+  vehicle: a faster lead car pulls away, the easy direction. Rules spent 100%
+  of their lead-vehicle runs at 1.25x, touched 0 of the 6 hard scenes.
+- **llm reads the brief's physics:** the lead-vehicle brief says a slower
+  lead car is a harder stop; llm ran 100% of its runs at 0.5x (replicates 3
+  and 4), 63% of its runs on hard settings, all 6 hard scenes. Hybrid,
+  choosing among rule candidates, ran 48-58% at 1.25x and reached 3 of 6.
+- **Cut-in rewards staying close:** hybrid looked 1.9 steps out on average,
+  45% of its runs on hard settings, 5 of 6 hard scenes; llm 3.0 steps, 31%,
+  6 of 6: it finds every hard scene but spreads its 54 runs too thin to
+  confirm 5. Random + confirmation: 3.6 steps, 16%.
+- Reading for the paper: a method wins where its search prior matches where
+  failures sit. Rules' prior is the grid middle (luck), llm's is the brief's
+  physics (good when the brief states a direction), hybrid's is the rule
+  candidates re-ranked (good near the recording).
+
 ### Replicates under replayed traffic are nearly deterministic (9 Oct)
 
 pedestrian x ego speed, rules, three replicates with different run seeds
@@ -700,6 +730,7 @@ quietly. Sources: LOG.md, the commits named.
 | 24 | Our own knob produced implausible motion before the policy drove | pedestrian x ego speed, scene 07981e6a at 1.2x: 10.7 m/s^2 at 3.7 s before the hand-off, where the warm-up extrapolated before the recording (extended at the first recorded second's mean velocity, 5.72 m/s) meets the recording (4.65 m/s) | the physics bound halted both runs (not kept); the extrapolation should match the recording's speed at the seam; held until the replicate studies ended (so every replicate saw the same warm-up), applied 10 Oct (`patches/pending-ego-retiming-seam.patch`; unit tests pass, not yet re-checked in a simulation) | gate catch (simulator setup) |
 | 25 | A quarter of the "failures" were not the policy's | the gallery of confirmed hardest cases showed collisions at t = 0 s, collisions while the ego still replayed its recording, and replayed cars rear-ending a slower ego and then overlapping its front (counted "front"): 49 of 200 counted failures (cut-in 32 of 51, lead vehicle 17 of 37; pedestrian x ego speed 0 of 84) | a failure is now off-road, or a front or side collision that begins before any rear contact, counted from the policy's first step (AlpaSim's own eval_relevant warm-up filter; nuPlan's rear-collision rule); the closest approach uses the same window; `failed_any` keeps the broad reading; arms that stopped under it are left out of the method comparison and replaced by a fourth replicate | evaluation design |
 | 26 | The rule proposer spent its budget confirming near misses that never fail | lead vehicle: rules 0 failures in 49 runs; rules + corners repeated "confirm S#: near failure" every round after the first (38 runs, 0 failures), while random + confirmation confirmed 5 cases at knob extremes | a rate of 0 is never surely above high_min, and nothing stopped confirmation once a rate was surely below it; rules_v2 stops confirming a setting whose 90% range tops out below high_min (3 straight passes) and then tries the scene's corners; rules and hybrid keep the old rule so their replicates stay comparable | search design |
+| 27 | The rule proposer's results mostly reflect where it starts | rules confirmed exactly the settings at the middle of each knob's range: 1.25x and 0 s on cut-in in every replicate, nothing on lead vehicle where the middle (1.25x, 200 ms) is the easy direction (100% of runs at 1.25x, 0 of 6 hard scenes touched) | found by pooling every arm's runs per setting (`where_found.py`, `WHERE.md`); not changed in `rules`, whose replicates are done; a rule design should start at the recording and step in the direction the brief calls harder, or sweep the corners first | search design |
 
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 

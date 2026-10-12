@@ -20,6 +20,7 @@ refresh() {
     uv run python $H/analyze_methods.py > /dev/null 2>&1
     uv run python $H/gate_report.py > /dev/null 2>&1
     uv run python $H/gallery.py > /dev/null 2>&1
+    uv run python $H/where_found.py > /dev/null 2>&1
     uv run python $H/simgate.py export > /dev/null 2>&1
     echo "$(date -Is) results refreshed"
 }

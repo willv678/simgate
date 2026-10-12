@@ -54,3 +54,11 @@ def test_arms_finds_every_proposer_and_replicate(tmp_path):
     }  # fmt: skip
     assert proposer_of("rules_r2") == "rules"
     assert proposer_of("random_confirm") == "random_confirm"
+
+
+def test_distance_counts_grid_steps_from_the_recording():
+    from where_found import distance
+
+    varied = ("actor_time_shift_s", "actor_speed_scale")
+    assert distance({"actor_time_shift_s": 0.0, "actor_speed_scale": 1.0}, varied) == 0
+    assert distance({"actor_time_shift_s": -1.0, "actor_speed_scale": 0.5}, varied) == 4

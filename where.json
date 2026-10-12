@@ -1,0 +1,801 @@
+{
+ "pedestrian_ego_speed": {
+  "varied": [
+   "ego_speed_scale",
+   "actor_time_shift_s"
+  ],
+  "settings_tried": 139,
+  "hard_settings": 38,
+  "hard_scenes": 7,
+  "scenes": 10,
+  "hard_scenes_failing_as_recorded": 6,
+  "hard_distance": {
+   "0": 6,
+   "1": 5,
+   "2": 5,
+   "3": 11,
+   "4": 5,
+   "5": 6
+  },
+  "hard_examples": [
+   {
+    "scene": "048b974e",
+    "ego_speed_scale": 0.6,
+    "actor_time_shift_s": -1.5,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "048b974e",
+    "ego_speed_scale": 0.8,
+    "actor_time_shift_s": -1.0,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "048b974e",
+    "ego_speed_scale": 1.0,
+    "actor_time_shift_s": 0.0,
+    "runs": 18,
+    "failed": 18
+   },
+   {
+    "scene": "048b974e",
+    "ego_speed_scale": 1.2,
+    "actor_time_shift_s": -1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "048b974e",
+    "ego_speed_scale": 1.2,
+    "actor_time_shift_s": 0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "048b974e",
+    "ego_speed_scale": 1.4,
+    "actor_time_shift_s": -1,
+    "runs": 7,
+    "failed": 7
+   },
+   {
+    "scene": "048b974e",
+    "ego_speed_scale": 1.4,
+    "actor_time_shift_s": -0.5,
+    "runs": 12,
+    "failed": 11
+   },
+   {
+    "scene": "07981e6a",
+    "ego_speed_scale": 0.6,
+    "actor_time_shift_s": 1.5,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "07981e6a",
+    "ego_speed_scale": 1.0,
+    "actor_time_shift_s": 0.0,
+    "runs": 18,
+    "failed": 18
+   },
+   {
+    "scene": "07981e6a",
+    "ego_speed_scale": 1.4,
+    "actor_time_shift_s": -0.5,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "07981e6a",
+    "ego_speed_scale": 1.4,
+    "actor_time_shift_s": 1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0caa8f1a",
+    "ego_speed_scale": 0.6,
+    "actor_time_shift_s": 1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0caa8f1a",
+    "ego_speed_scale": 0.8,
+    "actor_time_shift_s": -1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0caa8f1a",
+    "ego_speed_scale": 1.0,
+    "actor_time_shift_s": 0.0,
+    "runs": 18,
+    "failed": 17
+   },
+   {
+    "scene": "0caa8f1a",
+    "ego_speed_scale": 1.0,
+    "actor_time_shift_s": 1.5,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "0caa8f1a",
+    "ego_speed_scale": 1.2,
+    "actor_time_shift_s": 0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0d4893f5",
+    "ego_speed_scale": 0.6,
+    "actor_time_shift_s": 1.5,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0d4893f5",
+    "ego_speed_scale": 0.8,
+    "actor_time_shift_s": 2.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0d4893f5",
+    "ego_speed_scale": 1.0,
+    "actor_time_shift_s": 0.0,
+    "runs": 18,
+    "failed": 18
+   },
+   {
+    "scene": "0d4893f5",
+    "ego_speed_scale": 1.2,
+    "actor_time_shift_s": -0.5,
+    "runs": 9,
+    "failed": 9
+   },
+   {
+    "scene": "0d4893f5",
+    "ego_speed_scale": 1.2,
+    "actor_time_shift_s": 1.0,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "0e002edd",
+    "ego_speed_scale": 1.4,
+    "actor_time_shift_s": -1.5,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0e002edd",
+    "ego_speed_scale": 1.4,
+    "actor_time_shift_s": -0.5,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "0e002edd",
+    "ego_speed_scale": 1.4,
+    "actor_time_shift_s": 0,
+    "runs": 7,
+    "failed": 7
+   },
+   {
+    "scene": "18d28973",
+    "ego_speed_scale": 0.8,
+    "actor_time_shift_s": 0.0,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "18d28973",
+    "ego_speed_scale": 1.0,
+    "actor_time_shift_s": 0.0,
+    "runs": 22,
+    "failed": 22
+   },
+   {
+    "scene": "18d28973",
+    "ego_speed_scale": 1.2,
+    "actor_time_shift_s": -1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "18d28973",
+    "ego_speed_scale": 1.2,
+    "actor_time_shift_s": -0.5,
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "18d28973",
+    "ego_speed_scale": 1.2,
+    "actor_time_shift_s": 0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "18d28973",
+    "ego_speed_scale": 1.4,
+    "actor_time_shift_s": -1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "18d28973",
+    "ego_speed_scale": 1.4,
+    "actor_time_shift_s": 0.5,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1bbe02fc",
+    "ego_speed_scale": 0.6,
+    "actor_time_shift_s": -1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1bbe02fc",
+    "ego_speed_scale": 0.6,
+    "actor_time_shift_s": 0.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1bbe02fc",
+    "ego_speed_scale": 0.8,
+    "actor_time_shift_s": -2.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1bbe02fc",
+    "ego_speed_scale": 1.0,
+    "actor_time_shift_s": 0.0,
+    "runs": 18,
+    "failed": 18
+   },
+   {
+    "scene": "1bbe02fc",
+    "ego_speed_scale": 1.2,
+    "actor_time_shift_s": -1,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1bbe02fc",
+    "ego_speed_scale": 1.2,
+    "actor_time_shift_s": -0.5,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1bbe02fc",
+    "ego_speed_scale": 1.2,
+    "actor_time_shift_s": 0,
+    "runs": 3,
+    "failed": 3
+   }
+  ],
+  "methods": {
+   "hybrid": {
+    "arms": 3,
+    "runs": 94,
+    "mean_distance": 0.31,
+    "share_at_recording": 0.74,
+    "share_2_or_more_steps": 0.05,
+    "settings_per_arm": 6.7,
+    "share_of_runs_on_hard": 0.57,
+    "hard_scenes_touched": 6
+   },
+   "llm": {
+    "arms": 3,
+    "runs": 124,
+    "mean_distance": 2.39,
+    "share_at_recording": 0.02,
+    "share_2_or_more_steps": 0.77,
+    "settings_per_arm": 12.7,
+    "share_of_runs_on_hard": 0.53,
+    "hard_scenes_touched": 6
+   },
+   "random": {
+    "arms": 1,
+    "runs": 53,
+    "mean_distance": 3.7,
+    "share_at_recording": 0.02,
+    "share_2_or_more_steps": 0.92,
+    "settings_per_arm": 49.0,
+    "share_of_runs_on_hard": 0.21,
+    "hard_scenes_touched": 6
+   },
+   "random_confirm": {
+    "arms": 3,
+    "runs": 120,
+    "mean_distance": 3.83,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 0.97,
+    "settings_per_arm": 25.7,
+    "share_of_runs_on_hard": 0.48,
+    "hard_scenes_touched": 7
+   },
+   "rules": {
+    "arms": 3,
+    "runs": 92,
+    "mean_distance": 0.16,
+    "share_at_recording": 0.89,
+    "share_2_or_more_steps": 0.05,
+    "settings_per_arm": 4.7,
+    "share_of_runs_on_hard": 0.59,
+    "hard_scenes_touched": 6
+   }
+  }
+ },
+ "lead_vehicle": {
+  "varied": [
+   "actor_time_shift_s",
+   "actor_speed_scale",
+   "planner_delay_us"
+  ],
+  "settings_tried": 171,
+  "hard_settings": 23,
+  "hard_scenes": 6,
+  "scenes": 8,
+  "hard_scenes_failing_as_recorded": 0,
+  "hard_distance": {
+   "2": 5,
+   "3": 1,
+   "4": 6,
+   "5": 5,
+   "6": 1,
+   "8": 1,
+   "9": 1,
+   "11": 1,
+   "13": 2
+  },
+  "hard_examples": [
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": -1.0,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 200000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 9,
+    "failed": 9
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 0.75,
+    "planner_delay_us": 200000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": 1.5,
+    "actor_speed_scale": 0.75,
+    "planner_delay_us": 50000,
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -2.0,
+    "actor_speed_scale": 1.5,
+    "planner_delay_us": 350000,
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 1.25,
+    "planner_delay_us": 0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 10,
+    "failed": 10
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": -1,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 0.75,
+    "planner_delay_us": 200000,
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": 1.5,
+    "actor_speed_scale": 0.75,
+    "planner_delay_us": 250000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": 2.0,
+    "actor_speed_scale": 1.25,
+    "planner_delay_us": 400000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0e899dd3",
+    "actor_time_shift_s": -1.0,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 50000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0e899dd3",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 9,
+    "failed": 9
+   },
+   {
+    "scene": "0e899dd3",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 9,
+    "failed": 9
+   },
+   {
+    "scene": "12855a41",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "12855a41",
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 50000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "12855a41",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 0.75,
+    "planner_delay_us": 200000,
+    "runs": 11,
+    "failed": 11
+   },
+   {
+    "scene": "12855a41",
+    "actor_time_shift_s": 0.5,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 400000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "12855a41",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 9,
+    "failed": 9
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.5,
+    "planner_delay_us": 200000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 9,
+    "failed": 9
+   }
+  ],
+  "methods": {
+   "hybrid": {
+    "arms": 3,
+    "runs": 152,
+    "mean_distance": 5.24,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 1.0,
+    "settings_per_arm": 13.3,
+    "share_of_runs_on_hard": 0.14,
+    "hard_scenes_touched": 3
+   },
+   "llm": {
+    "arms": 4,
+    "runs": 115,
+    "mean_distance": 3.5,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 1.0,
+    "settings_per_arm": 7.0,
+    "share_of_runs_on_hard": 0.63,
+    "hard_scenes_touched": 6
+   },
+   "random_confirm": {
+    "arms": 3,
+    "runs": 154,
+    "mean_distance": 7.77,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 0.99,
+    "settings_per_arm": 31.0,
+    "share_of_runs_on_hard": 0.26,
+    "hard_scenes_touched": 6
+   },
+   "rules": {
+    "arms": 3,
+    "runs": 152,
+    "mean_distance": 5.07,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 1.0,
+    "settings_per_arm": 4.0,
+    "share_of_runs_on_hard": 0.0,
+    "hard_scenes_touched": 0
+   },
+   "rules_corners": {
+    "arms": 1,
+    "runs": 51,
+    "mean_distance": 5.0,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 1.0,
+    "settings_per_arm": 8.0,
+    "share_of_runs_on_hard": 0.0,
+    "hard_scenes_touched": 0
+   },
+   "rules_v2": {
+    "arms": 1,
+    "runs": 49,
+    "mean_distance": 5.51,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 1.0,
+    "settings_per_arm": 23.0,
+    "share_of_runs_on_hard": 0.0,
+    "hard_scenes_touched": 0
+   }
+  }
+ },
+ "cut_in_merge": {
+  "varied": [
+   "actor_time_shift_s",
+   "actor_speed_scale"
+  ],
+  "settings_tried": 159,
+  "hard_settings": 18,
+  "hard_scenes": 6,
+  "scenes": 9,
+  "hard_scenes_failing_as_recorded": 0,
+  "hard_distance": {
+   "1": 5,
+   "2": 2,
+   "3": 4,
+   "4": 4,
+   "5": 1,
+   "6": 2
+  },
+  "hard_examples": [
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": -2.0,
+    "actor_speed_scale": 1.5,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 1,
+    "runs": 8,
+    "failed": 8
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.25,
+    "runs": 31,
+    "failed": 31
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": 0.5,
+    "actor_speed_scale": 2.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "054b5901",
+    "actor_time_shift_s": -1.0,
+    "actor_speed_scale": 1.25,
+    "runs": 10,
+    "failed": 10
+   },
+   {
+    "scene": "054b5901",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 1.5,
+    "runs": 11,
+    "failed": 11
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 2,
+    "runs": 14,
+    "failed": 14
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 2,
+    "runs": 18,
+    "failed": 18
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 2.0,
+    "actor_speed_scale": 1.25,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 1.25,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": -1,
+    "actor_speed_scale": 1.5,
+    "runs": 12,
+    "failed": 12
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.25,
+    "runs": 28,
+    "failed": 28
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": 0.5,
+    "actor_speed_scale": 1,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "0e899dd3",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0e899dd3",
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 0.5,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0e899dd3",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 2,
+    "runs": 18,
+    "failed": 18
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 0.5,
+    "actor_speed_scale": 1,
+    "runs": 3,
+    "failed": 3
+   }
+  ],
+  "methods": {
+   "hybrid": {
+    "arms": 4,
+    "runs": 156,
+    "mean_distance": 1.86,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 0.53,
+    "settings_per_arm": 6.8,
+    "share_of_runs_on_hard": 0.45,
+    "hard_scenes_touched": 5
+   },
+   "llm": {
+    "arms": 4,
+    "runs": 191,
+    "mean_distance": 3.03,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 0.77,
+    "settings_per_arm": 15.2,
+    "share_of_runs_on_hard": 0.31,
+    "hard_scenes_touched": 6
+   },
+   "random_confirm": {
+    "arms": 3,
+    "runs": 168,
+    "mean_distance": 3.61,
+    "share_at_recording": 0.03,
+    "share_2_or_more_steps": 0.89,
+    "settings_per_arm": 32.0,
+    "share_of_runs_on_hard": 0.16,
+    "hard_scenes_touched": 5
+   },
+   "rules": {
+    "arms": 4,
+    "runs": 196,
+    "mean_distance": 1.32,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 0.19,
+    "settings_per_arm": 6.0,
+    "share_of_runs_on_hard": 0.13,
+    "hard_scenes_touched": 3
+   }
+  }
+ }
+}

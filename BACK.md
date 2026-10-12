@@ -59,8 +59,15 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
    Plain random never confirms anything. In the small space every method
    does about as well (rules most consistent). In the larger ones a Claude
    method wins every replicate, but not the same one: free llm on lead
-   vehicle (failures at the knob extremes), hybrid on cut-in. Why
-   each wins where it does is not yet analysed. Rules alone never reach the goal there.
+   vehicle (failures at the knob extremes), hybrid on cut-in. **Why** (`WHERE.md`): a
+   method wins where its starting guess matches where failures sit. The
+   rules start at the middle of every knob's range, which is the recording
+   on pedestrian (hard there), the 2 settings they confirm on cut-in, and on
+   lead vehicle a *faster* lead car (easy): 100% of their runs there, 0 of 6
+   hard scenes touched. llm read the brief ("slower lead = harder stop") and
+   ran 100% at 0.5x. On cut-in the hard cases sit 1-2 steps from the
+   recording; hybrid stays close (45% of runs on hard settings), llm finds
+   all 6 hard scenes but spreads too thin to confirm 5. Rules alone never reach the goal there.
 7. **Replays are exact** (same seed, 0.0 m over 122 steps) and **the ego
    speed knob works** (measured within 0.004 m/s of the request).
 
