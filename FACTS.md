@@ -650,6 +650,10 @@ lead car makes it meet an ego that is still on rails.
   re-queued on 12 Oct 09:37 to finish their rounds under the fixed count
   (outer.run_study continues after the last round, re-checking the goal);
   `analyze_methods.py` compares an arm once it has run every round.
+- Lead vehicle, final under the fix (llm r2-r4 resumed and finished their
+  49 runs, 12 Oct 12:46): rules 0, 0, 0; hybrid 2, 3, 3; llm 3, 1, 3;
+  random + confirmation 4, 1, 2 of 5. No method reaches 5; every method
+  but rules confirms 1-4, and none is ahead across replicates.
 - So the "llm wins lead vehicle" result of 10 Oct came from warm-up
   contacts its own setting choice (0.5x lead) produced. Its brief-reading
   prior did point at a real stressor: at 0.5x the lead car is reached in

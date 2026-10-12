@@ -29,6 +29,7 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | lead_vehicle | rules_corners | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.853 | 0 | 0.0 |
 | lead_vehicle | rules_v2 | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.891 | 1 | 0.0 |
 | lead_vehicle | hybrid | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 2, 3, 3 of 5 | 0.92, 0.952, 0.955 | 7, 10, 9 | 110.8, 100.4, 101.3 |
+| lead_vehicle | llm | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 3, 1, 3 of 5 | 0.972, 0.959, 0.958 | 19, 6, 9 | 113.3, 108.2, 113.4 |
 | lead_vehicle | random_confirm | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 4, 1, 2 of 5 | 0.979, 0.934, 0.93 | 12, 6, 8 | 0.0, 0.0, 0.0 |
 | lead_vehicle_2hz | rules_v3 | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.835 | 2 | 0.0 |
 | pedestrian_crossing | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.643 | 0 | 0.0 |
@@ -54,5 +55,5 @@ way at the hand-off counted), which code no longer finds met; they did
 not spend their budget, so their runs to goal cannot be compared.
 Re-queued, such an arm continues from its last round.
 
-- cut_in_merge: rules, hybrid, hybrid_r2, hybrid_r3, llm
-- lead_vehicle: llm, llm_r3, llm_r4
+- cut_in_merge: rules, hybrid, hybrid_r3, llm
+- lead_vehicle: llm
