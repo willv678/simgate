@@ -867,6 +867,12 @@ the recording, problem 27). In progress; numbers as of the arm named.
   Without the unavoidable one: 4 of 5. The other methods never slowed the
   lead car this far with these shifts (rules and rules_v3 stay at the
   grid middle).
+- pedestrian x ego speed, hybrid replicate 2 (12 Oct 18:26): goal met at
+  32 runs, the first 2 Hz pedestrian arm to reach 5: the four recorded
+  failures plus 18f8dbd6 at 1.4x, 0 s (every run at 1.4x failed, with the
+  pedestrian early, on time or late; the ego drifted left into a slower car
+  in the next lane). Replicate 1 had probed 18f8dbd6 once and moved on.
+  None of the five involves the pedestrian.
 - Study reports (report.md) of arms finished before 12 Oct 09:37 state
   their goal under the old count; `METHODS.md` and these notes use the fix.
 - lead vehicle, rules_v3 (12 Oct 06:10): 0 of 5 in 49 runs, 2 failures,
