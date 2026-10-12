@@ -667,6 +667,18 @@ lead car makes it meet an ego that is still on rails.
   speed, not that the policy fails. A study of slow leads needs the
   retiming to keep the lead clear of the ego until the hand-off.
 
+- Collisions the policy could not avoid at the hand-off, though no contact
+  was under way yet (checked 12 Oct): for the car the ego first hit, if it
+  was ahead in the ego's lane (within 1.8 m sideways, heading within 45
+  degrees), the braking needed at the hand-off to stop closing on it,
+  closing speed squared over twice the gap. Above 8 m/s^2 (about 0.8 g):
+  lead vehicle 6 of 86 collision failures at 10 Hz and 6 of 29 at 2 Hz,
+  all llm at a 0.5x lead; cut-in 1 at each rate; pedestrian 0. Few enough
+  to leave the definition as it is. (A first count gave 16 at 2 Hz: the
+  speeds came from poses 0.2 s apart, but at 2 Hz poses are logged every
+  0.5 s; fixed, and `who_closed.py` now divides by the logged time
+  between poses.)
+
 ### Replayed cars that close on the ego (12 Oct, `CLOSED.md`)
 
 The failure definition (problem 25) drops contacts that begin at the ego's
@@ -708,10 +720,11 @@ lane; nuPlan's rule, an ego in two lanes is at fault in a side contact).
   should be reported both ways, or rerun with the stricter count; the
   pedestrian and lead vehicle comparisons stand. Not changed in
   `outer.outcome` (every finished arm was scored with it).
-- After problem 30's fix (12 Oct 11:30, `CLOSED.md` regenerated): cut-in
-  has 173 collision failures, of them 24 actor-closed (at 3.3 and 3.6 m;
-  47 at 3.9 m), and rule and triage agree on all 24 (triage only 12,
-  neither 137: 93% agree); lead vehicle 77, none actor-closed. Half of the
+- After problem 30's fix and the resumed arms (12 Oct 15:40, `CLOSED.md`):
+  cut-in has 181 collision failures, of them 29 actor-closed (at 3.3 and
+  3.6 m; 52 at 3.9 m); rule and triage both say actor 24, rule only 5,
+  triage only 12, neither 140 (91% agree); lead vehicle 86, none
+  actor-closed. Half of the
   49 above were contacts carried across the hand-off. Without the 24, the
   finished cut-in arms: rules 2, 2, 2; hybrid 3 (r4); llm 3, 4, 3; random +
   confirmation 2, 0, 1.

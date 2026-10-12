@@ -59,10 +59,15 @@ LANE_WIDTH_M = 3.6
 SENSITIVITY_LANES_M = (3.3, 3.6, 3.9)
 
 
+def _logged(track: dict, t: float) -> float:
+    """The latest logged timestamp not after t (the first if none is)."""
+    times = [s for s in track if s <= t]
+    return max(times) if times else min(track)
+
+
 def _at(track: dict, t: float) -> tuple:
     """The pose at the latest timestamp not after t."""
-    times = [s for s in track if s <= t]
-    return track[max(times)] if times else track[min(track)]
+    return track[_logged(track, t)]
 
 
 def contact(run_dir: Path) -> dict | None:
@@ -96,12 +101,13 @@ def contact(run_dir: Path) -> dict | None:
 
     near = [a for a in actors if min(actors[a]) <= hit <= max(actors[a])]
     actor_id = min(near, key=overlap_or_distance)
-    start = hit - WINDOW_US
-    e0, e1 = np.array(_at(ego_track, start)[:2]), np.array([ex, ey])
+    # Poses are logged once per control step (100 ms, or 500 ms at 2 Hz).
+    start, end = _logged(ego_track, hit - WINDOW_US), _logged(ego_track, hit)
+    e0, e1 = np.array(ego_track[start][:2]), np.array([ex, ey])
     a0 = np.array(_at(actors[actor_id], start)[:2])
-    a1 = np.array(_at(actors[actor_id], hit)[:2])
+    a1 = np.array(_at(actors[actor_id], end)[:2])
     line = (a0 - e0) / np.linalg.norm(a0 - e0)
-    seconds = WINDOW_US / 1e6
+    seconds = (end - start) / 1e6
     left = np.array([-np.sin(eyaw), np.cos(eyaw)])
     side = float(np.sign((a1 - e1) @ left))
     return {
