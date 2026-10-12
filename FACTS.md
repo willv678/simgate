@@ -813,6 +813,12 @@ the recording, problem 27). In progress; numbers as of the arm named.
 - lead vehicle, rules (12 Oct 14:37): 0 of 5 in 49 runs; as at 10 Hz,
   every run at the grid middle (1.25x, 0 s), one failure (hard braking, a
   follower hit it from behind-right).
+- lead vehicle, random + confirmation (12 Oct 16:50): 1 of 5 in 49 runs,
+  12855a41 at 0.5x, 0 s, the setting hybrid confirmed. Its report says 2,
+  written while the hand-off step still counted; the second (096988dd at
+  0.5x) was flagged at the hand-off step, as llm's three were. First
+  replicate on 2 Hz lead vehicle: rules 0, rules_v3 0, hybrid 1, random +
+  confirmation 1, the same one scene; llm still running.
 - Study reports (report.md) of arms finished before 12 Oct 09:37 state
   their goal under the old count; `METHODS.md` and these notes use the fix.
 - lead vehicle, rules_v3 (12 Oct 06:10): 0 of 5 in 49 runs, 2 failures,
