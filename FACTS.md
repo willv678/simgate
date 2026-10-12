@@ -882,6 +882,12 @@ the recording, problem 27). In progress; numbers as of the arm named.
   3 of 5 in 50 runs (0e002edd 1.4x/-1.5 s, 07981e6a 0.6x/+1.5 s, 1bbe02fc
   0.8x/-2 s). Replicate 2 of the four methods on 2 Hz pedestrian: rules 4,
   hybrid goal at 32, llm goal at 47, random + confirmation 3.
+- cut-in, rules replicate 2 (12 Oct 20:59): 1 of 5 in 54 runs, 023b7fcc
+  at 1.25x, 0 s (replicate 1: 2, also 09a95ffa at 1.25x, 0 s). Here
+  09a95ffa at 1.25x did not clear the bar (most runs failed, not enough to
+  confirm). Same rule, same first probe: the rate at a setting varies
+  between replicates (seeds differ), and at the bar's edge that moves a
+  confirmed case.
 - Study reports (report.md) of arms finished before 12 Oct 09:37 state
   their goal under the old count; `METHODS.md` and these notes use the fix.
 - lead vehicle, rules_v3 (12 Oct 06:10): 0 of 5 in 49 runs, 2 failures,
