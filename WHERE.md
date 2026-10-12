@@ -7,14 +7,26 @@ the seed). Hard: pooled failure rate surely above the goal's high_min
 varied knobs. A method's numbers pool all its arms and count every run
 it queued, retries included.
 
-## pedestrian_ego_speed_2hz
+## lead_vehicle
 
-82 settings tried by any method; 10 hard, on 6 of 10 scenes (4 of them hard as recorded). Hard settings by distance from the recording: 0 steps: 4, 2 steps: 4, 5 steps: 2.
+171 settings tried by any method; 12 hard, on 6 of 8 scenes (0 of them hard as recorded). Hard settings by distance from the recording: 2 steps: 2, 3 steps: 1, 4 steps: 2, 5 steps: 4, 6 steps: 1, 13 steps: 2.
 
 | method | arms | runs | mean distance | at the recording | 2+ steps away | settings per arm | runs on hard settings | hard scenes touched |
 |---|---|---|---|---|---|---|---|---|
-| hybrid | 1 | 51 | 1.25 | 39% | 49% | 28.0 | 27% | 4 of 6 |
-| llm | 1 | 51 | 2.8 | 0% | 100% | 26.0 | 33% | 4 of 6 |
-| random_confirm | 1 | 30 | 3.83 | 0% | 93% | 20.0 | 20% | 2 of 6 |
-| rules | 1 | 50 | 0.72 | 56% | 22% | 29.0 | 24% | 4 of 6 |
-| rules_v3 | 1 | 50 | 1.08 | 52% | 24% | 29.0 | 26% | 5 of 6 |
+| hybrid | 3 | 152 | 5.24 | 0% | 100% | 13.3 | 14% | 3 of 6 |
+| llm | 4 | 115 | 3.5 | 0% | 100% | 7.0 | 17% | 2 of 6 |
+| random_confirm | 3 | 154 | 7.77 | 0% | 99% | 31.0 | 16% | 5 of 6 |
+| rules | 3 | 152 | 5.07 | 0% | 100% | 4.0 | 0% | 0 of 6 |
+| rules_corners | 1 | 51 | 5.0 | 0% | 100% | 8.0 | 0% | 0 of 6 |
+| rules_v2 | 1 | 49 | 5.51 | 0% | 100% | 23.0 | 0% | 0 of 6 |
+
+## cut_in_merge
+
+159 settings tried by any method; 12 hard, on 5 of 9 scenes (0 of them hard as recorded). Hard settings by distance from the recording: 1 steps: 5, 3 steps: 3, 4 steps: 2, 5 steps: 1, 6 steps: 1.
+
+| method | arms | runs | mean distance | at the recording | 2+ steps away | settings per arm | runs on hard settings | hard scenes touched |
+|---|---|---|---|---|---|---|---|---|
+| hybrid | 4 | 156 | 1.86 | 0% | 53% | 6.8 | 38% | 4 of 5 |
+| llm | 4 | 191 | 3.03 | 0% | 77% | 15.2 | 27% | 5 of 5 |
+| random_confirm | 3 | 168 | 3.61 | 3% | 89% | 32.0 | 8% | 3 of 5 |
+| rules | 4 | 196 | 1.32 | 0% | 19% | 6.0 | 12% | 2 of 5 |
