@@ -712,6 +712,12 @@ the recording, problem 27). In progress; numbers as of the arm named.
   2 of the 3 triaged actor_hit_ego (the ego braked hard on an open road and
   a replayed car came up into it, problem 29). It stayed near the recording
   (1.0x, within 0.5 s).
+- cut-in, rules (12 Oct 08:47): 2 of 5 in 53 runs, the same two settings
+  as at 10 Hz in all three replicates (1.25x, 0 s on 023b7fcc and
+  09a95ffa). 023b7fcc: the ego drifted left into the next lane's car;
+  09a95ffa: a car came up from behind-left into the ego's front-left corner
+  while the ego held its path (triage: not the policy's or unclear,
+  problem 29).
 - lead vehicle, rules_v3 (12 Oct 06:10): 0 of 5 in 49 runs, 2 failures,
   both side or front contact with a car in the next lane after the ego
   drifted out of its lane, not a rear-end of the lead. One setting slowed

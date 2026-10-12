@@ -288,16 +288,19 @@
   "budget": 54,
   "arms": {
    "rules": {
-    "launched": 10,
-    "kept": 9,
-    "failures": 2,
+    "launched": 43,
+    "kept": 41,
+    "failures": 6,
     "scenes_with_a_failure": 2,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.83,
+    "hardest": 0.887,
     "model_seconds": 0.0,
     "model_tokens": 0,
-    "found": []
+    "found": [
+     "023b7fcc at actor_time_shift_s 0.0, actor_speed_scale 1.25",
+     "09a95ffa at actor_time_shift_s 0.0, actor_speed_scale 1.25"
+    ]
    },
    "rules_v3": {
     "launched": 56,
@@ -310,6 +313,21 @@
     "model_seconds": 0.0,
     "model_tokens": 0,
     "found": []
+   },
+   "hybrid": {
+    "launched": 18,
+    "kept": 17,
+    "failures": 6,
+    "scenes_with_a_failure": 2,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.859,
+    "model_seconds": 21.1,
+    "model_tokens": 21952,
+    "found": [
+     "023b7fcc at actor_time_shift_s 0, actor_speed_scale 1.25",
+     "09a95ffa at actor_time_shift_s 0, actor_speed_scale 1.25"
+    ]
    }
   }
  },
@@ -1115,18 +1133,19 @@
     ]
    },
    "random_confirm": {
-    "launched": 37,
-    "kept": 34,
-    "failures": 15,
+    "launched": 51,
+    "kept": 48,
+    "failures": 19,
     "scenes_with_a_failure": 5,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.983,
+    "hardest": 0.987,
     "model_seconds": 0.0,
     "model_tokens": 0,
     "found": [
      "048b974e at ego_speed_scale 0.6, actor_time_shift_s -1.5",
      "0d4893f5 at ego_speed_scale 1.2, actor_time_shift_s 1.0",
+     "1bbe02fc at ego_speed_scale 0.6, actor_time_shift_s -1.0",
      "07981e6a at ego_speed_scale 1.2, actor_time_shift_s 2.0"
     ]
    }
