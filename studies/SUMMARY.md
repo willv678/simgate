@@ -24,7 +24,7 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 | cut_in_merge | random_confirm | 54/54 | 18 | not reached | 3 | 0.952 | 0.0 |
 | cut_in_merge | random_confirm_r2 | 54/54 | 18 | not reached | 3 | 0.949 | 0.0 |
 | cut_in_merge | random_confirm_r3 | 54/54 | 9 | not reached | 2 | 0.951 | 0.0 |
-| cut_in_merge_2hz | rules_v3 | 17/54 | 1 | not reached | 0 | 0.827 | 0.0 |
+| cut_in_merge_2hz | rules_v3 | 49/54 | 3 | not reached | 0 | 0.865 | 0.0 |
 | ego_speed_smoke | grid | 5/5 | 1 | not reached | 0 | 0.2 | 0.0 |
 | intersection | rules | 49/49 | 0 | not reached | 0 | 0.435 | 0.0 |
 | intersection | hybrid | 49/49 | 6 | not reached | 1 | 0.541 | 91.4 |
@@ -48,6 +48,7 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 | lead_vehicle | random_confirm | 49/49 | 17 | 43 | 5 | 1.0 | 0.0 |
 | lead_vehicle | random_confirm_r2 | 49/49 | 17 | not reached | 4 | 0.978 | 0.0 |
 | lead_vehicle | random_confirm_r3 | 49/49 | 11 | not reached | 3 | 0.953 | 0.0 |
+| lead_vehicle_2hz | rules_v3 | 19/49 | 0 | not reached | 0 | 0.773 | 0.0 |
 | pedestrian_crossing | rules | 49/49 | 0 | not reached | 0 | 0.643 | 0.0 |
 | pedestrian_crossing | hybrid | 49/49 | 0 | not reached | 0 | 0.636 | 90.1 |
 | pedestrian_crossing | llm | 49/49 | 5 | not reached | 1 | 0.691 | 112.3 |
@@ -68,7 +69,7 @@ of the k most challenging scenes, unconfirmed (`compare_proposers.hardest`).
 | pedestrian_ego_speed | random_confirm_r3 | 40/50 | 31 | 32 | 5 | 1.0 | 0.0 |
 | pedestrian_ego_speed_2hz | rules | 50/50 | 12 | not reached | 4 | 0.949 | 0.0 |
 | pedestrian_ego_speed_2hz | rules_v3 | 50/50 | 14 | not reached | 4 | 1.0 | 0.0 |
-| pedestrian_ego_speed_2hz | hybrid | 39/50 | 14 | not reached | 4 | 0.969 | 64.6 |
+| pedestrian_ego_speed_2hz | hybrid | 50/50 | 14 | not reached | 4 | 0.952 | 88.8 |
 | seam_check | grid | 5/5 | 5 | not reached | 0 | 0.2 | 0.0 |
 
 ## controller_tuning_pedestrian
@@ -145,6 +146,12 @@ In lead-vehicle scenes, which timing shifts and speed scalings of the recorded l
 - **random_confirm**: 023b7fcc at actor_time_shift_s -1.0, actor_speed_scale 0.5, planner_delay_us 200000; 09a95ffa at actor_time_shift_s 2.0, actor_speed_scale 1.25, planner_delay_us 400000; 0e899dd3 at actor_time_shift_s -1.0, actor_speed_scale 0.5, planner_delay_us 50000; 12855a41 at actor_time_shift_s 0.0, actor_speed_scale 0.5, planner_delay_us 50000; 096988dd at actor_time_shift_s -1.5, actor_speed_scale 1.25, planner_delay_us 0
 - **random_confirm_r2**: 09a95ffa at actor_time_shift_s 1.5, actor_speed_scale 0.75, planner_delay_us 250000; 023b7fcc at actor_time_shift_s 1.5, actor_speed_scale 0.75, planner_delay_us 50000; 12855a41 at actor_time_shift_s 0.5, actor_speed_scale 0.5, planner_delay_us 400000; 096988dd at actor_time_shift_s -2.0, actor_speed_scale 1.5, planner_delay_us 350000
 - **random_confirm_r3**: 19f339ba at actor_time_shift_s 0.0, actor_speed_scale 1.5, planner_delay_us 200000; 023b7fcc at actor_time_shift_s 1.5, actor_speed_scale 0.75, planner_delay_us 50000; 096988dd at actor_time_shift_s -2.0, actor_speed_scale 1.5, planner_delay_us 350000
+
+## lead_vehicle_2hz
+
+In lead-vehicle scenes, which timing shifts and speed scalings of the recorded lead car make VaVAM run into it? Find the 5 most challenging cases, each on a different scene, confirmed by repeats.
+
+- **rules_v3**: nothing confirmed
 
 ## pedestrian_crossing
 

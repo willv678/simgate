@@ -288,13 +288,13 @@
   "budget": 54,
   "arms": {
    "rules_v3": {
-    "launched": 18,
-    "kept": 17,
-    "failures": 1,
-    "scenes_with_a_failure": 1,
+    "launched": 52,
+    "kept": 49,
+    "failures": 3,
+    "scenes_with_a_failure": 2,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.827,
+    "hardest": 0.865,
     "model_seconds": 0.0,
     "model_tokens": 0,
     "found": []
@@ -684,6 +684,30 @@
    }
   }
  },
+ "lead_vehicle_2hz": {
+  "question": "In lead-vehicle scenes, which timing shifts and speed scalings of the recorded lead car make VaVAM run into it? Find the 5 most challenging cases, each on a different scene, confirmed by repeats.",
+  "goal": {
+   "type": "top_k",
+   "k": 5,
+   "high_min": 0.5,
+   "distinct_scenes": true
+  },
+  "budget": 49,
+  "arms": {
+   "rules_v3": {
+    "launched": 23,
+    "kept": 19,
+    "failures": 0,
+    "scenes_with_a_failure": 0,
+    "dropped": 0,
+    "runs_to_goal": null,
+    "hardest": 0.773,
+    "model_seconds": 0.0,
+    "model_tokens": 0,
+    "found": []
+   }
+  }
+ },
  "pedestrian_crossing": {
   "question": "Which pedestrian step-out timings (\u00b12 s) and walking speeds (0.5x to 2x) make VaVAM hit the pedestrian or leave the road in pedestrian-crossing scenes, with the other traffic replayed as recorded? Find the 5 hardest cases, each on a different scene.",
   "goal": {
@@ -1045,15 +1069,15 @@
     ]
    },
    "hybrid": {
-    "launched": 41,
-    "kept": 39,
+    "launched": 51,
+    "kept": 50,
     "failures": 14,
     "scenes_with_a_failure": 4,
     "dropped": 0,
     "runs_to_goal": null,
-    "hardest": 0.969,
-    "model_seconds": 64.6,
-    "model_tokens": 66732,
+    "hardest": 0.952,
+    "model_seconds": 88.8,
+    "model_tokens": 93610,
     "found": [
      "048b974e at ego_speed_scale 1, actor_time_shift_s 0",
      "1bbe02fc at ego_speed_scale 1, actor_time_shift_s 0",
