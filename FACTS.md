@@ -878,6 +878,10 @@ the recording, problem 27). In progress; numbers as of the arm named.
   1.2x or 1.4x with the pedestrian 0.5-1 s early; never the recorded
   setting. As in replicate 1 it searched only faster settings, and this
   time reached the fifth scene. None involves the pedestrian.
+- pedestrian x ego speed, random + confirmation replicate 2 (12 Oct 20:01):
+  3 of 5 in 50 runs (0e002edd 1.4x/-1.5 s, 07981e6a 0.6x/+1.5 s, 1bbe02fc
+  0.8x/-2 s). Replicate 2 of the four methods on 2 Hz pedestrian: rules 4,
+  hybrid goal at 32, llm goal at 47, random + confirmation 3.
 - Study reports (report.md) of arms finished before 12 Oct 09:37 state
   their goal under the old count; `METHODS.md` and these notes use the fix.
 - lead vehicle, rules_v3 (12 Oct 06:10): 0 of 5 in 49 runs, 2 failures,
