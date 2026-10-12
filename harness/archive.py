@@ -1,6 +1,8 @@
 """COMPLETE -> mark the run ACCEPT, which makes it DONE and keeps it in the dataset.
 
-Runs after analyze.py. The run directory is not moved or deleted.
+Runs after analyze.py. The run directory is not moved or deleted. A run
+already accepted is reported as such, so the loop may run this again after a
+crash at exit (loop.RERUNNABLE).
 
     uv run python research/harness/archive.py <entry.json>
 """
@@ -20,6 +22,9 @@ def main() -> int:
     entry_path = Path(sys.argv[1])
     entry = load_entry(entry_path)
     state = read_state(entry)
+    if state.state is State.DONE and entry["resolution"] == Skill.ACCEPT.value:
+        print(json.dumps({"resolution": entry["resolution"], "already": True}))
+        return 0
     if state.state is not State.COMPLETE:
         raise SystemExit(f"{entry['name']} is {state.state.value}, not COMPLETE")
     results = entry_path.parent / RESULTS_NAME

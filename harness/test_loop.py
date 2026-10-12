@@ -102,6 +102,7 @@ def test_only_a_signal_crash_of_a_rerunnable_script_is_rerun():
     assert not rerun_after(
         "recover.py", ScriptCrash("recover.py", Path("e.json"), -6, "")
     )
+    assert rerun_after("archive.py", ScriptCrash("archive.py", Path("e.json"), -6, ""))
 
 
 def test_a_second_loop_on_the_same_queue_exits(tmp_path):
@@ -113,3 +114,20 @@ def test_a_second_loop_on_the_same_queue_exits(tmp_path):
         hold_queue(tmp_path / "queue")
     first.close()
     hold_queue(tmp_path / "queue").close()
+
+
+def test_archive_run_again_after_a_crash_at_exit_reports_the_kept_run(
+    tmp_path: Path, make_run
+):
+    queue = tmp_path / "queue"
+    add(queue, make_run("clean"))
+    _run_loop(queue, tmp_path / "trace.jsonl")
+    entry = queue_entries(queue)[0]
+    proc = subprocess.run(
+        [sys.executable, str(Path(__file__).parent / "archive.py"), str(entry)],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert json.loads(proc.stdout) == {"resolution": "ACCEPT", "already": True}
+    assert load_entry(entry)["resolution"] == "ACCEPT"
