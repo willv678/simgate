@@ -1,0 +1,22 @@
+{
+ "plan": {
+  "question": "With the warm-up seam fix applied, does every ego speed on 07981e6a pass the physics gate?",
+  "objective": "Check of problem 24's fix: one run per ego_speed_scale value on the scene that halted at 1.2x, traffic replayed.",
+  "vary": [
+   "ego_speed_scale"
+  ],
+  "scenes": [
+   "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28"
+  ],
+  "rounds": 1,
+  "per_round": 5,
+  "rationale": "Written by hand to re-check the warm-up seam fix (problem 24) in a simulation.",
+  "fixed": {
+   "traffic": "replay"
+  },
+  "goal": {
+   "type": "none"
+  }
+ },
+ "call": null
+}
