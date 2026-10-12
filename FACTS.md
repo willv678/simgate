@@ -832,6 +832,10 @@ the recording, problem 27). In progress; numbers as of the arm named.
   0.5x) was flagged at the hand-off step, as llm's three were. First
   replicate on 2 Hz lead vehicle: rules 0, rules_v3 0, hybrid 1, random +
   confirmation 1, the same one scene; llm still running.
+- pedestrian x ego speed, rules replicate 2 (12 Oct 17:07): 4 of 5 in 50
+  runs, the same four recorded settings as replicate 1 (048b974e, 07981e6a,
+  0d4893f5, 1bbe02fc at 1.0x, 0 s); no off-recording setting failed. As at
+  10 Hz, rules repeat themselves across replicates.
 - Study reports (report.md) of arms finished before 12 Oct 09:37 state
   their goal under the old count; `METHODS.md` and these notes use the fix.
 - lead vehicle, rules_v3 (12 Oct 06:10): 0 of 5 in 49 runs, 2 failures,
