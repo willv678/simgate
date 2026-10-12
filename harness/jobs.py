@@ -36,6 +36,7 @@ PROPOSERS = (
     "rules",
     "rules_corners",
     "rules_v2",
+    "rules_v3",
     "grid",
     "bisect",
     "random",

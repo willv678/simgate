@@ -32,6 +32,13 @@ every untried scene's first probe and before small steps from a weak
 setting: one-notch steps from the middle never reach a failure that needs an
 extreme value within a study's budget (FACTS, random + confirmation).
 
+With `recorded` (rules_v3), a scene's first probe is its recorded setting
+(every knob unvaried) instead of the middle of every knob's range. The middle
+is an accident of each grid: on lead vehicle it is a faster lead car (1.25x)
+and 200 ms of delay, the easy direction, and the rules never left it (FACTS
+problem 27, `WHERE.md`); the recording is the nominal case every test plan
+starts from. rules_v3 also settles and offers corners, as rules_v2.
+
 `with_confirmation` gives any other proposer the same confirmation rule: up to
 half of a round repeats the near-failures the rules would confirm, and the
 proposer picks the rest. `random_confirm` is random search with it, the fair
@@ -83,6 +90,7 @@ def candidates(
     varied: tuple,
     corners: bool = False,
     settle: bool = False,
+    recorded: bool = False,
 ) -> list[dict]:
     """Ranked candidate runs, best first, each with its reason and score."""
     if goal is not None and goal["type"] == "bracket":
@@ -106,12 +114,13 @@ def candidates(
     for scene in scenes:
         rows = tried.get(scene, [])
         if not rows:
-            middle = {k: SCENARIO[k][len(SCENARIO[k]) // 2] for k in varied}
-            found.append(
-                _setting(
-                    scene, middle, varied, "first probe, middle of every knob", 0.3
-                )
-            )
+            if recorded:
+                first = {k: UNVARIED[k] for k in varied}
+                reason = "first probe, the recorded setting"
+            else:
+                first = {k: SCENARIO[k][len(SCENARIO[k]) // 2] for k in varied}
+                reason = "first probe, middle of every knob"
+            found.append(_setting(scene, first, varied, reason, 0.3))
             continue
         if distinct and any(r["failure_rate_90"][0] > high_min for r in rows):
             continue
@@ -171,10 +180,11 @@ def rules_proposals(
     varied: tuple,
     corners: bool = False,
     settle: bool = False,
+    recorded: bool = False,
 ) -> dict:
     """The best `count` candidates, one scene at a time in turn so no scene
     takes the whole round; candidates repeat when there are too few."""
-    ranked = candidates(scenes, table, goal, varied, corners, settle)
+    ranked = candidates(scenes, table, goal, varied, corners, settle, recorded)
     if not ranked:
         return {"plan": "rules: nothing left to try", "runs": []}
     by_scene = {}

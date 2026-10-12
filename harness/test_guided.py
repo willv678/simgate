@@ -138,3 +138,11 @@ def test_a_near_miss_that_surely_fails_rarely_is_not_confirmed_again():
     settled = candidates(["clipgt-a"], table, TOP3, TWO, corners=True, settle=True)
     assert not any(c["reason"].startswith("confirm") for c in settled)
     assert any(c["reason"].startswith("a corner") for c in settled)
+
+
+def test_rules_v3_first_probes_the_recorded_setting():
+    middle = candidates(["clipgt-a"], [], TOP3, TWO)
+    assert middle[0]["actor_speed_scale"] == 1.25  # the middle of the grid
+    first = candidates(["clipgt-a"], [], TOP3, TWO, recorded=True)
+    assert [first[0][k] for k in TWO] == [0.0, 1.0]
+    assert first[0]["reason"] == "first probe, the recorded setting"
