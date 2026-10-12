@@ -145,6 +145,35 @@
    }
   }
  },
+ "cut_in_merge_2hz": {
+  "k": 5,
+  "budget": 54,
+  "proposers": {
+   "rules_v3": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     54
+    ],
+    "median_runs_to_goal": 54,
+    "confirmed": [
+     0
+    ],
+    "hardest": [
+     0.862
+    ],
+    "failures": [
+     3
+    ],
+    "kept": [
+     54
+    ],
+    "model_seconds": [
+     0.0
+    ]
+   }
+  }
+ },
  "intersection": {
   "k": 5,
   "budget": 49,
@@ -505,6 +534,35 @@
     "model_seconds": [
      0.0,
      0.0,
+     0.0
+    ]
+   }
+  }
+ },
+ "lead_vehicle_2hz": {
+  "k": 5,
+  "budget": 49,
+  "proposers": {
+   "rules_v3": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     49
+    ],
+    "median_runs_to_goal": 49,
+    "confirmed": [
+     0
+    ],
+    "hardest": [
+     0.835
+    ],
+    "failures": [
+     2
+    ],
+    "kept": [
+     49
+    ],
+    "model_seconds": [
      0.0
     ]
    }
@@ -871,6 +929,52 @@
     ],
     "model_seconds": [
      88.8
+    ]
+   },
+   "llm": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     50
+    ],
+    "median_runs_to_goal": 50,
+    "confirmed": [
+     4
+    ],
+    "hardest": [
+     0.986
+    ],
+    "failures": [
+     24
+    ],
+    "kept": [
+     49
+    ],
+    "model_seconds": [
+     95.7
+    ]
+   },
+   "random_confirm": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     50
+    ],
+    "median_runs_to_goal": 50,
+    "confirmed": [
+     4
+    ],
+    "hardest": [
+     0.987
+    ],
+    "failures": [
+     19
+    ],
+    "kept": [
+     48
+    ],
+    "model_seconds": [
+     0.0
     ]
    }
   }

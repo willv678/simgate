@@ -13,6 +13,7 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | cut_in_merge | hybrid | 3 | 36, 36, 54 | 3 | 32, 36, 46 | 36 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 17, 20, 27 | 51.7, 50.0, 86.7 |
 | cut_in_merge | llm | 3 | 54, 53, 54 | 1 | 54, 54, 47 | 54 | 4, 4, 5 of 5 | 0.983, 0.979, 1.0 | 18, 18, 28 | 101.3, 108.2, 86.6 |
 | cut_in_merge | random_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 3, 2 of 5 | 0.952, 0.949, 0.951 | 18, 18, 9 | 0.0, 0.0, 0.0 |
+| cut_in_merge_2hz | rules_v3 | 1 | 54 | 0 | 54 | 54 | 0 of 5 | 0.862 | 3 | 0.0 |
 | intersection | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.435 | 0 | 0.0 |
 | intersection | hybrid | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.541 | 6 | 91.4 |
 | intersection | llm | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.462 | 0 | 116.2 |
@@ -26,6 +27,7 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | lead_vehicle | hybrid | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 2, 3, 3 of 5 | 0.92, 0.952, 0.955 | 7, 10, 9 | 110.8, 100.4, 101.3 |
 | lead_vehicle | llm | 3 | 28, 35, 28 | 3 | 23, 30, 23 | 23 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 21, 23, 17 | 59.8, 75.8, 59.1 |
 | lead_vehicle | random_confirm | 3 | 49, 49, 49 | 1 | 43, 49, 49 | 49 | 5, 4, 3 of 5 | 1.0, 0.978, 0.953 | 17, 17, 11 | 0.0, 0.0, 0.0 |
+| lead_vehicle_2hz | rules_v3 | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.835 | 2 | 0.0 |
 | pedestrian_crossing | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.643 | 0 | 0.0 |
 | pedestrian_crossing | hybrid | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.636 | 0 | 90.1 |
 | pedestrian_crossing | llm | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.691 | 5 | 112.3 |
@@ -39,6 +41,8 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | pedestrian_ego_speed_2hz | rules | 1 | 50 | 0 | 50 | 50 | 4 of 5 | 0.949 | 12 | 0.0 |
 | pedestrian_ego_speed_2hz | rules_v3 | 1 | 50 | 0 | 50 | 50 | 4 of 5 | 1.0 | 14 | 0.0 |
 | pedestrian_ego_speed_2hz | hybrid | 1 | 50 | 0 | 50 | 50 | 4 of 5 | 0.952 | 14 | 88.8 |
+| pedestrian_ego_speed_2hz | llm | 1 | 49 | 0 | 50 | 50 | 4 of 5 | 0.986 | 24 | 95.7 |
+| pedestrian_ego_speed_2hz | random_confirm | 1 | 48 | 0 | 50 | 50 | 4 of 5 | 0.987 | 19 | 0.0 |
 
 Left out: arms that stopped believing their goal met under the broad
 failure definition used before 8 Oct 2026 (any front, side or off-road

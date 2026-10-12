@@ -696,6 +696,17 @@ the recording, problem 27). In progress; numbers as of the arm named.
   the rule methods and hybrid confirm the recorded failures and never the
   1.4x ones, llm the faster settings and never the recorded ones. At 2 Hz
   ego speed is needed to reach 5; at 10 Hz the recording alone gave 6.
+- pedestrian x ego speed, random + confirmation (12 Oct 07:48): 4 of 5 in
+  48 runs (048b974e 0.6x/-1.5 s, 07981e6a 1.2x/+2 s, 0d4893f5 1.2x/+1 s,
+  1bbe02fc 0.6x/-1 s). All five methods, first replicate: 4 of 5 at 2 Hz
+  (at 10 Hz every method reached 5 in 24-40 runs).
+- Paired settings, pedestrian (`HZ.md`, all arms, zero delay): 63 settings
+  run at both rates; 17 fail at both, 17 only at 10 Hz, 2 only at 2 Hz
+  (sign test p = 0.0007). Drift at +5 s: +1.91 m at 2 Hz (73% of runs more
+  than 0.5 m left) against +3.94 m (83%) at 10 Hz; at +3 s +1.09 m against
+  +2.20 m. Same settings, same scenes: planning at VaVAM's own rate removes
+  about half the drift and most of the failures it caused, as the mirror
+  study's m2 runs showed on 20 configs (problem: our 10 Hz loop).
 - cut-in, rules_v3 (12 Oct 05:21): 0 of 5 in 54 runs, 3 failures, at the
   recording on 19f339ba (2 of 6) and 0.5 s earlier on 1c45ce3a (1 of 3);
   2 of the 3 triaged actor_hit_ego (the ego braked hard on an open road and
