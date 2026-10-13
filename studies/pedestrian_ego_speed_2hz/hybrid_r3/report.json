@@ -1,0 +1,517 @@
+{
+ "answer": {
+  "answer": "The goal was met on paper: five settings on five different scenes were confirmed above 0.5 (S23, S1, S10, S2, S24). But only one of them comes from the speed\u2013timing combination, and no confirmed failure involved the pedestrian. The one real case is clipgt-18f8dbd6 at 1.4x ego speed with the pedestrian on its recorded timing (S23). Every repeat there failed. At 1.0x and 1.2x the single runs on that scene passed (S20, S21, S22), so a threshold between 1.2x and 1.4x is a hint, not a measured rate. The other four cases fail at nominal settings (1.0x, 0 s) whatever the speed or timing, so they fill slots without answering the question. In all of them, and also in S23, the policy drifts left against the route and hits a car or leaves the road. On 1bbe02fc (S24), two of the road-exit failures were judged possibly map-edge artifacts rather than the policy's fault. On 048b974e (S1), every failure was flagged as a possible simulator artifact (more than 3.5 m off the recorded path), though the review of the videos and logs blamed the policy each time.",
+  "findings": [
+   {
+    "claim": "On clipgt-18f8dbd6, raising ego speed to 1.4x with the pedestrian on its recorded timing failed in every repeat. This is the only confirmed case caused by the varied knobs. The failures were the ego drifting left at about 12 m/s into car 2 in the adjacent lane, not hitting the pedestrian. In one run car 2 cut in ahead of the ego, and fault there is unclear.",
+    "settings": [
+     "S23"
+    ]
+   },
+   {
+    "claim": "On the same scene, single runs at 1.0x and 1.2x, with the pedestrian 0.5 s earlier, on time or 0.5 s later, did not fail. This hints that the speed threshold lies between 1.2x and 1.4x. One run per setting cannot rule out failures there.",
+    "settings": [
+     "S19",
+     "S20",
+     "S21",
+     "S22"
+    ]
+   },
+   {
+    "claim": "Four of the confirmed cases fail at nominal speed and timing (1.0x, 0 s). Their failures come from the scene and the policy, not from the speed\u2013timing combination. As the plan feared, these scenes fill top-k slots cheaply.",
+    "settings": [
+     "S1",
+     "S2",
+     "S10",
+     "S24"
+    ]
+   },
+   {
+    "claim": "The nominal failures are left drift or wrong-way turns against the route command. On 048b974e the ego turned left into a white van; on 07981e6a it drifted into parked cars; on 0d4893f5 it drifted into car 33 in the next lane. None involved the pedestrian.",
+    "settings": [
+     "S1",
+     "S2",
+     "S10"
+    ]
+   },
+   {
+    "claim": "On 048b974e every failure is flagged as a possible artifact (ego more than 3.5 m off the recorded path). The video and log review still blamed the policy (it turned the wrong way), but this case rests on runs the simulator's rendering might partly explain.",
+    "settings": [
+     "S1"
+    ]
+   },
+   {
+    "claim": "On 1bbe02fc the failures are road exits at the stop line, only about 0.8 m off the human's path. The command read STRAIGHT until the last frame, and two of the three exits were judged unclear, possibly map-edge artifacts. This case is the weakest of the five.",
+    "settings": [
+     "S24"
+    ]
+   },
+   {
+    "claim": "On 0e002edd, moving the pedestrian 0.5 s earlier gave one failure: the ego cut a right turn too tightly into a parked car, again not the pedestrian. Other single runs at 1.0x and 1.2x passed. The scene is not shown to fail.",
+    "settings": [
+     "S11",
+     "S12",
+     "S13",
+     "S14",
+     "S15"
+    ]
+   },
+   {
+    "claim": "Scenes 0caa8f1a, 18d28973, 0b10bce8 and 12a09194 never failed at any setting tried, at speeds from 1.0x to 1.4x and pedestrian shifts within \u00b10.5 s. These were mostly single runs, so this is weak evidence of safety.",
+    "settings": [
+     "S3",
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9",
+     "S16",
+     "S17",
+     "S18"
+    ]
+   }
+  ],
+  "open": [
+   "No failure in this study involved the pedestrian, so the question of which speed\u2013timing combinations make the policy hit the pedestrian is unanswered. The failure check cannot tell which actor was hit. Closest approach to the retimed pedestrian should be logged per run.",
+   "Slow hand-offs (0.6x, 0.8x) and pedestrian shifts beyond \u00b11 s were never run. A sweep over those values on 18f8dbd6, 0e002edd and 0caa8f1a would cover the untested part of the grid.",
+   "The threshold on 18f8dbd6 between 1.2x and 1.4x needs repeats at 1.2x and 1.3x, plus 1.4x with the pedestrian shifted \u00b11\u20132 s, to tell whether timing matters at all or only speed.",
+   "Four of the five slots went to scenes that fail at nominal settings. A rerun that excludes 048b974e, 07981e6a, 0d4893f5 and 1bbe02fc, or ranks by the difference from nominal, would look for speed\u2013timing cases on the cleaner scenes.",
+   "On 1bbe02fc, whether the road exits are the policy's fault or a map-edge artifact needs a check of the drivable-area boundary at the stop line.",
+   "This report does not compare against the 10 Hz study pedestrian_ego_speed. Whether 2 Hz planning reduces the left drift seen here would need that study's rows set side by side, at the same settings.",
+   "One run on 048b974e at nominal settings (r3_014) was not kept and was re-run as r3_014_a2."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": 0,
+   "runs": 4,
+   "failed": 4,
+   "failure_rate_90": [
+    0.6,
+    1.0
+   ],
+   "possible_artifacts": 4,
+   "criticality": 1.0,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_005",
+    "pedestrian_ego_speed_2hz_hybrid_r3_014_a2",
+    "pedestrian_ego_speed_2hz_hybrid_r3_034",
+    "pedestrian_ego_speed_2hz_hybrid_r3_035"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": 0,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_006",
+    "pedestrian_ego_speed_2hz_hybrid_r3_011",
+    "pedestrian_ego_speed_2hz_hybrid_r3_028"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.311,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_004"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-0caa8f1a-3c23-4520-98b2-28be9697fbf4",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": -0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.67,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_020"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-0caa8f1a-3c23-4520-98b2-28be9697fbf4",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.67,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_007"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0caa8f1a-3c23-4520-98b2-28be9697fbf4",
+   "ego_speed_scale": 1.2,
+   "actor_time_shift_s": -0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.7,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_038"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-0caa8f1a-3c23-4520-98b2-28be9697fbf4",
+   "ego_speed_scale": 1.2,
+   "actor_time_shift_s": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.706,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_019"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-0caa8f1a-3c23-4520-98b2-28be9697fbf4",
+   "ego_speed_scale": 1.2,
+   "actor_time_shift_s": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.697,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_039"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-0caa8f1a-3c23-4520-98b2-28be9697fbf4",
+   "ego_speed_scale": 1.4,
+   "actor_time_shift_s": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.675,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_027"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-0d4893f5-f575-4d98-b33f-0bdf3816bbed",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": 0,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_008",
+    "pedestrian_ego_speed_2hz_hybrid_r3_012",
+    "pedestrian_ego_speed_2hz_hybrid_r3_029"
+   ]
+  },
+  {
+   "id": "S11",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": -1,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.72,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_036",
+    "pedestrian_ego_speed_2hz_hybrid_r3_037"
+   ]
+  },
+  {
+   "id": "S12",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": -0.5,
+   "runs": 3,
+   "failed": 1,
+   "failure_rate_90": [
+    0.08,
+    0.75
+   ],
+   "possible_artifacts": 1,
+   "criticality": 0.814,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_018",
+    "pedestrian_ego_speed_2hz_hybrid_r3_021",
+    "pedestrian_ego_speed_2hz_hybrid_r3_022"
+   ]
+  },
+  {
+   "id": "S13",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.72,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_001"
+   ]
+  },
+  {
+   "id": "S14",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "ego_speed_scale": 1.2,
+   "actor_time_shift_s": -0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.72,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_023"
+   ]
+  },
+  {
+   "id": "S15",
+   "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+   "ego_speed_scale": 1.2,
+   "actor_time_shift_s": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.722,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_017"
+   ]
+  },
+  {
+   "id": "S16",
+   "scene_id": "clipgt-12a09194-85c2-4ecf-b665-9c5078bae240",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_003"
+   ]
+  },
+  {
+   "id": "S17",
+   "scene_id": "clipgt-18d28973-336c-430e-be57-49f6b56fd827",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.486,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_009"
+   ]
+  },
+  {
+   "id": "S18",
+   "scene_id": "clipgt-18d28973-336c-430e-be57-49f6b56fd827",
+   "ego_speed_scale": 1.2,
+   "actor_time_shift_s": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.653,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_040"
+   ]
+  },
+  {
+   "id": "S19",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": -0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.623,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_016"
+   ]
+  },
+  {
+   "id": "S20",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.772,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_002"
+   ]
+  },
+  {
+   "id": "S21",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "ego_speed_scale": 1.2,
+   "actor_time_shift_s": 0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.81,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_015"
+   ]
+  },
+  {
+   "id": "S22",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "ego_speed_scale": 1.2,
+   "actor_time_shift_s": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.74,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_026"
+   ]
+  },
+  {
+   "id": "S23",
+   "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+   "ego_speed_scale": 1.4,
+   "actor_time_shift_s": 0,
+   "runs": 5,
+   "failed": 5,
+   "failure_rate_90": [
+    0.65,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_024",
+    "pedestrian_ego_speed_2hz_hybrid_r3_025",
+    "pedestrian_ego_speed_2hz_hybrid_r3_031",
+    "pedestrian_ego_speed_2hz_hybrid_r3_032",
+    "pedestrian_ego_speed_2hz_hybrid_r3_033"
+   ]
+  },
+  {
+   "id": "S24",
+   "scene_id": "clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654",
+   "ego_speed_scale": 1,
+   "actor_time_shift_s": 0,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "pedestrian_ego_speed_2hz_hybrid_r3_010",
+    "pedestrian_ego_speed_2hz_hybrid_r3_013",
+    "pedestrian_ego_speed_2hz_hybrid_r3_030"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 16984,
+  "output_tokens": 2365,
+  "duration_ms": 25338
+ }
+}

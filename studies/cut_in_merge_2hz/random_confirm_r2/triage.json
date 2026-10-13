@@ -1,0 +1,145 @@
+[
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r2_001",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "The ego drove at about 6 m/s about 1.8 m left of the recorded path, in the lane left of the one the human used. It drew level with actor 21 in the right lane, steered slightly right toward that lane, and hit 21's side with its front corner at 11.1 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16049,
+   "output_tokens": 1131,
+   "duration_ms": 12025
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r2_007",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was crawling at about 5 m/s on a multi-lane highway, about 70 m behind where the recorded car was, and drifting about 1.8 m left of the recorded path. Motorcycle 29, replaying its recorded path, came up from directly behind and cut past the ego's front-left corner, triggering a front collision at 12.1 s. The ego never closed on a lead and made no sharp turn into the bike, but its slow, laterally offset driving put it where the logged motorcycle was always going to pass.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16039,
+   "output_tokens": 958,
+   "duration_ms": 10309
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r2_017",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "no_brake_for_lead",
+  "what_happened": "On a multi-lane highway, the ego drifted about 3 m left of the recorded path into the lane of slower actor 87. It held about 7 m/s while the gap to 87 closed from 19 m to 4 m, then hit it with its front. The camera view of 87 was smeared but visible throughout. The rear contact flagged in the run happened after this front collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16056,
+   "output_tokens": 739,
+   "duration_ms": 8228
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r2_019",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "After handoff the ego ran about 2\u20132.5 m left of the recorded path, straddling the line between two freeway lanes. Under a RIGHT/STRAIGHT command it edged right toward the route lane, where actor 21 was alongside, and its front made contact with 21 at 10.6 s while it was still going about 6.6 m/s. Actor 21 had been ahead in the right lane and closed to the ego's side, and the camera view of nearby cars is heavily smeared. That makes it hard to say whether the ego steered into 21 or 21 moved over into the ego.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16056,
+   "output_tokens": 1695,
+   "duration_ms": 18721
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r2_020",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On the highway the route command was STRAIGHT and then RIGHT, but the ego drifted left of its route and the recorded path, ending about 1.75 m off. Its left side hit actor 29, a small vehicle passing in the lane to the left (lateral collision at 11.6 s, ego at about 5 m/s).",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16040,
+   "output_tokens": 727,
+   "duration_ms": 8711
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r2_028",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "On a straight multi-lane freeway with a STRAIGHT command, the ego was about 2 m left of the recorded path and kept drifting left across the lane line. It moved into the lane of slower vehicle 33 and hit its rear with the front of the car at 5.7 m/s, having slowed only from 6.9 m/s. Vehicle 33 is smeared on the left of the camera view, but it still reads as a car, and the planned path (orange) actually curved toward it.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16049,
+   "output_tokens": 1321,
+   "duration_ms": 14041
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r2_029",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "The ego was at about 4.5 m/s on a multi-lane highway with a RIGHT command, but its planned path drifted left, about 1.9 m off the recorded human path, which stayed to the right. A small actor (id 28, probably a motorcycle) came up on the ego's left and a front collision was recorded at 11.6 s, with the actor overlapping the ego's front-left corner.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16042,
+   "output_tokens": 977,
+   "duration_ms": 11782
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r2_037",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway at about 5 m/s, the ego's own path drifted left of the route even though the command had changed to RIGHT, and it ended up straddling the line into the lane on its left, about 2 m from where the human drove. Vehicle 29 was travelling in that left lane and the two collided side to side at 11.6 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13215,
+   "output_tokens": 750,
+   "duration_ms": 9373
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r2_041",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "no_brake_for_lead",
+  "what_happened": "After handoff, the ego drifted about 4 m left of the recorded path into the lane of actor 87, which was moving slower ahead of it. The gap shrank from 12.9 m to 4.2 m while the ego only eased off from 7.0 to 5.1 m/s, and it hit 87 with its front. The camera view is smeared because the ego is far from the recorded drive, but the lead car can still be seen.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13221,
+   "output_tokens": 836,
+   "duration_ms": 8568
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r2_046",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway at about 5\u20136 m/s, the ego's path drifted left of the recorded trajectory and the route, even though the command was STRAIGHT and then RIGHT. Ending about 1.7 m off the recording, the ego's left side struck a small actor (29, possibly a motorcycle) passing close alongside, a lateral collision with no vehicle ahead involved.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16048,
+   "output_tokens": 930,
+   "duration_ms": 9618
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r2_054",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "no_brake_for_lead",
+  "what_happened": "Lead vehicle 66 in the ego's lane braked to near a stop around the 4.7 s handoff, and the gap closed from 8.2 m to contact in about 1 s. The policy held about 4.3 m/s without braking (its plan only bent left toward the next lane) and rear-ended 66 with its front.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16049,
+   "output_tokens": 917,
+   "duration_ms": 10150
+  }
+ }
+]

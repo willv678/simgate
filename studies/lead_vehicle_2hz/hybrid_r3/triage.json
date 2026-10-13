@@ -1,0 +1,41 @@
+[
+ {
+  "run": "lead_vehicle_2hz_hybrid_r3_022",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway with a STRAIGHT command (RIGHT in the last frame), the policy's planned path bent left toward the next lane. The ego slowed from 5.5 to 4.1 m/s and drifted left into actor 41, which was traveling alongside in that lane, hitting it with its front-left corner. The lead truck stayed about 20 m ahead the whole time, so it played no part.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13226,
+   "output_tokens": 556,
+   "duration_ms": 5695
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_hybrid_r3_031",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway, after taking over the policy drifted left toward the adjacent lane (orange path) instead of staying in its lane. Vehicle 41 was driving alongside in that lane, and the ego's front struck it during the merge.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16049,
+   "output_tokens": 584,
+   "duration_ms": 7093
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_hybrid_r3_045",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway at about 5 m/s, the ego drifted left and moved about 1.3 m off the recorded path. It edged into the next lane just as vehicle 41 was overtaking there from behind on the left, and the ego's front-left corner hit vehicle 41's side. The large smeared vehicle in the camera at 7.2 s is vehicle 41 at the moment of impact, not a rendering fault that misled the policy.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16054,
+   "output_tokens": 784,
+   "duration_ms": 9828
+  }
+ }
+]

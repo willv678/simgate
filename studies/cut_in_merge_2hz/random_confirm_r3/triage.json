@@ -1,0 +1,54 @@
+[
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r3_018",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was cruising straight at about 8 m/s in its lane on a multi-lane highway. Actor 33 came up fast from behind on the left and cut right into the ego's lane, hitting the ego's front-left corner; the gap to the actor ahead fell from 25 m to 2.6 m because actor 33 was suddenly beside and ahead of the ego. The ego was only 1.3 m from the recorded human path and had little chance to avoid a vehicle merging in from its rear quarter.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13228,
+   "output_tokens": 1298,
+   "duration_ms": 14367
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r3_019",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "On a straight multi-lane freeway at about 8 m/s, the ego's planned path (orange) bent left toward the next lane while actor 33 was passing in that lane on its left. The ego moved about 1.3 m left of the recorded path and its front-left corner hit 33 alongside it; there was no lead-vehicle closing beforehand (the gap held steady at 25\u201330 m).",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13205,
+   "output_tokens": 1639,
+   "duration_ms": 19804
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r3_028",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane freeway with a STRAIGHT command, the policy's planned path (orange) bent left toward the next lane while the recorded route stayed in the ego's lane. The ego drifted left at about 8 m/s into actor 33, which was driving alongside in that lane, and hit it with its front-left (front collision at 6.6 s).",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13217,
+   "output_tokens": 574,
+   "duration_ms": 9587
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_random_confirm_r3_034",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The route command was RIGHT, but after handoff the ego stayed about one lane left of the recorded path and followed slower vehicle 87 in that lane. The gap to 87 shrank from 13 m to 4 m while the ego only eased from 6.7 to 5.4 m/s, and it hit 87's rear with its front at 10.1 s. 87 was smeared in the camera view but clearly shown, so rendering does not explain the failure to brake.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16055,
+   "output_tokens": 754,
+   "duration_ms": 8637
+  }
+ }
+]

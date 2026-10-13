@@ -1,0 +1,132 @@
+[
+ {
+  "run": "lead_vehicle_2hz_llm_r3_023",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway at about 5 m/s, the policy drifted left out of its lane while the route command said RIGHT and the recorded path went straight or right. It cut into the left lane and its front hit the rear-right corner of actor 41, which was moving in that lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16047,
+   "output_tokens": 648,
+   "duration_ms": 7586
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_llm_r3_029",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a wet multi-lane highway at about 5 m/s, the ego's planned path bent left, out of its lane and away from the recorded path, even though the route command was RIGHT. It drifted into the next lane to the left and hit vehicle 41 alongside with its front corner.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13231,
+   "output_tokens": 681,
+   "duration_ms": 6996
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_llm_r3_031",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a wet multi-lane highway at about 5 m/s, the policy's planned path (orange) bent left out of the ego's lane while the route path (green) went straight and then right. The ego drifted left into the next lane and hit the back of vehicle 41 with its front at 7.7 s, about 1.6 m off the recorded human path.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16054,
+   "output_tokens": 608,
+   "duration_ms": 6981
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_llm_r3_032",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway at about 5 m/s, the policy's planned path curved left toward the adjacent lane, even though the route command was STRAIGHT and then RIGHT and the recorded path stayed in lane. The ego drifted about 1.8 m left of the recorded path and its front hit the white pickup (actor 41) already driving in that left lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16043,
+   "output_tokens": 661,
+   "duration_ms": 7240
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_llm_r3_034",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "turned_into_actor",
+  "what_happened": "In slow highway traffic the ego sped up from about 3 to 5.6 m/s and drifted left, away from the recorded path (which went slightly right, and the command was RIGHT), into the next lane. Its front hit car 51, which was driving alongside in that lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13212,
+   "output_tokens": 698,
+   "duration_ms": 9406
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_llm_r3_036",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane freeway with a RIGHT route command, the policy's planned path kept bending left, away from the recorded path. The ego drifted about 1.7 m left of the human trajectory and its front struck the white pickup (actor 41) as the pickup passed alongside on the left and pulled just ahead, straddling the lane line.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16045,
+   "output_tokens": 795,
+   "duration_ms": 9567
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_llm_r3_037",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane freeway with a RIGHT command, the policy's planned path curved left and the ego moved toward the lane on its left. Its front struck vehicle 41, which was travelling alongside slightly ahead in that lane, at about 5 m/s and 1.6 m off the recorded path.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16063,
+   "output_tokens": 582,
+   "duration_ms": 6794
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_llm_r3_038",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway at about 5 m/s, the ego's plan bent left out of its lane even though the route command was STRAIGHT and then RIGHT, and the recorded path went slightly right. It moved into the left lane and ran its front into vehicle 41 travelling alongside, about 1.5 m off the recorded path. The camera was clear up to the moment of contact.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16038,
+   "output_tokens": 683,
+   "duration_ms": 8846
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_llm_r3_042",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway, the ego was driving at about 5.5 m/s and the route command was STRAIGHT, later RIGHT. Even so, its planned path kept bending left, and the ego drifted out of its lane into the left lane. Its front corner hit vehicle 41, which was travelling alongside in that lane, at 7.2 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16041,
+   "output_tokens": 708,
+   "duration_ms": 7628
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_llm_r3_043",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "left_road",
+  "what_happened": "Even though the route command was RIGHT, the policy planned and drove a path to the left, away from the recorded trajectory, and sped up from 5.8 to 7.7 m/s. At 10.2 s it was about 4.3 m left of the human's path and had left the drivable area near the left barrier, with no lead vehicle close by.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13227,
+   "output_tokens": 664,
+   "duration_ms": 7332
+  }
+ }
+]

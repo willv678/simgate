@@ -1,0 +1,327 @@
+{
+ "answer": {
+  "answer": "Only one of the five cases was confirmed, so the goal was not met. Scene 023b7fcc with the cars at recorded timing and 1.25x speed failed every run, and its range sits above one half (S1). The best second candidate is scene 09a95ffa with the cars 0.5 s later at 1.25x. Every run there failed, but there were only two runs, so its range still reaches below one half (S7). Every policy-caused failure in this study had the same cause: the ego drifted left into a car travelling alongside in the next lane, even though the route command was STRAIGHT or RIGHT. None was a missed brake for a car cutting in. On the other seven scenes, cars at recorded timing and 1.25x speed caused no failures. The search also tried almost nothing else: every setting ran at 1.25x speed, with time shifts only from -0.5 s to +1.0 s. So most of the timing and speed range is still unexplored, and the study cannot say which timings and speeds are dangerous in general.",
+  "findings": [
+   {
+    "claim": "Scene 023b7fcc at 0 s shift and 1.25x speed is a confirmed challenging case. Every run failed, and its range is above one half. In each run the policy steered left out of its lane against a STRAIGHT/RIGHT command and hit the front-left of actor 56 in the next lane. The policy was at fault every time, and no failure was flagged as a possible rendering artifact.",
+    "settings": [
+     "S1"
+    ]
+   },
+   {
+    "claim": "Scene 09a95ffa at +0.5 s shift and 1.25x speed failed every run, the same way: the ego drifted left into actor 33 coming up alongside. With only two runs this is a strong hint, not a confirmed rate.",
+    "settings": [
+     "S7"
+    ]
+   },
+   {
+    "claim": "On scene 09a95ffa at 0 s shift and 1.25x speed, the failures were mixed and mostly not the policy's fault. One was the policy drifting left into actor 33. In the other two, the ego held its lane and actor 33 overtook fast and cut across into the ego's front-left corner. This setting does not show a policy weakness the way S7 does.",
+    "settings": [
+     "S6"
+    ]
+   },
+   {
+    "claim": "On scene 09a95ffa, the single runs at -0.5 s and +1.0 s shift (1.25x speed) did not fail. These are single runs and say little.",
+    "settings": [
+     "S5",
+     "S8"
+    ]
+   },
+   {
+    "claim": "Cars at recorded timing and 1.25x speed caused no failure on scenes 096988dd, 0cf6368d, 0e899dd3, 12855a41, 19f339ba and 1c45ce3a. Each range stays below one half, so these settings look safe. That says nothing about other timings or speeds on these scenes.",
+    "settings": [
+     "S4",
+     "S9",
+     "S10",
+     "S11",
+     "S12",
+     "S13"
+    ]
+   },
+   {
+    "claim": "Scene 054b5901 did not fail at -0.5 s or 0 s shift with 1.25x speed. The -0.5 s setting had enough runs to look safe; the 0 s setting had a single run.",
+    "settings": [
+     "S2",
+     "S3"
+    ]
+   }
+  ],
+  "open": [
+   "Is scene 09a95ffa at +0.5 s, 1.25x reliably failing? Two or three more runs at S7 would settle whether it becomes the second confirmed case.",
+   "Speed was never varied from 1.25x, and time shifts never went beyond -0.5 s to +1.0 s. Single-run probes at 0.5x, 1.5x and 2x, and at \u00b11.5 s and \u00b12 s, on the scenes that look safe (096988dd, 12855a41, 19f339ba, 054b5901, 0e899dd3, 0cf6368d, 1c45ce3a) are needed before the study can say which timings and speeds are dangerous, or fill the remaining top-5 slots.",
+   "Every policy-caused failure was a left drift into a car alongside, not a reaction to a cut-in. Is that a reaction to the retimed cars, or the drift the planning-rate note describes? Running 023b7fcc and 09a95ffa at the recorded speed (1.0x, 0 s) would show it.",
+   "The study cannot say whether 2 Hz planning fails less often than 10 Hz. That would need these exact settings set side by side with the same settings in the 10 Hz cut_in_merge study.",
+   "The tags do not say whether the ego merges or another car cuts in, so the two kinds of scene cannot be told apart here."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_004",
+    "cut_in_merge_2hz_rules_r3_010",
+    "cut_in_merge_2hz_rules_r3_019"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.25,
+   "runs": 5,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.35
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.731,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_018",
+    "cut_in_merge_2hz_rules_r3_025",
+    "cut_in_merge_2hz_rules_r3_033",
+    "cut_in_merge_2hz_rules_r3_042",
+    "cut_in_merge_2hz_rules_r3_051"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.459,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_008"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.777,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_005",
+    "cut_in_merge_2hz_rules_r3_012",
+    "cut_in_merge_2hz_rules_r3_023",
+    "cut_in_merge_2hz_rules_r3_031",
+    "cut_in_merge_2hz_rules_r3_040",
+    "cut_in_merge_2hz_rules_r3_049"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.698,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_036"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 5,
+   "failed": 3,
+   "failure_rate_90": [
+    0.27,
+    0.86
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.958,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_007",
+    "cut_in_merge_2hz_rules_r3_011",
+    "cut_in_merge_2hz_rules_r3_020",
+    "cut_in_merge_2hz_rules_r3_028",
+    "cut_in_merge_2hz_rules_r3_037"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 1.25,
+   "runs": 2,
+   "failed": 2,
+   "failure_rate_90": [
+    0.42,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_045",
+    "cut_in_merge_2hz_rules_r3_046"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.788,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_054"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.629,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_001",
+    "cut_in_merge_2hz_rules_r3_016",
+    "cut_in_merge_2hz_rules_r3_027",
+    "cut_in_merge_2hz_rules_r3_034",
+    "cut_in_merge_2hz_rules_r3_044",
+    "cut_in_merge_2hz_rules_r3_053"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.735,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_009",
+    "cut_in_merge_2hz_rules_r3_015",
+    "cut_in_merge_2hz_rules_r3_024",
+    "cut_in_merge_2hz_rules_r3_032",
+    "cut_in_merge_2hz_rules_r3_041",
+    "cut_in_merge_2hz_rules_r3_050"
+   ]
+  },
+  {
+   "id": "S11",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.813,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_002",
+    "cut_in_merge_2hz_rules_r3_014",
+    "cut_in_merge_2hz_rules_r3_022",
+    "cut_in_merge_2hz_rules_r3_030",
+    "cut_in_merge_2hz_rules_r3_039",
+    "cut_in_merge_2hz_rules_r3_048"
+   ]
+  },
+  {
+   "id": "S12",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.843,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_006",
+    "cut_in_merge_2hz_rules_r3_013",
+    "cut_in_merge_2hz_rules_r3_021",
+    "cut_in_merge_2hz_rules_r3_029",
+    "cut_in_merge_2hz_rules_r3_038",
+    "cut_in_merge_2hz_rules_r3_047"
+   ]
+  },
+  {
+   "id": "S13",
+   "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.694,
+   "run_names": [
+    "cut_in_merge_2hz_rules_r3_003",
+    "cut_in_merge_2hz_rules_r3_017",
+    "cut_in_merge_2hz_rules_r3_026",
+    "cut_in_merge_2hz_rules_r3_035",
+    "cut_in_merge_2hz_rules_r3_043",
+    "cut_in_merge_2hz_rules_r3_052"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 12535,
+  "output_tokens": 1899,
+  "duration_ms": 26827
+ }
+}
