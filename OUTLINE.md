@@ -1,132 +1,84 @@
 # Outline
 
-IEEE IV 2027. Six pages, including figures, tables, and references. Deadline
-15 Nov 2026. Rewritten 29 Sep 2026 for the system as it now stands. Every
-sentence below cites a file; a claim with no file is in the left-out list.
-Numbers marked (n=1) are single samples until the campaign and
-`auditor_repeats.json` replace them.
+IEEE IV 2027, six pages. Rewritten 13 Oct 2026 for the paper Shao framed on
+6 Oct: accelerated stress testing of a driving policy, with an AI agent in a
+rule-guided search loop. The 29 Sep outline (runtime assurance for an
+LLM-operated batch) is in git history; its gate results are now section 3's
+support, not the claim.
 
-## Claim
+Schedule: experiments run 13-24 Oct and freeze on Sat 24 Oct; Will writes
+25-28 Oct; draft 2 Nov. After the freeze, runs only tighten numbers already
+in a claim (more replicates), never add a claim.
 
-An LLM can operate an unattended simulation batch without being trusted.
-Deterministic checks decide which runs enter the dataset; the model only
-proposes: recoveries from a finite menu, quarantine flags on a finished batch,
-and new checks. A proposal takes effect only after a verified gate or the data
-admits it. Because the menu is finite, the gate is checked exhaustively
-against every answer a policy could give. What the model learns becomes code,
-so the batch gets safer and cheaper to run.
+## Claims, evidence, status
 
-Working title: **SimGate: Runtime Assurance for LLM-Operated Driving
-Simulation.** Tagline: *the model proposes, the gate decides.* The system's
-parts, used throughout: the Gate, the Investigator (tier 1), the Auditor
-(tier 2), the Rulebook (admitted rules), the Verifier.
+| # | Claim | Evidence | Status |
+|---|---|---|---|
+| 1 | Guided search with an AI finds a policy's hardest cases more reliably than rules, random search and a standard optimiser, on the same budget and validity gate | 3 category studies x rules, hybrid, llm, random + confirmation, optuna + confirmation; 3-5 replicates (`METHODS.md`, FACTS "2 Hz complete") | have all but Optuna (queued 13 Oct) and replicates 4-5 |
+| 2 | The AI's advantage grows as failures get rarer and the space larger | the hard study (below) | **missing; the deciding experiment** |
+| 3 | Counting every collision flag ranks the methods wrong | problems 25, 29, 30: up to half the car-scene "failures" were rear-endings by replayed cars or contacts begun before the hand-off; lead vehicle's winner changed | have it |
+| 4 | The loop keeps every run valid unattended | 3,708 launches since 6 Oct, 97% kept; the gate; 30 problems met (FACTS table) | have it |
+| 5 | What the search found in VaVAM | ego speed, not pedestrian timing, is the stressor; the left drift (`DRIFT.md`) and the mirror test (`MIRROR.md`) | have it |
+| 6 | The automatic failure judgement agrees with a person | Griffin's 60 blind labels (`research-griffin`, `label_sheet.py score` still to write) | 10 of 60 |
 
-## Figure 1: architecture (`research/harness/`)
+If claim 2 does not hold, the paper leads with 3-5 and states 1 as measured.
 
-Simplex layout. Left, the trusted path: preflight (`preflight.py`, machine check
-`environment.py`), launch (`run_experiment.py`), postflight (`postflight.py`,
-landed check and promoted rules in `read_state.py`), the state machine
-(`loop.py`). Right, the untrusted proposers: tier 1 diagnosis on FAILED
-(`diagnose.py --policy agent`, read-only tools), tier 2 batch audit
-(`audit.py`), rule proposals. Between them, the gates: `validate_diagnosis.py`
-for recoveries, `promote.py` for rules, a person for enacting rules.
+## The hard study (claim 2)
 
-## Pages
+- More knobs at once: actor time shift, actor speed, ego speed at hand-off
+  (3 knobs; the method studies vary 2).
+- Scenes where failures are rare at the recording. 2 Hz suits this: VaVAM
+  fails less at its designed rate (`HZ.md`), and it answers "which rate".
+  Rate waits on Shao (asked 13 Oct).
+- Methods: rules, hybrid, llm, random + confirmation, optuna + confirmation,
+  and v2 of hybrid and llm (below). 5 replicates, about 15 GPU hours.
+- Do not tune v2 on this study: v2 is built on the three method studies and
+  evaluated here.
 
-**1. Introduction.** Unattended batches fail silently. Our own earlier data had
-four such failures (`RESULTS.md`): `context_length` 1 made VaVAM crash in 8 of
-10 runs; a latency plot used a delay the simulator never applied (162 of 212
-rows); 22% of runs wrote no metrics; the MPC reported `solved` whenever it did
-not throw. None of them raised an error. Contributions: the gate and its
-exhaustive check, a diagnosis agent on a fenced menu, a batch auditor, and
-rule mining that turns what the auditor finds into checks.
+## AI proposer v2 (new proposers; v1 arms stay reproducible)
 
-**2. The gate (Loop 1).** States READY, RUNNING, COMPLETE, FAILED, DONE
-(`read_state.py`). A run is kept only after preflight, the machine check, exit
-0, postflight, the landed check, and every promoted rule. The menu: CONFIGURE
-(how a run executes: `context_length`, `scene_file`, `trafficsim_device`),
-RE-RUN, RESTART_CLEANUP, CLEANUP_ENV, HALT. `validate_diagnosis.py` rejects
-anything else. Recovery may never change what a run measures.
+What llm and hybrid see now (FACTS "2 Hz complete"): run results and
+per-setting ranges only. v2 adds:
+- the prompt corrected for replayed traffic (near-deterministic replicates;
+  the v1 prompt says traffic is sampled);
+- the triage's crash explanations and the tagger's scene facts (lead gap,
+  cut-in time, pedestrian distance);
+- a short note carried between rounds (hypothesis, what to test next).
+Any change to confirmation applies to every method, not only v2.
 
-**3. Verification (`verify_supervisor.py`, FACTS.md).** An adversarial policy
-tries 26 answers at every FAILED state against a world that fails every launch.
-The first run found a hole: CONFIGURE of the delay let a recovery keep a run
-measuring 0 ms under a 100 ms experiment, lie 2 reintroduced. After removing
-the delay from CONFIGURE: 0 violations over 3,822 transitions; at most 3
-launches per run; no cycles. This is the section a controls reader will check.
+## Figures
 
-**4. Unattended operation (B2, `b2_trace.jsonl`).** 150 runs, 537 min, 150 kept,
-0 halted. The only failures were a Docker network leak from 29 earlier runs; a
-per-run cleanup could not fix it, a person did. The leak led to the machine
-check and CLEANUP_ENV, which fix it with no person (replayed with
-`faults.fill_network_pool`). The auditor later found the same leak in the old
-autolab batch. Multi-scene: S1, 101 scenes (`s1_trace.jsonl`, running).
+1. The loop (`figures/framework.png`, simplified).
+2. Confirmed hardest cases by method and study, with replicates
+   (`figures/meeting/by_scene.png` style).
+3. Where each method looked (`WHERE.md`): why rules stall.
+4. The hard study: the gap between guided and random against failure rarity.
+5. The left drift (`figures/meeting/drift_simple.png`) and the mirror test.
+Table: problems met (FACTS), grouped; counts before and after the
+policy-attributable definition.
 
-**5. Diagnosis: script, tier 0, tier 1 (`comparison_opus.txt`, C0, campaign).**
-On three real failures both model tiers choose the fix a person applied where
-the script re-runs; the larger menu made that difference, not the tools. In
-the pilot campaign (C0) tier 1 halted a persistent failure after one launch
-where the script would spend three, and halted a transient hang it should have
-retried. Table: per fault kind, detected / recovered / launches / halted, for
-script, tier 0, tier 1, and the no-gate arm (`score_campaign.py`). Live, campaigns C1 and C2 (`campaign_report.txt`,
-`figures/campaign_outcomes.pdf`): tier 1 kept as many valid runs as the script
-(35 and 35 in C1) in fewer launches (72 against 80) and halted only the
-persistent fault, at its first failure; tier 0 halted 10 recoverable runs.
-Invalid runs kept after gate and audit: 0 in all six arms
-(`figures/campaign_invalid.pdf`). Replayed five
-times per tier (`repeat_tiers.txt`): script 4/6, tier 0 19/30, tier 1 24/30.
-Tier 1 is right on deleted and corrupt metrics (5/5 each) where tier 0 halts
-(0/5, 1/5): tools matter when the run exits 0 and the log shows nothing. The
-hang row is confounded by replaying on a live machine; the campaign fills the
-table with launches.
+## Related work (`LITERATURE.md`, 6 Oct; refresh before writing)
 
-**Figure 2 (`figures/invalid_kept.pdf`).** Invalid runs left in the pilot's
-dataset: no gate 9, per-run gate 6, gate and audit 0.
+- Accelerated testing: NADE, D2RL, importance sampling for cut-ins, AST,
+  BO-based falsification. We do not estimate a crash rate; we find and
+  confirm the hardest cases on a fixed budget.
+- LLM scenario testing: ChatScene, LeGEND, TARGET, OmniTester, SoVAR,
+  LLM-attacker, EvoDrive, PlannerForge. Closest to our main finding: LEADE
+  (the LLM helps a GA escape local optima). They generate scenarios in
+  CARLA/LGSVL/SUMO/MetaDrive; none compares rules, LLM-only and hybrid
+  choice of the next test on one budget under one validity gate, and none
+  runs a closed-loop end-to-end policy in a neural-reconstruction simulator.
+- Flaky simulation tests (Osikowicz 2025, Amini 2023, Chance 2022): our gate.
 
-**6. The auditor and what it teaches the gate (`auditor_eval.txt`,
-`mining_eval.txt`).** Table 2: batches A–F, three audits each (`auditor_repeats.txt`). Every
-sample caught every planted lie with no false flags in A–D and F, and none in E, the batch that is wrong the same way
-throughout, as lie 1 really was. One reference run restores detection (F).
-Table 3: rules it proposed and `promote.py` admitted, applied with no model
-call to held-out batches: `context_length` catches E 10/10, the delay rule
-20/20, the controller rule catches kinematic but not rails. Zero false flags
-on 30 clean runs.
+## Statistics
 
-**6b. Physics: when the numbers look fine (Shao, 29 Sep).** K⁺ rebuilds the
-motion from the rollout log and bounds it by what a car can do; 0 false alarms
-on 233 clean runs across about 70 scenes, 6/6 silent faults, no config read
-(`physics_calibration.txt`). The Auditor with configs hidden catches 6/6 with
-the motion and 3/6 without it (`physics_audit_eval.txt`): summary metrics hid
-every kinematic run. C1 (physics off) against C2 (physics on) measures the gate
-with and without it.
+Per study, not pooled: confirmed count per arm, methods compared within a
+study (Mann-Whitney or a permutation test), runs to goal where every arm
+reaches it. The pooled first look (FACTS) mixes studies and treats the two
+rates of one study as independent.
 
-**7. Related work and limits.** Simplex and runtime assurance (Sha 2001;
-Black-Box Simplex; shielding): we move the idea from physical safety to
-experimental validity. Closest: ADMITBench and the Mercangöz group's
-fault-tolerant control agent (a gate around LLM advice, physical plants);
-agentic self-healing pipelines (no rule baseline, no validity guarantee);
-AgentSpec and ShieldAgent (free-form actions); TrainCheck and RADAR (silent
-failures, not simulation configs). IDs in `FACTS.md`. Limits: one simulator,
-one driver, silent faults the auditor misses (rails), a study-specific rule.
+## Limits to state
 
-## Numbers still to produce
-
-- Campaign: 10 per fault kind × script, tier 0, tier 1 (`enqueue_campaign.py`,
-  `score_campaign.py`). Replaces every n=1 in section 5.
-- S1: which of 101 scenes run, and the failures the loop met on real scenes.
-- An S1 audit with one reference run.
-
-## Left out
-
-The files do not support these; they are not in the six pages.
-
-- The model beating the script in general. It chose better on three real
-  failures and one persistent fault, and worse on one transient fault.
-- "First runtime assurance for LLM agents." It is in print (FACTS.md).
-- The auditor catching uniform lies without a reference run (E is 0/10).
-- Rails caught without a reference run. With one it is caught and a rule for
-  it is admitted (FACTS.md); without one, held out 1/2.
-- A rate for any model behaviour from one sample.
-- Loop 2 as a search over scenes, delays, or gains.
-- Switching stability, dwell time, MPC tuning.
-- The 12 GB out-of-memory event as the paper's failure mode.
+One policy (VaVAM; Alpamayo does not fit 24 GB). Replayed traffic does not
+react. Retiming moves only recorded actors. Unprotected left: 2 of 250
+scenes. Intersection: one replicate, no separation.

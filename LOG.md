@@ -94,3 +94,6 @@ Append one line when a board row changes state. Newest at the bottom.
 - 2026-10-12 05:3x — Problem 29: who_closed.py, replayed cars closing on an ego braking in its own lane; offline sensitivity, outcome unchanged.
 - 2026-10-12 09:3x — Problem 30: a contact under way at the hand-off is not the policy's (outer.outcome). Lead vehicle llm's 23-30-run win was warm-up contacts; arms that had stopped at the old goal re-queued to their full budget. Method table final 13:43.
 - 2026-10-12 15:3x — Problem 30 extended: at 2 Hz a contact begun in the warm-up's last 500 ms is first flagged at the hand-off step, which now counts as the warm-up's. 2 Hz lead llm re-queued. Replicates 2 and 3 of the 2 Hz arms queued.
+- 2026-10-13 18:5x — All 2 Hz replicates done (exit 0). Pooled cut-in + lead, both rates: rules 10/60, hybrid 33, llm 32, random_confirm 19 (Mann-Whitney first look in FACTS). Meeting figures in figures/meeting/.
+- 2026-10-13 19:5x — optuna_confirm (Optuna TPE + the rules' confirmation) added and queued at 10 Hz on pedestrian x ego speed, cut-in and lead vehicle, 3 replicates. Web app started for Will's demo.
+- 2026-10-13 20:xx — OUTLINE.md rewritten as claims, evidence, status; hard study and AI proposer v2 planned; freeze 24 Oct, writing 25-28 Oct, draft 2 Nov.

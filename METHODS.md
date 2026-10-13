@@ -13,11 +13,11 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | cut_in_merge | hybrid | 3 | 54, 54, 54 | 1 | 54, 48, 54 | 54 | 4, 5, 4 of 5 | 0.981, 1.0, 0.979 | 18, 20, 23 | 81.0, 96.1, 86.7 |
 | cut_in_merge | llm | 3 | 54, 53, 54 | 0 | 54, 54, 54 | 54 | 3, 4, 3 of 5 | 0.962, 0.979, 0.977 | 15, 18, 24 | 101.3, 108.2, 86.6 |
 | cut_in_merge | random_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 0, 1 of 5 | 0.959, 0.954, 0.907 | 17, 10, 4 | 0.0, 0.0, 0.0 |
-| cut_in_merge_2hz | rules | 1 | 53 | 0 | 54 | 54 | 2 of 5 | 0.909 | 8 | 0.0 |
+| cut_in_merge_2hz | rules | 3 | 53, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 1, 1 of 5 | 0.909, 0.883, 0.887 | 8, 11, 8 | 0.0, 0.0, 0.0 |
 | cut_in_merge_2hz | rules_v3 | 1 | 54 | 0 | 54 | 54 | 0 of 5 | 0.862 | 3 | 0.0 |
-| cut_in_merge_2hz | hybrid | 1 | 54 | 0 | 54 | 54 | 3 of 5 | 0.938 | 10 | 87.6 |
-| cut_in_merge_2hz | llm | 1 | 54 | 0 | 54 | 54 | 3 of 5 | 0.984 | 13 | 101.6 |
-| cut_in_merge_2hz | random_confirm | 1 | 54 | 0 | 54 | 54 | 4 of 5 | 1.0 | 21 | 0.0 |
+| cut_in_merge_2hz | hybrid | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 3, 3 of 5 | 0.938, 0.941, 0.947 | 10, 17, 12 | 87.6, 92.2, 87.0 |
+| cut_in_merge_2hz | llm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 2, 2 of 5 | 0.984, 0.934, 0.933 | 13, 12, 15 | 101.6, 98.3, 115.5 |
+| cut_in_merge_2hz | random_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 4, 1, 1 of 5 | 1.0, 0.943, 0.89 | 21, 11, 4 | 0.0, 0.0, 0.0 |
 | intersection | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.435 | 0 | 0.0 |
 | intersection | hybrid | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.541 | 6 | 91.4 |
 | intersection | llm | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.462 | 0 | 116.2 |
@@ -31,10 +31,11 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | lead_vehicle | hybrid | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 2, 3, 3 of 5 | 0.92, 0.952, 0.955 | 7, 10, 9 | 110.8, 100.4, 101.3 |
 | lead_vehicle | llm | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 3, 1, 3 of 5 | 0.972, 0.937, 0.958 | 19, 5, 9 | 113.3, 108.2, 113.4 |
 | lead_vehicle | random_confirm | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 4, 1, 2 of 5 | 0.979, 0.934, 0.93 | 12, 6, 8 | 0.0, 0.0, 0.0 |
-| lead_vehicle_2hz | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.801 | 1 | 0.0 |
+| lead_vehicle_2hz | rules | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 0, 0, 0 of 5 | 0.801, 0.812, 0.807 | 1, 1, 1 | 0.0, 0.0, 0.0 |
 | lead_vehicle_2hz | rules_v3 | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.835 | 2 | 0.0 |
-| lead_vehicle_2hz | hybrid | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.85 | 16 | 94.5 |
-| lead_vehicle_2hz | random_confirm | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.882 | 4 | 0.0 |
+| lead_vehicle_2hz | hybrid | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 1, 2, 0 of 5 | 0.85, 0.914, 0.847 | 16, 11, 3 | 94.5, 106.0, 101.6 |
+| lead_vehicle_2hz | llm | 3 | 49, 49, 49 | 1 | 46, 49, 49 | 49 | 5, 2, 1 of 5 | 1.0, 0.948, 0.868 | 17, 15, 10 | 119.2, 119.9, 120.7 |
+| lead_vehicle_2hz | random_confirm | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 1, 0, 1 of 5 | 0.882, 0.862, 0.926 | 4, 4, 9 | 0.0, 0.0, 0.0 |
 | pedestrian_crossing | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.643 | 0 | 0.0 |
 | pedestrian_crossing | hybrid | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.636 | 0 | 90.1 |
 | pedestrian_crossing | llm | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.691 | 5 | 112.3 |
@@ -45,11 +46,11 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | pedestrian_ego_speed | llm | 3 | 30, 49, 39 | 3 | 28, 40, 37 | 37 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 18, 30, 25 | 52.5, 88.1, 78.2 |
 | pedestrian_ego_speed | random | 1 | 48 | 0 | 50 | 50 | 0 of 5 | 1.0 | 31 | 0.0 |
 | pedestrian_ego_speed | random_confirm | 3 | 39, 39, 40 | 3 | 31, 32, 32 | 32 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 28, 29, 31 | 0.0, 0.0, 0.0 |
-| pedestrian_ego_speed_2hz | rules | 1 | 50 | 0 | 50 | 50 | 4 of 5 | 0.949 | 12 | 0.0 |
+| pedestrian_ego_speed_2hz | rules | 3 | 50, 50, 50 | 0 | 50, 50, 50 | 50 | 4, 4, 4 of 5 | 0.949, 0.955, 1.0 | 12, 13, 15 | 0.0, 0.0, 0.0 |
 | pedestrian_ego_speed_2hz | rules_v3 | 1 | 50 | 0 | 50 | 50 | 4 of 5 | 1.0 | 14 | 0.0 |
-| pedestrian_ego_speed_2hz | hybrid | 1 | 50 | 0 | 50 | 50 | 4 of 5 | 0.952 | 14 | 88.8 |
-| pedestrian_ego_speed_2hz | llm | 1 | 49 | 0 | 50 | 50 | 4 of 5 | 0.986 | 24 | 95.7 |
-| pedestrian_ego_speed_2hz | random_confirm | 1 | 48 | 0 | 50 | 50 | 4 of 5 | 0.987 | 19 | 0.0 |
+| pedestrian_ego_speed_2hz | hybrid | 3 | 50, 40, 40 | 2 | 50, 32, 34 | 34 | 4, 5, 5 of 5 | 0.952, 1.0, 1.0 | 14, 22, 19 | 88.8, 64.2, 70.7 |
+| pedestrian_ego_speed_2hz | llm | 3 | 49, 49, 49 | 1 | 50, 47, 50 | 50 | 4, 5, 4 of 5 | 0.986, 1.0, 0.99 | 24, 27, 27 | 95.7, 92.9, 108.5 |
+| pedestrian_ego_speed_2hz | random_confirm | 3 | 48, 50, 50 | 0 | 50, 50, 50 | 50 | 4, 3, 4 of 5 | 0.987, 1.0, 1.0 | 19, 23, 25 | 0.0, 0.0, 0.0 |
 
 Left out: arms that stopped before their last round believing their
 goal met under an earlier failure definition (before 8 Oct 2026 any
@@ -60,4 +61,3 @@ Re-queued, such an arm continues from its last round.
 
 - cut_in_merge: rules, hybrid, llm
 - lead_vehicle: llm
-- lead_vehicle_2hz: llm

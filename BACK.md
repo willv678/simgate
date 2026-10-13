@@ -58,10 +58,12 @@ by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
    at exit after saving its run. Re-running it now recognizes the saved
    run, and the study continued.
 
-**Queue (12 Oct 19:45 UTC):** replicate 2 of the 2 Hz arms is under way
-(pedestrian: rules 4, hybrid goal at 32, llm goal at 47, random +
-confirmation running), then replicate 3: 2 running, 20 queued, about 8
-more hours. `research/simgate status` or the Queue tab.
+**Queue (13 Oct 20:00 UTC):** every 2 Hz replicate finished overnight
+(table in FACTS "2 Hz complete"). Pooled over cut-in and lead vehicle at
+both rates: rules 10 of 60 confirmed, hybrid 33, llm 32, random +
+confirmation 19. Now running: `optuna_confirm` (Optuna with the same
+confirmation as random) at 10 Hz on the three studies, 3 replicates, about
+4 hours. Plan to the 24 Oct freeze: `OUTLINE.md`.
 
 **Report files:** the `report.md` of an arm that finished before 12 Oct
 15:37 UTC gives its goal under the old count; `METHODS.md` and FACTS use

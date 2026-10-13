@@ -903,6 +903,54 @@ the recording, problem 27). In progress; numbers as of the arm named.
   the goal is harder to reach, as finding 1 (our loop doubles the drift)
   predicts.
 
+### 2 Hz complete: three replicates of every method (13 Oct)
+
+Every 2 Hz arm finished overnight 12-13 Oct (all exit 0; the cut-in hybrid
+and llm replicate 2 arms re-queued after the queue died, resumed after their
+last round). Confirmed of 5, replicates 1, 2, 3 (`METHODS.md`):
+
+| study | rules | hybrid | llm | random + confirmation |
+|---|---|---|---|---|
+| pedestrian x ego speed | 4, 4, 4 | 4, 5 (32 runs), 5 (34 runs) | 4, 5 (47 runs), 4 | 4, 3, 4 |
+| cut-in | 2, 1, 1 | 3, 3, 3 | 3, 2, 2 | 4, 1, 1 |
+| lead vehicle | 0, 0, 0 | 1, 2, 0 | 5 (46 runs), 2, 1 | 1, 0, 1 |
+
+- Pooled over cut-in and lead vehicle at both rates (12 arms per method,
+  3 replicates x 2 studies x 2 rates): rules 10 of 60 confirmed, hybrid 33,
+  llm 32, random + confirmation 19. Mann-Whitney over the 12 per-arm counts
+  (two-sided unless stated): hybrid vs rules p 0.0015, llm vs rules
+  p 0.001, hybrid vs random + confirmation p 0.058, llm vs random +
+  confirmation p 0.046, hybrid vs llm p 0.74, hybrid and llm together vs
+  random + confirmation p 0.012 (one-sided). Pooling mixes studies and the
+  two rates of one study are not independent: a first look, not the
+  paper's test, which should stratify by study.
+- Where random + confirmation's runs fail often, the guided methods add
+  little: its failure share pedestrian 10 Hz about 75% (every method 5 of
+  5), pedestrian 2 Hz about 45%; cut-in 10 Hz 19% (hybrid 13 of 15,
+  random 4), cut-in 2 Hz 22% (hybrid 9, random 6), lead 2 Hz 12% (llm 8,
+  random 2). Lead vehicle 10 Hz (18%, hybrid 8, random 7) does not fit.
+  The gap tends to grow as failures get rarer; the hard-study plan
+  (`OUTLINE.md`) tests this directly.
+- What llm and hybrid are given each round (`outer.py`, state; prompt
+  `advisor/OUTER.md`): the candidates with S1's one run at 0 delay, the
+  knobs, every run so far (scene, knobs, failed, gate verdict) and the
+  per-setting summary with 90% ranges. Not the triage's explanations, not
+  the tagger's scene facts, not the drift finding. The prompt still says
+  traffic is sampled (CATK) and one setting can end differently each time;
+  the method studies replay traffic, where replicates are nearly
+  deterministic (above). Left as is for these arms; a v2 proposer is the
+  place to change it, so these results stay reproducible.
+- Model time per arm: 1-2 min of Claude calls (llm 87-121 s, hybrid
+  42-111 s), against about 50 min of simulation.
+
+### Optuna with confirmation (queued 13 Oct)
+
+`optuna_confirm`: Optuna's TPE with the rules' confirmation (at most half of
+each round), as random + confirmation; plain `optuna` never repeats a
+setting, so it cannot meet a top_k goal (problem 21). Queued at 10 Hz on
+pedestrian x ego speed, cut-in and lead vehicle, three replicates each.
+Pedestrian crossing (7 Oct) had plain optuna: 3 failures in 49, 1 confirmed.
+
 ## Controller A/B, 8 Oct (feasible_best against linear)
 
 Hybrid proposer, pedestrian scenes, pairs with shared seeds. Round 1: 5 pairs,
