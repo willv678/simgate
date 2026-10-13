@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<OpenSCENARIO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="OpenScenario.xsd">
+    <FileHeader description="SimGate study lead_vehicle: confirmed hardest settings" author="SimGate" revMajor="1" revMinor="4" date="2026-10-13T17:16:42.627418"/>
+    <ParameterValueDistribution>
+        <ScenarioFile filepath="alpasim://lead_vehicle/{SceneId}"/>
+        <Deterministic>
+            <DeterministicMultiParameterDistribution>
+                <ValueSetDistribution>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                        <ParameterAssignment parameterRef="ActorSpeedScale" value="0.75"/>
+                        <ParameterAssignment parameterRef="PlannerDelay" value="200000"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="1"/>
+                        <ParameterAssignment parameterRef="ActorSpeedScale" value="0.5"/>
+                        <ParameterAssignment parameterRef="PlannerDelay" value="0"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="-2.0"/>
+                        <ParameterAssignment parameterRef="ActorSpeedScale" value="1.5"/>
+                        <ParameterAssignment parameterRef="PlannerDelay" value="350000"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                        <ParameterAssignment parameterRef="ActorSpeedScale" value="0.75"/>
+                        <ParameterAssignment parameterRef="PlannerDelay" value="200000"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="-1.0"/>
+                        <ParameterAssignment parameterRef="ActorSpeedScale" value="0.5"/>
+                        <ParameterAssignment parameterRef="PlannerDelay" value="50000"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                        <ParameterAssignment parameterRef="ActorSpeedScale" value="0.75"/>
+                        <ParameterAssignment parameterRef="PlannerDelay" value="200000"/>
+                    </ParameterValueSet>
+                </ValueSetDistribution>
+            </DeterministicMultiParameterDistribution>
+        </Deterministic>
+    </ParameterValueDistribution>
+</OpenSCENARIO>

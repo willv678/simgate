@@ -1,86 +1,84 @@
 # Outline
 
-IEEE IV 2027, six pages. Rewritten 13 Oct 2026 for the paper Shao framed on
-6 Oct: accelerated stress testing of a driving policy, with an AI agent in a
-rule-guided search loop. The 29 Sep outline (runtime assurance for an
-LLM-operated batch) is in git history; its gate results are now section 3's
-support, not the claim.
+IEEE IV 2027, six pages. Rewritten 13 Oct 2026 after Shao's feedback that
+day (`CHECKLIST.md`): **the contribution is an AI agent that runs AV stress
+testing continuously and can be trusted to**: it plans, runs, heals, checks
+and explains, and it discovers corner cases with whatever search sits
+underneath (rules, its own choice, Optuna). Accelerated discovery is the big
+picture; a new optimisation algorithm is not the claim. The 29 Sep outline
+(runtime assurance for an LLM-operated batch) is in git history.
 
 Schedule: experiments run 13-24 Oct and freeze on Sat 24 Oct; Will writes
 25-28 Oct; draft 2 Nov. After the freeze, runs only tighten numbers already
-in a claim (more replicates), never add a claim.
+in a claim, never add a claim. At 10 Hz an arm takes about 2.5-3 h (two at
+once), so about 16 arms a day.
 
-## Claims, evidence, status
+## Contributions, evidence, status
 
-| # | Claim | Evidence | Status |
+| # | Contribution | Evidence | Status |
 |---|---|---|---|
-| 1 | Guided search with an AI finds a policy's hardest cases more reliably than rules, random search and a standard optimiser, on the same budget and validity gate | 3 category studies x rules, hybrid, llm, random + confirmation, optuna + confirmation; 3-5 replicates (`METHODS.md`, FACTS "2 Hz complete") | have all but Optuna (queued 13 Oct) and replicates 4-5 |
-| 2 | The AI's advantage grows as failures get rarer and the space larger | the hard study (below) | **missing; the deciding experiment** |
-| 3 | Counting every collision flag ranks the methods wrong | problems 25, 29, 30: up to half the car-scene "failures" were rear-endings by replayed cars or contacts begun before the hand-off; lead vehicle's winner changed | have it |
-| 4 | The loop keeps every run valid unattended | 3,708 launches since 6 Oct, 97% kept; the gate; 30 problems met (FACTS table) | have it |
-| 5 | What the search found in VaVAM | ego speed, not pedestrian timing, is the stressor; the left drift (`DRIFT.md`) and the mirror test (`MIRROR.md`) | have it |
-| 6 | The automatic failure judgement agrees with a person | Griffin's 60 blind labels (`research-griffin`, `label_sheet.py score` still to write) | 10 of 60 |
+| 1 | An agent that runs AV stress testing end to end, unattended, on a closed-loop end-to-end policy in a neural-reconstruction simulator | 3,662 finished launches 6-13 Oct, 3,561 kept; 144 failed launches healed or stopped by the agent (129 kept); every check and its evidence in `VALIDITY.md` | have it |
+| 2 | Skills as structured markdown contracts with code-checked actions (finite menus, checked by code, executed by scripts) | 7 contracts (`SKILLS.md`); exhaustive check of the diagnose menu (3,822 transitions, 0 violations); planted faults: 225 kept with no gate, 0 with gate + audit | have it |
+| 3 | The agent discovers and confirms corner cases on a small budget; it adds most where failures are rare | 3 studies (+ lane keeping) x rules, hybrid, llm, random + repeat, Optuna + repeat, Optuna + agent; discovery curves (`figures/discovery_*.png`); rules alone 10 of 60 against 32-33 for the AI methods on the car scenes | Optuna arms running; lane keeping queued |
+| 4 | Results a person can check | case cards for every confirmed hardest case and 20 random runs (`figures/cards/`); what every kept run contains (`figures/meeting/outcome_mix.png`); Griffin's blind labels | cards done; spot-check verdicts and labels pending |
+| 5 | What it found in VaVAM | two thirds of failures are lane keeping (steered into a road user, left the road), not braking (`figures/meeting/failure_types.png`); the left drift and the mirror test; ego speed is the pedestrian stressor | have it |
+| 6 | Lessons (issues met) | 30 problems (FACTS table): naive counting ranks methods wrong (problems 25, 29, 30); replayed traffic rear-ends the ego in 27-38% of car-study runs | have it |
 
-If claim 2 does not hold, the paper leads with 3-5 and states 1 as measured.
+## Figures (survey of IV papers: `FIGURES_SURVEY.md`; median 6 figures, 2 tables)
 
-## The hard study (claim 2)
+1. **System**: the agent's two loops, code and agent coloured apart
+   (`figures/framework.png`), with a skill contract inset
+   (`figures/meeting/skill_contract.png`).
+2. **The inner loop at work**: launch outcomes and self-healing
+   (`figures/meeting/launch_outcomes.png`, `self_healing.png`).
+3. **Case cards**: two or three hardest cases, top-down paths, speeds, gap,
+   camera (`figures/cards/hardest/`). Every IV paper surveyed shows the
+   failures found.
+4. **Discovery curves**: confirmed hardest cases against runs, per method
+   (`figures/discovery_*.png`). None of the surveyed papers has this curve.
+5. **Coverage and findings**: failure types per study
+   (`figures/meeting/failure_types.png`) and the drift.
+Table I: methods x metrics (confirmed, runs to goal, model time).
+Table II: issues met and self-healing, grouped.
 
-- More knobs at once: actor time shift, actor speed, ego speed at hand-off
-  (3 knobs; the method studies vary 2).
-- Scenes where failures are rare at the recording. 2 Hz suits this: VaVAM
-  fails less at its designed rate (`HZ.md`), and it answers "which rate".
-  Rate waits on Shao (asked 13 Oct).
-- Methods: rules, hybrid, llm, random + confirmation, optuna + confirmation,
-  and v2 of hybrid and llm (below). 5 replicates, about 15 GPU hours.
-- Do not tune v2 on this study: v2 is built on the three method studies and
-  evaluated here.
+## Scenario definition and coverage (`SCENARIOS.md`)
 
-## AI proposer v2 (new proposers; v1 arms stay reproducible)
+Studies stated as OpenSCENARIO 1.4 parameter distributions
+(`scenarios/*.xosc`, schema-valid). Covered: AEB car-to-car rear, cut-in,
+pedestrian; lane keeping (LSS) queued; crossing traffic next; turn across
+path not possible (2 scenes).
 
-What llm and hybrid see now (FACTS "2 Hz complete"): run results and
-per-setting ranges only. v2 adds:
-- the prompt corrected for replayed traffic (near-deterministic replicates;
-  the v1 prompt says traffic is sampled);
-- the triage's crash explanations and the tagger's scene facts (lead gap,
-  cut-in time, pedestrian distance);
-- a short note carried between rounds (hypothesis, what to test next).
-Any change to confirmation applies to every method, not only v2.
+## AI proposer v2 and the hard study
 
-## Figures
+v2 (new proposers, v1 stays reproducible): prompt corrected for replayed
+traffic; triage explanations and scene facts in its input; a note carried
+between rounds. Built on the three method studies, evaluated on studies it
+has not seen (lane keeping, and a 3-knob study with rare failures).
+Lower priority than the figures and validity evidence above.
 
-1. The loop (`figures/framework.png`, simplified).
-2. Confirmed hardest cases by method and study, with replicates
-   (`figures/meeting/by_scene.png` style).
-3. Where each method looked (`WHERE.md`): why rules stall.
-4. The hard study: the gap between guided and random against failure rarity.
-5. The left drift (`figures/meeting/drift_simple.png`) and the mirror test.
-Table: problems met (FACTS), grouped; counts before and after the
-policy-attributable definition.
-
-## Related work (`LITERATURE.md`, 6 Oct; refresh before writing)
+## Related work (`LITERATURE.md`; refresh before writing)
 
 - Accelerated testing: NADE, D2RL, importance sampling for cut-ins, AST,
-  BO-based falsification. We do not estimate a crash rate; we find and
-  confirm the hardest cases on a fixed budget.
+  BO-based falsification.
 - LLM scenario testing: ChatScene, LeGEND, TARGET, OmniTester, SoVAR,
   LLM-attacker, EvoDrive, PlannerForge, LEADE (an LMM builds scenarios from
-  videos offline; its search is a fuzzer with no LLM). Check LLM-attacker
-  and EvoDrive closest, where an LLM acts inside the loop. They generate
-  scenarios in
-  CARLA/LGSVL/SUMO/MetaDrive; none compares rules, LLM-only and hybrid
-  choice of the next test on one budget under one validity gate, and none
-  runs a closed-loop end-to-end policy in a neural-reconstruction simulator.
-- Flaky simulation tests (Osikowicz 2025, Amini 2023, Chance 2022): our gate.
+  videos offline; its search has no LLM). Closest in spirit: EvoDrive and
+  LLM-attacker (an LLM inside the loop). None runs the whole pipeline with
+  checked actions, none compares rules, LLM and hybrid on one budget under
+  one validity gate, and none tests a closed-loop end-to-end policy in a
+  neural-reconstruction simulator.
+- Agent safety and runtime assurance: Simplex, AgentSpec, ShieldAgent,
+  ADMITBench (FACTS "Novelty check").
+- Flaky simulation tests (Osikowicz 2025, Amini 2023, Chance 2022).
 
 ## Statistics
 
-Per study, not pooled: confirmed count per arm, methods compared within a
-study (Mann-Whitney or a permutation test), runs to goal where every arm
-reaches it. The pooled first look (FACTS) mixes studies and treats the two
-rates of one study as independent.
+Per study: confirmed count per arm, methods compared within a study
+(Mann-Whitney or permutation), runs to goal where every arm reaches it.
 
 ## Limits to state
 
 One policy (VaVAM; Alpamayo does not fit 24 GB). Replayed traffic does not
-react. Retiming moves only recorded actors. Unprotected left: 2 of 250
-scenes. Intersection: one replicate, no separation.
+react. Retiming moves only recorded actors; road geometry is chosen, not
+varied. Unprotected left: 2 of 250 scenes. Pedestrian failures often far
+from the recording (rendering less certain, flagged).

@@ -1,0 +1,41 @@
+{
+ "pedestrian_ego_speed": {
+  "no contact": 163,
+  "counted failure, possible render artifact": 159,
+  "counted failure": 142
+ },
+ "cut_in_merge": {
+  "no contact": 277,
+  "rear-ended by a replayed car": 212,
+  "counted failure": 172,
+  "contact begun before the AI drove": 73,
+  "counted failure, possible render artifact": 39
+ },
+ "lead_vehicle": {
+  "no contact": 291,
+  "rear-ended by a replayed car": 206,
+  "counted failure": 79,
+  "contact begun before the AI drove": 119,
+  "counted failure, possible render artifact": 12
+ },
+ "pedestrian_ego_speed_2hz": {
+  "no contact": 346,
+  "counted failure, possible render artifact": 57,
+  "counted failure": 197,
+  "rear-ended by a replayed car": 25
+ },
+ "cut_in_merge_2hz": {
+  "no contact": 222,
+  "rear-ended by a replayed car": 269,
+  "counted failure": 134,
+  "contact begun before the AI drove": 65,
+  "counted failure, possible render artifact": 11
+ },
+ "lead_vehicle_2hz": {
+  "no contact": 241,
+  "rear-ended by a replayed car": 232,
+  "counted failure": 91,
+  "contact begun before the AI drove": 70,
+  "counted failure, possible render artifact": 3
+ }
+}

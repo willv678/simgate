@@ -1,0 +1,43 @@
+{
+ "pedestrian_ego_speed": {
+  "left_road": 113,
+  "turned_into_actor": 140,
+  "other": 32,
+  "no_brake_for_lead": 16
+ },
+ "cut_in_merge": {
+  "turned_into_actor": 125,
+  "actor_hit_ego": 77,
+  "other": 30,
+  "no_brake_for_lead": 10,
+  "left_road": 11,
+  "rendering": 7
+ },
+ "lead_vehicle": {
+  "no_brake_for_lead": 17,
+  "other": 79,
+  "turned_into_actor": 65,
+  "actor_hit_ego": 16,
+  "left_road": 4
+ },
+ "pedestrian_ego_speed_2hz": {
+  "turned_into_actor": 135,
+  "no_brake_for_lead": 45,
+  "left_road": 66,
+  "other": 5,
+  "actor_hit_ego": 3
+ },
+ "cut_in_merge_2hz": {
+  "turned_into_actor": 71,
+  "no_brake_for_lead": 23,
+  "actor_hit_ego": 46,
+  "other": 10
+ },
+ "lead_vehicle_2hz": {
+  "other": 28,
+  "no_brake_for_lead": 18,
+  "turned_into_actor": 53,
+  "actor_hit_ego": 4,
+  "left_road": 3
+ }
+}

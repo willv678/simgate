@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='utf-8'?>
+<OpenSCENARIO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="OpenScenario.xsd">
+    <FileHeader description="SimGate study lane_keeping: In straight lane-following scenes with other vehicles nearby, which combinations of sideways plan error and ego speed at hand-off make VaVAM leave its lane and hit someone or leave the road, and which 5 such cases, each on a different scene, are hardest?" author="SimGate" revMajor="1" revMinor="4" date="2026-10-13T17:16:42.627836"/>
+    <ParameterValueDistribution>
+        <ScenarioFile filepath="alpasim://lane_keeping/{SceneId}"/>
+        <Deterministic>
+            <DeterministicSingleParameterDistribution parameterName="SceneId">
+                <DistributionSet>
+                    <Element value="clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc"/>
+                    <Element value="clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e"/>
+                    <Element value="clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c"/>
+                    <Element value="clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a"/>
+                    <Element value="clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc"/>
+                    <Element value="clipgt-187e6244-f541-48ed-8372-62d6da8b547a"/>
+                    <Element value="clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02"/>
+                    <Element value="clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1"/>
+                    <Element value="clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776"/>
+                    <Element value="clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045"/>
+                    <Element value="clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c"/>
+                    <Element value="clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e"/>
+                </DistributionSet>
+            </DeterministicSingleParameterDistribution>
+            <DeterministicSingleParameterDistribution parameterName="PlanLateralBias">
+                <DistributionSet>
+                    <Element value="-0.5"/>
+                    <Element value="-0.3"/>
+                    <Element value="-0.2"/>
+                    <Element value="-0.1"/>
+                    <Element value="0.0"/>
+                    <Element value="0.1"/>
+                    <Element value="0.2"/>
+                    <Element value="0.3"/>
+                    <Element value="0.5"/>
+                </DistributionSet>
+            </DeterministicSingleParameterDistribution>
+            <DeterministicSingleParameterDistribution parameterName="EgoSpeedScale">
+                <DistributionSet>
+                    <Element value="0.6"/>
+                    <Element value="0.8"/>
+                    <Element value="1.0"/>
+                    <Element value="1.2"/>
+                    <Element value="1.4"/>
+                </DistributionSet>
+            </DeterministicSingleParameterDistribution>
+        </Deterministic>
+    </ParameterValueDistribution>
+</OpenSCENARIO>

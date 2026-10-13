@@ -44,6 +44,7 @@ PROPOSERS = (
     "lhs",
     "optuna",
     "optuna_confirm",
+    "hybrid_optuna",
     "ga",
 )
 STUDY = re.compile(r"bin/python[0-9.]* \S*research/harness/study\.py ")

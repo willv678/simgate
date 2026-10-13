@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<OpenSCENARIO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="OpenScenario.xsd">
+    <FileHeader description="SimGate study pedestrian_ego_speed: In pedestrian-crossing scenes, which combinations of ego speed at hand-off (0.6x–1.4x recorded) and pedestrian step-out time (±2 s) make the VaVAM policy with the linear MPC collide or leave the road? Find the 5 most challenging cases, each on a different scene, confirmed by repeats." author="SimGate" revMajor="1" revMinor="4" date="2026-10-13T17:16:36.125648"/>
+    <ParameterValueDistribution>
+        <ScenarioFile filepath="alpasim://pedestrian_ego_speed/{SceneId}"/>
+        <Deterministic>
+            <DeterministicSingleParameterDistribution parameterName="SceneId">
+                <DistributionSet>
+                    <Element value="clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91"/>
+                    <Element value="clipgt-18f8dbd6-6fe7-401c-9943-10404407e112"/>
+                    <Element value="clipgt-12a09194-85c2-4ecf-b665-9c5078bae240"/>
+                    <Element value="clipgt-0b10bce8-61f1-4350-8577-cf3c9493ffc3"/>
+                    <Element value="clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa"/>
+                    <Element value="clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28"/>
+                    <Element value="clipgt-0caa8f1a-3c23-4520-98b2-28be9697fbf4"/>
+                    <Element value="clipgt-0d4893f5-f575-4d98-b33f-0bdf3816bbed"/>
+                    <Element value="clipgt-18d28973-336c-430e-be57-49f6b56fd827"/>
+                    <Element value="clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654"/>
+                </DistributionSet>
+            </DeterministicSingleParameterDistribution>
+            <DeterministicSingleParameterDistribution parameterName="EgoSpeedScale">
+                <DistributionSet>
+                    <Element value="0.6"/>
+                    <Element value="0.8"/>
+                    <Element value="1.0"/>
+                    <Element value="1.2"/>
+                    <Element value="1.4"/>
+                </DistributionSet>
+            </DeterministicSingleParameterDistribution>
+            <DeterministicSingleParameterDistribution parameterName="ActorTimeShift">
+                <DistributionSet>
+                    <Element value="-2.0"/>
+                    <Element value="-1.5"/>
+                    <Element value="-1.0"/>
+                    <Element value="-0.5"/>
+                    <Element value="0.0"/>
+                    <Element value="0.5"/>
+                    <Element value="1.0"/>
+                    <Element value="1.5"/>
+                    <Element value="2.0"/>
+                </DistributionSet>
+            </DeterministicSingleParameterDistribution>
+        </Deterministic>
+    </ParameterValueDistribution>
+</OpenSCENARIO>

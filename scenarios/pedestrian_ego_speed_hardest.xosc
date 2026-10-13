@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='utf-8'?>
+<OpenSCENARIO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="OpenScenario.xsd">
+    <FileHeader description="SimGate study pedestrian_ego_speed: confirmed hardest settings" author="SimGate" revMajor="1" revMinor="4" date="2026-10-13T17:16:37.677569"/>
+    <ParameterValueDistribution>
+        <ScenarioFile filepath="alpasim://pedestrian_ego_speed/{SceneId}"/>
+        <Deterministic>
+            <DeterministicMultiParameterDistribution>
+                <ValueSetDistribution>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-18d28973-336c-430e-be57-49f6b56fd827"/>
+                        <ParameterAssignment parameterRef="EgoSpeedScale" value="1"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654"/>
+                        <ParameterAssignment parameterRef="EgoSpeedScale" value="1"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28"/>
+                        <ParameterAssignment parameterRef="EgoSpeedScale" value="1"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-0d4893f5-f575-4d98-b33f-0bdf3816bbed"/>
+                        <ParameterAssignment parameterRef="EgoSpeedScale" value="1"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa"/>
+                        <ParameterAssignment parameterRef="EgoSpeedScale" value="1"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-0caa8f1a-3c23-4520-98b2-28be9697fbf4"/>
+                        <ParameterAssignment parameterRef="EgoSpeedScale" value="1"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91"/>
+                        <ParameterAssignment parameterRef="EgoSpeedScale" value="1.4"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                    </ParameterValueSet>
+                </ValueSetDistribution>
+            </DeterministicMultiParameterDistribution>
+        </Deterministic>
+    </ParameterValueDistribution>
+</OpenSCENARIO>

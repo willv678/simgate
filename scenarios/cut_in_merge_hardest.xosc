@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<OpenSCENARIO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="OpenScenario.xsd">
+    <FileHeader description="SimGate study cut_in_merge: confirmed hardest settings" author="SimGate" revMajor="1" revMinor="4" date="2026-10-13T17:16:40.281686"/>
+    <ParameterValueDistribution>
+        <ScenarioFile filepath="alpasim://cut_in_merge/{SceneId}"/>
+        <Deterministic>
+            <DeterministicMultiParameterDistribution>
+                <ValueSetDistribution>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                        <ParameterAssignment parameterRef="ActorSpeedScale" value="1.25"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                        <ParameterAssignment parameterRef="ActorSpeedScale" value="1.25"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                        <ParameterAssignment parameterRef="ActorSpeedScale" value="2"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0"/>
+                        <ParameterAssignment parameterRef="ActorSpeedScale" value="2"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="0.5"/>
+                        <ParameterAssignment parameterRef="ActorSpeedScale" value="1"/>
+                    </ParameterValueSet>
+                    <ParameterValueSet>
+                        <ParameterAssignment parameterRef="SceneId" value="clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a"/>
+                        <ParameterAssignment parameterRef="ActorTimeShift" value="2.0"/>
+                        <ParameterAssignment parameterRef="ActorSpeedScale" value="1.0"/>
+                    </ParameterValueSet>
+                </ValueSetDistribution>
+            </DeterministicMultiParameterDistribution>
+        </Deterministic>
+    </ParameterValueDistribution>
+</OpenSCENARIO>

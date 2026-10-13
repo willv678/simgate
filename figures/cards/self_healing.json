@@ -1,0 +1,56 @@
+[
+ {
+  "failure": "simulator crashed: GPU out of memory",
+  "skill": "RE-RUN",
+  "end": "then kept",
+  "n": 99
+ },
+ {
+  "failure": "GPU busy (another run finishing)",
+  "skill": "CLEANUP_ENV",
+  "end": "then kept",
+  "n": 17
+ },
+ {
+  "failure": "physically impossible motion",
+  "skill": "HALT",
+  "end": "stopped for a person",
+  "n": 11
+ },
+ {
+  "failure": "simulator crashed, other cause",
+  "skill": "RE-RUN",
+  "end": "then kept",
+  "n": 10
+ },
+ {
+  "failure": "launcher process lost",
+  "skill": "RESTART_CLEANUP",
+  "end": "then kept",
+  "n": 2
+ },
+ {
+  "failure": "simulator crashed: GPU out of memory",
+  "skill": "RE-RUN",
+  "end": "then stopped",
+  "n": 2
+ },
+ {
+  "failure": "simulator crashed: GPU out of memory",
+  "skill": "HALT",
+  "end": "stopped for a person",
+  "n": 1
+ },
+ {
+  "failure": "GPU busy (another run finishing)",
+  "skill": "HALT",
+  "end": "stopped for a person",
+  "n": 1
+ },
+ {
+  "failure": "simulator crashed, other cause",
+  "skill": "RESTART_CLEANUP",
+  "end": "then kept",
+  "n": 1
+ }
+]

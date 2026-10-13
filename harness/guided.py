@@ -43,12 +43,13 @@ starts from. rules_v3 also settles and offers corners, as rules_v2.
 half of a round repeats the near-failures the rules would confirm, and the
 proposer picks the rest. `random_confirm` is random search with it, the fair
 baseline for a top_k goal, which counts only confirmed settings;
-`optuna_confirm` is Optuna with it.
+`optuna_confirm` is Optuna with it. `hybrid_optuna` shows Claude the rules'
+confirmations and Optuna's suggestions, and Claude chooses among them.
 """
 
 from itertools import product
 
-from baselines import next_probe
+from baselines import next_probe, optuna_proposals
 from goals import goal_cells
 from knobs import SCENARIO, UNVARIED
 
@@ -230,6 +231,32 @@ def with_confirmation(
         ]
         + rest["runs"],
     }
+
+
+OPTUNA_SCORE = 0.5
+
+
+def optuna_candidates(
+    scenes: list[str],
+    count: int,
+    table: list[dict],
+    goal: dict | None,
+    history: list[dict],
+    varied: tuple,
+    seed: int,
+) -> list[dict]:
+    """The candidates of `hybrid_optuna`: the rules' confirmations, then up to
+    3 x `count` distinct settings Optuna's TPE asks for, told every kept run's
+    criticality. Claude chooses among them as in `hybrid`."""
+    confirm = [c for c in candidates(scenes, table, goal, varied)
+               if c["reason"].startswith(CONFIRM)]
+    found, seen = list(confirm), {_key(c, varied) for c in confirm}
+    for run in optuna_proposals(scenes, 3 * count, history, varied, seed)["runs"]:
+        if _key(run, varied) not in seen:
+            seen.add(_key(run, varied))
+            found.append({**{k: run[k] for k in ("scene_id", *varied)},
+                          "reason": "optuna: TPE suggestion", "score": OPTUNA_SCORE})
+    return found
 
 
 def outside(run: dict, ranked: list[dict], varied: tuple) -> str | None:

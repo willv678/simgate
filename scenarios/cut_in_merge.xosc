@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='utf-8'?>
+<OpenSCENARIO xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="OpenScenario.xsd">
+    <FileHeader description="SimGate study cut_in_merge: In merge and cut-in scenes, which timings and speeds of the other cars make the VaVAM policy collide or leave the road? Find the 5 most challenging settings, each on a different scene and confirmed by repeats." author="SimGate" revMajor="1" revMinor="4" date="2026-10-13T17:16:37.677995"/>
+    <ParameterValueDistribution>
+        <ScenarioFile filepath="alpasim://cut_in_merge/{SceneId}"/>
+        <Deterministic>
+            <DeterministicSingleParameterDistribution parameterName="SceneId">
+                <DistributionSet>
+                    <Element value="clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c"/>
+                    <Element value="clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c"/>
+                    <Element value="clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a"/>
+                    <Element value="clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc"/>
+                    <Element value="clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e"/>
+                    <Element value="clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a"/>
+                    <Element value="clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045"/>
+                    <Element value="clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02"/>
+                    <Element value="clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770"/>
+                </DistributionSet>
+            </DeterministicSingleParameterDistribution>
+            <DeterministicSingleParameterDistribution parameterName="ActorTimeShift">
+                <DistributionSet>
+                    <Element value="-2.0"/>
+                    <Element value="-1.5"/>
+                    <Element value="-1.0"/>
+                    <Element value="-0.5"/>
+                    <Element value="0.0"/>
+                    <Element value="0.5"/>
+                    <Element value="1.0"/>
+                    <Element value="1.5"/>
+                    <Element value="2.0"/>
+                </DistributionSet>
+            </DeterministicSingleParameterDistribution>
+            <DeterministicSingleParameterDistribution parameterName="ActorSpeedScale">
+                <DistributionSet>
+                    <Element value="0.5"/>
+                    <Element value="0.75"/>
+                    <Element value="1.0"/>
+                    <Element value="1.25"/>
+                    <Element value="1.5"/>
+                    <Element value="2.0"/>
+                </DistributionSet>
+            </DeterministicSingleParameterDistribution>
+        </Deterministic>
+    </ParameterValueDistribution>
+</OpenSCENARIO>

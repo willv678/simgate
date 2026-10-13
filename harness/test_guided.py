@@ -103,6 +103,20 @@ def test_optuna_with_confirmation_confirms_first_and_optimises_the_rest():
     assert all(rejection(r, set(SCENES), DELAY) is None for r in answer["runs"])
 
 
+def test_hybrid_optuna_offers_the_confirmations_then_distinct_optuna_settings():
+    pytest.importorskip("optuna")
+    from guided import optuna_candidates
+
+    past = _runs("clipgt-a", 200_000, 1, 0)
+    found = optuna_candidates(SCENES, 3, results(past, DELAY), TOP3, past, DELAY, 0)
+    assert found[0]["reason"].startswith("confirm")
+    rest = found[1:]
+    assert rest and all(c["reason"] == "optuna: TPE suggestion" for c in rest)
+    keys = [(c["scene_id"], c["planner_delay_us"]) for c in found]
+    assert len(keys) == len(set(keys))
+    assert all(outside({**c, "why": "x"}, found, DELAY) is None for c in found)
+
+
 TWO = ("actor_time_shift_s", "actor_speed_scale")
 
 

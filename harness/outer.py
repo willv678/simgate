@@ -17,7 +17,8 @@ are evidence. Proposers:
 - rules: rule-guided search alone (guided.py): confirm near-failures, step
   from the most critical settings;
 - hybrid: Claude chooses among the rules' candidates only; any other run is
-  dropped.
+  dropped. hybrid_optuna: the same, among the rules' confirmations and
+  Optuna's suggestions.
 
 The study: how a scene's failure rate changes with the scenario knobs it
 varies (`--vary`, from knobs.SCENARIO; planner delay by default). A run failed if
@@ -66,7 +67,13 @@ from baselines import (
 )
 from enqueue import RUN_ROOT, add, new_entry
 from goals import goal_status, rate_range
-from guided import candidates, outside, rules_proposals, with_confirmation
+from guided import (
+    candidates,
+    optuna_candidates,
+    outside,
+    rules_proposals,
+    with_confirmation,
+)
 from headless import ask
 from knobs import (
     DEFAULT_CONTROLLER,
@@ -644,6 +651,14 @@ def run_study(study: Study) -> list[dict]:
             answer, call = llm_proposals(
                 {**state, "candidates": ranked}, study.varied, study.model
             )
+        elif study.proposer == "hybrid_optuna":
+            ranked = optuna_candidates(
+                scenes, study.per_round, state["summary"], study.goal, past,
+                study.varied, study.seed,
+            )
+            answer, call = llm_proposals(
+                {**state, "candidates": ranked}, study.varied, study.model
+            )
         else:
             raise SystemExit(f"unknown proposer {study.proposer!r}")
 
@@ -654,7 +669,7 @@ def run_study(study: Study) -> list[dict]:
                 if index >= study.per_round
                 else rejection(proposed, set(scenes), study.varied)
             )
-            if why_not is None and study.proposer == "hybrid":
+            if why_not is None and study.proposer in ("hybrid", "hybrid_optuna"):
                 why_not = outside(proposed, ranked, study.varied)
             if why_not:
                 dropped.append({**proposed, "dropped": why_not})

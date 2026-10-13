@@ -512,6 +512,7 @@ def main() -> int:
             "lhs",
             "optuna",
             "optuna_confirm",
+            "hybrid_optuna",
             "ga",
         ),
         default="llm",
