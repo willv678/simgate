@@ -58,6 +58,8 @@ eog topdown/L01.png
 A spreadsheet is fine (LibreOffice: `libreoffice sheet.csv`), as long as it
 is saved back as CSV with the same columns.
 
-When all 60 are done, tell Claude Code; `label_sheet.py score` (still to be
-written) compares your labels with the failure rule, the model's triage and
-the geometric check.
+When all 60 are done, run (or ask Claude Code to run)
+`uv run python research-griffin/harness/label_sheet.py score`. It compares
+your labels with the failure rule and with the model's triage: agreement,
+Cohen's kappa, and every run where you and the rule disagree. It refuses to
+run while any row is unlabelled, so it cannot show you answers early.

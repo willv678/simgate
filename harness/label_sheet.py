@@ -12,6 +12,7 @@ sheet.csv holds only what the person needs; which run, study and group
 each id is goes to key.json, which the person does not open until `score`.
 
     uv run python research-griffin/harness/label_sheet.py make
+    uv run python research-griffin/harness/label_sheet.py score   # once all 60 are labelled
 """
 
 import asyncio
@@ -247,9 +248,86 @@ def make() -> int:
     return 0
 
 
+def triage_verdicts(study: str) -> dict:
+    """run name -> the triage's policy_at_fault, from every arm of the study."""
+    found = {}
+    for folder in arms(ROOT / "research" / "studies" / study).values():
+        path = folder / "triage.json"
+        if path.exists():
+            for row in json.loads(path.read_text()):
+                found[row["run"]] = row["policy_at_fault"]
+    return found
+
+
+def kappa(pairs: list[tuple[str, str]]) -> float:
+    """Cohen's kappa of two raters over the same items."""
+    n = len(pairs)
+    labels = sorted({a for a, _ in pairs} | {b for _, b in pairs})
+    observed = sum(a == b for a, b in pairs) / n
+    expected = sum(
+        (sum(a == x for a, _ in pairs) / n) * (sum(b == x for _, b in pairs) / n)
+        for x in labels
+    )
+    return 1.0 if expected == 1 else (observed - expected) / (1 - expected)
+
+
+def compare(person: dict, other: dict) -> dict:
+    """Agreement of the person's policy / not_policy labels with another
+    rater's, over the ids both judged policy or not_policy."""
+    pairs = [(person[i], other[i]) for i in person
+             if person[i] in ("policy", "not_policy") and other.get(i) in ("policy", "not_policy")]
+    if not pairs:
+        return {"n": 0}
+    table = {f"{a} / {b}": sum(p == (a, b) for p in pairs)
+             for a in ("policy", "not_policy") for b in ("policy", "not_policy")}
+    return {"n": len(pairs), "agree": round(sum(a == b for a, b in pairs) / len(pairs), 3),
+            "kappa": round(kappa(pairs), 3), "person / other": table}
+
+
+def score() -> int:
+    """The person's labels against the scorer (outer.outcome: counted or
+    not) and the triage (Claude's policy_at_fault), once every row is
+    labelled."""
+    with open(OUT / "sheet.csv", newline="") as f:
+        rows = list(csv.DictReader(f))
+    missing = [r["id"] for r in rows if not r["fault"].strip()]
+    if missing:
+        print(f"{len(missing)} of {len(rows)} rows have no label yet (first: {missing[0]}); "
+              "score runs once all are labelled.")
+        return 1
+    key = {c["id"]: c for c in json.loads((OUT / "key.json").read_text())}
+    person = {r["id"]: r["fault"].strip() for r in rows}
+    scorer = {i: "policy" if key[i]["group"] == "counted" else "not_policy" for i in key}
+    triage = {}
+    for study in {c["study"] for c in key.values()}:
+        verdicts = triage_verdicts(study)
+        for i, c in key.items():
+            if c["study"] == study and c["run"] in verdicts:
+                triage[i] = {"yes": "policy", "no": "not_policy"}.get(verdicts[c["run"]], "unclear")
+    result = {
+        "labelled": len(rows),
+        "unclear": sum(v == "unclear" for v in person.values()),
+        "minutes": sum(float(r["minutes"] or 0) for r in rows),
+        "against the scorer": compare(person, scorer),
+        "against the triage": compare(person, triage),
+        "scorer against the triage": compare(scorer, triage),
+        "disagreements with the scorer": [
+            {"id": i, "person": person[i], "scorer": scorer[i], "study": key[i]["study"],
+             "run": key[i]["run"], "what_happened": next(r["what_happened"] for r in rows if r["id"] == i)}
+            for i in person if person[i] in ("policy", "not_policy") and person[i] != scorer[i]
+        ],
+    }
+    (OUT / "score.json").write_text(json.dumps(result, indent=1) + "\n")
+    print(json.dumps({k: v for k, v in result.items() if k != "disagreements with the scorer"}, indent=1))
+    print(f"{len(result['disagreements with the scorer'])} disagreements with the scorer, in {OUT / 'score.json'}")
+    return 0
+
+
 if __name__ == "__main__":
     command = sys.argv[1] if len(sys.argv) > 1 else ""
     if command == "make":
         raise SystemExit(make())
+    if command == "score":
+        raise SystemExit(score())
     print(__doc__)
     raise SystemExit(2)

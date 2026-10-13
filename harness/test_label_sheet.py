@@ -45,3 +45,18 @@ def test_the_sheet_reveals_no_study_setting_or_verdict():
 
 def test_the_video_hides_the_evaluators_metric_table():
     assert label_sheet.METRIC_TABLE.startswith("drawbox=") and "t=fill" in label_sheet.METRIC_TABLE
+
+
+def test_kappa_is_one_for_full_agreement_and_zero_for_chance():
+    same = [("policy", "policy"), ("not_policy", "not_policy")] * 5
+    assert label_sheet.kappa(same) == 1.0
+    chance = [("policy", "policy"), ("policy", "not_policy"),
+              ("not_policy", "policy"), ("not_policy", "not_policy")]
+    assert label_sheet.kappa(chance) == 0.0
+
+
+def test_compare_leaves_out_unclear_labels():
+    person = {"L01": "policy", "L02": "unclear", "L03": "not_policy"}
+    other = {"L01": "policy", "L02": "policy", "L03": "policy"}
+    found = label_sheet.compare(person, other)
+    assert found["n"] == 2 and found["agree"] == 0.5
