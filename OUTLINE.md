@@ -63,8 +63,10 @@ policy-attributable definition.
   BO-based falsification. We do not estimate a crash rate; we find and
   confirm the hardest cases on a fixed budget.
 - LLM scenario testing: ChatScene, LeGEND, TARGET, OmniTester, SoVAR,
-  LLM-attacker, EvoDrive, PlannerForge. Closest to our main finding: LEADE
-  (the LLM helps a GA escape local optima). They generate scenarios in
+  LLM-attacker, EvoDrive, PlannerForge, LEADE (an LMM builds scenarios from
+  videos offline; its search is a fuzzer with no LLM). Check LLM-attacker
+  and EvoDrive closest, where an LLM acts inside the loop. They generate
+  scenarios in
   CARLA/LGSVL/SUMO/MetaDrive; none compares rules, LLM-only and hybrid
   choice of the next test on one budget under one validity gate, and none
   runs a closed-loop end-to-end policy in a neural-reconstruction simulator.
