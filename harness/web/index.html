@@ -286,7 +286,7 @@ function renderJobs(s) {
 }
 
 const LABEL = {rules: "rules", rules_corners: "rules + corners", rules_v2: "rules v2 (corners, stop confirming what surely passes)", rules_v3: "rules v3 (v2, starting at the recording)", hybrid: "hybrid (Claude picks among the rules' candidates)", llm: "llm (Claude, free)",
-  random_confirm: "random + confirmation", random: "random", optuna: "optuna (Bayesian)", grid: "grid", lhs: "latin hypercube", ga: "genetic"};
+  random_confirm: "random + confirmation", random: "random", optuna: "optuna (Bayesian)", optuna_confirm: "optuna + confirmation", grid: "grid", lhs: "latin hypercube", ga: "genetic"};
 async function renderResults() {
   let r;
   try { r = await api("/api/results"); } catch (e) { return; }

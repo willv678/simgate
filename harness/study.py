@@ -511,6 +511,7 @@ def main() -> int:
             "random_confirm",
             "lhs",
             "optuna",
+            "optuna_confirm",
             "ga",
         ),
         default="llm",

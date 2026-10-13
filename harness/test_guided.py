@@ -1,6 +1,8 @@
 """guided.py: the rules confirm near-failures, step from the most critical
 setting, and keep a hybrid proposer to their candidates."""
 
+import pytest
+
 from guided import candidates, outside, rules_proposals, with_confirmation
 from knobs import rejection
 from outer import results
@@ -85,6 +87,20 @@ def test_without_near_failures_the_whole_round_explores():
     table = results(_runs("clipgt-a", 200_000, 0, 2), DELAY)
     answer = with_confirmation(SCENES, 4, table, TOP3, DELAY, _explore)
     assert [r["why"] for r in answer["runs"]] == ["random"] * 4
+
+
+def test_optuna_with_confirmation_confirms_first_and_optimises_the_rest():
+    pytest.importorskip("optuna")
+    from baselines import optuna_proposals
+
+    past = _runs("clipgt-a", 200_000, 1, 0)
+    answer = with_confirmation(
+        SCENES, 4, results(past, DELAY), TOP3, DELAY,
+        lambda n: optuna_proposals(SCENES, n, past, DELAY, 0),
+    )
+    assert answer["runs"][0]["why"].startswith("confirm")
+    assert [r["why"] for r in answer["runs"][1:]] == ["optuna"] * 3
+    assert all(rejection(r, set(SCENES), DELAY) is None for r in answer["runs"])
 
 
 TWO = ("actor_time_shift_s", "actor_speed_scale")

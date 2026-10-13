@@ -42,7 +42,8 @@ starts from. rules_v3 also settles and offers corners, as rules_v2.
 `with_confirmation` gives any other proposer the same confirmation rule: up to
 half of a round repeats the near-failures the rules would confirm, and the
 proposer picks the rest. `random_confirm` is random search with it, the fair
-baseline for a top_k goal, which counts only confirmed settings.
+baseline for a top_k goal, which counts only confirmed settings;
+`optuna_confirm` is Optuna with it.
 """
 
 from itertools import product

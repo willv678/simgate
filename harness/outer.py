@@ -12,7 +12,8 @@ are evidence. Proposers:
   (baselines.py), for comparison;
 - lhs, optuna, ga: Latin-hypercube sampling, Bayesian optimisation (Optuna
   TPE; launch with `uv run --with optuna`) and a genetic algorithm, the last two
-  maximising per-run criticality (baselines.py);
+  maximising per-run criticality (baselines.py); optuna_confirm is optuna
+  with the rules' confirmation, the fair optimiser baseline for a top_k goal;
 - rules: rule-guided search alone (guided.py): confirm near-failures, step
   from the most critical settings;
 - hybrid: Claude chooses among the rules' candidates only; any other run is
@@ -590,6 +591,15 @@ def run_study(study: Study) -> list[dict]:
         elif study.proposer == "optuna":
             answer = optuna_proposals(
                 scenes, study.per_round, past, study.varied, study.seed
+            )
+        elif study.proposer == "optuna_confirm":
+            answer = with_confirmation(
+                scenes,
+                study.per_round,
+                state["summary"],
+                study.goal,
+                study.varied,
+                lambda n: optuna_proposals(scenes, n, past, study.varied, study.seed),
             )
         elif study.proposer == "ga":
             answer = ga_proposals(
