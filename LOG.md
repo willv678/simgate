@@ -97,3 +97,6 @@ Append one line when a board row changes state. Newest at the bottom.
 - 2026-10-13 18:5x — All 2 Hz replicates done (exit 0). Pooled cut-in + lead, both rates: rules 10/60, hybrid 33, llm 32, random_confirm 19 (Mann-Whitney first look in FACTS). Meeting figures in figures/meeting/.
 - 2026-10-13 19:5x — optuna_confirm (Optuna TPE + the rules' confirmation) added and queued at 10 Hz on pedestrian x ego speed, cut-in and lead vehicle, 3 replicates. Web app started for Will's demo.
 - 2026-10-13 20:xx — OUTLINE.md rewritten as claims, evidence, status; hard study and AI proposer v2 planned; freeze 24 Oct, writing 25-28 Oct, draft 2 Nov.
+- 2026-10-13 20:xx — Shao's feedback as CHECKLIST.md; case cards (19 hardest, 20 random), VALIDITY.md, SKILLS.md, SCENARIOS.md, OpenSCENARIO export, discovery curves, IV figure survey, literature refresh.
+- 2026-10-13 21:xx — New methods hybrid_optuna, llm_v2, hybrid_v2 (offline-tested). Lane-keeping study planned and queued (8 methods); Optuna + agent queued (3 studies x 3).
+- 2026-10-13 22:xx — Problem 31 from the cards: retimed cars freeze when their recording runs out; 30% of counted cut-in contacts; without them AI vs random is weak. Three-knob hard study planned, queued, then held pending the decision.

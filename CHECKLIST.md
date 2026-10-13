@@ -1,49 +1,100 @@
 # Shao's 13 Oct feedback: checklist
 
-From the 13 Oct meeting. Each item: what was asked, then (when done) what was
-done and where to see it.
+From the 13 Oct meeting. Each item: what was asked, what was done, where it
+is. Paths are under `research/`.
 
 ## Visuals (first)
-1. [ ] Case cards: per crash, top-down paths (ego, other actors, human's
-   recorded path), speeds, gap over time, hand-off and contact marked,
-   camera frame. For the hardest confirmed cases.
-2. [ ] Random spot check: 20 random kept runs as cards, "if 5 of 20 don't
-   make sense" answered with something a person can look at.
-3. [ ] Inner loop at work: what happened to every launch, with real
-   self-healing examples.
-4. [ ] Skill contract figure: markdown contract -> skill -> script -> check.
-5. [ ] System figure with the agent at the centre.
-6. [ ] Discovery results figure (confirmed cases against runs, per method).
+
+1. [x] **Case cards**: per crash, top-down paths, speeds, gap, braking,
+   offset from the human, camera frame, scorer's and triage's verdicts.
+   `harness/case_card.py`; 19 cards for the confirmed hardest cases
+   (`figures/cards/hardest/README.md`).
+2. [x] **Random spot check**: 20 random kept runs as cards
+   (`figures/cards/spot/README.md`). 5 counted failures, 10 contacts not
+   counted, 5 no contact. Still needs a person to mark each card "makes
+   sense / does not".
+3. [x] **Inner loop at work**: `figures/meeting/launch_outcomes.png` (3,662
+   launches) and `figures/meeting/self_healing.png` (144 failed launches:
+   the agent's fix and how each ended; 129 healed).
+4. [x] **Skill contract figure**: `figures/meeting/skill_contract.png`.
+5. [x] **System figure**: existing `figures/framework.png` (agent and code
+   coloured apart) is the system figure; the contract figure is its inset.
+6. [x] **Discovery curves**: confirmed hardest cases against runs, per method,
+   median and range over repeats: `figures/discovery_*.png`,
+   `figures/meeting/discovery_10hz.png` (`harness/discovery_curve.py`).
+   The IV survey found no comparable curve in recent IV papers.
 
 ## "Every run works" needs facts
-7. [ ] One page on validity: what each check verifies, planted faults
-   caught, false alarms, this week's launch outcomes.
+
+7. [x] **Validity page**: `VALIDITY.md`: what each check verifies; planted
+   faults (225 kept with no gate, 0 with gate + audit); 0 physics false
+   alarms on 256 clean runs; this week's launch outcomes; what every kept
+   run contains (`figures/meeting/outcome_mix.png`).
 
 ## Framing: the agent is the contribution
-8. [ ] OUTLINE: agent-run continuous discovery as the core; search
-   supporting; contributions list.
-9. [ ] Optuna + agent: the agent choosing among Optuna's proposals.
+
+8. [x] **OUTLINE rewritten**: six contributions with evidence and status;
+   figure list; must-cite papers and unsafe wording.
+9. [x] **Optuna + agent**: new method `hybrid_optuna` (Claude chooses among
+   Optuna's suggestions and the rules' confirmations). Tested offline;
+   queued on the three studies, 3 repeats.
 
 ## Coverage and scenario definition
-10. [ ] Coverage: are all three studies emergency braking (AEB)? Map
-    studies to Level 2 functions and find the gaps.
-11. [ ] A lateral (lane-keeping) study to cover the other half of Level 2.
-12. [ ] Scenario definition in OpenSCENARIO 1.4 terms (esmini checked).
-13. [ ] Which parameters to vary and why (lanes, background vehicles,
-    curvature, ...): what AlpaSim can vary, choose, or not do.
+
+10. [x] **Coverage**: `SCENARIOS.md` and `figures/meeting/failure_types.png`.
+    The studies are braking-shaped, but two thirds of the 1,252 failures
+    are steering (into a road user 47%, off the road 16%); the braking
+    failure is 10%. Mapped to Level 2 / Euro NCAP tests.
+11. [x] **Lane-keeping study** (Euro NCAP LSS): `briefs/categories/lane_keeping.md`,
+    planned by Claude and checked (12 straight scenes, plan shift x ego
+    speed). Queued with 8 methods.
+12. [x] **OpenSCENARIO 1.4**: `harness/to_openscenario.py` writes each study as
+    a parameter distribution and its hardest cases as concrete scenarios
+    (`scenarios/*.xosc`); all validate against the 1.3 and 1.4 schemas.
+    esmini cannot replay AlpaSim scenes (no OpenDRIVE map); noted.
+13. [x] **Which parameters**: `SCENARIOS.md` section 3: vary (knobs),
+    choose (by scene: lanes, curvature, junctions, actors), not possible.
 
 ## Skills
-14. [ ] How the agent's markdown skills are designed, as something the
-    paper can show; Agent Skills format.
+
+14. [x] **Skills design**: `SKILLS.md`: the seven markdown contracts, each
+    with when / what it sees / fixed answers / code check / script; how they
+    map to Claude's Agent Skills format.
 
 ## Literature and figures
-15. [ ] Past IV papers: what figures they use.
-16. [ ] Literature refresh: EvoDrive, LLM-attacker read in full.
+
+15. [x] **IV paper figures**: `FIGURES_SURVEY.md` (14 papers; median 6
+    figures, 2 tables; framework diagram, failure snapshots, method table
+    expected).
+16. [x] **Literature refresh**: `LITERATURE_REFRESH.md`. EvoDrive (CoRL 2026)
+    and PlannerForge (EMNLP 2026) are the papers to distinguish from; both
+    claim "first"; unsafe wording listed in `OUTLINE.md`.
 
 ## Carried over
-17. [ ] Optuna + confirmation results.
-18. [ ] AI proposer v2 (prompt fixed for replay, crash explanations,
-    scene facts, notes between rounds).
-19. [ ] Hard study design.
-20. [ ] Score script for Griffin's labels.
-21. [ ] Time a 2 Hz run.
+
+17. [ ] **Optuna + repeat results**: running (2 of 9 arms in progress,
+    about 2.5-3 h per arm).
+18. [x] **AI v2**: `llm_v2`, `hybrid_v2` (`advisor/OUTER_V2.md`): fixed for
+    replayed traffic, given each failure's triage, the scenes' facts and
+    its own notes. Tested offline; queued on lane keeping (unseen study).
+19. [~] **Hard study**: planned (`car_conflicts_3knobs_2hz`, 3 knobs, rare
+    failures, 2 Hz) and queued with 8 methods x 3 repeats, then **held**:
+    it varies car speed up to 2x, which problem 31 affects. Re-queue after
+    the decision below.
+20. [x] **Griffin's score script**: `label_sheet.py score` on his branch:
+    agreement and kappa against the scorer and the triage; refuses to run
+    until all 60 are labelled.
+21. [x] **2 Hz timing**: a 2 Hz rollout takes 47 s of simulation, a 10 Hz
+    one 84 s (a whole 10 Hz run about 3 min).
+
+## Found while doing this (needs Will and Shao)
+
+- **Problem 31: retimed cars freeze in their lane.** AlpaSim's retiming
+  holds a sped-up car's last pose once its recording runs out, so it stops
+  dead in one step. 30% of counted cut-in contacts are with such a car,
+  and the AI methods favoured those settings. Without them: AI vs rules
+  still clear (25 and 23 vs 10 of 60, p 0.008), AI vs random weak (vs 16,
+  p 0.05). Decide: score them as not the policy's, keep retimed tracks
+  inside the run, or extend tracks in the runtime (src).
+- **Four of the 19 hardest-case cards** have a triage that says the policy
+  was not at fault, or unclear. A person should look at them.

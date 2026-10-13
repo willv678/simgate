@@ -1,5 +1,9 @@
 # While you were away (8-13 Oct)
 
+**13 Oct evening, after the meeting:** everything from Dr. Shao's feedback is
+in `CHECKLIST.md`, item by item. The finding that needs you: problem 31
+(retimed cars freeze in their lane; the AI search learned to hit them).
+
 Short version for Will. Every number has its source in `FACTS.md`; the day
 by day is in `LOG.md`. Live results: `research/simgate serve` (Results tab),
 `METHODS.md`, `GATE.md`, `DRIFT.md`, `HZ.md`, `WHERE.md`, `CLOSED.md`.

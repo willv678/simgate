@@ -951,6 +951,74 @@ setting, so it cannot meet a top_k goal (problem 21). Queued at 10 Hz on
 pedestrian x ego speed, cut-in and lead vehicle, three replicates each.
 Pedestrian crossing (7 Oct) had plain optuna: 3 failures in 49, 1 confirmed.
 
+### Shao's 13 Oct feedback: evidence produced (`CHECKLIST.md`)
+
+- **Self-healing, every study queue** (`figures/cards/self_healing.json`):
+  144 failed launches went to the diagnose contract. GPU out of memory
+  (two runs at once) 102: RE-RUN 101 (99 then kept, 2 stopped at the
+  attempt cap), HALT 1. GPU still held by the previous run 18:
+  CLEANUP_ENV 17 (kept), HALT 1. Physically impossible motion 11: HALT 11
+  (intended; problem 24). Other simulator crash 11: RE-RUN 10,
+  RESTART_CLEANUP 1 (all kept). Launcher lost 2: RESTART_CLEANUP (kept).
+  129 of 144 healed with no person.
+- **What every kept run contains**, six method studies, all methods
+  pooled, exclusive categories in this order: counted failure (split by
+  `possible_artifact`), contact begun before the hand-off, rear-ended by a
+  replayed car, no contact (`figures/cards/outcome_mix.json`,
+  `VALIDITY.md` table). Rear-ended by a replayed car with no other event:
+  27-38% of kept runs in the car studies. Contact begun before the hand-off:
+  9-17%. Pedestrian 10 Hz: 159 of 301 counted failures with the ego more
+  than 3.5 m off the recording (flagged, not removed).
+- **Failure types** (`figures/cards/triage_causes.json`), Claude's triage of
+  1,252 failed runs in the six studies (every run flagged failed when its
+  study ended, some under older definitions): turned_into_actor 589 (47%),
+  left_road 197 (16%), other 184 (15%), actor_hit_ego 146 (12%),
+  no_brake_for_lead 129 (10%), rendering 7. The studies are braking-shaped;
+  two thirds of their failures are steering.
+- **Spot check** (`figures/cards/spot/`, seed 20261013, 20 of the kept runs
+  of the three 10 Hz studies): 5 counted failures (2 at-fault contacts,
+  3 off-road), 10 contacts not counted (rear-ended or begun before the
+  hand-off), 5 no contact. S06: a lead car retimed +1.5 s overlaps the ego
+  from 1.3 s while it still replays the human (triage: not the policy's).
+- **Hardest-case cards** (`figures/cards/hardest/`): 19 confirmed hardest
+  settings, all arms pooled at 10 Hz (pedestrian 7, cut-in 6, lead 6).
+  Two pedestrian hardest cases are the ego leaving the road and then
+  meeting an oncoming car; none involves the pedestrian.
+- **Simulation time per run** (runtime log "simulated ... in ... wall
+  clock seconds", last 1,469 runs): 2 Hz (24 steps) median 46.7 s, 10 Hz
+  (120 steps) 83.5 s, two runs at once. One policy step at 10 Hz about
+  460 ms, a warm-up step about 10 ms, the first step about 37 s (model load).
+  A whole 10 Hz run is about 3 min; an arm of 54 runs about 2.5-3 h.
+- **OpenSCENARIO**: `scenarios/*.xosc` (to_openscenario.py) validate
+  against esmini's OpenSCENARIO 1.3 and 1.4 schemas.
+- **New proposers** (tests in test_guided.py, test_outer.py):
+  `optuna_confirm`, `hybrid_optuna` (Claude among the rules' confirmations
+  and up to 3 x per_round Optuna suggestions; offline check on cut-in round
+  4: 34 candidates, 9 runs chosen, all on the list), `llm_v2` and
+  `hybrid_v2` (OUTER_V2.md: replayed traffic, a prior from these studies,
+  live triage of each failure, the tagger's scene facts, notes between
+  rounds; offline check: 10 legal runs, reasons cite the triage).
+- **Problem 31, retimed cars that freeze** (`held_actors.json`,
+  `held_rescore.json`): see the problems table. Pooled over cut-in and lead
+  vehicle at both rates with held-actor contacts removed: rules 10 of 60,
+  hybrid 25, llm 23, random + confirmation 16 (were 10, 33, 32, 19).
+  Mann-Whitney: hybrid vs rules p 0.008, llm vs rules 0.045, hybrid vs
+  random 0.09, llm vs random 0.28, hybrid and llm together vs random 0.051
+  (one-sided). The advantage over rules holds; over random it is no longer
+  clear.
+- **Hardest-case cards against the triage**: of the 19 cards, the triage
+  says the policy was at fault on 14, not at fault on 3 (cut-in 096988dd: a
+  car at 2x hit the ego from behind before the hand-off, then froze in its
+  lane; lead vehicle 19f339ba and 0e899dd3: contacts the triage places at
+  the start of the run), unclear on 1, none on 1. A person should look at
+  these four cards.
+- **New studies**: `lane_keeping` (10 Hz; plan shift x ego speed, 12
+  straight scenes, 50 runs; 8 methods, one replicate) and
+  `car_conflicts_3knobs_2hz` (actor timing x actor speed x ego speed, 10
+  cut-in and lead scenes that pass as recorded, 60 runs; 8 methods x 3
+  replicates). The planner left `control_timestep_us` out of the 2 Hz
+  plan; added by hand (500000) and the plan re-checked.
+
 ## Controller A/B, 8 Oct (feasible_best against linear)
 
 Hybrid proposer, pedestrian scenes, pairs with shared seeds. Round 1: 5 pairs,
@@ -1067,6 +1135,7 @@ quietly. Sources: LOG.md, the commits named.
 | 28 | A study stopped after a native crash at interpreter exit | pedestrian x ego speed at 2 Hz, hybrid, 12 Oct: archive.py saved the run's ACCEPT, then aborted at exit (signal 6), the first such crash in about 2,500 runs; the inner loop re-runs monitor and analyze after a signal crash but not archive, and archive refused a run already accepted, so the arm stopped after 7 runs | archive.py returns at once for a run already accepted, and the loop re-runs it after a signal crash (`RERUNNABLE`, tests in `test_loop.py`); the arm re-queued and resumed from its queue, nothing lost | robustness |
 | 29 | The failure count still included replayed cars running into the ego | cut-in: a replayed car closing on an ego that was braking in its own lane, first contact at the ego's front corner (so the rear rule of problem 25 kept it): 49 of 208 counted collision failures; triage saw it too but judged 28 identical contacts two ways (22 against 6) | a geometric rule from the poses (`who_closed.py`: who closed the gap, was the ego in its lane, two-sided), checked against triage; most such contacts were under way at the hand-off, and once problem 30's fix skips those (and the rule reads the contact outcome counts) none are left at 10 Hz in a 3.3-3.6 m lane, so the 10 Hz method table stands; at 2 Hz cut-in 6 of 55, random + confirmation 4 to 3; `outcome` not changed | evaluation design |
 | 30 | Contacts under way at the hand-off counted as the policy's | lead vehicle: 75 of 145 counted collision failures (70 of llm's 74) began in the warm-up, when a lead car slowed to 0.5x met the ego still replaying the human's path, and were still flagged at the policy's first step; cut-in 61 of 208 | collisions now count from the first step after a contact under way at the hand-off step ends (`outer.outcome`, `contact_at_handoff`; the hand-off step counts as the warm-up's, which matters at 2 Hz); arms that had stopped at the old goal re-queued to finish; lead vehicle's winner (llm, 23-30 runs) drops to 3, 1, 3 of 5, no method reaches the goal on lead vehicle or cut-in; pedestrian unchanged | evaluation design |
+| 31 | Retimed cars froze in their lane, and the search learned to hit them | the case cards (Shao's visual check, 13 Oct): AlpaSim's actor retiming holds a retimed track's last pose after its new end (by design, `actor_retiming.py`), so a car at 2x speed finishes its recording halfway through the run and stops dead from about 11 m/s in one step; 60 of 203 counted cut-in contacts at 10 Hz and 44 of 145 at 2 Hz are the ego meeting such a car, none on lead vehicle (`held_actors.py`, `held_actors.json`). The AI methods favoured these settings: without them cut-in confirms hybrid 3, 3, 3 (was 4, 5, 4), llm 3, 2, 1 (3, 4, 3), rules 2, 2, 2, random + confirmation 2, 0, 1; at 2 Hz hybrid 2, 2, 1, llm 1, 0, 1 (`held_rescore.json`) | not yet decided (Will, Shao): count a contact with a held actor as not the policy's (like problem 30), or keep retimed tracks inside the rollout window (limit speed scale and shift per scene), or extend tracks at constant velocity in the runtime (src, needs Will). The three-knob hard study (actor speed up to 2x) is held until then | evaluation design |
 
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 

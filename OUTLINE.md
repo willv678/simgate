@@ -19,7 +19,7 @@ once), so about 16 arms a day.
 |---|---|---|---|
 | 1 | An agent that runs AV stress testing end to end, unattended, on a closed-loop end-to-end policy in a neural-reconstruction simulator | 3,662 finished launches 6-13 Oct, 3,561 kept; 144 failed launches healed or stopped by the agent (129 kept); every check and its evidence in `VALIDITY.md` | have it |
 | 2 | Skills as structured markdown contracts with code-checked actions (finite menus, checked by code, executed by scripts) | 7 contracts (`SKILLS.md`); exhaustive check of the diagnose menu (3,822 transitions, 0 violations); planted faults: 225 kept with no gate, 0 with gate + audit | have it |
-| 3 | The agent discovers and confirms corner cases on a small budget; it adds most where failures are rare | 3 studies (+ lane keeping) x rules, hybrid, llm, random + repeat, Optuna + repeat, Optuna + agent; discovery curves (`figures/discovery_*.png`); rules alone 10 of 60 against 32-33 for the AI methods on the car scenes | Optuna arms running; lane keeping queued |
+| 3 | The agent discovers and confirms corner cases on a small budget; it adds most where failures are rare | 3 studies (+ lane keeping) x rules, hybrid, llm, random + repeat, Optuna + repeat, Optuna + agent; discovery curves (`figures/discovery_*.png`); rules alone 10 of 60 against 32-33 for the AI methods on the car scenes | Optuna arms running; lane keeping queued. **At risk (problem 31)**: without contacts with frozen retimed cars, AI vs rules holds (25 and 23 vs 10 of 60, p 0.008) but AI vs random is weak (vs 16, p 0.05) |
 | 4 | Results a person can check | case cards for every confirmed hardest case and 20 random runs (`figures/cards/`); what every kept run contains (`figures/meeting/outcome_mix.png`); Griffin's blind labels | cards done; spot-check verdicts and labels pending |
 | 5 | What it found in VaVAM | two thirds of failures are lane keeping (steered into a road user, left the road), not braking (`figures/meeting/failure_types.png`); the left drift and the mirror test; ego speed is the pedestrian stressor | have it |
 | 6 | Lessons (issues met) | 30 problems (FACTS table): naive counting ranks methods wrong (problems 25, 29, 30); replayed traffic rear-ends the ego in 27-38% of car-study runs | have it |
@@ -56,20 +56,33 @@ between rounds. Built on the three method studies, evaluated on studies it
 has not seen (lane keeping, and a 3-knob study with rare failures).
 Lower priority than the figures and validity evidence above.
 
-## Related work (`LITERATURE.md`; refresh before writing)
+## Related work (`LITERATURE.md`, refreshed 13 Oct: `LITERATURE_REFRESH.md`)
 
-- Accelerated testing: NADE, D2RL, importance sampling for cut-ins, AST,
-  BO-based falsification.
-- LLM scenario testing: ChatScene, LeGEND, TARGET, OmniTester, SoVAR,
-  LLM-attacker, EvoDrive, PlannerForge, LEADE (an LMM builds scenarios from
-  videos offline; its search has no LLM). Closest in spirit: EvoDrive and
-  LLM-attacker (an LLM inside the loop). None runs the whole pipeline with
-  checked actions, none compares rules, LLM and hybrid on one budget under
-  one validity gate, and none tests a closed-loop end-to-end policy in a
-  neural-reconstruction simulator.
-- Agent safety and runtime assurance: Simplex, AgentSpec, ShieldAgent,
-  ADMITBench (FACTS "Novelty check").
-- Flaky simulation tests (Osikowicz 2025, Amini 2023, Chance 2022).
+Must cite and distinguish:
+- **EvoDrive** (CoRL 2026): unattended LLM agents evolve adversarial
+  scenario generators, proposals checked by a deterministic validator, LLM
+  vs non-LLM ablations; MetaDrive/CARLA, state-based egos. We operate the
+  whole testing pipeline (plan, heal, check each run, explain, report),
+  compare six selection strategies at an equal budget under one validity
+  gate, on neural-reconstruction real scenes with a camera-to-trajectory
+  policy.
+- **PlannerForge** (EMNLP 2026): claims the first full-lifecycle LLM testing
+  framework; human-driven chatbot, 2D CommonRoad, classical planners, no
+  search comparison, no self-healing or validity gate.
+- **LLM-attacker** (T-ITS 2025) / **Teach-to-Crash** (2026): an LLM inside
+  one step of scenario generation, scored by collision rate.
+Also: NADE, D2RL, AST, BO falsification; NeuroNCAP and HUGSIM (closed loop
+in neural rendering came first); LEADE (LMM builds scenarios offline, no LLM
+in its search); self-healing orchestrators; markdown skill libraries.
+
+**Unsafe wording**: "first" anything about full-pipeline LLM testing
+(PlannerForge), agentic scenario generation (EvoDrive), LLM vs rule
+comparison (EvoDrive, LLM-attacker), validated LLM actions, or closed-loop
+neural-reconstruction testing (NeuroNCAP). Safe, with "to our knowledge":
+unattended agent-operated stress-testing campaigns on a
+neural-reconstruction simulator with an end-to-end policy; six strategies
+at an equal budget under one validity gate; collision counting that
+reorders methods.
 
 ## Statistics
 

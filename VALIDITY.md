@@ -85,6 +85,13 @@ What this says:
   recorded path, where the neural rendering is less certain. Flagged on
   every such run (`possible_artifact`), not removed.
 
+- **Retimed cars can freeze in their lane (problem 31).** The retiming
+  holds a sped-up car's last pose once its recording runs out, so it stops
+  dead in one step. 30% of counted cut-in contacts are with such a car,
+  and the AI methods favoured those settings: without them, cut-in hybrid
+  confirms 3, 3, 3 rather than 4, 5, 4. Found from the case cards; the fix
+  is a decision for Will and Shao (`FACTS.md` problem 31).
+
 ## 5. What a person sees
 
 - **Hardest cases**: one card per confirmed hardest setting

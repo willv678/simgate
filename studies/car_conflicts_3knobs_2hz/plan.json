@@ -1,0 +1,55 @@
+{
+ "plan": {
+  "question": "In cut-in and lead-vehicle scenes that pass as recorded, which combinations of the car's timing, the car's speed and the ego's speed at hand-off make the policy collide or leave the road? The aim is the 5 most challenging cases, each on a different scene, confirmed by repeats.",
+  "objective": "Find settings of actor_time_shift_s, actor_speed_scale and ego_speed_scale that make the policy fail (a front or side collision, or leaving the road). Find 5 such settings, each on a different scene, with failure rates confirmed above 0.5 by repeats. Failures are rare here. Use near misses (small closest approach to another actor) to steer the search. Once a setting fails, repeat it to confirm it rather than spreading runs thinly. Ignore rear-end hits, which are not the policy's failure.",
+  "vary": [
+   "actor_time_shift_s",
+   "actor_speed_scale",
+   "ego_speed_scale"
+  ],
+  "scenes": [
+   "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a"
+  ],
+  "rounds": 6,
+  "per_round": 10,
+  "rationale": "Scene choice: these are the scenes tagged merge_cut_in or lead_vehicle that did not fail in the earlier run at the recorded setting, have a recorded car the study can retime (lead_vehicle or cut_in), and drove far enough for a conflict to develop. Most of them already came close to another actor as recorded: 023b7fcc came within 0.02 m, 096988dd 0.01 m, 19f339ba 0.03 m, 12855a41 0.08 m, and 0dbb91dd and 187e6244 0.23 m. Those are the most promising places to look for rare failures.\n\nLeft out:\n- Scenes that were nearly stationary (0fa7060f, 15dd433e, 0ac02819, 10d64934) or very slow (01d503d4, 098e2482, 11fce928, 1bfd39ec).\n- Scenes with no car the study can retime (for example 04749bb9, 05f35348, 0ce6f2a3, 166fe701).\n- Scenes whose only key actor is a crossing vehicle at an intersection (02eadd92, 054b5901).\n\nNote that 01d503d4 appears twice in the scene list.\n\nRetiming and settings:\n- Traffic is replay, as the brief asks, with retime_class automobile.\n- Each scene retimes only its key car. In 12855a41 that is the cut-in car 31 rather than the lead car 5.\n- All three knobs span exactly the ranges in the brief: timing \u00b12 s, car speed 0.5x to 2x, ego speed 0.6x to 1.4x.\n- The controller is linear MPC.\n\nGoal: top_k with k=5, distinct scenes, high_min 0.5. This matches the request for the 5 most challenging cases, each confirmed by repeats.\n\nLimits:\n- The budget is tight. With 90% ranges, a setting needs roughly 5 failures out of 5 runs to lie surely above 0.5. Confirming 5 cases therefore takes about 25 runs, which leaves about 35 runs to search a 270-cell grid on 10 scenes. If failures are as rare as the brief expects, the study may end with fewer than 5 confirmed cases. It would then report the strongest candidates and the near misses, which the brief ranks next.\n- The 2 Hz planning rate is not a knob in this interface. The plan assumes the runs use VaVAM's 2 Hz rhythm as configured; nothing here sets it or checks it. planner_delay_us, lateral_bias_m and waypoint_noise_std stay at their defaults.\n- A scale above 1 starts the ego behind its recorded start, so for the first second or two of the warm-up it is off the recording.",
+  "fixed": {
+   "traffic": "replay",
+   "retime_class": "automobile",
+   "retime_tracks": {
+    "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc": "12",
+    "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e": "2",
+    "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c": "31",
+    "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a": "18",
+    "clipgt-187e6244-f541-48ed-8372-62d6da8b547a": "48",
+    "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc": "7",
+    "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c": "21",
+    "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045": "1",
+    "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770": "5",
+    "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a": "14"
+   },
+   "control_timestep_us": 500000
+  },
+  "goal": {
+   "type": "top_k",
+   "k": 5,
+   "high_min": 0.5,
+   "distinct_scenes": true
+  }
+ },
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 24599,
+  "output_tokens": 3489,
+  "duration_ms": 31102
+ }
+}

@@ -1,0 +1,102 @@
+{
+ "cut_in_merge": {
+  "rules": {
+   "before": [
+    2,
+    2,
+    2
+   ],
+   "without held-actor failures": [
+    2,
+    2,
+    2
+   ]
+  },
+  "hybrid": {
+   "before": [
+    4,
+    5,
+    4
+   ],
+   "without held-actor failures": [
+    3,
+    3,
+    3
+   ]
+  },
+  "llm": {
+   "before": [
+    3,
+    4,
+    3
+   ],
+   "without held-actor failures": [
+    3,
+    2,
+    1
+   ]
+  },
+  "random_confirm": {
+   "before": [
+    3,
+    0,
+    1
+   ],
+   "without held-actor failures": [
+    2,
+    0,
+    1
+   ]
+  }
+ },
+ "cut_in_merge_2hz": {
+  "rules": {
+   "before": [
+    2,
+    1,
+    1
+   ],
+   "without held-actor failures": [
+    2,
+    1,
+    1
+   ]
+  },
+  "hybrid": {
+   "before": [
+    3,
+    3,
+    3
+   ],
+   "without held-actor failures": [
+    2,
+    2,
+    1
+   ]
+  },
+  "llm": {
+   "before": [
+    3,
+    2,
+    2
+   ],
+   "without held-actor failures": [
+    1,
+    0,
+    1
+   ]
+  },
+  "random_confirm": {
+   "before": [
+    4,
+    1,
+    1
+   ],
+   "without held-actor failures": [
+    3,
+    0,
+    1
+   ]
+  }
+ }
+}
