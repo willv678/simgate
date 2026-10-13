@@ -121,3 +121,35 @@ def test_a_study_can_plan_at_2_hz_but_then_not_vary_the_delay():
     assert config["control_timestep_us"] == 500_000
     assert fixed_problems(fixed, DELAY) != []
     assert fixed_problems({"control_timestep_us": 250_000}, ()) != []
+
+
+def test_version_2_answers_must_carry_notes_and_version_1_answers_must_not():
+    from outer import schema
+
+    v1, v2 = schema(("ego_speed_scale",)), schema(("ego_speed_scale",), notes=True)
+    assert "notes" not in v1["properties"] and "notes" not in v1["required"]
+    assert v2["properties"]["notes"] == {"type": "string"} and "notes" in v2["required"]
+
+
+def test_version_2_reads_back_the_notes_of_the_last_round(tmp_path):
+    from types import SimpleNamespace
+
+    from outer import last_notes
+
+    study = SimpleNamespace(rounds_file=tmp_path / "rounds.jsonl")
+    assert last_notes(study) is None
+    study.rounds_file.write_text('{"round": 1, "notes": "slow lead cars"}\n{"round": 2}\n')
+    assert last_notes(study) is None
+    study.rounds_file.write_text('{"round": 1}\n{"round": 2, "notes": "try 0.5x"}\n')
+    assert last_notes(study) == "try 0.5x"
+
+
+def test_recorded_facts_summarise_the_tagged_scenes():
+    from outer import SCENE_TAGS, recorded_facts
+
+    import json
+
+    scene = next(s for s, v in json.loads(SCENE_TAGS.read_text()).items() if v.get("facts"))
+    found = recorded_facts([scene, "clipgt-not-a-scene"])
+    assert list(found) == [scene]
+    assert {"turn", "top_speed_mps", "lead", "cut_ins", "tags"} <= set(found[scene])

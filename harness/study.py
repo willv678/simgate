@@ -513,6 +513,8 @@ def main() -> int:
             "optuna",
             "optuna_confirm",
             "hybrid_optuna",
+            "llm_v2",
+            "hybrid_v2",
             "ga",
         ),
         default="llm",

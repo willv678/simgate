@@ -19,6 +19,9 @@ are evidence. Proposers:
 - hybrid: Claude chooses among the rules' candidates only; any other run is
   dropped. hybrid_optuna: the same, among the rules' confirmations and
   Optuna's suggestions.
+- llm_v2, hybrid_v2: llm and hybrid under advisor/OUTER_V2.md, also given
+  each failure's triage, the scenes' recorded facts and their own notes
+  from the round before.
 
 The study: how a scene's failure rate changes with the scenario knobs it
 varies (`--vary`, from knobs.SCENARIO; planner delay by default). A run failed if
@@ -96,6 +99,12 @@ from physics import completed_rollout, signals
 
 HARNESS = Path(__file__).resolve().parent
 CONTRACT = HARNESS / "advisor" / "OUTER.md"
+# Version 2 (llm_v2, hybrid_v2): the contract corrected for replayed traffic,
+# with each failure's triage, the scenes' recorded facts and the model's own
+# notes from the round before. Version 1 stays as it ran.
+CONTRACT_V2 = HARNESS / "advisor" / "OUTER_V2.md"
+V2 = ("llm_v2", "hybrid_v2")
+SCENE_TAGS = HARNESS / "scene_tags.json"
 SCENE_FACTS = HARNESS / "scene_facts.json"
 # About one lane width. Beyond it the reconstruction renders the ego's view
 # from further off the recording car's path than it was built from.
@@ -135,7 +144,7 @@ def objective(varied: tuple[str, ...]) -> str:
     )
 
 
-def schema(varied: tuple[str, ...]) -> dict:
+def schema(varied: tuple[str, ...], notes: bool = False) -> dict:
     run = {
         "scene_id": {"type": "string"},
         **{knob: {"type": TYPES[knob]} for knob in varied},
@@ -154,8 +163,9 @@ def schema(varied: tuple[str, ...]) -> dict:
                     "additionalProperties": False,
                 },
             },
+            **({"notes": {"type": "string"}} if notes else {}),
         },
-        "required": ["plan", "runs"],
+        "required": ["plan", "runs", *(["notes"] if notes else [])],
         "additionalProperties": False,
     }
 
@@ -393,11 +403,58 @@ def planned(queue: Path) -> list[dict]:
 
 
 def llm_proposals(
-    state: dict, varied: tuple[str, ...], model: str
+    state: dict, varied: tuple[str, ...], model: str, v2: bool = False
 ) -> tuple[dict, dict]:
     """The model's answer and the call's cost, from one headless call."""
     prompt = "The study's state is on stdin. Choose this round's runs."
+    if v2:
+        return ask(prompt, state, CONTRACT_V2, schema(varied, notes=True), model)
     return ask(prompt, state, CONTRACT, schema(varied), model)
+
+
+def recorded_facts(scenes: list[str]) -> dict:
+    """What each scene's recording holds, from the tagger (scene_tags.json)."""
+    tags = json.loads(SCENE_TAGS.read_text(encoding="utf-8"))
+    found = {}
+    for scene in scenes:
+        facts = tags.get(scene, {}).get("facts")
+        if not facts:
+            continue
+        lead = facts["lead"]
+        found[scene] = {
+            "turn": facts["turn"],
+            "top_speed_mps": facts["max_speed_mps"],
+            "lead": lead and {k: lead[k] for k in ("label", "min_gap_m", "speed_drop_mps")},
+            "cut_ins": len(facts["cut_ins"]),
+            "crossing_vehicles": len(facts["crossing_vehicles"]),
+            "oncoming": len(facts["oncoming"]),
+            "pedestrians_near_path": len(facts["pedestrians_near"]),
+            "tags": tags[scene]["final_tags"],
+        }
+    return found
+
+
+def live_triage(study: "Study") -> list[dict]:
+    """The triage of every failed kept run so far, each run asked once and
+    kept in the study folder's triage_live.json."""
+    from triage import triage_study
+
+    path = study.rounds_file.parent / "triage_live.json"
+    known = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
+    found = triage_study(study.queue, study.model, known) if study.queue.is_dir() else known
+    path.write_text(json.dumps(found, indent=1) + "\n", encoding="utf-8")
+    return [
+        {k: row[k] for k in ("run", "scene_id", "cause", "what_happened", "policy_at_fault")}
+        for row in found
+    ]
+
+
+def last_notes(study: "Study") -> str | None:
+    """The notes the model wrote in the study's last round, if any."""
+    if not study.rounds_file.exists():
+        return None
+    rows = study.rounds_file.read_text(encoding="utf-8").splitlines()
+    return json.loads(rows[-1]).get("notes") if rows else None
 
 
 def random_proposals(
@@ -556,8 +613,14 @@ def run_study(study: Study) -> list[dict]:
             state["systems"] = study.compare
             state["comparison"] = results(past, study.varied, study.compare)
         call = None
+        if study.proposer in V2:
+            state["failures"] = live_triage(study)
+            state["scene_facts"] = recorded_facts(scenes)
+            state["notes"] = last_notes(study)
         if study.proposer == "llm":
             answer, call = llm_proposals(state, study.varied, study.model)
+        elif study.proposer == "llm_v2":
+            answer, call = llm_proposals(state, study.varied, study.model, v2=True)
         elif study.proposer == "random":
             answer = random_proposals(
                 scenes,
@@ -651,6 +714,11 @@ def run_study(study: Study) -> list[dict]:
             answer, call = llm_proposals(
                 {**state, "candidates": ranked}, study.varied, study.model
             )
+        elif study.proposer == "hybrid_v2":
+            ranked = candidates(scenes, state["summary"], study.goal, study.varied)
+            answer, call = llm_proposals(
+                {**state, "candidates": ranked}, study.varied, study.model, v2=True
+            )
         elif study.proposer == "hybrid_optuna":
             ranked = optuna_candidates(
                 scenes, study.per_round, state["summary"], study.goal, past,
@@ -669,7 +737,7 @@ def run_study(study: Study) -> list[dict]:
                 if index >= study.per_round
                 else rejection(proposed, set(scenes), study.varied)
             )
-            if why_not is None and study.proposer in ("hybrid", "hybrid_optuna"):
+            if why_not is None and study.proposer in ("hybrid", "hybrid_v2", "hybrid_optuna"):
                 why_not = outside(proposed, ranked, study.varied)
             if why_not:
                 dropped.append({**proposed, "dropped": why_not})
@@ -696,6 +764,7 @@ def run_study(study: Study) -> list[dict]:
             "proposer": study.proposer,
             "varied": study.varied,
             "plan": answer["plan"],
+            **({"notes": answer["notes"]} if "notes" in answer else {}),
             "queued": queued,
             "dropped": dropped,
             "call": call,

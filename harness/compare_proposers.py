@@ -52,6 +52,8 @@ PROPOSERS = (
     "optuna",
     "optuna_confirm",
     "hybrid_optuna",
+    "llm_v2",
+    "hybrid_v2",
     "ga",
 )
 COLORS = {
@@ -66,6 +68,8 @@ COLORS = {
     "optuna": "#c99a06",
     "optuna_confirm": "#e0b100",
     "hybrid_optuna": "#7a5c00",
+    "llm_v2": "#b23a0e",
+    "hybrid_v2": "#0e7a52",
     "grid": "#5f6b7a",
     "lhs": "#b0596b",
     "ga": "#3f8f8f",
