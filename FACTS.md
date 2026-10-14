@@ -943,13 +943,42 @@ last round). Confirmed of 5, replicates 1, 2, 3 (`METHODS.md`):
 - Model time per arm: 1-2 min of Claude calls (llm 87-121 s, hybrid
   42-111 s), against about 50 min of simulation.
 
-### Optuna with confirmation (queued 13 Oct)
+### Optuna with confirmation, and Optuna + AI (13-14 Oct, 10 Hz, three replicates)
 
 `optuna_confirm`: Optuna's TPE with the rules' confirmation (at most half of
 each round), as random + confirmation; plain `optuna` never repeats a
-setting, so it cannot meet a top_k goal (problem 21). Queued at 10 Hz on
-pedestrian x ego speed, cut-in and lead vehicle, three replicates each.
-Pedestrian crossing (7 Oct) had plain optuna: 3 failures in 49, 1 confirmed.
+setting, so it cannot meet a top_k goal (problem 21). `hybrid_optuna`
+(Optuna + AI): Claude chooses each round among the rules' confirmations and
+up to 3x as many distinct Optuna suggestions. Pedestrian crossing (7 Oct)
+had plain optuna: 3 failures in 49, 1 confirmed.
+
+Confirmed hardest cases of 5 per replicate (`METHODS.md`, `held_rescore.json`;
+"no frozen" = contacts with a car the retiming held still not counted,
+problem 31):
+
+| method | pedestrian: runs to goal | cut-in | cut-in, no frozen | lead | car scenes, no frozen (of 30) |
+|---|---|---|---|---|---|
+| rules | 25, 25, 25 | 2, 2, 2 | 2, 2, 2 | 0, 0, 0 | 6 |
+| hybrid (rules + AI) | 24, 28, 24 | 4, 5, 4 | 3, 3, 3 | 2, 3, 3 | 17 |
+| AI picks | 28, 40, 37 | 3, 4, 3 | 3, 2, 1 | 3, 1, 3 | 13 |
+| random + repeat | 31, 32, 32 | 3, 0, 1 | 2, 0, 1 | 4, 1, 2 | 10 |
+| Optuna + repeat | 25, 31, 33 | 4, 5, 1 | 4, 4, 0 | 1, 3, 1 | 13 |
+| Optuna + AI | 21, 20, 21 | 5, 4, 5 | 3, 2, 3 | 1, 2, 4 | 15 |
+
+- **Pedestrian**: every arm of every method confirms 5 of 5; Optuna + AI
+  gets there first in all three replicates (median 21 runs: rules 25,
+  hybrid 24, Optuna + repeat 31, random + repeat 32, AI picks 37).
+- **Car scenes, frozen cars not counted** (Mann-Whitney, 6 values per
+  method): hybrid vs rules p 0.006, Optuna + AI vs rules p 0.054, AI picks
+  vs rules 0.097; hybrid vs random 0.078; Optuna + repeat vs rules 0.25,
+  vs random 0.74; every pair among hybrid, AI picks, Optuna + repeat and
+  Optuna + AI p > 0.2.
+- **Optuna + AI chased frozen cars most**: cut-in 14 of 15 as counted, 8
+  without them. Optuna alone barely did (10 to 8).
+- Reading: Optuna alone is no better than random + repeat at this budget;
+  an AI chooser (over the rules' or Optuna's candidates) is what separates
+  from rules; differences among the AI variants are within the noise of
+  three replicates.
 
 ### Shao's 13 Oct feedback: evidence produced (`CHECKLIST.md`)
 

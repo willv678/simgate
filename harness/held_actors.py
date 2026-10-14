@@ -14,7 +14,9 @@ the ego met (the nearest at the failure) was held:
 - held at its start: its pose does not change from the start of the run to
   after the failure.
 
-Writes held_actors.json.
+Then rescores every replicated method arm with those contacts not counted:
+how many of the goal's k hardest settings each arm confirmed, before and
+after. Writes held_actors.json and held_rescore.json.
 
     uv run python research/harness/held_actors.py
 """
@@ -29,7 +31,11 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+import outer
+from analyze_methods import replicate_rows
 from case_card import _nearest, _tracks, kept, moment
+from compare_proposers import arms
+from goals import challenging
 from physics import _read, completed_rollout
 from read_state import ROOT
 
@@ -56,6 +62,31 @@ def held(track: dict, when: float) -> str | None:
     return None
 
 
+def confirmed(rows: list[dict], varied: tuple, goal: dict) -> int:
+    return min(goal["k"], len(challenging(outer.results(rows, varied), goal)))
+
+
+def rescore(held_runs: set[str]) -> dict:
+    found = {}
+    for study in STUDIES:
+        folder = ROOT / "research" / "studies" / study
+        plan = json.loads((folder / "plan.json").read_text(encoding="utf-8"))["plan"]
+        varied = tuple(plan["vary"])
+        replicates, _ = replicate_rows(folder, plan)
+        folders = arms(folder)
+        found[study] = {}
+        for method, rows in replicates.items():
+            before, after = [], []
+            for row in rows:
+                past = [r for r in outer.history(folders[row["arm"]] / "queue", varied)
+                        if r["verdict"] == "kept"]
+                before.append(confirmed(past, varied, plan["goal"]))
+                past = [{**r, "failed": False} if r["run"] in held_runs else r for r in past]
+                after.append(confirmed(past, varied, plan["goal"]))
+            found[study][method] = {"before": before, "without held-actor failures": after}
+    return found
+
+
 def main() -> int:
     found, rows = {}, []
     for study in STUDIES:
@@ -80,6 +111,11 @@ def main() -> int:
         print(study, dict(counts), flush=True)
     (ROOT / "research" / "held_actors.json").write_text(
         json.dumps({"counts": found, "runs": rows}, indent=1) + "\n")
+    rescored = rescore({row["run"] for row in rows if row["held"]})
+    (ROOT / "research" / "held_rescore.json").write_text(json.dumps(rescored, indent=1) + "\n")
+    for study, methods in rescored.items():
+        for method, counts in methods.items():
+            print(study, method, counts, flush=True)
     return 0
 
 

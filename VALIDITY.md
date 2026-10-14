@@ -38,7 +38,7 @@ Figure: `figures/campaign_invalid.png`. Physics check: 0 false alarms on
 
 ## 3. What happened to this week's launches
 
-3,662 finished launches 6-13 Oct, 3,561 kept (97.2%):
+4,668 finished launches 6-13 Oct (to 21:18 UTC, the same cutoff as the self-healing counts below), 4,542 kept (97.3%); `harness/paper_figures.py`, `figures/paper/fig_inner_loop.pdf`:
 `figures/meeting/launch_outcomes.png`.
 
 144 launches failed and went to the agent. Its fix and how each ended

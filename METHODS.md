@@ -13,6 +13,8 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | cut_in_merge | hybrid | 3 | 54, 54, 54 | 1 | 54, 48, 54 | 54 | 4, 5, 4 of 5 | 0.981, 1.0, 0.979 | 18, 20, 23 | 81.0, 96.1, 86.7 |
 | cut_in_merge | llm | 3 | 54, 53, 54 | 0 | 54, 54, 54 | 54 | 3, 4, 3 of 5 | 0.962, 0.979, 0.977 | 15, 18, 24 | 101.3, 108.2, 86.6 |
 | cut_in_merge | random_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 0, 1 of 5 | 0.959, 0.954, 0.907 | 17, 10, 4 | 0.0, 0.0, 0.0 |
+| cut_in_merge | optuna_confirm | 3 | 54, 54, 54 | 1 | 54, 46, 54 | 54 | 4, 5, 1 of 5 | 0.977, 1.0, 0.931 | 15, 17, 11 | 0.0, 0.0, 0.0 |
+| cut_in_merge | hybrid_optuna | 3 | 27, 54, 54 | 2 | 20, 54, 47 | 47 | 5, 4, 5 of 5 | 1.0, 0.979, 1.0 | 18, 21, 25 | 40.8, 93.5, 97.2 |
 | cut_in_merge_2hz | rules | 3 | 53, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 1, 1 of 5 | 0.909, 0.883, 0.887 | 8, 11, 8 | 0.0, 0.0, 0.0 |
 | cut_in_merge_2hz | rules_v3 | 1 | 54 | 0 | 54 | 54 | 0 of 5 | 0.862 | 3 | 0.0 |
 | cut_in_merge_2hz | hybrid | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 3, 3 of 5 | 0.938, 0.941, 0.947 | 10, 17, 12 | 87.6, 92.2, 87.0 |
@@ -25,12 +27,21 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | intersection_ego_speed | hybrid | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.626 | 9 | 123.1 |
 | intersection_ego_speed | llm | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.599 | 8 | 117.7 |
 | intersection_ego_speed | random_confirm | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.606 | 12 | 0.0 |
+| lane_keeping | rules | 1 | 50 | 0 | 50 | 50 | 2 of 5 | 0.969 | 11 | 0.0 |
+| lane_keeping | hybrid | 1 | 50 | 0 | 50 | 50 | 4 of 5 | 1.0 | 22 | 89.3 |
+| lane_keeping | llm | 1 | 20 | 1 | 20 | 20 | 5 of 5 | 1.0 | 19 | 28.7 |
+| lane_keeping | random_confirm | 1 | 38 | 1 | 31 | 31 | 5 of 5 | 1.0 | 28 | 0.0 |
+| lane_keeping | optuna_confirm | 1 | 36 | 1 | 28 | 28 | 5 of 5 | 1.0 | 30 | 0.0 |
+| lane_keeping | hybrid_optuna | 1 | 18 | 1 | 18 | 18 | 5 of 5 | 1.0 | 18 | 32.1 |
+| lane_keeping | llm_v2 | 1 | 17 | 1 | 17 | 17 | 5 of 5 | 1.0 | 17 | 38.9 |
 | lead_vehicle | rules | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 0, 0, 0 of 5 | 0.846, 0.851, 0.854 | 0, 0, 0 | 0.0, 0.0, 0.0 |
 | lead_vehicle | rules_corners | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.853 | 0 | 0.0 |
 | lead_vehicle | rules_v2 | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.891 | 1 | 0.0 |
 | lead_vehicle | hybrid | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 2, 3, 3 of 5 | 0.92, 0.952, 0.955 | 7, 10, 9 | 110.8, 100.4, 101.3 |
 | lead_vehicle | llm | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 3, 1, 3 of 5 | 0.972, 0.937, 0.958 | 19, 5, 9 | 113.3, 108.2, 113.4 |
 | lead_vehicle | random_confirm | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 4, 1, 2 of 5 | 0.979, 0.934, 0.93 | 12, 6, 8 | 0.0, 0.0, 0.0 |
+| lead_vehicle | optuna_confirm | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 1, 3, 1 of 5 | 0.912, 0.956, 0.89 | 6, 12, 8 | 0.0, 0.0, 0.0 |
+| lead_vehicle | hybrid_optuna | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 1, 2, 4 of 5 | 0.911, 0.951, 0.977 | 10, 9, 14 | 121.2, 139.5, 125.0 |
 | lead_vehicle_2hz | rules | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 0, 0, 0 of 5 | 0.801, 0.812, 0.807 | 1, 1, 1 | 0.0, 0.0, 0.0 |
 | lead_vehicle_2hz | rules_v3 | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.835 | 2 | 0.0 |
 | lead_vehicle_2hz | hybrid | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 1, 2, 0 of 5 | 0.85, 0.914, 0.847 | 16, 11, 3 | 94.5, 106.0, 101.6 |
@@ -46,6 +57,8 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | pedestrian_ego_speed | llm | 3 | 30, 49, 39 | 3 | 28, 40, 37 | 37 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 18, 30, 25 | 52.5, 88.1, 78.2 |
 | pedestrian_ego_speed | random | 1 | 48 | 0 | 50 | 50 | 0 of 5 | 1.0 | 31 | 0.0 |
 | pedestrian_ego_speed | random_confirm | 3 | 39, 39, 40 | 3 | 31, 32, 32 | 32 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 28, 29, 31 | 0.0, 0.0, 0.0 |
+| pedestrian_ego_speed | optuna_confirm | 3 | 30, 40, 40 | 3 | 25, 31, 33 | 31 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 24, 30, 28 | 0.0, 0.0, 0.0 |
+| pedestrian_ego_speed | hybrid_optuna | 3 | 30, 20, 30 | 3 | 21, 20, 21 | 21 | 5, 5, 5 of 5 | 1.0, 1.0, 1.0 | 21, 16, 22 | 48.9, 33.1, 53.0 |
 | pedestrian_ego_speed_2hz | rules | 3 | 50, 50, 50 | 0 | 50, 50, 50 | 50 | 4, 4, 4 of 5 | 0.949, 0.955, 1.0 | 12, 13, 15 | 0.0, 0.0, 0.0 |
 | pedestrian_ego_speed_2hz | rules_v3 | 1 | 50 | 0 | 50 | 50 | 4 of 5 | 1.0 | 14 | 0.0 |
 | pedestrian_ego_speed_2hz | hybrid | 3 | 50, 40, 40 | 2 | 50, 32, 34 | 34 | 4, 5, 5 of 5 | 0.952, 1.0, 1.0 | 14, 22, 19 | 88.8, 64.2, 70.7 |

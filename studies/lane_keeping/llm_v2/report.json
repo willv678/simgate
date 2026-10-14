@@ -1,0 +1,208 @@
+{
+ "answer": {
+  "answer": "The goal was met after two rounds. All five scenes failed on every kept repeat at the largest corner the study tried: a 0.5 m plan shift at 1.4x hand-off speed. The shift was to the left on three scenes (S2, S3, S4) and to the right on two (S6, S7). That makes those the five hardest confirmed cases, but this is only a statement about that one corner. No smaller shift and no lower speed was ever run, so the study cannot say which part of the bias and speed range starts the failures, or whether bias or speed drives them. With only three repeats each, every range just clears 0.5, so the five are tied and cannot be ranked against each other. Two caveats on what the failures mean. Every failure at S2 and S3 is flagged as a possible rendering artifact, because the ego ended far from the recorded path. Triage nonetheless reads all of them as the policy's fault. Also, S4's failures are mostly failures to stop behind a queued car, not lane departures.",
+  "findings": [
+   {
+    "claim": "At a +0.5 m (leftward) shift and 1.4x speed, the ego drifted left across lanes on a multi-lane road and side-swiped a vehicle in the lane it moved into, on every repeat. In triage, the route command switched to RIGHT and the policy did not follow it.",
+    "settings": [
+     "S2"
+    ]
+   },
+   {
+    "claim": "At a +0.5 m shift and 1.4x speed (about 23 m/s), the ego kept straight and slightly left at a fork where the route bears right. It left the road onto the median or gore area on every repeat; these were off-road failures, not collisions.",
+    "settings": [
+     "S3"
+    ]
+   },
+   {
+    "claim": "At a -0.5 m (rightward) shift and 1.4x speed, the ego steered right out of its lane on a multi-lane highway with a STRAIGHT command. It cut into the vehicle alongside in the right lane on every repeat. This is the clearest lane-departure-into-traffic case, and none of these runs is flagged as a possible artifact.",
+    "settings": [
+     "S7"
+    ]
+   },
+   {
+    "claim": "At a -0.5 m shift and 1.4x speed, in slow, dense highway traffic, the ego moved right toward the slow van's lane and hit the van with its front on every repeat. Twice it cut right toward or behind the van; once it stayed in its lane and failed to brake for the van.",
+    "settings": [
+     "S6"
+    ]
+   },
+   {
+    "claim": "The S4 failures are confirmed, but they are mostly not lane departures. In slow queued traffic the ego crept into a stopped lead car without stopping. Only one repeat angled right into the side of the car ahead and to the right, which runs against the leftward shift.",
+    "settings": [
+     "S4"
+    ]
+   },
+   {
+    "claim": "Two other scenes also failed on their single run at a +0.5 m shift and 1.4x speed. On both, the ego drifted left, ignored a RIGHT route command and left the road (S5 was also sideswiped). These are hints, not rates, and both runs are flagged as possible artifacts.",
+    "settings": [
+     "S1",
+     "S5"
+    ]
+   },
+   {
+    "claim": "Where the ego left its lane, it mostly drifted in the direction of the shift: left at +0.5 m, right at -0.5 m. Several failures happened where the route command changed, so the scene's route may matter as much as the shift.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S5",
+     "S6",
+     "S7"
+    ]
+   },
+   {
+    "claim": "All five confirmed settings were judged the policy's fault in triage. However, every failure at S2 and S3 had the ego over 3.5 m from the recorded trajectory, so the confirmation of those two partly rests on runs the simulator's rendering might explain.",
+    "settings": [
+     "S2",
+     "S3"
+    ]
+   }
+  ],
+  "open": [
+   "Which combinations fail: no setting other than |bias| 0.5 m at 1.4x was run. Runs at \u00b10.3 m and 1.2x, at 0.5 m and 1.0x, and at 0 m and 1.4x on S2, S3, S6 and S7 would show whether the shift, the speed, or the scene's route causes the failures.",
+   "No unbiased baseline at 1.4x: a 0 m, 1.4x run per confirmed scene would show whether speed alone already makes these scenes fail. This matters especially for S2 and S3, where the policy ignored a RIGHT route command.",
+   "Ranking among the five: all are tied, with every repeat failing. Ranking them would take more repeats or a milder setting at which some scenes pass.",
+   "S4 should perhaps be replaced: its failures are mostly no-brake-for-lead in a queue, not lane departures. Testing the opposite shift (-0.5 m) on S4, or a confirming repeat on S1 or S5, would give a fifth case that actually leaves the lane.",
+   "Possible artifacts: every S2 and S3 failure had the ego over 3.5 m off the recorded path. Reviewing their frames for rendering faults would firm up those confirmations.",
+   "Scenes 096988dd, 023b7fcc and 19f339ba produced no kept runs; their attempts were not kept (HALT). They are untested, not shown to be safe.",
+   "Near misses and the low-speed corners (0.6x) were never explored."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_007"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_009",
+    "lane_keeping_llm_v2_019",
+    "lane_keeping_llm_v2_020"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_010",
+    "lane_keeping_llm_v2_017",
+    "lane_keeping_llm_v2_018"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_005",
+    "lane_keeping_llm_v2_012",
+    "lane_keeping_llm_v2_011_a2"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_006"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_004",
+    "lane_keeping_llm_v2_013",
+    "lane_keeping_llm_v2_014"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_008",
+    "lane_keeping_llm_v2_015",
+    "lane_keeping_llm_v2_016"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 12733,
+  "output_tokens": 2371,
+  "duration_ms": 24777
+ }
+}

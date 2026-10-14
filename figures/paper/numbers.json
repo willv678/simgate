@@ -1,0 +1,43 @@
+{
+ "cutoff": "2026-10-13T21:18:00+00:00",
+ "inner_loop": {
+  "launches": 4668,
+  "kept": 4542,
+  "diagnosed": 144,
+  "healed": 129,
+  "stopped": 15,
+  "pending": 0
+ },
+ "cases": [
+  {
+   "run": "pedestrian_ego_speed_llm_r2_013",
+   "what": "at-fault contact",
+   "when_s": 9.239515,
+   "handoff_s": 4.639515,
+   "failed": true,
+   "key_actor": "90",
+   "study": "pedestrian_ego_speed",
+   "cause": "turned_into_actor"
+  },
+  {
+   "run": "cut_in_merge_hybrid_007",
+   "what": "at-fault contact",
+   "when_s": 6.245516,
+   "handoff_s": 4.645516,
+   "failed": true,
+   "key_actor": "33",
+   "study": "cut_in_merge",
+   "cause": "turned_into_actor"
+  },
+  {
+   "run": "lead_vehicle_hybrid_025",
+   "what": "at-fault contact",
+   "when_s": 10.551345,
+   "handoff_s": 4.651345,
+   "failed": true,
+   "key_actor": "51",
+   "study": "lead_vehicle",
+   "cause": "turned_into_actor"
+  }
+ ]
+}

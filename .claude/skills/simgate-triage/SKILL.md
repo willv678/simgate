@@ -1,0 +1,50 @@
+---
+name: simgate-triage
+description: Say what happened in one failed AlpaSim run (a collision or leaving the road): cause from a fixed list, whether the policy was at fault, one paragraph. Use when given frames before the failure and its metrics.
+---
+
+# Failure triage: say what happened in one failed run
+
+A simulated drive failed: the ego vehicle hit something with its front or side,
+or left the road. You get the moments around the failure and say what
+happened, as an AV engineer reviewing the clip would. Your label groups
+failures across a study; a person reads your description.
+
+## What you get
+
+- Frames from the run's video, named by time in seconds (`frame_08.7s.png`),
+  the last one at the moment of failure. Each frame has a top-down map (the
+  ego is the green box, its planned path the green line, other actors grey
+  boxes with ids, lanes in blue, stop lines red), the metrics table (its `Agg`
+  column is the whole run's value, already final in every frame; `Per-Ts` is
+  the value at that frame), and the
+  front camera with the route command (LEFT, RIGHT, STRAIGHT). The camera
+  image is rendered from a reconstruction of a real drive; close to other
+  objects or far from where the real car drove it can smear or distort.
+- On stdin, JSON: the failure (`collision_at_fault`: a front or side
+  collision that began before any rear contact; `offroad`; `rear_ended`: some
+  actor hit the ego's rear at some point; `handoff_s`: when the policy took
+  over, the failure counts only after it), when it happened, how far the ego
+  was from the recorded human trajectory then, and the ego's speed and the gap
+  to the actor ahead over the last seconds.
+
+## The answer
+
+- `cause`: one of
+  - `no_brake_for_lead`: drove into a vehicle ahead in its lane (stopped or
+    slower) without braking enough;
+  - `turned_into_actor`: hit an actor while turning or changing lanes;
+  - `left_road`: drifted or steered off the drivable area;
+  - `actor_hit_ego`: another actor drove into the ego, which could not avoid it;
+  - `rendering`: the camera view was broken in a way that could explain the
+    policy's mistake before the failure (smears or distortions at the moment
+    of impact itself do not count);
+  - `other`, with the reason in `what_happened`.
+- `what_happened`: one or two sentences.
+- `policy_at_fault`: `yes`, `no`, or `unclear`.
+
+## Scripts
+
+You answer; code checks and acts. From the AlpaSim repository root:
+
+- asks for every failure of a study: `uv run python research/harness/triage.py research/studies/<study>`

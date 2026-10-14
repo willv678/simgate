@@ -1,0 +1,717 @@
+{
+ "summary": {
+  "simgate-diagnose": {
+   "inputs": 16,
+   "chose this skill first": 16,
+   "answer passes the code check": 16,
+   "same recovery as the harness's call": 12
+  },
+  "simgate-plan": {
+   "inputs": 3,
+   "chose this skill first": 3,
+   "answer passes the code check": 2
+  },
+  "simgate-propose": {
+   "inputs": 3,
+   "chose this skill first": 3,
+   "answer passes the code check": 3
+  },
+  "cost_usd": 3.29
+ },
+ "rows": [
+  {
+   "expect": "simgate-diagnose",
+   "kind": "environment / CLEANUP_ENV",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "CLEANUP_ENV",
+    "params": {}
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.097938,
+   "error": null,
+   "recorded": "CLEANUP_ENV",
+   "same_as_recorded": true,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "environment / CLEANUP_ENV",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "CLEANUP_ENV",
+    "params": {}
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.0775866,
+   "error": null,
+   "recorded": "CLEANUP_ENV",
+   "same_as_recorded": true,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "environment / CLEANUP_ENV",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "CLEANUP_ENV",
+    "params": {}
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.0784742,
+   "error": null,
+   "recorded": "CLEANUP_ENV",
+   "same_as_recorded": true,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "environment / HALT",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "CLEANUP_ENV",
+    "params": {}
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.09918339999999999,
+   "error": null,
+   "recorded": "HALT",
+   "same_as_recorded": false,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "physics / HALT",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "HALT",
+    "params": {},
+    "reason": "The physics check failed: max_abs_yaw_rate is 6.25, over the 2.0 limit, and max_speed_report_error is 5.32, over the 1.0 limit. This most likely comes from the study's own settings: ego_speed_scale 1.4 at a 2 Hz control step (control_timestep_us 500000), with replay traffic and a fixed seed. A retry with the same config should fail the same way. CONFIGURE can only change context_length, scene_file or trafficsim_device, and none of those affect the ego's motion. The MinADEScorer interpolation error and the containers exiting with codes 143 and 137 come after the run and do not cause the failure. A person should decide whether this setting is valid."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.1038914,
+   "error": null,
+   "recorded": "HALT",
+   "same_as_recorded": true,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "physics / HALT",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "HALT",
+    "params": {}
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.0819454,
+   "error": null,
+   "recorded": "HALT",
+   "same_as_recorded": true,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "physics / HALT",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "HALT",
+    "params": {},
+    "reason": "The physics bound failed (max_abs_accel 10.7 > 10.0) on a seeded, deterministic config with ego_speed_scale 1.2 and the linear controller, so the acceleration most likely comes from the stress knob itself. A RE-RUN or RESTART_CLEANUP would repeat the same motion. CONFIGURE cannot help: context_length must stay 8, trafficsim_device does nothing with replay traffic, and scene_id/planner_delay_us cannot be changed. The MinADEScorer interpolation error and the container exit codes 143/137 come after the run (scoring and teardown), not from the machine. A person should decide whether ego_speed_scale 1.2 is valid for this scene."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.10518119999999999,
+   "error": null,
+   "recorded": "HALT",
+   "same_as_recorded": true,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "process_lost / RESTART_CLEANUP",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "RESTART_CLEANUP",
+    "params": {},
+    "reason": "process_lost: the launcher died without writing an exit code, so this run's containers may still be running. The only error line is a harmless NvSwitch/NvLink warning, so nothing points to a bad config or a machine-wide problem. This is attempt 1 of 3. RESTART_CLEANUP runs docker compose down on this run's containers and queues it again with the same config."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.099545,
+   "error": null,
+   "recorded": "RESTART_CLEANUP",
+   "same_as_recorded": true,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "process_lost / RESTART_CLEANUP",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "RESTART_CLEANUP",
+    "params": {},
+    "reason": "process_lost: the launcher died without writing an exit code, so this run's containers may still be up. The only error line is the harmless NvSwitch 'no switches to monitor' warning, so nothing points to a config or machine-wide fault. Bring down this run's containers and queue the same config again (attempt 1 of 3)."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.1151634,
+   "error": null,
+   "recorded": "RESTART_CLEANUP",
+   "same_as_recorded": true,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "wizard_exit_code / HALT",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "HALT",
+    "params": {},
+    "reason": "This was attempt 3 of 3, so HALT is the only recovery the validator will accept. The run failed when the driver's TorchScript model ran out of CUDA memory: it tried to allocate 576 MiB on GPU 0 with only 195 MiB free. Other processes were holding most of the GPU (8.17 GiB, 5.32 GiB and more). The runtime then exited with code 1 and wrote no metrics.parquet. Changing trafficsim_device would not help, because it is already cpu and the memory went to the driver model on the GPU. A person needs to free GPU memory taken by processes that are not AlpaSim before this run is queued again."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.10527619999999999,
+   "error": null,
+   "recorded": "HALT",
+   "same_as_recorded": true,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "wizard_exit_code / RE-RUN",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "RE-RUN",
+    "params": {},
+    "reason": "The driver hit CUDA out of memory in TorchScript: 576 MiB was requested with only 467 MiB free on a 23.5 GiB GPU. The memory was held by other processes, likely other runs in flight. That made the drive RPC fail and the runtime exit before writing metrics.parquet. This is transient GPU contention, not a config fault. trafficsim_device is already cpu, so CONFIGURE has nothing to free. CLEANUP_ENV and RESTART_CLEANUP do not free GPU memory held by runs still in flight. With attempt 1 of 3, retrying the same config is the right step."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.1544338,
+   "error": null,
+   "recorded": "RE-RUN",
+   "same_as_recorded": true,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "wizard_exit_code / RE-RUN",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "RE-RUN",
+    "params": {},
+    "reason": "The driver hit a CUDA out-of-memory error inside TorchScript partway through the drive. The GPU had only 512 MiB free because several other processes were holding GPU memory (7.74 GiB, 5.51 GiB and more). The run passed the machine check at launch, so GPU memory most likely ran short because other runs were sharing the GPU at the same time, not because of this config. trafficsim_device is already cpu, so CONFIGURE cannot cut this run's GPU use, and context_length must stay 8. Runtime exited with code 1 and the controller and physics containers were stopped with code 143, so nothing of this run is left on the machine. This is attempt 1 of 3, so launching again with the same config should work once the other runs release GPU memory."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.0921524,
+   "error": null,
+   "recorded": "RE-RUN",
+   "same_as_recorded": true,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "wizard_exit_code / RE-RUN",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "RE-RUN",
+    "params": {},
+    "reason": "The run crashed because the GPU ran out of memory (CUDA out of memory) during drive inference, with only 95 MiB free on the GPU. Several other processes were each holding GPU memory (8.83 GiB, 5.51 GiB and more), most likely other runs in flight. That kind of contention is temporary. trafficsim_device is already cpu, so no config change would lower this run's GPU use. The containers already exited, so there is nothing to clean up. This was attempt 1 of 3, so retry with the same config."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.147679,
+   "error": null,
+   "recorded": "RE-RUN",
+   "same_as_recorded": true,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "wizard_exit_code / RESTART_CLEANUP",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "CLEANUP_ENV",
+    "params": {},
+    "reason": "The run launched (attempt 1 of 3), but Docker could not set up the runtime-0 container's port mapping ('driver failed programming external connectivity'). That usually means something on the machine already holds the port, such as leftover containers or networks from an ended AlpaSim run. The config is fine, so CONFIGURE would not help. RESTART_CLEANUP only cleans this run's own containers, which may not be what holds the port. CLEANUP_ENV removes leftovers from ended runs across the machine, leaves runs in flight alone, and queues this run again with the same config."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.1307344,
+   "error": null,
+   "recorded": "RESTART_CLEANUP",
+   "same_as_recorded": false,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "wizard_exit_code / RESTART_CLEANUP",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "CLEANUP_ENV",
+    "params": {},
+    "reason": "Docker could not program external connectivity (port publishing) for this run's prometheus-0 endpoint, so compose up failed before runtime-0 produced metrics. That usually means a host port is still held by leftovers from an ended AlpaSim run. This is a machine problem, not a config problem. RESTART_CLEANUP only cleans this run's containers and would not free a port held by another run, so CLEANUP_ENV removes the stale containers and networks and queues this run again with the same config (attempt 1 of 3)."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.13026480000000001,
+   "error": null,
+   "recorded": "RESTART_CLEANUP",
+   "same_as_recorded": false,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-diagnose",
+   "kind": "wizard_exit_code / RESTART_CLEANUP",
+   "loaded": [
+    "simgate-diagnose"
+   ],
+   "answer": {
+    "skill": "CLEANUP_ENV",
+    "params": {},
+    "reason": "The launch failed while Docker was setting up networking. It could not set up external connectivity (port publishing) for this run's prometheus container (lane_keeping_llm_v2_011-prometheus-0-1). The usual cause is a host port still held by a leftover container from an AlpaSim run that already ended, or a stale network. The config was not the cause: context_length is 8, and the runtime never started. The leftover is outside this run, so RESTART_CLEANUP would not remove it. CLEANUP_ENV removes ended-run containers and unused networks across the machine, then queues the run again with the same config. This is attempt 1 of 3."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.0855748,
+   "error": null,
+   "recorded": "RESTART_CLEANUP",
+   "same_as_recorded": false,
+   "recorded_passes_check": true
+  },
+  {
+   "expect": "simgate-plan",
+   "kind": "categories/lane_keeping",
+   "loaded": [
+    "simgate-plan"
+   ],
+   "answer": {
+    "question": "In lane-following scenes with no turn and other vehicles alongside or ahead, which combinations of a sideways plan error (-0.5 to +0.5 m) and ego speed at hand-off (0.6x to 1.4x recorded) make the ego leave its lane into another road user or off the road, and which 5 settings, each on a different scene, are most challenging when confirmed by repeats?",
+    "objective": "Find the 5 settings of lateral_bias_m and ego_speed_scale, each on a different scene, whose failure rate is surely above 0.5. A failure is a front or side collision or leaving the road after the policy takes over. Prefer large biases of either sign combined with high or low hand-off speeds, and repeat promising settings to confirm them instead of spreading single runs. Ignore rear-end contacts from replayed traffic. Treat near misses (small minimum distance) only as hints for where to search next.",
+    "vary": [
+     "lateral_bias_m",
+     "ego_speed_scale"
+    ],
+    "scenes": [
+     "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+     "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+     "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+     "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+     "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+     "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+     "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+     "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+     "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+     "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+     "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+     "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c"
+    ],
+    "rounds": 5,
+    "per_round": 10,
+    "rationale": "The scenes all have a recorded turn of none, at least one vehicle ahead or alongside (lead_vehicle or merge_cut_in tag, or a lead or cut-in key actor), and passed at 0 delay. A failure here can therefore be blamed on the bias and speed knobs rather than on the scene. Among the qualifying scenes I kept the 12 where the ego came closest to other traffic (0.01 to 1.2 m) and drove far enough for a sideways error to matter; scenes under about 10 m of travel were dropped. The study varies only lateral_bias_m and ego_speed_scale. Traffic is replayed as recorded, as with scripted Euro NCAP LSS targets, and delay and waypoint noise are fixed at 0. The plan uses 50 of the 60 runs. Five rounds of 10 let the proposer screen settings first and then repeat the promising ones until five settings on different scenes show a failure rate surely above 0.5. Limits: (1) The bias is a constant offset of the plan, not the steady sideways drift used in LSS tests, so the study cannot reproduce a specific LSS lateral approach speed. (2) A \u00b10.5 m offset on its own may not push a typical car out of a 3.5 m lane, so some scenes may never fail, and fewer than 5 confirmed cases is a possible outcome. (3) Replayed traffic does not react, so oncoming or overtaking vehicles will not avoid the ego, and rear-end contacts are not counted. (4) Above 1.0x, the ego starts behind its recorded start, off the recording for the first second or two of the warm-up. (5) The scene data does not say whether the nearby vehicle is beside, oncoming or ahead, so the plan cannot separate LSS road-edge, oncoming and overtaking sub-cases. That would need triage of the failed runs. Near misses will appear in the results as minimum distance but do not count toward the goal.",
+    "fixed": {
+     "traffic": "replay",
+     "planner_delay_us": 0,
+     "waypoint_noise_std": 0.0,
+     "controller": "linear"
+    },
+    "goal": {
+     "type": "top_k",
+     "k": 5,
+     "high_min": 0.5,
+     "distinct_scenes": true
+    }
+   },
+   "chose_right": true,
+   "passes_check": false,
+   "problem": "fixed settings: compare, control_timestep_us, retime_class, retime_tracks, traffic",
+   "cost_usd": 0.3311194,
+   "error": null
+  },
+  {
+   "expect": "simgate-plan",
+   "kind": "hard/car_conflicts_3knobs_2hz",
+   "loaded": [
+    "simgate-plan"
+   ],
+   "answer": {
+    "question": "In lead-vehicle and cut-in scenes that pass as recorded, which combinations of the other car's timing, that car's speed and the ego's speed at hand-off make VaVAM, planning at 2 Hz, collide with its front or side or leave the road, and what are the 5 hardest such cases, each on a different scene and confirmed by repeats?",
+    "objective": "Find settings of actor_time_shift_s, actor_speed_scale and ego_speed_scale that make the policy fail (front or side collision, or leaving the road) on scenes where a car cuts in or slows ahead. The goal is 5 settings on 5 different scenes whose failure rate is surely above 0.5, so repeat promising settings until they are confirmed. Failures here are rare: spread early runs across scenes and the corners of the three-knob space (e.g. the car earlier and slower with a faster ego), then focus on scenes that fail or come close. Use near misses (small minimum distance) to guide the search when nothing fails. Rear-end hits by replayed traffic do not count.",
+    "vary": [
+     "actor_time_shift_s",
+     "actor_speed_scale",
+     "ego_speed_scale"
+    ],
+    "scenes": [
+     "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+     "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+     "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+     "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+     "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+     "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+     "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+     "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+     "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+     "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+     "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+     "clipgt-098e2482-6db2-473b-b08a-2a80be9320f3",
+     "clipgt-1bfd39ec-e09c-41fd-94e7-5fa70aac3a47",
+     "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+     "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+     "clipgt-11fce928-d921-42fb-b202-29608242745a"
+    ],
+    "rounds": 6,
+    "per_round": 10,
+    "rationale": "The candidate scenes are the 16 that match the brief's scope. Each is tagged merge_cut_in or lead_vehicle, passed its earlier run at the recorded setting, and has a recorded car to retime. They are listed with the closest earlier approaches first. 023b7fcc, 096988dd, 19f339ba, 12855a41, 0dbb91dd and 187e6244 came within 0.01 to 0.23 m, so a small retime may tip them into a failure. Scenes with a known lead or cut-in car retime only that car, as retime_tracks lists, so the knobs act on 'that car' as the brief says. 054b5901 and 02eadd92 only list a crossing car, so they retime every automobile. I left out some scenes that match the tags. 0fa7060f, 15dd433e, 0ac02819 and 10d64934 had the ego drive less than 9 m, too little to set up a conflict. The scenes with no known car (e.g. 04749bb9, 05f35348, 0ce6f2a3, 1b7d131a, 16195ead, 1bccdc21, 166fe701, 0e256b3c, 15d28b17) might have no automobile, and then their runs fail. Scene 01d503d4 appears twice in the input and is used once. Traffic is replay because the actor knobs need it. The goal is top_k with k=5, high_min 0.5 and distinct_scenes, which matches 'the 5 most challenging cases, each on a different scene, confirmed by repeats'. Six rounds of 10 use the 60-run budget and let the proposer adapt: about 30 to 40 runs to search and the rest to repeat settings until they are confirmed. Each scene has 270 settings (9 x 6 x 5) and failures are rare, so 60 runs cannot map the space. They can only look for failing corners, and the goal may well not be met. In that case the report should rank the settings that failed with fewer repeats, then near misses by minimum distance, as the brief asks. The goal cannot express that ranking. Two limits apply. First, no plan field sets the planning rate. The plan assumes the study runs at 2 Hz as the brief states. The 'passes as recorded' screen comes from earlier single runs that may not have been at 2 Hz, and one pass is not proof of a zero failure rate. Second, ego_speed_scale above 1 starts the ego behind its recorded start, off the recording for the first second or two of the warm-up.",
+    "fixed": {
+     "traffic": "replay",
+     "retime_class": "automobile",
+     "retime_tracks": {
+      "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc": "12",
+      "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e": "2",
+      "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a": "18",
+      "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c": "31",
+      "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc": "7",
+      "clipgt-187e6244-f541-48ed-8372-62d6da8b547a": "48",
+      "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554": "18",
+      "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045": "1",
+      "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c": "21",
+      "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770": "5",
+      "clipgt-098e2482-6db2-473b-b08a-2a80be9320f3": "18",
+      "clipgt-1bfd39ec-e09c-41fd-94e7-5fa70aac3a47": "9",
+      "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a": "14",
+      "clipgt-11fce928-d921-42fb-b202-29608242745a": "8"
+     }
+    },
+    "goal": {
+     "type": "top_k",
+     "k": 5,
+     "high_min": 0.5,
+     "distinct_scenes": true
+    }
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.3479802,
+   "error": null
+  },
+  {
+   "expect": "simgate-plan",
+   "kind": "categories/cut_in_merge",
+   "loaded": [
+    "simgate-plan"
+   ],
+   "answer": {
+    "question": "In merge and cut-in scenes, which timings and speeds of the other cars make the driving policy collide or leave the road, and what are the 5 most challenging cases, each on a different scene and confirmed by repeats?",
+    "objective": "Find timing shifts (-2 s to +2 s) and speed scales (0.5x to 2x) for the recorded cars that make the policy have a front or side collision or leave the road in merge/cut-in scenes. Aim for 5 settings on 5 different scenes whose failure is confirmed by repeats, with near misses ranking next. Ignore rear-end hits, because replayed traffic cannot brake for the ego, and do not spend runs on settings that are clearly safe.",
+    "vary": [
+     "actor_time_shift_s",
+     "actor_speed_scale"
+    ],
+    "scenes": [
+     "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+     "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+     "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+     "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+     "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+     "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+     "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+     "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02"
+    ],
+    "rounds": 5,
+    "per_round": 10,
+    "rationale": "The brief asks to retime recorded cars in merge_cut_in scenes with replayed traffic, so the plan varies actor_time_shift_s and actor_speed_scale over their full legal ranges, with retime_class automobile and replay traffic. Of the 8 scenes chosen, all are tagged merge_cut_in and all passed the earlier 0-delay run, so any failure found can be put down to the retiming and not to a scene that already fails. Three of them have an identified cut-in car (0cf6368d actor 21, 12855a41 actor 31, 1c45ce3a actor 14), and only that car is retimed there. The other five came closest to another car at baseline (0.01 to 0.26 m) and have no identified cut-in actor, so their whole automobile class is retimed, as the brief says. Eight scenes give spare candidates if some never break. The study runs 5 rounds of 10, which is 50 runs and matches the brief's budget of about 50. That lets the proposer explore early and spend later rounds repeating promising settings. The top_k goal needs 5 settings on 5 different scenes whose failure rate is surely above 0.5, which takes about 5 repeats each; the study stops early if it gets there. What it cannot answer: the tags do not separate a car cutting in from the ego merging, so cases may be of either kind. Merge scenes that already failed at baseline were left out, so their behaviour is not covered. If a chosen scene has no recorded automobile its runs will fail, which wastes budget. With about 50 runs, not all 5 cases may reach confirmation, and the closest near misses will be reported in their place.",
+    "fixed": {
+     "traffic": "replay",
+     "retime_class": "automobile",
+     "retime_tracks": {
+      "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c": "21",
+      "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c": "31",
+      "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a": "14"
+     }
+    },
+    "goal": {
+     "type": "top_k",
+     "k": 5,
+     "high_min": 0.5,
+     "distinct_scenes": true
+    }
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.3077422,
+   "error": null
+  },
+  {
+   "expect": "simgate-propose",
+   "kind": "cut_in_merge",
+   "loaded": [
+    "simgate-propose"
+   ],
+   "answer": {
+    "runs": [
+     {
+      "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+      "actor_time_shift_s": 1.0,
+      "actor_speed_scale": 1.0,
+      "why": "Repeat S7 (1/1 failed at a +1.0 s delay): two more failures give 3/3, which puts its failure range above 0.5 and confirms this scene."
+     },
+     {
+      "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+      "actor_time_shift_s": 1.0,
+      "actor_speed_scale": 1.0,
+      "why": "Second repeat of S7 to bring it to three runs, the number needed to confirm it."
+     },
+     {
+      "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+      "actor_time_shift_s": 0.5,
+      "actor_speed_scale": 1.0,
+      "why": "Earlier and faster car settings came within 0.01 to 0.04 m without failing, so try a later car at its recorded speed, which caused failures on two other scenes."
+     },
+     {
+      "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+      "actor_time_shift_s": 0.0,
+      "actor_speed_scale": 1.5,
+      "why": "The first run of this scene came within 0.08 m with no changes; a faster car at the recorded timing may turn that near miss into contact."
+     },
+     {
+      "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+      "actor_time_shift_s": 0.5,
+      "actor_speed_scale": 1.0,
+      "why": "S3 (earlier and faster car) passed 0/3 times, with contact at handoff; a later car is the untried direction from a 0.26 m near miss with no changes."
+     },
+     {
+      "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+      "actor_time_shift_s": -0.5,
+      "actor_speed_scale": 1.0,
+      "why": "A smaller shift to an earlier car, between the near miss with no changes and S3, may avoid contact at handoff and still get close."
+     },
+     {
+      "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+      "actor_time_shift_s": 1.0,
+      "actor_speed_scale": 1.0,
+      "why": "An earlier, faster car came no closer than 1.03 m, so probe the opposite direction: a later car, which caused a failure on 096988dd."
+     },
+     {
+      "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+      "actor_time_shift_s": 0.5,
+      "actor_speed_scale": 1.0,
+      "why": "First probe of this scene (1.06 m with no changes), using the later-car setting that caused failures on two other scenes."
+     },
+     {
+      "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+      "actor_time_shift_s": 0.5,
+      "actor_speed_scale": 1.0,
+      "why": "First probe of this scene (1.29 m with no changes), using the later-car setting that caused failures on two other scenes, to look for a fifth scene."
+     }
+    ],
+    "plan": "S1 (023b) and S12 (19f3) are confirmed. Confirm 096988dd through S7 with two repeats. Probe the near-miss scenes 12855a41 and 054b5901 in directions not tried yet. Make first probes on 0cf6, 09a9 and 0e89 with a later car, the shift that has caused failures elsewhere. In later rounds, repeat any new failure up to 3/3 and drop settings that stay far from contact."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.18588179999999999,
+   "error": null
+  },
+  {
+   "expect": "simgate-propose",
+   "kind": "lead_vehicle",
+   "loaded": [
+    "simgate-propose"
+   ],
+   "answer": {
+    "runs": [
+     {
+      "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+      "actor_time_shift_s": 0.0,
+      "actor_speed_scale": 0.5,
+      "planner_delay_us": 100000,
+      "why": "Slowing the lead car alone did not cause a failure here in 3 runs, but the closest approach was 0.00 to 0.03 m, so adding 100 ms of delay may turn these near misses into collisions."
+     },
+     {
+      "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+      "actor_time_shift_s": 0.0,
+      "actor_speed_scale": 0.5,
+      "planner_delay_us": 100000,
+      "why": "Repeat the 100 ms delay setting so one sample does not decide whether this scene now fails in most runs."
+     },
+     {
+      "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+      "actor_time_shift_s": 0.0,
+      "actor_speed_scale": 0.5,
+      "planner_delay_us": 0,
+      "why": "S5 came within 0.06 m in its only run, so repeat it to see whether retiming alone sometimes causes a failure."
+     },
+     {
+      "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+      "actor_time_shift_s": 0.0,
+      "actor_speed_scale": 0.5,
+      "planner_delay_us": 0,
+      "why": "A second repeat of S5 narrows its wide 0 to 0.73 failure range before deciding whether this scene needs delay."
+     },
+     {
+      "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+      "actor_time_shift_s": -1.0,
+      "actor_speed_scale": 0.5,
+      "planner_delay_us": 0,
+      "why": "S1, where the lead car moves 1 s earlier, came within 0.00 m without a policy failure, which makes it a better route to a confirmed failure on this scene than S2, whose only failure may be a rendering artifact."
+     },
+     {
+      "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+      "actor_time_shift_s": -1.0,
+      "actor_speed_scale": 0.5,
+      "planner_delay_us": 0,
+      "why": "Repeat S1 to estimate its failure rate."
+     },
+     {
+      "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+      "actor_time_shift_s": 0.0,
+      "actor_speed_scale": 0.5,
+      "planner_delay_us": 0,
+      "why": "First run on this scene with the lead car slowed, which caused failures in most runs on two other scenes; it is a fresh option for the 3 confirmed scenes still needed."
+     }
+    ],
+    "plan": "S9 (12855a41) and S10 (19f339ba) are confirmed: each failed 4 of 4 runs. Three more scenes are needed. On 096988dd, slowing the lead car alone gave only near misses, so we are adding 100 ms of planner delay; if that still passes, we go to 150 to 200 ms. We are repeating the near misses on 09a95ffa (S5) and on 023b7fcc with the lead car 1 s earlier (S1), and running 0e899dd3 for the first time. 0dbb91dd and 0cf6368d get no more runs because they clearly pass, with a closest approach above 2.4 m. Any scene that keeps passing with retiming alone gets delay of up to 200000 us in later rounds."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.20267200000000002,
+   "error": null
+  },
+  {
+   "expect": "simgate-propose",
+   "kind": "pedestrian_ego_speed",
+   "loaded": [
+    "simgate-propose"
+   ],
+   "answer": {
+    "runs": [
+     {
+      "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+      "ego_speed_scale": 1.4,
+      "actor_time_shift_s": 0.0,
+      "why": "S10 has failed 2 of 2 and passes at 1.0x and 1.2x, so a third failure would confirm a failure caused by the speed\u2013timing combination on this scene."
+     },
+     {
+      "scene_id": "clipgt-0d4893f5-f575-4d98-b33f-0bdf3816bbed",
+      "ego_speed_scale": 1.2,
+      "actor_time_shift_s": -0.5,
+      "why": "S4 has failed 1 of 1 with no artifact flag; repeating it moves it toward confirmation as a second scene."
+     },
+     {
+      "scene_id": "clipgt-0d4893f5-f575-4d98-b33f-0bdf3816bbed",
+      "ego_speed_scale": 1.2,
+      "actor_time_shift_s": -0.5,
+      "why": "This second repeat of S4 makes 3 runs in total, which is enough for the lower bound to clear 0.5 if all three fail."
+     },
+     {
+      "scene_id": "clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654",
+      "ego_speed_scale": 1.2,
+      "actor_time_shift_s": -0.5,
+      "why": "S16 has failed 1 of 1 with no artifact flag; repeating it moves it toward confirmation as another distinct scene."
+     },
+     {
+      "scene_id": "clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654",
+      "ego_speed_scale": 1.2,
+      "actor_time_shift_s": -0.5,
+      "why": "This second repeat of S16 makes 3 runs in total, which is enough for the lower bound to clear 0.5 if all three fail."
+     },
+     {
+      "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+      "ego_speed_scale": 1.4,
+      "actor_time_shift_s": -1.5,
+      "why": "At 1.4x and -1 s this scene missed by 0.19 m and it does not fail at nominal, so the pedestrian stepping out earlier may turn the near miss into a failure caused by the combination."
+     },
+     {
+      "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+      "ego_speed_scale": 1.4,
+      "actor_time_shift_s": -1.5,
+      "why": "A repeat of the new near-miss step starts the run count this setting needs if it fails."
+     },
+     {
+      "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+      "ego_speed_scale": 1.4,
+      "actor_time_shift_s": -0.5,
+      "why": "This brackets the 0.19 m near miss from the other side of the timing, in case the conflict window is at a later pedestrian step-out."
+     },
+     {
+      "scene_id": "clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa",
+      "ego_speed_scale": 1.4,
+      "actor_time_shift_s": -0.5,
+      "why": "This scene missed by 0.11 m at 1.2x and -0.5 s, so raising the ego speed should close the gap and give a fallback fifth scene."
+     },
+     {
+      "scene_id": "clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa",
+      "ego_speed_scale": 1.4,
+      "actor_time_shift_s": -0.5,
+      "why": "Repeating this step-up builds the run count it would need for confirmation."
+     }
+    ],
+    "plan": "S12 is confirmed. This round aims to confirm S10 (0e002edd, needs one more failure), S4 (0d4893f5) and S16 (1bbe02fc), which would give 4 scenes. S4 and S16 also fail at nominal settings, so the search moves the near misses on scenes that pass at nominal toward failure. On 18f8dbd6 (0.19 m at 1.4x, -1 s) it tries -1.5 s and -0.5 s at 1.4x, and on 048b974e (0.11 m at 1.2x, -0.5 s) it tries 1.4x. In rounds 4\u20135, repeat whichever new setting fails to confirm the fifth scene, and swap out S4 or S16 for a speed\u2013timing setting if one is confirmed. Note that S10 and S12 failures are flagged as possible rendering artifacts, so report them with that caveat."
+   },
+   "chose_right": true,
+   "passes_check": true,
+   "problem": null,
+   "cost_usd": 0.21457320000000002,
+   "error": null
+  }
+ ]
+}

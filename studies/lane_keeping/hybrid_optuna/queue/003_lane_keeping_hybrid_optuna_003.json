@@ -1,0 +1,30 @@
+{
+  "name": "lane_keeping_hybrid_optuna_003",
+  "run_dir": "diag/lane_keeping_hybrid_optuna_003",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": -0.5,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.4
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 998703,
+  "launched_at": 1792013748.6778524,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1",
+  "quarantine": "runs/r14/physics.txt is identical line for line to r24's (same scene, labelled with the opposite lateral_bias_m -0.5 vs +0.5), including off_recording_m; after the warm-up the ego holds exactly 41.25 m/s with ~0 accel and 0 yaw rate for 6 s and drives into the lead car (lead_gap 2.3 m), with tracking_error 40.09 vs ~2 elsewhere, so the motion is not following the biased plan and the run does not measure its labelled bias."
+}

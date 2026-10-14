@@ -1,0 +1,119 @@
+[
+ {
+  "run": "lead_vehicle_hybrid_optuna_r2_002",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "After the 4.6 s handoff on the highway, the ego braked hard without a reason ahead (17\u219210 m/s with a 30\u201348 m gap). It also yawed left out of its lane, against the RIGHT/STRAIGHT command. Its front hit actor 1, which was in the adjacent left lane; the hard braking also got the ego rear-ended.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13199,
+   "output_tokens": 818,
+   "duration_ms": 9672
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_optuna_r2_005",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a clear multi-lane highway with the lead car 37+ m ahead, the ego braked for no apparent reason, slowing from about 17 to 10 m/s while the recorded human drove on. It then steered left, and its front hit actor 1 in the adjacent left lane, which by then was just ahead of the ego. The ego was also rear-ended after its unneeded braking.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13229,
+   "output_tokens": 748,
+   "duration_ms": 8684
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_optuna_r2_015",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a straight, clear highway, the policy braked for no reason, from 17 to 10 m/s, even though the closest vehicle ahead was 37 to 50 m away. That dropped the ego about 8 m behind its recorded position, and actor 1 in the lane to the left moved up alongside it. At the same time the ego drifted left toward the lane line, and its front-left corner hit the rear-right of actor 1 (the later rear contact on the ego probably came from the braking).",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16061,
+   "output_tokens": 859,
+   "duration_ms": 10109
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_optuna_r2_016",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "After handoff on a straight multi-lane highway, the ego braked hard for no clear reason (17 \u2192 9.7 m/s with a clear lane ahead) and drifted left out of its lane. Its front-left corner hit actor 1, the car just ahead in the adjacent left lane, while the recorded human trajectory stayed in its lane and went on ahead.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13229,
+   "output_tokens": 747,
+   "duration_ms": 7961
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_optuna_r2_040",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was following the recorded human path in heavy, slow highway traffic. It closed steadily on the pickup ahead in its lane (actor 6): the gap fell from 15 m to 6.3 m at handoff (4.7 s). Only 0.5 s after taking over, the policy hit the pickup's rear at 5.2 s. In that time it braked from 6.5 to 4.9 m/s, which was not enough. The ego was also rear-ended at some point.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16061,
+   "output_tokens": 926,
+   "duration_ms": 10614
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_optuna_r2_042",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a wet multi-lane highway with a STRAIGHT command, the policy's planned path bent left. The ego drifted out of its lane, away from the recorded trajectory, and its front hit pickup 41, which was passing it in the left lane. The pickup was already alongside at 6.3 s, and the ego kept moving left into it instead of holding its lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13219,
+   "output_tokens": 635,
+   "duration_ms": 11055
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_optuna_r2_044",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway with a STRAIGHT (later RIGHT) command, the policy's plan veered left toward the adjacent left lane. Pickup 41 was coming up alongside in that lane, and at 7.3s the ego's front clipped its rear quarter while the ego drifted over at about 4.4 m/s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13221,
+   "output_tokens": 619,
+   "duration_ms": 6887
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_optuna_r2_045",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "Going straight on a highway, the ego closed on a slower pickup (actor 5) in its lane, from a 15 m gap to 6.3 m by handoff at 4.7 s, while holding about 6.8 m/s. The policy braked hard after taking over (6.5 to 4.9 m/s), but it had only 0.5 s and hit the pickup's rear at 5.2 s.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13231,
+   "output_tokens": 1574,
+   "duration_ms": 16317
+  }
+ },
+ {
+  "run": "lead_vehicle_hybrid_optuna_r2_046",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was going straight in a congested lane at about 6.8 m/s and closing on a slower blue pickup ahead (actor 5) at roughly 3.5 m/s. The policy took over at 4.7 s with only about 6 m of gap. It braked to 4.9 m/s, but its front hit the pickup 0.5 s later, at 5.2 s. The ego was still exactly on the recorded human path (0.0 m off), and the reported gap was 4.9 m even at contact, so the short takeover window and a possible mismatch between the pickup's recorded size or behaviour and the human drive make it unclear how much of this is the policy's fault.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16050,
+   "output_tokens": 1174,
+   "duration_ms": 13015
+  }
+ }
+]

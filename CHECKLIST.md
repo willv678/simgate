@@ -13,7 +13,7 @@ is. Paths are under `research/`.
    (`figures/cards/spot/README.md`). 5 counted failures, 10 contacts not
    counted, 5 no contact. Still needs a person to mark each card "makes
    sense / does not".
-3. [x] **Inner loop at work**: `figures/meeting/launch_outcomes.png` (3,662
+3. [x] **Inner loop at work**: `figures/paper/fig_inner_loop.pdf` (4,668
    launches) and `figures/meeting/self_healing.png` (144 failed launches:
    the agent's fix and how each ended; 129 healed).
 4. [x] **Skill contract figure**: `figures/meeting/skill_contract.png`.
@@ -59,7 +59,9 @@ is. Paths are under `research/`.
 
 14. [x] **Skills design**: `SKILLS.md`: the seven markdown contracts, each
     with when / what it sees / fixed answers / code check / script; how they
-    map to Claude's Agent Skills format.
+    map to Claude's Agent Skills format. **14 Oct: packaged as real Agent
+   Skills** (`research/.claude/skills/`, `harness/package_skills.py`), plus
+   an operator skill (`simgate`); routing test in `SKILLS.md`.
 
 ## Literature and figures
 
@@ -72,8 +74,11 @@ is. Paths are under `research/`.
 
 ## Carried over
 
-17. [ ] **Optuna + repeat results**: running (2 of 9 arms in progress,
-    about 2.5-3 h per arm).
+17. [x] **Optuna + repeat results**: done at 10 Hz, 3 replicates each of
+    Optuna + repeat and Optuna + AI on the three studies (`FACTS.md`
+    "Optuna with confirmation"). Optuna alone is no better than random +
+    repeat; Optuna + AI is fastest on pedestrian (21 runs, every replicate).
+    2 Hz Optuna arms queued 14 Oct.
 18. [x] **AI v2**: `llm_v2`, `hybrid_v2` (`advisor/OUTER_V2.md`): fixed for
     replayed traffic, given each failure's triage, the scenes' facts and
     its own notes. Tested offline; queued on lane keeping (unseen study).

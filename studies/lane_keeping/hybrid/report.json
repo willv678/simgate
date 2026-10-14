@@ -1,0 +1,582 @@
+{
+ "answer": {
+  "answer": "The goal was not met: four of the five scenes have a confirmed hard case and the fifth does not. In two of the four, VaVAM failed with no sideways error at all. Clip 19f339ba fails at recorded speed (S24) and clip 096988dd fails at 1.2x (S8), both by drifting left into a car in the next lane. Clip 0ce6f2a3 fails at 1.4x by running onto a median at a fork (S17). Only clip 09a95ffa needed a sideways error: it fails at +0.1 m and 1.4x but not at 0 m and 1.4x (S14 vs S13). Each of these four rests on a handful of repeats, so their failure ranges reach down only to about the low 0.5s\u20130.6. At S17 and S14 every failure is also flagged as a possible artifact, because the ego ended over 3.5 m from the recording. Triage blames the policy's own steering, not the rendering. The planned corners (\u00b10.3\u20130.5 m, mostly at 1.2\u20131.4x) were never run, and negative (rightward) errors were tried only twice. So this shows which combinations break VaVAM in these scenes, not the worst ones in the grid.",
+  "findings": [
+   {
+    "claim": "On clip 19f339ba the policy fails with no sideways error at recorded speed: every run at 0 m / 1.0x failed. It braked hard for no reason, drifted left and its front hit the car in the adjacent left lane. The one run at 1.2x failed the same way. Speed and bias are not needed to break this scene, which goes against the plan's assumption that every chosen scene passed at baseline.",
+    "settings": [
+     "S24",
+     "S25"
+    ]
+   },
+   {
+    "claim": "On clip 096988dd every run at 0 m / 1.2x failed, and the single run at 1.4x also failed. In each, the plan bent left against a STRAIGHT/RIGHT command and the front struck a pickup passing on the left. The single run at 1.0x did not fail, which hints that speed above the recorded value triggers it.",
+    "settings": [
+     "S8",
+     "S9",
+     "S7"
+    ]
+   },
+   {
+    "claim": "On clip 0ce6f2a3 every run at 0 m / 1.4x left the road. The ego kept straight at a fork with a RIGHT command and ran onto the median nose. At 1.2x one run failed, and that one was a missed left curve into parked cars, a different cause. All failures at 1.4x are flagged as possible artifacts (the ego ended about 5 m off the recording), though triage says the camera was clean until the ego was on the median.",
+    "settings": [
+     "S17",
+     "S16",
+     "S15"
+    ]
+   },
+   {
+    "claim": "On clip 09a95ffa a +0.1 m (leftward) error at 1.4x made every run steer left out of its lane into a vehicle in the left lane. Without the error, no run failed at 1.4x or 1.2x, so here the sideways error is what causes the failure. All of these failures are flagged as possible artifacts (the ego ended about 4.9 m off the recording).",
+    "settings": [
+     "S14",
+     "S13",
+     "S12",
+     "S10"
+    ]
+   },
+   {
+    "claim": "On three more scenes a leftward error of +0.1 to +0.2 m brought failures where 0 m had none, all by leaving the road to the left. But each has too few failing repeats to confirm it. Clip 023b7fcc fails more often as the error grows from 0 to +0.1 to +0.2 m. Clips 12855a41 and 1b7d131a each failed in their single run at +0.1 m / 1.0x. On 12855a41 the single run at -0.1 m did not fail.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5",
+     "S22",
+     "S28",
+     "S19",
+     "S20",
+     "S21",
+     "S26",
+     "S27"
+    ]
+   },
+   {
+    "claim": "Triage put every kept failure on the policy, and almost all of them are a leftward departure. Many happen where the route command turns RIGHT at a fork or split: the policy goes straight or left instead of following it. So many of these failures are failures to follow the route command more than plain lane-keeping drift. A leftward (positive) error pushes the same way the policy already drifts.",
+    "settings": [
+     "S5",
+     "S14",
+     "S17",
+     "S22",
+     "S28",
+     "S8",
+     "S24"
+    ]
+   }
+  ],
+  "open": [
+   "Fifth scene: no fourth or fifth repeat landed on a candidate. Repeats at clip 1b7d131a +0.1 m / 1.0x (S28), clip 12855a41 +0.1 m / 1.0x (S22), or clip 023b7fcc +0.2 m / 1.0x (S5) would probably settle it.",
+   "The corners the plan targeted (\u00b10.3 to \u00b10.5 m at 1.2\u20131.4x) were never run, so the hardest combinations in the grid are unknown.",
+   "Rightward errors (negative bias) were tried only twice (S10, S19), so whether VaVAM fails symmetrically, or mainly drifts left, is untested.",
+   "Clip 19f339ba fails at 0 m / 1.0x (S24), and clips 0ce6f2a3 and 096988dd fail with 0 m bias. Several failures also come from ignoring a RIGHT route command at a fork. Re-checking these scenes at baseline, and picking scenes whose route really is straight, would separate lane-keeping drift from route-command failures.",
+   "Every failure at S17 and S14 is flagged as a possible rendering artifact. Triage says the policy drifted first, but these confirmations depend on that reading of the videos.",
+   "Speed scales below 1.0 (0.6\u20130.8x) were never run, so the low-speed half of the question is open."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.897,
+   "run_names": [
+    "lane_keeping_hybrid_001",
+    "lane_keeping_hybrid_015"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.891,
+   "run_names": [
+    "lane_keeping_hybrid_014"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": 0.1,
+   "ego_speed_scale": 1,
+   "runs": 4,
+   "failed": 1,
+   "failure_rate_90": [
+    0.06,
+    0.64
+   ],
+   "possible_artifacts": 1,
+   "criticality": 0.902,
+   "run_names": [
+    "lane_keeping_hybrid_029",
+    "lane_keeping_hybrid_031",
+    "lane_keeping_hybrid_032",
+    "lane_keeping_hybrid_033_a2"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": 0.1,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 1,
+   "failure_rate_90": [
+    0.08,
+    0.75
+   ],
+   "possible_artifacts": 1,
+   "criticality": 0.896,
+   "run_names": [
+    "lane_keeping_hybrid_046",
+    "lane_keeping_hybrid_047",
+    "lane_keeping_hybrid_048"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": 0.2,
+   "ego_speed_scale": 1,
+   "runs": 3,
+   "failed": 2,
+   "failure_rate_90": [
+    0.25,
+    0.92
+   ],
+   "possible_artifacts": 2,
+   "criticality": 0.954,
+   "run_names": [
+    "lane_keeping_hybrid_043",
+    "lane_keeping_hybrid_044",
+    "lane_keeping_hybrid_045"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.509,
+   "run_names": [
+    "lane_keeping_hybrid_007"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.877,
+   "run_names": [
+    "lane_keeping_hybrid_002"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_018",
+    "lane_keeping_hybrid_021",
+    "lane_keeping_hybrid_022"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_027"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "lateral_bias_m": -0.1,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.893,
+   "run_names": [
+    "lane_keeping_hybrid_040"
+   ]
+  },
+  {
+   "id": "S11",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.886,
+   "run_names": [
+    "lane_keeping_hybrid_010"
+   ]
+  },
+  {
+   "id": "S12",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1.2,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.879,
+   "run_names": [
+    "lane_keeping_hybrid_017",
+    "lane_keeping_hybrid_025"
+   ]
+  },
+  {
+   "id": "S13",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.47
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.88,
+   "run_names": [
+    "lane_keeping_hybrid_026",
+    "lane_keeping_hybrid_037",
+    "lane_keeping_hybrid_038"
+   ]
+  },
+  {
+   "id": "S14",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "lateral_bias_m": 0.1,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_039",
+    "lane_keeping_hybrid_041",
+    "lane_keeping_hybrid_042"
+   ]
+  },
+  {
+   "id": "S15",
+   "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.697,
+   "run_names": [
+    "lane_keeping_hybrid_008"
+   ]
+  },
+  {
+   "id": "S16",
+   "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 1,
+   "failure_rate_90": [
+    0.08,
+    0.75
+   ],
+   "possible_artifacts": 1,
+   "criticality": 0.858,
+   "run_names": [
+    "lane_keeping_hybrid_020",
+    "lane_keeping_hybrid_023",
+    "lane_keeping_hybrid_024"
+   ]
+  },
+  {
+   "id": "S17",
+   "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1.4,
+   "runs": 4,
+   "failed": 4,
+   "failure_rate_90": [
+    0.6,
+    1.0
+   ],
+   "possible_artifacts": 4,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_028",
+    "lane_keeping_hybrid_034",
+    "lane_keeping_hybrid_035",
+    "lane_keeping_hybrid_036"
+   ]
+  },
+  {
+   "id": "S18",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.392,
+   "run_names": [
+    "lane_keeping_hybrid_005"
+   ]
+  },
+  {
+   "id": "S19",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": -0.1,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.698,
+   "run_names": [
+    "lane_keeping_hybrid_030"
+   ]
+  },
+  {
+   "id": "S20",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.887,
+   "run_names": [
+    "lane_keeping_hybrid_003"
+   ]
+  },
+  {
+   "id": "S21",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.74,
+   "run_names": [
+    "lane_keeping_hybrid_016"
+   ]
+  },
+  {
+   "id": "S22",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": 0.1,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_050"
+   ]
+  },
+  {
+   "id": "S23",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.509,
+   "run_names": [
+    "lane_keeping_hybrid_006"
+   ]
+  },
+  {
+   "id": "S24",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_004",
+    "lane_keeping_hybrid_011",
+    "lane_keeping_hybrid_012"
+   ]
+  },
+  {
+   "id": "S25",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_013"
+   ]
+  },
+  {
+   "id": "S26",
+   "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.839,
+   "run_names": [
+    "lane_keeping_hybrid_009"
+   ]
+  },
+  {
+   "id": "S27",
+   "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.803,
+   "run_names": [
+    "lane_keeping_hybrid_019"
+   ]
+  },
+  {
+   "id": "S28",
+   "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+   "lateral_bias_m": 0.1,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_049"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 14309,
+  "output_tokens": 2704,
+  "duration_ms": 41622
+ }
+}

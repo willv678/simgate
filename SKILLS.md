@@ -43,12 +43,52 @@ and every contract has the same five parts:
 
 Figure: `figures/meeting/skill_contract.png`.
 
-## Agent Skills packaging
+## Packaged as Claude Agent Skills (14 Oct)
 
-Claude Code's Agent Skills format is a folder with a `SKILL.md` (name,
-description, instructions) and scripts. Each contract above maps onto it
-directly: the contract is the `SKILL.md`, the checker and the actor are its
-scripts. Packaging them that way would let another lab load SimGate's
-skills into their own agent; it is a packaging change, not a behaviour
-change, and is left until the experiments freeze so the runs stay
-comparable.
+Shao, 13 Oct, asked whether these could be real Claude skills. They now are:
+`harness/package_skills.py` writes each contract as an Agent Skill under
+`research/.claude/skills/` (where Claude Code loads a project's skills),
+plus an operator skill:
+
+| skill | from | what it is for |
+|---|---|---|
+| `simgate` | `advisor/OPERATE.md` | operate SimGate: an "if this, run this" table from a person's request to the command (`simgate doctor / new / plan / queue / status`, the report, method comparison, case cards, OpenSCENARIO export), and what the agent never does |
+| `simgate-diagnose` | `CLAUDE.md` | choose a recovery for a FAILED run |
+| `simgate-plan` | `PLAN.md` | brief to study plan |
+| `simgate-propose` | `OUTER.md` (+ `v2.md`) | the next round of runs |
+| `simgate-audit` | `AUDIT.md` | audit a finished batch |
+| `simgate-triage` | `TRIAGE.md` | explain one failure |
+| `simgate-tag-scene` | `TAGS.md` | tag a scene |
+| `simgate-report` | `REPORT.md` | answer the brief |
+
+Each `SKILL.md` is the Agent Skills frontmatter (name; a description saying
+when to use it), the contract unchanged, and the scripts that check and act
+on its answer. `advisor/` stays the source the harness calls, so every run
+so far and every run until the freeze sees exactly the same prompt;
+`test_package_skills.py` fails if the package drifts from it.
+
+**Does Claude choose the right skill by itself?** (`harness/skills_routing.py`,
+`skills_routing.json`). Claude Code was given only the eight skills (no
+system prompt from us, no tools but Skill) and one real SimGate input on
+stdin, with the same instruction for every input: "use the SimGate skill
+that fits it". The answer then went through the same code check the harness
+applies. 22 inputs, $3.29:
+
+| inputs | count | loaded the right skill first | answer passes the code check |
+|---|---|---|---|
+| failed runs (every kind of failure and recorded recovery, 3 of each kind at most) | 16 | 16 | 16 |
+| briefs (lane keeping, cut-in, the three-knob study) | 3 | 3 | 2 |
+| a round of a study after 20 runs (cut-in, lead, pedestrian) | 3 | 3 | 3 |
+
+- 12 of the 16 recoveries are the one the harness's own call chose. The
+  other 4: CLEANUP_ENV where the harness chose RESTART_CLEANUP on three Docker
+  port conflicts (the skill's reason: the port is held by another run's
+  leftovers, which only CLEANUP_ENV removes), and on one environment failure
+  where the harness chose HALT. All 4 pass the check.
+- The rejected plan (lane keeping) put the policy's defaults (delay, noise,
+  controller) under `fixed`, which allows only traffic, retiming, compare and
+  the control step. The check caught it, as it is there to.
+
+So the same markdown works two ways: as a fixed contract the harness hands
+to a headless call (the experiments), and as skills an agent picks up by
+itself (another lab's agent, or a person driving SimGate from Claude Code).

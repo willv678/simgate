@@ -1,0 +1,80 @@
+[
+ {
+  "run": "lead_vehicle_optuna_confirm_014",
+  "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+  "what_happened": "The ego was moving slowly (about 2 m/s, slowing to 0.6) in dense traffic. Following a LEFT command, it angled out of its lane toward the left lane, ending up straddling the lane line about 2.9 m off the recorded path. Its front corner clipped the rear of vehicle 24, which was stopped just ahead-left in the lane it was merging into.",
+  "cause": "turned_into_actor",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13224,
+   "output_tokens": 1046,
+   "duration_ms": 12540
+  }
+ },
+ {
+  "run": "lead_vehicle_optuna_confirm_025",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "In stop-and-go highway traffic the ego follows a blue pickup (actor 6) in its lane. During the log replay before handoff, the gap closed from 15 m to 6.3 m at about 3.5 m/s. The policy took over at 4.7 s and slowed from 6.5 to 5.3 m/s, but the front collision with the pickup was flagged 0.5 s later, while the ego was still exactly on the recorded human path (0.0 m off) and the gap reading was still 4.8 m. That points to an inherited setup or an actor/box mismatch more than a policy error. The ego was also rear-ended at some point.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16051,
+   "output_tokens": 1134,
+   "duration_ms": 12172
+  }
+ },
+ {
+  "run": "lead_vehicle_optuna_confirm_029",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was going straight at about 6.8 m/s and closing on a slower blue pickup (actor 5) in its lane; the gap shrank from 15 m to 6 m before the policy took over at 4.7 s. The policy slowed from 6.5 to 5.3 m/s but hit the pickup's rear only 0.5 s later, still about 0.3 m from the recorded human path, so the closing situation was mostly inherited from the replay, and something also hit the ego's rear.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13233,
+   "output_tokens": 1150,
+   "duration_ms": 12012
+  }
+ },
+ {
+  "run": "lead_vehicle_optuna_confirm_034",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was going straight at about 6.5 m/s in slow highway traffic and was closing on the blue pickup ahead (actor 5): the gap shrank steadily from 15.5 m to 4.9 m. It made front contact at 5.1 s, only 0.4 s after the policy took over, after slowing only slightly (6.5 to 6.3 m/s). The ego was still within about 0.07 m of the recorded human path, so the replayed approach set up the collision more than the policy did, and the lead actor's simulated motion probably doesn't match the real drive.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16050,
+   "output_tokens": 914,
+   "duration_ms": 10426
+  }
+ },
+ {
+  "run": "lead_vehicle_optuna_confirm_036",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was following a blue pickup (actor 5) in the same lane on a busy multi-lane road, going about 6.9 m/s while the gap shrank from about 15 m to 6.3 m before the policy took over at 4.7 s. In the 0.5 s it had, the policy slowed only from 6.5 to 5.3 m/s, and the ego's front hit the pickup's rear at 5.2 s; it was also rear-ended at some point, but the front contact came first.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13226,
+   "output_tokens": 977,
+   "duration_ms": 11184
+  }
+ },
+ {
+  "run": "lead_vehicle_optuna_confirm_046",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was going straight in its lane on the highway and ran into the back of the slower blue pickup ahead (actor 5). Before the policy took over at 4.7 s, the replayed ego had already closed the gap from 15 m to 6.3 m. That left about 0.5 s and very little bumper room, and the policy slowed only from 6.5 to 5.3 m/s before the front collision at 5.2 s.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16031,
+   "output_tokens": 1043,
+   "duration_ms": 11962
+  }
+ }
+]

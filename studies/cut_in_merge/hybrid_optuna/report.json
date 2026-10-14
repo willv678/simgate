@@ -1,0 +1,271 @@
+{
+ "answer": {
+  "answer": "The study confirmed five challenging settings on five different scenes: S5 (09a95ffa, cars 2 s earlier at 1.5x), S1 (023b7fcc, 1 s later at 1.5x), S11 (1c45ce3a, cut-in car 2 s later at its recorded speed), S4 (096988dd, 1.5 s earlier at 1.5x) and S8 (0e899dd3, recorded timing at 2x). Every kept run at each of them failed, but the evidence is thin: each rests on three or four runs, and the 90% ranges only just clear one half. Only three of the five are clearly the policy's failures. In S1 and S8 the ego steered unprompted into a car in the next lane. In S5 it drifted a lane left and did not brake enough for a slower car ahead. In S4 and S11 the replayed car drove into the ego from behind or the side, and in S4 it already overlapped the ego when the policy took over. The plan said to ignore that kind of hit, so those two are better read as artifacts of replaying traffic than as policy weaknesses. Faster cars (1.5x to 2x) appear in four of the five cases, but the timings that broke the policy run from 2 s earlier to 2 s later, so no single timing stands out.",
+  "findings": [
+   {
+    "claim": "On scene 023b7fcc, cars 1 s later at 1.5x made every run fail. Each time the policy changed lanes to the left on its own, against a STRAIGHT-then-RIGHT command, and its front hit the car driving alongside. This is a policy failure.",
+    "settings": [
+     "S1"
+    ]
+   },
+   {
+    "claim": "On scene 09a95ffa, cars 2 s earlier at 1.5x made every run fail. The ego ran about a lane left of the recorded path and closed on a slower car ahead (actor 87) without braking enough. Every run is flagged as a possible artifact because the ego was over 3.5 m off the recorded path. Triage still puts the fault on the policy's lane choice. A single run at 1 s earlier and 2x also failed the same way.",
+    "settings": [
+     "S5",
+     "S6"
+    ]
+   },
+   {
+    "claim": "On scene 0e899dd3, recorded timing with cars at 2x made every run fail, so speed alone was enough to break the policy here. In two runs the ego drifted left into a car in the next lane. In the third, a car merged into the ego after the ego had slowed and fallen behind its recorded position. The camera showed that car heavily smeared, which may have hurt the policy's reaction.",
+    "settings": [
+     "S8"
+    ]
+   },
+   {
+    "claim": "On scene 1c45ce3a, retiming only the marked cut-in car to 2 s later made every run fail. In each run the ego stayed in its lane, close to the recorded path, and the replayed car hit the ego's right side from behind. Triage does not put these on the policy.",
+    "settings": [
+     "S11"
+    ]
+   },
+   {
+    "claim": "On scene 096988dd, cars 1.5 s earlier at 1.5x made every run fail. But a replayed car (actor 9) already overlapped the ego when the policy took over, and then drove through it. This is a spawn or replay artifact, not a driving mistake, even though no run is flagged as a possible artifact.",
+    "settings": [
+     "S4"
+    ]
+   },
+   {
+    "claim": "Scene 054b5901 failed in only one run at recorded timing and 1.5x. In that run the ego ignored a RIGHT command, drifted left and crossed the median edge, which is a policy failure but is also flagged as a possible artifact. The neighbouring setting with cars 1 s later did not fail.",
+    "settings": [
+     "S2",
+     "S3"
+    ]
+   },
+   {
+    "claim": "No failure was found on scenes 12855a41, 0cf6368d or 19f339ba. Only 19f339ba, at 2 s earlier and 2x, had enough runs to look safe at its setting. The other two were each tried at only one setting with one or two runs.",
+    "settings": [
+     "S7",
+     "S9",
+     "S10"
+    ]
+   }
+  ],
+  "open": [
+   "Whether retiming causes the failures at all: the policy's leftward drift in S1, S5 and S8 may also happen with recorded timing and speed. Replay runs at 0 s and 1.0x on scenes 023b7fcc, 09a95ffa and 0e899dd3 would settle this.",
+   "Policy-caused replacements for S4 and S11: the replayed car hit the ego, which the plan said to ignore. More repeats at S2 (054b5901), and a search on 12855a41 near S9, where the closest approach was small, could supply real cut-in or merge failures.",
+   "How reliable the five cases are: three or four runs per setting only just put the range above one half. A few more repeats each, especially at S1, S4, S8 and S11, would tighten the ranges.",
+   "Whether 09a95ffa fails across the range of earlier, faster cars: S6 rests on a single run. Repeats there, and checks on the rendering behind S5's flagged runs, would show whether the failure holds.",
+   "Whether the failures depend on timing or only on speed: no setting with sped-up cars at 0 s shift was tried on most scenes, and no slowed-down cars (below 1.0x) were tried at all."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 1.5,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_hybrid_optuna_002",
+    "cut_in_merge_hybrid_optuna_010",
+    "cut_in_merge_hybrid_optuna_011"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 1.5,
+   "runs": 3,
+   "failed": 1,
+   "failure_rate_90": [
+    0.08,
+    0.75
+   ],
+   "possible_artifacts": 1,
+   "criticality": 0.906,
+   "run_names": [
+    "cut_in_merge_hybrid_optuna_005",
+    "cut_in_merge_hybrid_optuna_022",
+    "cut_in_merge_hybrid_optuna_023"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.839,
+   "run_names": [
+    "cut_in_merge_hybrid_optuna_027"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 1.5,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_hybrid_optuna_003",
+    "cut_in_merge_hybrid_optuna_012",
+    "cut_in_merge_hybrid_optuna_013"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": -2,
+   "actor_speed_scale": 1.5,
+   "runs": 4,
+   "failed": 4,
+   "failure_rate_90": [
+    0.6,
+    1.0
+   ],
+   "possible_artifacts": 4,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_hybrid_optuna_008",
+    "cut_in_merge_hybrid_optuna_019",
+    "cut_in_merge_hybrid_optuna_020",
+    "cut_in_merge_hybrid_optuna_021"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": -1,
+   "actor_speed_scale": 2,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_hybrid_optuna_026"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 2,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.612,
+   "run_names": [
+    "cut_in_merge_hybrid_optuna_004"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 0,
+   "actor_speed_scale": 2,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_hybrid_optuna_001",
+    "cut_in_merge_hybrid_optuna_014",
+    "cut_in_merge_hybrid_optuna_015"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 1,
+   "actor_speed_scale": 2,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.892,
+   "run_names": [
+    "cut_in_merge_hybrid_optuna_009",
+    "cut_in_merge_hybrid_optuna_018"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": -2,
+   "actor_speed_scale": 2,
+   "runs": 3,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.47
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.829,
+   "run_names": [
+    "cut_in_merge_hybrid_optuna_007",
+    "cut_in_merge_hybrid_optuna_024",
+    "cut_in_merge_hybrid_optuna_025"
+   ]
+  },
+  {
+   "id": "S11",
+   "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+   "actor_time_shift_s": 2,
+   "actor_speed_scale": 1,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_hybrid_optuna_006",
+    "cut_in_merge_hybrid_optuna_016",
+    "cut_in_merge_hybrid_optuna_017"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 10314,
+  "output_tokens": 2846,
+  "duration_ms": 28491
+ }
+}

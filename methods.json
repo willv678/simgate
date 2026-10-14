@@ -142,6 +142,76 @@
      0.0,
      0.0
     ]
+   },
+   "optuna_confirm": {
+    "replicates": 3,
+    "reached": 1,
+    "runs_to_goal": [
+     54,
+     46,
+     54
+    ],
+    "median_runs_to_goal": 54,
+    "confirmed": [
+     4,
+     5,
+     1
+    ],
+    "hardest": [
+     0.977,
+     1.0,
+     0.931
+    ],
+    "failures": [
+     15,
+     17,
+     11
+    ],
+    "kept": [
+     54,
+     54,
+     54
+    ],
+    "model_seconds": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "hybrid_optuna": {
+    "replicates": 3,
+    "reached": 2,
+    "runs_to_goal": [
+     20,
+     54,
+     47
+    ],
+    "median_runs_to_goal": 47,
+    "confirmed": [
+     5,
+     4,
+     5
+    ],
+    "hardest": [
+     1.0,
+     0.979,
+     1.0
+    ],
+    "failures": [
+     18,
+     21,
+     25
+    ],
+    "kept": [
+     27,
+     54,
+     54
+    ],
+    "model_seconds": [
+     40.8,
+     93.5,
+     97.2
+    ]
    }
   }
  },
@@ -487,6 +557,173 @@
    }
   }
  },
+ "lane_keeping": {
+  "k": 5,
+  "budget": 50,
+  "proposers": {
+   "rules": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     50
+    ],
+    "median_runs_to_goal": 50,
+    "confirmed": [
+     2
+    ],
+    "hardest": [
+     0.969
+    ],
+    "failures": [
+     11
+    ],
+    "kept": [
+     50
+    ],
+    "model_seconds": [
+     0.0
+    ]
+   },
+   "hybrid": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     50
+    ],
+    "median_runs_to_goal": 50,
+    "confirmed": [
+     4
+    ],
+    "hardest": [
+     1.0
+    ],
+    "failures": [
+     22
+    ],
+    "kept": [
+     50
+    ],
+    "model_seconds": [
+     89.3
+    ]
+   },
+   "llm": {
+    "replicates": 1,
+    "reached": 1,
+    "runs_to_goal": [
+     20
+    ],
+    "median_runs_to_goal": 20,
+    "confirmed": [
+     5
+    ],
+    "hardest": [
+     1.0
+    ],
+    "failures": [
+     19
+    ],
+    "kept": [
+     20
+    ],
+    "model_seconds": [
+     28.7
+    ]
+   },
+   "random_confirm": {
+    "replicates": 1,
+    "reached": 1,
+    "runs_to_goal": [
+     31
+    ],
+    "median_runs_to_goal": 31,
+    "confirmed": [
+     5
+    ],
+    "hardest": [
+     1.0
+    ],
+    "failures": [
+     28
+    ],
+    "kept": [
+     38
+    ],
+    "model_seconds": [
+     0.0
+    ]
+   },
+   "optuna_confirm": {
+    "replicates": 1,
+    "reached": 1,
+    "runs_to_goal": [
+     28
+    ],
+    "median_runs_to_goal": 28,
+    "confirmed": [
+     5
+    ],
+    "hardest": [
+     1.0
+    ],
+    "failures": [
+     30
+    ],
+    "kept": [
+     36
+    ],
+    "model_seconds": [
+     0.0
+    ]
+   },
+   "hybrid_optuna": {
+    "replicates": 1,
+    "reached": 1,
+    "runs_to_goal": [
+     18
+    ],
+    "median_runs_to_goal": 18,
+    "confirmed": [
+     5
+    ],
+    "hardest": [
+     1.0
+    ],
+    "failures": [
+     18
+    ],
+    "kept": [
+     18
+    ],
+    "model_seconds": [
+     32.1
+    ]
+   },
+   "llm_v2": {
+    "replicates": 1,
+    "reached": 1,
+    "runs_to_goal": [
+     17
+    ],
+    "median_runs_to_goal": 17,
+    "confirmed": [
+     5
+    ],
+    "hardest": [
+     1.0
+    ],
+    "failures": [
+     17
+    ],
+    "kept": [
+     17
+    ],
+    "model_seconds": [
+     38.9
+    ]
+   }
+  }
+ },
  "lead_vehicle": {
   "k": 5,
   "budget": 49,
@@ -675,6 +912,76 @@
      0.0,
      0.0,
      0.0
+    ]
+   },
+   "optuna_confirm": {
+    "replicates": 3,
+    "reached": 0,
+    "runs_to_goal": [
+     49,
+     49,
+     49
+    ],
+    "median_runs_to_goal": 49,
+    "confirmed": [
+     1,
+     3,
+     1
+    ],
+    "hardest": [
+     0.912,
+     0.956,
+     0.89
+    ],
+    "failures": [
+     6,
+     12,
+     8
+    ],
+    "kept": [
+     49,
+     49,
+     49
+    ],
+    "model_seconds": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "hybrid_optuna": {
+    "replicates": 3,
+    "reached": 0,
+    "runs_to_goal": [
+     49,
+     49,
+     49
+    ],
+    "median_runs_to_goal": 49,
+    "confirmed": [
+     1,
+     2,
+     4
+    ],
+    "hardest": [
+     0.911,
+     0.951,
+     0.977
+    ],
+    "failures": [
+     10,
+     9,
+     14
+    ],
+    "kept": [
+     49,
+     49,
+     49
+    ],
+    "model_seconds": [
+     121.2,
+     139.5,
+     125.0
     ]
    }
   }
@@ -1134,6 +1441,76 @@
      0.0,
      0.0,
      0.0
+    ]
+   },
+   "optuna_confirm": {
+    "replicates": 3,
+    "reached": 3,
+    "runs_to_goal": [
+     25,
+     31,
+     33
+    ],
+    "median_runs_to_goal": 31,
+    "confirmed": [
+     5,
+     5,
+     5
+    ],
+    "hardest": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "failures": [
+     24,
+     30,
+     28
+    ],
+    "kept": [
+     30,
+     40,
+     40
+    ],
+    "model_seconds": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "hybrid_optuna": {
+    "replicates": 3,
+    "reached": 3,
+    "runs_to_goal": [
+     21,
+     20,
+     21
+    ],
+    "median_runs_to_goal": 21,
+    "confirmed": [
+     5,
+     5,
+     5
+    ],
+    "hardest": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "failures": [
+     21,
+     16,
+     22
+    ],
+    "kept": [
+     30,
+     20,
+     30
+    ],
+    "model_seconds": [
+     48.9,
+     33.1,
+     53.0
     ]
    }
   }

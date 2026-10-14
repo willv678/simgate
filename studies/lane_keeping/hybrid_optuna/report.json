@@ -1,0 +1,213 @@
+{
+ "answer": {
+  "answer": "The goal was met after two rounds. Five settings, each on a different scene, failed on every repeat. Each one's 90% range lies above 0.5. In order of the plan's scenes they are: a 0.5 m right shift at 1.2x speed (S1, S3), a 0.5 m right shift at 1.4x (S8), a 0.2 m left shift at 1.2x (S4) and a 0.5 m left shift at 1.2x (S7). All five fail at the same top rate, so the study cannot rank them against each other. Three repeats each only show that the true rate is above one half, not how close it is to certain. In every confirmed failure the ego left its lane on the side of the shift, so it either hit a vehicle beside it, ahead of it or in the next lane, or ran onto the shoulder. Triage put every failure on the policy, not on the simulator. That includes S4 and S7, which the automatic check flagged as possible artifacts only because the ego ended far from the recorded path. The search only ran the high-speed corners (1.2x and 1.4x) and no unshifted control. So this shows that large shifts at high speed are enough to cause failures, but not that both are needed.",
+  "findings": [
+   {
+    "claim": "A right shift of 0.5 m at 1.2x to 1.4x speed failed on every repeat in three different scenes. In two of them (S3, S8) the ego steered right on a multi-lane highway into the vehicle in the next lane on its right, although the command was STRAIGHT. In the third (S1) it drifted from the rightmost lane across the edge line onto the dirt shoulder.",
+    "settings": [
+     "S1",
+     "S3",
+     "S8"
+    ]
+   },
+   {
+    "claim": "Left shifts also cause confirmed failures. At a 0.2 m left shift and 1.2x speed, the ego drifted left across lanes against a route that bore right and hit a vehicle in the lane to its left. This happened on every repeat (S4). It is the smallest shift confirmed in the study.",
+    "settings": [
+     "S4"
+    ]
+   },
+   {
+    "claim": "At a 0.5 m left shift and 1.2x speed in slow queued traffic, the ego angled sideways instead of stopping behind the stopped car ahead and clipped its rear corner at walking pace. It did this on every repeat (S7), so a sideways plan error can cause a low-speed front collision as well as a departure at highway speed.",
+    "settings": [
+     "S7"
+    ]
+   },
+   {
+    "claim": "The possible-artifact flags on S4 and S7 come from the ego ending more than 3.5 m from the recorded path, which is the departure being measured. Triage found the camera view clean and the policy at fault, so these confirmations do not depend on rendering.",
+    "settings": [
+     "S4",
+     "S7"
+    ]
+   },
+   {
+    "claim": "Several failures happened where the route command switched to RIGHT and the policy kept straight or veered left, ending on a median island or across lanes (S2, S5, S6, S4). These failures may come partly from the policy ignoring the route command, not only from the shift.",
+    "settings": [
+     "S2",
+     "S4",
+     "S5",
+     "S6"
+    ]
+   },
+   {
+    "claim": "Scene 0ce6f2a3 left the road at a 0.3 m left shift at both 1.2x and 1.4x, and scene 054b5901 left the road at only a 0.1 m left shift at 1.2x. Each of these settings ran only once, so they are hints, not confirmed rates.",
+    "settings": [
+     "S2",
+     "S5",
+     "S6"
+    ]
+   }
+  ],
+  "open": [
+   "Whether the shift or the speed causes the failures: no setting ran at 1.0x speed or below, and none with zero shift. Running each confirmed scene at zero shift and 1.2x, and at its confirmed shift and 1.0x, would separate the two.",
+   "How small a shift still fails: the 0.1 m (S2) and 0.3 m (S5, S6) results are single runs. Two to three more repeats each, plus a sweep of 0.1 to 0.3 m on the confirmed scenes, would show where failures begin.",
+   "Whether the shift or the policy's own route-following causes the failures: several failures came where the route turned RIGHT and the policy did not follow it. Running the same scenes with the opposite shift would show whether the failure follows the shift's direction.",
+   "Scene 05f35348 is untested: both its runs were quarantined because the ego coasted at a constant speed regardless of the shift. It needs rerunning once that replay issue is fixed.",
+   "Seven of the twelve scenes were never run, and near misses were not ranked. The remaining budget, about 30 runs, could cover those scenes at the high-speed corners and rank near misses by closest approach.",
+   "Replayed traffic cannot react to the ego, and above 1.0x the ego starts off the recording. Both may make these scenes harsher than real lane-support tests."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_008",
+    "lane_keeping_hybrid_optuna_011",
+    "lane_keeping_hybrid_optuna_012"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "lateral_bias_m": 0.1,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_010"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_001",
+    "lane_keeping_hybrid_optuna_013",
+    "lane_keeping_hybrid_optuna_014"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "lateral_bias_m": 0.2,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_009",
+    "lane_keeping_hybrid_optuna_019",
+    "lane_keeping_hybrid_optuna_020"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+   "lateral_bias_m": 0.3,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_007"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+   "lateral_bias_m": 0.3,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_006"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 2,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_005",
+    "lane_keeping_hybrid_optuna_017",
+    "lane_keeping_hybrid_optuna_018"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_004",
+    "lane_keeping_hybrid_optuna_015",
+    "lane_keeping_hybrid_optuna_016"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 10064,
+  "output_tokens": 2297,
+  "duration_ms": 24158
+ }
+}

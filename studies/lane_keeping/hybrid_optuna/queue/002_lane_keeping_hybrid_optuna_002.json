@@ -1,0 +1,30 @@
+{
+  "name": "lane_keeping_hybrid_optuna_002",
+  "run_dir": "diag/lane_keeping_hybrid_optuna_002",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.5,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.4
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 987462,
+  "launched_at": 1792013599.6012824,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1",
+  "quarantine": "runs/r24/physics.txt and metrics_results.txt (286.08 m, tracking_error 40.09, plan_deviation 2.20) are identical to r14's even though r24's lateral_bias_m is +0.5 and r14's is -0.5; the ego coasts at a constant 41.25 m/s with 0 yaw rate after the warm-up, so the plan (and the bias) had no effect on the motion and the result does not reflect its label."
+}

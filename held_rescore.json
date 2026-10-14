@@ -47,6 +47,30 @@
     0,
     1
    ]
+  },
+  "optuna_confirm": {
+   "before": [
+    4,
+    5,
+    1
+   ],
+   "without held-actor failures": [
+    4,
+    4,
+    0
+   ]
+  },
+  "hybrid_optuna": {
+   "before": [
+    5,
+    4,
+    5
+   ],
+   "without held-actor failures": [
+    3,
+    2,
+    3
+   ]
   }
  },
  "cut_in_merge_2hz": {
@@ -94,6 +118,130 @@
    ],
    "without held-actor failures": [
     3,
+    0,
+    1
+   ]
+  }
+ },
+ "lead_vehicle": {
+  "rules": {
+   "before": [
+    0,
+    0,
+    0
+   ],
+   "without held-actor failures": [
+    0,
+    0,
+    0
+   ]
+  },
+  "hybrid": {
+   "before": [
+    2,
+    3,
+    3
+   ],
+   "without held-actor failures": [
+    2,
+    3,
+    3
+   ]
+  },
+  "llm": {
+   "before": [
+    3,
+    1,
+    3
+   ],
+   "without held-actor failures": [
+    3,
+    1,
+    3
+   ]
+  },
+  "random_confirm": {
+   "before": [
+    4,
+    1,
+    2
+   ],
+   "without held-actor failures": [
+    4,
+    1,
+    2
+   ]
+  },
+  "optuna_confirm": {
+   "before": [
+    1,
+    3,
+    1
+   ],
+   "without held-actor failures": [
+    1,
+    3,
+    1
+   ]
+  },
+  "hybrid_optuna": {
+   "before": [
+    1,
+    2,
+    4
+   ],
+   "without held-actor failures": [
+    1,
+    2,
+    4
+   ]
+  }
+ },
+ "lead_vehicle_2hz": {
+  "rules": {
+   "before": [
+    0,
+    0,
+    0
+   ],
+   "without held-actor failures": [
+    0,
+    0,
+    0
+   ]
+  },
+  "hybrid": {
+   "before": [
+    1,
+    2,
+    0
+   ],
+   "without held-actor failures": [
+    1,
+    2,
+    0
+   ]
+  },
+  "llm": {
+   "before": [
+    5,
+    2,
+    1
+   ],
+   "without held-actor failures": [
+    5,
+    2,
+    1
+   ]
+  },
+  "random_confirm": {
+   "before": [
+    1,
+    0,
+    1
+   ],
+   "without held-actor failures": [
+    1,
     0,
     1
    ]
