@@ -67,6 +67,10 @@ HANDOFF_SPAN_US = 500_000
 # recorded at 1 m/s.
 HANDOFF_SPEED_ABSOLUTE_MPS = 0.05
 HANDOFF_SPEED_RELATIVE = 0.02
+# An actor held still after moving faster than this has stopped dead (walking
+# pace is below it); poses closer than SAME_M are the same pose.
+STOP_FROM_MPS = 2.0
+SAME_M = 1e-3
 
 
 def completed_rollout(run_dir: Path) -> Path:
@@ -175,6 +179,50 @@ async def _read(path: Path) -> dict:
         "handoff_us": handoff_us,
         "ground_truth": ground_truth,
     }
+
+
+def actor_tracks(raw: dict) -> dict:
+    """Every actor's simulated poses, the ego's included: id -> {t: (x, y, yaw)}."""
+    actors = {EGO: dict(raw["ego"])}
+    for t, rows in raw["others"].items():
+        for x, y, yaw, actor_id in rows:
+            actors.setdefault(actor_id, {})[t] = (x, y, yaw)
+    return actors
+
+
+def nearest_actor(raw: dict, actors: dict, when: float, after: float) -> tuple[str | None, float]:
+    """The road user nearest the ego at `when` (or, with `when` nan, at the
+    closest approach after `after`), and that moment."""
+    ego = actors[EGO]
+    best = (None, np.inf, when)
+    times = [when] if np.isfinite(when) else [t for t in sorted(ego) if t >= after]
+    for t in times:
+        t = min(ego, key=lambda s: abs(s - t))
+        mine = _footprint(*ego[t], raw["sizes"][EGO])
+        for actor_id, track in actors.items():
+            if actor_id == EGO or t not in track:
+                continue
+            d = mine.distance(_footprint(*track[t], raw["sizes"][actor_id]))
+            if d < best[1]:
+                best = (actor_id, d, t)
+    return best[0], best[2]
+
+
+def stopped_dead(track: dict, when: float) -> bool:
+    """Whether an actor is held at its last pose at `when` after moving faster
+    than STOP_FROM_MPS just before: an instant stop no road user can make.
+    AlpaSim's actor retiming holds a retimed track's last pose once its new
+    schedule runs out (actor_retiming.py; problem 31)."""
+    times = sorted(track)
+    xy = np.array([track[t][:2] for t in times])
+    moved = np.flatnonzero(np.hypot(*np.diff(xy, axis=0).T) > SAME_M)
+    if not len(moved):
+        return False
+    last = moved[-1]
+    if when < times[last + 1] or last + 1 == len(times) - 1:
+        return False
+    speed = np.hypot(*(xy[last + 1] - xy[last])) / ((times[last + 1] - times[last]) / 1e6)
+    return bool(speed > STOP_FROM_MPS)
 
 
 def _handoff_deviations(pose: tuple, driver_plan: list, given: list) -> np.ndarray:

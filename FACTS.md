@@ -952,9 +952,12 @@ setting, so it cannot meet a top_k goal (problem 21). `hybrid_optuna`
 up to 3x as many distinct Optuna suggestions. Pedestrian crossing (7 Oct)
 had plain optuna: 3 failures in 49, 1 confirmed.
 
-Confirmed hardest cases of 5 per replicate (`METHODS.md`, `held_rescore.json`;
-"no frozen" = contacts with a car the retiming held still not counted,
-problem 31):
+Confirmed hardest cases of 5 per replicate (`METHODS.md`; "no frozen" =
+contacts with a car the retiming held still not counted, problem 31, which
+the scorer does from 14 Oct, so `METHODS.md` now shows those numbers; the
+first Optuna + AI cut-in replicate met its goal at 20 runs on frozen-car
+contacts and stopped at 27, so under the rule it is left out and a fourth
+replicate is queued):
 
 | method | pedestrian: runs to goal | cut-in | cut-in, no frozen | lead | car scenes, no frozen (of 30) |
 |---|---|---|---|---|---|
@@ -963,7 +966,7 @@ problem 31):
 | AI picks | 28, 40, 37 | 3, 4, 3 | 3, 2, 1 | 3, 1, 3 | 13 |
 | random + repeat | 31, 32, 32 | 3, 0, 1 | 2, 0, 1 | 4, 1, 2 | 10 |
 | Optuna + repeat | 25, 31, 33 | 4, 5, 1 | 4, 4, 0 | 1, 3, 1 | 13 |
-| Optuna + AI | 21, 20, 21 | 5, 4, 5 | 3, 2, 3 | 1, 2, 4 | 15 |
+| Optuna + AI | 21, 20, 21 | 5, 4, 5 | (3,) 2, 3 | 1, 2, 4 | 15 (12 of 25 without the first cut-in replicate; a fourth is running) |
 
 - **Pedestrian**: every arm of every method confirms 5 of 5; Optuna + AI
   gets there first in all three replicates (median 21 runs: rules 25,
@@ -972,7 +975,8 @@ problem 31):
   method): hybrid vs rules p 0.006, Optuna + AI vs rules p 0.054, AI picks
   vs rules 0.097; hybrid vs random 0.078; Optuna + repeat vs rules 0.25,
   vs random 0.74; every pair among hybrid, AI picks, Optuna + repeat and
-  Optuna + AI p > 0.2.
+  Optuna + AI p > 0.2. (Optuna + AI counts its first cut-in replicate,
+  which stopped early; recompute when the fourth finishes.)
 - **Optuna + AI chased frozen cars most**: cut-in 14 of 15 as counted, 8
   without them. Optuna alone barely did (10 to 8).
 - Reading: Optuna alone is no better than random + repeat at this budget;
@@ -1164,7 +1168,7 @@ quietly. Sources: LOG.md, the commits named.
 | 28 | A study stopped after a native crash at interpreter exit | pedestrian x ego speed at 2 Hz, hybrid, 12 Oct: archive.py saved the run's ACCEPT, then aborted at exit (signal 6), the first such crash in about 2,500 runs; the inner loop re-runs monitor and analyze after a signal crash but not archive, and archive refused a run already accepted, so the arm stopped after 7 runs | archive.py returns at once for a run already accepted, and the loop re-runs it after a signal crash (`RERUNNABLE`, tests in `test_loop.py`); the arm re-queued and resumed from its queue, nothing lost | robustness |
 | 29 | The failure count still included replayed cars running into the ego | cut-in: a replayed car closing on an ego that was braking in its own lane, first contact at the ego's front corner (so the rear rule of problem 25 kept it): 49 of 208 counted collision failures; triage saw it too but judged 28 identical contacts two ways (22 against 6) | a geometric rule from the poses (`who_closed.py`: who closed the gap, was the ego in its lane, two-sided), checked against triage; most such contacts were under way at the hand-off, and once problem 30's fix skips those (and the rule reads the contact outcome counts) none are left at 10 Hz in a 3.3-3.6 m lane, so the 10 Hz method table stands; at 2 Hz cut-in 6 of 55, random + confirmation 4 to 3; `outcome` not changed | evaluation design |
 | 30 | Contacts under way at the hand-off counted as the policy's | lead vehicle: 75 of 145 counted collision failures (70 of llm's 74) began in the warm-up, when a lead car slowed to 0.5x met the ego still replaying the human's path, and were still flagged at the policy's first step; cut-in 61 of 208 | collisions now count from the first step after a contact under way at the hand-off step ends (`outer.outcome`, `contact_at_handoff`; the hand-off step counts as the warm-up's, which matters at 2 Hz); arms that had stopped at the old goal re-queued to finish; lead vehicle's winner (llm, 23-30 runs) drops to 3, 1, 3 of 5, no method reaches the goal on lead vehicle or cut-in; pedestrian unchanged | evaluation design |
-| 31 | Retimed cars froze in their lane, and the search learned to hit them | the case cards (Shao's visual check, 13 Oct): AlpaSim's actor retiming holds a retimed track's last pose after its new end (by design, `actor_retiming.py`), so a car at 2x speed finishes its recording halfway through the run and stops dead from about 11 m/s in one step; 60 of 203 counted cut-in contacts at 10 Hz and 44 of 145 at 2 Hz are the ego meeting such a car, none on lead vehicle (`held_actors.py`, `held_actors.json`). The AI methods favoured these settings: without them cut-in confirms hybrid 3, 3, 3 (was 4, 5, 4), llm 3, 2, 1 (3, 4, 3), rules 2, 2, 2, random + confirmation 2, 0, 1; at 2 Hz hybrid 2, 2, 1, llm 1, 0, 1 (`held_rescore.json`) | not yet decided (Will, Shao): count a contact with a held actor as not the policy's (like problem 30), or keep retimed tracks inside the rollout window (limit speed scale and shift per scene), or extend tracks at constant velocity in the runtime (src, needs Will). The three-knob hard study (actor speed up to 2x) is held until then | evaluation design |
+| 31 | Retimed cars froze in their lane, and the search learned to hit them | the case cards (Shao's visual check, 13 Oct): AlpaSim's actor retiming holds a retimed track's last pose after its new end (by design, `actor_retiming.py`), so a car at 2x speed finishes its recording halfway through the run and stops dead from about 11 m/s in one step; 60 of 203 counted cut-in contacts at 10 Hz and 44 of 145 at 2 Hz are the ego meeting such a car, none on lead vehicle (`held_actors.py`, `held_actors.json`). The AI methods favoured these settings: without them cut-in confirms hybrid 3, 3, 3 (was 4, 5, 4), llm 3, 2, 1 (3, 4, 3), rules 2, 2, 2, random + confirmation 2, 0, 1; at 2 Hz hybrid 2, 2, 1, llm 1, 0, 1 (`held_rescore.json`) | 14 Oct (Will: "pick what you know is best"): the scorer does not count a contact with a road user that stopped dead, held at its last pose after moving faster than 2 m/s (`outer.outcome` `contact_with_held_actor`, `physics.stopped_dead`), the same kind of rule as problem 30; it removes the same 89 and 44 contacts. Ending runs when the retimed car's recording ends was weighed and rejected: VaVAM's 4 s of frame history puts the hand-off near 4.6 s, so at 2x speed little or no policy driving would be left. Extending tracks in the runtime would change src. The three-knob hard study is queued under the rule | evaluation design |
 
 ## Physics checks, 29 Sep 2026 (Shao: the numbers can look fine while the motion is not)
 

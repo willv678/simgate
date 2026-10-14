@@ -3,6 +3,7 @@
 import pandas as pd
 import pytest
 
+import outer
 from outer import criticality, outcome
 
 T0 = 1_000_000_000
@@ -30,6 +31,27 @@ def _run(tmp_path, events: dict[str, list[int]], distance=None):
         rollout / "metrics.parquet"
     )
     return tmp_path
+
+
+@pytest.fixture(autouse=True)
+def moving_actors(monkeypatch):
+    """The road user the ego touches is moving, unless a test says not; these
+    runs have metrics but no rollout.asl to read actors from."""
+    monkeypatch.setattr(outer, "_met_stopped_actor", lambda run_dir, when, driven: False)
+
+
+def test_a_contact_with_an_actor_that_stopped_dead_is_not_the_policys(tmp_path, monkeypatch):
+    # cut_in_merge_hybrid_r2_024: a car at 2x froze where its recording ran out.
+    monkeypatch.setattr(outer, "_met_stopped_actor", lambda run_dir, when, driven: True)
+    found = outcome(_run(tmp_path, {"collision_front": [7]}, distance=[9] * 7 + [0] * 5))
+    assert not found["failed"] and found["contact_with_held_actor"]
+    assert found["min_distance_to_obstacle_m"] == 9
+
+
+def test_leaving_the_road_after_meeting_a_stopped_actor_is_a_failure(tmp_path, monkeypatch):
+    monkeypatch.setattr(outer, "_met_stopped_actor", lambda run_dir, when, driven: True)
+    found = outcome(_run(tmp_path, {"collision_front": [7], "offroad": [9]}))
+    assert found["failed"] and not found["collision_at_fault"] and found["offroad"]
 
 
 def test_a_collision_after_the_hand_off_is_a_failure(tmp_path):

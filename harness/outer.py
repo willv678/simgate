@@ -48,6 +48,7 @@ the same seed.
 """
 
 import argparse
+import asyncio
 import hashlib
 import json
 import random
@@ -95,7 +96,7 @@ from read_state import (
     requested_controller,
 )
 
-from physics import completed_rollout, signals
+from physics import _read, actor_tracks, completed_rollout, nearest_actor, signals, stopped_dead
 
 HARNESS = Path(__file__).resolve().parent
 CONTRACT = HARNESS / "advisor" / "OUTER.md"
@@ -123,7 +124,10 @@ NEAR_MISS_M = 5.0
 # the ego while the warm-up still replays the human's path). The hand-off
 # step's pose is still the warm-up's (the policy's first command acts after
 # it), and at 2 Hz a contact begun in the last 500 ms of the warm-up is first
-# flagged there. `failed_any` keeps the broad reading
+# flagged there. Nor is a contact with a road user that has stopped dead:
+# the actor retiming holds a retimed track's last pose once its new schedule
+# runs out, so a car sped up 2x halts in one step from cruising speed
+# halfway through the run (problem 31). `failed_any` keeps the broad reading
 # (any front, side or off-road flag at any time) used before 8 Oct 2026.
 FAILURE_METRICS = ("collision_front", "collision_lateral", "offroad")
 TYPES = {
@@ -195,6 +199,15 @@ def _first(metrics: pd.DataFrame, name: str, since_us: float) -> float:
     return float(hits["timestamps_us"].min()) if len(hits) else float("inf")
 
 
+def _met_stopped_actor(run_dir: Path, when: float, driven: float) -> bool:
+    """Whether the road user the ego touched at `when` had stopped dead: held
+    at its last pose by the actor retiming (problem 31)."""
+    raw = asyncio.run(_read(completed_rollout(run_dir) / "rollout.asl"))
+    actors = actor_tracks(raw)
+    actor, at = nearest_actor(raw, actors, when, driven)
+    return actor is not None and stopped_dead(actors[actor], at)
+
+
 def outcome(run_dir: Path) -> dict:
     """Failure and the metrics that explain it, from the scored rollout (the
     failure definition above FAILURE_METRICS). For a failed run, also when it
@@ -216,11 +229,14 @@ def outcome(run_dir: Path) -> dict:
     rear = _first(metrics, "collision_rear", clear)
     offroad = _first(metrics, "offroad", driven)
     at_fault = side_or_front if side_or_front < rear else float("inf")
+    held = at_fault < float("inf") and _met_stopped_actor(run_dir, at_fault, driven)
+    if held:
+        at_fault = float("inf")
     when = min(at_fault, offroad)
     window = metrics[
         (metrics["name"] == "min_distance_to_obstacle_m")
         & (metrics["timestamps_us"] >= clear)
-        & (metrics["timestamps_us"] < rear)
+        & (metrics["timestamps_us"] < (side_or_front if held else rear))
     ]
     found = {
         "failed": when < float("inf"),
@@ -228,6 +244,7 @@ def outcome(run_dir: Path) -> dict:
         "offroad": offroad < float("inf"),
         "rear_ended": rear < float("inf"),
         "contact_at_handoff": clear > driven,
+        "contact_with_held_actor": held,
         "failed_any": bool(any(peak[name] > 0 for name in FAILURE_METRICS)),
         "handoff_s": round((driven - start) / 1e6, 1),
         "min_distance_to_obstacle_m": round(float(window["values"].min()), 2)

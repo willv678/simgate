@@ -43,7 +43,7 @@ import outer
 from alpasim_utils.logs import async_read_pb_log
 from compare_proposers import arms
 from goals import challenging
-from physics import EGO, _footprint, _read, completed_rollout
+from physics import EGO, _footprint, _read, actor_tracks, completed_rollout, nearest_actor
 from read_state import ROOT, load_entry, queue_entries
 
 STUDIES = ("pedestrian_ego_speed", "cut_in_merge", "lead_vehicle")
@@ -118,14 +118,6 @@ async def _classes(path: Path) -> dict:
     return {}
 
 
-def _tracks(raw: dict) -> dict:
-    actors = {EGO: dict(raw["ego"])}
-    for t, rows in raw["others"].items():
-        for x, y, yaw, actor_id in rows:
-            actors.setdefault(actor_id, {})[t] = (x, y, yaw)
-    return actors
-
-
 def _speed(track: dict) -> tuple[np.ndarray, np.ndarray]:
     times = np.array(sorted(track), dtype=float)
     xy = np.array([track[t][:2] for t in times])
@@ -144,24 +136,6 @@ def _gap(raw: dict, a: dict, b: dict, actor_id: str, times) -> np.ndarray:
         else:
             out.append(np.nan)
     return np.array(out)
-
-
-def _nearest(raw: dict, actors: dict, when: float, after: float) -> tuple[str | None, float]:
-    """The road user nearest the ego at `when` (or, with `when` nan, at the
-    closest approach after `after`), and that moment."""
-    ego = actors[EGO]
-    best = (None, np.inf, when)
-    times = [when] if np.isfinite(when) else [t for t in sorted(ego) if t >= after]
-    for t in times:
-        t = min(ego, key=lambda s: abs(s - t))
-        mine = _footprint(*ego[t], raw["sizes"][EGO])
-        for actor_id, track in actors.items():
-            if actor_id == EGO or t not in track:
-                continue
-            d = mine.distance(_footprint(*track[t], raw["sizes"][actor_id]))
-            if d < best[1]:
-                best = (actor_id, d, t)
-    return best[0], best[2]
 
 
 def _lateral(ego: dict, recorded: list) -> tuple[np.ndarray, np.ndarray]:
@@ -209,9 +183,9 @@ def card(run: dict, triage: dict | None, target: Path) -> dict:
     rollout = completed_rollout(run["run_dir"])
     raw = asyncio.run(_read(rollout / "rollout.asl"))
     classes = asyncio.run(_classes(rollout / "rollout.asl"))
-    actors = _tracks(raw)
+    actors = actor_tracks(raw)
     what, when, handoff = moment(run["run_dir"])
-    key, when = _nearest(raw, actors, when, handoff)
+    key, when = nearest_actor(raw, actors, when, handoff)
     ego = actors[EGO]
     t0 = min(ego)
     rel = lambda t: (np.asarray(t, dtype=float) - t0) / 1e6

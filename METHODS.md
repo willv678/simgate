@@ -10,16 +10,16 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | study | method | replicates | kept runs (each) | reached goal | runs to goal (each) | median | confirmed (each) | hardest (each) | failures (each) | model s (each) |
 |---|---|---|---|---|---|---|---|---|---|---|
 | cut_in_merge | rules | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 2, 2 of 5 | 0.925, 0.943, 0.936 | 8, 10, 10 | 0.0, 0.0, 0.0 |
-| cut_in_merge | hybrid | 3 | 54, 54, 54 | 1 | 54, 48, 54 | 54 | 4, 5, 4 of 5 | 0.981, 1.0, 0.979 | 18, 20, 23 | 81.0, 96.1, 86.7 |
-| cut_in_merge | llm | 3 | 54, 53, 54 | 0 | 54, 54, 54 | 54 | 3, 4, 3 of 5 | 0.962, 0.979, 0.977 | 15, 18, 24 | 101.3, 108.2, 86.6 |
-| cut_in_merge | random_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 0, 1 of 5 | 0.959, 0.954, 0.907 | 17, 10, 4 | 0.0, 0.0, 0.0 |
-| cut_in_merge | optuna_confirm | 3 | 54, 54, 54 | 1 | 54, 46, 54 | 54 | 4, 5, 1 of 5 | 0.977, 1.0, 0.931 | 15, 17, 11 | 0.0, 0.0, 0.0 |
-| cut_in_merge | hybrid_optuna | 3 | 27, 54, 54 | 2 | 20, 54, 47 | 47 | 5, 4, 5 of 5 | 1.0, 0.979, 1.0 | 18, 21, 25 | 40.8, 93.5, 97.2 |
+| cut_in_merge | hybrid | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 3, 3 of 5 | 0.961, 0.967, 0.954 | 14, 14, 12 | 81.0, 96.1, 86.7 |
+| cut_in_merge | llm | 3 | 54, 53, 54 | 0 | 54, 54, 54 | 54 | 3, 2, 1 of 5 | 0.962, 0.932, 0.936 | 15, 9, 10 | 101.3, 108.2, 86.6 |
+| cut_in_merge | random_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 0, 1 of 5 | 0.959, 0.932, 0.907 | 13, 7, 3 | 0.0, 0.0, 0.0 |
+| cut_in_merge | optuna_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 4, 4, 0 of 5 | 0.977, 1.0, 0.931 | 15, 13, 6 | 0.0, 0.0, 0.0 |
+| cut_in_merge | hybrid_optuna | 2 | 54, 54 | 0 | 54, 54 | 54.0 | 2, 3 of 5 | 0.932, 0.965 | 11, 19 | 93.5, 97.2 |
 | cut_in_merge_2hz | rules | 3 | 53, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 1, 1 of 5 | 0.909, 0.883, 0.887 | 8, 11, 8 | 0.0, 0.0, 0.0 |
 | cut_in_merge_2hz | rules_v3 | 1 | 54 | 0 | 54 | 54 | 0 of 5 | 0.862 | 3 | 0.0 |
-| cut_in_merge_2hz | hybrid | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 3, 3 of 5 | 0.938, 0.941, 0.947 | 10, 17, 12 | 87.6, 92.2, 87.0 |
-| cut_in_merge_2hz | llm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 2, 2 of 5 | 0.984, 0.934, 0.933 | 13, 12, 15 | 101.6, 98.3, 115.5 |
-| cut_in_merge_2hz | random_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 4, 1, 1 of 5 | 1.0, 0.943, 0.89 | 21, 11, 4 | 0.0, 0.0, 0.0 |
+| cut_in_merge_2hz | hybrid | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 2, 1 of 5 | 0.908, 0.897, 0.906 | 6, 13, 5 | 87.6, 92.2, 87.0 |
+| cut_in_merge_2hz | llm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 1, 0, 1 of 5 | 0.912, 0.871, 0.899 | 4, 5, 12 | 101.6, 98.3, 115.5 |
+| cut_in_merge_2hz | random_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 0, 1 of 5 | 1.0, 0.903, 0.89 | 17, 6, 3 | 0.0, 0.0, 0.0 |
 | intersection | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.435 | 0 | 0.0 |
 | intersection | hybrid | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.541 | 6 | 91.4 |
 | intersection | llm | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.462 | 0 | 116.2 |
@@ -72,5 +72,5 @@ way at the hand-off counted), which code no longer finds met; they did
 not spend their budget, so their runs to goal cannot be compared.
 Re-queued, such an arm continues from its last round.
 
-- cut_in_merge: rules, hybrid, llm
+- cut_in_merge: rules, hybrid, llm, hybrid_optuna
 - lead_vehicle: llm

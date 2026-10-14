@@ -12,7 +12,8 @@ is. Paths are under `research/`.
 2. [x] **Random spot check**: 20 random kept runs as cards
    (`figures/cards/spot/README.md`). 5 counted failures, 10 contacts not
    counted, 5 no contact. Still needs a person to mark each card "makes
-   sense / does not".
+   sense / does not". Griffin will mark them, with the four disputed
+   hardest cards (14 Oct).
 3. [x] **Inner loop at work**: `figures/paper/fig_inner_loop.pdf` (4,668
    launches) and `figures/meeting/self_healing.png` (144 failed launches:
    the agent's fix and how each ended; 129 healed).
@@ -83,9 +84,8 @@ is. Paths are under `research/`.
     replayed traffic, given each failure's triage, the scenes' facts and
     its own notes. Tested offline; queued on lane keeping (unseen study).
 19. [~] **Hard study**: planned (`car_conflicts_3knobs_2hz`, 3 knobs, rare
-    failures, 2 Hz) and queued with 8 methods x 3 repeats, then **held**:
-    it varies car speed up to 2x, which problem 31 affects. Re-queue after
-    the decision below.
+    failures, 2 Hz); re-queued 14 Oct with 8 methods x 3 repeats under the
+    problem 31 rule. Running.
 20. [x] **Griffin's score script**: `label_sheet.py score` on his branch:
     agreement and kappa against the scorer and the triage; refuses to run
     until all 60 are labelled.
@@ -94,12 +94,9 @@ is. Paths are under `research/`.
 
 ## Found while doing this (needs Will and Shao)
 
-- **Problem 31: retimed cars freeze in their lane.** AlpaSim's retiming
-  holds a sped-up car's last pose once its recording runs out, so it stops
-  dead in one step. 30% of counted cut-in contacts are with such a car,
-  and the AI methods favoured those settings. Without them: AI vs rules
-  still clear (25 and 23 vs 10 of 60, p 0.008), AI vs random weak (vs 16,
-  p 0.05). Decide: score them as not the policy's, keep retimed tracks
-  inside the run, or extend tracks in the runtime (src).
+- **Problem 31: retimed cars freeze in their lane.** Settled 14 Oct: the
+  scorer does not count a contact with a road user that stopped dead
+  (`VALIDITY.md` section 4, FACTS problem 31). Every number, curve and
+  figure is now under that rule.
 - **Four of the 19 hardest-case cards** have a triage that says the policy
   was not at fault, or unclear. A person should look at them.

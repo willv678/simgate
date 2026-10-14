@@ -58,17 +58,18 @@ Figure: `figures/campaign_invalid.png`. Physics check: 0 false alarms on
 
 The gate proves a run did what was asked and moved like a car. It does not
 prove a contact is the policy's fault. Every kept run of the six method
-studies, all methods pooled (`figures/meeting/outcome_mix.png`,
-`figures/cards/outcome_mix.json`):
+studies, all methods pooled, each run in the first category that fits, in
+the column order (`figures/paper/fig_outcome_mix.pdf`,
+`figures/cards/outcome_mix.json`, `harness/paper_figures.py`):
 
-| study | kept | AI failure | of which ego > 3.5 m off the recording | contact begun before the AI drove | rear-ended by a replayed car | no contact |
-|---|---|---|---|---|---|---|
-| pedestrian | 464 | 65% | 34% | 0% | 0% | 35% |
-| cut-in | 773 | 27% | 5% | 9% | 27% | 36% |
-| car ahead braking | 707 | 13% | 2% | 17% | 29% | 41% |
-| pedestrian, 2 Hz | 625 | 41% | 9% | 0% | 4% | 55% |
-| cut-in, 2 Hz | 701 | 21% | 2% | 9% | 38% | 32% |
-| car ahead braking, 2 Hz | 637 | 15% | 0% | 11% | 36% | 38% |
+| study | kept | AI failure | of which ego > 3.5 m off the recording | contact begun before the AI drove | contact with a car that stopped dead | rear-ended by a replayed car | no contact |
+|---|---|---|---|---|---|---|---|
+| pedestrian | 654 | 68% | 33% | 0% | 0% | 0% | 32% |
+| cut-in | 1025 | 21% | 3% | 13% | 5% | 28% | 33% |
+| car ahead braking | 1001 | 15% | 2% | 17% | 0% | 29% | 38% |
+| pedestrian, 2 Hz | 625 | 41% | 9% | 0% | 0% | 4% | 55% |
+| cut-in, 2 Hz | 701 | 14% | 0% | 13% | 2% | 38% | 32% |
+| car ahead braking, 2 Hz | 637 | 15% | 0% | 11% | 0% | 36% | 38% |
 
 What this says:
 - **Replayed traffic does not react.** In the car studies a replayed car
@@ -76,21 +77,23 @@ What this says:
   these (problem 25), but a third of runs are spent where the other cars
   cannot respond. Reactive traffic (AlpaSim's CATK model) is the fix to
   weigh; it costs the near-determinism of replay.
-- **Retiming can start a contact before the AI drives** (9-17% in the car
+- **Retiming can start a contact before the AI drives** (11-17% in the car
   studies): a lead car slowed or moved later meets the ego still replaying
   the human's path. Not counted (problem 30); a pre-launch overlap check
   would stop spending runs on them.
-- **Pedestrian failures often happen far from the recording.** In 159 of 301
+- **Pedestrian failures often happen far from the recording.** In 213 of 442
   counted pedestrian failures at 10 Hz the ego was more than 3.5 m off the
   recorded path, where the neural rendering is less certain. Flagged on
   every such run (`possible_artifact`), not removed.
 
 - **Retimed cars can freeze in their lane (problem 31).** The retiming
   holds a sped-up car's last pose once its recording runs out, so it stops
-  dead in one step. 30% of counted cut-in contacts are with such a car,
-  and the AI methods favoured those settings: without them, cut-in hybrid
-  confirms 3, 3, 3 rather than 4, 5, 4. Found from the case cards; the fix
-  is a decision for Will and Shao (`FACTS.md` problem 31).
+  dead in one step. Found from the case cards (13 Oct). Since 14 Oct the
+  scorer does not count a contact with a road user that stopped dead from
+  faster than walking pace (`outer.outcome`, `physics.stopped_dead`): 89
+  cut-in runs at 10 Hz, 44 at 2 Hz, none in lead vehicle
+  (`held_actors.json`). The AI methods had favoured these settings; under
+  the rule cut-in hybrid confirms 3, 3, 3 rather than 4, 5, 4.
 
 ## 5. What a person sees
 

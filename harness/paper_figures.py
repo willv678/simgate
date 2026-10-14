@@ -8,19 +8,20 @@ double column 7.16 in), 8 pt serif.
 
 - fig_discovery: confirmed hardest cases against kept runs per search
   method, median and lowest-to-highest replicate, for the three 10 Hz method
-  studies; cut-in with contacts against a car the retiming held still not
-  counted (problem 31; discovery_curve.unfrozen_curves).
+  studies (contacts with a car the retiming held still are not counted,
+  problem 31, outer.outcome).
 - fig_inner_loop: (a) every launch before CUTOFF, kept or not, and every
   failure the diagnose contract handled, healed or stopped; (b) per kind of
   failure, the skill the agent chose and how the run ended.
 - fig_failure_types: Claude's triage cause of every failed run, per study
   (figures/cards/triage_causes.json).
-- fig_outcome_mix: what every kept run of the method studies contains
-  (figures/cards/outcome_mix.json).
+- fig_outcome_mix: what every kept run of the method studies contains, in
+  exclusive categories in OUTCOMES' order (outer.outcome); the counts are
+  written to figures/cards/outcome_mix.json for VALIDITY.md.
 - fig_cases: three confirmed hardest cases (CASES), each from above and as
   speed and gap over time, drawn from the rollout logs with case_card's
   helpers.
-- table_methods.tex: Table I, from methods.json and held_rescore.json.
+- table_methods.tex: Table I, from methods.json.
 
     uv run python research/harness/paper_figures.py
 """
@@ -41,10 +42,10 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from case_card import _gap, _nearest, _speed, _tracks, kept, moment, triage_lines
+from case_card import _gap, _speed, kept, moment, triage_lines
 from compare_proposers import COLORS
-from discovery_curve import LABEL, METHODS, study_curves, unfrozen_curves
-from physics import EGO, _footprint, _read, completed_rollout
+from discovery_curve import LABEL, METHODS, study_curves
+from physics import EGO, _footprint, _read, actor_tracks, completed_rollout, nearest_actor
 from read_state import ROOT, load_entry, queue_entries
 
 RESEARCH = ROOT / "research"
@@ -79,6 +80,7 @@ OUTCOMES = {
     "counted failure": "policy failure",
     "counted failure, possible render artifact": "policy failure, ego > 3.5 m off the recording",
     "contact begun before the AI drove": "contact begun before the policy drove",
+    "contact with a car that stopped dead": "contact with a car that stopped dead",
     "rear-ended by a replayed car": "rear-ended by a replayed car",
     "no contact": "no contact",
 }
@@ -116,11 +118,9 @@ def save(fig, name: str) -> None:
 
 
 def fig_discovery() -> None:
-    held = json.loads((RESEARCH / "held_actors.json").read_text())["runs"]
-    held_runs = {row["run"] for row in held if row["held"]}
     panels = (
         ("Pedestrian", study_curves("pedestrian_ego_speed")),
-        ("Car cutting in (frozen cars not counted)", unfrozen_curves("cut_in_merge", held_runs)),
+        ("Car cutting in", study_curves("cut_in_merge")),
         ("Car ahead braking", study_curves("lead_vehicle")),
     )
     fig, axes = plt.subplots(1, 3, figsize=(DOUBLE, 2.05), sharey=True)
@@ -284,8 +284,22 @@ def fig_failure_types() -> None:
     save(fig, "fig_failure_types")
 
 
+def outcome_category(run: dict) -> str:
+    if run["failed"]:
+        return "counted failure, possible render artifact" if run["possible_artifact"] else "counted failure"
+    if run["contact_at_handoff"]:
+        return "contact begun before the AI drove"
+    if run["contact_with_held_actor"]:
+        return "contact with a car that stopped dead"
+    if run["rear_ended"]:
+        return "rear-ended by a replayed car"
+    return "no contact"
+
+
 def fig_outcome_mix() -> None:
-    data = json.loads((RESEARCH / "figures" / "cards" / "outcome_mix.json").read_text())
+    data = {study: dict(Counter(outcome_category(run) for run in kept(study)))
+            for study in STUDY_NAMES}
+    (RESEARCH / "figures" / "cards" / "outcome_mix.json").write_text(json.dumps(data, indent=1) + "\n")
     fig, ax = plt.subplots(figsize=(SINGLE - 0.55, 2.3))
     _stacked(ax, data, OUTCOMES, list(STUDY_NAMES), percent=True)
     ax.legend_.remove()
@@ -301,9 +315,9 @@ def _case_panels(bev, speed, gap, study: str, run_name: str) -> dict:
     failure (ego driving to the right), and the speeds and the gap over time."""
     run = next(r for r in kept(study) if r["run"] == run_name)
     raw = asyncio.run(_read(completed_rollout(run["run_dir"]) / "rollout.asl"))
-    actors = _tracks(raw)
+    actors = actor_tracks(raw)
     what, when, handoff = moment(run["run_dir"])
-    key, when = _nearest(raw, actors, when, handoff)
+    key, when = nearest_actor(raw, actors, when, handoff)
     ego = actors[EGO]
     t0 = min(ego)
     rel = lambda t: (np.asarray(t, dtype=float) - t0) / 1e6
@@ -356,14 +370,14 @@ def _case_panels(bev, speed, gap, study: str, run_name: str) -> dict:
 
 
 def fig_cases() -> list[dict]:
-    held = {r["run"]: r["held"] for r in json.loads((RESEARCH / "held_actors.json").read_text())["runs"]}
     fig = plt.figure(figsize=(DOUBLE, 2.9))
     grid = fig.add_gridspec(3, 3, height_ratios=[1.15, 0.75, 0.75], hspace=0.25, wspace=0.32)
     shown = []
     for i, (study, run_name) in enumerate(CASES):
         triage = triage_lines(study)[run_name]
-        if triage["policy_at_fault"] != "yes" or held.get(run_name):
-            raise SystemExit(f"{run_name}: triage {triage['policy_at_fault']}, held {held.get(run_name)}")
+        failed = next(r for r in kept(study) if r["run"] == run_name)["failed"]
+        if triage["policy_at_fault"] != "yes" or not failed:
+            raise SystemExit(f"{run_name}: triage {triage['policy_at_fault']}, counted {failed}")
         bev, speed = fig.add_subplot(grid[0, i]), fig.add_subplot(grid[1, i])
         gap = fig.add_subplot(grid[2, i], sharex=speed)
         found = _case_panels(bev, speed, gap, study, run_name)
@@ -388,7 +402,6 @@ def fig_cases() -> list[dict]:
 
 def table_methods() -> str:
     methods = json.loads((RESEARCH / "methods.json").read_text())
-    held = json.loads((RESEARCH / "held_rescore.json").read_text())
     ped, cut, lead = (methods[s]["proposers"] for s in ("pedestrian_ego_speed", "cut_in_merge", "lead_vehicle"))
     each = lambda values: ", ".join(f"{v:g}" for v in values)
     lines = [
@@ -397,25 +410,25 @@ def table_methods() -> str:
         r"\label{tab:methods}",
         r"\centering\footnotesize",
         r"\setlength{\tabcolsep}{3pt}",
-        r"\begin{tabular}{@{}lccccc@{}}",
+        r"\begin{tabular}{@{}lcccc@{}}",
         r"\toprule",
-        r" & Pedestrian & \multicolumn{2}{c}{Car cutting in} & Car ahead & Model \\",
-        r"\cmidrule(lr){2-2}\cmidrule(lr){3-4}\cmidrule(lr){5-5}",
-        r"Method & runs to goal & confirmed & no frozen & confirmed & s/arm \\",
+        r" & Pedestrian & Car cutting in & Car ahead & Model \\",
+        r"\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}",
+        r"Method & runs to goal & confirmed & confirmed & s/arm \\",
         r"\midrule",
     ]
     for m in METHODS:
         seconds = statistics.median(s for study in (ped, cut, lead) for s in study[m]["model_seconds"])
         lines.append(
             f"{LABEL[m]} & {ped[m]['median_runs_to_goal']:g} ({each(ped[m]['runs_to_goal'])}) & "
-            f"{each(cut[m]['confirmed'])} & {each(held['cut_in_merge'][m]['without held-actor failures'])} & "
+            f"{each(cut[m]['confirmed'])} & "
             f"{each(lead[m]['confirmed'])} & {f'{seconds:.0f}' if seconds else '--'} \\\\")
     lines += [
         r"\bottomrule",
         r"\end{tabular}",
         r"\\[2pt]\parbox{\columnwidth}{\scriptsize Runs to goal: kept runs until 5 hardest "
         r"settings were confirmed (median, then each repeat). Confirmed: of 5, per repeat. "
-        r"No frozen: contacts with a car the retiming held still not counted. Model: "
+        r"Contacts with a car the retiming held still are not counted. Model: "
         r"median seconds of model calls per arm over the three studies.}",
         r"\end{table}",
     ]

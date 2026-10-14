@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from physics import features
+from physics import features, stopped_dead
 
 
 def _signals(xs, reported=None, recorded_offset=1.0, gap=30.0, overlap=0.0):
@@ -134,3 +134,26 @@ def test_the_offset_is_measured_along_each_waypoints_normal():
     assert np.allclose(_handoff_deviations(pose, driver, given), bias)
     same = [(t, x, y) for t, x, y, _ in driver]
     assert np.allclose(_handoff_deviations(pose, driver, same), 0.0)
+
+
+def _track(speeds_mps, step_s=0.1, hold_steps=5):
+    """A straight track at the given speed per step, then held still."""
+    x, t, track = 0.0, 0.0, {}
+    for v in speeds_mps:
+        track[int(t * 1e6)] = (x, 0.0, 0.0)
+        x, t = x + v * step_s, t + step_s
+    for _ in range(hold_steps):
+        track[int(t * 1e6)] = (x, 0.0, 0.0)
+        t += step_s
+    return track
+
+
+def test_a_car_held_from_cruising_speed_has_stopped_dead():
+    track = _track([11.0] * 30)
+    assert stopped_dead(track, when=3.2e6)
+    assert not stopped_dead(track, when=2.0e6)  # still moving then
+
+
+def test_a_car_that_braked_to_a_stop_or_a_walker_has_not():
+    assert not stopped_dead(_track([11.0 - 0.5 * i for i in range(22)] + [0.0]), when=3.0e6)
+    assert not stopped_dead(_track([1.4] * 30), when=3.2e6)
