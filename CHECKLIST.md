@@ -12,8 +12,8 @@ is. Paths are under `research/`.
 2. [x] **Random spot check**: 20 random kept runs as cards
    (`figures/cards/spot/README.md`). 5 counted failures, 10 contacts not
    counted, 5 no contact. Still needs a person to mark each card "makes
-   sense / does not". Griffin will mark them, with the four disputed
-   hardest cards (14 Oct).
+   sense / does not". Griffin will mark them, with the five disputed
+   hardest cards, in `verdicts.csv` beside each set (14 Oct).
 3. [x] **Inner loop at work**: `figures/paper/fig_inner_loop.pdf` (4,668
    launches) and `figures/meeting/self_healing.png` (144 failed launches:
    the agent's fix and how each ended; 129 healed).
@@ -98,5 +98,8 @@ is. Paths are under `research/`.
   scorer does not count a contact with a road user that stopped dead
   (`VALIDITY.md` section 4, FACTS problem 31). Every number, curve and
   figure is now under that rule.
-- **Four of the 19 hardest-case cards** have a triage that says the policy
-  was not at fault, or unclear. A person should look at them.
+- **Five of the 19 hardest-case cards** (redrawn 14 Oct under the problem 31
+  rule) have a triage that says the policy was not at fault (3) or unclear
+  (2): pedestrian_ego_speed_hybrid_010, cut_in_merge_hybrid_optuna_001,
+  cut_in_merge_hybrid_optuna_006, lead_vehicle_003,
+  lead_vehicle_optuna_confirm_025. Griffin marks them.

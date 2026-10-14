@@ -76,19 +76,19 @@ One card per confirmed hardest setting (failure rate surely above one half), all
 
 ## cut_in_merge, 0e899dd3: actor speed 2x, actor timing +0 s
 
-![](cut_in_merge_cut_in_merge_hybrid_r2_022.png)
+![](cut_in_merge_cut_in_merge_hybrid_optuna_001.png)
 
 - at-fault contact; counted as the AI's failure: yes; key actor: car 23
-- run `cut_in_merge_hybrid_r2_022` (hybrid_r2)
-- triage: After handoff, the ego slowed from 6.5 to 3.1 m/s. It drifted about 1.4 m left of the recorded path, into the lane of actor 23, a slow vehicle just ahead-left, and hit it with its front at 7.8 s (the gap ahead had shrunk to 4.4 m). Actor 23 was heavily smeared in the camera the whole time, but it was still recognisable as a car. The ego was also rear-ended at some point.
+- run `cut_in_merge_hybrid_optuna_001` (hybrid_optuna)
+- triage: The ego slowed from 6.5 to 3.1 m/s with no close lead to brake for, so it fell about 5 m behind the recorded car. Actor 23, replayed from the log, then merged in from the left just behind where the human car had been, and the ego's front-left corner hit it. Actor 23 was also badly smeared in the camera on the left from 5.8 s on, which may have kept the policy from reacting.
 
-## cut_in_merge, 096988dd: actor speed 2x, actor timing +0 s
+## cut_in_merge, 1c45ce3a: actor speed 1x, actor timing +2 s
 
-![](cut_in_merge_cut_in_merge_hybrid_r2_024.png)
+![](cut_in_merge_cut_in_merge_hybrid_optuna_006.png)
 
-- at-fault contact; counted as the AI's failure: yes; key actor: car 9
-- run `cut_in_merge_hybrid_r2_024` (hybrid_r2)
-- triage: Before the policy took over, actor 9 came up from behind in the ego's lane and hit its rear (rear collision at 3.7 s, while the ego was still replaying the log at about 5 m/s). By the 4.7 s handoff, actor 9 was driving through the ego's box, so the overlap got flagged as a front, at-fault collision at the first moment the policy was in control. The camera smear in that frame comes from the overlap.
+- at-fault contact; counted as the AI's failure: yes; key actor: car 14
+- run `cut_in_merge_hybrid_optuna_006` (hybrid_optuna)
+- triage: The ego was going straight in its lane on a multi-lane arterial and easing from 12 to 10 m/s, staying within 0.1 m of the recorded path. Actor 14 came up from behind in the lane to the right and, at 7.6 s, its box overlapped the ego's right side as it passed (lateral contact). The ego had not moved toward that lane; it was only about 2 m behind its logged position because it drove a little slower, so the replayed actor ran into its side.
 
 ## cut_in_merge, 19f339ba: actor speed 1x, actor timing +0.5 s
 
@@ -98,12 +98,13 @@ One card per confirmed hardest setting (failure rate surely above one half), all
 - run `cut_in_merge_llm_r2_006` (llm_r2)
 - triage: After handoff the ego braked hard on an open highway lane (16.8 to 8.4 m/s while the gap to the lead grew) and drifted left about 1.1 m off the recorded path, toward the lane line. Actor 1, a replayed car in the left lane, kept its recorded speed, came up alongside, and made side contact with the ego's left side.
 
-## cut_in_merge, 1c45ce3a: actor speed 1x, actor timing +2 s
+## cut_in_merge, 096988dd: actor speed 0.75x, actor timing -0.5 s
 
-![](cut_in_merge_cut_in_merge_optuna_confirm_006.png)
+![](cut_in_merge_cut_in_merge_optuna_confirm_025.png)
 
-- at-fault contact; counted as the AI's failure: yes; key actor: car 14
-- run `cut_in_merge_optuna_confirm_006` (optuna_confirm)
+- at-fault contact; counted as the AI's failure: yes; key actor: car 41
+- run `cut_in_merge_optuna_confirm_025` (optuna_confirm)
+- triage: The route command was RIGHT and the recorded path stayed in the lane to the right, but the policy drifted left at about 3 m/s, which is slow for a freeway, and crossed into the adjacent lane. Actor 41 was coming up from behind in that lane and hit the ego on its left side and rear.
 
 ## lead_vehicle, 12855a41: actor speed 0.75x, actor timing +0 s, delay 200000 us
 
@@ -121,13 +122,13 @@ One card per confirmed hardest setting (failure rate surely above one half), all
 - run `lead_vehicle_003` (llm)
 - triage: 0.6 s into the run, still exactly on the recorded human path (0.0 m off) at a steady 18.7 m/s, the ego hit the rear of lead car 18 in its lane on the highway. The gap shrank from 13.4 m to 4.1 m in 0.5 s, so the lead was moving at almost 0 m/s, which the recorded drive doesn't show. The lead car's simulated track looks broken (a replay or initialization artifact), and no policy could have stopped from 13 m at that speed in 0.6 s.
 
-## lead_vehicle, 096988dd: actor speed 1.5x, actor timing -2 s, delay 350000 us
+## lead_vehicle, 023b7fcc: actor speed 0.75x, actor timing +1 s, delay 200000 us
 
-![](lead_vehicle_lead_vehicle_random_confirm_r2_007.png)
+![](lead_vehicle_lead_vehicle_hybrid_optuna_r3_003.png)
 
-- at-fault contact; counted as the AI's failure: yes; key actor: car 22
-- run `lead_vehicle_random_confirm_r2_007` (random_confirm_r2)
-- triage: The route command was RIGHT and the recorded path stayed to the right, but the policy steered left across the lane line toward the left-most lanes and the barrier. At 10.9 s, travelling at about 3.5 m/s, it sideswiped vehicle 22, which was alongside it in the left lane.
+- at-fault contact; counted as the AI's failure: yes; key actor: car 56
+- run `lead_vehicle_hybrid_optuna_r3_003` (hybrid_optuna_r3)
+- triage: In slow, dense highway traffic the ego followed actor 12 closely (about 4–5 m) as 12 sat between lanes just ahead and to the right. On a RIGHT command, the ego sped up from 3.1 to 3.8 m/s and steered right toward 12's lane, and its front-right corner hit 12's rear-left corner.
 
 ## lead_vehicle, 09a95ffa: actor speed 0.75x, actor timing +0 s, delay 200000 us
 
@@ -137,18 +138,18 @@ One card per confirmed hardest setting (failure rate surely above one half), all
 - run `lead_vehicle_hybrid_032` (hybrid)
 - triage: On a multi-lane highway, the ego braked hard behind lead vehicle 1 (from 7.9 to about 3.6 m/s) and then steered left into the adjacent lane, even though the route command said RIGHT. Its left side hit vehicle 33, which was coming up alongside in that lane at 7.5 s; this was a lateral collision.
 
-## lead_vehicle, 0e899dd3: actor speed 0.5x, actor timing -1 s, delay 50000 us
+## lead_vehicle, 096988dd: actor speed 1.5x, actor timing -2 s, delay 350000 us
 
-![](lead_vehicle_lead_vehicle_random_confirm_033.png)
+![](lead_vehicle_lead_vehicle_random_confirm_r2_007.png)
+
+- at-fault contact; counted as the AI's failure: yes; key actor: car 22
+- run `lead_vehicle_random_confirm_r2_007` (random_confirm_r2)
+- triage: The route command was RIGHT and the recorded path stayed to the right, but the policy steered left across the lane line toward the left-most lanes and the barrier. At 10.9 s, travelling at about 3.5 m/s, it sideswiped vehicle 22, which was alongside it in the left lane.
+
+## lead_vehicle, 0e899dd3: actor speed 0.5x, actor timing -1 s, delay 150000 us
+
+![](lead_vehicle_lead_vehicle_optuna_confirm_025.png)
 
 - at-fault contact; counted as the AI's failure: yes; key actor: car 5
-- run `lead_vehicle_random_confirm_033` (random_confirm)
-- triage: The ego was in stop-and-go freeway traffic, closing on the slower pickup (actor 5) ahead in its lane. The policy took over at 4.7 s with only a 6.3 m gap, then braked from 6.5 to 4.9 m/s, and the front contact was flagged 0.5 s later. At that moment the ego was exactly on the recorded human path (0.0 m off, about 0.5 m behind the logged position because it braked), so the real car was at least as close to this truck and didn't hit it. The overlap most likely comes from the logged actor box or replay timing, not from a policy mistake.
-
-## lead_vehicle, 023b7fcc: actor speed 0.75x, actor timing +0 s, delay 200000 us
-
-![](lead_vehicle_lead_vehicle_hybrid_r3_024.png)
-
-- at-fault contact; counted as the AI's failure: yes; key actor: car 56
-- run `lead_vehicle_hybrid_r3_024` (hybrid_r3)
-- triage: The route command switched to RIGHT and the recorded path went right. Instead, the policy drifted left into the next lane, about 2 m off the recording, and cut in beside actor 56, which was coming up from behind in that lane. That caused a side collision, and the frame at the moment of failure also shows rear contact.
+- run `lead_vehicle_optuna_confirm_025` (optuna_confirm)
+- triage: In stop-and-go highway traffic the ego follows a blue pickup (actor 6) in its lane. During the log replay before handoff, the gap closed from 15 m to 6.3 m at about 3.5 m/s. The policy took over at 4.7 s and slowed from 6.5 to 5.3 m/s, but the front collision with the pickup was flagged 0.5 s later, while the ego was still exactly on the recorded human path (0.0 m off) and the gap reading was still 4.8 m. That points to an inherited setup or an actor/box mismatch more than a policy error. The ego was also rear-ended at some point.
