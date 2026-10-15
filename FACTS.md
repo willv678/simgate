@@ -1017,6 +1017,7 @@ for it. Runs to goal, replicates 1-3 (median):
   problem 26), and hybrid can only choose among those candidates.
   On this study the AI's value is in choosing freely, the reverse of the
   car scenes, where hybrid led.
+- Figure: `figures/discovery_lane_keeping.png` (`harness/discovery_curve.py`).
 - Model time per arm: llm 27-31 s, llm_v2 33-66 s, Optuna + AI 30-47 s,
   hybrid 84-89 s, hybrid v2 100-102 s.
 

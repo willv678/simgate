@@ -27,13 +27,14 @@ from read_state import ROOT
 from study import plan_runs
 
 STUDIES = ("pedestrian_ego_speed", "cut_in_merge", "lead_vehicle",
-           "pedestrian_ego_speed_2hz", "cut_in_merge_2hz", "lead_vehicle_2hz")
+           "pedestrian_ego_speed_2hz", "cut_in_merge_2hz", "lead_vehicle_2hz", "lane_keeping")
 METHODS = ("rules", "hybrid", "llm", "random_confirm", "optuna_confirm", "hybrid_optuna")
+V2 = ("llm_v2", "hybrid_v2")
 LABEL = {"rules": "rules", "hybrid": "hybrid (rules + AI)", "llm": "AI picks",
          "random_confirm": "random + repeat", "optuna_confirm": "Optuna + repeat",
-         "hybrid_optuna": "Optuna + AI"}
+         "hybrid_optuna": "Optuna + AI", "llm_v2": "AI picks v2", "hybrid_v2": "hybrid v2"}
 NAMES = {"pedestrian_ego_speed": "Pedestrian", "cut_in_merge": "Car cutting in",
-         "lead_vehicle": "Car ahead braking"}
+         "lead_vehicle": "Car ahead braking", "lane_keeping": "Lane keeping"}
 FIGURES = ROOT / "research" / "figures"
 
 
@@ -43,12 +44,12 @@ def study_curves(study: str) -> dict:
     plan = json.loads((ROOT / "research" / "studies" / study / "plan.json").read_text())["plan"]
     reps, _ = replicate_rows(ROOT / "research" / "studies" / study, plan)
     k, budget = plan["goal"]["k"], plan_runs(plan)
-    return {m: [curve(r, k, budget) for r in reps[m]] for m in METHODS if m in reps}
+    return {m: [curve(r, k, budget) for r in reps[m]] for m in METHODS + V2 if m in reps}
 
 
 def plot(study: str, curves: dict, target: Path) -> None:
-    fig, ax = plt.subplots(figsize=(7, 4.5))
-    for method in METHODS:
+    fig, ax = plt.subplots(figsize=(9, 4.5))
+    for method in METHODS + V2:
         runs = [c for c in curves.get(method, []) if c]
         if not runs:
             continue
@@ -66,8 +67,8 @@ def plot(study: str, curves: dict, target: Path) -> None:
     ax.set_ylim(-0.1, 5.3)
     ax.grid(alpha=0.3)
     ax.spines[["top", "right"]].set_visible(False)
-    ax.legend(fontsize=9, frameon=False, loc="upper left",
-              title="median; band = lowest to highest repeat (n)", title_fontsize=8)
+    ax.legend(fontsize=9, frameon=False, loc="upper left", bbox_to_anchor=(1.01, 1),
+              title="median; band = lowest to\nhighest repeat (n)", title_fontsize=8)
     fig.tight_layout()
     fig.savefig(target, dpi=200)
     plt.close(fig)
