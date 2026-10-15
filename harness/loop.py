@@ -44,7 +44,7 @@ DISPATCH = {
 # about 300 calls and stopped the C2 tier 1 arm; archive.py aborted at exit
 # after saving its verdict once in about 2500 runs (12 Oct) and stopped a
 # study arm.
-RERUNNABLE = ("monitor.py", "analyze.py", "archive.py")
+RERUNNABLE = ("monitor.py", "analyze.py", "validate_diagnosis.py", "archive.py")
 
 
 class ScriptCrash(Exception):

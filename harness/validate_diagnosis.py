@@ -86,6 +86,11 @@ def main() -> int:
     entry_path = Path(sys.argv[1])
     entry = load_entry(entry_path)
     state = read_state(entry)
+    verdict = (entry["diagnosis"] or {}).get("verdict", "")
+    if state.state is State.DONE and verdict.startswith("rejected"):
+        # Run again after a crash at interpreter exit: the rejection was saved.
+        print(json.dumps({"accepted": False, "verdict": verdict, "already": True}))
+        return 0
     if state.state is not State.FAILED:
         raise SystemExit(f"{entry['name']} is {state.state.value}, not FAILED")
 

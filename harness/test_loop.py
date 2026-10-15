@@ -103,6 +103,9 @@ def test_only_a_signal_crash_of_a_rerunnable_script_is_rerun():
         "recover.py", ScriptCrash("recover.py", Path("e.json"), -6, "")
     )
     assert rerun_after("archive.py", ScriptCrash("archive.py", Path("e.json"), -6, ""))
+    assert rerun_after(
+        "validate_diagnosis.py", ScriptCrash("validate_diagnosis.py", Path("e.json"), -6, "")
+    )
 
 
 def test_a_second_loop_on_the_same_queue_exits(tmp_path):

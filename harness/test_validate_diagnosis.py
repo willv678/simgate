@@ -1,6 +1,12 @@
 """validate_diagnosis.py: which diagnoses of a FAILED run may reach recover.py."""
 
+import json
+import sys
+from pathlib import Path
+
 import pytest
+import validate_diagnosis
+from read_state import save_entry
 from validate_diagnosis import rejection
 
 POSTFLIGHT = "wizard_exit_code: 1; postflight_failed: metrics file not found"
@@ -82,3 +88,17 @@ def test_second_cleanup_of_the_same_machine_problem_is_rejected(make_run):
     assert (
         rejection(entry, ENVIRONMENT) == "environment still failing after CLEANUP_ENV"
     )
+
+
+def test_run_again_after_a_crash_at_exit_reports_the_saved_rejection(
+    make_run, tmp_path, monkeypatch, capsys
+):
+    path = tmp_path / "entry.json"
+    save_entry(path, _entry(make_run, "ACCEPT", {}, context_length=1))
+    monkeypatch.setattr(sys, "argv", ["validate_diagnosis.py", str(path)])
+    validate_diagnosis.main()
+    first = json.loads(capsys.readouterr().out)
+    assert not first["accepted"]
+    validate_diagnosis.main()
+    again = json.loads(capsys.readouterr().out)
+    assert again == {**first, "already": True}
