@@ -957,7 +957,7 @@ contacts with a car the retiming held still not counted, problem 31, which
 the scorer does from 14 Oct, so `METHODS.md` now shows those numbers; the
 first Optuna + AI cut-in replicate met its goal at 20 runs on frozen-car
 contacts and stopped at 27, so under the rule it is left out and a fourth
-replicate is queued):
+replicate replaces it, finished 15 Oct):
 
 | method | pedestrian: runs to goal | cut-in | cut-in, no frozen | lead | car scenes, no frozen (of 30) |
 |---|---|---|---|---|---|
@@ -966,23 +966,25 @@ replicate is queued):
 | AI picks | 28, 40, 37 | 3, 4, 3 | 3, 2, 1 | 3, 1, 3 | 13 |
 | random + repeat | 31, 32, 32 | 3, 0, 1 | 2, 0, 1 | 4, 1, 2 | 10 |
 | Optuna + repeat | 25, 31, 33 | 4, 5, 1 | 4, 4, 0 | 1, 3, 1 | 13 |
-| Optuna + AI | 21, 20, 21 | 5, 4, 5 | (3,) 2, 3 | 1, 2, 4 | 15 (12 of 25 without the first cut-in replicate; a fourth is running) |
+| Optuna + AI | 21, 20, 21 | 5, 4, 5 | 2, 3, 1 (replicates 2-4) | 1, 2, 4 | 13 |
 
 - **Pedestrian**: every arm of every method confirms 5 of 5; Optuna + AI
   gets there first in all three replicates (median 21 runs: rules 25,
   hybrid 24, Optuna + repeat 31, random + repeat 32, AI picks 37).
 - **Car scenes, frozen cars not counted** (Mann-Whitney, 6 values per
-  method): hybrid vs rules p 0.006, Optuna + AI vs rules p 0.054, AI picks
-  vs rules 0.097; hybrid vs random 0.078; Optuna + repeat vs rules 0.25,
-  vs random 0.74; every pair among hybrid, AI picks, Optuna + repeat and
-  Optuna + AI p > 0.2. (Optuna + AI counts its first cut-in replicate,
-  which stopped early; recompute when the fourth finishes.)
+  method; Optuna + AI with its fourth cut-in replicate, 15 Oct): hybrid
+  vs rules p 0.006, AI picks vs rules 0.097, Optuna + AI vs rules 0.15;
+  hybrid vs random 0.078, Optuna + AI vs random 0.51; Optuna + repeat vs
+  rules 0.25, vs random 0.74; every pair among hybrid, AI picks, Optuna +
+  repeat and Optuna + AI p > 0.2.
 - **Optuna + AI chased frozen cars most**: cut-in 14 of 15 as counted, 8
   without them. Optuna alone barely did (10 to 8).
 - Reading: Optuna alone is no better than random + repeat at this budget;
-  an AI chooser (over the rules' or Optuna's candidates) is what separates
-  from rules; differences among the AI variants are within the noise of
-  three replicates.
+  the AI choosing among the rules' candidates (hybrid) is the one method
+  that clearly separates from rules on the car scenes; AI picks and
+  Optuna + AI sit between rules and hybrid, and the AI variants differ
+  within the noise of three replicates. On pedestrian Optuna + AI is the
+  fastest in every replicate.
 
 ### Shao's 13 Oct feedback: evidence produced (`CHECKLIST.md`)
 

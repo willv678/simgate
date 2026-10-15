@@ -1,0 +1,54 @@
+[
+ {
+  "run": "cut_in_merge_hybrid_optuna_r4_006",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "no_brake_for_lead",
+  "what_happened": "On a multi-lane highway, the ego took over 1.7 m behind lead vehicle 66 in its own lane. Instead of braking, it sped up from 4.2 to 5.4 m/s and drove into and through 66's box (front collision from about 5.3 s, gap 0.1 m at 6.3 s, which also triggered the rear-contact flag), then veered left toward vehicle 61's lane while still in contact at 7.3 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16038,
+   "output_tokens": 1255,
+   "duration_ms": 13442
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_optuna_r4_010",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "Right after handoff, the ego was tangled up with actor 66 directly ahead in its lane. The two first touched front-on (about 5.3s), then 66 ended up overlapping the ego's rear (6.3s). After that, at about 6 m/s, the ego veered left off its planned path and partway into the next lane, hitting actor 61 there with its front at 7.3s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16054,
+   "output_tokens": 1042,
+   "duration_ms": 10790
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_optuna_r4_011",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "In dense, slow highway traffic the ego tailgated actor 66 and was tangled up with it by 5.3\u20136.3s, with both front and rear contact. It then steered left out of its lane, away from the recorded path toward the adjacent lane, and at 7.3s drove its front into actor 61 in that lane at about 5.8 m/s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13226,
+   "output_tokens": 890,
+   "duration_ms": 10718
+  }
+ },
+ {
+  "run": "cut_in_merge_hybrid_optuna_r4_012",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "The ego was tailgating actor 66 in its lane at about 5 m/s, closing to almost no gap and making contact around 5.3\u20136.3 s. It then left its planned path and steered left into the adjacent lane, where at 7.3 s its front ran into actor 61 in that lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13217,
+   "output_tokens": 967,
+   "duration_ms": 10647
+  }
+ }
+]

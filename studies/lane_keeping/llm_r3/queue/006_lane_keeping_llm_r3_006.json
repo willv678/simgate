@@ -1,0 +1,82 @@
+{
+  "name": "lane_keeping_llm_r3_006",
+  "run_dir": "diag/lane_keeping_llm_r3_006",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": -0.5,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.4
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 3014755,
+  "launched_at": 1792062971.3638785,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "lane_keeping_llm_r3_006",
+      "k_status": "wizard_exit_code: 1; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "trafficsim_device": "cpu",
+        "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+        "controller": "linear",
+        "traffic": "replay",
+        "planner_delay_us": 0,
+        "lateral_bias_m": -0.5,
+        "waypoint_noise_std": 0.0,
+        "actor_time_shift_s": 0.0,
+        "actor_speed_scale": 1.0,
+        "ego_speed_scale": 1.4
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-15T11:16:18.711Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "RuntimeError: The following operation failed in the TorchScript interpreter.",
+        "RuntimeError: CUDA out of memory. Tried to allocate 576.00 MiB. GPU 0 has a total capacity of 23.50 GiB of which 219.19 MiB is free. Process 3013008 has 8.83 GiB memory in use. Process 3012730 has 5.51 GiB memory in use. Process 3012890 has",
+        "[2026-10-15 11:17:22,052][__main__][ERROR] - Exception in drive",
+        "[2026-10-15 11:17:22,053][grpc._server][ERROR] - Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "11:17:22.055 [W0] ERROR:\tError during event handling. Pending events in queue (7):",
+        "grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:",
+        "details = \"Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "debug_error_string = \"UNKNOWN:Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "11:17:22.061 [W0] WARNING:\tRollout FAILED: job=1feaef4a9352493dae875768c0df9964 scene=clipgt-187e6244-f541-48ed-8372-62d6da8b547a uuid=e41c14be-c889-11f1-941d-756dc6f3b1d7 error=<AioRpcError of RPC that terminated with:",
+        "11:17:22.062 [W0] WARNING:\tRetrying failed rollout: scene=clipgt-187e6244-f541-48ed-8372-62d6da8b547a failed_job=1feaef4a9352493dae875768c0df9964 retry_job=c0c20dff32154713bb5cdc4644d60378 retry=1/2 error=<AioRpcError of RPC that terminated",
+        "Scene clipgt-187e6244-f541-48ed-8372-62d6da8b547a: <AioRpcError of RPC that terminated with:",
+        "runtime-0-1 exited with code 1",
+        "controller-0-1 exited with code 143",
+        "physics-0-1 exited with code 143"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nlane_keeping_hybrid_r3_025_microservices_network\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n761 MiB, 23305 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  844G   68G  93% /\n",
+    "skill": "RE-RUN",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 20274,
+    "output_tokens": 299,
+    "duration_ms": 4713,
+    "tool_calls": [
+      "Bash: nvidia-smi; docker ps"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

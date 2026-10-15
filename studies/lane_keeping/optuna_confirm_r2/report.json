@@ -1,0 +1,525 @@
+{
+ "answer": {
+  "answer": "The goal was met. Five settings on five different scenes failed on every repeat, which puts each one's failure range above 0.5: S10 (-0.3 m, 1.4x), S17 (+0.1 m, 0.6x), S21 (+0.5 m, 1.2x), S23 (+0.1 m, 0.6x) and S4 (0.0 m, 1.0x). However, the data do not show that sideways plan error and hand-off speed are what make VaVAM leave its lane. One confirmed case (S4) has no bias and no speed change at all. Another setting on a different scene with no bias, S8, also failed every run. Two confirmed cases have only a small bias at the slowest speed. Most failures follow one pattern whatever the sign of the bias: the route says RIGHT, the policy ignores it, drifts left and leaves the road onto the median or shoulder. Triage blames the policy every time. Nearly all confirmed runs carry a possible-artifact flag only because the ego ended more than 3.5 m from the recording, and the camera was clean before each departure. Each confirmed range rests on just a few repeats, and its lower edge sits just above 0.5.",
+  "findings": [
+   {
+    "claim": "Five settings on five different scenes failed on every repeat, which meets the top-5 goal: -0.3 m at 1.4x, +0.1 m at 0.6x on two scenes, +0.5 m at 1.2x, and 0.0 m at 1.0x.",
+    "settings": [
+     "S10",
+     "S17",
+     "S21",
+     "S23",
+     "S4"
+    ]
+   },
+   {
+    "claim": "Failures happen without any perturbation. On scene 05f35348, every run at the nominal setting (0.0 m, 1.0x) left the road. On scene 0ce6f2a3, every run at 0.0 m and 1.4x ran onto the median at a road split. So these failures cannot be blamed on the sideways error.",
+    "settings": [
+     "S4",
+     "S8"
+    ]
+   },
+   {
+    "claim": "Large bias and high speed are not needed. On two scenes, a +0.1 m bias at the slowest speed (0.6x) failed every run: the ego stayed in or drifted out of the leftmost lane against a RIGHT command and went over the left edge.",
+    "settings": [
+     "S17",
+     "S23"
+    ]
+   },
+   {
+    "claim": "The main failure mode is ignoring the route. With a RIGHT command, the policy drifts left off the road onto the median, barrier or shoulder. This happened with positive, zero and small biases alike, so the direction of departure mostly does not follow the sign of the bias.",
+    "settings": [
+     "S4",
+     "S8",
+     "S17",
+     "S21",
+     "S23",
+     "S2",
+     "S3",
+     "S9",
+     "S24"
+    ]
+   },
+   {
+    "claim": "Collisions with other road users came mostly in slow, queued traffic. At -0.3 m and 1.4x on scene 0cf6368d, the ego angled left under a LEFT command into a queued car beside it, and in one run crept into the stopped car ahead. On the same scene, another setting gave a slow nose-in into the car ahead and a third clipped a queued car. These are front or side hits, so they count as failures.",
+    "settings": [
+     "S10",
+     "S11",
+     "S13"
+    ]
+   },
+   {
+    "claim": "Only a few single runs left the lane on the side the bias points to. With a -0.3 m (rightward) bias, the ego drifted right into a car alongside, steered right into a car in the right lane, or ran off the right edge on a curve. Each of these is one run: a hint, not a rate.",
+    "settings": [
+     "S15",
+     "S5",
+     "S14"
+    ]
+   },
+   {
+    "claim": "Every triaged failure was the policy's fault. The possible-artifact flags come from the ego ending more than 3.5 m off the recording after it left the lane. Triage found the camera clean before each departure. Rear contacts from replayed traffic happened in some runs, but they came alongside or after the ego left its lane and were not scored as failures.",
+    "settings": [
+     "S4",
+     "S8",
+     "S10",
+     "S17",
+     "S21",
+     "S2",
+     "S3"
+    ]
+   },
+   {
+    "claim": "Some settings did not fail. At 0.0 m and 1.4x on scene 19f339ba, neither run failed, so this scene had no confirmed hard case. Several single runs at slow or moderate settings also passed, but one passing run says little.",
+    "settings": [
+     "S22",
+     "S1",
+     "S6",
+     "S12",
+     "S16",
+     "S19",
+     "S20"
+    ]
+   }
+  ],
+  "open": [
+   "Is the knob doing anything? Most confirmed scenes were never run at the nominal setting (0.0 m, 1.0x). Repeat the nominal setting on scenes 0cf6368d, 12855a41, 187e6244 and 1b7d131a, and compare with the confirmed settings. If those also fail, the cause is the scene's RIGHT/LEFT route command, not perception error.",
+   "Scene 05f35348 failed at the nominal setting, yet the plan says all scenes passed at 0 delay. Rerun this scene with the plain baseline to see whether the policy is stochastic or the earlier screen was wrong.",
+   "There is no map of how failure depends on bias and speed. Most settings had a single run, and the 9 x 5 grid was sampled sparsely. Sweep bias from -0.5 to +0.5 m at a fixed speed on one or two scenes, with repeats, to see whether the sign and size of the bias matter.",
+   "Whether the side and front collisions in queued traffic come from the bias or the route command. Settings S11 and S13 had a single run each; repeat them, plus the nominal setting on scene 0cf6368d.",
+   "The LSS oncoming and overtaking cases were not targeted. Only one failure (S7, a single run) involved a vehicle coming up alongside, and the tags cannot pick such scenes on purpose.",
+   "Near misses were not ranked, because enough settings failed outright."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": -0.1,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.675,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_003"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": 0.1,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 2,
+   "failure_rate_90": [
+    0.25,
+    0.92
+   ],
+   "possible_artifacts": 2,
+   "criticality": 0.96,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_010",
+    "lane_keeping_optuna_confirm_r2_011",
+    "lane_keeping_optuna_confirm_r2_034"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 0.8,
+   "runs": 2,
+   "failed": 2,
+   "failure_rate_90": [
+    0.42,
+    1.0
+   ],
+   "possible_artifacts": 2,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_029",
+    "lane_keeping_optuna_confirm_r2_031"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+   "lateral_bias_m": 0.0,
+   "ego_speed_scale": 1.0,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_008",
+    "lane_keeping_optuna_confirm_r2_025",
+    "lane_keeping_optuna_confirm_r2_033"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "lateral_bias_m": -0.3,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_036"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "lateral_bias_m": -0.1,
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.659,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_019"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "lateral_bias_m": 0.1,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_037"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+   "lateral_bias_m": 0.0,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_009",
+    "lane_keeping_optuna_confirm_r2_014",
+    "lane_keeping_optuna_confirm_r2_022"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+   "lateral_bias_m": 0.3,
+   "ego_speed_scale": 0.8,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_007"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "lateral_bias_m": -0.3,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_005",
+    "lane_keeping_optuna_confirm_r2_015",
+    "lane_keeping_optuna_confirm_r2_024"
+   ]
+  },
+  {
+   "id": "S11",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "lateral_bias_m": -0.1,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_040"
+   ]
+  },
+  {
+   "id": "S12",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "lateral_bias_m": 0.3,
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.349,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_038"
+   ]
+  },
+  {
+   "id": "S13",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_028"
+   ]
+  },
+  {
+   "id": "S14",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "lateral_bias_m": -0.3,
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_039"
+   ]
+  },
+  {
+   "id": "S15",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": -0.3,
+   "ego_speed_scale": 0.8,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_020"
+   ]
+  },
+  {
+   "id": "S16",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": -0.2,
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.801,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_016"
+   ]
+  },
+  {
+   "id": "S17",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": 0.1,
+   "ego_speed_scale": 0.6,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_001",
+    "lane_keeping_optuna_confirm_r2_012",
+    "lane_keeping_optuna_confirm_r2_021"
+   ]
+  },
+  {
+   "id": "S18",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": 0.1,
+   "ego_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_018"
+   ]
+  },
+  {
+   "id": "S19",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.522,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_027"
+   ]
+  },
+  {
+   "id": "S20",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "lateral_bias_m": -0.2,
+   "ego_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.716,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_030"
+   ]
+  },
+  {
+   "id": "S21",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_002",
+    "lane_keeping_optuna_confirm_r2_006",
+    "lane_keeping_optuna_confirm_r2_013"
+   ]
+  },
+  {
+   "id": "S22",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "lateral_bias_m": 0.0,
+   "ego_speed_scale": 1.4,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.889,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_004",
+    "lane_keeping_optuna_confirm_r2_035"
+   ]
+  },
+  {
+   "id": "S23",
+   "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+   "lateral_bias_m": 0.1,
+   "ego_speed_scale": 0.6,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_017",
+    "lane_keeping_optuna_confirm_r2_023",
+    "lane_keeping_optuna_confirm_r2_032"
+   ]
+  },
+  {
+   "id": "S24",
+   "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+   "lateral_bias_m": 0.2,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_optuna_confirm_r2_026"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 15454,
+  "output_tokens": 2804,
+  "duration_ms": 28096
+ }
+}

@@ -1,0 +1,83 @@
+{
+  "name": "lane_keeping_hybrid_v2_r2_002",
+  "run_dir": "diag/lane_keeping_hybrid_v2_r2_002",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 2505434,
+  "launched_at": 1792049380.5206792,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "lane_keeping_hybrid_v2_r2_002",
+      "k_status": "wizard_exit_code: 1; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "trafficsim_device": "cpu",
+        "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+        "controller": "linear",
+        "traffic": "replay",
+        "planner_delay_us": 0,
+        "lateral_bias_m": 0,
+        "waypoint_noise_std": 0.0,
+        "actor_time_shift_s": 0.0,
+        "actor_speed_scale": 1.0,
+        "ego_speed_scale": 1
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-15T07:29:47.983Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "RuntimeError: The following operation failed in the TorchScript interpreter.",
+        "RuntimeError: CUDA out of memory. Tried to allocate 576.00 MiB. GPU 0 has a total capacity of 23.50 GiB of which 549.19 MiB is free. Process 2503917 has 8.81 GiB memory in use. Process 2503885 has 5.51 GiB memory in use. Process 2503816 has",
+        "[2026-10-15 07:30:45,193][__main__][ERROR] - Exception in drive",
+        "[2026-10-15 07:30:45,194][grpc._server][ERROR] - Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "07:30:45.195 [W0] ERROR:\tError during event handling. Pending events in queue (7):",
+        "grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:",
+        "details = \"Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "debug_error_string = \"UNKNOWN:Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "07:30:45.200 [W0] WARNING:\tRollout FAILED: job=85df455d779a46668ecbb71f9f4a97d4 scene=clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c uuid=3c2259a4-c86a-11f1-ab2a-7550e0efb5ec error=<AioRpcError of RPC that terminated with:",
+        "07:30:45.202 [W0] WARNING:\tRetrying failed rollout: scene=clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c failed_job=85df455d779a46668ecbb71f9f4a97d4 retry_job=bc40d516ab214f5e8d383e384e738bca retry=1/2 error=<AioRpcError of RPC that terminated",
+        "Scene clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c: <AioRpcError of RPC that terminated with:",
+        "runtime-0-1 exited with code 1",
+        "controller-0-1 exited with code 143",
+        "physics-0-1 exited with code 143"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nlane_keeping_llm_v2_r2_014-renderer-0-1\tUp 2 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nlane_keeping_llm_v2_r2_014_microservices_network\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n9835 MiB, 14231 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  841G   70G  93% /\n",
+    "skill": "RE-RUN",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 33151,
+    "output_tokens": 655,
+    "duration_ms": 11933,
+    "tool_calls": [
+      "Bash: nvidia-smi; docker ps -a; docker network ls",
+      "Bash: docker ps --format '{{.Names}} {{.Status}}' | head -50; docker ps -a --format '{{.Names}} {{.Status}}' | wc -l"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

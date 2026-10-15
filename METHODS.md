@@ -14,7 +14,7 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | cut_in_merge | llm | 3 | 54, 53, 54 | 0 | 54, 54, 54 | 54 | 3, 2, 1 of 5 | 0.962, 0.932, 0.936 | 15, 9, 10 | 101.3, 108.2, 86.6 |
 | cut_in_merge | random_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 0, 1 of 5 | 0.959, 0.932, 0.907 | 13, 7, 3 | 0.0, 0.0, 0.0 |
 | cut_in_merge | optuna_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 4, 4, 0 of 5 | 0.977, 1.0, 0.931 | 15, 13, 6 | 0.0, 0.0, 0.0 |
-| cut_in_merge | hybrid_optuna | 2 | 54, 54 | 0 | 54, 54 | 54.0 | 2, 3 of 5 | 0.932, 0.965 | 11, 19 | 93.5, 97.2 |
+| cut_in_merge | hybrid_optuna | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 3, 1 of 5 | 0.932, 0.965, 0.911 | 11, 19, 4 | 93.5, 97.2, 103.5 |
 | cut_in_merge_2hz | rules | 3 | 53, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 1, 1 of 5 | 0.909, 0.883, 0.887 | 8, 11, 8 | 0.0, 0.0, 0.0 |
 | cut_in_merge_2hz | rules_v3 | 1 | 54 | 0 | 54 | 54 | 0 of 5 | 0.862 | 3 | 0.0 |
 | cut_in_merge_2hz | hybrid | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 2, 1 of 5 | 0.908, 0.897, 0.906 | 6, 13, 5 | 87.6, 92.2, 87.0 |
@@ -27,13 +27,14 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | intersection_ego_speed | hybrid | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.626 | 9 | 123.1 |
 | intersection_ego_speed | llm | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.599 | 8 | 117.7 |
 | intersection_ego_speed | random_confirm | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.606 | 12 | 0.0 |
-| lane_keeping | rules | 1 | 50 | 0 | 50 | 50 | 2 of 5 | 0.969 | 11 | 0.0 |
-| lane_keeping | hybrid | 1 | 50 | 0 | 50 | 50 | 4 of 5 | 1.0 | 22 | 89.3 |
-| lane_keeping | llm | 1 | 20 | 1 | 20 | 20 | 5 of 5 | 1.0 | 19 | 28.7 |
-| lane_keeping | random_confirm | 1 | 38 | 1 | 31 | 31 | 5 of 5 | 1.0 | 28 | 0.0 |
-| lane_keeping | optuna_confirm | 1 | 36 | 1 | 28 | 28 | 5 of 5 | 1.0 | 30 | 0.0 |
-| lane_keeping | hybrid_optuna | 1 | 18 | 1 | 18 | 18 | 5 of 5 | 1.0 | 18 | 32.1 |
-| lane_keeping | llm_v2 | 1 | 17 | 1 | 17 | 17 | 5 of 5 | 1.0 | 17 | 38.9 |
+| lane_keeping | rules | 3 | 50, 50, 50 | 0 | 50, 50, 50 | 50 | 2, 2, 1 of 5 | 0.969, 0.979, 0.945 | 11, 10, 9 | 0.0, 0.0, 0.0 |
+| lane_keeping | hybrid | 2 | 50, 50 | 0 | 50, 50 | 50.0 | 4, 3 of 5 | 1.0, 0.976 | 22, 23 | 89.3, 86.8 |
+| lane_keeping | llm | 2 | 20, 19 | 2 | 20, 19 | 19.5 | 5, 5 of 5 | 1.0, 1.0 | 19, 19 | 28.7, 31.0 |
+| lane_keeping | random_confirm | 2 | 38, 37 | 2 | 31, 30 | 30.5 | 5, 5 of 5 | 1.0, 1.0 | 28, 30 | 0.0, 0.0 |
+| lane_keeping | optuna_confirm | 2 | 36, 40 | 2 | 28, 32 | 30.0 | 5, 5 of 5 | 1.0, 1.0 | 30, 31 | 0.0, 0.0 |
+| lane_keeping | hybrid_optuna | 2 | 18, 28 | 2 | 18, 20 | 19.0 | 5, 5 of 5 | 1.0, 1.0 | 18, 24 | 32.1, 47.4 |
+| lane_keeping | llm_v2 | 2 | 17, 29 | 2 | 17, 21 | 19.0 | 5, 5 of 5 | 1.0, 1.0 | 17, 28 | 38.9, 66.2 |
+| lane_keeping | hybrid_v2 | 2 | 49, 44 | 2 | 43, 39 | 41.0 | 5, 5 of 5 | 1.0, 1.0 | 19, 27 | 101.3, 100.1 |
 | lead_vehicle | rules | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 0, 0, 0 of 5 | 0.846, 0.851, 0.854 | 0, 0, 0 | 0.0, 0.0, 0.0 |
 | lead_vehicle | rules_corners | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.853 | 0 | 0.0 |
 | lead_vehicle | rules_v2 | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.891 | 1 | 0.0 |

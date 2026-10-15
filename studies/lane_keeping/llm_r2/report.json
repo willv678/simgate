@@ -1,0 +1,244 @@
+{
+ "answer": {
+  "answer": "Five settings are confirmed as challenging, each on a different scene: S1, S4, S6, S8 and S9. All five use the same corner of the grid, a -0.5 m shift (to the right) at 1.4x speed, and at each one every repeat failed. With this few repeats, the 90% ranges only show that each failure rate is above 0.5, not that it is near 1. The +0.5 m shift (to the left) at 1.4x also failed on every scene it was tried on (S2, S3, S5, S7), but that is one run per scene, so it is a hint, not a rate. In nearly every failure the policy drifted toward the side of the shift: it ran off the road on a curve, cut into a car beside it, or ended up behind a slow vehicle it braked too late for. Only the \u00b10.5 m, 1.4x corners were run, so the study cannot say whether smaller shifts or lower speeds also cause failures, or which of the two knobs drives them. The few failures flagged as possible rendering artifacts look like real policy errors in the triage: the camera view was clean before the drift.",
+  "findings": [
+   {
+    "claim": "The five hardest cases are all at a -0.5 m shift and 1.4x speed, one per scene, and every repeat failed at each of them. Their 90% ranges all lie above 0.5, so the top-5 goal was met.",
+    "settings": [
+     "S1",
+     "S4",
+     "S6",
+     "S8",
+     "S9"
+    ]
+   },
+   {
+    "claim": "On two scenes the road curves left. At a -0.5 m shift and 1.4x speed, the policy kept going straight or bent its plan right and ran off the right edge onto the shoulder in every run, with no other vehicle involved. Despite the 'no turn' label, these scenes test following a curve, not straight-lane keeping.",
+    "settings": [
+     "S1",
+     "S6"
+    ]
+   },
+   {
+    "claim": "On one highway scene, at a -0.5 m shift and 1.4x speed, the policy made an unprompted lane change to the right in every run, under a STRAIGHT command. Its front hit a car travelling alongside in that lane. This is the side-collision case the brief describes.",
+    "settings": [
+     "S4"
+    ]
+   },
+   {
+    "claim": "On another highway scene, the same setting led to right-hand lane changes into a car beside the ego. One run there was different: a replayed car cut into the ego's lane after the ego had stayed in it, and the policy's fault in that run is unclear. So this scene's confirmation partly rests on a failure that replayed traffic, which cannot react to the ego, may explain.",
+    "settings": [
+     "S9"
+    ]
+   },
+   {
+    "claim": "In slow highway traffic, the ego ended up about 3 m right of the recorded path, behind a slow van. It braked too gently and hit the van's rear in every run. This is a front collision, but it comes from not following the recorded driver's lane change and from braking too weakly, more than from a sideways error alone.",
+    "settings": [
+     "S8"
+    ]
+   },
+   {
+    "claim": "With a +0.5 m shift at 1.4x speed, the single run on each of four scenes failed. Each time the policy steered left, against its route command: it crossed several lanes and left the road, ran onto the median, or hit a car coming up in the left lane. One run per scene is a hint, not a confirmed rate. The two runs flagged as possible artifacts (S3, S7) ended far off the recording, but their camera view was clean before the policy turned.",
+    "settings": [
+     "S2",
+     "S3",
+     "S5",
+     "S7"
+    ]
+   },
+   {
+    "claim": "In every confirmed case, failures happened on the side the shift points to: a right shift led to right drift, and a left shift to left drift. This suggests the policy follows the shifted plan instead of correcting it back to the lane.",
+    "settings": [
+     "S1",
+     "S4",
+     "S6",
+     "S8",
+     "S9",
+     "S2",
+     "S3",
+     "S5",
+     "S7"
+    ]
+   }
+  ],
+  "open": [
+   "No setting other than the \u00b10.5 m, 1.4x corners was run. Whether smaller shifts (\u00b10.1 to \u00b10.3 m) or lower speeds (0.6x to 1.2x) also fail is unknown. Running each confirmed scene at \u00b10.3 m and 1.4x, and at -0.5 m and 1.0x, would show where the failures start and which knob drives them.",
+   "There is no run with zero shift at 1.4x speed, so speed alone has not been separated from the shift. One run at 0 m and 1.4x on S1, S4, S6, S8 and S9 would settle this.",
+   "The +0.5 m, 1.4x cases (S2, S3, S5, S7) have one run each. Two to three more repeats each would confirm or rule them out, and they might replace S9, whose confirmation includes a cut-in failure of unclear fault.",
+   "Five listed scenes were never run: 05f35348, 09a95ffa, 0cf6368d, 1b7d131a and 19f339ba. The one run on 19f339ba was halted and not kept, so harder cases may exist there.",
+   "No near misses were ranked, because every setting that was run failed. Ranking them needs runs at milder settings.",
+   "The tags cannot tell oncoming traffic from traffic overtaking in the next lane. None of the failures involved an oncoming vehicle, so the Euro NCAP LSS oncoming case was not tested."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 2,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r2_003",
+    "lane_keeping_llm_r2_019",
+    "lane_keeping_llm_r2_020"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r2_004"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r2_009"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r2_002",
+    "lane_keeping_llm_r2_011",
+    "lane_keeping_llm_r2_012"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r2_001"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r2_010",
+    "lane_keeping_llm_r2_014",
+    "lane_keeping_llm_r2_013_a2"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r2_007"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r2_006_a2",
+    "lane_keeping_llm_r2_015",
+    "lane_keeping_llm_r2_016"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r2_008",
+    "lane_keeping_llm_r2_017",
+    "lane_keeping_llm_r2_018_a2"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 13497,
+  "output_tokens": 2616,
+  "duration_ms": 27597
+ }
+}

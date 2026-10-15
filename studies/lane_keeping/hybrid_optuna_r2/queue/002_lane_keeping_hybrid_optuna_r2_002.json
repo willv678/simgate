@@ -1,0 +1,29 @@
+{
+  "name": "lane_keeping_hybrid_optuna_r2_002",
+  "run_dir": "diag/lane_keeping_hybrid_optuna_r2_002",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": -0.3,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.4
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 2294894,
+  "launched_at": 1792044098.2686584,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}
