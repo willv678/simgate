@@ -1,0 +1,262 @@
+{
+ "answer": {
+  "answer": "The goal was met after two rounds. Five settings, each on a different scene, failed on every repeat: S2 and S7 (\u22120.5 m at 1.0x), S4 and S8 (\u22120.5 m at 1.4x) and S5 (\u22120.3 m at 1.4x). The pattern is a large rightward plan shift (\u22120.3 to \u22120.5 m), and three of the five need no speed increase: S2 and S7 run at recorded speed, and S5 adds 1.4x. Only S4 and S7 end in a collision with another road user, from steering into the next lane. S2, S5 and S8 end with the ego leaving the road, and the S5 runs are small curb excursions. Each confirmed setting rests on three runs, so its failure rate is only shown to be above one half, and the five cannot be ranked against each other. S2, S4 and S8 are flagged as possible simulator artifacts because the ego ended more than 3.5 m from the recorded path. Triage found the camera view clean before each departure and put the policy at fault, so the flag most likely reflects the departure itself rather than rendering.",
+  "findings": [
+   {
+    "claim": "A \u22120.5 m (rightward) plan shift at recorded speed (1.0x) made the ego fail on every repeat in two scenes. Speed is not needed to make it fail.",
+    "settings": [
+     "S2",
+     "S7"
+    ]
+   },
+   {
+    "claim": "In scene 187e6244, every run at \u22120.5 m and 1.0x ended with the policy changing lanes to the right unprompted and hitting a car alongside or just ahead in that lane. This is the clearest lane-departure-into-traffic case.",
+    "settings": [
+     "S7"
+    ]
+   },
+   {
+    "claim": "In scene 0cf6368d at \u22120.5 m and 1.4x, every run failed in slow queued traffic beside a bus. The ego either cut left into a car in the next lane or did not brake for the car ahead.",
+    "settings": [
+     "S4"
+    ]
+   },
+   {
+    "claim": "In scene 09a95ffa at \u22120.5 m and 1.0x, every run drifted right off the road edge while the route command and the recorded path went left. With no bias at 1.4x, the single run passed.",
+    "settings": [
+     "S2",
+     "S3"
+    ]
+   },
+   {
+    "claim": "In scene 1b7d131a at 1.4x, the ego left the road at \u22120.5 m (confirmed), and single runs at \u22120.3 m and +0.5 m failed too. It holds a straight heading through a bend and drifts off whichever side the shift points to, so this scene is fragile at high speed whichever way the plan is shifted.",
+    "settings": [
+     "S8",
+     "S9",
+     "S10"
+    ]
+   },
+   {
+    "claim": "In scene 0dbb91dd at \u22120.3 m and 1.4x, every run left the road. Each was a small drift (under 1 m from the human path) over the right curb where the road bends left. A single run at +0.5 m and 1.2x went off the opposite (left) side.",
+    "settings": [
+     "S5",
+     "S6"
+    ]
+   },
+   {
+    "claim": "Small or no plan shift at 1.4x passed in the two scenes tried. These are single runs, so they are hints only.",
+    "settings": [
+     "S1",
+     "S3"
+    ]
+   },
+   {
+    "claim": "Most failures come from the policy ignoring a bend or a route command (it keeps a straight heading or goes the opposite way) rather than from a plain parallel offset. So the bias seems to tip an existing weakness in following curves and commands.",
+    "settings": [
+     "S2",
+     "S5",
+     "S8",
+     "S9",
+     "S10",
+     "S6"
+    ]
+   }
+  ],
+  "open": [
+   "The five confirmed settings cannot be ranked against each other because each has three runs, all failed. More repeats, or near-miss and closest-approach margins, would be needed to order them.",
+   "We can't tell whether the bias causes these failures: the confirmed scenes were never rerun at 0 m bias with the same speed (for example 0 m at 1.0x on scenes 09a95ffa and 187e6244, and 0 m at 1.4x on 0cf6368d, 1b7d131a and 0dbb91dd). Without that control, the failures may come from the bends and route commands alone.",
+   "Only 20 of the ~50-run budget was spent. Small shifts (\u00b10.1 to 0.2 m), low speeds (0.6 to 0.8x) and positive shifts were barely sampled, so the boundary between failing and passing is not mapped.",
+   "Positive (leftward) shift failures in 0dbb91dd at +0.5 m and 1.2x, and in 1b7d131a at +0.5 m and 1.4x, rest on single runs. Repeats would show whether a leftward error is as dangerous as a rightward one.",
+   "S2, S4 and S8 carry the possible-artifact flag because the ego ended far from the recorded path. A rendering review of those runs would confirm that the simulator did not cause the failures.",
+   "In 0cf6368d at 1.4x, the ego starts off the recording in queued traffic. A run at 1.0x with \u22120.5 m would show whether the collisions there come from the shift or from the replayed queue no longer matching the ego."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": -0.1,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.864,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r3_007"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r3_009",
+    "lane_keeping_hybrid_optuna_r3_017",
+    "lane_keeping_hybrid_optuna_r3_018"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.9,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r3_008"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r3_006",
+    "lane_keeping_hybrid_optuna_r3_019",
+    "lane_keeping_hybrid_optuna_r3_020"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "lateral_bias_m": -0.3,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r3_001",
+    "lane_keeping_hybrid_optuna_r3_011",
+    "lane_keeping_hybrid_optuna_r3_012"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r3_002"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r3_010",
+    "lane_keeping_hybrid_optuna_r3_013",
+    "lane_keeping_hybrid_optuna_r3_014"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r3_003",
+    "lane_keeping_hybrid_optuna_r3_015",
+    "lane_keeping_hybrid_optuna_r3_016"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+   "lateral_bias_m": -0.3,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r3_005"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r3_004"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 10200,
+  "output_tokens": 2415,
+  "duration_ms": 26142
+ }
+}

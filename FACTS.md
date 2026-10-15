@@ -986,6 +986,46 @@ replicate replaces it, finished 15 Oct):
   within the noise of three replicates. On pedestrian Optuna + AI is the
   fastest in every replicate.
 
+### Lane keeping, the unseen study: three replicates of 8 methods (15 Oct)
+
+10 Hz, plan shift x ego speed on 12 straight scenes, goal 5 hardest
+confirmed, budget 50 runs (`METHODS.md`). The v2 proposers
+(`advisor/OUTER_V2.md`) were written before this study and not changed
+for it. Runs to goal, replicates 1-3 (median):
+
+| method | runs to goal | reached goal |
+|---|---|---|
+| AI picks v2 (`llm_v2`) | 17, 21, 18 (18) | 3 of 3 |
+| AI picks (`llm`) | 20, 19, 20 (20) | 3 of 3 |
+| Optuna + AI | 18, 20, 20 (20) | 3 of 3 |
+| Optuna + repeat | 28, 32, 25 (28) | 3 of 3 |
+| random + repeat | 31, 30, 30 (30) | 3 of 3 |
+| hybrid v2 | 43, 39, 50 (43) | 2 of 3 (4 of 5 in the third) |
+| hybrid | 50, 50, 45 | 1 of 3 (4, 3, 5 of 5) |
+| rules | budget spent | 0 of 3 (2, 2, 1 of 5) |
+
+- Every replicate of every free-choosing AI method (llm, llm_v2, Optuna +
+  AI; 9 arms, 17-21 runs) reached the goal before every replicate of
+  random + repeat and Optuna + repeat (6 arms, 25-32 runs). With three
+  replicates per method a complete separation gives the smallest exact
+  two-sided Mann-Whitney p possible, 0.1 per pair; pooling the three AI
+  methods against the two non-AI ones (9 against 6, complete separation)
+  gives exact p 0.0004 two-sided (scipy's default, with the normal
+  approximation for ties, 0.0016). Pooling is post hoc: a first look.
+- Methods tied to the rules' candidates trail: the rules spend their
+  budget confirming near-misses that do not fail (as on lead vehicle,
+  problem 26), and hybrid can only choose among those candidates.
+  On this study the AI's value is in choosing freely, the reverse of the
+  car scenes, where hybrid led.
+- Model time per arm: llm 27-31 s, llm_v2 33-66 s, Optuna + AI 30-47 s,
+  hybrid 84-89 s, hybrid v2 100-102 s.
+
+### The three-knob hard study (from 15 Oct, 2 Hz)
+
+`car_conflicts_3knobs_2hz`, 8 methods x 3 replicates queued 14 Oct under
+the problem 31 rule. First arm: rules 0 of 5 confirmed, 3 failures in 60
+runs (failures are rare by design). Running.
+
 ### Shao's 13 Oct feedback: evidence produced (`CHECKLIST.md`)
 
 - **Self-healing, every study queue** (`figures/cards/self_healing.json`):

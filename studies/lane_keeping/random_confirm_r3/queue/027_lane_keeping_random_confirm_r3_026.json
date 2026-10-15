@@ -1,0 +1,30 @@
+{
+  "name": "lane_keeping_random_confirm_r3_026",
+  "run_dir": "diag/lane_keeping_random_confirm_r3_026",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": -0.5,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.4
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 3397479,
+  "launched_at": 1792070383.8681529,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1",
+  "quarantine": "runs/r43/physics.txt shows the same pattern: constant 41.25 m/s with zero acceleration and zero yaw rate after the warm-up, and a profile identical to r35's despite a different lateral_bias_m (-0.5 vs -0.2). Its metrics_results.txt values also match r35's exactly (dist 286.08, tracking_error 40.09, plan_deviation 2.20), so the motion is not the policy following its plan and the labelled bias has no effect on the data."
+}

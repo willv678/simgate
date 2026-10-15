@@ -1,9 +1,12 @@
 {
- "met": false,
- "verdict": "2 of 5 challenging settings confirmed",
+ "met": true,
+ "verdict": "5 of 5 challenging settings confirmed",
  "settings": [
+  "S12",
   "S19",
-  "S6"
+  "S22",
+  "S28",
+  "S7"
  ],
- "after_rounds": 4
+ "after_rounds": 5
 }

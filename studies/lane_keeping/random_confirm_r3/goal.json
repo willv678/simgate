@@ -1,6 +1,12 @@
 {
- "met": false,
- "verdict": "0 of 5 challenging settings confirmed",
- "settings": [],
- "after_rounds": 0
+ "met": true,
+ "verdict": "5 of 5 challenging settings confirmed",
+ "settings": [
+  "S10",
+  "S14",
+  "S20",
+  "S22",
+  "S7"
+ ],
+ "after_rounds": 4
 }

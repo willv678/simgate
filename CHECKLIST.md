@@ -48,7 +48,9 @@ is. Paths are under `research/`.
     failure is 10%. Mapped to Level 2 / Euro NCAP tests.
 11. [x] **Lane-keeping study** (Euro NCAP LSS): `briefs/categories/lane_keeping.md`,
     planned by Claude and checked (12 straight scenes, plan shift x ego
-    speed). Queued with 8 methods.
+    speed). Done 15 Oct, 8 methods x 3 replicates: the free-choosing AI
+    methods reach the goal in 17-21 runs, random and Optuna + repeat in
+    25-32, rules never (`FACTS.md` "Lane keeping, the unseen study").
 12. [x] **OpenSCENARIO 1.4**: `harness/to_openscenario.py` writes each study as
     a parameter distribution and its hardest cases as concrete scenarios
     (`scenarios/*.xosc`); all validate against the 1.3 and 1.4 schemas.
@@ -83,12 +85,13 @@ is. Paths are under `research/`.
     15 Oct). 2 Hz Optuna arms queued 14 Oct.
 18. [x] **AI v2**: `llm_v2`, `hybrid_v2` (`advisor/OUTER_V2.md`): fixed for
     replayed traffic, given each failure's triage, the scenes' facts and
-    its own notes. Tested offline; on lane keeping (unseen study), two
-    replicates done: `llm_v2` 17 and 21 runs to goal, `hybrid_v2` 43 and
-    39 (`METHODS.md`); third replicate running.
+    its own notes. Tested offline; on lane keeping (unseen study), three
+    replicates: `llm_v2` 17, 21, 18 runs to goal (fastest median, within
+    noise of `llm` 20 and Optuna + AI 20); `hybrid_v2` 43, 39, 4 of 5.
 19. [~] **Hard study**: planned (`car_conflicts_3knobs_2hz`, 3 knobs, rare
     failures, 2 Hz); re-queued 14 Oct with 8 methods x 3 repeats under the
-    problem 31 rule. Running.
+    problem 31 rule. Running; first arm (rules) 0 of 5, 3 failures in 60
+    runs.
 20. [x] **Griffin's score script**: `label_sheet.py score` on his branch:
     agreement and kappa against the scorer and the triage; refuses to run
     until all 60 are labelled.

@@ -1,0 +1,218 @@
+{
+ "answer": {
+  "answer": "The goal was met. Five scenes each have a confirmed hard case, and every one is at the extreme corner of the grid: a 0.5 m sideways plan error with the ego at 1.4x its recorded speed. The cases are S1 (-0.5 m), S3 (+0.5 m), S4 (-0.5 m), S6 (+0.5 m) and S8 (-0.5 m). Every repeat at these settings failed, and triage puts each failure on the policy. Even so, three repeats per setting only show that the true failure rate is above one half, not that it is near certain. The study ran nothing below these extremes, with no smaller biases and no lower speeds, so it cannot say where the failures begin or whether the bias or the speed is causing them.",
+  "findings": [
+   {
+    "claim": "At -0.5 m and 1.4x on scene 023b7fcc, VaVAM's plan bent right in the rightmost lane, and every repeat drove it off the right edge onto the dirt shoulder with no other vehicle involved. One of these runs is flagged as a possible rendering artifact, but triage found the camera view clean before the drift.",
+    "settings": [
+     "S1"
+    ]
+   },
+   {
+    "claim": "At +0.5 m and 1.4x on scene 054b5901, every repeat failed to follow the road as it bent right. Each time the ego drifted left onto the landscaped median. All of these runs are flagged as possible artifacts because the ego ended far from the recording, but triage found the camera clean until after the drift and puts the failures on the policy.",
+    "settings": [
+     "S3"
+    ]
+   },
+   {
+    "claim": "At -0.5 m and 1.4x on scene 096988dd, every repeat made an uncalled-for lane change to the right. Each time its front struck the vehicle driving alongside in that lane. This is the clearest side-collision case, and none of its runs are flagged as artifacts.",
+    "settings": [
+     "S4"
+    ]
+   },
+   {
+    "claim": "At +0.5 m and 1.4x on scene 0cf6368d, the ego ended up about 3 m left of the recorded path in queued traffic. In every repeat it crept into the rear of the stopped car ahead at low speed without fully stopping. These are front collisions from failing to stop, not from leaving the lane into someone.",
+    "settings": [
+     "S6"
+    ]
+   },
+   {
+    "claim": "At -0.5 m and 1.4x on scene 12855a41, the ego was in slow, dense traffic. In some repeats it drifted right into the next lane and hit the rear of the van there. In one repeat it stayed in its lane and still hit the van ahead because it braked too little. So this case mixes leaving the lane with failing to brake for a slowing vehicle.",
+    "settings": [
+     "S8"
+    ]
+   },
+   {
+    "claim": "Single runs with the bias flipped to +0.5 m, still at 1.4x, also failed on three scenes. On 023b7fcc the ego veered left off the road. On 096988dd it sideswiped a vehicle in the lane to its left. On 0dbb91dd it crossed several lanes and left the road. With one run each, these are hints, not rates. The 0dbb91dd failure is also flagged as a possible artifact.",
+    "settings": [
+     "S2",
+     "S5",
+     "S7"
+    ]
+   },
+   {
+    "claim": "In most failures VaVAM steered toward the side of its plan error and ignored the route command, for example steering away from a RIGHT command. That points to the shift in its plan, not the other traffic, as what pulled it out of the lane.",
+    "settings": [
+     "S1",
+     "S3",
+     "S4",
+     "S2",
+     "S5",
+     "S7"
+    ]
+   }
+  ],
+  "open": [
+   "Where failures start is unknown. Only \u00b10.5 m at 1.4x was run. Runs at smaller biases (\u00b10.1 to \u00b10.3 m) and lower speeds (1.0 to 1.2x) on the five confirmed scenes would show whether the bias, the speed or both cause the failures.",
+   "There is no run at 0 m bias at 1.4x, or at \u00b10.5 m at 1.0x. Without these, the effect of the bias cannot be separated from the effect of the speed, or from starting off the recording at 1.4x.",
+   "The opposite-sign settings (S2, S5, S7) each rest on one run. Two or three more repeats of each would show whether both directions of the bias fail on those scenes.",
+   "The two failures on 0cf6368d and 12855a41 where the ego stayed in its lane and hit the car ahead are failures to stop, not lane departures. Repeats at 0 m bias would show whether the bias matters there at all.",
+   "Scenes 19f339ba and 187e6244 have no evidence: their only runs (at +0.5 m, 1.4x) were halted and not kept. Five other scenes in the plan were never run. Rerunning them would show whether the failures found here are typical.",
+   "All of S3's failures, and one each in S1, S2 and S7, are flagged as possible simulator artifacts because the ego ended far from the recorded path. Triage found clean video before each drift, but checking the frames by hand would make these cases firmer."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_r3_009",
+    "lane_keeping_llm_v2_r3_011",
+    "lane_keeping_llm_v2_r3_012"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_r3_001"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 3,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_r3_007",
+    "lane_keeping_llm_v2_r3_019",
+    "lane_keeping_llm_v2_r3_020"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_r3_010",
+    "lane_keeping_llm_v2_r3_013",
+    "lane_keeping_llm_v2_r3_014"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_r3_002"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_r3_008",
+    "lane_keeping_llm_v2_r3_017",
+    "lane_keeping_llm_v2_r3_018"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_r3_005"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_v2_r3_003",
+    "lane_keeping_llm_v2_r3_015",
+    "lane_keeping_llm_v2_r3_016"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 9885,
+  "output_tokens": 2300,
+  "duration_ms": 23170
+ }
+}
