@@ -73,7 +73,8 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | pedestrian_ego_speed_2hz | hybrid | 3 | 50, 40, 40 | 2 | 50, 32, 34 | 34 | 4, 5, 5 of 5 | 0.952, 1.0, 1.0 | 14, 22, 19 | 88.8, 64.2, 70.7 |
 | pedestrian_ego_speed_2hz | llm | 3 | 49, 49, 49 | 1 | 50, 47, 50 | 50 | 4, 5, 4 of 5 | 0.986, 1.0, 0.99 | 24, 27, 27 | 95.7, 92.9, 108.5 |
 | pedestrian_ego_speed_2hz | random_confirm | 3 | 48, 50, 50 | 0 | 50, 50, 50 | 50 | 4, 3, 4 of 5 | 0.987, 1.0, 1.0 | 19, 23, 25 | 0.0, 0.0, 0.0 |
-| pedestrian_ego_speed_2hz | optuna_confirm | 1 | 39 | 1 | 30 | 30 | 5 of 5 | 1.0 | 21 | 0.0 |
+| pedestrian_ego_speed_2hz | optuna_confirm | 3 | 39, 50, 49 | 1 | 30, 50, 50 | 50 | 5, 4, 4 of 5 | 1.0, 0.958, 1.0 | 21, 26, 27 | 0.0, 0.0, 0.0 |
+| pedestrian_ego_speed_2hz | hybrid_optuna | 3 | 48, 40, 29 | 2 | 50, 39, 20 | 39 | 4, 5, 5 of 5 | 0.979, 1.0, 1.0 | 15, 21, 17 | 91.0, 67.8, 57.3 |
 
 Left out: arms that stopped before their last round believing their
 goal met under an earlier failure definition (before 8 Oct 2026 any

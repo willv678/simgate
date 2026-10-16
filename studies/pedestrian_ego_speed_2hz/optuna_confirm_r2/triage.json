@@ -1,0 +1,340 @@
+[
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_003",
+  "scene_id": "clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa",
+  "cause": "turned_into_actor",
+  "what_happened": "After crossing the intersection at about 5 m/s and speeding up, the ego planned and steered a path that bent left toward the left curb instead of following the route. It front-hit parked car 68 (the dark Audi) without braking.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16040,
+   "output_tokens": 714,
+   "duration_ms": 7869
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_004",
+  "scene_id": "clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654",
+  "cause": "left_road",
+  "what_happened": "The ego was approaching an intersection at about 6 m/s, with a clear lead car about 30 m ahead, and the route called for a right turn. The policy's planned path kept going straight and then bent left, away from the right-turn route, and the ego drifted about 0.8 m off the recorded path until it was flagged offroad at 6.2 s; no collision is visible in the frames and the camera view is clean.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13201,
+   "output_tokens": 735,
+   "duration_ms": 8099
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_005",
+  "scene_id": "clipgt-0d4893f5-f575-4d98-b33f-0bdf3816bbed",
+  "cause": "turned_into_actor",
+  "what_happened": "The ego was going straight through the intersection at about 8.3 m/s and drifted about 1.8 m left of the recorded path, into the space of actor 33. Actor 33, coming up from the adjacent left lane, was passing and edging right ahead of the ego, and the ego's front hit its rear. In the recording the ego stayed in its lane and the two cars cleared each other.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13217,
+   "output_tokens": 1032,
+   "duration_ms": 12434
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_006",
+  "scene_id": "clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654",
+  "cause": "left_road",
+  "what_happened": "The route turned right through the intersection, but after taking over at 4.7 s the policy's plan bent left, away from the route. The ego drifted left across its lane boundary at the stop line and was flagged offroad at 6.2 s, about 0.7 m off the recorded path, with no actor nearby (the lead car was more than 30 m ahead).",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13220,
+   "output_tokens": 613,
+   "duration_ms": 6733
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_012",
+  "scene_id": "clipgt-0d4893f5-f575-4d98-b33f-0bdf3816bbed",
+  "cause": "turned_into_actor",
+  "what_happened": "Going straight through the intersection at about 8.5 m/s, the ego drifted left out of its lane, about 1.8 m from the recorded path, into the next lane, where vehicle 33 was driving alongside and slightly ahead. The ego's front hit 33's rear without braking.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13219,
+   "output_tokens": 789,
+   "duration_ms": 10849
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_013",
+  "scene_id": "clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654",
+  "cause": "left_road",
+  "what_happened": "Coming up to the stop line of an intersection at about 4.4 m/s, the ego drifted slightly left, and at 6.2 s its box crossed the edge of the drivable area. It was only 0.7 m from the recorded human path. The policy's orange plan was bending left across the intersection, away from the green route, which turns right. The route command was STRAIGHT until 6.2 s, when it switched to RIGHT.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16048,
+   "output_tokens": 674,
+   "duration_ms": 10600
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_014",
+  "scene_id": "clipgt-18f8dbd6-6fe7-401c-9943-10404407e112",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The command was RIGHT and the recorded human path bore right, but the ego kept going straight and drifted slightly left, 3.3 m off the human path. That put it close behind the slower silver car (actor 2) ahead and just to its left. The ego held about 10 m/s while the gap shrank from 6.1 m to 4.6 m, and it never braked hard enough, so its front hit actor 2 at 10.2 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13220,
+   "output_tokens": 907,
+   "duration_ms": 10240
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_016",
+  "scene_id": "clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa",
+  "cause": "turned_into_actor",
+  "what_happened": "The route said RIGHT, and the logged path went straight/right through the intersection, but the policy turned left into the cross street. There it drove head-on into the oncoming white van (actor 155) in that lane at about 3 m/s, braking very little. At impact it was 7 m off the recorded path.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16046,
+   "output_tokens": 690,
+   "duration_ms": 8601
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_018",
+  "scene_id": "clipgt-0e002edd-c307-437c-9b97-6a1f6d28ac91",
+  "cause": "turned_into_actor",
+  "what_happened": "On a RIGHT command, the ego sped up from about 2 to 4.6 m/s and cut the right turn too tight, ending up about 8 m off the human path. Its front hit car 90, which was parked along the curb of the street it was turning into.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16040,
+   "output_tokens": 515,
+   "duration_ms": 10752
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_019",
+  "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+  "cause": "no_brake_for_lead",
+  "what_happened": "With a RIGHT command, the ego drifted left out of its travel lane into the line of cars parked along the left curb. It then drove front-first into parked car 6 at about 10.6 m/s. Over the last 2.5 s the gap to that car shrank from 46 m to 0 while the ego slowed only from 12.4 to 10.6 m/s. The rear contact recorded for this run is not the failure: the front collision is what counts, and it began first.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16054,
+   "output_tokens": 1045,
+   "duration_ms": 11772
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_022",
+  "scene_id": "clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa",
+  "cause": "turned_into_actor",
+  "what_happened": "The route said RIGHT and the recorded path went across the intersection, but the policy turned left into the cross street. It sped up from 3.2 to 3.8 m/s and drove head-on into the white van (actor 155) in that street, which had been visible in the camera as the gap closed from about 14 m to 3.7 m. A rear contact also happened, but the front collision came first, and the ego was 7.4 m off the recorded path when it hit.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13220,
+   "output_tokens": 722,
+   "duration_ms": 8216
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_023",
+  "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+  "cause": "turned_into_actor",
+  "what_happened": "On a narrow residential street, with a RIGHT command for the upcoming intersection, the policy's planned path drifted left, away from the recorded path on the right and into the line of cars parked along the left curb. It closed on parked car 6 from about 23 m to 0.3 m while slowing only from 12.4 to 10.2 m/s, and hit it with its front about 2.7 m off the human trajectory. The later rear contact came after this at-fault front collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16055,
+   "output_tokens": 992,
+   "duration_ms": 12605
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_024",
+  "scene_id": "clipgt-0d4893f5-f575-4d98-b33f-0bdf3816bbed",
+  "cause": "turned_into_actor",
+  "what_happened": "After handoff, the policy's planned path (orange) steered left toward the adjacent lane, away from the recorded path (green), which stayed straight and later bent right. Going into the intersection at about 8.3 m/s, the ego drifted left into actor 33, which was just ahead in that left lane, and hit it with its front. The rear contact flagged in the run came after this front collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16049,
+   "output_tokens": 735,
+   "duration_ms": 13919
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_025",
+  "scene_id": "clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654",
+  "cause": "left_road",
+  "what_happened": "At about 4.4 m/s the ego was entering a signalized intersection where its route turns right, but the policy's planned path (orange) bent left, away from the route, instead of following the right turn. The ego drifted left over the lane edge and was flagged offroad at 6.2 s, with no actor nearby (the lead car was more than 30 m ahead).",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13220,
+   "output_tokens": 567,
+   "duration_ms": 8259
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_027",
+  "scene_id": "clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654",
+  "cause": "left_road",
+  "what_happened": "The route turned right at the intersection, but after handoff the policy's planned path (orange) drifted left and went roughly straight/left across the crossing lanes instead of following the right-turn route. At 6.2 s the ego crossed the drivable-area boundary near the stop line and was flagged offroad, with no actor close by (the lead car was more than 30 m ahead and the collision metrics stay at 0).",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13220,
+   "output_tokens": 659,
+   "duration_ms": 11485
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_028",
+  "scene_id": "clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654",
+  "cause": "left_road",
+  "what_happened": "The route turns right at a signalized intersection, but the command read STRAIGHT until the last frame. The policy's plan (orange) went straight and then veered left across the intersection, and the ego drifted left of the right-turn path. At about 6.2 s, near the stop line, it was flagged offroad while only 0.8 m from the recorded human path, so the corner of the box probably just crossed the drivable-area edge.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13229,
+   "output_tokens": 803,
+   "duration_ms": 8910
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_029",
+  "scene_id": "clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa",
+  "cause": "turned_into_actor",
+  "what_happened": "On the commanded right turn, the ego swung wide into the oncoming lane of the cross street, about 7.5 m off the recorded path. Its front hit the oncoming white van (actor 155): the gap closed from 9.7 m to 3.1 m while the ego kept going at about 3.4\u20133.8 m/s and barely braked.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13213,
+   "output_tokens": 935,
+   "duration_ms": 11168
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_030",
+  "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The route said turn RIGHT, and the recorded path moved right toward the intersection. Instead, the ego kept going straight along the left edge of the street, close to the row of parked cars, at about 9.5 m/s. It never slowed down: the gap to the car ahead fell from 39 m to 3 m, and the ego's front hit parked car 6. The rear contact and off-road flags came only after this front collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16039,
+   "output_tokens": 1043,
+   "duration_ms": 12201
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_031",
+  "scene_id": "clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa",
+  "cause": "turned_into_actor",
+  "what_happened": "Although the route command was RIGHT, the ego turned left across the intersection, cut the corner and kept speeding up (about 3\u20133.7 m/s). It ran front-first into the white van (actor 155) facing it on the cross street, about 7 m off the recorded human path. An actor hit the ego's rear at some point, but the front collision came first.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16047,
+   "output_tokens": 736,
+   "duration_ms": 8532
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_032",
+  "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+  "cause": "no_brake_for_lead",
+  "what_happened": "With a RIGHT command, the ego held about 11\u201312 m/s and drifted left into the curbside parking lane, and its planned path ran straight up the line of parked cars. It closed on parked car 6 (gap 34 m \u2192 0.3 m over 2 s) while slowing only slightly, and hit it with its front at 7.6 s. A rear contact happened too, but the at-fault front collision began first.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16046,
+   "output_tokens": 1019,
+   "duration_ms": 12968
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_037",
+  "scene_id": "clipgt-0d4893f5-f575-4d98-b33f-0bdf3816bbed",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego drove straight through the intersection on a path left of the recorded route and lined up behind vehicle 112, which was stopped or slow at the far side. The ego kept speeding up (7.4 to 9.1 m/s) while the gap closed from 26 m to 4 m, and it hit 112's rear with its front at 11.7 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16051,
+   "output_tokens": 668,
+   "duration_ms": 7630
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_040",
+  "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+  "cause": "left_road",
+  "what_happened": "On a narrow residential street lined with parked cars, the ego drove at 12\u201314 m/s and drifted left toward the parking lane. It ran its front corner into parked car 6 on the left, just before the intersection where the route turns right. Nothing hit it beforehand, and the camera view was clean, so the failure comes from the policy's own lateral control.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16039,
+   "output_tokens": 1276,
+   "duration_ms": 18749
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_047",
+  "scene_id": "clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654",
+  "cause": "left_road",
+  "what_happened": "The route said RIGHT, but the ego went straight through the intersection at about 10 m/s. Its planned path then drifted left out of the right-hand lanes and into the median/tram-stop area between the two carriageways, where it was flagged offroad about 26 m from the recorded path. The right side of the camera view was smeared, but that is likely because the car was already far from where the real drive went; the road ahead was clearly visible.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13224,
+   "output_tokens": 712,
+   "duration_ms": 8466
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_048",
+  "scene_id": "clipgt-07981e6a-22dd-4796-ad2f-1252037ecd28",
+  "cause": "turned_into_actor",
+  "what_happened": "The route said turn RIGHT at the upcoming intersection. Instead the ego drifted left out of its travel lane into the curbside parking lane, at about 10 m/s and slowing only slightly. Its front hit the rear of parked car 3, about 2.4 m off the human path. The rear contact counted against it came only after this front collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13213,
+   "output_tokens": 723,
+   "duration_ms": 10419
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_049",
+  "scene_id": "clipgt-1bbe02fc-9785-48a6-9fa2-026b42c99654",
+  "cause": "left_road",
+  "what_happened": "The ego was approaching the intersection at about 6 m/s in a lane that curves right, and the route goes right. The policy's plan pointed straight and then bent left, so the ego steered left out of its lane and was flagged offroad near the stop line, only 0.9 m from where the human drove. The route command read STRAIGHT until the failure frame, when it changed to RIGHT, and the camera shows open pavement where the map marks non-drivable area, so the policy may have been following a misleading command and a map edge it couldn't see.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13223,
+   "output_tokens": 1006,
+   "duration_ms": 11902
+  }
+ },
+ {
+  "run": "pedestrian_ego_speed_2hz_optuna_confirm_r2_050",
+  "scene_id": "clipgt-048b974e-1546-488a-b8f9-d32bff77f5aa",
+  "cause": "turned_into_actor",
+  "what_happened": "The command was RIGHT and the recorded path ran through the intersection, but the policy turned left into a side street at about 3.5 m/s. It drove front-first into van 155, which was facing it in that street, ending 7.7 m off the recorded trajectory; the ego only slowed slightly before contact.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13225,
+   "output_tokens": 790,
+   "duration_ms": 9779
+  }
+ }
+]

@@ -985,6 +985,13 @@ replicate replaces it, finished 15 Oct):
   Optuna + AI sit between rules and hybrid, and the AI variants differ
   within the noise of three replicates. On pedestrian Optuna + AI is the
   fastest in every replicate.
+- **2 Hz, pedestrian x ego speed** (Optuna arms done 16 Oct): confirmed
+  of 5 (runs to goal where reached): Optuna + AI 4, 5 (39), 5 (20);
+  Optuna + repeat 5 (30), 4, 4; hybrid 4, 5 (32), 5 (34); AI picks 4,
+  5 (47), 4; random + repeat 4, 3, 4; rules 4, 4, 4. Optuna + AI and
+  hybrid reach the goal in 2 of 3 replicates, Optuna + repeat and AI
+  picks in 1, random and rules in none. 2 Hz cut-in and lead Optuna arms
+  running.
 
 ### Lane keeping, the unseen study: three replicates of 8 methods (15 Oct)
 
