@@ -88,11 +88,11 @@ is. Paths are under `research/`.
     its own notes. Tested offline; on lane keeping (unseen study), three
     replicates: `llm_v2` 17, 21, 18 runs to goal (fastest median, within
     noise of `llm` 20 and Optuna + AI 20); `hybrid_v2` 43, 39, 4 of 5.
-19. [~] **Hard study**: planned (`car_conflicts_3knobs_2hz`, 3 knobs, rare
-    failures, 2 Hz); re-queued 14 Oct with 8 methods x 3 repeats under the
-    problem 31 rule. Replicates 1-2 done 16 Oct, confirmed of 10: AI
-    picks v2 9, Optuna + AI 7, AI picks 7, hybrid 4, hybrid v2 4, Optuna +
-    repeat 3, random + repeat 2, rules 0 (`FACTS.md`); replicate 3 running.
+19. [x] **Hard study**: `car_conflicts_3knobs_2hz`, 3 knobs, rare
+    failures, 2 Hz, 8 methods x 3 repeats under the problem 31 rule, done
+    16 Oct. Confirmed of 15: AI picks v2 14, AI picks 12, Optuna + AI 9,
+    hybrid v2 7, hybrid 5, Optuna + repeat 5, random + repeat 4, rules 0;
+    only free-choosing AI arms reached the goal (`FACTS.md`).
 20. [x] **Griffin's score script**: `label_sheet.py score` on his branch:
     agreement and kappa against the scorer and the triage; refuses to run
     until all 60 are labelled.

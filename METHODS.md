@@ -9,14 +9,14 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 
 | study | method | replicates | kept runs (each) | reached goal | runs to goal (each) | median | confirmed (each) | hardest (each) | failures (each) | model s (each) |
 |---|---|---|---|---|---|---|---|---|---|---|
-| car_conflicts_3knobs_2hz | rules | 2 | 60, 60 | 0 | 60, 60 | 60.0 | 0, 0 of 5 | 0.827, 0.82 | 3, 0 | 0.0, 0.0 |
-| car_conflicts_3knobs_2hz | hybrid | 2 | 59, 60 | 0 | 60, 60 | 60.0 | 2, 2 of 5 | 0.896, 0.919 | 20, 9 | 99.9, 101.5 |
-| car_conflicts_3knobs_2hz | llm | 2 | 60, 59 | 1 | 60, 59 | 59.5 | 2, 5 of 5 | 0.908, 1.0 | 8, 22 | 118.7, 127.9 |
-| car_conflicts_3knobs_2hz | random_confirm | 2 | 59, 58 | 0 | 60, 60 | 60.0 | 2, 0 of 5 | 0.911, 0.918 | 7, 8 | 0.0, 0.0 |
-| car_conflicts_3knobs_2hz | optuna_confirm | 2 | 60, 58 | 0 | 60, 60 | 60.0 | 2, 1 of 5 | 0.941, 0.962 | 14, 17 | 0.0, 0.0 |
-| car_conflicts_3knobs_2hz | hybrid_optuna | 2 | 58, 60 | 0 | 60, 60 | 60.0 | 3, 4 of 5 | 0.922, 0.958 | 13, 26 | 117.5, 113.6 |
-| car_conflicts_3knobs_2hz | llm_v2 | 2 | 56, 58 | 1 | 60, 52 | 56.0 | 4, 5 of 5 | 0.987, 1.0 | 15, 15 | 148.9, 148.1 |
-| car_conflicts_3knobs_2hz | hybrid_v2 | 2 | 58, 60 | 0 | 60, 60 | 60.0 | 2, 2 of 5 | 0.931, 0.896 | 8, 9 | 138.4, 134.9 |
+| car_conflicts_3knobs_2hz | rules | 3 | 60, 60, 60 | 0 | 60, 60, 60 | 60 | 0, 0, 0 of 5 | 0.827, 0.82, 0.819 | 3, 0, 0 | 0.0, 0.0, 0.0 |
+| car_conflicts_3knobs_2hz | hybrid | 3 | 59, 60, 60 | 0 | 60, 60, 60 | 60 | 2, 2, 1 of 5 | 0.896, 0.919, 0.902 | 20, 9, 15 | 99.9, 101.5, 112.9 |
+| car_conflicts_3knobs_2hz | llm | 3 | 60, 59, 60 | 2 | 60, 59, 52 | 59 | 2, 5, 5 of 5 | 0.908, 1.0, 1.0 | 8, 22, 32 | 118.7, 127.9, 103.5 |
+| car_conflicts_3knobs_2hz | random_confirm | 3 | 59, 58, 60 | 0 | 60, 60, 60 | 60 | 2, 0, 2 of 5 | 0.911, 0.918, 0.945 | 7, 8, 9 | 0.0, 0.0, 0.0 |
+| car_conflicts_3knobs_2hz | optuna_confirm | 3 | 60, 58, 57 | 0 | 60, 60, 60 | 60 | 2, 1, 2 of 5 | 0.941, 0.962, 0.927 | 14, 17, 14 | 0.0, 0.0, 0.0 |
+| car_conflicts_3knobs_2hz | hybrid_optuna | 3 | 58, 60, 58 | 0 | 60, 60, 60 | 60 | 3, 4, 2 of 5 | 0.922, 0.958, 0.912 | 13, 26, 8 | 117.5, 113.6, 116.2 |
+| car_conflicts_3knobs_2hz | llm_v2 | 3 | 56, 58, 59 | 2 | 60, 52, 51 | 52 | 4, 5, 5 of 5 | 0.987, 1.0, 1.0 | 15, 15, 21 | 148.9, 148.1, 138.0 |
+| car_conflicts_3knobs_2hz | hybrid_v2 | 3 | 58, 60, 60 | 0 | 60, 60, 60 | 60 | 2, 2, 3 of 5 | 0.931, 0.896, 0.95 | 8, 9, 12 | 138.4, 134.9, 141.3 |
 | cut_in_merge | rules | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 2, 2 of 5 | 0.925, 0.943, 0.936 | 8, 10, 10 | 0.0, 0.0, 0.0 |
 | cut_in_merge | hybrid | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 3, 3 of 5 | 0.961, 0.967, 0.954 | 14, 14, 12 | 81.0, 96.1, 86.7 |
 | cut_in_merge | llm | 3 | 54, 53, 54 | 0 | 54, 54, 54 | 54 | 3, 2, 1 of 5 | 0.962, 0.932, 0.936 | 15, 9, 10 | 101.3, 108.2, 86.6 |
@@ -73,6 +73,7 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | pedestrian_ego_speed_2hz | hybrid | 3 | 50, 40, 40 | 2 | 50, 32, 34 | 34 | 4, 5, 5 of 5 | 0.952, 1.0, 1.0 | 14, 22, 19 | 88.8, 64.2, 70.7 |
 | pedestrian_ego_speed_2hz | llm | 3 | 49, 49, 49 | 1 | 50, 47, 50 | 50 | 4, 5, 4 of 5 | 0.986, 1.0, 0.99 | 24, 27, 27 | 95.7, 92.9, 108.5 |
 | pedestrian_ego_speed_2hz | random_confirm | 3 | 48, 50, 50 | 0 | 50, 50, 50 | 50 | 4, 3, 4 of 5 | 0.987, 1.0, 1.0 | 19, 23, 25 | 0.0, 0.0, 0.0 |
+| pedestrian_ego_speed_2hz | optuna_confirm | 1 | 39 | 1 | 30 | 30 | 5 of 5 | 1.0 | 21 | 0.0 |
 
 Left out: arms that stopped before their last round believing their
 goal met under an earlier failure definition (before 8 Oct 2026 any

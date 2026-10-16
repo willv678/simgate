@@ -1024,19 +1024,32 @@ for it. Runs to goal, replicates 1-3 (median):
 ### The three-knob hard study (from 15 Oct, 2 Hz)
 
 `car_conflicts_3knobs_2hz`, 8 methods x 3 replicates queued 14 Oct under
-the problem 31 rule; budget 60 runs, goal 5 hardest confirmed. Replicates
-1 and 2 (done 16 Oct; `METHODS.md`), confirmed of 5 (failures in the arm):
+the problem 31 rule; budget 60 runs, goal 5 hardest confirmed. All 24
+arms done 16 Oct (`METHODS.md`). Confirmed of 5 per replicate, total of 15:
 
-| rules | hybrid | AI picks | random + repeat | Optuna + repeat | Optuna + AI | AI picks v2 | hybrid v2 |
-|---|---|---|---|---|---|---|---|
-| 0, 0 (3, 0) | 2, 2 (20, 9) | 2, 5 (8, 22) | 2, 0 (7, 8) | 2, 1 (14, 17) | 3, 4 (13, 26) | 4, 5 (15, 15) | 2, 2 (8, 9) |
+| method | confirmed | of 15 | reached goal (runs) |
+|---|---|---|---|
+| AI picks v2 | 4, 5, 5 | 14 | 2 (52, 51) |
+| AI picks | 2, 5, 5 | 12 | 2 (59, 52) |
+| Optuna + AI | 3, 4, 2 | 9 | 0 |
+| hybrid v2 | 2, 2, 3 | 7 | 0 |
+| hybrid | 2, 2, 1 | 5 | 0 |
+| Optuna + repeat | 2, 1, 2 | 5 | 0 |
+| random + repeat | 2, 0, 2 | 4 | 0 |
+| rules | 0, 0, 0 | 0 | 0 |
 
-Two arms reached the goal, both free-choosing AI: AI picks replicate 2 at
-59 runs, AI picks v2 replicate 2 at 52. Summed over the two replicates:
-AI picks v2 9 of 10, Optuna + AI 7, AI picks 7, hybrid 4, hybrid v2 4,
-Optuna + repeat 3, random + repeat 2, rules 0. Two replicates: a direction,
-not a test. Replicate 3 running; curve
-`figures/discovery_car_conflicts_3knobs_2hz.png`.
+- Only free-choosing AI arms reached the goal (4 of 6 AI picks and AI
+  picks v2 arms; no other arm of 18).
+- Mann-Whitney (two-sided, 3 per method unless pooled): AI picks v2 vs
+  random + repeat, complete separation, exact p 0.1 (the floor for 3 vs 3);
+  the three free-choosing AI methods pooled (9 arms) vs random and Optuna
+  + repeat (6 arms) p 0.006; vs the two hybrids (6 arms) p 0.014; hybrid
+  vs rules p 0.06. Pooling is post hoc.
+- Fits the 13 Oct expectation: where failures are rare (rules found 3 in
+  180 runs), the guided gap widens. Here, unlike the car scenes at 10 Hz,
+  hybrid (restricted to the rules' candidates) trails the free AI, as on
+  lane keeping.
+- Curve `figures/discovery_car_conflicts_3knobs_2hz.png`.
 
 ### Shao's 13 Oct feedback: evidence produced (`CHECKLIST.md`)
 
