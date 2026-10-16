@@ -90,8 +90,8 @@ is. Paths are under `research/`.
     noise of `llm` 20 and Optuna + AI 20); `hybrid_v2` 43, 39, 4 of 5.
 19. [~] **Hard study**: planned (`car_conflicts_3knobs_2hz`, 3 knobs, rare
     failures, 2 Hz); re-queued 14 Oct with 8 methods x 3 repeats under the
-    problem 31 rule. Running; first arm (rules) 0 of 5, 3 failures in 60
-    runs.
+    problem 31 rule. Replicate 1 done 16 Oct: rules 0 of 5, AI picks v2
+    4, Optuna + AI 3, the other five 2 (`FACTS.md`); replicates 2-3 running.
 20. [x] **Griffin's score script**: `label_sheet.py score` on his branch:
     agreement and kappa against the scorer and the triage; refuses to run
     until all 60 are labelled.

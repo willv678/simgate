@@ -27,14 +27,16 @@ from read_state import ROOT
 from study import plan_runs
 
 STUDIES = ("pedestrian_ego_speed", "cut_in_merge", "lead_vehicle",
-           "pedestrian_ego_speed_2hz", "cut_in_merge_2hz", "lead_vehicle_2hz", "lane_keeping")
+           "pedestrian_ego_speed_2hz", "cut_in_merge_2hz", "lead_vehicle_2hz", "lane_keeping",
+           "car_conflicts_3knobs_2hz")
 METHODS = ("rules", "hybrid", "llm", "random_confirm", "optuna_confirm", "hybrid_optuna")
 V2 = ("llm_v2", "hybrid_v2")
 LABEL = {"rules": "rules", "hybrid": "hybrid (rules + AI)", "llm": "AI picks",
          "random_confirm": "random + repeat", "optuna_confirm": "Optuna + repeat",
          "hybrid_optuna": "Optuna + AI", "llm_v2": "AI picks v2", "hybrid_v2": "hybrid v2"}
 NAMES = {"pedestrian_ego_speed": "Pedestrian", "cut_in_merge": "Car cutting in",
-         "lead_vehicle": "Car ahead braking", "lane_keeping": "Lane keeping"}
+         "lead_vehicle": "Car ahead braking", "lane_keeping": "Lane keeping",
+         "car_conflicts_3knobs": "Cut-in and car ahead, three knobs"}
 FIGURES = ROOT / "research" / "figures"
 
 

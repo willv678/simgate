@@ -10,6 +10,13 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | study | method | replicates | kept runs (each) | reached goal | runs to goal (each) | median | confirmed (each) | hardest (each) | failures (each) | model s (each) |
 |---|---|---|---|---|---|---|---|---|---|---|
 | car_conflicts_3knobs_2hz | rules | 1 | 60 | 0 | 60 | 60 | 0 of 5 | 0.827 | 3 | 0.0 |
+| car_conflicts_3knobs_2hz | hybrid | 1 | 59 | 0 | 60 | 60 | 2 of 5 | 0.896 | 20 | 99.9 |
+| car_conflicts_3knobs_2hz | llm | 1 | 60 | 0 | 60 | 60 | 2 of 5 | 0.908 | 8 | 118.7 |
+| car_conflicts_3knobs_2hz | random_confirm | 1 | 59 | 0 | 60 | 60 | 2 of 5 | 0.911 | 7 | 0.0 |
+| car_conflicts_3knobs_2hz | optuna_confirm | 1 | 60 | 0 | 60 | 60 | 2 of 5 | 0.941 | 14 | 0.0 |
+| car_conflicts_3knobs_2hz | hybrid_optuna | 1 | 58 | 0 | 60 | 60 | 3 of 5 | 0.922 | 13 | 117.5 |
+| car_conflicts_3knobs_2hz | llm_v2 | 1 | 56 | 0 | 60 | 60 | 4 of 5 | 0.987 | 15 | 148.9 |
+| car_conflicts_3knobs_2hz | hybrid_v2 | 1 | 58 | 0 | 60 | 60 | 2 of 5 | 0.931 | 8 | 138.4 |
 | cut_in_merge | rules | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 2, 2 of 5 | 0.925, 0.943, 0.936 | 8, 10, 10 | 0.0, 0.0, 0.0 |
 | cut_in_merge | hybrid | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 3, 3 of 5 | 0.961, 0.967, 0.954 | 14, 14, 12 | 81.0, 96.1, 86.7 |
 | cut_in_merge | llm | 3 | 54, 53, 54 | 0 | 54, 54, 54 | 54 | 3, 2, 1 of 5 | 0.962, 0.932, 0.936 | 15, 9, 10 | 101.3, 108.2, 86.6 |

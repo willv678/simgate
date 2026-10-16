@@ -1024,8 +1024,15 @@ for it. Runs to goal, replicates 1-3 (median):
 ### The three-knob hard study (from 15 Oct, 2 Hz)
 
 `car_conflicts_3knobs_2hz`, 8 methods x 3 replicates queued 14 Oct under
-the problem 31 rule. First arm: rules 0 of 5 confirmed, 3 failures in 60
-runs (failures are rare by design). Running.
+the problem 31 rule; budget 60 runs, goal 5 hardest confirmed. Replicate 1
+(done 16 Oct; `METHODS.md`), confirmed of 5 (failures in the arm):
+
+| rules | hybrid | AI picks | random + repeat | Optuna + repeat | Optuna + AI | AI picks v2 | hybrid v2 |
+|---|---|---|---|---|---|---|---|
+| 0 (3) | 2 (20) | 2 (8) | 2 (7) | 2 (14) | 3 (13) | 4 (15) | 2 (8) |
+
+No arm reached the goal. One replicate: no comparison yet. Replicates 2
+and 3 running; curve `figures/discovery_car_conflicts_3knobs_2hz.png`.
 
 ### Shao's 13 Oct feedback: evidence produced (`CHECKLIST.md`)
 

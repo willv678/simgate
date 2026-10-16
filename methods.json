@@ -25,6 +25,167 @@
     "model_seconds": [
      0.0
     ]
+   },
+   "hybrid": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     60
+    ],
+    "median_runs_to_goal": 60,
+    "confirmed": [
+     2
+    ],
+    "hardest": [
+     0.896
+    ],
+    "failures": [
+     20
+    ],
+    "kept": [
+     59
+    ],
+    "model_seconds": [
+     99.9
+    ]
+   },
+   "llm": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     60
+    ],
+    "median_runs_to_goal": 60,
+    "confirmed": [
+     2
+    ],
+    "hardest": [
+     0.908
+    ],
+    "failures": [
+     8
+    ],
+    "kept": [
+     60
+    ],
+    "model_seconds": [
+     118.7
+    ]
+   },
+   "random_confirm": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     60
+    ],
+    "median_runs_to_goal": 60,
+    "confirmed": [
+     2
+    ],
+    "hardest": [
+     0.911
+    ],
+    "failures": [
+     7
+    ],
+    "kept": [
+     59
+    ],
+    "model_seconds": [
+     0.0
+    ]
+   },
+   "optuna_confirm": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     60
+    ],
+    "median_runs_to_goal": 60,
+    "confirmed": [
+     2
+    ],
+    "hardest": [
+     0.941
+    ],
+    "failures": [
+     14
+    ],
+    "kept": [
+     60
+    ],
+    "model_seconds": [
+     0.0
+    ]
+   },
+   "hybrid_optuna": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     60
+    ],
+    "median_runs_to_goal": 60,
+    "confirmed": [
+     3
+    ],
+    "hardest": [
+     0.922
+    ],
+    "failures": [
+     13
+    ],
+    "kept": [
+     58
+    ],
+    "model_seconds": [
+     117.5
+    ]
+   },
+   "llm_v2": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     60
+    ],
+    "median_runs_to_goal": 60,
+    "confirmed": [
+     4
+    ],
+    "hardest": [
+     0.987
+    ],
+    "failures": [
+     15
+    ],
+    "kept": [
+     56
+    ],
+    "model_seconds": [
+     148.9
+    ]
+   },
+   "hybrid_v2": {
+    "replicates": 1,
+    "reached": 0,
+    "runs_to_goal": [
+     60
+    ],
+    "median_runs_to_goal": 60,
+    "confirmed": [
+     2
+    ],
+    "hardest": [
+     0.931
+    ],
+    "failures": [
+     8
+    ],
+    "kept": [
+     58
+    ],
+    "model_seconds": [
+     138.4
+    ]
    }
   }
  },
