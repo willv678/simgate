@@ -1,0 +1,119 @@
+[
+ {
+  "run": "car_conflicts_3knobs_2hz_hybrid_v2_r2_011",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway in the rain, the policy's plan bent left even though the route command was STRAIGHT and then RIGHT, and the ego drifted toward the lane on its left. Actor 41 was passing in that lane, and at 7.7 s the ego's front-left hit it, about 1.7 m to the left of where the human drove.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16056,
+   "output_tokens": 590,
+   "duration_ms": 6709
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_hybrid_v2_r2_015",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On an open highway with the lead vehicle more than 40 m ahead, the ego braked hard for no clear reason (20.3 to 7.8 m/s) and drifted left about 1.25 m off the recorded path, across the lane line. Actor 1, overtaking in the left lane, was struck by the ego's front-left corner. The rear contact the ego received came from its own unnecessary hard braking.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13212,
+   "output_tokens": 824,
+   "duration_ms": 9372
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_hybrid_v2_r2_021",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway, the policy steered left toward the next lane over even though the route command was STRAIGHT and then RIGHT, and the recorded path stayed in lane or moved right. The ego's front corner hit actor 41 (a white SUV) driving alongside in that left lane at about 7.7 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13224,
+   "output_tokens": 592,
+   "duration_ms": 9156
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_hybrid_v2_r2_022",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway with a STRAIGHT and then RIGHT command, the ego slowed from 6.7 to 4.4 m/s and drifted left, following its own leftward planned path, into the next lane. Vehicle 41 was coming up alongside in that lane, and the ego's front-left corner hit it, ending 1.6 m left of the recorded human path.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13221,
+   "output_tokens": 711,
+   "duration_ms": 8390
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_hybrid_v2_r2_024",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a clear multi-lane highway, the ego braked hard for no visible reason (20.3 to 7.9 m/s, with the nearest car in its lane 40\u201353 m ahead). Its planned path bent left, and it drifted toward the left lane just as actor 1, which had been alongside, moved ahead of it. The ego's front hit actor 1's rear-right at 7.6 s, and the hard braking probably also got the ego rear-ended.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13235,
+   "output_tokens": 835,
+   "duration_ms": 14273
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_hybrid_v2_r2_031",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "other",
+  "what_happened": "On an open highway, with the nearest car ahead 40\u201350 m away, the ego braked hard for no visible reason after handoff, slowing from 23.7 to 6.8 m/s. Actor 1, a replayed car that does not react to the ego, was coming up from behind on the left and moved toward the ego's lane. Because the ego was now well behind where the human driver had been (9.6 m), actor 1 ended up overlapping its front-left, which counted as an at-fault front collision; the run also recorded a rear contact.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13229,
+   "output_tokens": 1160,
+   "duration_ms": 12708
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_hybrid_v2_r2_032",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On an open highway with the nearest lead 40\u201350 m ahead and pulling away, the ego braked hard for no visible reason (23.7 to 7.1 m/s) while its path wobbled left. Actor 1 in the left lane caught up and came alongside, and the ego's front-left corner, angled toward the left lane, struck it.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13220,
+   "output_tokens": 828,
+   "duration_ms": 9349
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_hybrid_v2_r2_033",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On an open multi-lane highway, the ego braked hard for no clear reason, dropping from 20.3 to 7.9 m/s with the nearest vehicle ahead 40\u201356 m away, while its planned path drifted left. Actor 1, which had been beside it in the left lane, moved ahead, and the ego's front left corner hit it as the ego edged into that lane. The ego was later rear-ended because of the unneeded hard braking.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13224,
+   "output_tokens": 747,
+   "duration_ms": 8394
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_hybrid_v2_r2_041",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On an open highway, the ego braked hard for no visible reason, slowing from 23.7 to 6.7 m/s while the lead vehicle pulled further ahead (gap grew from 40 to 54 m). Actor 1, coming up from behind in the lane to the left, drew alongside, and the ego's front-left corner clipped it as the ego angled slightly left toward that lane. The rear contact flag likely comes from traffic behind the ego after it braked so hard.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13212,
+   "output_tokens": 865,
+   "duration_ms": 9365
+  }
+ }
+]
