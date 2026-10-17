@@ -1,0 +1,639 @@
+{
+ "answer": {
+  "answer": "The goal was not met: only one challenging setting was confirmed, on scene 023b7fcc. There, recorded cars shifted 1.5 s earlier at 1.25x speed made the policy fail on every repeat (S4). All failures in the study came from that scene and from the -1.5 s shift, at speed scales 0.5x, 1.0x and 1.25x (S2, S3, S4). Only S4 has enough repeats to put its failure rate surely above one half. S2 and S3 rest on one or two runs each, so they are hints, not rates. None of the other eight scenes failed in any run. Three of them were repeated enough to look safe at their most critical setting (S18, S19, S29). Triage put every failure on the policy and flagged no simulator artifacts. In most of them the ego drifted left off its route, even though the route command was RIGHT, and hit or scraped the cars beside or ahead of it (actors 13 and 56).",
+  "findings": [
+   {
+    "claim": "On scene 023b7fcc, retiming the cars 1.5 s earlier at 1.25x speed is a confirmed challenging case: every repeat failed, and the failure rate is surely above one half.",
+    "settings": [
+     "S4"
+    ]
+   },
+   {
+    "claim": "On 023b7fcc, the -1.5 s shift also made the ego fail at 1.0x and 0.5x speed. With only one or two runs per setting, these are hints that the shift matters more than the speed.",
+    "settings": [
+     "S2",
+     "S3"
+    ]
+   },
+   {
+    "claim": "On 023b7fcc, single runs at other shifts all passed: -2.0 s, -1.0 s, -0.5 s, 0 s, and +0.5 s to +2.0 s. Several were near misses with high criticality, so the failing window around -1.5 s looks narrow but is not established.",
+    "settings": [
+     "S1",
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9",
+     "S10",
+     "S11",
+     "S12"
+    ]
+   },
+   {
+    "claim": "At 1.0x and 1.25x speed on 023b7fcc, the failures were the policy's own: the ego steered left out of its lane against a RIGHT route command. It either hit actor 56 alongside it or closed on 56 from behind without braking, often after scraping actor 13. No failure was flagged as a possible simulator artifact.",
+    "settings": [
+     "S3",
+     "S4"
+    ]
+   },
+   {
+    "claim": "The single failure at 0.5x speed was a different mechanism. The ego stayed in its lane, on the human's path, and rear-ended lead car 12 in slow, dense traffic because it barely braked.",
+    "settings": [
+     "S2"
+    ]
+   },
+   {
+    "claim": "Scenes 096988dd, 09a95ffa and 19f339ba never failed, even when their most critical setting was repeated. The ranges place those settings' failure rates below one half.",
+    "settings": [
+     "S18",
+     "S19",
+     "S29"
+    ]
+   },
+   {
+    "claim": "Scenes 12855a41, 0cf6368d, 1c45ce3a, 0e899dd3 and 054b5901 produced no failures. Most of these settings ran only once or twice, so they are not shown to be safe. At 12855a41, +1.5 s at 0.75x was repeated, and its range keeps it below one half.",
+    "settings": [
+     "S13",
+     "S14",
+     "S15",
+     "S16",
+     "S20",
+     "S21",
+     "S22",
+     "S23",
+     "S24",
+     "S25",
+     "S26",
+     "S27",
+     "S28",
+     "S30",
+     "S31"
+    ]
+   }
+  ],
+  "open": [
+   "Four of the five requested cases were not found. No scene other than 023b7fcc broke at 2 Hz within the budget. A wider search on the near misses would settle whether any other scene can be broken: 12855a41 at -1.5 s, 1.25x (S25); 0e899dd3 at -2.0 s, 1.0x (S23); 1c45ce3a at -0.5 s, 1.25x (S30).",
+   "Whether the 023b7fcc failures depend on speed, or only on the -1.5 s shift, needs repeats at S2 and S3, plus runs at -1.75 s and -1.25 s.",
+   "Comparing with the 10 Hz study cut_in_merge needs that study's results next to these. Whether 2 Hz planning made the policy harder to break cannot be judged from this study alone. The left drift that caused the failures still appears at 2 Hz.",
+   "On 023b7fcc every car is retimed, so the study cannot say which car's timing causes the failure. Retiming actors 56 and 13 alone at -1.5 s would isolate it."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": -2.0,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.878,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_036"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_052"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 1.0,
+   "runs": 2,
+   "failed": 2,
+   "failure_rate_90": [
+    0.42,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_024",
+    "cut_in_merge_2hz_optuna_confirm_r3_041"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 1.25,
+   "runs": 5,
+   "failed": 5,
+   "failure_rate_90": [
+    0.65,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_002",
+    "cut_in_merge_2hz_optuna_confirm_r3_010",
+    "cut_in_merge_2hz_optuna_confirm_r3_019",
+    "cut_in_merge_2hz_optuna_confirm_r3_025",
+    "cut_in_merge_2hz_optuna_confirm_r3_050"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 2.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.801,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_032"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.749,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_043"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.781,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_054"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 0.75,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.698,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_015"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 0.75,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.815,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_006"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.88,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_051"
+   ]
+  },
+  {
+   "id": "S11",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.774,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_009"
+   ]
+  },
+  {
+   "id": "S12",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 2.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.637,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_033"
+   ]
+  },
+  {
+   "id": "S13",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 0.75,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.292,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_018"
+   ]
+  },
+  {
+   "id": "S14",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.646,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_017"
+   ]
+  },
+  {
+   "id": "S15",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 0.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_008"
+   ]
+  },
+  {
+   "id": "S16",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 0.75,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.158,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_001"
+   ]
+  },
+  {
+   "id": "S17",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.817,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_044"
+   ]
+  },
+  {
+   "id": "S18",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 0.5,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.881,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_005",
+    "cut_in_merge_2hz_optuna_confirm_r3_011",
+    "cut_in_merge_2hz_optuna_confirm_r3_020",
+    "cut_in_merge_2hz_optuna_confirm_r3_028",
+    "cut_in_merge_2hz_optuna_confirm_r3_037",
+    "cut_in_merge_2hz_optuna_confirm_r3_047"
+   ]
+  },
+  {
+   "id": "S19",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 0.5,
+   "runs": 5,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.35
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.89,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_014",
+    "cut_in_merge_2hz_optuna_confirm_r3_021",
+    "cut_in_merge_2hz_optuna_confirm_r3_029",
+    "cut_in_merge_2hz_optuna_confirm_r3_038",
+    "cut_in_merge_2hz_optuna_confirm_r3_046"
+   ]
+  },
+  {
+   "id": "S20",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 2.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.72,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_026"
+   ]
+  },
+  {
+   "id": "S21",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 2.0,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.605,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_004",
+    "cut_in_merge_2hz_optuna_confirm_r3_013"
+   ]
+  },
+  {
+   "id": "S22",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.56,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_034"
+   ]
+  },
+  {
+   "id": "S23",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": -2.0,
+   "actor_speed_scale": 1.0,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.845,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_045",
+    "cut_in_merge_2hz_optuna_confirm_r3_049"
+   ]
+  },
+  {
+   "id": "S24",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.643,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_023"
+   ]
+  },
+  {
+   "id": "S25",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.887,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_053"
+   ]
+  },
+  {
+   "id": "S26",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.792,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_042"
+   ]
+  },
+  {
+   "id": "S27",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 0.75,
+   "runs": 3,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.47
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.784,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_003",
+    "cut_in_merge_2hz_optuna_confirm_r3_012",
+    "cut_in_merge_2hz_optuna_confirm_r3_031"
+   ]
+  },
+  {
+   "id": "S28",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": -2.0,
+   "actor_speed_scale": 1.25,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.54,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_027"
+   ]
+  },
+  {
+   "id": "S29",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 1.5,
+   "runs": 5,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.35
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.875,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_016",
+    "cut_in_merge_2hz_optuna_confirm_r3_022",
+    "cut_in_merge_2hz_optuna_confirm_r3_030",
+    "cut_in_merge_2hz_optuna_confirm_r3_039",
+    "cut_in_merge_2hz_optuna_confirm_r3_048"
+   ]
+  },
+  {
+   "id": "S30",
+   "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.25,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.805,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_035",
+    "cut_in_merge_2hz_optuna_confirm_r3_040"
+   ]
+  },
+  {
+   "id": "S31",
+   "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.5,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.518,
+   "run_names": [
+    "cut_in_merge_2hz_optuna_confirm_r3_007"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 13029,
+  "output_tokens": 1895,
+  "duration_ms": 18610
+ }
+}

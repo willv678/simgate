@@ -1,0 +1,119 @@
+[
+ {
+  "run": "cut_in_merge_2hz_optuna_confirm_018",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "actor_hit_ego",
+  "what_happened": "On a multi-lane freeway, the ego ended up about 2 m left of the recorded human path, mostly in the lane to the left, even though the command was RIGHT. It also slowed from 5.5 to 4.6 m/s. Actor 1, which replays its recorded path just behind and to the right, first touched the ego's rear and then ran into its right side at 9.6 s while the ego kept going straight in its own lane.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16049,
+   "output_tokens": 1135,
+   "duration_ms": 12626
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_optuna_confirm_019",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego slowed to about 4.5 m/s, fell 6\u201313 m behind its recorded position and drifted about 2 m left of the recorded path. Actor 1 drove up from behind along the recorded path and first rear-ended the ego (around 7.6 s). Actor 1 then pushed up along the ego's right side, and its overlap with the ego's front-right corner was scored as a front collision at 9.6 s. There was no lead vehicle within 13 m, so it was not a braking failure, but the ego's slow, drifting driving set up the conflict with the actor following the recording.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13214,
+   "output_tokens": 1161,
+   "duration_ms": 15706
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_optuna_confirm_020",
+  "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was going straight down its freeway lane, right on the recorded path (0.1 m lateral offset), and slowing from 9.9 to 7.9 m/s even though the nearest car ahead was 42\u201355 m away and pulling further off. Actor 24 came up from behind in the right lane, drew level, and sideswiped the ego's side at 9.7 s; the ego didn't steer toward it, but it was about 20 m behind where the recorded car was at that moment, which is probably why the replayed actor ran into it.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13210,
+   "output_tokens": 848,
+   "duration_ms": 11731
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_optuna_confirm_028",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego moved left of its recorded lane, straddling the line about 2.3 m off the logged path, and slowed to about 4.5 m/s. Actor 1, which replays the log, came up from behind in the recorded lane. It struck the ego's rear by 7.6 s and then side-swiped its right side at 9.6 s; nothing in front was close (gap to the lead was 12\u201320 m).",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16047,
+   "output_tokens": 951,
+   "duration_ms": 10108
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_optuna_confirm_029",
+  "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was going straight in its lane, staying on the recorded path laterally (0.1 m off), but it slowed from 9.9 to 7.9 m/s with no close lead (gap 50 m or more), so it ended up about 20 m behind where the human car was. Actor 24, a log-replayed car coming up from behind in the right lane, then pulled alongside and sideswiped the ego, which counted as a lateral collision plus rear contact.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13203,
+   "output_tokens": 874,
+   "duration_ms": 10616
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_optuna_confirm_038",
+  "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego stayed centered in its freeway lane on STRAIGHT but kept slowing from 9.5 to 7.5 m/s with no lead closer than about 46 m, so by 10.2 s it was 25 m behind where the human had been. Actor 24 came up on the ego's right and, following its recorded cut-in into the ego's lane, swept into the ego's front-right corner, which counted as a front collision; there was also rear contact.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16045,
+   "output_tokens": 824,
+   "duration_ms": 9315
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_optuna_confirm_046",
+  "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was going straight in its lane on a clear highway, staying within 0.4 m of the recorded path, but it kept slowing for no visible reason (10.3 to 8.3 m/s, nothing within 42 m ahead) and fell about 15 m behind where the human car was at that point. Replayed actor 24, coming up from behind in the lane to the right, then ran into the ego's right rear side, which was logged as a side collision with rear contact.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13212,
+   "output_tokens": 985,
+   "duration_ms": 11340
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_optuna_confirm_047",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "After handoff, the ego slowed from 5.6 to 4.3 m/s and sat about 2 m left of the recorded path. Actor 1, which follows its recorded path and does not react, was close behind and clipped the ego's rear at about 7.6 s. At 9.6 s the ego steered right back toward its route and side-swiped actor 1, which was now alongside it on the right.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13226,
+   "output_tokens": 1061,
+   "duration_ms": 11648
+  }
+ },
+ {
+  "run": "cut_in_merge_2hz_optuna_confirm_049",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "The command was RIGHT and the planned path pointed right, but after takeover the ego drifted left and ended up across the line into the left lane, moving slowly at about 3 m/s. Actor 41 was coming up from behind in that lane and sideswiped the ego's left side, which was recorded as a lateral at-fault collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16048,
+   "output_tokens": 671,
+   "duration_ms": 7432
+  }
+ }
+]

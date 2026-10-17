@@ -26,17 +26,18 @@
   "rear-ended by a replayed car": 36
  },
  "cut_in_merge_2hz": {
-  "no contact": 226,
-  "rear-ended by a replayed car": 279,
-  "counted failure": 104,
-  "contact begun before the AI drove": 101,
-  "contact with a car that stopped dead": 15
+  "no contact": 301,
+  "rear-ended by a replayed car": 389,
+  "counted failure": 155,
+  "contact begun before the AI drove": 152,
+  "contact with a car that stopped dead": 24,
+  "counted failure, possible render artifact": 4
  },
  "lead_vehicle_2hz": {
-  "no contact": 241,
-  "rear-ended by a replayed car": 232,
-  "counted failure": 91,
-  "contact begun before the AI drove": 70,
+  "no contact": 252,
+  "rear-ended by a replayed car": 246,
+  "counted failure": 92,
+  "contact begun before the AI drove": 76,
   "counted failure, possible render artifact": 3
  }
 }

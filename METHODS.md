@@ -28,6 +28,8 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | cut_in_merge_2hz | hybrid | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 2, 1 of 5 | 0.908, 0.897, 0.906 | 6, 13, 5 | 87.6, 92.2, 87.0 |
 | cut_in_merge_2hz | llm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 1, 0, 1 of 5 | 0.912, 0.871, 0.899 | 4, 5, 12 | 101.6, 98.3, 115.5 |
 | cut_in_merge_2hz | random_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 3, 0, 1 of 5 | 1.0, 0.903, 0.89 | 17, 6, 3 | 0.0, 0.0, 0.0 |
+| cut_in_merge_2hz | optuna_confirm | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 0, 1, 1 of 5 | 0.923, 0.908, 0.907 | 9, 10, 8 | 0.0, 0.0, 0.0 |
+| cut_in_merge_2hz | hybrid_optuna | 3 | 54, 54, 54 | 0 | 54, 54, 54 | 54 | 2, 2, 2 of 5 | 0.905, 0.918, 0.922 | 16, 9, 6 | 109.6, 103.2, 107.4 |
 | intersection | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.435 | 0 | 0.0 |
 | intersection | hybrid | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.541 | 6 | 91.4 |
 | intersection | llm | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.462 | 0 | 116.2 |
