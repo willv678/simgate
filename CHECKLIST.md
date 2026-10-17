@@ -82,7 +82,8 @@ is. Paths are under `research/`.
     "Optuna with confirmation"). Optuna alone is no better than random +
     repeat; Optuna + AI is fastest on pedestrian (21 runs, every replicate)
     and confirms 13 of 30 on the car scenes (fourth cut-in replicate done
-    15 Oct). 2 Hz Optuna arms queued 14 Oct.
+    15 Oct). 2 Hz Optuna arms done 17 Oct (`FACTS.md`): Optuna alone
+    never beats random + repeat; the AI choosers lead or tie.
 18. [x] **AI v2**: `llm_v2`, `hybrid_v2` (`advisor/OUTER_V2.md`): fixed for
     replayed traffic, given each failure's triage, the scenes' facts and
     its own notes. Tested offline; on lane keeping (unseen study), three

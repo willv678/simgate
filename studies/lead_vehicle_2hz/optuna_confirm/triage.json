@@ -1,0 +1,54 @@
+[
+ {
+  "run": "lead_vehicle_2hz_optuna_confirm_033",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "turned_into_actor",
+  "what_happened": "In slow highway traffic with a RIGHT command, the ego drifted left out of the recorded lane, ending about 2.1 m left of the human's path, and into the adjacent left lane. Actor 51 was coming up from behind on the left, and the ego's side hit it at 10.7 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13205,
+   "output_tokens": 780,
+   "duration_ms": 10581
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_optuna_confirm_039",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "turned_into_actor",
+  "what_happened": "The route command was RIGHT, but in slow highway traffic the ego drifted left out of its recorded lane, about 2 m off the human path, into the next lane. There it sideswiped actor 51, which was coming up beside it from behind on the left. The metrics log this as a lateral collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16047,
+   "output_tokens": 662,
+   "duration_ms": 7666
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_optuna_confirm_043",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "turned_into_actor",
+  "what_happened": "In slow highway traffic with a RIGHT command, the ego drifted about 2 m left of the recorded path, which ran toward the lane on the right. It ended up straddling the lane line into the left lane. Actor 51 came up from behind in that left lane, and the ego's front-left corner clipped it as it drew alongside at about 3.6 m/s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16057,
+   "output_tokens": 1018,
+   "duration_ms": 12023
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_optuna_confirm_049",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "After the 4.6s handoff on a straight multi-lane highway, the policy braked hard (17 to 9.4 m/s) for no clear reason and drifted left, away from the recorded path, which stayed straight or bore slightly right. At 7.1s its front-left corner hit actor 1, a car just ahead of it in the left lane. Something also hit the ego's rear, probably because of the sudden braking.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13213,
+   "output_tokens": 757,
+   "duration_ms": 9398
+  }
+ }
+]

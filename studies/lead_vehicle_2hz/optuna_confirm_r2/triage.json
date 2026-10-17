@@ -1,0 +1,106 @@
+[
+ {
+  "run": "lead_vehicle_2hz_optuna_confirm_r2_005",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "left_road",
+  "what_happened": "On a multi-lane highway with a RIGHT command, the policy ignored the recorded path, which shifts right. Instead it held a path heading left, toward the median barrier, accelerating from 6.6 to 8.2 m/s. It ended up 5.7 m left of the human trajectory, past the left road edge, and was flagged offroad at 11.2 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13219,
+   "output_tokens": 839,
+   "duration_ms": 8972
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_optuna_confirm_r2_032",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was going straight at about 4 m/s behind lead car 12 in its lane. The gap kept shrinking (5.5 m when the policy took over at 4.7 s, 4.4 m at 5.7 s), and the ego only braked lightly (4.2 to 3.4 m/s) before its front hit car 12. Its planned path swung left too late. Car 56 struck the ego's rear afterwards, so that is a secondary contact.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13233,
+   "output_tokens": 932,
+   "duration_ms": 11309
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_optuna_confirm_r2_036",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was following slower lead car 12 in its lane in heavy straight-ahead traffic, and the front of the ego hit its rear about 1 s after handoff. The gap went from 5.5 m to 4.4 m while the ego only slowed from 4.2 to 3.4 m/s, and at impact its planned path was swinging left instead of stopping.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13222,
+   "output_tokens": 906,
+   "duration_ms": 11009
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_optuna_confirm_r2_039",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "no_brake_for_lead",
+  "what_happened": "On a straight multi-lane highway, the ego was going about 8 m/s and closing on slower lead vehicle 1 in its own lane, with the gap shrinking about 4 m/s. The policy took over at 4.6 s with only 5.3 m of gap left (about 1.3 s to collision). It braked only to 6.6 m/s and hit the lead's rear at 5.1 s, and was also rear-ended at some point.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13224,
+   "output_tokens": 999,
+   "duration_ms": 11422
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_optuna_confirm_r2_042",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was following slowing lead car 12 closely in stop-and-go highway traffic (gap shrinking from 9.0 m to 4.4 m). It slowed only a little (4.2 to 3.4 m/s) in the 1 s after handoff, and its front touched car 12 while its plan was starting to swerve left. When contact happened the ego was only 0.1 m from the recorded human path, and it was already very close to the lead at handoff, so the contact may come from the recorded drive's own tight following or from the vehicle box sizes.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13224,
+   "output_tokens": 997,
+   "duration_ms": 12913
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_optuna_confirm_r2_043",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was going straight on a highway at 8 m/s and closing on the slower lead SUV (actor 1) in its lane at about 4 m/s. The policy took over at 4.6 s with only 5.3 m of gap left, braked to 6.6 m/s, and still hit actor 1's rear at 5.1 s. Some actor also hit the ego's rear at some point.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13226,
+   "output_tokens": 975,
+   "duration_ms": 11581
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_optuna_confirm_r2_046",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "no_brake_for_lead",
+  "what_happened": "Before the handoff, the ego was driving at 8 m/s and closing on a slower lead SUV (actor 1) in the same lane on a straight highway. The policy took over at 4.6 s with a 5.3 m gap, about 1.3 s to impact, and braked only to 6.6 m/s before hitting the SUV's rear at 5.1 s; a vehicle behind then also hit the ego's rear.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13224,
+   "output_tokens": 990,
+   "duration_ms": 11527
+  }
+ },
+ {
+  "run": "lead_vehicle_2hz_optuna_confirm_r2_047",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was going straight at about 4.2 m/s behind a slower car in its lane (actor 12), and the gap had been shrinking steadily (9.0 m \u2192 4.4 m). After the policy took over at 4.7 s it eased off only slightly (4.2 \u2192 3.5 m/s) and hit the car's rear with its front at 5.7 s, while its plan was only starting a late swerve to the left; a car behind (56) also hit the ego's rear.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13219,
+   "output_tokens": 759,
+   "duration_ms": 11511
+  }
+ }
+]

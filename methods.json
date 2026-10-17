@@ -1627,6 +1627,76 @@
      0.0,
      0.0
     ]
+   },
+   "optuna_confirm": {
+    "replicates": 3,
+    "reached": 0,
+    "runs_to_goal": [
+     49,
+     49,
+     49
+    ],
+    "median_runs_to_goal": 49,
+    "confirmed": [
+     0,
+     2,
+     0
+    ],
+    "hardest": [
+     0.887,
+     0.894,
+     0.84
+    ],
+    "failures": [
+     4,
+     8,
+     0
+    ],
+    "kept": [
+     49,
+     49,
+     49
+    ],
+    "model_seconds": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "hybrid_optuna": {
+    "replicates": 3,
+    "reached": 0,
+    "runs_to_goal": [
+     49,
+     49,
+     49
+    ],
+    "median_runs_to_goal": 49,
+    "confirmed": [
+     1,
+     2,
+     1
+    ],
+    "hardest": [
+     0.923,
+     0.908,
+     0.863
+    ],
+    "failures": [
+     12,
+     6,
+     8
+    ],
+    "kept": [
+     49,
+     49,
+     49
+    ],
+    "model_seconds": [
+     123.3,
+     111.7,
+     113.4
+    ]
    }
   }
  },

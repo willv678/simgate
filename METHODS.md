@@ -58,6 +58,8 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | lead_vehicle_2hz | hybrid | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 1, 2, 0 of 5 | 0.85, 0.914, 0.847 | 16, 11, 3 | 94.5, 106.0, 101.6 |
 | lead_vehicle_2hz | llm | 3 | 49, 49, 49 | 1 | 46, 49, 49 | 49 | 5, 2, 1 of 5 | 1.0, 0.948, 0.868 | 17, 15, 10 | 119.2, 119.9, 120.7 |
 | lead_vehicle_2hz | random_confirm | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 1, 0, 1 of 5 | 0.882, 0.862, 0.926 | 4, 4, 9 | 0.0, 0.0, 0.0 |
+| lead_vehicle_2hz | optuna_confirm | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 0, 2, 0 of 5 | 0.887, 0.894, 0.84 | 4, 8, 0 | 0.0, 0.0, 0.0 |
+| lead_vehicle_2hz | hybrid_optuna | 3 | 49, 49, 49 | 0 | 49, 49, 49 | 49 | 1, 2, 1 of 5 | 0.923, 0.908, 0.863 | 12, 6, 8 | 123.3, 111.7, 113.4 |
 | pedestrian_crossing | rules | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.643 | 0 | 0.0 |
 | pedestrian_crossing | hybrid | 1 | 49 | 0 | 49 | 49 | 0 of 5 | 0.636 | 0 | 90.1 |
 | pedestrian_crossing | llm | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.691 | 5 | 112.3 |

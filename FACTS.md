@@ -996,8 +996,16 @@ replicate replaces it, finished 15 Oct):
   random + repeat 3, 0, 1 (4); Optuna + repeat 0, 1, 1 (2); AI picks
   1, 0, 1 (2). No arm reaches the goal and the methods are within noise
   of each other: after the problem 31 rule removed the frozen-car
-  contacts, 2 Hz cut-in has few failures any method can confirm. 2 Hz
-  lead Optuna arms running.
+  contacts, 2 Hz cut-in has few failures any method can confirm.
+- **2 Hz, lead vehicle** (Optuna arms done 17 Oct), confirmed of 5 (total
+  of 15): AI picks 5 (46 runs), 2, 1 (8); Optuna + AI 1, 2, 1 (4); hybrid
+  1, 2, 0 (3); random + repeat 1, 0, 1 (2); Optuna + repeat 0, 2, 0 (2);
+  rules 0, 0, 0 (0). Only AI picks reached the goal (one replicate).
+- With these, every queued arm is done (17 Oct): Optuna alone never beats
+  random + repeat in any study; an AI chooser leads or ties in every
+  study; where failures are plentiful (pedestrian 10 Hz) all methods tie,
+  where they are rare (hard study, lane keeping, lead 2 Hz) the
+  free-choosing AI leads.
 
 ### Lane keeping, the unseen study: three replicates of 8 methods (15 Oct)
 
