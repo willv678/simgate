@@ -1,0 +1,80 @@
+{
+  "name": "car_conflicts_3knobs_2hz_hybrid_optuna_r4_003",
+  "run_dir": "diag/car_conflicts_3knobs_2hz_hybrid_optuna_r4_003",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+    "controller": "linear",
+    "traffic": "replay",
+    "retime_class": "automobile",
+    "control_timestep_us": 500000,
+    "retime_track": "14",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 1,
+    "ego_speed_scale": 1.4
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 3599302,
+  "launched_at": 1792376493.5139637,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "HALT",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "car_conflicts_3knobs_2hz_hybrid_optuna_r4_003",
+      "k_status": "physics: max_speed_report_error 1.19 > 1.0",
+      "config": {
+        "context_length": 8,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "trafficsim_device": "cpu",
+        "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+        "controller": "linear",
+        "traffic": "replay",
+        "retime_class": "automobile",
+        "control_timestep_us": 500000,
+        "retime_track": "14",
+        "planner_delay_us": 0,
+        "lateral_bias_m": 0.0,
+        "waypoint_noise_std": 0.0,
+        "actor_time_shift_s": 0,
+        "actor_speed_scale": 1,
+        "ego_speed_scale": 1.4
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-19T02:21:40.455Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 4799499212160 outside range [4799495712160, 4799498712161)",
+        "ValueError: Interpolation timestamp 4799499212160 outside range [4799495712160, 4799498712161)",
+        "controller-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\ncar_conflicts_3knobs_2hz_llm_r4_021-physics-0-1\tUp 1 second\ncar_conflicts_3knobs_2hz_llm_r4_021-runtime-0-1\tUp 1 second\ncar_conflicts_3knobs_2hz_llm_r4_021-controller-0-1\tUp 1 second\ncar_conflicts_3knobs_2hz_llm_r4_021-prometheus-0-1\tUp 1 second\ncar_conflicts_3knobs_2hz_llm_r4_021-driver-0-1\tUp 1 second\ncar_conflicts_3knobs_2hz_llm_r4_021-renderer-0-1\tUp 1 second\n\n$ docker network ls --format {{.Name}}\nbridge\ncar_conflicts_3knobs_2hz_llm_r4_021_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n625 MiB, 23441 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  869G   43G  96% /\n",
+    "skill": "HALT",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 19102,
+    "output_tokens": 497,
+    "duration_ms": 6698,
+    "tool_calls": [
+      "Grep: speed_report|ego_speed_scale|speed_scale"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

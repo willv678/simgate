@@ -1,0 +1,197 @@
+[
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_001",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway, the ego slowed from about 8 to 5 m/s and drifted left out of its lane, following its leftward-veering orange trajectory, even though the route command was STRAIGHT and then RIGHT. Its front-left corner struck vehicle 41, which was moving up in the adjacent left lane, while the ego was about 1.7 m off the recorded human path.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13226,
+   "output_tokens": 781,
+   "duration_ms": 9149
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_002",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway, the ego slowed down and then drifted left out of its lane, toward the orange planned path, even though the route said STRAIGHT and later RIGHT. It hit actor 41, which was driving beside it in the left lane, with its front-left corner. The vehicle ahead was still 17\u201335 m away, so this was a side-swipe during an unprompted lane change, not a failure to brake for the lead.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13227,
+   "output_tokens": 633,
+   "duration_ms": 6667
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_005",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "After handoff, the ego braked hard on an open highway for no apparent reason, slowing from 23.7 to 7.2 m/s even though the nearest vehicle ahead was more than 40 m away, and it fell well behind the recorded human position. At the same time it drifted left across the lane line, and its front clipped actor 1, which was coming up alongside in the left lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13205,
+   "output_tokens": 752,
+   "duration_ms": 8658
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_011",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "The ego was slowing on a multi-lane highway, but instead of holding its lane or moving right as the RIGHT command asked, it steered left toward the next lane. Its front hit actor 41, which was driving alongside in that left lane, while the recorded human path stayed in the original lane about 1.7 m to the right.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16065,
+   "output_tokens": 583,
+   "duration_ms": 12637
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_012",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway with a STRAIGHT command (later RIGHT), the ego slowed from 7.9 to 4.4 m/s and drifted left out of its lane toward the left lane, following its own leftward planned path. Its front-left corner then hit the side of actor 41, which was passing on the left. The recorded human path went straight; the vehicle ahead was 18\u201335 m away, so it was not involved.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13219,
+   "output_tokens": 662,
+   "duration_ms": 7882
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_013",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "After handoff on a multi-lane highway, the policy drifted left out of its lane even though the human trajectory went straight and the command was STRAIGHT, then RIGHT. Its planned path pointed into the adjacent left lane. At 7.2s it sideswiped vehicle 41, which was alongside in that lane (a lateral collision).",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13220,
+   "output_tokens": 532,
+   "duration_ms": 5916
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_014",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a clear multi-lane highway with no lead vehicle within about 43 m, the ego braked hard for no visible reason, slowing from 23.7 to 7.1 m/s, while the recorded human kept going. It also drifted left toward the lane line. Actor 1 was coming up in the left lane, and as it drew alongside, the ego's front corner hit it.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13223,
+   "output_tokens": 886,
+   "duration_ms": 13043
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_021",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "After handoff, the ego braked hard on an open highway (23.7 to 7.4 m/s, with the lead vehicle 43+ m ahead) while drifting left across the lane line. Vehicle 1, coming up from behind in the left lane, drew alongside, and the ego's front-left clipped it.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13206,
+   "output_tokens": 1266,
+   "duration_ms": 13741
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_022",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a clear highway with no lead within about 44 m, the ego braked hard for no visible reason (23.7 to 7.4 m/s) and drifted left off the recorded path across the lane line. Its front then struck actor 1, which was coming up from behind in the left lane and was now alongside.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16044,
+   "output_tokens": 705,
+   "duration_ms": 8913
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_031",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a clear highway, the ego braked hard for no visible reason (23.7 to 7.3 m/s, with the lead vehicle more than 40 m ahead) and fell behind its recorded position. While braking, it drifted left across the lane line into the adjacent lane, where actor 1 was coming up alongside, and the two collided side to side.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16033,
+   "output_tokens": 801,
+   "duration_ms": 9687
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_032",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On an open multi-lane highway with no close lead (gap of 43 m or more), the ego braked hard for no clear reason, from 23.7 to 7.5 m/s. Its planned path wobbled left, and it drifted about 1.3 m left of the recorded path across the lane line. It sideswiped actor 1, which had been behind it in the left lane and was now alongside because the ego had slowed.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13217,
+   "output_tokens": 762,
+   "duration_ms": 9693
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_033",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a straight highway with no lead within about 43 m, the ego braked hard without a clear reason (23.7 to 7.3 m/s over 3 s) and drifted about 1 m left toward the lane line. Actor 1, a replayed car coming up from behind in the left lane, then made side contact with the ego's left side. The ego's recorded position was about 8.7 m further ahead.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13210,
+   "output_tokens": 861,
+   "duration_ms": 9031
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_041",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On an open highway, with the nearest car ahead more than 43 m away, the ego braked hard for no clear reason (23.7 to 7.1 m/s) and its path drifted left toward the lane line. Actor 1, coming up in the left lane, drew level and the ego's left side hit it (a lateral collision); the hard braking also got the ego rear-ended.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13202,
+   "output_tokens": 866,
+   "duration_ms": 11462
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_042",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a straight multi-lane highway with no lead vehicle within 43 m, the ego braked hard for no visible reason (23.7 to 7.5 m/s) and drifted left toward the lane line. Actor 1, a logged car following its recording in the left-adjacent lane, caught up from behind and there was a side-swipe on the ego's left side.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13217,
+   "output_tokens": 960,
+   "duration_ms": 11158
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_r5_049",
+  "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+  "cause": "turned_into_actor",
+  "what_happened": "In slow highway traffic (about 2.5\u20133 m/s), the ego left its recorded lane and drifted left, about 2 m off the human path, even though the route command was RIGHT. Its front clipped car 51, which was coming up alongside in the left lane. The nearest car ahead in its lane was over 30 m away, so this was not a lead-vehicle crash.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13214,
+   "output_tokens": 795,
+   "duration_ms": 11698
+  }
+ }
+]

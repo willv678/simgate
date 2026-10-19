@@ -93,7 +93,10 @@ is. Paths are under `research/`.
     failures, 2 Hz, 8 methods x 3 repeats under the problem 31 rule, done
     16 Oct. Confirmed of 15: AI picks v2 14, AI picks 12, Optuna + AI 9,
     hybrid v2 7, hybrid 5, Optuna + repeat 5, random + repeat 4, rules 0;
-    only free-choosing AI arms reached the goal (`FACTS.md`).
+    only free-choosing AI arms reached the goal (`FACTS.md`). Five
+    repeats of six methods done 19 Oct, confirmed of 25: AI picks v2 24,
+    AI picks 17, Optuna + AI 13, Optuna + repeat 10, random + repeat 7,
+    rules 0; v2 vs random, Optuna, rules exact p 0.008 each.
 20. [x] **Griffin's score script**: `label_sheet.py score` on his branch:
     agreement and kappa against the scorer and the triage; refuses to run
     until all 60 are labelled.

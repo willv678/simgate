@@ -1072,6 +1072,34 @@ arms done 16 Oct (`METHODS.md`). Confirmed of 5 per replicate, total of 15:
   lane keeping.
 - Curve `figures/discovery_car_conflicts_3knobs_2hz.png`.
 
+**Five repeats (19 Oct).** Two more replicates of six methods (the hybrids
+stay at three), queued 18 Oct to replace the post hoc pooling with
+head-to-head tests. Confirmed of 5 per replicate, total of 25:
+
+| method | confirmed | of 25 | reached goal (runs) |
+|---|---|---|---|
+| AI picks v2 | 4, 5, 5, 5, 5 | 24 | 4 (52, 51, 41, 41) |
+| AI picks | 2, 5, 5, 3, 2 | 17 | 2 (59, 52) |
+| Optuna + AI | 3, 4, 2, 2, 2 | 13 | 0 |
+| Optuna + repeat | 2, 1, 2, 2, 3 | 10 | 0 |
+| random + repeat | 2, 0, 2, 2, 1 | 7 | 0 |
+| rules | 0, 0, 0, 0, 0 | 0 | 0 |
+
+- Exact two-sided permutation test on the per-replicate counts, 5 vs 5
+  (smallest possible p 0.0079): AI picks v2 vs random + repeat 0.0079, vs
+  Optuna + repeat 0.0079, vs rules 0.0079 (complete separation each), vs
+  Optuna + AI 0.016; AI picks vs rules 0.0079, vs random 0.079; Optuna + AI
+  vs random 0.16; Optuna + repeat vs random 0.48; random vs rules 0.048.
+- Planned comparisons (the reason for the extra repeats): AI picks v2
+  against random, Optuna and rules; Holm over those three, 0.024 each.
+  Holm over all 15 pairs of the six methods leaves nothing below 0.05
+  (smallest 0.079); state which is used. AI picks v2 was built on the three
+  method studies before this study ran (OUTLINE "AI proposer v2"), so
+  naming it the AI method in advance is fair.
+- The two new replicates repeat the first three: v2 confirmed 5 of 5 in
+  both and met the goal sooner (41 runs each); AI picks v1 is less steady
+  (2 to 5); Optuna alone again no better than random.
+
 ### Shao's 13 Oct feedback: evidence produced (`CHECKLIST.md`)
 
 - **Self-healing, every study queue** (`figures/cards/self_healing.json`):
