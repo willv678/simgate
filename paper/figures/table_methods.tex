@@ -1,0 +1,21 @@
+\begin{table}[t]
+\caption{Search methods at an equal budget, three repeats each (10\,Hz).}
+\label{tab:methods}
+\centering\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+ & Pedestrian & Car cutting in & Car ahead & Model \\
+\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}
+Method & runs to goal & confirmed & confirmed & s/arm \\
+\midrule
+rules & 25 (25, 25, 25) & 2, 2, 2 & 0, 0, 0 & -- \\
+hybrid (rules + AI) & 24 (24, 28, 24) & 3, 3, 3 & 2, 3, 3 & 87 \\
+AI picks & 37 (28, 40, 37) & 3, 2, 1 & 3, 1, 3 & 101 \\
+random + repeat & 32 (31, 32, 32) & 2, 0, 1 & 4, 1, 2 & -- \\
+Optuna + repeat & 31 (25, 31, 33) & 4, 4, 0 & 1, 3, 1 & -- \\
+Optuna + AI & 21 (21, 20, 21) & 2, 3, 1 & 1, 2, 4 & 97 \\
+\bottomrule
+\end{tabular}
+\\[2pt]\parbox{\columnwidth}{\scriptsize Runs to goal: kept runs until 5 hardest settings were confirmed (median, then each repeat). Confirmed: of 5, per repeat. Contacts with a car the retiming held still are not counted. Model: median seconds of model calls per arm over the three studies.}
+\end{table}

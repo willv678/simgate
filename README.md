@@ -31,7 +31,7 @@ New to the project? Read these in order (about 20 minutes):
 4. [`FACTS.md`](FACTS.md): every number and where it comes from (long; search it).
 5. [`VALIDITY.md`](VALIDITY.md): what each check verifies, and the planted-fault test.
 
-`paper/main.tex` is an early draft from 29 Sep with an older framing; `OUTLINE.md` is current.
+`paper/main.tex` is a section-by-section outline of the paper (19 Oct), in the current framing, with every figure in place; red marks what is still open.
 
 ## What it found (Oct 2026, VaVAM driving policy, AlpaSim)
 
