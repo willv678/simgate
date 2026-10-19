@@ -43,8 +43,10 @@ DISPATCH = {
 # after a crash does the same work. monitor.py aborted in native code once in
 # about 300 calls and stopped the C2 tier 1 arm; archive.py aborted at exit
 # after saving its verdict once in about 2500 runs (12 Oct) and stopped a
-# study arm.
+# study arm. monitor.py aborted twice in a row on one entry (19 Oct) and
+# stopped an arm, so a signal crash gets up to RERUNS more tries.
 RERUNNABLE = ("monitor.py", "analyze.py", "validate_diagnosis.py", "archive.py")
+RERUNS = 3
 
 
 class ScriptCrash(Exception):
@@ -56,7 +58,7 @@ class ScriptCrash(Exception):
 
 
 def rerun_after(script: str, crash: ScriptCrash) -> bool:
-    """Rerun once only a rerunnable script that a signal killed. Errors stop."""
+    """Rerun only a rerunnable script that a signal killed. Errors stop."""
     return script in RERUNNABLE and crash.returncode < 0
 
 
@@ -66,6 +68,17 @@ def run_script(script: str, entry_path: Path, extra: list[str]) -> dict:
     if proc.returncode != 0:
         raise ScriptCrash(script, entry_path, proc.returncode, proc.stderr)
     return json.loads(proc.stdout.strip().splitlines()[-1])
+
+
+def run_rerunning(script: str, entry_path: Path, extra: list[str], on_crash) -> dict:
+    """run_script, tried again up to RERUNS times while rerun_after allows it."""
+    for tries_left in range(RERUNS, -1, -1):
+        try:
+            return run_script(script, entry_path, extra)
+        except ScriptCrash as crash:
+            if not tries_left or not rerun_after(script, crash):
+                raise SystemExit(str(crash)) from crash
+            on_crash(crash)
 
 
 def next_entry(queue: Path, no_launch: bool) -> tuple[Path, RunState] | None:
@@ -179,21 +192,14 @@ def main() -> int:
         while stopped is None and (found := next_entry(args.queue, args.no_launch)):
             path, state = found
             for script in DISPATCH[state.state]:
-                try:
-                    result = run_script(script, path, extra.get(script, []))
-                except ScriptCrash as crash:
-                    if not rerun_after(script, crash):
-                        raise SystemExit(str(crash)) from crash
-                    record(
-                        path,
-                        state,
-                        script,
-                        {"crashed": crash.returncode, "rerun": True},
-                    )
-                    try:
-                        result = run_script(script, path, extra.get(script, []))
-                    except ScriptCrash as again:
-                        raise SystemExit(str(again)) from again
+                result = run_rerunning(
+                    script,
+                    path,
+                    extra.get(script, []),
+                    lambda crash: record(
+                        path, state, script, {"crashed": crash.returncode, "rerun": True}
+                    ),
+                )
                 record(path, state, script, result)
                 if script == "validate_diagnosis.py" and not result["accepted"]:
                     break

@@ -108,6 +108,31 @@ def test_only_a_signal_crash_of_a_rerunnable_script_is_rerun():
     )
 
 
+def test_a_script_that_aborts_twice_is_tried_again_and_one_that_keeps_aborting_stops(monkeypatch):
+    import loop
+    import pytest
+
+    calls = []
+
+    def aborts(times):
+        def run(script, entry_path, extra):
+            calls.append(script)
+            if len(calls) <= times:
+                raise loop.ScriptCrash(script, entry_path, -6, "terminate called")
+            return {"ok": True}
+        return run
+
+    crashes = []
+    monkeypatch.setattr(loop, "run_script", aborts(2))
+    assert loop.run_rerunning("monitor.py", Path("e.json"), [], crashes.append) == {"ok": True}
+    assert len(crashes) == 2
+
+    calls.clear()
+    monkeypatch.setattr(loop, "run_script", aborts(loop.RERUNS + 1))
+    with pytest.raises(SystemExit, match="exited -6"):
+        loop.run_rerunning("monitor.py", Path("e.json"), [], crashes.append)
+
+
 def test_a_second_loop_on_the_same_queue_exits(tmp_path):
     import pytest
     from loop import hold_queue
