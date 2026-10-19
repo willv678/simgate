@@ -54,6 +54,14 @@ Figure: `figures/campaign_invalid.png`. Physics check: 0 false alarms on
 
 129 of 144 healed with no person; 15 stopped for one.
 
+Every one of these failures, and those after the cutoff (323 to 18 Oct),
+is listed with its evidence in `HEALING.md` (`harness/healing_ledger.py`,
+`figures/healing/flow.png`, `figures/healing/timeline.png`): what failed,
+the commands the agent ran to look, its choice, the code check's verdict,
+what the retry did, and a link to the raw queue entry. The script recounts
+the numbers above from the queues and gets the same 4,668, 144 and 129;
+every retry ran exactly the settings asked for (323 of 323).
+
 ## 4. What is in the kept runs
 
 The gate proves a run did what was asked and moved like a car. It does not

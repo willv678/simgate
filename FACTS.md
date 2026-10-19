@@ -1082,6 +1082,21 @@ arms done 16 Oct (`METHODS.md`). Confirmed of 5 per replicate, total of 15:
   (intended; problem 24). Other simulator crash 11: RE-RUN 10,
   RESTART_CLEANUP 1 (all kept). Launcher lost 2: RESTART_CLEANUP (kept).
   129 of 144 healed with no person.
+- **Self-healing ledger, whole campaign to 18 Oct** (`HEALING.md`,
+  `harness/healing_ledger.py`, `figures/healing/`): recounted from the
+  queues, the 13 Oct cutoff gives the same 4,668 launches, 144 failures, 129
+  healed. To 18 Oct: 8,540 runs asked for, 8,775 launches, 323 failed
+  launches to the agent: GPU out of memory 219 (RE-RUN 215, HALT 4; 205
+  healed), failed the physics check 59 (HALT 59, intended: 11 before 13 Oct are
+  problem 24's jolt; after it, 36 speed-report errors (three-knob 20, lane
+  keeping 11, pedestrian 2 Hz 5), 8 lane-keeping plans shifted less than
+  asked, 4 lane-keeping yaw-rate or acceleration bounds), GPU still busy 24 (CLEANUP_ENV 23), other simulator crash
+  19 (18 healed), launcher lost 2 (healed). 248 healed; 248 of 264
+  operational failures. 99.2% of runs asked for ended kept. Every retry ran
+  the parent's exact settings (323 of 323); every choice passed the code
+  check (no production rejection; the check's teeth are shown by the
+  exhaustive check and planted faults). Median 8 s of agent time per
+  diagnosis.
 - **What every kept run contains**, six method studies, all methods
   pooled, exclusive categories in this order: counted failure (split by
   `possible_artifact`), contact begun before the hand-off, rear-ended by a

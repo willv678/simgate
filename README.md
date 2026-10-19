@@ -21,6 +21,18 @@ could give breaks the gate.
 
 ![The SimGate web app](figures/simgate_app.png)
 
+## Start here
+
+New to the project? Read these in order (about 20 minutes):
+
+1. [`OUTLINE.md`](OUTLINE.md): the paper's claims, the evidence for each, and its status.
+2. [`SKILLS.md`](SKILLS.md): how the agent's actions are designed: every job is a markdown contract with a fixed menu of answers, checked by code and carried out by a script.
+3. [`HEALING.md`](HEALING.md): the inner loop at work: every failed launch, what the agent chose, and how it ended, each linked to its raw log entry.
+4. [`FACTS.md`](FACTS.md): every number and where it comes from (long; search it).
+5. [`VALIDITY.md`](VALIDITY.md): what each check verifies, and the planted-fault test.
+
+`paper/main.tex` is an early draft from 29 Sep with an older framing; `OUTLINE.md` is current.
+
 ## What it found (Oct 2026, VaVAM driving policy, AlpaSim)
 
 | | |
@@ -28,8 +40,8 @@ could give breaks the gate.
 | **Ego speed is the stressor** | Retiming the pedestrian alone: 0-5 failures in 49 runs per method. Adding the ego's speed at hand-off: every method confirms the 5 hardest cases in 24-28 runs. |
 | **The policy's dominant failure mode** | Once it takes over, the VaVAM policy drifts left of the human's path, a median 2.4 m within 5 s, with 88% of 2428 kept runs more than 0.5 m left by then and none right; its plans already lean left before it drives, and with its camera and plan mirrored it drifts right instead (18 of 20 pairs): the lean is the model's own. Most hardest cases are this drift meeting traffic or the road edge (`DRIFT.md`, `MIRROR.md`). |
 | **A quarter of naive "failures" are not the policy's** | Counting every collision flag, 49 of 200 failures were replayed cars rear-ending a slowed ego, or contacts before the policy drove. SimGate counts only failures the policy is responsible for, from the moment it takes over. |
-| **Fair baselines** | Random search found 31 crashes in 48 runs but confirmed none; `random_confirm` adds the same confirmation the rules use. Over three replicates per method: in a small space (pedestrian x ego speed, 2 knobs) every method confirms the 5 hardest cases in 24-40 runs; in the larger ones (lead vehicle, cut-in) almost no arm confirms 5 once contacts that began before the policy took over are excluded (FACTS problem 30); hybrid gets closest on cut-in (4, 5 at 48 runs, 4 of 5), rules alone 0 and 2 (`METHODS.md`, `CLOSED.md`). Pooled over cut-in and lead vehicle at 10 Hz and at VaVAM's own 2 Hz: rules 10 of 60 confirmed, hybrid 33, llm 32, random + confirmation 19. |
-| **Valid by construction** | 3662 finished launches across the studies, 3561 kept (97.2%); 88 crashed launches re-run automatically, 12 halted (10 by the physics bound), none kept without passing every check (`GATE.md`). |
+| **An AI choosing the next tests finds more** | Eight search methods, three repeats each, equal budgets, under one gate. Where failures are rare the free-choosing AI pulls ahead: three-knob study, hardest cases confirmed of 15: AI picks v2 14, AI picks 12, Optuna + AI 9, random + repeat 4, Optuna + repeat 5, rules 0; lane keeping, runs to find all 5: AI 17-21, random and Optuna 25-32, rules never. On the 10 Hz car scenes, confirmed of 30: hybrid (the AI choosing among the rules' candidates) 17, AI picks 13, Optuna + AI 13, Optuna 13, random 10, rules 6. Optuna alone never beats random + repeat (`FACTS.md`, `METHODS.md`, `figures/discovery_*.png`). |
+| **Valid by construction, and checkable** | 8,775 launches to 18 Oct; 323 failed and went to the agent: 248 healed with no person, 59 stopped because the run came back physically wrong (the gate working), 16 stopped for other reasons; every retry ran exactly the settings asked for. One row per failure, each linked to its raw evidence: [`HEALING.md`](HEALING.md). |
 | **Reproducible** | A seeded run replays bit for bit (0.0 m over 122 steps); a different seed parts at 3.6 s. |
 
 Live numbers: [`METHODS.md`](METHODS.md), [`GATE.md`](GATE.md),
@@ -124,11 +136,14 @@ Do not add another research markdown unless `STATUS.md` names the question it an
 
 ## What is current
 
-The paper is SimGate: Loop 1 as Shao designed it on 22 Sep 2026 (preflight
-K⁻, postflight K⁺, a finite skill menu), built and extended with an
-investigating agent, a batch auditor, rule mining, and an exhaustive check of
-the gate. Full picture: `GUIDE.md`. Claims and evidence: `OUTLINE.md`,
-`FACTS.md`. Board: `STATUS.md`. Scripts from paused work are in `archive/`.
+The paper (reframed 13 Oct 2026 with Shao): an AI agent that runs AV stress
+testing continuously and can be trusted to. It plans, runs, heals, checks and
+explains, and discovers corner cases with whatever search sits underneath
+(rules, its own choice, Optuna). Its inner loop is Loop 1 as Shao designed it
+on 22 Sep 2026 (preflight K⁻, postflight K⁺, a finite skill menu), extended
+with an investigating agent, a batch auditor, rule mining, and an exhaustive
+check of the gate. Claims and evidence: `OUTLINE.md`, `FACTS.md`. Older full
+picture: `GUIDE.md`. Scripts from paused work are in `archive/`.
 
 This folder is its own git repo (ignored by NVlabs AlpaSim), pushed to
 https://github.com/willv678/simgate (public). New notes and harness scripts go
