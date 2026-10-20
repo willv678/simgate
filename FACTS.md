@@ -1288,6 +1288,22 @@ human path, left positive):
   Refreshed 10 Oct over all 2428 kept runs (736 failures): 68% of failures
   under RIGHT, 32% STRAIGHT, 0.4% LEFT (`COMMANDS.md`); the hand-off count
   was not re-checked.
+  **Corrected 20 Oct:** `command_analysis.py` had assumed a 2 m threshold
+  at 5 m; the driver used 3 m at 20 m (each run's `driver-config.yaml`,
+  AlpaSim's VaVAM default). Recomputed with each run's own rule over 9,851
+  kept runs (`COMMANDS.md`): RIGHT 49.6% of policy steps and 74.8% of
+  failures, STRAIGHT 45.3% and 16.9%, LEFT 5.1% and 8.3%.
+- **Plans follow the command, weakly (20 Oct, 600 random kept runs, 23k
+  plans after the hand-off):** under RIGHT the plan at +3 s is a median
+  0.75 m right (65% right), under STRAIGHT 0.3 m left, under LEFT 0.7 m
+  left; fitted, plan offset = 0.22 x the route's offset 20 m ahead + 0.68 m.
+  So the command encoding is right; the drift settles where the leftward
+  lean under STRAIGHT meets the RIGHT command's pull, near the 3 m
+  threshold (the drift levels off at 2.4-2.8 m). VaVAM's NeuroNCAP
+  evaluation used a 2 m threshold; `harness/d1_queue` tests 3, 2 and 1 m
+  (`COMMAND_RULE.md`). Drift by road bend (608 runs): straight +1.1 m at
+  +3 s (75% left), left bends +2.3 m, right bends +0.5 to +1.3 m, the
+  opposite of a late reaction (which runs wide), so not the control timing.
 - **Mirror test (9 Oct, `MIRROR.md`, `harness/m1_queue`):** 10 drift-heavy
   scenes x seeds 1111/2222, each run plain and with VaVAM's input and output
   mirrored (camera frames flipped left to right, LEFT/RIGHT commands
