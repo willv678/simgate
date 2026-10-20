@@ -1,21 +1,1399 @@
 {
+ "car_conflicts_3knobs_2hz": {
+  "varied": [
+   "actor_time_shift_s",
+   "actor_speed_scale",
+   "ego_speed_scale"
+  ],
+  "settings_tried": 713,
+  "hard_settings": 57,
+  "hard_scenes": 7,
+  "scenes": 10,
+  "hard_scenes_failing_as_recorded": 0,
+  "hard_distance": {
+   "1": 1,
+   "2": 5,
+   "3": 8,
+   "4": 14,
+   "5": 8,
+   "6": 11,
+   "7": 4,
+   "8": 4,
+   "9": 2
+  },
+  "hard_examples": [
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": -2,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": -2,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 10,
+    "failed": 10
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 7,
+    "failed": 7
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": -1.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 0.6,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 0.6,
+    "runs": 18,
+    "failed": 13
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 0.75,
+    "ego_speed_scale": 0.6,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": 0.5,
+    "actor_speed_scale": 0.75,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 0.75,
+    "ego_speed_scale": 1.4,
+    "runs": 11,
+    "failed": 11
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -2,
+    "actor_speed_scale": 0.75,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -2,
+    "actor_speed_scale": 1.25,
+    "ego_speed_scale": 1.2,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -2.0,
+    "actor_speed_scale": 2.0,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.2,
+    "runs": 7,
+    "failed": 7
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 2.0,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 2.0,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -1,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -1,
+    "actor_speed_scale": 1,
+    "ego_speed_scale": 1.4,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -1.0,
+    "actor_speed_scale": 2.0,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 1.25,
+    "ego_speed_scale": 1.2,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 1,
+    "ego_speed_scale": 1.4,
+    "runs": 16,
+    "failed": 16
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 1.25,
+    "ego_speed_scale": 1.2,
+    "runs": 24,
+    "failed": 24
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 1.5,
+    "ego_speed_scale": 1.2,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.5,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 12,
+    "failed": 12
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 1.5,
+    "actor_speed_scale": 2,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 0.75,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 0.75,
+    "ego_speed_scale": 1.4,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": 0.5,
+    "actor_speed_scale": 0.75,
+    "ego_speed_scale": 1.4,
+    "runs": 15,
+    "failed": 15
+   },
+   {
+    "scene": "0e899dd3",
+    "actor_time_shift_s": -1,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "0e899dd3",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 0.75,
+    "ego_speed_scale": 1.4,
+    "runs": 20,
+    "failed": 20
+   },
+   {
+    "scene": "187e6244",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "187e6244",
+    "actor_time_shift_s": -1,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 9,
+    "failed": 9
+   },
+   {
+    "scene": "187e6244",
+    "actor_time_shift_s": 0.5,
+    "actor_speed_scale": 0.75,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": -2.0,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": -2,
+    "actor_speed_scale": 2,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": -1,
+    "actor_speed_scale": 1.5,
+    "ego_speed_scale": 1.4,
+    "runs": 11,
+    "failed": 9
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 1.25,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 1.5,
+    "ego_speed_scale": 1.2,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 1,
+    "ego_speed_scale": 1.2,
+    "runs": 8,
+    "failed": 7
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 1.25,
+    "ego_speed_scale": 1.4,
+    "runs": 18,
+    "failed": 18
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 2,
+    "ego_speed_scale": 1.2,
+    "runs": 8,
+    "failed": 7
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 2,
+    "ego_speed_scale": 1.4,
+    "runs": 8,
+    "failed": 7
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 0.5,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.2,
+    "runs": 9,
+    "failed": 9
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 0.75,
+    "ego_speed_scale": 1.2,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 1,
+    "ego_speed_scale": 1.4,
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 1.5,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 2.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1c45ce3a",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 1.25,
+    "ego_speed_scale": 0.8,
+    "runs": 12,
+    "failed": 10
+   },
+   {
+    "scene": "1c45ce3a",
+    "actor_time_shift_s": -1.0,
+    "actor_speed_scale": 0.75,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1c45ce3a",
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1c45ce3a",
+    "actor_time_shift_s": 0,
+    "actor_speed_scale": 1.25,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1c45ce3a",
+    "actor_time_shift_s": 1,
+    "actor_speed_scale": 0.5,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1c45ce3a",
+    "actor_time_shift_s": 1.5,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 0.8,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "1c45ce3a",
+    "actor_time_shift_s": 2.0,
+    "actor_speed_scale": 2.0,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   }
+  ],
+  "methods": {
+   "hybrid": {
+    "arms": 3,
+    "runs": 188,
+    "mean_distance": 2.2,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 0.77,
+    "settings_per_arm": 17.7,
+    "share_of_runs_on_hard": 0.19,
+    "hard_scenes_touched": 2
+   },
+   "hybrid_optuna": {
+    "arms": 5,
+    "runs": 320,
+    "mean_distance": 5.41,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 1.0,
+    "settings_per_arm": 25.0,
+    "share_of_runs_on_hard": 0.23,
+    "hard_scenes_touched": 4
+   },
+   "hybrid_v2": {
+    "arms": 3,
+    "runs": 192,
+    "mean_distance": 2.26,
+    "share_at_recording": 0.07,
+    "share_2_or_more_steps": 0.72,
+    "settings_per_arm": 26.7,
+    "share_of_runs_on_hard": 0.13,
+    "hard_scenes_touched": 3
+   },
+   "llm": {
+    "arms": 5,
+    "runs": 303,
+    "mean_distance": 4.15,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 0.93,
+    "settings_per_arm": 24.0,
+    "share_of_runs_on_hard": 0.26,
+    "hard_scenes_touched": 6
+   },
+   "llm_v2": {
+    "arms": 6,
+    "runs": 356,
+    "mean_distance": 5.18,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 1.0,
+    "settings_per_arm": 22.7,
+    "share_of_runs_on_hard": 0.27,
+    "hard_scenes_touched": 7
+   },
+   "optuna_confirm": {
+    "arms": 6,
+    "runs": 371,
+    "mean_distance": 4.61,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 0.98,
+    "settings_per_arm": 33.2,
+    "share_of_runs_on_hard": 0.12,
+    "hard_scenes_touched": 4
+   },
+   "random_confirm": {
+    "arms": 6,
+    "runs": 377,
+    "mean_distance": 4.98,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 0.99,
+    "settings_per_arm": 33.5,
+    "share_of_runs_on_hard": 0.07,
+    "hard_scenes_touched": 5
+   },
+   "rules": {
+    "arms": 6,
+    "runs": 343,
+    "mean_distance": 1.2,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 0.08,
+    "settings_per_arm": 2.5,
+    "share_of_runs_on_hard": 0.0,
+    "hard_scenes_touched": 0
+   }
+  }
+ },
+ "lane_keeping": {
+  "varied": [
+   "lateral_bias_m",
+   "ego_speed_scale"
+  ],
+  "settings_tried": 260,
+  "hard_settings": 101,
+  "hard_scenes": 12,
+  "scenes": 12,
+  "hard_scenes_failing_as_recorded": 2,
+  "hard_distance": {
+   "0": 2,
+   "1": 8,
+   "2": 15,
+   "3": 15,
+   "4": 19,
+   "5": 17,
+   "6": 25
+  },
+  "hard_examples": [
+   {
+    "scene": "023b7fcc",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.2,
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "023b7fcc",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 13,
+    "failed": 13
+   },
+   {
+    "scene": "023b7fcc",
+    "lateral_bias_m": -0.1,
+    "ego_speed_scale": 0.6,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "023b7fcc",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "023b7fcc",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 9,
+    "failed": 9
+   },
+   {
+    "scene": "054b5901",
+    "lateral_bias_m": 0.0,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "054b5901",
+    "lateral_bias_m": 0.0,
+    "ego_speed_scale": 1.4,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "054b5901",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 1.0,
+    "runs": 7,
+    "failed": 7
+   },
+   {
+    "scene": "054b5901",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 1.2,
+    "runs": 7,
+    "failed": 7
+   },
+   {
+    "scene": "054b5901",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "054b5901",
+    "lateral_bias_m": 0.2,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "054b5901",
+    "lateral_bias_m": 0.3,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "054b5901",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 15,
+    "failed": 15
+   },
+   {
+    "scene": "05f35348",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "05f35348",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "05f35348",
+    "lateral_bias_m": -0.3,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "05f35348",
+    "lateral_bias_m": 0.0,
+    "ego_speed_scale": 1.0,
+    "runs": 29,
+    "failed": 26
+   },
+   {
+    "scene": "05f35348",
+    "lateral_bias_m": 0,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "05f35348",
+    "lateral_bias_m": 0.3,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "05f35348",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.2,
+    "runs": 7,
+    "failed": 7
+   },
+   {
+    "scene": "096988dd",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 21,
+    "failed": 21
+   },
+   {
+    "scene": "096988dd",
+    "lateral_bias_m": 0,
+    "ego_speed_scale": 1.2,
+    "runs": 12,
+    "failed": 12
+   },
+   {
+    "scene": "096988dd",
+    "lateral_bias_m": 0,
+    "ego_speed_scale": 1.4,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "096988dd",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "lateral_bias_m": 0.2,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "lateral_bias_m": 0.3,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 8,
+    "failed": 8
+   },
+   {
+    "scene": "09a95ffa",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.0,
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "09a95ffa",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "09a95ffa",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 1,
+    "runs": 10,
+    "failed": 9
+   },
+   {
+    "scene": "09a95ffa",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 1.4,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "09a95ffa",
+    "lateral_bias_m": 0.2,
+    "ego_speed_scale": 1.2,
+    "runs": 7,
+    "failed": 7
+   },
+   {
+    "scene": "09a95ffa",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "0ce6f2a3",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0ce6f2a3",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 16,
+    "failed": 16
+   },
+   {
+    "scene": "0ce6f2a3",
+    "lateral_bias_m": -0.3,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0ce6f2a3",
+    "lateral_bias_m": -0.2,
+    "ego_speed_scale": 0.6,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0ce6f2a3",
+    "lateral_bias_m": -0.1,
+    "ego_speed_scale": 1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0ce6f2a3",
+    "lateral_bias_m": -0.1,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0ce6f2a3",
+    "lateral_bias_m": -0.1,
+    "ego_speed_scale": 1.4,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "0ce6f2a3",
+    "lateral_bias_m": 0,
+    "ego_speed_scale": 1.4,
+    "runs": 12,
+    "failed": 12
+   },
+   {
+    "scene": "0ce6f2a3",
+    "lateral_bias_m": 0.2,
+    "ego_speed_scale": 1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0ce6f2a3",
+    "lateral_bias_m": 0.2,
+    "ego_speed_scale": 1.4,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "0ce6f2a3",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 0.6,
+    "runs": 7,
+    "failed": 7
+   },
+   {
+    "scene": "0ce6f2a3",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "0cf6368d",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0cf6368d",
+    "lateral_bias_m": -0.3,
+    "ego_speed_scale": 1.4,
+    "runs": 8,
+    "failed": 8
+   },
+   {
+    "scene": "0cf6368d",
+    "lateral_bias_m": -0.2,
+    "ego_speed_scale": 1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0cf6368d",
+    "lateral_bias_m": -0.2,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0cf6368d",
+    "lateral_bias_m": -0.2,
+    "ego_speed_scale": 1.4,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "0cf6368d",
+    "lateral_bias_m": 0,
+    "ego_speed_scale": 1.4,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "0cf6368d",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0cf6368d",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 19,
+    "failed": 18
+   },
+   {
+    "scene": "0dbb91dd",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0dbb91dd",
+    "lateral_bias_m": -0.3,
+    "ego_speed_scale": 1.4,
+    "runs": 8,
+    "failed": 8
+   },
+   {
+    "scene": "0dbb91dd",
+    "lateral_bias_m": -0.2,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0dbb91dd",
+    "lateral_bias_m": -0.2,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0dbb91dd",
+    "lateral_bias_m": 0.3,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0dbb91dd",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 0.6,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0dbb91dd",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.0,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "0dbb91dd",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.2,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "0dbb91dd",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 17,
+    "failed": 17
+   },
+   {
+    "scene": "12855a41",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 22,
+    "failed": 22
+   },
+   {
+    "scene": "12855a41",
+    "lateral_bias_m": -0.3,
+    "ego_speed_scale": 0.8,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "12855a41",
+    "lateral_bias_m": -0.3,
+    "ego_speed_scale": 1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "12855a41",
+    "lateral_bias_m": -0.3,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "12855a41",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 0.6,
+    "runs": 7,
+    "failed": 7
+   },
+   {
+    "scene": "12855a41",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 1,
+    "runs": 12,
+    "failed": 12
+   },
+   {
+    "scene": "12855a41",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "12855a41",
+    "lateral_bias_m": 0.3,
+    "ego_speed_scale": 1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "12855a41",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "12855a41",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 12,
+    "failed": 12
+   },
+   {
+    "scene": "187e6244",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "187e6244",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 21,
+    "failed": 21
+   },
+   {
+    "scene": "187e6244",
+    "lateral_bias_m": -0.3,
+    "ego_speed_scale": 1.2,
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "187e6244",
+    "lateral_bias_m": 0.2,
+    "ego_speed_scale": 1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "187e6244",
+    "lateral_bias_m": 0.2,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "187e6244",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 0.6,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "187e6244",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.2,
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "187e6244",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "19f339ba",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 0.6,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "19f339ba",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 15,
+    "failed": 15
+   },
+   {
+    "scene": "19f339ba",
+    "lateral_bias_m": 0.0,
+    "ego_speed_scale": 1.0,
+    "runs": 34,
+    "failed": 34
+   },
+   {
+    "scene": "19f339ba",
+    "lateral_bias_m": 0,
+    "ego_speed_scale": 1.2,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "19f339ba",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 1.2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "lateral_bias_m": 0.3,
+    "ego_speed_scale": 1.2,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "1b7d131a",
+    "lateral_bias_m": -0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 8,
+    "failed": 8
+   },
+   {
+    "scene": "1b7d131a",
+    "lateral_bias_m": -0.3,
+    "ego_speed_scale": 0.6,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1b7d131a",
+    "lateral_bias_m": -0.3,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1b7d131a",
+    "lateral_bias_m": -0.2,
+    "ego_speed_scale": 1.0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1b7d131a",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 0.6,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1b7d131a",
+    "lateral_bias_m": 0.1,
+    "ego_speed_scale": 1.2,
+    "runs": 12,
+    "failed": 12
+   },
+   {
+    "scene": "1b7d131a",
+    "lateral_bias_m": 0.2,
+    "ego_speed_scale": 0.6,
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "1b7d131a",
+    "lateral_bias_m": 0.2,
+    "ego_speed_scale": 0.8,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1b7d131a",
+    "lateral_bias_m": 0.2,
+    "ego_speed_scale": 1.2,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "1b7d131a",
+    "lateral_bias_m": 0.3,
+    "ego_speed_scale": 1.2,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "1b7d131a",
+    "lateral_bias_m": 0.3,
+    "ego_speed_scale": 1.4,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "1b7d131a",
+    "lateral_bias_m": 0.5,
+    "ego_speed_scale": 1.4,
+    "runs": 6,
+    "failed": 6
+   }
+  ],
+  "methods": {
+   "hybrid": {
+    "arms": 3,
+    "runs": 154,
+    "mean_distance": 0.92,
+    "share_at_recording": 0.34,
+    "share_2_or_more_steps": 0.23,
+    "settings_per_arm": 13.3,
+    "share_of_runs_on_hard": 0.31,
+    "hard_scenes_touched": 7
+   },
+   "hybrid_optuna": {
+    "arms": 5,
+    "runs": 121,
+    "mean_distance": 4.47,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 1.0,
+    "settings_per_arm": 9.4,
+    "share_of_runs_on_hard": 0.87,
+    "hard_scenes_touched": 12
+   },
+   "hybrid_v2": {
+    "arms": 3,
+    "runs": 151,
+    "mean_distance": 0.94,
+    "share_at_recording": 0.34,
+    "share_2_or_more_steps": 0.28,
+    "settings_per_arm": 12.7,
+    "share_of_runs_on_hard": 0.42,
+    "hard_scenes_touched": 7
+   },
+   "llm": {
+    "arms": 5,
+    "runs": 127,
+    "mean_distance": 5.83,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 1.0,
+    "settings_per_arm": 4.8,
+    "share_of_runs_on_hard": 0.92,
+    "hard_scenes_touched": 10
+   },
+   "llm_v2": {
+    "arms": 5,
+    "runs": 113,
+    "mean_distance": 5.97,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 1.0,
+    "settings_per_arm": 3.2,
+    "share_of_runs_on_hard": 0.96,
+    "hard_scenes_touched": 10
+   },
+   "optuna_confirm": {
+    "arms": 5,
+    "runs": 205,
+    "mean_distance": 3.62,
+    "share_at_recording": 0.03,
+    "share_2_or_more_steps": 0.94,
+    "settings_per_arm": 21.8,
+    "share_of_runs_on_hard": 0.53,
+    "hard_scenes_touched": 12
+   },
+   "random_confirm": {
+    "arms": 5,
+    "runs": 195,
+    "mean_distance": 3.61,
+    "share_at_recording": 0.02,
+    "share_2_or_more_steps": 0.93,
+    "settings_per_arm": 22.2,
+    "share_of_runs_on_hard": 0.49,
+    "hard_scenes_touched": 12
+   },
+   "rules": {
+    "arms": 5,
+    "runs": 256,
+    "mean_distance": 0.06,
+    "share_at_recording": 0.94,
+    "share_2_or_more_steps": 0.0,
+    "settings_per_arm": 3.4,
+    "share_of_runs_on_hard": 0.14,
+    "hard_scenes_touched": 4
+   }
+  }
+ },
  "lead_vehicle": {
   "varied": [
    "actor_time_shift_s",
    "actor_speed_scale",
    "planner_delay_us"
   ],
-  "settings_tried": 171,
-  "hard_settings": 12,
+  "settings_tried": 327,
+  "hard_settings": 26,
   "hard_scenes": 6,
   "scenes": 8,
   "hard_scenes_failing_as_recorded": 0,
   "hard_distance": {
-   "2": 2,
+   "2": 4,
    "3": 1,
-   "4": 2,
-   "5": 4,
-   "6": 1,
+   "4": 4,
+   "5": 6,
+   "6": 4,
+   "7": 2,
+   "9": 1,
+   "10": 1,
+   "11": 1,
    "13": 2
   },
   "hard_examples": [
@@ -26,6 +1404,14 @@
     "planner_delay_us": 200000,
     "runs": 3,
     "failed": 3
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": 1.0,
+    "actor_speed_scale": 0.75,
+    "planner_delay_us": 200000,
+    "runs": 8,
+    "failed": 8
    },
    {
     "scene": "096988dd",
@@ -42,6 +1428,54 @@
     "planner_delay_us": 0,
     "runs": 3,
     "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": -1,
+    "actor_speed_scale": 1.5,
+    "planner_delay_us": 50000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 1.0,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 350000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 2,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "096988dd",
+    "actor_time_shift_s": 2,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 200000,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "09a95ffa",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 200000,
+    "runs": 4,
+    "failed": 4
    },
    {
     "scene": "09a95ffa",
@@ -68,6 +1502,22 @@
     "failed": 3
    },
    {
+    "scene": "0e899dd3",
+    "actor_time_shift_s": -1,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 100000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0e899dd3",
+    "actor_time_shift_s": -1.0,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 150000,
+    "runs": 4,
+    "failed": 4
+   },
+   {
     "scene": "12855a41",
     "actor_time_shift_s": 0,
     "actor_speed_scale": 0.5,
@@ -92,12 +1542,36 @@
     "failed": 11
    },
    {
+    "scene": "12855a41",
+    "actor_time_shift_s": 2,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 0,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": -1,
+    "actor_speed_scale": 1,
+    "planner_delay_us": 100000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 1,
+    "planner_delay_us": 50000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
     "scene": "19f339ba",
     "actor_time_shift_s": 0,
     "actor_speed_scale": 0.5,
     "planner_delay_us": 0,
-    "runs": 4,
-    "failed": 4
+    "runs": 5,
+    "failed": 5
    },
    {
     "scene": "19f339ba",
@@ -106,6 +1580,22 @@
     "planner_delay_us": 200000,
     "runs": 3,
     "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 0.5,
+    "actor_speed_scale": 0.5,
+    "planner_delay_us": 50000,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": 0.5,
+    "actor_speed_scale": 1.25,
+    "planner_delay_us": 0,
+    "runs": 5,
+    "failed": 5
    },
    {
     "scene": "19f339ba",
@@ -127,15 +1617,35 @@
     "share_of_runs_on_hard": 0.14,
     "hard_scenes_touched": 3
    },
+   "hybrid_optuna": {
+    "arms": 3,
+    "runs": 151,
+    "mean_distance": 4.98,
+    "share_at_recording": 0.02,
+    "share_2_or_more_steps": 0.95,
+    "settings_per_arm": 20.7,
+    "share_of_runs_on_hard": 0.17,
+    "hard_scenes_touched": 5
+   },
    "llm": {
     "arms": 4,
-    "runs": 115,
-    "mean_distance": 3.5,
+    "runs": 172,
+    "mean_distance": 4.81,
     "share_at_recording": 0.0,
     "share_2_or_more_steps": 1.0,
-    "settings_per_arm": 7.0,
-    "share_of_runs_on_hard": 0.17,
-    "hard_scenes_touched": 2
+    "settings_per_arm": 12.5,
+    "share_of_runs_on_hard": 0.19,
+    "hard_scenes_touched": 3
+   },
+   "optuna_confirm": {
+    "arms": 3,
+    "runs": 154,
+    "mean_distance": 7.47,
+    "share_at_recording": 0.02,
+    "share_2_or_more_steps": 0.96,
+    "settings_per_arm": 29.7,
+    "share_of_runs_on_hard": 0.12,
+    "hard_scenes_touched": 5
    },
    "random_confirm": {
     "arms": 3,
@@ -184,23 +1694,31 @@
    "actor_time_shift_s",
    "actor_speed_scale"
   ],
-  "settings_tried": 159,
-  "hard_settings": 12,
-  "hard_scenes": 5,
+  "settings_tried": 256,
+  "hard_settings": 18,
+  "hard_scenes": 6,
   "scenes": 9,
   "hard_scenes_failing_as_recorded": 0,
   "hard_distance": {
    "1": 5,
-   "3": 3,
-   "4": 2,
-   "5": 1,
-   "6": 1
+   "2": 2,
+   "3": 4,
+   "4": 4,
+   "5": 2,
+   "7": 1
   },
   "hard_examples": [
    {
     "scene": "023b7fcc",
     "actor_time_shift_s": -2.0,
-    "actor_speed_scale": 1.5,
+    "actor_speed_scale": 2.0,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 1.0,
     "runs": 3,
     "failed": 3
    },
@@ -213,24 +1731,38 @@
    },
    {
     "scene": "023b7fcc",
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 2,
+    "runs": 4,
+    "failed": 4
+   },
+   {
+    "scene": "023b7fcc",
     "actor_time_shift_s": 0.0,
     "actor_speed_scale": 1.25,
     "runs": 31,
     "failed": 31
    },
    {
-    "scene": "096988dd",
-    "actor_time_shift_s": -0.5,
-    "actor_speed_scale": 2,
-    "runs": 14,
-    "failed": 14
+    "scene": "023b7fcc",
+    "actor_time_shift_s": 0.5,
+    "actor_speed_scale": 1.25,
+    "runs": 5,
+    "failed": 5
+   },
+   {
+    "scene": "023b7fcc",
+    "actor_time_shift_s": 1.0,
+    "actor_speed_scale": 1.5,
+    "runs": 7,
+    "failed": 7
    },
    {
     "scene": "096988dd",
-    "actor_time_shift_s": 0,
-    "actor_speed_scale": 2,
-    "runs": 18,
-    "failed": 18
+    "actor_time_shift_s": -0.5,
+    "actor_speed_scale": 0.75,
+    "runs": 3,
+    "failed": 3
    },
    {
     "scene": "096988dd",
@@ -243,15 +1775,15 @@
     "scene": "09a95ffa",
     "actor_time_shift_s": -1.5,
     "actor_speed_scale": 1.0,
-    "runs": 3,
-    "failed": 3
+    "runs": 4,
+    "failed": 4
    },
    {
     "scene": "09a95ffa",
     "actor_time_shift_s": -1,
-    "actor_speed_scale": 1.5,
-    "runs": 12,
-    "failed": 12
+    "actor_speed_scale": 1.25,
+    "runs": 3,
+    "failed": 3
    },
    {
     "scene": "09a95ffa",
@@ -269,29 +1801,60 @@
    },
    {
     "scene": "0e899dd3",
+    "actor_time_shift_s": -1,
+    "actor_speed_scale": 2,
+    "runs": 3,
+    "failed": 3
+   },
+   {
+    "scene": "0e899dd3",
     "actor_time_shift_s": 0,
     "actor_speed_scale": 2,
-    "runs": 18,
-    "failed": 18
+    "runs": 24,
+    "failed": 24
+   },
+   {
+    "scene": "19f339ba",
+    "actor_time_shift_s": -1.5,
+    "actor_speed_scale": 0.75,
+    "runs": 3,
+    "failed": 3
    },
    {
     "scene": "19f339ba",
     "actor_time_shift_s": 0.5,
     "actor_speed_scale": 1,
-    "runs": 3,
-    "failed": 3
+    "runs": 6,
+    "failed": 6
+   },
+   {
+    "scene": "1c45ce3a",
+    "actor_time_shift_s": 2.0,
+    "actor_speed_scale": 1.0,
+    "runs": 17,
+    "failed": 17
    }
   ],
   "methods": {
    "hybrid": {
     "arms": 4,
-    "runs": 156,
-    "mean_distance": 1.86,
+    "runs": 192,
+    "mean_distance": 2.03,
     "share_at_recording": 0.0,
-    "share_2_or_more_steps": 0.53,
-    "settings_per_arm": 6.8,
-    "share_of_runs_on_hard": 0.38,
-    "hard_scenes_touched": 4
+    "share_2_or_more_steps": 0.61,
+    "settings_per_arm": 9.0,
+    "share_of_runs_on_hard": 0.21,
+    "hard_scenes_touched": 3
+   },
+   "hybrid_optuna": {
+    "arms": 4,
+    "runs": 193,
+    "mean_distance": 4.04,
+    "share_at_recording": 0.0,
+    "share_2_or_more_steps": 0.99,
+    "settings_per_arm": 19.5,
+    "share_of_runs_on_hard": 0.2,
+    "hard_scenes_touched": 5
    },
    "llm": {
     "arms": 4,
@@ -300,8 +1863,18 @@
     "share_at_recording": 0.0,
     "share_2_or_more_steps": 0.77,
     "settings_per_arm": 15.2,
-    "share_of_runs_on_hard": 0.27,
-    "hard_scenes_touched": 5
+    "share_of_runs_on_hard": 0.13,
+    "hard_scenes_touched": 4
+   },
+   "optuna_confirm": {
+    "arms": 3,
+    "runs": 166,
+    "mean_distance": 3.75,
+    "share_at_recording": 0.02,
+    "share_2_or_more_steps": 0.93,
+    "settings_per_arm": 30.7,
+    "share_of_runs_on_hard": 0.14,
+    "hard_scenes_touched": 6
    },
    "random_confirm": {
     "arms": 3,
@@ -310,7 +1883,7 @@
     "share_at_recording": 0.03,
     "share_2_or_more_steps": 0.89,
     "settings_per_arm": 32.0,
-    "share_of_runs_on_hard": 0.08,
+    "share_of_runs_on_hard": 0.07,
     "hard_scenes_touched": 3
    },
    "rules": {

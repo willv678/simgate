@@ -7,14 +7,46 @@ the seed). Hard: pooled failure rate surely above the goal's high_min
 varied knobs. A method's numbers pool all its arms and count every run
 it queued, retries included.
 
+## car_conflicts_3knobs_2hz
+
+713 settings tried by any method; 57 hard, on 7 of 10 scenes (0 of them hard as recorded). Hard settings by distance from the recording: 1 steps: 1, 2 steps: 5, 3 steps: 8, 4 steps: 14, 5 steps: 8, 6 steps: 11, 7 steps: 4, 8 steps: 4, 9 steps: 2.
+
+| method | arms | runs | mean distance | at the recording | 2+ steps away | settings per arm | runs on hard settings | hard scenes touched |
+|---|---|---|---|---|---|---|---|---|
+| hybrid | 3 | 188 | 2.2 | 0% | 77% | 17.7 | 19% | 2 of 7 |
+| hybrid_optuna | 5 | 320 | 5.41 | 0% | 100% | 25.0 | 23% | 4 of 7 |
+| hybrid_v2 | 3 | 192 | 2.26 | 7% | 72% | 26.7 | 13% | 3 of 7 |
+| llm | 5 | 303 | 4.15 | 0% | 93% | 24.0 | 26% | 6 of 7 |
+| llm_v2 | 6 | 356 | 5.18 | 0% | 100% | 22.7 | 27% | 7 of 7 |
+| optuna_confirm | 6 | 371 | 4.61 | 0% | 98% | 33.2 | 12% | 4 of 7 |
+| random_confirm | 6 | 377 | 4.98 | 0% | 99% | 33.5 | 7% | 5 of 7 |
+| rules | 6 | 343 | 1.2 | 0% | 8% | 2.5 | 0% | 0 of 7 |
+
+## lane_keeping
+
+260 settings tried by any method; 101 hard, on 12 of 12 scenes (2 of them hard as recorded). Hard settings by distance from the recording: 0 steps: 2, 1 steps: 8, 2 steps: 15, 3 steps: 15, 4 steps: 19, 5 steps: 17, 6 steps: 25.
+
+| method | arms | runs | mean distance | at the recording | 2+ steps away | settings per arm | runs on hard settings | hard scenes touched |
+|---|---|---|---|---|---|---|---|---|
+| hybrid | 3 | 154 | 0.92 | 34% | 23% | 13.3 | 31% | 7 of 12 |
+| hybrid_optuna | 5 | 121 | 4.47 | 0% | 100% | 9.4 | 87% | 12 of 12 |
+| hybrid_v2 | 3 | 151 | 0.94 | 34% | 28% | 12.7 | 42% | 7 of 12 |
+| llm | 5 | 127 | 5.83 | 0% | 100% | 4.8 | 92% | 10 of 12 |
+| llm_v2 | 5 | 113 | 5.97 | 0% | 100% | 3.2 | 96% | 10 of 12 |
+| optuna_confirm | 5 | 205 | 3.62 | 3% | 94% | 21.8 | 53% | 12 of 12 |
+| random_confirm | 5 | 195 | 3.61 | 2% | 93% | 22.2 | 49% | 12 of 12 |
+| rules | 5 | 256 | 0.06 | 94% | 0% | 3.4 | 14% | 4 of 12 |
+
 ## lead_vehicle
 
-171 settings tried by any method; 12 hard, on 6 of 8 scenes (0 of them hard as recorded). Hard settings by distance from the recording: 2 steps: 2, 3 steps: 1, 4 steps: 2, 5 steps: 4, 6 steps: 1, 13 steps: 2.
+327 settings tried by any method; 26 hard, on 6 of 8 scenes (0 of them hard as recorded). Hard settings by distance from the recording: 2 steps: 4, 3 steps: 1, 4 steps: 4, 5 steps: 6, 6 steps: 4, 7 steps: 2, 9 steps: 1, 10 steps: 1, 11 steps: 1, 13 steps: 2.
 
 | method | arms | runs | mean distance | at the recording | 2+ steps away | settings per arm | runs on hard settings | hard scenes touched |
 |---|---|---|---|---|---|---|---|---|
 | hybrid | 3 | 152 | 5.24 | 0% | 100% | 13.3 | 14% | 3 of 6 |
-| llm | 4 | 115 | 3.5 | 0% | 100% | 7.0 | 17% | 2 of 6 |
+| hybrid_optuna | 3 | 151 | 4.98 | 2% | 95% | 20.7 | 17% | 5 of 6 |
+| llm | 4 | 172 | 4.81 | 0% | 100% | 12.5 | 19% | 3 of 6 |
+| optuna_confirm | 3 | 154 | 7.47 | 2% | 96% | 29.7 | 12% | 5 of 6 |
 | random_confirm | 3 | 154 | 7.77 | 0% | 99% | 31.0 | 16% | 5 of 6 |
 | rules | 3 | 152 | 5.07 | 0% | 100% | 4.0 | 0% | 0 of 6 |
 | rules_corners | 1 | 51 | 5.0 | 0% | 100% | 8.0 | 0% | 0 of 6 |
@@ -22,11 +54,13 @@ it queued, retries included.
 
 ## cut_in_merge
 
-159 settings tried by any method; 12 hard, on 5 of 9 scenes (0 of them hard as recorded). Hard settings by distance from the recording: 1 steps: 5, 3 steps: 3, 4 steps: 2, 5 steps: 1, 6 steps: 1.
+256 settings tried by any method; 18 hard, on 6 of 9 scenes (0 of them hard as recorded). Hard settings by distance from the recording: 1 steps: 5, 2 steps: 2, 3 steps: 4, 4 steps: 4, 5 steps: 2, 7 steps: 1.
 
 | method | arms | runs | mean distance | at the recording | 2+ steps away | settings per arm | runs on hard settings | hard scenes touched |
 |---|---|---|---|---|---|---|---|---|
-| hybrid | 4 | 156 | 1.86 | 0% | 53% | 6.8 | 38% | 4 of 5 |
-| llm | 4 | 191 | 3.03 | 0% | 77% | 15.2 | 27% | 5 of 5 |
-| random_confirm | 3 | 168 | 3.61 | 3% | 89% | 32.0 | 8% | 3 of 5 |
-| rules | 4 | 196 | 1.32 | 0% | 19% | 6.0 | 12% | 2 of 5 |
+| hybrid | 4 | 192 | 2.03 | 0% | 61% | 9.0 | 21% | 3 of 6 |
+| hybrid_optuna | 4 | 193 | 4.04 | 0% | 99% | 19.5 | 20% | 5 of 6 |
+| llm | 4 | 191 | 3.03 | 0% | 77% | 15.2 | 13% | 4 of 6 |
+| optuna_confirm | 3 | 166 | 3.75 | 2% | 93% | 30.7 | 14% | 6 of 6 |
+| random_confirm | 3 | 168 | 3.61 | 3% | 89% | 32.0 | 7% | 3 of 6 |
+| rules | 4 | 196 | 1.32 | 0% | 19% | 6.0 | 12% | 2 of 6 |
