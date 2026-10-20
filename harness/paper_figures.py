@@ -150,11 +150,11 @@ def fig_discovery() -> None:
             ax.step(x, np.median(grid, axis=0), where="post", color=COLORS[method],
                     lw=1.6 if ours else 0.9, label=PAPER_LABEL[method], zorder=3 if ours else 2)
         ax.set_title(f"{PANEL_NAMES[study]}", loc="left")
-        ax.set_xlabel("kept runs")
+        ax.set_xlabel("simulations run")
         ax.set_ylim(-0.15, 5.3)
         ax.set_xlim(0, x[-1])
         ax.grid(alpha=0.25, lw=0.4)
-    axes[0].set_ylabel("hardest cases confirmed")
+    axes[0].set_ylabel("hardest cases found (of 5)")
     handles, labels = axes[0].get_legend_handles_labels()
     fig.legend(handles, labels, loc="lower center", ncol=2, frameon=False,
                bbox_to_anchor=(0.5, -0.16), handlelength=1.5, columnspacing=1.2)
