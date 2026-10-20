@@ -29,11 +29,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from environment import environment_problems
 from faults import before_launch, plan_hook_args, shell_around, wizard_args
 from read_state import (
+    DEFAULT_COMMAND_RULE,
     MIRROR_CHECKOUT,
     PLAN_KEYS,
     ROOT,
     State,
     boot_id,
+    command_rule_request,
     console_log,
     control_timestep_us,
     ego_speed_request,
@@ -99,6 +101,7 @@ def wizard_command(config: dict, log_dir: Path) -> list[str]:
         *seed_args(config),
         *ego_args(config),
         *mirror_args(config),
+        *command_args(config),
     ]
 
 
@@ -137,6 +140,18 @@ def ego_args(config: dict) -> list[str]:
     if scale == 1.0:
         return []
     return [f"+runtime.simulation_config.ego_speed_scale={scale}"]
+
+
+def command_args(config: dict) -> list[str]:
+    """The route-command rule when it is not AlpaSim's; both keys are in its
+    base driver config."""
+    rule = command_rule_request(config)
+    if rule == DEFAULT_COMMAND_RULE:
+        return []
+    return [
+        f"driver.route.command_distance_threshold={rule['threshold_m']}",
+        f"driver.route.min_lookahead_distance={rule['lookahead_m']}",
+    ]
 
 
 def mirror_args(config: dict) -> list[str]:

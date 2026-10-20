@@ -303,6 +303,18 @@ def ego_speed_request(config: dict) -> float:
     return config.get("ego_speed_scale", 1.0)
 
 
+# AlpaSim's VaVAM route-command rule (driver/vavam.yaml): LEFT or RIGHT when
+# the first route waypoint at least `lookahead_m` ahead lies more than
+# `threshold_m` to that side. A diagnostic run may ask for another rule.
+DEFAULT_COMMAND_RULE = {"threshold_m": 3.0, "lookahead_m": 20.0}
+
+
+def command_rule_request(config: dict) -> dict:
+    """The route-command rule the run asks for. Entries without the key use
+    AlpaSim's."""
+    return config.get("command_rule", DEFAULT_COMMAND_RULE)
+
+
 # A second AlpaSim checkout beside this one whose VaVAM driver has the
 # diagnostic `mirror` switch (the scene mirrored left to right); only runs
 # that ask for it launch from there (run_experiment.launch_root).
@@ -416,6 +428,10 @@ def config_not_landed(entry: dict) -> list[str]:
         ),
         # Written only by a mirrored launch (run_experiment.mirror_args).
         "mirror": driver["model"].get("mirror", False),
+        "command_rule": {
+            "threshold_m": driver["route"]["command_distance_threshold"],
+            "lookahead_m": driver["route"]["min_lookahead_distance"],
+        },
         "control_timestep_us": wizard["runtime"]["simulation_config"][
             "control_timestep_us"
         ],
@@ -439,6 +455,7 @@ def config_not_landed(entry: dict) -> list[str]:
         "force_determinism": seed_request(config) is not None,
         "ego_speed_scale": ego_speed_request(config),
         "mirror": mirror_request(config),
+        "command_rule": command_rule_request(config),
         "control_timestep_us": control_timestep_us(config),
         "n_sim_steps": n_sim_steps(config),
         **{key: plan_request(config)[key] for key in PLAN_KEYS},
@@ -459,6 +476,7 @@ def config_not_landed(entry: dict) -> list[str]:
         "force_determinism",
         "ego_speed_scale",
         "mirror",
+        "command_rule",
         "control_timestep_us",
         "n_sim_steps",
     )

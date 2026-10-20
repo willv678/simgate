@@ -112,6 +112,7 @@ def _launch(entry: dict, outcome: str) -> None:
                     "subsample_factor": subsample_factor(config),
                 },
                 "model": {},
+                "route": {"command_distance_threshold": 3.0, "min_lookahead_distance": 20.0},
             }
         )
     )

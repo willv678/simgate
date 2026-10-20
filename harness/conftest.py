@@ -120,6 +120,7 @@ def make_run(tmp_path: Path, scene_file: Path):
                         "subsample_factor": 1,
                     },
                     "model": {"force_determinism": True} if seed is not None else {},
+                    "route": {"command_distance_threshold": 3.0, "min_lookahead_distance": 20.0},
                 }
             )
         )
