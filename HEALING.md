@@ -12,19 +12,19 @@ commands the agent ran to look, its answer, and the code check's verdict.
 
 ## The numbers
 
-| | whole campaign so far | to the paper's cutoff (13 Oct 21:18 UTC) |
+| | whole campaign so far | to the paper's cutoff (20 Oct 13:30 UTC) |
 |---|---|---|
-| runs asked for (launched) | 9,643 | 4,554 |
-| launches, retries included | 9,921 | 4,668 |
-| kept on the first try | 9,285 | 4,421 |
-| failed launches handed to the agent | 393 | 144 |
-| ... healed, then kept | 290 | 129 |
-| ... stopped for a person | 103 | 15 |
-| runs that ended kept | 9,553 (99.1%) | 4,542 (99.7%) |
-| runs still running | 0 | 0 |
-| agent's choice passed the code check | 393 of 393 | 144 of 144 |
-| retry ran exactly the settings asked for | 393 of 393 | 144 of 144 |
-| agent's time per diagnosis, median | 8 s | 9 s |
+| runs asked for (launched) | 9,812 | 9,790 |
+| launches, retries included | 10,090 | 10,068 |
+| kept on the first try | 9,452 | 9,432 |
+| failed launches handed to the agent | 393 | 393 |
+| ... healed, then kept | 290 | 290 |
+| ... stopped for a person | 103 | 103 |
+| runs that ended kept | 9,720 (99.1%) | 9,700 (99.1%) |
+| runs still running | 2 | 0 |
+| agent's choice passed the code check | 393 of 393 | 393 of 393 |
+| retry ran exactly the settings asked for | 393 of 393 | 393 of 393 |
+| agent's time per diagnosis, median | 8 s | 8 s |
 
 A run is one setting the search asked for; a launch is one try at it.
 Failed launches count each try, so one run can fail more than once.

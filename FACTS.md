@@ -1170,6 +1170,16 @@ the goal. Failures per arm 6-18.
   check (no production rejection; the check's teeth are shown by the
   exhaustive check and planted faults). Median 8 s of agent time per
   diagnosis.
+- **Self-healing ledger to 20 Oct 13:30 UTC** (the paper's cutoff until the
+  freeze; `paper_figures.CUTOFF`, before the repeats queued 20 Oct): 9,790
+  runs asked for, 10,068 launches, 9,700 ended kept (99.1%). 393 failed
+  launches to the agent: GPU out of memory 263 (RE-RUN 258, 246 kept; HALT
+  5), failed the physics check 84 (HALT 84; the 59 to 18 Oct above plus 25
+  in the hard study and lane-keeping repeats 4-5: lane keeping 15, hard 10),
+  GPU still busy 25 (CLEANUP_ENV 24 kept, HALT 1), other simulator crash 19
+  (RE-RUN 14 and RESTART_CLEANUP 4 kept, HALT 1), launcher lost 2 (kept).
+  290 healed, 290 of 309 operational failures; every retry ran the parent's
+  exact settings (393 of 393); median 8 s per diagnosis.
 - **What every kept run contains**, six method studies, all methods
   pooled, exclusive categories in this order: counted failure (split by
   `possible_artifact`), contact begun before the hand-off, rear-ended by a

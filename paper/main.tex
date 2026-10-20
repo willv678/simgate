@@ -31,7 +31,7 @@
 \begin{itemize}
 \item \textbf{Problem.} Stress testing an end-to-end driving policy in closed loop takes thousands of short simulation runs; done by hand it is slow, and done unattended it fails silently.
 \item \textbf{What we built.} SimGate, an AI agent that runs the whole campaign: plans a study from a plain-English brief, picks the next tests, heals failed runs, checks every result, and explains each failure. The agent only chooses from fixed menus; code checks each choice and scripts act on it.
-\item \textbf{Evidence.} On AlpaSim with the VaVAM policy: 8,540 runs over \pending{N} days, 99.2\% ending with a valid result; 248 of 264 operational failures healed with no person; no planted invalid run kept.
+\item \textbf{Evidence.} On AlpaSim with the VaVAM policy: 9,790 runs over 15 days, 99.1\% ending with a valid result; 290 of 309 operational failures healed with no person; no planted invalid run kept.
 \item \textbf{Finding.} Where failures are rare, letting the agent choose the next tests confirms the hardest cases far sooner than rules, random search or Optuna (three-knob study: 24 of 25 against 7 for random and 0 for rules).
 \end{itemize}
 \end{abstract}
@@ -109,9 +109,9 @@
 \pending{about 0.25 page}
 \begin{itemize}
 \item Hardware: one 24\,GB GPU, two runs at once. Model: \pending{Claude version per arm}. Rollout 47\,s at 2\,Hz, 84\,s at 10\,Hz.
-\item Each method on each study: three repeats; five for six methods on the hard study and lane keeping. Budgets: 48--60 runs per arm \pending{per study}.
+\item Each method on each study: three repeats; for six methods on the hard study and lane keeping, five, and seven once the repeats queued 20 Oct finish \pending{update at the freeze}. Budgets: 48--60 runs per arm \pending{per study}.
 \item Metrics: confirmed hardest cases at the budget; runs until the goal is met; model time per arm.
-\item Statistics: exact two-sided permutation test per pair of methods within a study, on confirmed cases (hard study) or runs to the goal (lane keeping). Planned comparisons: AI picks v2 against random, Optuna and rules, Holm-corrected. With 3 repeats (the 10\,Hz studies) the smallest possible p is 0.1, so those comparisons are descriptive. \pending{Holm over the three planned, or over all pairs: decide}
+\item Statistics: exact two-sided permutation test per pair of methods within a study, on confirmed cases (hard study) or runs to the goal (lane keeping). Planned comparisons: AI picks v2 against random, Optuna and rules, Holm-corrected over those three (\texttt{harness/planned\_tests.py}); all other pairs are descriptive. With 3 repeats (the 10\,Hz studies) the smallest possible p is 0.1, so those comparisons are descriptive.
 \end{itemize}
 
 % ---------------------------------------------------------------------------
@@ -126,10 +126,10 @@
 \label{fig:healing}
 \end{figure*}
 \begin{itemize}
-\item 8,540 runs asked for (8,775 launches) over \pending{dates}; 99.2\% ended with a kept run. \pending{freeze date as the cutoff; paper\_figures.py still uses 13 Oct: 4,668 launches, 144 failures, 129 healed}
-\item 323 failed launches went to the agent: 248 healed with no person; 59 stopped because the run came back physically wrong (the gate working: a rerun gives the same wrong run); 16 stopped for other reasons. Of the 264 operational failures (GPU, simulator, launcher), 248 healed.
-\item Every retry ran exactly the settings asked for (323 of 323); median 8\,s of agent time per failure.
-\item \say{Honest point:} 215 heals are ``GPU out of memory, run again'', which a retry script would also do. The agent's value is in the rest: stopping the 59 physically wrong runs instead of retrying them, clearing a busy GPU. \pending{script baseline numbers from FACTS ``Do AI diagnoses help?'' if space}
+\item 9,790 runs asked for (10,068 launches), 6--20 Oct; 99.1\% ended with a kept run. \pending{cutoff is 20 Oct 13:30 UTC (paper\_figures.CUTOFF); move to the freeze, 24 Oct}
+\item 393 failed launches went to the agent: 290 healed with no person; 84 stopped because the run came back physically wrong (the gate working: a rerun gives the same wrong run); 19 stopped for other reasons. Of the 309 operational failures (GPU, simulator, launcher), 290 healed.
+\item Every retry ran exactly the settings asked for (393 of 393); median 8\,s of agent time per failure.
+\item \say{Honest point:} 246 heals are ``GPU out of memory, run again'', which a retry script would also do. The agent's value is in the rest: stopping the 84 physically wrong runs instead of retrying them, clearing a busy GPU. \pending{script baseline numbers from FACTS ``Do AI diagnoses help?'' if space}
 \end{itemize}
 
 \subsection{Every kept run is valid}
@@ -143,12 +143,12 @@
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_discovery.pdf}
-\caption{Confirmed hardest cases against kept runs, per method: median and range over repeats. \pending{add lane keeping and the three-knob study panels}}
+\caption{Confirmed hardest cases against kept runs, per method: median and range over repeats. Top: the two studies AI picks v2 was not built on (hard, lane keeping); bottom: the three 10\,Hz method studies.}
 \label{fig:discovery}
 \end{figure*}
 \input{figures/table_methods.tex}
 \begin{itemize}
-\item \textbf{Main result, the three-knob study} (rare failures), five repeats, confirmed of 25: AI picks v2 24, AI picks 17, Optuna + AI 13, Optuna + repeat 10, random + repeat 7, rules 0. AI picks v2 beats random, Optuna and rules in every pairing of repeats (exact permutation p = 0.008 each; Holm over the three planned comparisons 0.024). Only free-choosing AI arms met the goal. \pending{hybrids have 3 repeats: show or drop}
+\item \textbf{Main result, the three-knob study} (rare failures), five repeats, confirmed of 25: AI picks v2 24, AI picks 17, Optuna + AI 13, Optuna + repeat 10, random + repeat 7, rules 0. AI picks v2 beats random, Optuna and rules in every pairing of repeats (exact permutation p = 0.008 each; Holm over the three planned comparisons 0.024). Only free-choosing AI arms met the goal. Table~\ref{tab:methods} also shows the hybrids (three repeats).
 \item \textbf{Lane keeping} (unseen study), five repeats: every free-choosing AI arm met the goal in 17--22 runs, every random and Optuna + repeat arm in 23--40, rules never. Each AI method against each of random, Optuna and rules: exact permutation p = 0.008 (Holm over the three planned comparisons for AI picks v2: 0.024).
 \item \textbf{Car scenes at 10\,Hz}, confirmed of 30: hybrid 17, AI picks 13, Optuna + AI 13, Optuna + repeat 13, random + repeat 10, rules 6 (hybrid vs rules p = 0.006).
 \item \textbf{Pedestrian at 10\,Hz}, where failures are common: every method meets the goal; Optuna + AI fastest (21 runs every repeat; rules 25, random 32).

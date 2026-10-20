@@ -7,9 +7,10 @@ figure is written to figures/paper/ as a PDF (vector, for the paper) and a
 double column 7.16 in), 8 pt serif.
 
 - fig_discovery: confirmed hardest cases against kept runs per search
-  method, median and lowest-to-highest replicate, for the three 10 Hz method
-  studies (contacts with a car the retiming held still are not counted,
-  problem 31, outer.outcome).
+  method, median and lowest-to-highest replicate: the two unseen studies
+  (hard, lane keeping) above, the three 10 Hz method studies below (contacts
+  with a car the retiming held still are not counted, problem 31,
+  outer.outcome).
 - fig_inner_loop: (a) every launch before CUTOFF, kept or not, and every
   failure the diagnose contract handled, healed or stopped; (b) per kind of
   failure, the skill the agent chose and how the run ended.
@@ -44,15 +45,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from case_card import _gap, _speed, kept, moment, triage_lines
 from compare_proposers import COLORS
-from discovery_curve import LABEL, METHODS, study_curves
+from discovery_curve import LABEL, study_curves
 from physics import EGO, _footprint, _read, actor_tracks, completed_rollout, nearest_actor
 from read_state import ROOT, load_entry, queue_entries
 
 RESEARCH = ROOT / "research"
 OUT = RESEARCH / "figures" / "paper"
 SINGLE, DOUBLE = 3.5, 7.16
-# Launches before this moment are counted (the self-healing snapshot of 13 Oct).
-CUTOFF = datetime(2026, 10, 13, 21, 18, tzinfo=timezone.utc)
+# Launches before this moment are counted: everything finished before the
+# repeats queued on 20 Oct. Moved to the freeze (24 Oct) for the final numbers.
+CUTOFF = datetime(2026, 10, 20, 13, 30, tzinfo=timezone.utc)
 STUDY_NAMES = {
     "pedestrian_ego_speed": "Pedestrian",
     "cut_in_merge": "Car cutting in",
@@ -61,6 +63,17 @@ STUDY_NAMES = {
     "cut_in_merge_2hz": "Car cutting in, 2 Hz",
     "lead_vehicle_2hz": "Car ahead braking, 2 Hz",
 }
+# The discovery figure's panels: the two unseen studies, then the 10 Hz ones.
+PANEL_NAMES = {
+    "car_conflicts_3knobs_2hz": "Hard: three knobs, rare failures",
+    "lane_keeping": "Lane keeping",
+    **STUDY_NAMES,
+}
+UNSEEN = ("car_conflicts_3knobs_2hz", "lane_keeping")
+TEN_HZ = ("pedestrian_ego_speed", "cut_in_merge", "lead_vehicle")
+# Baselines first, then the methods where the AI chooses.
+TABLE_ORDER = ("rules", "random_confirm", "optuna_confirm", "hybrid", "hybrid_optuna", "llm",
+               "llm_v2", "hybrid_v2")
 # One confirmed hardest case per study: the policy at fault by both the
 # scorer and Claude's triage, and (cut-in, lead) not against a held car.
 CASES = (
@@ -118,35 +131,45 @@ def save(fig, name: str) -> None:
 
 
 def fig_discovery() -> None:
-    panels = (
-        ("Pedestrian", study_curves("pedestrian_ego_speed")),
-        ("Car cutting in", study_curves("cut_in_merge")),
-        ("Car ahead braking", study_curves("lead_vehicle")),
-    )
-    fig, axes = plt.subplots(1, 3, figsize=(DOUBLE, 2.05), sharey=True)
-    for ax, (title, curves) in zip(axes, panels):
-        for method in METHODS:
+    """Top: the two unseen studies (hard, lane keeping); bottom: the three
+    10 Hz method studies. Every method with finished arms in that study."""
+    fig = plt.figure(figsize=(DOUBLE, 4.1))
+    grid = fig.add_gridspec(2, 6)
+    panels = [(fig.add_subplot(grid[0, 3 * i:3 * i + 3]), study) for i, study in enumerate(UNSEEN)]
+    panels += [(fig.add_subplot(grid[1, 2 * i:2 * i + 2]), study) for i, study in enumerate(TEN_HZ)]
+    for ax, study in panels:
+        curves = study_curves(study)
+        most = max(len(curves[m]) for m in curves)
+        for method in TABLE_ORDER:
             runs = [c for c in curves.get(method, []) if c]
-            if not runs:
+            # On the unseen studies, only the methods run every repeat (Table I has the rest).
+            if not runs or (study in UNSEEN and len(runs) < most):
                 continue
-            grid = np.array(runs, dtype=float)
-            x = np.arange(1, grid.shape[1] + 1)
-            ax.fill_between(x, grid.min(axis=0), grid.max(axis=0), color=COLORS[method],
-                            alpha=0.13, lw=0, step="post")
-            ax.step(x, np.median(grid, axis=0), where="post", color=COLORS[method], lw=1.1,
+            grid_ = np.array(runs, dtype=float)
+            x = np.arange(1, grid_.shape[1] + 1)
+            ax.fill_between(x, grid_.min(axis=0), grid_.max(axis=0), color=COLORS[method],
+                            alpha=0.07, lw=0, step="post")
+            ax.step(x, np.median(grid_, axis=0), where="post", color=COLORS[method], lw=1.1,
                     label=LABEL[method])
-        ax.set_title(title, loc="left")
+        ax.set_title(f"{PANEL_NAMES[study]} ({most} repeats)", loc="left")
         ax.set_xlabel("kept runs")
         ax.set_ylim(-0.15, 5.3)
         ax.set_xlim(0, x[-1])
         ax.grid(alpha=0.25, lw=0.4)
-    axes[0].set_ylabel("hardest cases confirmed")
-    handles, labels = axes[0].get_legend_handles_labels()
-    fig.legend(handles, labels, loc="lower center", ncol=len(labels), frameon=False,
-               bbox_to_anchor=(0.5, -0.07), handlelength=1.5, columnspacing=1.2)
-    fig.text(0.5, -0.13, "line: median of three repeats; band: lowest to highest repeat",
-             ha="center", va="bottom", fontsize=6.5, color="0.35")
-    fig.tight_layout(w_pad=0.6, rect=(0, 0.05, 1, 1))
+        if ax in (panels[0][0], panels[2][0]):
+            ax.set_ylabel("hardest cases confirmed")
+        else:
+            ax.tick_params(labelleft=False)
+    handles, labels = {}, {}
+    for ax, _ in panels:
+        for h, l in zip(*ax.get_legend_handles_labels()):
+            handles.setdefault(l, h)
+    labels = [LABEL[m] for m in TABLE_ORDER if LABEL[m] in handles]
+    fig.legend([handles[l] for l in labels], labels, loc="lower center", ncol=len(labels),
+               frameon=False, bbox_to_anchor=(0.5, -0.035), handlelength=1.5, columnspacing=1.0)
+    fig.text(0.5, -0.065, "line: median over repeats; band: lowest to highest repeat. Top: the methods run "
+             "every repeat (the hybrids, three repeats, are in Table I)", ha="center", va="bottom", fontsize=6.5, color="0.35")
+    fig.tight_layout(w_pad=0.6, h_pad=0.8, rect=(0, 0.03, 1, 1))
     save(fig, "fig_discovery")
 
 
@@ -400,36 +423,57 @@ def fig_cases() -> list[dict]:
     return shown
 
 
+def _runs_to_goal(row: dict) -> str:
+    if not row["reached"]:
+        return "never"
+    reached = sorted(r for r, c in zip(row["runs_to_goal"], row["confirmed"]) if c >= 5)
+    span = f"{reached[0]}" if reached[0] == reached[-1] else f"{reached[0]}--{reached[-1]}"
+    if row["reached"] < row["replicates"]:
+        return f"{row['reached']} of {row['replicates']} reached, {span}"
+    return f"{row['median_runs_to_goal']:g} ({span})"
+
+
+def _confirmed(*rows: dict) -> str:
+    return f"{sum(sum(r['confirmed']) for r in rows)}/{sum(5 * r['replicates'] for r in rows)}"
+
+
 def table_methods() -> str:
     methods = json.loads((RESEARCH / "methods.json").read_text())
-    ped, cut, lead = (methods[s]["proposers"] for s in ("pedestrian_ego_speed", "cut_in_merge", "lead_vehicle"))
-    each = lambda values: ", ".join(f"{v:g}" for v in values)
+    hard, lane, ped, cut, lead = (methods[s]["proposers"] for s in UNSEEN + TEN_HZ)
     lines = [
         r"\begin{table}[t]",
-        r"\caption{Search methods at an equal budget, three repeats each (10\,Hz).}",
+        r"\caption{Search methods at an equal budget per study.}",
         r"\label{tab:methods}",
         r"\centering\footnotesize",
-        r"\setlength{\tabcolsep}{3pt}",
-        r"\begin{tabular}{@{}lcccc@{}}",
+        r"\setlength{\tabcolsep}{2.5pt}",
+        r"\begin{tabular}{@{}lccccc@{}}",
         r"\toprule",
-        r" & Pedestrian & Car cutting in & Car ahead & Model \\",
-        r"\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(lr){4-4}",
-        r"Method & runs to goal & confirmed & confirmed & s/arm \\",
+        r" & \multicolumn{2}{c}{Unseen studies, 2\,Hz} & \multicolumn{2}{c}{Method studies, 10\,Hz} & \\",
+        r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}",
+        r" & Hard & Lane keeping & Car scenes & Pedestrian & Model \\",
+        r"Method & confirmed & runs to goal & confirmed & runs to goal & s/arm \\",
         r"\midrule",
     ]
-    for m in METHODS:
-        seconds = statistics.median(s for study in (ped, cut, lead) for s in study[m]["model_seconds"])
+    for m in TABLE_ORDER:
+        rows = [s[m] for s in (hard, lane, ped, cut, lead) if m in s]
+        seconds = statistics.median(x for r in rows for x in r["model_seconds"])
+        ten_hz = m in cut and m in lead
         lines.append(
-            f"{LABEL[m]} & {ped[m]['median_runs_to_goal']:g} ({each(ped[m]['runs_to_goal'])}) & "
-            f"{each(cut[m]['confirmed'])} & "
-            f"{each(lead[m]['confirmed'])} & {f'{seconds:.0f}' if seconds else '--'} \\\\")
+            f"{LABEL[m]} & {_confirmed(hard[m])} & {_runs_to_goal(lane[m])} & "
+            f"{_confirmed(cut[m], lead[m]) if ten_hz else '--'} & "
+            f"{_runs_to_goal(ped[m]) if m in ped else '--'} & "
+            f"{f'{seconds:.0f}' if seconds else '--'} \\\\")
+    reps = sorted({hard[m]["replicates"] for m in TABLE_ORDER} | {lane[m]["replicates"] for m in TABLE_ORDER})
     lines += [
         r"\bottomrule",
         r"\end{tabular}",
-        r"\\[2pt]\parbox{\columnwidth}{\scriptsize Runs to goal: kept runs until 5 hardest "
-        r"settings were confirmed (median, then each repeat). Confirmed: of 5, per repeat. "
-        r"Contacts with a car the retiming held still are not counted. Model: "
-        r"median seconds of model calls per arm over the three studies.}",
+        r"\\[2pt]\parbox{\columnwidth}{\scriptsize Confirmed: hardest settings confirmed by "
+        r"repeats, summed over repeats (5 per repeat). Runs to goal: kept runs until all 5 were "
+        r"confirmed, median (range); `never' if no repeat got there. Hard: cut-in and car ahead, "
+        r"three knobs, rare failures. Car scenes: car cutting in and car ahead braking. "
+        f"Repeats per arm: unseen studies {'--'.join(map(str, (reps[0], reps[-1])))}, "
+        r"10\,Hz studies 3. Contacts with a car the retiming held still are not counted. "
+        r"Model: median seconds of model calls per arm.}",
         r"\end{table}",
     ]
     text = "\n".join(lines) + "\n"

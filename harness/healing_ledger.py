@@ -313,7 +313,7 @@ def markdown(s: dict, cut: dict, table: list[dict]) -> str:
         "",
         "## The numbers",
         "",
-        "| | whole campaign so far | to the paper's cutoff (13 Oct 21:18 UTC) |",
+        f"| | whole campaign so far | to the paper's cutoff ({CUTOFF:%d %b %H:%M} UTC) |",
         "|---|---|---|",
         f"| runs asked for (launched) | {s['runs_asked']:,} | {cut['runs_asked']:,} |",
         f"| launches, retries included | {s['launches']:,} | {cut['launches']:,} |",
