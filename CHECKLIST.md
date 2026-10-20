@@ -96,7 +96,9 @@ is. Paths are under `research/`.
     only free-choosing AI arms reached the goal (`FACTS.md`). Five
     repeats of six methods done 19 Oct, confirmed of 25: AI picks v2 24,
     AI picks 17, Optuna + AI 13, Optuna + repeat 10, random + repeat 7,
-    rules 0; v2 vs random, Optuna, rules exact p 0.008 each.
+    rules 0; v2 vs random, Optuna, rules exact p 0.008 each. Lane
+    keeping five repeats done 20 Oct: every AI method 17-22 runs to goal,
+    random and Optuna 23-40, rules never; exact p 0.008 per pair.
 20. [x] **Griffin's score script**: `label_sheet.py score` on his branch:
     agreement and kappa against the scorer and the triage; refuses to run
     until all 60 are labelled.

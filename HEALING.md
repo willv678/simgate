@@ -14,16 +14,16 @@ commands the agent ran to look, its answer, and the code check's verdict.
 
 | | whole campaign so far | to the paper's cutoff (13 Oct 21:18 UTC) |
 |---|---|---|
-| runs asked for (launched) | 9,271 | 4,554 |
-| launches, retries included | 9,542 | 4,668 |
-| kept on the first try | 8,926 | 4,421 |
-| failed launches handed to the agent | 378 | 144 |
-| ... healed, then kept | 283 | 129 |
-| ... stopped for a person | 95 | 15 |
-| runs that ended kept | 9,187 (99.1%) | 4,542 (99.7%) |
-| runs still running | 2 | 0 |
-| agent's choice passed the code check | 378 of 378 | 144 of 144 |
-| retry ran exactly the settings asked for | 378 of 378 | 144 of 144 |
+| runs asked for (launched) | 9,643 | 4,554 |
+| launches, retries included | 9,921 | 4,668 |
+| kept on the first try | 9,285 | 4,421 |
+| failed launches handed to the agent | 393 | 144 |
+| ... healed, then kept | 290 | 129 |
+| ... stopped for a person | 103 | 15 |
+| runs that ended kept | 9,553 (99.1%) | 4,542 (99.7%) |
+| runs still running | 0 | 0 |
+| agent's choice passed the code check | 393 of 393 | 144 of 144 |
+| retry ran exactly the settings asked for | 393 of 393 | 144 of 144 |
 | agent's time per diagnosis, median | 8 s | 9 s |
 
 A run is one setting the search asked for; a launch is one try at it.
@@ -32,7 +32,7 @@ Failed launches count each try, so one run can fail more than once.
 the run came back physically wrong (the reported speed disagrees with the
 motion, or the plan shifted less than the lateral shift asked for), so a
 rerun would give the same wrong run and the agent stops it. Leaving those
-out, the agent healed 283 of 302 launches that failed for operational reasons (GPU, simulator, launcher).
+out, the agent healed 290 of 309 launches that failed for operational reasons (GPU, simulator, launcher).
 
 Every code-check verdict here is "accepted": in production the agent never
 chose an action the check refuses. That the check does refuse bad actions is
@@ -43,8 +43,8 @@ state (FACTS "Exhaustive check") and by planted faults (`VALIDITY.md`).
 
 | what failed | count | the agent's choice | healed | stopped |
 |---|---|---|---|---|
-| GPU out of memory | 256 | RE-RUN 251, HALT 5 | 239 | 17 |
-| failed the physics check | 76 | HALT 76 | 0 | 76 |
+| GPU out of memory | 263 | RE-RUN 258, HALT 5 | 246 | 17 |
+| failed the physics check | 84 | HALT 84 | 0 | 84 |
 | GPU still busy | 25 | CLEANUP_ENV 24, HALT 1 | 24 | 1 |
 | simulator crash, other | 19 | RE-RUN 14, RESTART_CLEANUP 4, HALT 1 | 18 | 1 |
 | launcher lost | 2 | RESTART_CLEANUP 2 | 2 | 0 |
@@ -453,3 +453,18 @@ It chose RESTART_CLEANUP (restart clean); the code check: accepted; then: attemp
 | 376 | 10-19 14:13 | lane_keeping / llm_r4 | [llm_r4_027](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_r4/queue/029_lane_keeping_llm_r4_027.json) | 1 | failed the physics check | 1 commands | HALT | accepted | stopped | yes |
 | 377 | 10-19 14:16 | lane_keeping / llm_r4 | [llm_r4_028](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_r4/queue/030_lane_keeping_llm_r4_028.json) | 1 | failed the physics check | 1 commands | HALT | accepted | stopped | yes |
 | 378 | 10-19 14:19 | lane_keeping / llm_r4 | [llm_r4_029](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_r4/queue/031_lane_keeping_llm_r4_029.json) | 1 | failed the physics check | 1 commands | HALT | accepted | stopped | yes |
+| 379 | 10-19 14:23 | lane_keeping / llm_r4 | [llm_r4_030](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_r4/queue/032_lane_keeping_llm_r4_030.json) | 1 | failed the physics check | 1 commands | HALT | accepted | stopped | yes |
+| 380 | 10-19 14:29 | lane_keeping / hybrid_optuna_r4 | [hybrid_optuna_r4_001](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/hybrid_optuna_r4/queue/001_lane_keeping_hybrid_optuna_r4_001.json) | 1 | failed the physics check | 2 commands | HALT | accepted | stopped | yes |
+| 381 | 10-19 14:33 | lane_keeping / llm_v2_r4 | [llm_v2_r4_011](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_v2_r4/queue/011_lane_keeping_llm_v2_r4_011.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 382 | 10-19 15:23 | lane_keeping / random_confirm_r4 | [random_confirm_r4_006](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/random_confirm_r4/queue/006_lane_keeping_random_confirm_r4_006.json) | 1 | failed the physics check | 5 commands | HALT | accepted | stopped | yes |
+| 383 | 10-19 15:53 | lane_keeping / optuna_confirm_r4 | [optuna_confirm_r4_009](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/optuna_confirm_r4/queue/009_lane_keeping_optuna_confirm_r4_009.json) | 1 | failed the physics check | 4 commands | HALT | accepted | stopped | yes |
+| 384 | 10-19 15:57 | lane_keeping / random_confirm_r4 | [random_confirm_r4_018](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/random_confirm_r4/queue/018_lane_keeping_random_confirm_r4_018.json) | 1 | failed the physics check | 2 commands | HALT | accepted | stopped | yes |
+| 385 | 10-19 16:47 | lane_keeping / optuna_confirm_r4 | [optuna_confirm_r4_027](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/optuna_confirm_r4/queue/027_lane_keeping_optuna_confirm_r4_027.json) | 1 | GPU out of memory | 2 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 386 | 10-19 17:24 | lane_keeping / optuna_confirm_r4 | [optuna_confirm_r4_039](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/optuna_confirm_r4/queue/040_lane_keeping_optuna_confirm_r4_039.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 387 | 10-19 17:36 | lane_keeping / llm_r5 | [llm_r5_001](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_r5/queue/001_lane_keeping_llm_r5_001.json) | 1 | failed the physics check | 0 commands | HALT | accepted | stopped | yes |
+| 388 | 10-19 17:48 | lane_keeping / llm_r5 | [llm_r5_005](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_r5/queue/005_lane_keeping_llm_r5_005.json) | 1 | failed the physics check | 2 commands | HALT | accepted | stopped | yes |
+| 389 | 10-19 18:20 | lane_keeping / rules_r4 | [rules_r4_036](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/rules_r4/queue/036_lane_keeping_rules_r4_036.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 390 | 10-19 18:35 | lane_keeping / llm_r5 | [llm_r5_021](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_r5/queue/021_lane_keeping_llm_r5_021.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 391 | 10-19 19:13 | lane_keeping / llm_v2_r5 | [llm_v2_r5_003](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_v2_r5/queue/003_lane_keeping_llm_v2_r5_003.json) | 1 | failed the physics check | 6 commands | HALT | accepted | stopped | yes |
+| 392 | 10-19 20:04 | lane_keeping / hybrid_optuna_r5 | [hybrid_optuna_r5_020](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/hybrid_optuna_r5/queue/020_lane_keeping_hybrid_optuna_r5_020.json) | 1 | GPU out of memory | 2 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 393 | 10-19 21:54 | lane_keeping / optuna_confirm_r5 | [optuna_confirm_r5_026](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/optuna_confirm_r5/queue/026_lane_keeping_optuna_confirm_r5_026.json) | 1 | GPU out of memory | 2 commands | RE-RUN | accepted | attempt 2: kept | yes |

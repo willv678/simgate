@@ -1,0 +1,30 @@
+{
+  "name": "lane_keeping_random_confirm_r5_029",
+  "run_dir": "diag/lane_keeping_random_confirm_r5_029",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.4
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 2678827,
+  "launched_at": 1792445400.5571346,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1",
+  "quarantine": "Labelled lateral_bias_m 0.0 (handoff 0.001), yet physics.txt and metrics (286.08 m, tracking_error 40.09, plan_deviation 2.2) are identical to r09/r14 (bias -0.1) and r36 (bias 0.3), with the ego at constant 41.25 m/s and zero yaw after the warm-up. The measured motion does not depend on the plan or the label."
+}

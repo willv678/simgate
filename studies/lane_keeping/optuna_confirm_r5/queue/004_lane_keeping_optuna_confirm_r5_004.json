@@ -1,0 +1,30 @@
+{
+  "name": "lane_keeping_optuna_confirm_r5_004",
+  "run_dir": "diag/lane_keeping_optuna_confirm_r5_004",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.5,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.4
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 2594401,
+  "launched_at": 1792443072.0842233,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1",
+  "quarantine": "runs/r30/physics.txt shows that after the warm-up the ego holds exactly 41.25 m/s with 0.00 accel and 0.000 yaw rate from t=5.6 s to the end. It drives into the lead vehicle (lead_gap 2.3 m, max_overlap_m2 5.482) without braking, while r35 and r05 on the same scene brake at -8 m/s\u00b2. So the motion is pinned at a speed ceiling rather than following the plan, and its tracking_error 40.09 and collision_at_fault 1.0 measure that saturation, not the policy."
+}

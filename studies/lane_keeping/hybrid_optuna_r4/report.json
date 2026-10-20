@@ -1,0 +1,237 @@
+{
+ "answer": {
+  "answer": "The study found five hard cases, each on a different scene and each confirmed by repeats: S3 (+0.2 m, 1.4x), S6 (\u22120.2 m, 1.4x), S7 (\u22120.2 m, 1.2x), S8 (\u22120.3 m, 1.2x) and S9 (+0.2 m, 1.2x). Every repeat at these settings failed. The 90% ranges only show that each failure rate is above one half, not that it is near certain. The pattern is a small sideways error (\u00b10.2 to 0.3 m) together with a hand-off speed of 1.2x to 1.4x. Triage puts every one of these failures on the policy, and none is flagged as a possible simulator artifact. Often the policy held a straight or drifting course while the route command or the road bent the other way. In S3, S6 and S8 the ego left its lane and hit another vehicle. In S7 and S9 it left the road with no one nearby. The study never ran these scenes without the error or at recorded speed, so it cannot say how much of each failure comes from the error, how much from the speed, and how much the scene would cause anyway. The large errors (\u00b10.5 m) the plan meant to search first were barely tried.",
+  "findings": [
+   {
+    "claim": "These are the five confirmed hard cases, one per scene: +0.2 m at 1.4x, \u22120.2 m at 1.4x, \u22120.2 m at 1.2x, \u22120.3 m at 1.2x and +0.2 m at 1.2x. Every repeat at each setting failed, every failure was the policy's fault, and none was flagged as a possible artifact.",
+    "settings": [
+     "S3",
+     "S6",
+     "S7",
+     "S8",
+     "S9"
+    ]
+   },
+   {
+    "claim": "At +0.2 m and 1.4x on scene 096988dd, every run had the ego swing left out of its lane on a straight highway and sideswipe the same vehicle coming up in the adjacent left lane. This matches the side of the error and is the closest match to the LSS overtaking-vehicle case.",
+    "settings": [
+     "S3"
+    ]
+   },
+   {
+    "claim": "In slow, queued traffic with a LEFT command (scenes 0cf6368d and 12855a41), the ego cut toward the next lane without leaving room and hit a nearly stopped or slow vehicle at low speed. Here the ego moved toward the command, not always toward the side of the error: it went left at \u22120.2 m and \u22120.3 m, and in one run at \u22120.3 m it went right into the van.",
+    "settings": [
+     "S6",
+     "S8"
+    ]
+   },
+   {
+    "claim": "On two scenes the failures were departures from the road with no other road user involved. At \u22120.2 m and 1.2x on scene 0dbb91dd the ego drifted right over the road edge, only about 0.7 m off the recorded path, while the road bent left. At +0.2 m and 1.2x on scene 1b7d131a it drifted left onto the shoulder while the route went right.",
+    "settings": [
+     "S7",
+     "S9"
+    ]
+   },
+   {
+    "claim": "Four more single-run failures, including one with no sideways error (0 m at 1.4x) and one at \u22120.5 m and recorded speed, hint that higher speed or a large error alone may be enough. Each rests on one run, and each is flagged as a possible artifact because the ego ended more than 3.5 m off its recorded path, although triage reads all four as policy path-following errors.",
+    "settings": [
+     "S1",
+     "S2",
+     "S4",
+     "S5"
+    ]
+   },
+   {
+    "claim": "In many failures the policy seems to ignore a turn command or a bend in the road, keeping straight or drifting while the route goes the other way. So the cause may be partly the policy's route following and not only the injected sideways error.",
+    "settings": [
+     "S3",
+     "S5",
+     "S7",
+     "S9",
+     "S1",
+     "S2"
+    ]
+   }
+  ],
+  "open": [
+   "Baseline: run each of the five confirmed scenes at 0 m and 1.0x, and also at 0 m at the confirmed speed and at the confirmed error at 1.0x. This would separate the effect of the sideways error from the effect of speed and show whether these scenes fail anyway (S1 hints that 1.4x alone may be enough).",
+   "Large errors were barely tested. The only kept run at \u00b10.5 m was S2 (\u22120.5 m, 1.0x). The run at +0.5 m and 1.2x on scene 19f339ba halted and was not kept. Run the \u00b10.3 to \u00b10.5 m corners at 1.2x to 1.4x.",
+   "Repeat the single-run settings S1, S2, S4 and S5 to see whether their failures hold up. Each is flagged as a possible artifact because the ego ended far off its recorded path.",
+   "Low speeds (0.6x to 0.9x) and the error sign opposite to each confirmed case were not tested, so the edges of the failing region are unknown.",
+   "The goal was met after round 2, so about 30 runs of the budget were never used. They could cover the baselines above and the remaining scenes (023b7fcc, 187e6244, 19f339ba), which have no kept runs.",
+   "Near misses were not ranked, and the study has no direct measure of drifting out of the lane, so departures that did not end in a crash or going off the road are not counted.",
+   "Replayed traffic cannot react to the ego, so the side and rear contacts in queued traffic (S6, S8) may not happen among real, reactive traffic."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "lateral_bias_m": 0,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r4_006"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r4_007"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "lateral_bias_m": 0.2,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r4_005",
+    "lane_keeping_hybrid_optuna_r4_011",
+    "lane_keeping_hybrid_optuna_r4_012"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "lateral_bias_m": 0.2,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r4_009"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+   "lateral_bias_m": 0.2,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r4_003"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "lateral_bias_m": -0.2,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r4_004",
+    "lane_keeping_hybrid_optuna_r4_013",
+    "lane_keeping_hybrid_optuna_r4_014"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "lateral_bias_m": -0.2,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r4_008",
+    "lane_keeping_hybrid_optuna_r4_015",
+    "lane_keeping_hybrid_optuna_r4_016"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": -0.3,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r4_002",
+    "lane_keeping_hybrid_optuna_r4_017",
+    "lane_keeping_hybrid_optuna_r4_018"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+   "lateral_bias_m": 0.2,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_hybrid_optuna_r4_010",
+    "lane_keeping_hybrid_optuna_r4_019",
+    "lane_keeping_hybrid_optuna_r4_020"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 10139,
+  "output_tokens": 2553,
+  "duration_ms": 25721
+ }
+}

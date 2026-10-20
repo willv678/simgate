@@ -1038,6 +1038,33 @@ for it. Runs to goal, replicates 1-3 (median):
   problem 26), and hybrid can only choose among those candidates.
   On this study the AI's value is in choosing freely, the reverse of the
   car scenes, where hybrid led.
+
+**Five repeats (19-20 Oct).** Two more replicates of six methods (the
+hybrids stay at three). Runs to goal, replicates 1-5 (median):
+
+| method | runs to goal | reached goal |
+|---|---|---|
+| AI picks v2 | 17, 21, 18, 18, 19 (18) | 5 of 5 |
+| AI picks | 20, 19, 20, 22, 19 (20) | 5 of 5 |
+| Optuna + AI | 18, 20, 20, 19, 21 (20) | 5 of 5 |
+| random + repeat | 31, 30, 30, 23, 29 (30) | 5 of 5 |
+| Optuna + repeat | 28, 32, 25, 32, 40 (32) | 5 of 5 |
+| rules | budget spent | 0 of 5 (2, 2, 1, 2, 2 of 5) |
+
+- All 15 free-choosing AI arms (17-22 runs) reached the goal before all 10
+  random and Optuna + repeat arms (23-40 runs). Exact two-sided
+  permutation test, 5 vs 5, on runs to goal (rules scored at the 50-run
+  budget, a lower bound): each of AI picks v2, AI picks and Optuna + AI
+  against each of random, Optuna and rules p 0.0079 (complete
+  separation, the smallest possible); among the three AI methods p 0.22
+  to 0.80; random vs Optuna 0.40.
+- Planned comparisons, as for the hard study: AI picks v2 against random,
+  Optuna and rules, Holm over the three 0.024 each. Holm over all 15 pairs
+  of the six methods: the 11 complete separations run from 0.040 to 0.119,
+  so only random and Optuna vs rules stay below 0.05.
+- v2 was written before this study and not changed for it (above), so it
+  is a fair pre-named AI method. Across the two studies with five repeats,
+  v2 separated completely from random, Optuna and rules in both.
 - Figure: `figures/discovery_lane_keeping.png` (`harness/discovery_curve.py`).
 - Model time per arm: llm 27-31 s, llm_v2 33-66 s, Optuna + AI 30-47 s,
   hybrid 84-89 s, hybrid v2 100-102 s.

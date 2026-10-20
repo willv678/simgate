@@ -1,0 +1,82 @@
+{
+  "name": "lane_keeping_llm_r5_021",
+  "run_dir": "diag/lane_keeping_llm_r5_021",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.5,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.4
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 2284974,
+  "launched_at": 1792434929.5657053,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "lane_keeping_llm_r5_021",
+      "k_status": "wizard_exit_code: 1; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "trafficsim_device": "cpu",
+        "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+        "controller": "linear",
+        "traffic": "replay",
+        "planner_delay_us": 0,
+        "lateral_bias_m": 0.5,
+        "waypoint_noise_std": 0.0,
+        "actor_time_shift_s": 0.0,
+        "actor_speed_scale": 1.0,
+        "ego_speed_scale": 1.4
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-19T18:35:36.925Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "RuntimeError: The following operation failed in the TorchScript interpreter.",
+        "RuntimeError: CUDA out of memory. Tried to allocate 576.00 MiB. GPU 0 has a total capacity of 23.50 GiB of which 228.25 MiB is free. Process 2283988 has 8.83 GiB memory in use. Process 2283930 has 5.51 GiB memory in use. Process 2283931 has",
+        "[2026-10-19 18:36:39,313][__main__][ERROR] - Exception in drive",
+        "[2026-10-19 18:36:39,314][grpc._server][ERROR] - Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "18:36:39.316 [W0] ERROR:\tError during event handling. Pending events in queue (7):",
+        "grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:",
+        "details = \"Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "debug_error_string = \"UNKNOWN:Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "18:36:39.323 [W0] WARNING:\tRollout FAILED: job=70c79c9f7f8648919e25a8013a6a7640 scene=clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc uuid=ed68f7b6-cbeb-11f1-8abb-17574120193f error=<AioRpcError of RPC that terminated with:",
+        "18:36:39.324 [W0] WARNING:\tRetrying failed rollout: scene=clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc failed_job=70c79c9f7f8648919e25a8013a6a7640 retry_job=3efb356644bc4daaa15ec6ffaac7ec24 retry=1/2 error=<AioRpcError of RPC that terminated",
+        "18:36:40.411 [W0] WARNING:\tRollout FAILED: job=3efb356644bc4daaa15ec6ffaac7ec24 scene=clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc uuid=05afd24a-cbec-11f1-8abb-17574120193f error=<AioRpcError of RPC that terminated with:",
+        "Scene clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc: <AioRpcError of RPC that terminated with:",
+        "runtime-0-1 exited with code 1",
+        "controller-0-1 exited with code 143"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nlane_keeping_rules_r4_036_a2-physics-0-1\tUp 2 minutes\nlane_keeping_rules_r4_036_a2-driver-0-1\tUp 2 minutes\nlane_keeping_rules_r4_036_a2-prometheus-0-1\tUp 2 minutes\nlane_keeping_rules_r4_036_a2-runtime-0-1\tUp 2 minutes\nlane_keeping_rules_r4_036_a2-controller-0-1\tUp 2 minutes\nlane_keeping_rules_r4_036_a2-renderer-0-1\tUp 2 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nlane_keeping_rules_r4_036_a2_microservices_network\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n15576 MiB, 8490 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  878G   33G  97% /\n",
+    "skill": "RE-RUN",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 21245,
+    "output_tokens": 446,
+    "duration_ms": 6349,
+    "tool_calls": [
+      "Bash: nvidia-smi; docker ps"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

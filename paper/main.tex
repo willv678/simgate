@@ -109,9 +109,9 @@
 \pending{about 0.25 page}
 \begin{itemize}
 \item Hardware: one 24\,GB GPU, two runs at once. Model: \pending{Claude version per arm}. Rollout 47\,s at 2\,Hz, 84\,s at 10\,Hz.
-\item Each method on each study: three repeats; five for six methods on the hard study (done) and lane keeping \pending{running}. Budgets: 48--60 runs per arm \pending{per study}.
+\item Each method on each study: three repeats; five for six methods on the hard study and lane keeping. Budgets: 48--60 runs per arm \pending{per study}.
 \item Metrics: confirmed hardest cases at the budget; runs until the goal is met; model time per arm.
-\item Statistics: Mann-Whitney U per pair within a study; with 3 repeats the smallest possible two-sided p is 0.1, so pooled comparisons are labelled as post hoc \pending{or replace with 5-repeat tests}.
+\item Statistics: exact two-sided permutation test per pair of methods within a study, on confirmed cases (hard study) or runs to the goal (lane keeping). Planned comparisons: AI picks v2 against random, Optuna and rules, Holm-corrected. With 3 repeats (the 10\,Hz studies) the smallest possible p is 0.1, so those comparisons are descriptive. \pending{Holm over the three planned, or over all pairs: decide}
 \end{itemize}
 
 % ---------------------------------------------------------------------------
@@ -149,7 +149,7 @@
 \input{figures/table_methods.tex}
 \begin{itemize}
 \item \textbf{Main result, the three-knob study} (rare failures), five repeats, confirmed of 25: AI picks v2 24, AI picks 17, Optuna + AI 13, Optuna + repeat 10, random + repeat 7, rules 0. AI picks v2 beats random, Optuna and rules in every pairing of repeats (exact permutation p = 0.008 each; Holm over the three planned comparisons 0.024). Only free-choosing AI arms met the goal. \pending{hybrids have 3 repeats: show or drop}
-\item \textbf{Lane keeping} (unseen study): free-choosing AI 17--21 runs to the goal; random and Optuna + repeat 25--32; rules never. \pending{update with 5 repeats}
+\item \textbf{Lane keeping} (unseen study), five repeats: every free-choosing AI arm met the goal in 17--22 runs, every random and Optuna + repeat arm in 23--40, rules never. Each AI method against each of random, Optuna and rules: exact permutation p = 0.008 (Holm over the three planned comparisons for AI picks v2: 0.024).
 \item \textbf{Car scenes at 10\,Hz}, confirmed of 30: hybrid 17, AI picks 13, Optuna + AI 13, Optuna + repeat 13, random + repeat 10, rules 6 (hybrid vs rules p = 0.006).
 \item \textbf{Pedestrian at 10\,Hz}, where failures are common: every method meets the goal; Optuna + AI fastest (21 runs every repeat; rules 25, random 32).
 \item \textbf{Pattern:} Optuna alone never beats random + repeat; an AI chooser leads or ties in every study; its lead grows as failures get rarer. Hybrid is strongest where the rules' candidates are good and trails where they are not.
@@ -182,7 +182,7 @@
 \item Replayed traffic does not react; retiming moves only recorded actors; road geometry is chosen, not varied.
 \item Unprotected left turns: 2 of 250 scenes \pending{and intersection crossing, if not run}.
 \item Pedestrian failures are often far from the recording, where rendering is less certain (flagged).
-\item Three to five repeats per arm: small samples \pending{state the tests used}.
+\item Three to five repeats per arm: small samples. With five, an exact two-sided test cannot go below p = 0.008; we report the planned comparisons with Holm correction.
 \item Human check of the scorer and triage: \pending{Griffin's spot-check verdicts and blind labels}.
 \end{itemize}
 

@@ -1,0 +1,79 @@
+{
+  "name": "lane_keeping_llm_v2_r5_003",
+  "run_dir": "diag/lane_keeping_llm_v2_r5_003",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.5,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.4
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 2375266,
+  "launched_at": 1792437214.892349,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "HALT",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "lane_keeping_llm_v2_r5_003",
+      "k_status": "physics: plan offset +0.456 m; the requested lateral bias is +0.500 m; physics: plan scatter 0.022 m; the requested waypoint noise is 0.000 m",
+      "config": {
+        "context_length": 8,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "trafficsim_device": "cpu",
+        "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+        "controller": "linear",
+        "traffic": "replay",
+        "planner_delay_us": 0,
+        "lateral_bias_m": 0.5,
+        "waypoint_noise_std": 0.0,
+        "actor_time_shift_s": 0.0,
+        "actor_speed_scale": 1.0,
+        "ego_speed_scale": 1.4
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-19T19:13:42.088Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 36473806271 outside range [36470706271, 36473706272)",
+        "ValueError: Interpolation timestamp 36473806271 outside range [36470706271, 36473706272)",
+        "controller-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nlane_keeping_hybrid_optuna_r5_003-physics-0-1\tUp 21 seconds\nlane_keeping_hybrid_optuna_r5_003-runtime-0-1\tUp 21 seconds\nlane_keeping_hybrid_optuna_r5_003-controller-0-1\tUp 21 seconds\nlane_keeping_hybrid_optuna_r5_003-driver-0-1\tUp 21 seconds\nlane_keeping_hybrid_optuna_r5_003-prometheus-0-1\tUp 21 seconds\nlane_keeping_hybrid_optuna_r5_003-renderer-0-1\tUp 21 seconds\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nlane_keeping_hybrid_optuna_r5_003_microservices_network\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n5182 MiB, 18884 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  879G   33G  97% /\n",
+    "skill": "HALT",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 74400,
+    "output_tokens": 1529,
+    "duration_ms": 18339,
+    "tool_calls": [
+      "Bash: ls -la /home/willvarner/alpasim/diag/lane_keeping_llm_v2_r5_003",
+      "Read: /home/willvarner/alpasim/diag/lane_keeping_llm_v2_r5_003/driver-config.yaml",
+      "Bash: ls -la /home/willvarner/alpasim/diag/lane_keeping_llm_v2_r5_003/driver /home/willvarner/alpasim/diag/lane_keeping_llm_v2_r5_003/txt-logs",
+      "Grep: (?i)bias|noise|perturb|offset",
+      "Read: /home/willvarner/alpasim/diag/lane_keeping_llm_v2_r5_003/generated-user-config-0.yaml",
+      "Grep: (?i)fault|speed_scale|inject"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}
