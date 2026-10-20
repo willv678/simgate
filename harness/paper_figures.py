@@ -79,7 +79,7 @@ SLIDE_WORDS = {
     "name": "slide_discovery",
     "labels": {**PAPER_LABEL, "rules": "fixed rules", "random_confirm": "random",
                "optuna_confirm": "Optuna", "llm_v2": "our AI"},
-    "ylabel": "dangerous situations found (of 5)",
+    "ylabel": "dangerous situations found (goal: 5)",
     "xlabel": "simulations used",
 }
 # Fig. 4: the planned comparisons only.
