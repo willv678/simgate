@@ -6,11 +6,11 @@ figure is written to figures/paper/ as a PDF (vector, for the paper) and a
 200-dpi PNG (for reading), at IEEE two-column sizes (single column 3.5 in,
 double column 7.16 in), 8 pt serif.
 
-- fig_discovery: confirmed hardest cases against kept runs per search
-  method, median and lowest-to-highest replicate: the two unseen studies
-  (hard, lane keeping) above, the three 10 Hz method studies below (contacts
-  with a car the retiming held still are not counted, problem 31,
-  outer.outcome).
+- fig_discovery: confirmed hardest cases against kept runs on the two
+  unseen studies (hard, lane keeping), AI picks v2 against rules, random +
+  repeat and Optuna + repeat, median and lowest-to-highest replicate
+  (contacts with a car the retiming held still are not counted, problem 31,
+  outer.outcome). Every other method and study is in Table I.
 - fig_inner_loop: (a) every launch before CUTOFF, kept or not, and every
   failure the diagnose contract handled, healed or stopped; (b) per kind of
   failure, the skill the agent chose and how the run ended.
@@ -63,15 +63,16 @@ STUDY_NAMES = {
     "cut_in_merge_2hz": "Car cutting in, 2 Hz",
     "lead_vehicle_2hz": "Car ahead braking, 2 Hz",
 }
-# The discovery figure's panels: the two unseen studies, then the 10 Hz ones.
+# The discovery figure's panels.
 PANEL_NAMES = {
-    "car_conflicts_3knobs_2hz": "Hard: three knobs, rare failures",
+    "car_conflicts_3knobs_2hz": "Hard: rare failures",
     "lane_keeping": "Lane keeping",
-    **STUDY_NAMES,
 }
 UNSEEN = ("car_conflicts_3knobs_2hz", "lane_keeping")
 TEN_HZ = ("pedestrian_ego_speed", "cut_in_merge", "lead_vehicle")
 # Baselines first, then the methods where the AI chooses.
+# Fig. 4: the planned comparisons only.
+FIG_METHODS = ("rules", "random_confirm", "optuna_confirm", "llm_v2")
 TABLE_ORDER = ("rules", "random_confirm", "optuna_confirm", "hybrid", "hybrid_optuna", "llm",
                "llm_v2", "hybrid_v2")
 # One confirmed hardest case per study: the policy at fault by both the
@@ -131,45 +132,33 @@ def save(fig, name: str) -> None:
 
 
 def fig_discovery() -> None:
-    """Top: the two unseen studies (hard, lane keeping); bottom: the three
-    10 Hz method studies. Every method with finished arms in that study."""
-    fig = plt.figure(figsize=(DOUBLE, 4.1))
-    grid = fig.add_gridspec(2, 6)
-    panels = [(fig.add_subplot(grid[0, 3 * i:3 * i + 3]), study) for i, study in enumerate(UNSEEN)]
-    panels += [(fig.add_subplot(grid[1, 2 * i:2 * i + 2]), study) for i, study in enumerate(TEN_HZ)]
-    for ax, study in panels:
-        curves = study_curves(study)
-        most = max(len(curves[m]) for m in curves)
-        for method in TABLE_ORDER:
-            runs = [c for c in curves.get(method, []) if c]
-            # On the unseen studies, only the methods run every repeat (Table I has the rest).
-            if not runs or (study in UNSEEN and len(runs) < most):
-                continue
-            grid_ = np.array(runs, dtype=float)
-            x = np.arange(1, grid_.shape[1] + 1)
-            ax.fill_between(x, grid_.min(axis=0), grid_.max(axis=0), color=COLORS[method],
-                            alpha=0.07, lw=0, step="post")
-            ax.step(x, np.median(grid_, axis=0), where="post", color=COLORS[method], lw=1.1,
-                    label=LABEL[method])
-        ax.set_title(f"{PANEL_NAMES[study]} ({most} repeats)", loc="left")
+    """The two unseen studies, single column: AI picks v2 (the method named
+    before they ran) against the three baselines of the planned comparisons.
+    Every other method, and the 10 Hz studies, are in Table I."""
+    fig, axes = plt.subplots(1, 2, figsize=(SINGLE, 1.85), sharey=True)
+    studies = {study: study_curves(study) for study in UNSEEN}
+    for ax, (study, curves) in zip(axes, studies.items()):
+        for method in FIG_METHODS:
+            grid = np.array(curves[method], dtype=float)
+            x = np.arange(1, grid.shape[1] + 1)
+            ours = method == "llm_v2"
+            ax.fill_between(x, grid.min(axis=0), grid.max(axis=0), color=COLORS[method],
+                            alpha=0.15 if ours else 0.08, lw=0, step="post")
+            ax.step(x, np.median(grid, axis=0), where="post", color=COLORS[method],
+                    lw=1.6 if ours else 0.9, label=LABEL[method], zorder=3 if ours else 2)
+        ax.set_title(f"{PANEL_NAMES[study]}", loc="left")
         ax.set_xlabel("kept runs")
         ax.set_ylim(-0.15, 5.3)
         ax.set_xlim(0, x[-1])
         ax.grid(alpha=0.25, lw=0.4)
-        if ax in (panels[0][0], panels[2][0]):
-            ax.set_ylabel("hardest cases confirmed")
-        else:
-            ax.tick_params(labelleft=False)
-    handles, labels = {}, {}
-    for ax, _ in panels:
-        for h, l in zip(*ax.get_legend_handles_labels()):
-            handles.setdefault(l, h)
-    labels = [LABEL[m] for m in TABLE_ORDER if LABEL[m] in handles]
-    fig.legend([handles[l] for l in labels], labels, loc="lower center", ncol=len(labels),
-               frameon=False, bbox_to_anchor=(0.5, -0.035), handlelength=1.5, columnspacing=1.0)
-    fig.text(0.5, -0.065, "line: median over repeats; band: lowest to highest repeat. Top: the methods run "
-             "every repeat (the hybrids, three repeats, are in Table I)", ha="center", va="bottom", fontsize=6.5, color="0.35")
-    fig.tight_layout(w_pad=0.6, h_pad=0.8, rect=(0, 0.03, 1, 1))
+    axes[0].set_ylabel("hardest cases confirmed")
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, loc="lower center", ncol=2, frameon=False,
+               bbox_to_anchor=(0.5, -0.16), handlelength=1.5, columnspacing=1.2)
+    reps = min(len(curves["llm_v2"]) for curves in studies.values())
+    fig.text(0.5, -0.2, f"line: median of {reps} repeats; band: lowest to highest repeat",
+             ha="center", va="bottom", fontsize=6.5, color="0.35")
+    fig.tight_layout(w_pad=0.4, rect=(0, 0.06, 1, 1))
     save(fig, "fig_discovery")
 
 

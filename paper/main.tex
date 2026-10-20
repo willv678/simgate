@@ -140,12 +140,12 @@
 \end{itemize}
 
 \subsection{The agent finds corner cases faster where failures are rare}
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/fig_discovery.pdf}
-\caption{Confirmed hardest cases against kept runs, per method: median and range over repeats. Top: the two studies AI picks v2 was not built on (hard, lane keeping); bottom: the three 10\,Hz method studies.}
+\includegraphics[width=\columnwidth]{figures/fig_discovery.pdf}
+\caption{Confirmed hardest cases against kept runs on the two studies AI picks v2 was not built on: the planned comparison against rules, random search and Optuna, each with repeats to confirm. Median and range over repeats. The other AI methods and the 10\,Hz studies are in Table~\ref{tab:methods}.}
 \label{fig:discovery}
-\end{figure*}
+\end{figure}
 \input{figures/table_methods.tex}
 \begin{itemize}
 \item \textbf{Main result, the three-knob study} (rare failures), five repeats, confirmed of 25: AI picks v2 24, AI picks 17, Optuna + AI 13, Optuna + repeat 10, random + repeat 7, rules 0. AI picks v2 beats random, Optuna and rules in every pairing of repeats (exact permutation p = 0.008 each; Holm over the three planned comparisons 0.024). Only free-choosing AI arms met the goal. Table~\ref{tab:methods} also shows the hybrids (three repeats).
