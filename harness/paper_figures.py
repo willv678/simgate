@@ -65,7 +65,7 @@ STUDY_NAMES = {
 }
 # The discovery figure's panels.
 PANEL_NAMES = {
-    "car_conflicts_3knobs_2hz": "Hard: rare failures",
+    "car_conflicts_3knobs_2hz": "Car cut-in and braking",
     "lane_keeping": "Lane keeping",
 }
 UNSEEN = ("car_conflicts_3knobs_2hz", "lane_keeping")
@@ -140,9 +140,12 @@ def fig_discovery() -> None:
     Every other method, and the 10 Hz studies, are in Table I."""
     fig, axes = plt.subplots(1, 2, figsize=(SINGLE, 1.85), sharey=True)
     studies = {study: study_curves(study) for study in UNSEEN}
+    # The same attempts for every method: the first `shown` in replicate order,
+    # so an attempt that finished early for one method does not tilt a panel.
+    shown = {study: min(len(curves[m]) for m in FIG_METHODS) for study, curves in studies.items()}
     for ax, (study, curves) in zip(axes, studies.items()):
         for method in FIG_METHODS:
-            grid = np.array(curves[method], dtype=float)
+            grid = np.array(curves[method][:shown[study]], dtype=float)
             x = np.arange(1, grid.shape[1] + 1)
             ours = method == "llm_v2"
             ax.fill_between(x, grid.min(axis=0), grid.max(axis=0), color=COLORS[method],
@@ -158,8 +161,9 @@ def fig_discovery() -> None:
     handles, labels = axes[0].get_legend_handles_labels()
     fig.legend(handles, labels, loc="lower center", ncol=2, frameon=False,
                bbox_to_anchor=(0.5, -0.16), handlelength=1.5, columnspacing=1.2)
-    reps = min(len(curves["llm_v2"]) for curves in studies.values())
-    fig.text(0.5, -0.2, f"line: median of {reps} repeats; band: lowest to highest repeat",
+    counts = sorted(set(shown.values()))
+    reps = "--".join(map(str, (counts[0], counts[-1]))) if len(counts) > 1 else str(counts[0])
+    fig.text(0.5, -0.2, f"line: median of {reps} attempts; band: lowest to highest attempt",
              ha="center", va="bottom", fontsize=6.5, color="0.35")
     fig.tight_layout(w_pad=0.4, rect=(0, 0.06, 1, 1))
     save(fig, "fig_discovery")
@@ -442,7 +446,7 @@ def table_methods() -> str:
         r"\toprule",
         r" & \multicolumn{2}{c}{Unseen studies, 2\,Hz} & \multicolumn{2}{c}{Method studies, 10\,Hz} & \\",
         r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}",
-        r" & Hard & Lane keeping & Car scenes & Pedestrian & Model \\",
+        r" & Cut-in, braking & Lane keeping & Car scenes & Pedestrian & Model \\",
         r"Method & confirmed & runs to goal & confirmed & runs to goal & s/arm \\",
         r"\midrule",
     ]
@@ -461,7 +465,7 @@ def table_methods() -> str:
         r"\end{tabular}",
         r"\\[2pt]\parbox{\columnwidth}{\scriptsize Confirmed: hardest settings confirmed by "
         r"repeats, summed over repeats (5 per repeat). Runs to goal: kept runs until all 5 were "
-        r"confirmed, median (range); `never' if no repeat got there. Hard: cut-in and car ahead, "
+        r"confirmed, median (range); `never' if no repeat got there. Cut-in, braking: a car cutting in or braking ahead, "
         r"three knobs, rare failures. Car scenes: car cutting in and car ahead braking. "
         f"Repeats per arm: unseen studies {'--'.join(map(str, (reps[0], reps[-1])))}, "
         r"10\,Hz studies 3. Contacts with a car the retiming held still are not counted. "

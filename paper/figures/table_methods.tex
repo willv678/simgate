@@ -7,7 +7,7 @@
 \toprule
  & \multicolumn{2}{c}{Unseen studies, 2\,Hz} & \multicolumn{2}{c}{Method studies, 10\,Hz} & \\
 \cmidrule(lr){2-3}\cmidrule(lr){4-5}
- & Hard & Lane keeping & Car scenes & Pedestrian & Model \\
+ & Cut-in, braking & Lane keeping & Car scenes & Pedestrian & Model \\
 Method & confirmed & runs to goal & confirmed & runs to goal & s/arm \\
 \midrule
 rules & 0/25 & never & 6/30 & 25 (25) & -- \\
@@ -20,5 +20,5 @@ AI (ours) & 24/25 & 18 (17--21) & -- & -- & 88 \\
 hybrid, revised prompt & 7/15 & 2 of 3 reached, 39--43 & -- & -- & 118 \\
 \bottomrule
 \end{tabular}
-\\[2pt]\parbox{\columnwidth}{\scriptsize Confirmed: hardest settings confirmed by repeats, summed over repeats (5 per repeat). Runs to goal: kept runs until all 5 were confirmed, median (range); `never' if no repeat got there. Hard: cut-in and car ahead, three knobs, rare failures. Car scenes: car cutting in and car ahead braking. Repeats per arm: unseen studies 3--5, 10\,Hz studies 3. Contacts with a car the retiming held still are not counted. Model: median seconds of model calls per arm.}
+\\[2pt]\parbox{\columnwidth}{\scriptsize Confirmed: hardest settings confirmed by repeats, summed over repeats (5 per repeat). Runs to goal: kept runs until all 5 were confirmed, median (range); `never' if no repeat got there. Cut-in, braking: a car cutting in or braking ahead, three knobs, rare failures. Car scenes: car cutting in and car ahead braking. Repeats per arm: unseen studies 3--5, 10\,Hz studies 3. Contacts with a car the retiming held still are not counted. Model: median seconds of model calls per arm.}
 \end{table}
