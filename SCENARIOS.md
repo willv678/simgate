@@ -34,7 +34,7 @@ the current scorer no longer counts.)
 | reacting to a cut-in | Assisted Driving (highway assist) cut-in and cut-out | car cutting in | done |
 | emergency braking for a pedestrian | AEB VRU pedestrian (CPNA, CPFA) | pedestrian x ego speed | done |
 | lane keeping, road edge, oncoming, overtaking | LSS: ELK, LKA | **lane keeping** (new) | queued 13 Oct, 6 methods |
-| crossing traffic at a junction | AEB C2C crossing (CCCscp) | intersection | one replicate; 68 scenes tagged |
+| crossing traffic at a junction | AEB C2C crossing (CCCscp) | intersection x ego speed | 7 methods x 1 replicate (20 Oct): all confirm about 2 of 5, methods tie; 68 scenes tagged |
 | turn across path | AEB C2C turn across path (CCFtap) | unprotected left | not possible: 2 of 250 scenes |
 | lane change into an occupied lane | LSS overtaking | not designed | scenes exist (44 merge/cut-in) |
 

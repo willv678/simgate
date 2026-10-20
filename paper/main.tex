@@ -78,7 +78,7 @@
 \begin{itemize}
 \item AlpaSim~\cite{alpasim} replays real recorded scenes in neural reconstruction; VaVAM~\cite{bartoccioni2025vavam} drives from camera to trajectory; a linear MPC tracks the plan; recorded traffic is replayed (does not react).
 \item \textbf{Knobs}, each read back from the run's own logs: a recorded actor's timing and speed, the ego's speed at hand-off, lateral plan shift. 2\,Hz (VaVAM's own rate) and 10\,Hz.
-\item \textbf{Studies} as OpenSCENARIO 1.4 parameter distributions, mapped to Euro NCAP tests: pedestrian (AEB VRU), cut-in, car ahead braking (AEB C2C rear), lane keeping (LSS), and a three-knob car-conflict study with rare failures. \pending{intersection crossing: run or list as a limit}
+\item \textbf{Studies} as OpenSCENARIO 1.4 parameter distributions, mapped to Euro NCAP tests: pedestrian (AEB VRU), cut-in, car ahead braking (AEB C2C rear), lane keeping (LSS), and a three-knob car-conflict study with rare failures. Intersection crossing (AEB C2C crossing): seven methods, one repeat each; every method confirms about 2 of 5, so it adds coverage, not a method comparison.
 \end{itemize}
 
 \subsection{Action design: skills as checked contracts}\label{sec:skills}

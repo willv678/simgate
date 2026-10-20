@@ -1127,6 +1127,24 @@ head-to-head tests. Confirmed of 5 per replicate, total of 25:
   both and met the goal sooner (41 runs each); AI picks v1 is less steady
   (2 to 5); Optuna alone again no better than random.
 
+### Intersection crossing, a fifth category (pilot, 20 Oct)
+
+`intersection_ego_speed` (10 Hz, ego speed at hand-off x the crossing car's
+timing, 49 runs, goal 5 hardest confirmed): one replicate of each of seven
+methods, the three newer ones (AI picks v2, Optuna + repeat, Optuna + AI)
+added 20 Oct beside the four from 9 Oct, all scored under the current rules
+(`METHODS.md`). Confirmed of 5: rules 2, hybrid 2, AI picks 2, random +
+repeat 2, Optuna + AI 2, AI picks v2 2, Optuna + repeat 1; no arm reached
+the goal. Failures per arm 6-18.
+
+- Every method stops at about two confirmed cases: the study seems to hold
+  about two settings that fail reliably, and every method finds them. Like
+  pedestrian at 10 Hz (failures easy to find), methods tie; unlike the hard
+  study and lane keeping, there is no room for a better chooser to show.
+- Enough for coverage (a fifth Euro NCAP-mapped category, AEB C2C crossing,
+  where the agent ran the study end to end); not worth more replicates for
+  the method comparison.
+
 ### Shao's 13 Oct feedback: evidence produced (`CHECKLIST.md`)
 
 - **Self-healing, every study queue** (`figures/cards/self_healing.json`):

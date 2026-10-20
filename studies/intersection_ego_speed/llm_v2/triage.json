@@ -1,0 +1,80 @@
+[
+ {
+  "run": "intersection_ego_speed_llm_v2_003",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "left_road",
+  "what_happened": "With a RIGHT command, the ego stayed about 7.6 m left of the recorded path, in the left lanes next to the median, while slowing behind lead car 9 at the stop line. At 10.4 s its planned path jogged left and it went off the drivable area at the median curb. The metrics show offroad=1 and no collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13207,
+   "output_tokens": 667,
+   "duration_ms": 7841
+  }
+ },
+ {
+  "run": "intersection_ego_speed_llm_v2_004",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "turned_into_actor",
+  "what_happened": "The route command was RIGHT and the recorded path went right, but after handoff the policy steered left across lanes toward the bus (127), which was slow or stopped in the left lane. The ego kept going at about 8.5 m/s and hit the bus with its front at 9.0 s, about 7 m off the recorded path.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13214,
+   "output_tokens": 754,
+   "duration_ms": 8964
+  }
+ },
+ {
+  "run": "intersection_ego_speed_llm_v2_008",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "turned_into_actor",
+  "what_happened": "The route command was RIGHT and the recorded path went right, but the ego drifted left out of its lane toward a slow or stopped bus (127) in the lane to its left. It slowed only gently (from 9.1 to 7.6 m/s) and its front ran into the bus's rear corner, about 6.9 m from where the human drove.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13214,
+   "output_tokens": 760,
+   "duration_ms": 9079
+  }
+ },
+ {
+  "run": "intersection_ego_speed_llm_v2_009",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "left_road",
+  "what_happened": "The route command was RIGHT, but after handoff the ego stayed in the far-left lane, about 7.6 m left of the recorded path. Near the median nose it left the drivable area while slowing to about 5 m/s, and its plan was cutting right toward car 9 just ahead.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13202,
+   "output_tokens": 1078,
+   "duration_ms": 13606
+  }
+ },
+ {
+  "run": "intersection_ego_speed_llm_v2_015",
+  "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+  "cause": "turned_into_actor",
+  "what_happened": "The route said RIGHT and the recorded drive moved over to the right lanes. Instead, the ego held about 9 m/s and its planned path drifted left, toward the lane where the slower bus (actor 127) was driving. While passing the bus, the ego's front clipped its side, about 6.8 m off the recorded path; the bus was visible in the camera beforehand, though smeared.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13214,
+   "output_tokens": 953,
+   "duration_ms": 13545
+  }
+ },
+ {
+  "run": "intersection_ego_speed_llm_v2_016",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "left_road",
+  "what_happened": "The route command was RIGHT and the recorded path curves right through the intersection. Instead, the ego slowed and kept drifting left, away from the human trajectory (about 7.5 m off by the end). It ran over the left lane edge onto the median island and was flagged offroad at 9.5 s. No other actor was involved; lead car 9 stayed well ahead.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16046,
+   "output_tokens": 574,
+   "duration_ms": 5906
+  }
+ }
+]

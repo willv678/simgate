@@ -37,6 +37,9 @@ k most challenging scenes (1 = a crash), whether or not it was confirmed.
 | intersection_ego_speed | hybrid | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.626 | 9 | 123.1 |
 | intersection_ego_speed | llm | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.599 | 8 | 117.7 |
 | intersection_ego_speed | random_confirm | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.606 | 12 | 0.0 |
+| intersection_ego_speed | optuna_confirm | 1 | 49 | 0 | 49 | 49 | 1 of 5 | 0.519 | 18 | 0.0 |
+| intersection_ego_speed | hybrid_optuna | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.621 | 12 | 106.0 |
+| intersection_ego_speed | llm_v2 | 1 | 49 | 0 | 49 | 49 | 2 of 5 | 0.634 | 6 | 133.7 |
 | lane_keeping | rules | 5 | 50, 50, 50, 50, 50 | 0 | 50, 50, 50, 50, 50 | 50 | 2, 2, 1, 2, 2 of 5 | 0.969, 0.979, 0.945, 0.962, 0.958 | 11, 10, 9, 10, 10 | 0.0, 0.0, 0.0, 0.0, 0.0 |
 | lane_keeping | hybrid | 3 | 50, 50, 50 | 1 | 50, 50, 45 | 50 | 4, 3, 5 of 5 | 1.0, 0.976, 1.0 | 22, 23, 18 | 89.3, 86.8, 83.9 |
 | lane_keeping | llm | 5 | 20, 19, 20, 24, 28 | 5 | 20, 19, 20, 22, 19 | 20 | 5, 5, 5, 5, 5 of 5 | 1.0, 1.0, 1.0, 1.0, 1.0 | 19, 19, 19, 24, 25 | 28.7, 31.0, 27.1, 46.7, 44.5 |

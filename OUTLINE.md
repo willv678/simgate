@@ -45,8 +45,9 @@ Table II: issues met and self-healing, grouped.
 
 Studies stated as OpenSCENARIO 1.4 parameter distributions
 (`scenarios/*.xosc`, schema-valid). Covered: AEB car-to-car rear, cut-in,
-pedestrian; lane keeping (LSS) queued; crossing traffic next; turn across
-path not possible (2 scenes).
+pedestrian; lane keeping (LSS); crossing traffic at a junction (pilot,
+7 methods x 1, all tie at about 2 of 5: coverage only); turn across path
+not possible (2 scenes).
 
 ## AI proposer v2 and the hard study
 
