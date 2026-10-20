@@ -71,6 +71,9 @@ PANEL_NAMES = {
 UNSEEN = ("car_conflicts_3knobs_2hz", "lane_keeping")
 TEN_HZ = ("pedestrian_ego_speed", "cut_in_merge", "lead_vehicle")
 # Baselines first, then the methods where the AI chooses.
+# The paper's names: the revised prompt is the method, the first is a version of it.
+PAPER_LABEL = {**LABEL, "llm_v2": "AI (ours)", "llm": "AI, first prompt",
+               "hybrid_v2": "hybrid, revised prompt"}
 # Fig. 4: the planned comparisons only.
 FIG_METHODS = ("rules", "random_confirm", "optuna_confirm", "llm_v2")
 TABLE_ORDER = ("rules", "random_confirm", "optuna_confirm", "hybrid", "hybrid_optuna", "llm",
@@ -145,7 +148,7 @@ def fig_discovery() -> None:
             ax.fill_between(x, grid.min(axis=0), grid.max(axis=0), color=COLORS[method],
                             alpha=0.15 if ours else 0.08, lw=0, step="post")
             ax.step(x, np.median(grid, axis=0), where="post", color=COLORS[method],
-                    lw=1.6 if ours else 0.9, label=LABEL[method], zorder=3 if ours else 2)
+                    lw=1.6 if ours else 0.9, label=PAPER_LABEL[method], zorder=3 if ours else 2)
         ax.set_title(f"{PANEL_NAMES[study]}", loc="left")
         ax.set_xlabel("kept runs")
         ax.set_ylim(-0.15, 5.3)
@@ -448,7 +451,7 @@ def table_methods() -> str:
         seconds = statistics.median(x for r in rows for x in r["model_seconds"])
         ten_hz = m in cut and m in lead
         lines.append(
-            f"{LABEL[m]} & {_confirmed(hard[m])} & {_runs_to_goal(lane[m])} & "
+            f"{PAPER_LABEL[m]} & {_confirmed(hard[m])} & {_runs_to_goal(lane[m])} & "
             f"{_confirmed(cut[m], lead[m]) if ten_hz else '--'} & "
             f"{_runs_to_goal(ped[m]) if m in ped else '--'} & "
             f"{f'{seconds:.0f}' if seconds else '--'} \\\\")

@@ -100,7 +100,7 @@
 \subsection{Outer loop: choosing the next runs}
 \begin{itemize}
 \item Each study: a goal (top 5 hardest settings, each confirmed by repeats), a fixed run budget, rounds of 10 runs.
-\item \textbf{Methods}, equal budget, same gate: rules; random + repeat; Optuna + repeat; the AI choosing freely (AI picks, and v2 with triage and scene facts); hybrid (the AI choosing among the rules' candidates); Optuna + AI.
+\item \textbf{Methods}, equal budget, same gate: rules; random + repeat; Optuna + repeat; the AI choosing freely (\textbf{AI (ours)}; its instructions were revised once, on the three 10\,Hz studies, to add each failure's triage and the scenes' facts, and frozen before the two test studies ran; the first version is reported as ``AI, first prompt''); hybrid (the AI choosing among the rules' candidates); Optuna + AI.
 \item \textbf{What counts as a failure:} policy at fault after it takes over; contacts begun before the hand-off, rear-ends by replayed traffic, and contacts with a car the retiming held still are not counted (Sec.~\ref{sec:lessons}).
 \end{itemize}
 
@@ -111,7 +111,7 @@
 \item Hardware: one 24\,GB GPU, two runs at once. Model: \pending{Claude version per arm}. Rollout 47\,s at 2\,Hz, 84\,s at 10\,Hz.
 \item Each method on each study: three repeats; for six methods on the hard study and lane keeping, five, and seven once the repeats queued 20 Oct finish \pending{update at the freeze}. Budgets: 48--60 runs per arm \pending{per study}.
 \item Metrics: confirmed hardest cases at the budget; runs until the goal is met; model time per arm.
-\item Statistics: exact two-sided permutation test per pair of methods within a study, on confirmed cases (hard study) or runs to the goal (lane keeping). Planned comparisons: AI picks v2 against random, Optuna and rules, Holm-corrected over those three (\texttt{harness/planned\_tests.py}); all other pairs are descriptive. With 3 repeats (the 10\,Hz studies) the smallest possible p is 0.1, so those comparisons are descriptive.
+\item Statistics: exact two-sided permutation test per pair of methods within a study, on confirmed cases (hard study) or runs to the goal (lane keeping). Planned comparisons: AI (ours) against random, Optuna and rules, Holm-corrected over those three (\texttt{harness/planned\_tests.py}); all other pairs are descriptive. With 3 repeats (the 10\,Hz studies) the smallest possible p is 0.1, so those comparisons are descriptive.
 \end{itemize}
 
 % ---------------------------------------------------------------------------
@@ -143,13 +143,13 @@
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{figures/fig_discovery.pdf}
-\caption{Confirmed hardest cases against kept runs on the two studies AI picks v2 was not built on: the planned comparison against rules, random search and Optuna, each with repeats to confirm. Median and range over repeats. The other AI methods and the 10\,Hz studies are in Table~\ref{tab:methods}.}
+\caption{Confirmed hardest cases against kept runs on the two studies run after the AI's instructions were frozen: the planned comparison against rules, random search and Optuna, each with repeats to confirm. Median and range over repeats. The other AI methods and the 10\,Hz studies are in Table~\ref{tab:methods}.}
 \label{fig:discovery}
 \end{figure}
 \input{figures/table_methods.tex}
 \begin{itemize}
-\item \textbf{Main result, the three-knob study} (rare failures), five repeats, confirmed of 25: AI picks v2 24, AI picks 17, Optuna + AI 13, Optuna + repeat 10, random + repeat 7, rules 0. AI picks v2 beats random, Optuna and rules in every pairing of repeats (exact permutation p = 0.008 each; Holm over the three planned comparisons 0.024). Only free-choosing AI arms met the goal. Table~\ref{tab:methods} also shows the hybrids (three repeats).
-\item \textbf{Lane keeping} (unseen study), five repeats: every free-choosing AI arm met the goal in 17--22 runs, every random and Optuna + repeat arm in 23--40, rules never. Each AI method against each of random, Optuna and rules: exact permutation p = 0.008 (Holm over the three planned comparisons for AI picks v2: 0.024).
+\item \textbf{Main result, the three-knob study} (rare failures), five repeats, confirmed of 25: AI (ours) 24, AI first prompt 17, Optuna + AI 13, Optuna + repeat 10, random + repeat 7, rules 0. AI (ours) beats random, Optuna and rules in every pairing of repeats (exact permutation p = 0.008 each; Holm over the three planned comparisons 0.024). Only free-choosing AI arms met the goal. Table~\ref{tab:methods} also shows the hybrids (three repeats).
+\item \textbf{Lane keeping} (unseen study), five repeats: every free-choosing AI arm met the goal in 17--22 runs, every random and Optuna + repeat arm in 23--40, rules never. Each AI method against each of random, Optuna and rules: exact permutation p = 0.008 (Holm over the three planned comparisons for AI (ours): 0.024).
 \item \textbf{Car scenes at 10\,Hz}, confirmed of 30: hybrid 17, AI picks 13, Optuna + AI 13, Optuna + repeat 13, random + repeat 10, rules 6 (hybrid vs rules p = 0.006).
 \item \textbf{Pedestrian at 10\,Hz}, where failures are common: every method meets the goal; Optuna + AI fastest (21 runs every repeat; rules 25, random 32).
 \item \textbf{Pattern:} Optuna alone never beats random + repeat; an AI chooser leads or ties in every study; its lead grows as failures get rarer. Hybrid is strongest where the rules' candidates are good and trails where they are not.
