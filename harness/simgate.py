@@ -84,6 +84,8 @@ def main() -> int:
     sub.add_parser("doctor", help="is this machine ready to run SimGate?")
     batch = sub.add_parser("batch", help="queue a hand-made queue for the loop")
     batch.add_argument("queue", help="a queue folder under research/harness")
+    batch.add_argument("--policy", choices=("agent", "model", "script"), default="agent",
+                       help="who diagnoses failed runs (loop.py --policy)")
     front = sub.add_parser("front", help="move a queued job to the front")
     front.add_argument("job", help="a job id, or a unique part of one (status --ids)")
     export = sub.add_parser("export", help="a read-only snapshot of the web app")
@@ -135,7 +137,7 @@ def main() -> int:
     elif args.command == "status":
         status(args.ids)
     elif args.command == "batch":
-        print(f"queued {jobs.add_batch(args.queue)['id']}")
+        print(f"queued {jobs.add_batch(args.queue, args.policy)['id']}")
     elif args.command == "front":
         matches = [
             j["id"]

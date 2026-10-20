@@ -134,10 +134,12 @@ def add(brief: str, proposer: str, kind: str = "study", replicate: int = 1) -> d
     return job
 
 
-def add_batch(queue: str) -> dict:
+def add_batch(queue: str, policy: str) -> dict:
     """Queue a batch: a hand-made queue under research/harness (e.g. a
     validation or diagnostic batch, made with read_state.new_entry), run
-    through the inner loop like a study's rounds, with no outer loop."""
+    through the inner loop like a study's rounds, with no outer loop. The
+    policy diagnoses its failed runs (loop.py --policy): a fault campaign
+    runs one plan under each."""
     path = (ROOT / "research" / "harness" / queue).resolve()
     if path.parent != (ROOT / "research" / "harness").resolve() or not path.is_dir():
         raise ValueError(f"no queue {queue!r} in research/harness")
@@ -149,6 +151,7 @@ def add_batch(queue: str) -> dict:
         "brief": f"harness/{path.name}",
         "study": path.name,
         "proposer": "loop",
+        "policy": policy,
         "replicate": 1,
         "queued_at": _now(),
         "cancelled": False,
@@ -187,7 +190,7 @@ def command(job: dict) -> list[str]:
         queue = f"research/harness/{job['study']}"
         return [
             "uv", "run", "python", "research/harness/loop.py", queue,
-            "--policy", "agent", "--timeout-min", "15", "--stall-s", "120",
+            "--policy", job["policy"], "--timeout-min", "15", "--stall-s", "120",
             "--poll-s", "5", "--audit", "--trace",
             f"research/harness/{job['study'].removesuffix('_queue')}_trace.jsonl",
         ]  # fmt: skip

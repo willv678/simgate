@@ -101,12 +101,14 @@ def test_a_batch_runs_its_queue_through_the_loop(folders, monkeypatch):
     harness = folders / "research" / "harness"
     (harness / "m1_queue").mkdir(parents=True)
     monkeypatch.setattr(jobs, "ROOT", folders)
-    job = jobs.add_batch("m1_queue")
+    job = jobs.add_batch("m1_queue", "script")
     assert job["kind"] == "batch"
-    assert jobs.command(job)[3:5] == [
+    command = jobs.command(job)
+    assert command[3:5] == [
         "research/harness/loop.py",
         "research/harness/m1_queue",
     ]
+    assert command[command.index("--policy") + 1] == "script"
     assert jobs.next_job(jobs.jobs(), running=0, pool=False)["id"] == job["id"]
     with pytest.raises(ValueError):
-        jobs.add_batch("../../etc")
+        jobs.add_batch("../../etc", "agent")
