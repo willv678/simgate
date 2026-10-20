@@ -99,7 +99,7 @@
 
 \subsection{Outer loop: choosing the next runs}
 \begin{itemize}
-\item Each study: a goal (top 5 hardest settings, each confirmed by repeats), a fixed run budget, rounds of 10 runs.
+\item Each study: find the 5 hardest cases within a fixed budget (50--60 runs, rounds of 10). A \emph{hardest case} is a setting, on its own scene, that the policy fails when rerun: confirmed once the 90\% Wilson interval of its failure rate lies above one half (3 failures in 3 runs is the fewest). Two scores: hardest cases confirmed within the budget (where failures are rare), and runs to confirm all 5 (where most methods finish). Each method repeated from scratch 5 times.
 \item \textbf{Methods}, equal budget, same gate: rules; random + repeat; Optuna + repeat; the AI choosing freely (\textbf{AI (ours)}; its instructions were revised once, on the three 10\,Hz studies, to add each failure's triage and the scenes' facts, and frozen before the two test studies ran; the first version is reported as ``AI, first prompt''); hybrid (the AI choosing among the rules' candidates); Optuna + AI.
 \item \textbf{What counts as a failure:} policy at fault after it takes over; contacts begun before the hand-off, rear-ends by replayed traffic, and contacts with a car the retiming held still are not counted (Sec.~\ref{sec:lessons}).
 \end{itemize}
