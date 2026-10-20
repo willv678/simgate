@@ -74,6 +74,14 @@ TEN_HZ = ("pedestrian_ego_speed", "cut_in_merge", "lead_vehicle")
 # The paper's names: the revised prompt is the method, the first is a version of it.
 PAPER_LABEL = {**LABEL, "llm_v2": "AI (ours)", "llm": "AI, first prompt",
                "hybrid_v2": "hybrid, revised prompt"}
+# Fig. 4 in the weekly slides' words.
+SLIDE_WORDS = {
+    "name": "slide_discovery",
+    "labels": {**PAPER_LABEL, "rules": "fixed rules", "random_confirm": "random",
+               "optuna_confirm": "Optuna", "llm_v2": "our AI"},
+    "ylabel": "dangerous situations found (of 5)",
+    "xlabel": "simulations used",
+}
 # Fig. 4: the planned comparisons only.
 FIG_METHODS = ("rules", "random_confirm", "optuna_confirm", "llm_v2")
 TABLE_ORDER = ("rules", "random_confirm", "optuna_confirm", "hybrid", "hybrid_optuna", "llm",
@@ -134,10 +142,12 @@ def save(fig, name: str) -> None:
     print(f"figures/paper/{name}.pdf", flush=True)
 
 
-def fig_discovery() -> None:
+def fig_discovery(name: str = "fig_discovery", labels: dict = PAPER_LABEL,
+                  ylabel: str = "hardest cases found (of 5)", xlabel: str = "simulations run") -> None:
     """The two unseen studies, single column: AI picks v2 (the method named
     before they ran) against the three baselines of the planned comparisons.
-    Every other method, and the 10 Hz studies, are in Table I."""
+    Every other method, and the 10 Hz studies, are in Table I. With
+    SLIDE_WORDS, the same figure in the slides' words."""
     fig, axes = plt.subplots(1, 2, figsize=(SINGLE, 1.85), sharey=True)
     studies = {study: study_curves(study) for study in UNSEEN}
     # The same attempts for every method: the first `shown` in replicate order,
@@ -151,13 +161,13 @@ def fig_discovery() -> None:
             ax.fill_between(x, grid.min(axis=0), grid.max(axis=0), color=COLORS[method],
                             alpha=0.15 if ours else 0.08, lw=0, step="post")
             ax.step(x, np.median(grid, axis=0), where="post", color=COLORS[method],
-                    lw=1.6 if ours else 0.9, label=PAPER_LABEL[method], zorder=3 if ours else 2)
+                    lw=1.6 if ours else 0.9, label=labels[method], zorder=3 if ours else 2)
         ax.set_title(f"{PANEL_NAMES[study]}", loc="left")
-        ax.set_xlabel("simulations run")
+        ax.set_xlabel(xlabel)
         ax.set_ylim(-0.15, 5.3)
         ax.set_xlim(0, x[-1])
         ax.grid(alpha=0.25, lw=0.4)
-    axes[0].set_ylabel("hardest cases found (of 5)")
+    axes[0].set_ylabel(ylabel)
     handles, labels = axes[0].get_legend_handles_labels()
     fig.legend(handles, labels, loc="lower center", ncol=2, frameon=False,
                bbox_to_anchor=(0.5, -0.16), handlelength=1.5, columnspacing=1.2)
@@ -166,7 +176,7 @@ def fig_discovery() -> None:
     fig.text(0.5, -0.2, f"line: median of {reps} attempts; band: lowest to highest attempt",
              ha="center", va="bottom", fontsize=6.5, color="0.35")
     fig.tight_layout(w_pad=0.4, rect=(0, 0.06, 1, 1))
-    save(fig, "fig_discovery")
+    save(fig, name)
 
 
 def _entries() -> list[tuple[Path, dict]]:
@@ -482,6 +492,7 @@ def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update(STYLE)
     fig_discovery()
+    fig_discovery(**SLIDE_WORDS)
     loop = fig_inner_loop()
     fig_failure_types()
     fig_outcome_mix()

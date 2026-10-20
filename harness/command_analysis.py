@@ -1,11 +1,13 @@
 """Does the policy fail more under some route commands than others?
 
 The driver gets a route command each step (LEFT, STRAIGHT or RIGHT), computed
-by AlpaSim from the route it is sent: the first route waypoint at least 5 m
-ahead, LEFT if it lies more than 2 m to the left, RIGHT if more than 2 m to
-the right (alpasim_driver.navigation.determine_command_from_route; VaVAM was
-trained with the same 2 m rule). This reads every route_request of every kept
-study run after the policy took over and asks:
+by AlpaSim from the route it is sent: the first route waypoint at least
+`min_lookahead_distance` ahead, LEFT if it lies more than
+`command_distance_threshold` to the left, RIGHT if as far to the right
+(alpasim_driver.navigation.determine_command_from_route), with the two values
+read from each run's driver-config.yaml (AlpaSim's VaVAM default: 20 m and
+3 m; VaVAM's NeuroNCAP evaluation used 2 m). This reads every route_request
+of every kept study run after the policy took over and asks:
 
 - how the policy's steps divide between the commands (the base rate);
 - which command was in force at each failure (the last route before it);
@@ -25,6 +27,7 @@ from collections import Counter
 from pathlib import Path
 
 import numpy as np
+import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -35,37 +38,41 @@ from physics import completed_rollout
 from read_state import ROOT, load_entry, queue_entries
 
 STUDIES = ROOT / "research" / "studies"
-THRESHOLD_M = 2.0
-LOOKAHEAD_M = 5.0
 COMMANDS = ("LEFT", "STRAIGHT", "RIGHT")
 
 
-def command(waypoints: list[tuple[float, float]]) -> str:
+def command(waypoints: list[tuple[float, float]], threshold_m: float, lookahead_m: float) -> str:
     """AlpaSim's determine_command_from_route, on (x, y) rig-frame waypoints."""
     for x, y in waypoints:
-        if np.hypot(x, y) >= LOOKAHEAD_M:
-            if y > THRESHOLD_M:
+        if np.hypot(x, y) >= lookahead_m:
+            if y > threshold_m:
                 return "LEFT"
-            if y < -THRESHOLD_M:
+            if y < -threshold_m:
                 return "RIGHT"
             return "STRAIGHT"
     return "STRAIGHT"
 
 
-async def _routes(path: Path) -> list[tuple[int, str]]:
+def driver_rule(run_dir: Path) -> tuple[float, float]:
+    """The command threshold and lookahead the run's driver used."""
+    route = yaml.safe_load((run_dir / "driver-config.yaml").read_text(encoding="utf-8"))["route"]
+    return route["command_distance_threshold"], route["min_lookahead_distance"]
+
+
+async def _routes(path: Path, rule: tuple[float, float]) -> list[tuple[int, str]]:
     found = []
     async for message in async_read_pb_log(str(path)):
         if message.WhichOneof("log_entry") == "route_request":
             route = message.route_request.route
             points = [(w.x, w.y) for w in route.waypoints]
-            found.append((route.timestamp_us, command(points)))
+            found.append((route.timestamp_us, command(points, *rule)))
     return found
 
 
 def run_commands(run_dir: Path, result: dict) -> dict:
     """The commands after hand-off, step by step, and the one in force when
     the run failed (None if it did not)."""
-    routes = asyncio.run(_routes(completed_rollout(run_dir) / "rollout.asl"))
+    routes = asyncio.run(_routes(completed_rollout(run_dir) / "rollout.asl", driver_rule(run_dir)))
     start = routes[0][0] if routes else 0
     handoff_us = start + result["handoff_s"] * 1e6
     after = [(t, c) for t, c in routes if t >= handoff_us]
