@@ -1,0 +1,219 @@
+{
+ "answer": {
+  "answer": "The study did not answer the question: it confirmed none of the 5 challenging cases it was looking for. Only one kept run failed. That was on 096988dd with the car 1 s earlier at 0.5x speed and the ego at 1.4x (S2). The ego's front touched a slower truck even though the policy braked hard. However, the gap was already very short at hand-off, and that came from the replay, so it is unclear whether the policy was at fault. A single failure is a hint, not a rate, and the range it leaves is too wide to say the setting fails more than half the time. The study was meant to confirm settings by repeating them, but the gate kept none of the many repeats. The other kept settings each ran once and passed, so they show nothing either way.",
+  "findings": [
+   {
+    "claim": "The only failure was on 096988dd: the car 1 s earlier at 0.5x speed, with the ego at 1.4x at hand-off. The ego caught up with a slower truck in its lane and touched it while braking hard. The short gap at hand-off came from the replay, not from the policy's driving. Triage could not say whether the policy was at fault, and the contact may be a replay artifact. This is one run, and its many repeats were not kept, so it is a candidate, not a confirmed case.",
+    "settings": [
+     "S2"
+    ]
+   },
+   {
+    "claim": "No collisions or road departures occurred on the other kept settings. They covered 023b7fcc, 09a95ffa, 0cf6368d, 0e899dd3, 12855a41 and 19f339ba. Each setting ran only once, so none rules out failure. The broad ranges allow failure rates well above half.",
+    "settings": [
+     "S1",
+     "S3",
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9"
+    ]
+   },
+   {
+    "claim": "The closest calls among the passing runs, which the brief ranks next, scored highest on criticality. They were: 0e899dd3 with the car 2 s later at 1.5x and the ego at 1.2x; 023b7fcc with the car 2 s earlier at 2x and the ego at 1x; 19f339ba with the car 0.5 s earlier at 2x and the ego at 0.8x; and 12855a41 with the car 0.5 s earlier at 0.75x and the ego at 1x. They are the best places to search next, but each rests on a single run.",
+    "settings": [
+     "S7",
+     "S1",
+     "S9",
+     "S8"
+    ]
+   },
+   {
+    "claim": "On 0cf6368d, the setting with the car 1.5 s earlier at 2x and the ego slowed to 0.6x was the least critical of the kept settings. A faster car combined with a slower ego tended to open the gap rather than close it here.",
+    "settings": [
+     "S4",
+     "S5"
+    ]
+   }
+  ],
+  "open": [
+   "The study did not keep most of its runs. The repeats meant to confirm the candidates were all left out with no reason recorded ('not kept: None'). These were S2 on 096988dd, S1 on 023b7fcc, S7 on 0e899dd3, S9 on 19f339ba and S8 on 12855a41. Find out why the gate dropped them, then rerun about 5 repeats at each to confirm or rule out these settings.",
+   "Is the failure on 096988dd (the car 1 s earlier at 0.5x, the ego at 1.4x) the policy's fault or a replay artifact? Repeats at that setting, plus one at the ego's recorded speed with the same car timing, would show whether the policy can avoid the contact when the replay does not hand it a tiny gap.",
+   "Three scenes have no kept evidence at all because their runs halted: 187e6244, 1c45ce3a and 0dbb91dd. The cause of the halts needs fixing before they can be searched.",
+   "Because so few runs were kept, most of the grid of the three knobs is unexplored. Whether 5 distinct scenes with failure rates above 0.5 exist at 2 Hz is still unknown.",
+   "Nothing in the runs checks that the policy actually ran at the 2 Hz planning rate (only the control timestep was set to 500 ms)."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": -2,
+   "actor_speed_scale": 2,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.826,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_hybrid_optuna_r7_004"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": -1,
+   "actor_speed_scale": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_hybrid_optuna_r7_008"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": -2,
+   "actor_speed_scale": 0.5,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.774,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_hybrid_optuna_r7_007"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 2,
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.383,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_hybrid_optuna_r7_011"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 2,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.682,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_hybrid_optuna_r7_003"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 1.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.731,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_hybrid_optuna_r7_002"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 2,
+   "actor_speed_scale": 1.5,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.887,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_hybrid_optuna_r7_012"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 0.75,
+   "ego_speed_scale": 1,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.805,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_hybrid_optuna_r7_006"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 2,
+   "ego_speed_scale": 0.8,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.824,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_hybrid_optuna_r7_009"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 15238,
+  "output_tokens": 1683,
+  "duration_ms": 17035
+ }
+}

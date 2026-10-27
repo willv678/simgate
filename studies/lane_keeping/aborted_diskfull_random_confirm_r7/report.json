@@ -1,0 +1,55 @@
+{
+ "answer": {
+  "answer": "The study cannot answer the question, and none of the 5 challenging cases was confirmed. Only one run passed the validity checks: scene 05f35348 at -0.2 m bias and 1.0x speed, and it did not fail. One clean run at one setting is a hint, not a rate. Its range still allows a high failure rate, and it tells us nothing about the large-bias, high-speed corners the plan meant to search first. Every other run was thrown out by the gate, so the study has no evidence either way on which combinations of bias and speed push the ego out of its lane.",
+  "findings": [
+   {
+    "claim": "The only kept run was on scene 05f35348 at -0.2 m bias and 1.0x speed, and the ego neither collided nor left the road. With a single run, this does not show the setting is safe.",
+    "settings": [
+     "S1"
+    ]
+   },
+   {
+    "claim": "No kept run was on a large bias (\u00b10.3 to \u00b10.5 m) at high speed (1.2x to 1.4x), so the corners the plan targeted have no valid evidence. Every run tried there was thrown out by the gate.",
+    "settings": []
+   },
+   {
+    "claim": "No kept run failed, so there are no failures to triage. Nothing here shows a lane departure into another road user or off the road, and nothing rules one out either.",
+    "settings": [
+     "S1"
+    ]
+   }
+  ],
+  "open": [
+   "Why almost every run was thrown out. Five runs stopped with HALT (scene 12855a41 at 0.0 m/0.8x, 05f35348 at -0.2 m/0.6x, 054b5901 at 0.1 m/1.4x and 0.2 m/1.0x, 0cf6368d at 0.0 m/1.2x). The rest were rejected with verdict 'None', which suggests the gate or run pipeline failed rather than the policy. This needs fixing before any rerun.",
+   "Which controller actually ran. The rejected runs record controller 'linear', not VaVAM, so the study may not have tested the policy the question asks about. Check the controller setup before rerunning.",
+   "Which bias and speed combinations make the ego leave its lane. After the fix, rerun the corner grid (\u00b10.3 to \u00b10.5 m at 1.2x to 1.4x) across the 12 scenes. For example, 0dbb91dd at +0.3 m/1.4x and 187e6244 at -0.5 m/1.4x were tried but not kept.",
+   "The 5 hardest cases on distinct scenes. Each needs several repeats at the same setting, enough to push its 90% range above 0.5. Near misses can only be ranked by closest approach once runs are kept.",
+   "Whether -0.2 m bias at 1.0x on scene 05f35348 is really safe. That needs repeats. Three other runs at this setting were tried and not kept."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+   "lateral_bias_m": -0.2,
+   "ego_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.664,
+   "run_names": [
+    "lane_keeping_random_confirm_r7_002"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 11011,
+  "output_tokens": 1100,
+  "duration_ms": 11734
+ }
+}

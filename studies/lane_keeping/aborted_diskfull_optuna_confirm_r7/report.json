@@ -1,0 +1,19 @@
+{
+ "answer": {
+  "answer": "The study can't answer the question. None of its runs passed the validity checks, so there is no evidence on which combinations of plan bias and speed make the ego leave its lane, and none of the 5 hardest cases was found or confirmed. Of the runs the gate rejected, the first five stopped with HALT and the rest have no recorded reason (verdict \"None\"). That points to a problem in the pipeline or the simulator, not to anything about the policy. The not-kept runs are also logged with controller \"linear\", not VaVAM, so even the attempted runs may not have tested the policy the question is about.",
+  "findings": [],
+  "open": [
+   "Why did the gate reject every run? The first five stopped with HALT and the rest have no recorded reason (verdict None). Fix this, then check that a single run on one of the 12 scenes passes before using the budget again.",
+   "Which controller ran? The not-kept runs are logged as 'linear', not VaVAM. Confirm the study is set to drive with VaVAM before rerunning.",
+   "Rerun the plan once runs pass the gate. Search the corners first (bias \u00b10.3 to \u00b10.5 m at speed 1.2x to 1.4x) on all 12 scenes, then repeat any setting that fails 3 to 5 times to confirm its rate is above 0.5.",
+   "If nothing fails after the rerun, rank near misses by closest approach to another vehicle, as the brief asks."
+  ]
+ },
+ "results": [],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 11016,
+  "output_tokens": 639,
+  "duration_ms": 7242
+ }
+}

@@ -1,0 +1,70 @@
+{
+  "name": "c4k_002",
+  "run_dir": "diag/c4k_002",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 104337,
+  "launched_at": 1792511303.2812696,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c4k_002",
+      "k_status": "postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-20T15:48:30.751Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 180840705553 outside range [180837605553, 180840605554)",
+        "ValueError: Interpolation timestamp 180840705553 outside range [180837605553, 180840605554)",
+        "controller-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\ncar_conflicts_3knobs_2hz_optuna_confirm_r6_004-controller-0-1\tUp About a minute\ncar_conflicts_3knobs_2hz_optuna_confirm_r6_004-physics-0-1\tUp About a minute\ncar_conflicts_3knobs_2hz_optuna_confirm_r6_004-prometheus-0-1\tUp About a minute\ncar_conflicts_3knobs_2hz_optuna_confirm_r6_004-runtime-0-1\tUp About a minute\ncar_conflicts_3knobs_2hz_optuna_confirm_r6_004-driver-0-1\tUp About a minute\ncar_conflicts_3knobs_2hz_optuna_confirm_r6_004-renderer-0-1\tUp About a minute\n\n$ docker network ls --format {{.Name}}\nbridge\ncar_conflicts_3knobs_2hz_optuna_confirm_r6_004_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n13081 MiB, 10985 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  884G   28G  98% /\n",
+    "skill": "RE-RUN",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 57086,
+    "output_tokens": 953,
+    "duration_ms": 13744,
+    "tool_calls": [
+      "Grep: Interpolation|Traceback|metrics|exited|Error",
+      "Glob: **/*.parquet",
+      "Bash: docker ps -a; df -h /home",
+      "Glob: rollouts/**/*",
+      "Read: ./console.log"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "delete_metrics",
+    "persistent": false,
+    "after_s": null,
+    "applied": false
+  },
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

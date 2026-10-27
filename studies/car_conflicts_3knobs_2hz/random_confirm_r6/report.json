@@ -1,0 +1,737 @@
+{
+ "answer": {
+  "answer": "The study confirmed 2 of the 5 cases it aimed for, so the goal was not met. Only one of the two is clearly the policy's failure. On 187e6244 (S25), the slow lead car arrives early (\u22121.5 s, 0.5x) while the ego takes over fast (1.2x). Every run there failed the same way: the policy braked too late and hit the lead car's rear. On 1c45ce3a (S33: \u22120.5 s, 1.0x, ego 0.8x), every run also failed, but each time a replayed car (actor 24, not the retimed car) cut in from the right and clipped the ego. Triage did not fault the policy for this, so S33 is mostly a log-replay effect. Three other settings, on 09a95ffa and 023b7fcc, failed once each with the policy steering left against its route into a neighbouring car. These are hints, not confirmed rates, and one of them (S1) may be a simulator artifact.",
+  "findings": [
+   {
+    "claim": "Confirmed policy failure on 187e6244: with the lead car 1.5 s early at half speed and the ego at 1.2x speed at hand-off, every run ended in a front collision. The policy braked too late and too gently for a lead it was closing on, and the 90% range lies above 0.5.",
+    "settings": [
+     "S25"
+    ]
+   },
+   {
+    "claim": "On 187e6244, nearby settings did not fail in single runs: the same early, slow lead with the ego even faster (1.4x), and settings with a later or faster lead and a slower ego. One run each is too few to rule failure out, but the failure looks tied to the closing speed at hand-off.",
+    "settings": [
+     "S24",
+     "S26",
+     "S27",
+     "S28"
+    ]
+   },
+   {
+    "claim": "The setting on 1c45ce3a counts as confirmed, but its failures are not clearly the policy's. In every run, replayed actor 24 came up from behind on the right and cut into the ego's lane, clipping the ego. The ego never steered into it. Triage judged one run not the policy's fault and two unclear: the ego slowed with no lead nearby and fell about 21 m behind its recorded position, so the unreactive replay car ran into it.",
+    "settings": [
+     "S33"
+    ]
+   },
+   {
+    "claim": "On 09a95ffa, the single run with the lead car 1.5 s late at recorded speeds failed. The policy bent left against a STRAIGHT/RIGHT route and side-swiped vehicle 33 in the left lane. With one run, this is a candidate, not a rate.",
+    "settings": [
+     "S7"
+    ]
+   },
+   {
+    "claim": "023b7fcc shows a recurring policy fault: drifting left against a RIGHT route into another lane's car (cars 37 and 56, not the retimed car 12). At each of the two settings, only some runs failed, so neither is confirmed. The S1 failure ended about 6 m off the recorded path and is flagged as a possible rendering artifact.",
+    "settings": [
+     "S1",
+     "S2"
+    ]
+   },
+   {
+    "claim": "Six scenes showed no failures at any setting tried: 096988dd, 0cf6368d, 0dbb91dd, 0e899dd3, 12855a41 and 19f339ba. Settings repeated several times keep upper bounds below 0.5, so these combinations are unlikely to fail often. On 0dbb91dd the retimed car never came close to the ego (criticality zero).",
+    "settings": [
+     "S31",
+     "S19",
+     "S17",
+     "S12",
+     "S13",
+     "S14",
+     "S4",
+     "S5",
+     "S6",
+     "S9",
+     "S10",
+     "S11",
+     "S15",
+     "S16",
+     "S18",
+     "S20",
+     "S21",
+     "S22",
+     "S23",
+     "S29",
+     "S30"
+    ]
+   }
+  ],
+  "open": [
+   "Three of the five cases are still unconfirmed. About 3 to 4 more repeats each at S7 (09a95ffa) and S2 (023b7fcc) would show whether they lie above 0.5. If they do, they would be the third and fourth policy failures, after S25.",
+   "Whether S1's failure is the policy's or the simulator's: check its video (it ended about 6 m off the recorded path, flagged as a possible artifact), and add repeats only if the failure is real.",
+   "Whether S33 should count as a policy failure: test whether the ego's slowdown below its recorded speed is the policy's choice. Rerun 1c45ce3a at ego 1.0x or 1.2x, or with reactive traffic, to separate the policy from the replay car cutting in.",
+   "A fifth scene: none of the other six scenes produced a failure. The best next step is to probe near S25's pattern (early, slow lead with a faster ego) on 19f339ba, 12855a41 and 0e899dd3.",
+   "Budget use: many repeats went to settings that never failed (S31, S19, S17, S12). Spending them on S7 and S2 would likely have settled more cases."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 1.0,
+   "ego_speed_scale": 1.4,
+   "runs": 4,
+   "failed": 1,
+   "failure_rate_90": [
+    0.06,
+    0.64
+   ],
+   "possible_artifacts": 1,
+   "criticality": 0.755,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_010",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_015",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_024_a2",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_035"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 2.0,
+   "ego_speed_scale": 0.6,
+   "runs": 2,
+   "failed": 1,
+   "failure_rate_90": [
+    0.12,
+    0.88
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.908,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_048",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_051"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.25,
+   "ego_speed_scale": 0.8,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.689,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_050"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 0.75,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.799,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_060"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 1.5,
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.76,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_059"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "actor_time_shift_s": 2.0,
+   "actor_speed_scale": 1.25,
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.628,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_002"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 1.0,
+   "ego_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_057"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 2.0,
+   "ego_speed_scale": 0.8,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.754,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_019_a2"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": -2.0,
+   "actor_speed_scale": 1.5,
+   "ego_speed_scale": 0.8,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.432,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_005"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 0.5,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.686,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_020"
+   ]
+  },
+  {
+   "id": "S11",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 1.0,
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.385,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_027"
+   ]
+  },
+  {
+   "id": "S12",
+   "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 1.5,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.47
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.812,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_037",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_042",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_055"
+   ]
+  },
+  {
+   "id": "S13",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 1.0,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_046"
+   ]
+  },
+  {
+   "id": "S14",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "actor_time_shift_s": 2.0,
+   "actor_speed_scale": 1.5,
+   "ego_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.0,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_030"
+   ]
+  },
+  {
+   "id": "S15",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 2.0,
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.655,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_007"
+   ]
+  },
+  {
+   "id": "S16",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 2.0,
+   "ego_speed_scale": 1.4,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.768,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_040",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_052"
+   ]
+  },
+  {
+   "id": "S17",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 1.25,
+   "ego_speed_scale": 1.4,
+   "runs": 4,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.4
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.802,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_003",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_012",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_023",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_032_a2"
+   ]
+  },
+  {
+   "id": "S18",
+   "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 0.75,
+   "ego_speed_scale": 0.8,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.805,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_038_a2",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_043"
+   ]
+  },
+  {
+   "id": "S19",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": -2.0,
+   "actor_speed_scale": 1.5,
+   "ego_speed_scale": 1.2,
+   "runs": 5,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.35
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.809,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_009",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_014",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_034",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_045",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_053"
+   ]
+  },
+  {
+   "id": "S20",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 0.5,
+   "ego_speed_scale": 0.8,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.81,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_049"
+   ]
+  },
+  {
+   "id": "S21",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 0.75,
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.734,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_058"
+   ]
+  },
+  {
+   "id": "S22",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.5,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.778,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_018"
+   ]
+  },
+  {
+   "id": "S23",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "actor_time_shift_s": 1.0,
+   "actor_speed_scale": 1.0,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.776,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_036"
+   ]
+  },
+  {
+   "id": "S24",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "actor_time_shift_s": -2.0,
+   "actor_speed_scale": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.844,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_026"
+   ]
+  },
+  {
+   "id": "S25",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "actor_time_shift_s": -1.5,
+   "actor_speed_scale": 0.5,
+   "ego_speed_scale": 1.2,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_004",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_011",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_021"
+   ]
+  },
+  {
+   "id": "S26",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.0,
+   "ego_speed_scale": 0.6,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.846,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_029_a2"
+   ]
+  },
+  {
+   "id": "S27",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 1.25,
+   "ego_speed_scale": 0.8,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.509,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_006"
+   ]
+  },
+  {
+   "id": "S28",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "actor_time_shift_s": 1.5,
+   "actor_speed_scale": 1.25,
+   "ego_speed_scale": 0.8,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.509,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_039"
+   ]
+  },
+  {
+   "id": "S29",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 0.5,
+   "ego_speed_scale": 0.8,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.778,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_056"
+   ]
+  },
+  {
+   "id": "S30",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 0.75,
+   "ego_speed_scale": 0.8,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.781,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_008"
+   ]
+  },
+  {
+   "id": "S31",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "actor_time_shift_s": 0.5,
+   "actor_speed_scale": 1.25,
+   "ego_speed_scale": 1.2,
+   "runs": 6,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.31
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.822,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_001",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_013",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_025_a2",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_033",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_044",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_054"
+   ]
+  },
+  {
+   "id": "S32",
+   "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+   "actor_time_shift_s": -1.0,
+   "actor_speed_scale": 1.25,
+   "ego_speed_scale": 1.0,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.833,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_047_a2"
+   ]
+  },
+  {
+   "id": "S33",
+   "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+   "actor_time_shift_s": -0.5,
+   "actor_speed_scale": 1.0,
+   "ego_speed_scale": 0.8,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_028",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_031",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_041"
+   ]
+  },
+  {
+   "id": "S34",
+   "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+   "actor_time_shift_s": 0.0,
+   "actor_speed_scale": 2.0,
+   "ego_speed_scale": 1.2,
+   "runs": 1,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.73
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.848,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_016"
+   ]
+  },
+  {
+   "id": "S35",
+   "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+   "actor_time_shift_s": 2.0,
+   "actor_speed_scale": 0.5,
+   "ego_speed_scale": 0.6,
+   "runs": 2,
+   "failed": 0,
+   "failure_rate_90": [
+    0.0,
+    0.58
+   ],
+   "possible_artifacts": 0,
+   "criticality": 0.858,
+   "run_names": [
+    "car_conflicts_3knobs_2hz_random_confirm_r6_017",
+    "car_conflicts_3knobs_2hz_random_confirm_r6_022"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 19572,
+  "output_tokens": 2506,
+  "duration_ms": 25982
+ }
+}

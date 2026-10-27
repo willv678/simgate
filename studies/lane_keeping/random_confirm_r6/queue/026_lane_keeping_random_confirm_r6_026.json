@@ -1,0 +1,30 @@
+{
+  "name": "lane_keeping_random_confirm_r6_026",
+  "run_dir": "diag/lane_keeping_random_confirm_r6_026",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 0.6
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1549335,
+  "launched_at": 1792536346.4002345,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1",
+  "quarantine": "runs/r39/physics.txt warm-up speed is 3.86 m/s at t=0.2 vs 9.15 m/s in reference r04 on the same scene (ratio 0.42, drifting to 0.59 by 4.7 s), while every other scaled run tracks scale x reference steadily during warm-up (e.g. r36/r34 0.59-0.60, r03/r06 ~0.8), so r39's motion does not reflect its labelled and configured ego_speed_scale 0.6."
+}

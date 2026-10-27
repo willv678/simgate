@@ -1,0 +1,119 @@
+[
+ {
+  "run": "car_conflicts_3knobs_2hz_random_confirm_r6_004",
+  "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+  "cause": "no_brake_for_lead",
+  "what_happened": "Going straight on a freeway, the ego was closing on the slower car 48 ahead in its lane (gap 14.3 m down to 6.2 m by the 4.7 s handoff). After taking over, the policy braked too late and too gently (6.6 to 3.7 m/s) and hit car 48's rear at 5.7 s. The rear contact on the ego came after this front collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13217,
+   "output_tokens": 1263,
+   "duration_ms": 14582
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_random_confirm_r6_011",
+  "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was going straight on a multi-lane highway and closing on slower lead car 48 in its own lane. At handoff (4.7 s) the gap was about 6.2 m and shrinking at roughly 3.8 m/s. The policy braked only gently in the first half-second, then hard (6.6 \u2192 3.7 m/s), which was too late, and the ego's front hit 48 at 5.7 s; a following car also hit the ego's rear.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16037,
+   "output_tokens": 1189,
+   "duration_ms": 20034
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_random_confirm_r6_015",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "The route said RIGHT and the recorded path stayed to the right, but the policy steered left into the next lane and ended up close behind the slower car 37. It slowed only a little, from 6.8 to 5.8 m/s, while the gap shrank from 5.5 to 4.4 m, and its front hit 37's rear at 9.7 s, about 6.3 m off the recorded path.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13223,
+   "output_tokens": 805,
+   "duration_ms": 8700
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_random_confirm_r6_021",
+  "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was following slower lead car 48 in its own lane on a straight highway. When the policy took over at 4.7s, the gap was 6.2 m and still shrinking. The ego only braked hard late (6.6 m/s at 4.7s, 3.7 m/s at 5.7s) and hit car 48 with its front at 5.7s. The ego was also rear-ended, but that contact came after the front collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13219,
+   "output_tokens": 867,
+   "duration_ms": 9288
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_random_confirm_r6_028",
+  "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was going straight in its lane at about 8 m/s, staying within 0.4 m of the recorded path. Actor 24 came up from behind on the right, passed the ego, and cut left into its lane just ahead of it, clipping the ego's front-right corner at 9.2 s. The front collision is a log-replay actor merging into the ego, not a steering or braking mistake by the policy.",
+  "policy_at_fault": "no",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13205,
+   "output_tokens": 786,
+   "duration_ms": 8816
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_random_confirm_r6_031",
+  "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+  "cause": "actor_hit_ego",
+  "what_happened": "On a straight multi-lane highway the ego kept its lane but drove more slowly than the recorded drive (8.7\u21927.3 m/s, about 21 m behind its recorded position). Actor 24 came up on its right, passed it, and cut left into the ego's lane right in front of it (the gap went from none to 2.9 m), so the ego's front hit the cutting-in car's side or rear.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13214,
+   "output_tokens": 993,
+   "duration_ms": 20354
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_random_confirm_r6_041",
+  "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was going straight and staying in its lane, but it slowed gradually with no lead nearby (8.6 \u2192 7.3 m/s) and fell about 21 m behind the recorded drive. Actor 24, replayed from the log, came up from behind on the right, passed alongside and cut left into the ego's lane, hitting the ego's front-right corner. The ego never steered into it.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13219,
+   "output_tokens": 761,
+   "duration_ms": 7879
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_random_confirm_r6_048",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "After handoff the ego sped up from 2.5 to 5.8 m/s. The route command was RIGHT and the recorded human moved right, but the ego's plan drifted left toward actor 15's lane, putting it about 2 m left of the recorded path and across the lane line. There it side-swiped the vehicle coming up alongside in the left lane, probably actor 56. That is a lateral collision, followed by rear contact.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13224,
+   "output_tokens": 995,
+   "duration_ms": 11151
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_random_confirm_r6_057",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "After handoff, the ego slowed from 7.9 to about 4 m/s behind lead vehicle 1. Its planned path (orange) bent left toward the adjacent lane, even though the route command was STRAIGHT and then RIGHT, and the ego drifted about 1.2 m left of the recorded trajectory. Vehicle 33 was coming up from behind in that left lane, and the ego's left side struck it (collision_lateral).",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13221,
+   "output_tokens": 882,
+   "duration_ms": 11072
+  }
+ }
+]

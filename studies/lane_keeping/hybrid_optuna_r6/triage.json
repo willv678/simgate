@@ -1,0 +1,223 @@
+[
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_001",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway with the command switching to LEFT, the policy planned a lane change to the right, toward actor 4's lane, while the recorded path drifted left. It steered right and its front hit actor 3, which was travelling alongside in the right lane, at about 5 m/s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13233,
+   "output_tokens": 567,
+   "duration_ms": 6491
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_002",
+  "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+  "cause": "left_road",
+  "what_happened": "On a multi-lane highway with a RIGHT command, the policy's plan veered left away from the recorded path. The ego steered across the leftmost lane and shoulder and ran into the median guardrail at about 5.6 m/s, ending up about 7 m off the recording. The camera view was clean before it left the road, so rendering does not explain the drift.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16033,
+   "output_tokens": 508,
+   "duration_ms": 5997
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_005",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "turned_into_actor",
+  "what_happened": "After the handoff, the ego left its lane and drifted left across lanes on the multi-lane highway. The recorded drive held its lane and the route command was STRAIGHT, then RIGHT. At 7.3 s, about 4.8 m off the recording, the ego's front ran into actor 28, which was in the lane to its left.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13209,
+   "output_tokens": 605,
+   "duration_ms": 7989
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_006",
+  "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+  "cause": "left_road",
+  "what_happened": "At a fork where the road splits around a dirt median, the ego kept going straight while the human-driven route curved right, so it ended up about 4 m off the recorded path. It slowed from 16.7 to 13.6 m/s but still drove onto the unpaved median and went off the road; no other actor was nearby.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13207,
+   "output_tokens": 496,
+   "duration_ms": 6105
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_008",
+  "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+  "cause": "left_road",
+  "what_happened": "With the route command at RIGHT and the route path curving right, the policy's own plan held straight and then bent left. The ego, slowing from about 19 to 16 m/s, crossed the yellow left edge line onto the shoulder beside the guardrail and was flagged offroad at 10.3 s. No other actors were nearby, and the camera view was clear before the drift.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16012,
+   "output_tokens": 522,
+   "duration_ms": 5244
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_009",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "left_road",
+  "what_happened": "The road curved left (the command changed to LEFT), but the policy held a straight or slightly right path. It drifted right of the route, across the right lane and the green bike lane, and over the curb toward the houses at about 8 m/s, about 3.4 m from the recorded trajectory. There was no lead vehicle, and the camera view looked clean until the moment it went off the road.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16028,
+   "output_tokens": 557,
+   "duration_ms": 6998
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_010",
+  "scene_id": "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+  "cause": "left_road",
+  "what_happened": "The policy took over at 4.6 s on a straight highway, with the ego in the rightmost lane and a RIGHT command. It steered right across the solid edge line onto the shoulder while slowing from 23.5 to 14 m/s, and by 6.7 s it had driven off the road into the roadside vegetation, 3.6 m from the recorded path. No actor was involved, and the camera view was clean until the ego was already off the road.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13210,
+   "output_tokens": 719,
+   "duration_ms": 7760
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_011",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway with a STRAIGHT and then LEFT command, the policy planned and steered rightward toward actor 4's lane instead of staying in lane or going left. Doing so, it cut into actor 3, which was right beside it in the adjacent right lane, and hit it with the front at 7.0s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16049,
+   "output_tokens": 578,
+   "duration_ms": 7367
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_012",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "Right after handoff, on a multi-lane highway with the command STRAIGHT, the policy planned an unprompted lane change to the right, toward the lane where actor 4 was driving. The ego angled right while slowing from about 7.7 to 5.2 m/s, and its front corner hit actor 3, which was driving alongside in the right lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13231,
+   "output_tokens": 719,
+   "duration_ms": 8815
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_013",
+  "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+  "cause": "left_road",
+  "what_happened": "The command was RIGHT and the recorded path curves right into the lanes on the right. Instead, the ego held a straight, slightly left path at about 15\u201318 m/s with no actor ahead, crossed the yellow edge line and went off the left edge of the road toward the guardrail at 10.8 s. The camera view before the failure was fairly clean, with only mild smearing at the left edge.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13182,
+   "output_tokens": 524,
+   "duration_ms": 6249
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_014",
+  "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+  "cause": "left_road",
+  "what_happened": "The road curves gently to the right and the command is RIGHT. Instead of following the curve with the recorded path, the ego held its heading and drifted left across the yellow centerline toward the left-side guardrail and shoulder. It left the drivable area at 10.2 s at about 15 m/s, 1.6 m from the recorded path, with no lead vehicle involved.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13196,
+   "output_tokens": 535,
+   "duration_ms": 7069
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_015",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "left_road",
+  "what_happened": "The road curves left and the command changes to LEFT, but the policy's trajectory (orange) keeps going straight and slightly right. The ego slowed from about 11 to 8 m/s as it crossed the bike lane and went over the right curb at 7.1s, about 3.2 m off the recorded path, with no other actors involved.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16009,
+   "output_tokens": 521,
+   "duration_ms": 6650
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_016",
+  "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+  "cause": "left_road",
+  "what_happened": "After the 4.7s handoff the road curved left (the command switched to LEFT). The ego kept heading straight and drifted right, out of the rightmost lane and over the right road edge onto the curb and sidewalk by 7.2s. It slowed from about 11 to 7.8 m/s but never steered to follow the curve, while the recorded path stayed in the lanes to its left.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13205,
+   "output_tokens": 503,
+   "duration_ms": 7559
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_017",
+  "scene_id": "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+  "cause": "left_road",
+  "what_happened": "After handoff on a multi-lane highway at about 23 m/s, the ego moved to the rightmost lane on the RIGHT command, then kept driving straight while the road curved left. It drifted across the right edge line onto the shoulder and toward the guardrail, ending 3.6 m right of the human path. It slowed to 14.5 m/s but never steered to follow the curve, and there were no nearby actors involved.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16044,
+   "output_tokens": 593,
+   "duration_ms": 7277
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_018",
+  "scene_id": "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+  "cause": "left_road",
+  "what_happened": "On a highway bending left, the ego was in the rightmost lane under a RIGHT command and slowed from 23.5 to 14 m/s, but its plan held a straight heading instead of following the curve. It crossed the right edge line onto the shoulder (visible at 5.7s) and ended up off the drivable area beside the guardrail, 3.5 m from the recorded path.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13210,
+   "output_tokens": 619,
+   "duration_ms": 8037
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_019",
+  "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+  "cause": "left_road",
+  "what_happened": "The road curves right toward a split (the command changes to RIGHT), but the ego kept a straight heading at about 13\u201317 m/s and drifted left of its lane, ending up on the raised median between the two carriageways, about 4 m from the recorded path. The collision and rear-end flags look like side effects of leaving the recorded path; no lead vehicle was involved (the nearest actor ahead was about 60 m away).",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13202,
+   "output_tokens": 577,
+   "duration_ms": 7268
+  }
+ },
+ {
+  "run": "lane_keeping_hybrid_optuna_r6_020",
+  "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+  "cause": "left_road",
+  "what_happened": "Where the road splits, the ego kept going straight at about 13\u201317 m/s and drove up onto the dirt and curb of the median between the branches. The lanes, and the recorded human drive, curved right. It was 4 m off the recorded path at 6.5 s. The route command said STRAIGHT until the fork itself and only switched to RIGHT at 6.5 s, which may have contributed, but the map clearly showed the lanes bending right and no actor was nearby.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13202,
+   "output_tokens": 723,
+   "duration_ms": 8033
+  }
+ }
+]

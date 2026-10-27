@@ -1,0 +1,76 @@
+{
+  "name": "lane_keeping_llm_r6_025",
+  "run_dir": "diag/lane_keeping_llm_r6_025",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.5,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.4
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1818676,
+  "launched_at": 1792543745.5657506,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "HALT",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "lane_keeping_llm_r6_025",
+      "k_status": "physics: max_abs_yaw_rate 31.3 > 2.0; physics: max_speed_report_error 29 > 1.0",
+      "config": {
+        "context_length": 8,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "trafficsim_device": "cpu",
+        "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+        "controller": "linear",
+        "traffic": "replay",
+        "planner_delay_us": 0,
+        "lateral_bias_m": 0.5,
+        "waypoint_noise_std": 0.0,
+        "actor_time_shift_s": 0.0,
+        "actor_speed_scale": 1.0,
+        "ego_speed_scale": 1.4
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-21T00:49:12.920Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 169260112478 outside range [169257012478, 169260012479)",
+        "ValueError: Interpolation timestamp 169260112478 outside range [169257012478, 169260012479)",
+        "driver-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "controller-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nlane_keeping_rules_r6_037-physics-0-1\tUp 8 seconds\nlane_keeping_rules_r6_037-driver-0-1\tUp 8 seconds\nlane_keeping_rules_r6_037-runtime-0-1\tUp 8 seconds\nlane_keeping_rules_r6_037-controller-0-1\tUp 8 seconds\nlane_keeping_rules_r6_037-prometheus-0-1\tUp 8 seconds\nlane_keeping_rules_r6_037-renderer-0-1\tUp 8 seconds\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nlane_keeping_rules_r6_037_microservices_network\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n611 MiB, 23455 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  889G   23G  98% /\n",
+    "skill": "HALT",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 38475,
+    "output_tokens": 1456,
+    "duration_ms": 17666,
+    "tool_calls": [
+      "Bash: ls -la /home/willvarner/alpasim/diag/lane_keeping_llm_r6_025",
+      "Grep: (?i)yaw|speed|teleport|reset|warn|error|physics",
+      "Grep: (?i)retim|extrapolat|hand-off|clamp|discontinu"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null,
+  "boot_id": "8f90e4ac-eecb-47ae-a2ad-4048a4eb7ad1"
+}

@@ -1,0 +1,20 @@
+{
+ "answer": {
+  "answer": "The study cannot answer the question. None of the runs passed the validity gate, so there are no kept results and no failures to triage. None of the 5 challenging settings was confirmed, which matches the goal verdict. The study also never tested what it was meant to test. Every launched run used lateral bias 0.0 m and speed scale 1.0 with controller \"linear\", not VaVAM. So even if the runs had been kept, they would say nothing about how plan error and hand-off speed affect lane departure. The planned settings were not applied, and the controller was not the one under test.",
+  "findings": [],
+  "open": [
+   "Which bias and speed combinations make VaVAM leave its lane in these scenes is still unknown. The search over bias -0.5 to +0.5 m and speed 0.6x to 1.4x never ran: every launched run used 0.0 m and 1.0x.",
+   "The wrong controller ran: every run was labelled 'linear', not VaVAM. Check the controller setting before rerunning.",
+   "The first five runs (r7_001 to r7_005) were stopped with HALT. The other 45 have no recorded reason ('not kept: None'), which suggests the gate or the logging failed, not the runs themselves. Find out why the gate dropped every run before spending more budget.",
+   "Scenes clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c and clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e were never launched. The other ten scenes ran the same 0.0 m / 1.0x setting five times each.",
+   "What would settle it: rerun with VaVAM, starting at the corners the plan named (bias \u00b10.3 to \u00b10.5 m at speed 1.2x to 1.4x) on each scene. Repeat any setting that fails until its 90% range is clearly above or below 0.5. Rank near misses by closest approach where nothing fails."
+  ]
+ },
+ "results": [],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 10812,
+  "output_tokens": 870,
+  "duration_ms": 9650
+ }
+}

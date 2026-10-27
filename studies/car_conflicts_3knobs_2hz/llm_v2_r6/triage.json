@@ -1,0 +1,210 @@
+[
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_001",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a straight multi-lane freeway, the policy's planned path (orange) bent left away from the route and the ego drifted left out of its lane at about 5\u20136 m/s. Its front corner hit actor 41, which was driving alongside in the left lane, at 7.7 s; by then the ego was 1.6 m off the recorded path. The table also shows a brief rear contact from actor 2 just after handoff (5.7 s), but the at-fault crash was the ego's own leftward move into 41.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13231,
+   "output_tokens": 813,
+   "duration_ms": 10228
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_005",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On an open highway with no close lead (gap about 46\u201350 m), the policy braked hard for no clear reason, from 20 to 9 m/s, and steered left toward the next lane. Actor 1 had been driving alongside on the left, so it pulled ahead as the ego slowed, and the ego's front-left corner hit its rear-right side at 7.1 s.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13216,
+   "output_tokens": 872,
+   "duration_ms": 13498
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_011",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a straight multi-lane highway (command STRAIGHT, then RIGHT), the policy's planned path bent left, away from the recorded path, which stayed straight or went slightly right. The ego drifted into the left adjacent lane and its front hit the white SUV (actor 41) driving alongside in that lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13203,
+   "output_tokens": 664,
+   "duration_ms": 7688
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_012",
+  "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway with a STRAIGHT and then RIGHT route command, the policy steered left toward the adjacent lane, away from its route line. Its front hit vehicle 41, which was coming up alongside in that left lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13226,
+   "output_tokens": 869,
+   "duration_ms": 10637
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_013",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "After handoff, the ego braked hard from about 20 to 8 m/s on an open highway, with the nearest car ahead about 50 m away, and drifted left onto the lane line. Actor 1 was passing in the left lane, and the ego's front-left corner hit it. The sudden braking also led to the ego being rear-ended.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13213,
+   "output_tokens": 907,
+   "duration_ms": 9889
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_014",
+  "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a clear highway with no close lead, the policy braked hard for no visible reason (20.3 \u2192 9.3 m/s), which let actor 1 in the left lane draw level with it. Meanwhile its planned path bent left, and the ego's front edged over the lane line into actor 1. The camera shows that car right at the ego's front-left corner at the moment of impact.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 16042,
+   "output_tokens": 661,
+   "duration_ms": 15448
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_029",
+  "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was driving straight in its lane but kept slowing (8.7 to 7.6 m/s), so by impact it was about 20 m behind where the recorded car was. Actor 24, a replayed vehicle, came up from behind in the right lane, drew alongside and edged left toward the ego's lane, and they touched at the ego's front-right. Actor 24 most likely cut in where the recorded car had already passed, and the ego only got close because of its own lag and slight rightward drift.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13207,
+   "output_tokens": 1053,
+   "duration_ms": 12171
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_031",
+  "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+  "cause": "turned_into_actor",
+  "what_happened": "On a straight multi-lane highway, the ego slowed (8.7\u21927.7 m/s) and fell about 20 m behind where the human drove. Meanwhile its path drifted about 0.7 m right toward the lane line, and its front-right clipped actor 24 as that car passed in the adjacent right lane.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13191,
+   "output_tokens": 1139,
+   "duration_ms": 18112
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_032",
+  "scene_id": "clipgt-1c45ce3a-0960-4e08-88ed-6cfc008ad02a",
+  "cause": "actor_hit_ego",
+  "what_happened": "The ego was going straight in its lane at a steady ~8 m/s, close to the recorded path laterally (0.6 m) but about 20 m behind where the human car was at that point. Actor 24 came up fast from behind in the right lane and cut into the ego's lane right beside it, so the ego's front corner touched the actor's side; the log also shows the actor hitting the ego's rear.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13191,
+   "output_tokens": 841,
+   "duration_ms": 9581
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_042",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "The ego was slowly following actor 12 in its lane. The route said STRAIGHT and then RIGHT, but the policy steered left into the next lane, about 2.1 m off the recorded path. That cut-in put its side into actor 56, which was coming up alongside in that lane, and caused a lateral collision; the rear contact came after.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13214,
+   "output_tokens": 689,
+   "duration_ms": 7139
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_051",
+  "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+  "cause": "turned_into_actor",
+  "what_happened": "On a multi-lane highway the policy left the recorded path and steered left toward the next lane, even though the route command was STRAIGHT and then RIGHT. At about 4 m/s it cut in beside actor 56, which was coming up in that lane, and the two had a side collision (rear contact was also recorded).",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13233,
+   "output_tokens": 586,
+   "duration_ms": 7270
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_056",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was on a straight multi-lane highway at about 9.5 m/s, closing on a slower blue pickup (actor 5) in its own lane. It took over at 4.7 s with only about 5.7 m of gap and a closing speed of roughly 4.8 m/s, braked from 9.3 to 7.6 m/s, and still hit the pickup's rear at 5.2 s. A trailing vehicle (actor 12) also struck the ego's rear at some point.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13224,
+   "output_tokens": 894,
+   "duration_ms": 9173
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_057",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was following a slower blue pickup (actor 5) in its own lane on a busy multi-lane road, with the gap shrinking steadily from 16.8 m to 5.7 m while the ego held about 9.5 m/s. After taking over at 4.7 s, the policy braked only lightly (9.3 to 7.6 m/s) and hit the pickup's rear at 5.2 s. The closing speed of about 4.6 m/s needed only about 2 m/s\u00b2 of braking to avoid the crash, so it was avoidable, though the policy had just 0.5 s after handoff. The later rear contact on the ego came after this front collision.",
+  "policy_at_fault": "yes",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13221,
+   "output_tokens": 1050,
+   "duration_ms": 18205
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_058",
+  "scene_id": "clipgt-0e899dd3-e544-4a30-a689-f00d08ba5770",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was following the blue pickup (actor 5) in its lane on a congested highway and closing at about 4.6 m/s. When the policy took over at 4.7 s the gap was already only 5.7 m. The ego braked from 9.3 to 7.6 m/s but rear-ended the pickup 0.5 s later, still 0.1 m off the recorded trajectory, and was itself rear-ended afterward.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13219,
+   "output_tokens": 762,
+   "duration_ms": 8071
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_059",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "no_brake_for_lead",
+  "what_happened": "On the straight multi-lane highway, the ego was going about 11 m/s and closing on lead vehicle 1, which was slower, at about 5.6 m/s. The gap shrank from 14 m to 5.5 m by handoff at 4.6 s. The policy braked only to 9.6 m/s in the 0.5 s it had control and ran into the lead's rear at 5.1 s; the ego was later rear-ended by the car behind.",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13228,
+   "output_tokens": 877,
+   "duration_ms": 9685
+  }
+ },
+ {
+  "run": "car_conflicts_3knobs_2hz_llm_v2_r6_060_a2",
+  "scene_id": "clipgt-09a95ffa-37b7-486d-9404-ac8cf1c3e045",
+  "cause": "no_brake_for_lead",
+  "what_happened": "The ego was going straight at about 11 m/s and closing on slower lead vehicle 1 in its own lane, with the gap shrinking from 19.8 m to 5.5 m before the policy took over at 4.6 s. Within 0.5 s of taking over, the policy slowed to only 9.6 m/s and hit the lead's rear (front collision). Because the ego was within 0.1 m of the recorded human path, the policy inherited a near-unavoidable closing state, and the logged scene itself looks inconsistent (the ego was also rear-ended).",
+  "policy_at_fault": "unclear",
+  "call": {
+   "model": "claude-opus-5-5",
+   "context_tokens": 13224,
+   "output_tokens": 1120,
+   "duration_ms": 13432
+  }
+ }
+]

@@ -1,0 +1,19 @@
+{
+ "answer": {
+  "answer": "The study can't answer the question. The gate kept none of its runs, so there is no evidence about which combinations of sideways plan error and hand-off speed make VaVAM leave its lane. The goal was not met: none of the 5 challenging settings were confirmed. The first five runs ended in HALT. All the later runs were rejected with an empty verdict (\"None\"), which points to a failure in the run setup or the gate itself, not in the policy. So nothing can be said about any scene, setting or near miss. The lack of failures does not show that VaVAM is safe at these settings.",
+  "findings": [],
+  "open": [
+   "Why the gate rejected every run. The first five (lane_keeping_hybrid_optuna_r7_001 to _005, the extreme corners at \u00b10.5 m and 1.2x to 1.4x) ended in HALT. All the rest (_006 to _050) have a verdict of \"None\", meaning no reason was recorded. The logs of these runs need checking before any new runs are spent.",
+   "Every rejected run lists its controller as \"linear\", but the question is about VaVAM. Check that the policy under test was actually loaded. If it wasn't, even kept runs from this setup would not answer the question.",
+   "The HALT runs were all at the largest bias and speed. Check whether HALT means the simulator stopped (for example, a speed scale above 1 starting the ego off the recording) or the ego got stuck. If it is the start-position problem, the corners at 1.4x may need a different warm-up.",
+   "Once the pipeline is fixed, the whole search has to be redone: the corner settings first (\u00b10.3 to \u00b10.5 m at 1.2x to 1.4x) on all 12 scenes, then 3 to 5 repeats at each setting that fails, until 5 distinct scenes have a confirmed failure rate above 0.5. If nothing fails, closest approach should be used to rank near misses."
+  ]
+ },
+ "results": [],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 14122,
+  "output_tokens": 826,
+  "duration_ms": 11253
+ }
+}
