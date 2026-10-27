@@ -103,7 +103,7 @@ SimGate runs a stress-testing campaign as two nested loops (Fig.~\ref{fig:system
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_framework.pdf}
-\caption{The framework. Top band, the outer loop: a brief becomes a checked plan, a proposer picks each round of runs, and the goal check decides when to stop; each failure is then triaged and a report answers the brief. Bottom band, the inner loop: each run is checked before and after it runs and kept with its outcome or, if it fails, healed. Orange: the agent proposes; blue: plain code checks and acts; grey: a person.}
+\caption{The framework. Top band, the outer loop: a brief becomes a checked plan, a proposer picks each round of runs, and the goal check decides when to stop; each failure is then explained and a report answers the brief. Bottom band, the inner loop: each run is checked before and after it runs and kept with its outcome or, if it fails, healed by the investigator; each finished batch is audited, and an admitted rule is checked on every later run. Orange: the agent proposes; blue: plain code checks and acts; grey: a person; white: the simulator.}
 \label{fig:system}
 \end{figure*}
 
@@ -137,7 +137,7 @@ After a batch, the auditor contract reviews its runs, their configurations and m
 \subsection{Inner Loop: Healing Failed Runs}\label{sec:diagnose}
 \guide{The lower row of the bottom band of Fig.~\ref{fig:system}, zoomed in twice. Fig.~\ref{fig:contract} zooms into that row: the five steps around the investigator, of which only the third is the agent. Fig.~\ref{fig:io} zooms further into steps 2 and 3: what the agent is given and what it may return. Walk through them: the diagnose contract is called only on a failed run and sees the failure status, the config, the attempt count, error lines and a machine snapshot, with read-only tools. It answers one of five skills; for each, say what the recovery script does with it and when the validator accepts it. RE-RUN queues the same run again. CONFIGURE changes how the run executes (context length, scene file, where the traffic model runs), never what it measures. RESTART\_CLEANUP takes down this run's containers, then reruns it. CLEANUP\_ENV clears leftovers from the whole machine; it is the only fix allowed when the machine was not ready, once per run. HALT stops the run for a person; it is always accepted, and after a machine failure it stops the whole batch. Every skill but HALT needs an attempt left. Code restricts the choice before launch and through the attempt budget, while after launch every skill is allowed and the choice is the agent's (for example, halting every physically wrong run). Note that the tools are read-only by permission, not by instruction. End with the exhaustive check of every answer the agent could give. \emph{Redraw Fig.~\ref{fig:contract} in the paper's style: title it by its role, the inner loop's investigator, and show only the five steps; campaign counts belong in Sec.~\ref{sec:healing}, not in this figure.}}
 
-Fig.~\ref{fig:contract} zooms into the lower row of the bottom band, and Fig.~\ref{fig:io} into its second and third steps. When a run fails, code calls the diagnose contract once, in a fresh call. The agent sees the failure's status and reason, the run's configuration, its attempt count and limit, up to 15 error lines, and a snapshot of the machine taken when the failure was detected; it may use read-only tools on the run's folder and log and on the machine (containers, networks, GPU memory, disk). The tools are read-only by permission, not by instruction. It answers one of five skills and its parameters, from a fixed schema with no free text:
+Fig.~\ref{fig:contract}(a) zooms into the lower row of the bottom band, and Fig.~\ref{fig:contract}(b) traces one real failure through it. When a run fails, code calls the diagnose contract once, in a fresh call. The agent sees the failure's status and reason, the run's configuration, its attempt count and limit, up to 15 error lines, and a snapshot of the machine taken when the failure was detected; it may use read-only tools on the run's folder and log and on the machine (containers, networks, GPU memory, disk). The tools are read-only by permission, not by instruction. It answers one of five skills and its parameters, from a fixed schema with no free text:
 \begin{itemize}
 \item RE-RUN queues the same run again.
 \item CONFIGURE changes how the run executes (the context length, the scene file, or where the traffic model runs), never what it measures.
@@ -151,19 +151,13 @@ Because the menu is finite and the state is small, every answer the agent could 
 
 \begin{figure*}[t]
 \centering
-\includegraphics[width=\textwidth]{figures/fig_skill_contract.png}
-\caption{A zoom into the lower row of Fig.~\ref{fig:system}: the five steps around the inner loop's investigator, which chooses how to recover a failed run. Only step 3 is the agent; code decides when it is called and what it sees, checks its answer, and acts on it. The planner, the proposer and triage follow the same five steps with their own inputs and menus.}
-\label{fig:contract}
+\includegraphics[width=\textwidth]{figures/fig_investigator.pdf}
+\caption{The inner loop's investigator, which chooses how to recover a failed run. (a) Its five steps: only step 3 is the agent; code decides when it is called and what it sees, checks its answer, and acts on it. The planner, the proposer and triage follow the same five steps with their own inputs and menus. (b) One real failure traced through them: the machine had run out of container networks; the agent looked with two read-only commands and answered CLEANUP\_ENV, the validator accepted it, and the rerun was kept.}
+\label{fig:contract}\label{fig:io}
 \end{figure*}
 
 \guide{\emph{FIGURE TO ADD (Fig.~\ref{fig:io}, a further zoom into steps 2 and 3 of Fig.~\ref{fig:contract}; it does not exist yet): a block diagram of the diagnose agent's input and output. Left, the input that code packs as JSON: the failure status, the config, the attempt count and its limit, up to 15 error lines, and the machine snapshot. Middle, the agent: one fresh call whose system prompt is the contract, with read-only tools (the run's log and folder, the container list, GPU memory, disk). Right, its output: one skill and its params, from a fixed schema with no free text; then the validator (accept or reject) and what the recovery script does for each skill. Along the bottom, one real failure traced through it, e.g.\ a GPU out-of-memory crash where the agent checked GPU memory and containers, answered RE-RUN, was accepted, and the run was kept on its second attempt. Agent orange, code blue, as in Fig.~\ref{fig:system}.}}
 
-\begin{figure*}[t]
-\centering
-\fbox{\parbox[c][1.3in][c]{0.95\textwidth}{\centering\textit{Placeholder: the investigator's input and output (to be drawn).}}}
-\caption{The investigator's input and output (to be drawn): what code packs for it, the agent's one call with read-only tools, and its answer from a fixed schema, followed by the validator and the recovery script; one real failure traced along the bottom.}
-\label{fig:io}
-\end{figure*}
 
 \subsection{Closing a Study: Triage and Report}\label{sec:explain}
 \guide{The right end of the top band of Fig.~\ref{fig:system}. Triage: for each failed run the agent sees frames before the failure and the metrics, and answers a cause from a fixed list and whether the policy was at fault; counts over these answers are computed by code. Report: the agent answers the brief by citing setting ids; code writes every number, and a report with a hand-written count is refused.}
