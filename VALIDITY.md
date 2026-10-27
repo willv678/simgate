@@ -24,7 +24,7 @@ only if all of these pass:
 ## 2. The checks catch bad runs (planted faults)
 
 Campaigns C1-C3 (29 Sep-6 Oct, FACTS "Campaign C3"): 225 runs broken on
-purpose in six silent ways (wrong delay, missing metrics, wrong controller,
+purpose in five silent ways (wrong delay, missing metrics, wrong controller,
 ...), each run looking normal.
 
 | | invalid runs kept |

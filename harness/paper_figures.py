@@ -488,6 +488,47 @@ def table_methods() -> str:
     return text
 
 
+def table_validity() -> str:
+    """Planted faults (campaigns C1-C3, harness/campaign_report.json): invalid
+    runs kept with no gate, with the per-run gate, and with the batch audit,
+    summed over each campaign's three arms (script, agent, agent without
+    tools), which share one fault plan."""
+    report = json.loads((RESEARCH / "harness" / "campaign_report.json").read_text())
+    names = {"c1": "C1 (physics bounds off)", "c2": "C2 (physics on)", "c3": "C3 (faults persist)"}
+    keys = ("invalid_kept_no_gate", "invalid_kept_gate", "invalid_kept_audit")
+    rows, total = [], [0, 0, 0]
+    for c, name in names.items():
+        sums = [sum(report[f"{c}_{arm}"][k] for arm in ("script", "agent", "model")) for k in keys]
+        total = [a + b for a, b in zip(total, sums)]
+        rows.append(f"{name} & {sums[0]} & {sums[1]} & {sums[2]} \\\\")
+    bound = 1 - 0.05 ** (1 / total[0])
+    lines = [
+        r"\begin{table}[t]",
+        r"\caption{Runs broken on purpose that were kept}",
+        r"\label{tab:validity}",
+        r"\centering\footnotesize",
+        r"\begin{tabular}{@{}lccc@{}}",
+        r"\toprule",
+        r"Campaign & No gate & Per-run gate & Gate + audit \\",
+        r"\midrule",
+        *rows,
+        r"\midrule",
+        f"All three & {total[0]} & {total[1]} & \\textbf{{{total[2]}}} \\\\",
+        r"\bottomrule",
+        r"\end{tabular}",
+        r"\\[2pt]\parbox{\columnwidth}{\scriptsize Five kinds of silent fault (deleted or corrupted results, a "
+        r"dropped setting, the recorded human driving the whole run, no controller in the loop), each in runs "
+        r"that end normally; each campaign's three arms share one fault plan. "
+        f"With 0 of {total[0]} kept, the one-sided 95\\% upper bound on the share that could slip through is "
+        f"{100 * bound:.1f}\\%.}}",
+        r"\end{table}",
+    ]
+    text = "\n".join(lines) + "\n"
+    (OUT / "table_validity.tex").write_text(text)
+    print("figures/paper/table_validity.tex", flush=True)
+    return text
+
+
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update(STYLE)
@@ -498,6 +539,7 @@ def main() -> int:
     fig_outcome_mix()
     cases = fig_cases()
     table_methods()
+    table_validity()
     (OUT / "numbers.json").write_text(json.dumps(
         {"cutoff": CUTOFF.isoformat(), "inner_loop": loop, "cases": cases}, indent=1, default=str) + "\n")
     print(json.dumps(loop))
