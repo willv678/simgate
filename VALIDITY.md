@@ -23,15 +23,15 @@ only if all of these pass:
 
 ## 2. The checks catch bad runs (planted faults)
 
-Campaigns C1-C3 (29 Sep-6 Oct, FACTS "Campaign C3"): 225 runs broken on
-purpose in five silent ways (wrong delay, missing metrics, wrong controller,
-...), each run looking normal.
+Campaigns C1-C4 (29 Sep-28 Oct, FACTS "Campaign C3" and "The freeze"): 294 runs
+broken on purpose in five silent ways (wrong delay, missing metrics, wrong
+controller, ...), each run looking normal.
 
 | | invalid runs kept |
 |---|---|
-| no gate (keep exit code 0) | 225 |
+| no gate (keep exit code 0) | 294 |
 | per-run gate | 40 |
-| gate + batch audit | **0** (one-sided 95% bound on a survivor: 1.3%) |
+| gate + batch audit | **0** (one-sided 95% bound on a survivor: 1.0%) |
 
 Figure: `figures/campaign_invalid.png`. Physics check: 0 false alarms on
 256 clean runs, 6 of 6 silent motion faults caught (FACTS "Physics checks").
@@ -54,7 +54,7 @@ Figure: `figures/campaign_invalid.png`. Physics check: 0 false alarms on
 
 129 of 144 healed with no person; 15 stopped for one.
 
-Every one of these failures, and those after 13 Oct (393 to 20 Oct: 290 healed, 84 stopped as physically wrong, 19 stopped for other reasons),
+Every one of these failures, and those after 13 Oct (467 to the 28 Oct freeze: 342 healed, 104 stopped as physically wrong, 21 stopped for other reasons),
 is listed with its evidence in `HEALING.md` (`harness/healing_ledger.py`,
 `figures/healing/flow.png`, `figures/healing/timeline.png`): what failed,
 the commands the agent ran to look, its choice, the code check's verdict,
