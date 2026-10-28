@@ -1,0 +1,262 @@
+{
+ "answer": {
+  "answer": "The goal was met: the five hardest cases, each on a different scene, are a 0.5 m sideways plan error with the ego at 1.4x its recorded speed. They are S3, S4, S5 and S8 with a rightward error (-0.5 m), and S10 with a leftward error (+0.5 m). Every repeat at each of these failed, so each one's 90% range lies above 0.5. The five can't be ranked against each other. The study stopped after two rounds and only ever ran this corner of the grid (\u00b10.5 m at 1.4x). Every setting tried failed on all 10 scenes run, but it shows nothing about which smaller errors or lower speeds are safe, or how much of each failure comes from the error and how much from the speed. The other five scenes (S1, S2, S6, S7, S9) each have only one run, which is a hint and not a rate. Four of those single runs are flagged as possible simulator artifacts because the ego ended far from the recorded path, though triage blamed the policy in every case.",
+  "findings": [
+   {
+    "claim": "These five confirmed hardest cases are on five different scenes, all at \u00b10.5 m sideways error and 1.4x speed. Every repeat failed and none is flagged as a possible artifact.",
+    "settings": [
+     "S3",
+     "S4",
+     "S5",
+     "S8",
+     "S10"
+    ]
+   },
+   {
+    "claim": "In three of them the ego moved into the next lane and its front hit a vehicle beside or just ahead of it, which is the LSS overtaking/adjacent-vehicle case. On S4 and S8 (rightward error, about 7\u20138 m/s) it moved into the right lane and hit a car alongside, even though the lead vehicle stayed 12\u201316 m ahead. On S3, at about 41 m/s, it moved left into a slower car it was overtaking and never braked.",
+    "settings": [
+     "S3",
+     "S4",
+     "S8"
+    ]
+   },
+   {
+    "claim": "In the other two the ego left the road (road-edge case) where the road or route bent. On S5 it kept going straight and ran off the right edge while the road curved left. On S10, at about 33 m/s, it held a straight, slightly leftward line onto the left shoulder while the route bent right.",
+    "settings": [
+     "S5",
+     "S10"
+    ]
+   },
+   {
+    "claim": "The direction the ego drifted mostly matched the sign of the error: left for +0.5 m, right for -0.5 m. S3 is the exception: its error was -0.5 m, yet every repeat drifted left into the car in the left lane.",
+    "settings": [
+     "S1",
+     "S2",
+     "S3",
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9",
+     "S10"
+    ]
+   },
+   {
+    "claim": "Triage put every failure on the policy (none was caused by replayed traffic or rendering). Several also show the policy ignoring a route command or a curve, so the error and the speed may be making an existing weakness in following the path worse rather than causing the failure alone.",
+    "settings": [
+     "S1",
+     "S2",
+     "S5",
+     "S7",
+     "S10"
+    ]
+   },
+   {
+    "claim": "The single runs on the other five scenes also failed: off-road on S1, S2 and S7, a side hit on S6 and S9. One run each only shows these scenes may be failure-prone. S1, S2, S6 and S9 are flagged as possible artifacts, with the ego ending up to about 13 m off the recorded path.",
+    "settings": [
+     "S1",
+     "S2",
+     "S6",
+     "S7",
+     "S9"
+    ]
+   }
+  ],
+  "open": [
+   "Which combinations are safe is not known: no bias smaller than \u00b10.5 m and no speed below 1.4x was run. Runs at \u00b10.3 m and 1.2x, and at \u00b10.1 m, on the five confirmed scenes would show where failures start.",
+   "Error versus speed: there is no 0 m run at 1.4x and no \u00b10.5 m run at 1.0x. Both, on S3, S4, S5, S8 and S10, would show which knob drives the failures, since triage suggests the policy also fails on curves and route bends.",
+   "Opposite sign: each confirmed scene was tested with one error direction only. Running the other sign would show whether the failure needs the error to point toward the neighbouring car or road edge (notably S3, which drifted against its error).",
+   "Repeats of S1, S2, S6, S7 and S9 would turn single-run hints into rates and check the four flagged possible artifacts.",
+   "Ranking among the top five and near misses: all five failed every run, so they tie. More repeats, or the closest-approach margins from lower-error settings, would be needed to order them. About 30 of the 50-run budget is still unused."
+  ]
+ },
+ "results": [
+  {
+   "id": "S1",
+   "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r8_001"
+   ]
+  },
+  {
+   "id": "S2",
+   "scene_id": "clipgt-054b5901-fdcb-4146-b125-eb2bb333cf02",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r8_007"
+   ]
+  },
+  {
+   "id": "S3",
+   "scene_id": "clipgt-05f35348-9de0-4f68-ac65-f31316dbb59e",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r8_010",
+    "lane_keeping_llm_r8_011",
+    "lane_keeping_llm_r8_012"
+   ]
+  },
+  {
+   "id": "S4",
+   "scene_id": "clipgt-096988dd-9367-4fdf-84f9-5a73c5061c6e",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r8_002",
+    "lane_keeping_llm_r8_013",
+    "lane_keeping_llm_r8_014"
+   ]
+  },
+  {
+   "id": "S5",
+   "scene_id": "clipgt-0ce6f2a3-a6cf-42c3-9133-111139be1dd1",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r8_008",
+    "lane_keeping_llm_r8_015",
+    "lane_keeping_llm_r8_016"
+   ]
+  },
+  {
+   "id": "S6",
+   "scene_id": "clipgt-0dbb91dd-8db1-4e10-b155-14fdf46218bc",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r8_005"
+   ]
+  },
+  {
+   "id": "S7",
+   "scene_id": "clipgt-12855a41-ba51-42a7-b5d6-8d75ae7cfb5c",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r8_003"
+   ]
+  },
+  {
+   "id": "S8",
+   "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r8_006",
+    "lane_keeping_llm_r8_017",
+    "lane_keeping_llm_r8_018"
+   ]
+  },
+  {
+   "id": "S9",
+   "scene_id": "clipgt-19f339ba-4f3a-4025-b774-4b271e639f2a",
+   "lateral_bias_m": -0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 1,
+   "failed": 1,
+   "failure_rate_90": [
+    0.27,
+    1.0
+   ],
+   "possible_artifacts": 1,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r8_004"
+   ]
+  },
+  {
+   "id": "S10",
+   "scene_id": "clipgt-1b7d131a-7007-4b60-a1f0-a5f4a326c776",
+   "lateral_bias_m": 0.5,
+   "ego_speed_scale": 1.4,
+   "runs": 3,
+   "failed": 3,
+   "failure_rate_90": [
+    0.53,
+    1.0
+   ],
+   "possible_artifacts": 0,
+   "criticality": 1.0,
+   "run_names": [
+    "lane_keeping_llm_r8_009",
+    "lane_keeping_llm_r8_019",
+    "lane_keeping_llm_r8_020"
+   ]
+  }
+ ],
+ "call": {
+  "model": "claude-opus-5-5",
+  "context_tokens": 10196,
+  "output_tokens": 2234,
+  "duration_ms": 24468
+ }
+}

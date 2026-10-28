@@ -9,33 +9,33 @@ it queued, retries included.
 
 ## car_conflicts_3knobs_2hz
 
-713 settings tried by any method; 57 hard, on 7 of 10 scenes (0 of them hard as recorded). Hard settings by distance from the recording: 1 steps: 1, 2 steps: 5, 3 steps: 8, 4 steps: 14, 5 steps: 8, 6 steps: 11, 7 steps: 4, 8 steps: 4, 9 steps: 2.
+814 settings tried by any method; 66 hard, on 7 of 10 scenes (0 of them hard as recorded). Hard settings by distance from the recording: 1 steps: 1, 2 steps: 5, 3 steps: 10, 4 steps: 16, 5 steps: 11, 6 steps: 12, 7 steps: 4, 8 steps: 5, 9 steps: 2.
 
 | method | arms | runs | mean distance | at the recording | 2+ steps away | settings per arm | runs on hard settings | hard scenes touched |
 |---|---|---|---|---|---|---|---|---|
 | hybrid | 3 | 188 | 2.2 | 0% | 77% | 17.7 | 19% | 2 of 7 |
-| hybrid_optuna | 5 | 320 | 5.41 | 0% | 100% | 25.0 | 23% | 4 of 7 |
-| hybrid_v2 | 3 | 192 | 2.26 | 7% | 72% | 26.7 | 13% | 3 of 7 |
-| llm | 5 | 303 | 4.15 | 0% | 93% | 24.0 | 26% | 6 of 7 |
-| llm_v2 | 6 | 356 | 5.18 | 0% | 100% | 22.7 | 27% | 7 of 7 |
-| optuna_confirm | 6 | 371 | 4.61 | 0% | 98% | 33.2 | 12% | 4 of 7 |
-| random_confirm | 6 | 377 | 4.98 | 0% | 99% | 33.5 | 7% | 5 of 7 |
-| rules | 6 | 343 | 1.2 | 0% | 8% | 2.5 | 0% | 0 of 7 |
+| hybrid_optuna | 7 | 445 | 5.48 | 0% | 100% | 22.9 | 22% | 5 of 7 |
+| hybrid_v2 | 3 | 192 | 2.26 | 7% | 72% | 26.7 | 14% | 3 of 7 |
+| llm | 7 | 432 | 4.13 | 0% | 94% | 21.1 | 24% | 6 of 7 |
+| llm_v2 | 7 | 416 | 4.98 | 0% | 100% | 22.3 | 28% | 7 of 7 |
+| optuna_confirm | 7 | 446 | 4.68 | 0% | 99% | 33.4 | 12% | 5 of 7 |
+| random_confirm | 7 | 441 | 4.99 | 0% | 100% | 33.7 | 7% | 5 of 7 |
+| rules | 7 | 437 | 1.21 | 0% | 8% | 2.1 | 0% | 0 of 7 |
 
 ## lane_keeping
 
-260 settings tried by any method; 101 hard, on 12 of 12 scenes (2 of them hard as recorded). Hard settings by distance from the recording: 0 steps: 2, 1 steps: 8, 2 steps: 15, 3 steps: 15, 4 steps: 19, 5 steps: 17, 6 steps: 25.
+302 settings tried by any method; 126 hard, on 12 of 12 scenes (2 of them hard as recorded). Hard settings by distance from the recording: 0 steps: 2, 1 steps: 9, 2 steps: 19, 3 steps: 19, 4 steps: 24, 5 steps: 25, 6 steps: 28.
 
 | method | arms | runs | mean distance | at the recording | 2+ steps away | settings per arm | runs on hard settings | hard scenes touched |
 |---|---|---|---|---|---|---|---|---|
 | hybrid | 3 | 154 | 0.92 | 34% | 23% | 13.3 | 31% | 7 of 12 |
-| hybrid_optuna | 5 | 121 | 4.47 | 0% | 100% | 9.4 | 87% | 12 of 12 |
+| hybrid_optuna | 7 | 172 | 4.42 | 0% | 100% | 8.7 | 88% | 12 of 12 |
 | hybrid_v2 | 3 | 151 | 0.94 | 34% | 28% | 12.7 | 42% | 7 of 12 |
-| llm | 5 | 127 | 5.83 | 0% | 100% | 4.8 | 92% | 10 of 12 |
-| llm_v2 | 5 | 113 | 5.97 | 0% | 100% | 3.2 | 96% | 10 of 12 |
-| optuna_confirm | 5 | 205 | 3.62 | 3% | 94% | 21.8 | 53% | 12 of 12 |
-| random_confirm | 5 | 195 | 3.61 | 2% | 93% | 22.2 | 49% | 12 of 12 |
-| rules | 5 | 256 | 0.06 | 94% | 0% | 3.4 | 14% | 4 of 12 |
+| llm | 7 | 179 | 5.87 | 0% | 100% | 4.1 | 93% | 12 of 12 |
+| llm_v2 | 7 | 174 | 5.96 | 0% | 100% | 3.3 | 94% | 11 of 12 |
+| optuna_confirm | 7 | 277 | 3.6 | 4% | 92% | 20.6 | 57% | 12 of 12 |
+| random_confirm | 7 | 276 | 3.5 | 1% | 90% | 21.1 | 55% | 12 of 12 |
+| rules | 7 | 362 | 0.08 | 92% | 0% | 2.6 | 15% | 4 of 12 |
 
 ## lead_vehicle
 

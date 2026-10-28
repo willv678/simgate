@@ -12,18 +12,18 @@ commands the agent ran to look, its answer, and the code check's verdict.
 
 ## The numbers
 
-| | whole campaign so far | to the paper's cutoff (20 Oct 13:30 UTC) |
+| | whole campaign so far | to the paper's cutoff (28 Oct 11:45 UTC) |
 |---|---|---|
-| runs asked for (launched) | 9,812 | 9,790 |
-| launches, retries included | 10,090 | 10,068 |
-| kept on the first try | 9,452 | 9,432 |
-| failed launches handed to the agent | 393 | 393 |
-| ... healed, then kept | 290 | 290 |
-| ... stopped for a person | 103 | 103 |
-| runs that ended kept | 9,720 (99.1%) | 9,700 (99.1%) |
-| runs still running | 2 | 0 |
-| agent's choice passed the code check | 393 of 393 | 393 of 393 |
-| retry ran exactly the settings asked for | 393 of 393 | 393 of 393 |
+| runs asked for (launched) | 10,920 | 10,920 |
+| launches, retries included | 11,252 | 11,252 |
+| kept on the first try | 10,492 | 10,492 |
+| failed launches handed to the agent | 467 | 467 |
+| ... healed, then kept | 342 | 342 |
+| ... stopped for a person | 125 | 125 |
+| runs that ended kept | 10,810 (99.0%) | 10,810 (99.0%) |
+| runs still running | 0 | 0 |
+| agent's choice passed the code check | 467 of 467 | 467 of 467 |
+| retry ran exactly the settings asked for | 467 of 467 | 467 of 467 |
 | agent's time per diagnosis, median | 8 s | 8 s |
 
 A run is one setting the search asked for; a launch is one try at it.
@@ -32,7 +32,7 @@ Failed launches count each try, so one run can fail more than once.
 the run came back physically wrong (the reported speed disagrees with the
 motion, or the plan shifted less than the lateral shift asked for), so a
 rerun would give the same wrong run and the agent stops it. Leaving those
-out, the agent healed 290 of 309 launches that failed for operational reasons (GPU, simulator, launcher).
+out, the agent healed 342 of 363 launches that failed for operational reasons (GPU, simulator, launcher).
 
 Every code-check verdict here is "accepted": in production the agent never
 chose an action the check refuses. That the check does refuse bad actions is
@@ -43,10 +43,10 @@ state (FACTS "Exhaustive check") and by planted faults (`VALIDITY.md`).
 
 | what failed | count | the agent's choice | healed | stopped |
 |---|---|---|---|---|
-| GPU out of memory | 263 | RE-RUN 258, HALT 5 | 246 | 17 |
-| failed the physics check | 84 | HALT 84 | 0 | 84 |
+| GPU out of memory | 312 | RE-RUN 307, HALT 5 | 294 | 18 |
+| failed the physics check | 104 | HALT 104 | 0 | 104 |
 | GPU still busy | 25 | CLEANUP_ENV 24, HALT 1 | 24 | 1 |
-| simulator crash, other | 19 | RE-RUN 14, RESTART_CLEANUP 4, HALT 1 | 18 | 1 |
+| simulator crash, other | 24 | RE-RUN 19, RESTART_CLEANUP 4, HALT 1 | 22 | 2 |
 | launcher lost | 2 | RESTART_CLEANUP 2 | 2 | 0 |
 
 ## One example of each kind
@@ -468,3 +468,77 @@ It chose RESTART_CLEANUP (restart clean); the code check: accepted; then: attemp
 | 391 | 10-19 19:13 | lane_keeping / llm_v2_r5 | [llm_v2_r5_003](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_v2_r5/queue/003_lane_keeping_llm_v2_r5_003.json) | 1 | failed the physics check | 6 commands | HALT | accepted | stopped | yes |
 | 392 | 10-19 20:04 | lane_keeping / hybrid_optuna_r5 | [hybrid_optuna_r5_020](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/hybrid_optuna_r5/queue/020_lane_keeping_hybrid_optuna_r5_020.json) | 1 | GPU out of memory | 2 commands | RE-RUN | accepted | attempt 2: kept | yes |
 | 393 | 10-19 21:54 | lane_keeping / optuna_confirm_r5 | [optuna_confirm_r5_026](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/optuna_confirm_r5/queue/026_lane_keeping_optuna_confirm_r5_026.json) | 1 | GPU out of memory | 2 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 394 | 10-20 14:09 | car_conflicts_3knobs_2hz / random_confirm_r6 | [random_confirm_r6_019](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/random_confirm_r6/queue/019_car_conflicts_3knobs_2hz_random_confirm_r6_019.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 395 | 10-20 14:21 | car_conflicts_3knobs_2hz / random_confirm_r6 | [random_confirm_r6_024](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/random_confirm_r6/queue/025_car_conflicts_3knobs_2hz_random_confirm_r6_024.json) | 1 | GPU out of memory | 2 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 396 | 10-20 14:22 | car_conflicts_3knobs_2hz / random_confirm_r6 | [random_confirm_r6_025](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/random_confirm_r6/queue/026_car_conflicts_3knobs_2hz_random_confirm_r6_025.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 397 | 10-20 14:28 | car_conflicts_3knobs_2hz / llm_v2_r6 | [llm_v2_r6_028](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_v2_r6/queue/028_car_conflicts_3knobs_2hz_llm_v2_r6_028.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 398 | 10-20 14:30 | car_conflicts_3knobs_2hz / random_confirm_r6 | [random_confirm_r6_029](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/random_confirm_r6/queue/030_car_conflicts_3knobs_2hz_random_confirm_r6_029.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 399 | 10-20 14:41 | car_conflicts_3knobs_2hz / random_confirm_r6 | [random_confirm_r6_032](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/random_confirm_r6/queue/036_car_conflicts_3knobs_2hz_random_confirm_r6_032.json) | 1 | GPU out of memory | 2 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 400 | 10-20 14:52 | car_conflicts_3knobs_2hz / random_confirm_r6 | [random_confirm_r6_038](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/random_confirm_r6/queue/042_car_conflicts_3knobs_2hz_random_confirm_r6_038.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 401 | 10-20 14:59 | car_conflicts_3knobs_2hz / llm_v2_r6 | [llm_v2_r6_041](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_v2_r6/queue/042_car_conflicts_3knobs_2hz_llm_v2_r6_041.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 402 | 10-20 15:13 | car_conflicts_3knobs_2hz / random_confirm_r6 | [random_confirm_r6_047](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/random_confirm_r6/queue/053_car_conflicts_3knobs_2hz_random_confirm_r6_047.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 403 | 10-20 15:27 | car_conflicts_3knobs_2hz / llm_v2_r6 | [llm_v2_r6_055](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_v2_r6/queue/057_car_conflicts_3knobs_2hz_llm_v2_r6_055.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 404 | 10-20 15:36 | car_conflicts_3knobs_2hz / llm_v2_r6 | [llm_v2_r6_060](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_v2_r6/queue/062_car_conflicts_3knobs_2hz_llm_v2_r6_060.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 405 | 10-20 16:26 | car_conflicts_3knobs_2hz / optuna_confirm_r6 | [optuna_confirm_r6_022](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/optuna_confirm_r6/queue/022_car_conflicts_3knobs_2hz_optuna_confirm_r6_022.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 406 | 10-20 16:48 | car_conflicts_3knobs_2hz / optuna_confirm_r6 | [optuna_confirm_r6_032](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/optuna_confirm_r6/queue/033_car_conflicts_3knobs_2hz_optuna_confirm_r6_032.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 407 | 10-20 16:50 | car_conflicts_3knobs_2hz / rules_r6 | [rules_r6_010](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/rules_r6/queue/010_car_conflicts_3knobs_2hz_rules_r6_010.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 408 | 10-20 17:17 | car_conflicts_3knobs_2hz / optuna_confirm_r6 | [optuna_confirm_r6_046](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/optuna_confirm_r6/queue/048_car_conflicts_3knobs_2hz_optuna_confirm_r6_046.json) | 1 | failed the physics check | 1 commands | HALT | accepted | stopped | yes |
+| 409 | 10-20 17:29 | car_conflicts_3knobs_2hz / rules_r6 | [rules_r6_030](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/rules_r6/queue/031_car_conflicts_3knobs_2hz_rules_r6_030.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 410 | 10-20 17:43 | car_conflicts_3knobs_2hz / optuna_confirm_r6 | [optuna_confirm_r6_060](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/optuna_confirm_r6/queue/062_car_conflicts_3knobs_2hz_optuna_confirm_r6_060.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 411 | 10-20 19:32 | car_conflicts_3knobs_2hz / llm_r6 | [llm_r6_032](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_r6/queue/032_car_conflicts_3knobs_2hz_llm_r6_032.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 412 | 10-20 20:39 | lane_keeping / llm_v2_r6 | [llm_v2_r6_003](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_v2_r6/queue/003_lane_keeping_llm_v2_r6_003.json) | 1 | failed the physics check | 3 commands | HALT | accepted | stopped | yes |
+| 413 | 10-20 21:02 | lane_keeping / llm_v2_r6 | [llm_v2_r6_011](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_v2_r6/queue/011_lane_keeping_llm_v2_r6_011.json) | 1 | failed the physics check | 2 commands | HALT | accepted | stopped | yes |
+| 414 | 10-20 21:32 | lane_keeping / llm_v2_r6 | [llm_v2_r6_021](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_v2_r6/queue/021_lane_keeping_llm_v2_r6_021.json) | 1 | simulator crash, other | 3 commands | RE-RUN | accepted | attempt 2: stopped | yes |
+| 415 | 10-20 21:32 | lane_keeping / llm_v2_r6 | [llm_v2_r6_022](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_v2_r6/queue/022_lane_keeping_llm_v2_r6_022.json) | 1 | failed the physics check | 1 commands | HALT | accepted | stopped | yes |
+| 416 | 10-20 21:59 | lane_keeping / llm_v2_r6 | [llm_v2_r6_021_a2](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_v2_r6/queue/031_lane_keeping_llm_v2_r6_021_a2.json) | 2 | failed the physics check | 4 commands | HALT | accepted | stopped | yes |
+| 417 | 10-20 22:24 | lane_keeping / random_confirm_r6 | [random_confirm_r6_019](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/random_confirm_r6/queue/019_lane_keeping_random_confirm_r6_019.json) | 1 | failed the physics check | 2 commands | HALT | accepted | stopped | yes |
+| 418 | 10-20 23:09 | lane_keeping / optuna_confirm_r6 | [optuna_confirm_r6_023](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/optuna_confirm_r6/queue/023_lane_keeping_optuna_confirm_r6_023.json) | 1 | GPU out of memory | 4 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 419 | 10-20 23:52 | lane_keeping / rules_r6 | [rules_r6_018](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/rules_r6/queue/018_lane_keeping_rules_r6_018.json) | 1 | GPU out of memory | 2 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 420 | 10-21 00:03 | lane_keeping / llm_r6 | [llm_r6_010](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_r6/queue/010_lane_keeping_llm_r6_010.json) | 1 | failed the physics check | 5 commands | HALT | accepted | stopped | yes |
+| 421 | 10-21 00:21 | lane_keeping / llm_r6 | [llm_r6_016](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_r6/queue/016_lane_keeping_llm_r6_016.json) | 1 | simulator crash, other | 2 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 422 | 10-21 00:22 | lane_keeping / llm_r6 | [llm_r6_017](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_r6/queue/017_lane_keeping_llm_r6_017.json) | 1 | failed the physics check | 1 commands | HALT | accepted | stopped | yes |
+| 423 | 10-21 00:49 | lane_keeping / llm_r6 | [llm_r6_025](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_r6/queue/026_lane_keeping_llm_r6_025.json) | 1 | failed the physics check | 3 commands | HALT | accepted | stopped | yes |
+| 424 | 10-21 00:52 | lane_keeping / llm_r6 | [llm_r6_026](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_r6/queue/027_lane_keeping_llm_r6_026.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 425 | 10-21 02:26 | car_conflicts_3knobs_2hz / random_confirm_r7 | [random_confirm_r7_010](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/random_confirm_r7/queue/010_car_conflicts_3knobs_2hz_random_confirm_r7_010.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 426 | 10-21 03:53 | car_conflicts_3knobs_2hz / random_confirm_r7 | [random_confirm_r7_056](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/random_confirm_r7/queue/057_car_conflicts_3knobs_2hz_random_confirm_r7_056.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: failed again | yes |
+| 427 | 10-21 03:58 | car_conflicts_3knobs_2hz / random_confirm_r7 | [random_confirm_r7_059](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/random_confirm_r7/queue/060_car_conflicts_3knobs_2hz_random_confirm_r7_059.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 428 | 10-21 04:02 | car_conflicts_3knobs_2hz / random_confirm_r7 | [random_confirm_r7_056_a2](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/random_confirm_r7/queue/062_car_conflicts_3knobs_2hz_random_confirm_r7_056_a2.json) | 2 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 3: kept | yes |
+| 429 | 10-27 18:54 | car_conflicts_3knobs_2hz / rules_r8 | [rules_r8_013](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/rules_r8/queue/013_car_conflicts_3knobs_2hz_rules_r8_013.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 430 | 10-27 18:58 | car_conflicts_3knobs_2hz / optuna_confirm_r8 | [optuna_confirm_r8_016](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/optuna_confirm_r8/queue/016_car_conflicts_3knobs_2hz_optuna_confirm_r8_016.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 431 | 10-27 19:03 | car_conflicts_3knobs_2hz / rules_r8 | [rules_r8_018](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/rules_r8/queue/018_car_conflicts_3knobs_2hz_rules_r8_018.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 432 | 10-27 19:21 | car_conflicts_3knobs_2hz / optuna_confirm_r8 | [optuna_confirm_r8_027](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/optuna_confirm_r8/queue/028_car_conflicts_3knobs_2hz_optuna_confirm_r8_027.json) | 1 | GPU out of memory | 3 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 433 | 10-27 19:26 | car_conflicts_3knobs_2hz / optuna_confirm_r8 | [optuna_confirm_r8_030](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/optuna_confirm_r8/queue/031_car_conflicts_3knobs_2hz_optuna_confirm_r8_030.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 434 | 10-27 19:55 | car_conflicts_3knobs_2hz / rules_r8 | [rules_r8_044](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/rules_r8/queue/046_car_conflicts_3knobs_2hz_rules_r8_044.json) | 1 | simulator crash, other | 2 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 435 | 10-27 20:16 | car_conflicts_3knobs_2hz / optuna_confirm_r8 | [optuna_confirm_r8_055](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/optuna_confirm_r8/queue/058_car_conflicts_3knobs_2hz_optuna_confirm_r8_055.json) | 1 | GPU out of memory | 2 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 436 | 10-27 20:34 | lane_keeping / llm_v2_r8 | [llm_v2_r8_003](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_v2_r8/queue/003_lane_keeping_llm_v2_r8_003.json) | 1 | failed the physics check | 5 commands | HALT | accepted | stopped | yes |
+| 437 | 10-27 20:49 | lane_keeping / random_confirm_r8 | [random_confirm_r8_007](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/random_confirm_r8/queue/007_lane_keeping_random_confirm_r8_007.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 438 | 10-27 20:56 | lane_keeping / random_confirm_r8 | [random_confirm_r8_010](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/random_confirm_r8/queue/010_lane_keeping_random_confirm_r8_010.json) | 1 | failed the physics check | 1 commands | HALT | accepted | stopped | yes |
+| 439 | 10-27 21:01 | lane_keeping / llm_v2_r8 | [llm_v2_r8_012](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/llm_v2_r8/queue/012_lane_keeping_llm_v2_r8_012.json) | 1 | failed the physics check | 2 commands | HALT | accepted | stopped | yes |
+| 440 | 10-27 22:24 | lane_keeping / optuna_confirm_r8 | [optuna_confirm_r8_009](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/optuna_confirm_r8/queue/009_lane_keeping_optuna_confirm_r8_009.json) | 1 | failed the physics check | 2 commands | HALT | accepted | stopped | yes |
+| 441 | 10-27 23:20 | lane_keeping / optuna_confirm_r8 | [optuna_confirm_r8_028](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/optuna_confirm_r8/queue/028_lane_keeping_optuna_confirm_r8_028.json) | 1 | failed the physics check | 2 commands | HALT | accepted | stopped | yes |
+| 442 | 10-27 23:52 | lane_keeping / optuna_confirm_r8 | [optuna_confirm_r8_039](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/optuna_confirm_r8/queue/039_lane_keeping_optuna_confirm_r8_039.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: stopped | yes |
+| 443 | 10-27 23:57 | lane_keeping / optuna_confirm_r8 | [optuna_confirm_r8_039_a2](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/optuna_confirm_r8/queue/041_lane_keeping_optuna_confirm_r8_039_a2.json) | 2 | failed the physics check | 1 commands | HALT | accepted | stopped | yes |
+| 444 | 10-28 00:05 | lane_keeping / rules_r8 | [rules_r8_021](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/rules_r8/queue/021_lane_keeping_rules_r8_021.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 445 | 10-28 00:26 | lane_keeping / rules_r8 | [rules_r8_029](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/rules_r8/queue/029_lane_keeping_rules_r8_029.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 446 | 10-28 01:03 | lane_keeping / rules_r8 | [rules_r8_040](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/rules_r8/queue/042_lane_keeping_rules_r8_040.json) | 1 | GPU out of memory | 4 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 447 | 10-28 01:29 | lane_keeping / rules_r8 | [rules_r8_048](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/rules_r8/queue/051_lane_keeping_rules_r8_048.json) | 1 | simulator crash, other | 4 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 448 | 10-28 01:32 | lane_keeping / rules_r8 | [rules_r8_050](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/rules_r8/queue/053_lane_keeping_rules_r8_050.json) | 1 | GPU out of memory | 4 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 449 | 10-28 07:33 | car_conflicts_3knobs_2hz / llm_r8 | [llm_r8_001](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_r8/queue/001_car_conflicts_3knobs_2hz_llm_r8_001.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 450 | 10-28 07:47 | car_conflicts_3knobs_2hz / llm_r8 | [llm_r8_009](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_r8/queue/009_car_conflicts_3knobs_2hz_llm_r8_009.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 451 | 10-28 07:58 | car_conflicts_3knobs_2hz / llm_r8 | [llm_r8_012](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_r8/queue/014_car_conflicts_3knobs_2hz_llm_r8_012.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 452 | 10-28 08:05 | car_conflicts_3knobs_2hz / llm_r8 | [llm_r8_016](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_r8/queue/018_car_conflicts_3knobs_2hz_llm_r8_016.json) | 1 | GPU out of memory | 3 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 453 | 10-28 08:08 | car_conflicts_3knobs_2hz / hybrid_optuna_r8 | [hybrid_optuna_r8_001](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/hybrid_optuna_r8/queue/001_car_conflicts_3knobs_2hz_hybrid_optuna_r8_001.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 454 | 10-28 08:22 | car_conflicts_3knobs_2hz / hybrid_optuna_r8 | [hybrid_optuna_r8_009](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/hybrid_optuna_r8/queue/009_car_conflicts_3knobs_2hz_hybrid_optuna_r8_009.json) | 1 | failed the physics check | 2 commands | HALT | accepted | stopped | yes |
+| 455 | 10-28 08:29 | car_conflicts_3knobs_2hz / hybrid_optuna_r8 | [hybrid_optuna_r8_011](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/hybrid_optuna_r8/queue/012_car_conflicts_3knobs_2hz_hybrid_optuna_r8_011.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 456 | 10-28 08:31 | car_conflicts_3knobs_2hz / hybrid_optuna_r8 | [hybrid_optuna_r8_012](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/hybrid_optuna_r8/queue/013_car_conflicts_3knobs_2hz_hybrid_optuna_r8_012.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 457 | 10-28 08:43 | car_conflicts_3knobs_2hz / llm_r8 | [llm_r8_034](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_r8/queue/038_car_conflicts_3knobs_2hz_llm_r8_034.json) | 1 | failed the physics check | 1 commands | HALT | accepted | stopped | yes |
+| 458 | 10-28 08:52 | car_conflicts_3knobs_2hz / llm_r8 | [llm_r8_039](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_r8/queue/043_car_conflicts_3knobs_2hz_llm_r8_039.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 459 | 10-28 09:00 | car_conflicts_3knobs_2hz / hybrid_optuna_r8 | [hybrid_optuna_r8_026](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/hybrid_optuna_r8/queue/029_car_conflicts_3knobs_2hz_hybrid_optuna_r8_026.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 460 | 10-28 09:09 | car_conflicts_3knobs_2hz / llm_r8 | [llm_r8_046](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_r8/queue/051_car_conflicts_3knobs_2hz_llm_r8_046.json) | 1 | GPU out of memory | 3 commands | RE-RUN | accepted | attempt 2: failed again | yes |
+| 461 | 10-28 09:14 | car_conflicts_3knobs_2hz / llm_r8 | [llm_r8_049](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_r8/queue/054_car_conflicts_3knobs_2hz_llm_r8_049.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 462 | 10-28 09:18 | car_conflicts_3knobs_2hz / llm_r8 | [llm_r8_046_a2](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/llm_r8/queue/056_car_conflicts_3knobs_2hz_llm_r8_046_a2.json) | 2 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 3: kept | yes |
+| 463 | 10-28 09:50 | car_conflicts_3knobs_2hz / hybrid_optuna_r8 | [hybrid_optuna_r8_051](https://github.com/willv678/simgate/blob/main/studies/car_conflicts_3knobs_2hz/hybrid_optuna_r8/queue/055_car_conflicts_3knobs_2hz_hybrid_optuna_r8_051.json) | 1 | GPU out of memory | 1 commands | RE-RUN | accepted | attempt 2: kept | yes |
+| 464 | 10-28 10:36 | lane_keeping / hybrid_optuna_r8 | [hybrid_optuna_r8_009](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/hybrid_optuna_r8/queue/009_lane_keeping_hybrid_optuna_r8_009.json) | 1 | failed the physics check | 1 commands | HALT | accepted | stopped | yes |
+| 465 | 10-28 10:39 | lane_keeping / hybrid_optuna_r8 | [hybrid_optuna_r8_010](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/hybrid_optuna_r8/queue/010_lane_keeping_hybrid_optuna_r8_010.json) | 1 | failed the physics check | 3 commands | HALT | accepted | stopped | yes |
+| 466 | 10-28 10:43 | lane_keeping / hybrid_optuna_r8 | [hybrid_optuna_r8_011](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/hybrid_optuna_r8/queue/011_lane_keeping_hybrid_optuna_r8_011.json) | 1 | failed the physics check | 2 commands | HALT | accepted | stopped | yes |
+| 467 | 10-28 11:01 | lane_keeping / hybrid_optuna_r8 | [hybrid_optuna_r8_018](https://github.com/willv678/simgate/blob/main/studies/lane_keeping/hybrid_optuna_r8/queue/018_lane_keeping_hybrid_optuna_r8_018.json) | 1 | simulator crash, other | 4 commands | RE-RUN | accepted | attempt 2: kept | yes |

@@ -1145,6 +1145,44 @@ the goal. Failures per arm 6-18.
   where the agent ran the study end to end); not worth more replicates for
   the method comparison.
 
+### The freeze, 28 Oct 11:45 UTC (repeats 6-8, C4)
+
+All queued work finished 28 Oct; `paper_figures.CUTOFF` moved to 28 Oct
+11:45 UTC and every paper number regenerated (`METHODS.md`, `WHERE.md`,
+`HEALING.md`, `figures/paper/planned_tests.json`, `harness/campaign_report.txt`).
+Arms stopped by the 22 Oct full disk (problem 34) are `aborted_diskfull_*`,
+left out of every count, and rerun as attempt 8.
+
+- Hard study (car cut-in and braking), seven repeats, confirmed of 35:
+  AI picks v2 33 (4, 5, 5, 5, 5, 4, 5), AI picks 22, Optuna + AI 16, Optuna +
+  repeat 13, random + repeat 10, rules 0. Lane keeping, seven repeats, runs
+  to goal: v2 17-21 (median 19), AI picks 19-22, Optuna + AI 18-21, random
+  23-40 (30), Optuna 25-40 (30), rules never. v2 against random, Optuna and
+  rules: complete separation in both studies, exact two-sided p 0.0006 (the
+  smallest possible with 7 against 7), Holm over the three 0.0017.
+- Where each method looked (`WHERE.md`): hard study, 814 settings tried, 66
+  hard on 7 of 10 scenes; share of runs on hard settings v2 28%, AI picks 24%,
+  Optuna + AI 22%, Optuna 12%, random 7%, rules 0%; hard scenes reached v2 7
+  of 7, AI picks 6, random, Optuna and Optuna + AI 5, rules 0. Lane keeping
+  v2 94%, AI picks 93%, Optuna + AI 88%, Optuna 57%, random 55%, rules 15%.
+- Healing to the freeze: 11,252 launches, 10,920 runs asked for, 10,810 kept
+  (99.0%), 10,492 on the first try; 467 failed launches went to the agent,
+  342 healed, 125 stopped (104 physically impossible motion, all HALT); every
+  answer passed the validator and every retry ran the settings asked for
+  (467 of 467); median 8.3 s per decision.
+- C4 (planted faults, seed 4, six scenes no other campaign used): its queues
+  were built without `--plan-faults`, so it repeats C3's eight kinds (five
+  silent) rather than adding the plan faults; those are tested only in the
+  g2/g3 audit evaluation. Kept with no gate 69, with the per-run gate 0, with
+  gate + audit 0; C1-C4 together 294 / 40 / 0 (one-sided 95% bound 1.0%).
+- Recovery on the same faults (C3, C4; `figures/paper/table_recovery.tex`):
+  of 35 runs that can end as valid data, the retry script kept 35 and 35 in
+  95 and 102 launches; the agent without tools 25 and 28 in 61 and 66 (it
+  halts results deleted or corrupted though a re-run fixes them); the agent
+  with read-only tools 35 and 35 in 72 and 72. The script spends two extra
+  launches on each fault that repeats on every retry (rails, kinematic,
+  dropped delay); the agent with tools halts 14 of 15 of them at once in C4.
+
 ### Shao's 13 Oct feedback: evidence produced (`CHECKLIST.md`)
 
 - **Self-healing, every study queue** (`figures/cards/self_healing.json`):

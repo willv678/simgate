@@ -1,0 +1,76 @@
+{
+  "name": "lane_keeping_hybrid_optuna_r8_010",
+  "run_dir": "diag/lane_keeping_hybrid_optuna_r8_010",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.5,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 2379166,
+  "launched_at": 1793183956.995516,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "HALT",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "lane_keeping_hybrid_optuna_r8_010",
+      "k_status": "physics: max_abs_yaw_rate 31.3 > 2.0; physics: max_speed_report_error 29 > 1.0",
+      "config": {
+        "context_length": 8,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "trafficsim_device": "cpu",
+        "scene_id": "clipgt-187e6244-f541-48ed-8372-62d6da8b547a",
+        "controller": "linear",
+        "traffic": "replay",
+        "planner_delay_us": 0,
+        "lateral_bias_m": 0.5,
+        "waypoint_noise_std": 0.0,
+        "actor_time_shift_s": 0.0,
+        "actor_speed_scale": 1.0,
+        "ego_speed_scale": 1
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-28T10:39:24.376Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 169260112478 outside range [169257012478, 169260012479)",
+        "ValueError: Interpolation timestamp 169260112478 outside range [169257012478, 169260012479)",
+        "controller-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n791 MiB, 23276 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  813G   99G  90% /\n",
+    "skill": "HALT",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 41202,
+    "output_tokens": 979,
+    "duration_ms": 10752,
+    "tool_calls": [
+      "Bash: ls -la /home/willvarner/alpasim/diag/lane_keeping_hybrid_optuna_r8_010",
+      "Grep: (?i)yaw|speed|teleport|reset|physics|jump",
+      "Grep: (?i)warn|error|nan|diverg|clamp"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null,
+  "boot_id": "24df202e-b158-4a44-bcaa-755ef4d8d5ec"
+}

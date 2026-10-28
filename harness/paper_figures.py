@@ -54,7 +54,7 @@ OUT = RESEARCH / "figures" / "paper"
 SINGLE, DOUBLE = 3.5, 7.16
 # Launches before this moment are counted: everything finished before the
 # repeats queued on 20 Oct. Moved to the freeze (24 Oct) for the final numbers.
-CUTOFF = datetime(2026, 10, 20, 13, 30, tzinfo=timezone.utc)
+CUTOFF = datetime(2026, 10, 28, 11, 45, tzinfo=timezone.utc)
 STUDY_NAMES = {
     "pedestrian_ego_speed": "Pedestrian",
     "cut_in_merge": "Car cutting in",
@@ -378,7 +378,7 @@ def _case_panels(bev, speed, gap, study: str, run_name: str) -> dict:
     t_rec, v_rec = _speed({r[0]: (r[1], r[2], 0.0) for r in raw["recorded"]})
     speed.plot(rel(t_rec), v_rec, "--", color="#0072B2", lw=0.8, label="human, recorded")
     t_key, v_key = _speed(actors[key])
-    speed.plot(rel(t_key), v_key, color="#E69F00", lw=1.0, label="the car it met")
+    speed.plot(rel(t_key), v_key, color="#E69F00", lw=1.0, label="the road user it met")
     times = sorted(set(ego) & set(actors[key]))
     gaps = _gap(raw, ego, actors[key], key, times)
     gap.plot(rel(times), gaps, color="#E69F00", lw=1.0)
@@ -420,11 +420,6 @@ def fig_cases() -> list[dict]:
     handles, labels = speed.get_legend_handles_labels()
     fig.legend(handles, labels, loc="lower center", ncol=3, frameon=False,
                bbox_to_anchor=(0.5, -0.06), handlelength=1.5)
-    fig.text(0.5, -0.14, "Top: from above at the failure, in metres, ego (red) driving to the right, "
-             "the car it met orange, others grey, the human's recorded path dashed;\nlines from "
-             "the hand-off on. Below, to 1.5 s after the failure: dotted, the policy takes over; "
-             "solid, the failure.",
-             ha="center", fontsize=6.5, color="0.3")
     save(fig, "fig_cases")
     return shown
 
