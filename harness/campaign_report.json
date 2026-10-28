@@ -705,32 +705,269 @@
    "other": 25
   }
  },
+ "c4_script": {
+  "planned": 50,
+  "launches": 102,
+  "valid_kept": 35,
+  "invalid_kept_no_gate": 24,
+  "invalid_kept_gate": 0,
+  "invalid_kept_audit": 0,
+  "halts": 15,
+  "halted_by_gate": 15,
+  "model_calls": 0,
+  "context_tokens": 0,
+  "physics_failures": {
+   "silent": 14
+  },
+  "per_kind": {
+   "kinematic": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 5,
+    "launches": 15
+   },
+   "drop_delay": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 5,
+    "launches": 15
+   },
+   "corrupt_metrics": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 10
+   },
+   "clean": {
+    "lineages": 10,
+    "recovered": 10,
+    "halted": 0,
+    "launches": 11
+   },
+   "hang": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 10
+   },
+   "delete_metrics": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 10
+   },
+   "rails": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 5,
+    "launches": 15
+   },
+   "fill_network_pool": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 5
+   },
+   "kill": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 11
+   }
+  },
+  "complete": true,
+  "minutes": 349.0,
+  "physics_after_the_fact": {
+   "silent_caught": 0,
+   "silent": 0,
+   "other_flagged": 0,
+   "other": 35
+  }
+ },
+ "c4_agent": {
+  "planned": 50,
+  "launches": 72,
+  "valid_kept": 35,
+  "invalid_kept_no_gate": 22,
+  "invalid_kept_gate": 0,
+  "invalid_kept_audit": 0,
+  "halts": 15,
+  "halted_by_gate": 0,
+  "model_calls": 42,
+  "context_tokens": 1945844,
+  "physics_failures": {
+   "silent": 5
+  },
+  "per_kind": {
+   "kinematic": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 5,
+    "launches": 5
+   },
+   "drop_delay": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 5,
+    "launches": 5
+   },
+   "corrupt_metrics": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 11
+   },
+   "clean": {
+    "lineages": 10,
+    "recovered": 10,
+    "halted": 0,
+    "launches": 10
+   },
+   "hang": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 10
+   },
+   "delete_metrics": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 10
+   },
+   "rails": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 5,
+    "launches": 6
+   },
+   "fill_network_pool": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 5
+   },
+   "kill": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 10
+   }
+  },
+  "complete": true,
+  "minutes": 252.2,
+  "physics_after_the_fact": {
+   "silent_caught": 0,
+   "silent": 0,
+   "other_flagged": 0,
+   "other": 35
+  }
+ },
+ "c4_model": {
+  "planned": 50,
+  "launches": 66,
+  "valid_kept": 28,
+  "invalid_kept_no_gate": 23,
+  "invalid_kept_gate": 0,
+  "invalid_kept_audit": 0,
+  "halts": 22,
+  "halted_by_gate": 0,
+  "model_calls": 43,
+  "context_tokens": 161382,
+  "physics_failures": {
+   "silent": 5
+  },
+  "per_kind": {
+   "kinematic": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 5,
+    "launches": 5
+   },
+   "drop_delay": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 5,
+    "launches": 6
+   },
+   "corrupt_metrics": {
+    "lineages": 5,
+    "recovered": 3,
+    "halted": 2,
+    "launches": 8
+   },
+   "clean": {
+    "lineages": 10,
+    "recovered": 10,
+    "halted": 0,
+    "launches": 12
+   },
+   "hang": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 10
+   },
+   "delete_metrics": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 5,
+    "launches": 5
+   },
+   "rails": {
+    "lineages": 5,
+    "recovered": 0,
+    "halted": 5,
+    "launches": 5
+   },
+   "fill_network_pool": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 5
+   },
+   "kill": {
+    "lineages": 5,
+    "recovered": 5,
+    "halted": 0,
+    "launches": 10
+   }
+  },
+  "complete": true,
+  "minutes": 228.7,
+  "physics_after_the_fact": {
+   "silent_caught": 0,
+   "silent": 0,
+   "other_flagged": 0,
+   "other": 28
+  }
+ },
  "skills_chosen": {
   "script": {
    "skills": {
     "kill": {
-     "RE-RUN": 15
+     "RE-RUN": 20
     },
     "corrupt_metrics": {
-     "RE-RUN": 15
+     "RE-RUN": 20
     },
     "hang": {
-     "RE-RUN": 15
+     "RE-RUN": 20
     },
     "drop_delay": {
-     "RE-RUN": 15
+     "RE-RUN": 20
     },
     "fill_network_pool": {
-     "CLEANUP_ENV": 15
+     "CLEANUP_ENV": 20
     },
     "delete_metrics": {
-     "RE-RUN": 15
+     "RE-RUN": 20
     },
     "rails": {
-     "RE-RUN": 10
+     "RE-RUN": 15
     },
     "kinematic": {
-     "RE-RUN": 8
+     "RE-RUN": 13
     }
    },
    "median_call_s": null
@@ -738,61 +975,66 @@
   "agent": {
    "skills": {
     "kill": {
-     "RE-RUN": 15
+     "RE-RUN": 20
     },
     "corrupt_metrics": {
-     "RE-RUN": 15
+     "RE-RUN": 20
     },
     "hang": {
      "CONFIGURE": 7,
-     "RESTART_CLEANUP": 8
+     "RESTART_CLEANUP": 13
     },
     "drop_delay": {
-     "HALT": 15
+     "HALT": 20
     },
     "fill_network_pool": {
-     "CLEANUP_ENV": 15
+     "CLEANUP_ENV": 20
     },
     "delete_metrics": {
-     "RE-RUN": 15
+     "RE-RUN": 20
     },
     "rails": {
-     "HALT": 10
+     "HALT": 14,
+     "RE-RUN": 1
     },
     "kinematic": {
-     "HALT": 4,
+     "HALT": 9,
      "RE-RUN": 3
     }
    },
-   "median_call_s": 13.0
+   "median_call_s": 12.4
   },
   "model": {
    "skills": {
     "kill": {
-     "RESTART_CLEANUP": 15
+     "RESTART_CLEANUP": 20
     },
     "corrupt_metrics": {
-     "HALT": 14,
-     "RESTART_CLEANUP": 1
+     "HALT": 16,
+     "RESTART_CLEANUP": 1,
+     "CLEANUP_ENV": 1,
+     "RE-RUN": 2
     },
     "hang": {
      "CONFIGURE": 8,
-     "RESTART_CLEANUP": 7
+     "RESTART_CLEANUP": 11,
+     "CLEANUP_ENV": 1
     },
     "drop_delay": {
-     "HALT": 15
+     "HALT": 19,
+     "CLEANUP_ENV": 1
     },
     "fill_network_pool": {
-     "CLEANUP_ENV": 15
+     "CLEANUP_ENV": 20
     },
     "delete_metrics": {
-     "HALT": 15
+     "HALT": 20
     },
     "rails": {
-     "HALT": 10
+     "HALT": 15
     },
     "kinematic": {
-     "HALT": 7,
+     "HALT": 12,
      "RE-RUN": 1
     }
    },

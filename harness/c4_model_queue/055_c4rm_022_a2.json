@@ -1,0 +1,22 @@
+{
+  "name": "c4rm_022_a2",
+  "run_dir": "diag/c4rm_022_a2",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 2,
+  "parent": "022_c4rm_022.json",
+  "launched": true,
+  "pid": 1838471,
+  "launched_at": 1793172294.9499419,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "ACCEPT",
+  "diagnosis": null,
+  "fault": null,
+  "boot_id": "24df202e-b158-4a44-bcaa-755ef4d8d5ec"
+}

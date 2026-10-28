@@ -2,8 +2,9 @@
 
 Each campaign ran one fault plan (50 runs: 5 per fault kind, 10 clean) under
 the script, tier 1 (agent) and tier 0 (model). C1 had the physics bounds off,
-C2 to C4 on; in C3 the silent faults (rails, kinematic) persist on a retry, and
-C4 adds the plan faults, also persistent, with the plan-handoff bound live.
+C2 to C4 on; in C3 and C4 the silent faults (rails, kinematic) persist on a
+retry. C4 repeats C3's fault plan on six scenes no other campaign used (seed 4,
+the plan-handoff bound live); its queues were built without --plan-faults.
 Arms whose queue does not exist yet are skipped. Outcomes are scored, not skill labels: whether a lineage ended in a
 valid kept run, how many launches it cost, and whether a person had to step in.
 

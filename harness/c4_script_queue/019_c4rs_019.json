@@ -1,0 +1,65 @@
+{
+  "name": "c4rs_019",
+  "run_dir": "diag/c4rs_019",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1294797,
+  "launched_at": 1793155511.784027,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "script",
+    "input": {
+      "state": "FAILED",
+      "run": "c4rs_019",
+      "k_status": "wizard_exit_code: 1; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-01d503d4-449b-46fc-8d78-9085e70d3554",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-28T02:45:19.450Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "RuntimeError: The following operation failed in the TorchScript interpreter.",
+        "RuntimeError: CUDA out of memory. Tried to allocate 576.00 MiB. GPU 0 has a total capacity of 23.50 GiB of which 83.19 MiB is free. Process 1293416 has 8.80 GiB memory in use. Process 1293335 has 196.00 MiB memory in use. Process 1293088 ha",
+        "[2026-10-28 02:46:25,735][__main__][ERROR] - Exception in drive",
+        "[2026-10-28 02:46:25,736][grpc._server][ERROR] - Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "02:46:25.737 [W0] ERROR:\tError during event handling. Pending events in queue (7):",
+        "grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:",
+        "details = \"Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "debug_error_string = \"UNKNOWN:Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "02:46:25.747 [W0] WARNING:\tRollout FAILED: job=3e0585a3882c480db403924d04af2046 scene=clipgt-01d503d4-449b-46fc-8d78-9085e70d3554 uuid=a9ed5f6a-d279-11f1-8827-ab778eb2d139 error=<AioRpcError of RPC that terminated with:",
+        "02:46:25.748 [W0] WARNING:\tRetrying failed rollout: scene=clipgt-01d503d4-449b-46fc-8d78-9085e70d3554 failed_job=3e0585a3882c480db403924d04af2046 retry_job=048347d3ea5c449bb00482b9f598d20d retry=1/2 error=<AioRpcError of RPC that terminated",
+        "Scene clipgt-01d503d4-449b-46fc-8d78-9085e70d3554: <AioRpcError of RPC that terminated with:",
+        "runtime-0-1 exited with code 1",
+        "controller-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\n\n\n$ docker network ls --format {{.Name}}\nbridge\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n795 MiB, 23271 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  806G  105G  89% /\n",
+    "skill": "RE-RUN",
+    "params": {},
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "rails",
+    "persistent": true,
+    "after_s": null,
+    "applied": false
+  },
+  "boot_id": "24df202e-b158-4a44-bcaa-755ef4d8d5ec"
+}

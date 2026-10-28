@@ -1,0 +1,74 @@
+{
+  "name": "lane_keeping_rules_r8_048",
+  "run_dir": "diag/lane_keeping_rules_r8_048",
+  "config": {
+    "context_length": 8,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "trafficsim_device": "cpu",
+    "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+    "controller": "linear",
+    "traffic": "replay",
+    "planner_delay_us": 0,
+    "lateral_bias_m": 0.0,
+    "waypoint_noise_std": 0.0,
+    "actor_time_shift_s": 0.0,
+    "actor_speed_scale": 1.0,
+    "ego_speed_scale": 1.0
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1131398,
+  "launched_at": 1793150955.9658363,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "lane_keeping_rules_r8_048",
+      "k_status": "wizard_exit_code: 1; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "trafficsim_device": "cpu",
+        "scene_id": "clipgt-0cf6368d-ff81-4489-b01e-4103371ba12c",
+        "controller": "linear",
+        "traffic": "replay",
+        "planner_delay_us": 0,
+        "lateral_bias_m": 0.0,
+        "waypoint_noise_std": 0.0,
+        "actor_time_shift_s": 0.0,
+        "actor_speed_scale": 1.0,
+        "ego_speed_scale": 1.0
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint lane_keeping_rules_r8_048-prometheus-0-1 (acc289b48a46d9fd8df4ca3a8fb82f2b17b343b3f5b616da1987cd9383912da7): fail",
+        "Error executing job with overrides: ['deploy=local', 'topology=1gpu', 'driver=vavam', 'trafficsim=disabled', 'controller=linear', 'driver.inference.context_length=8', 'driver.inference.subsample_factor=1', 'runtime.simulation_config.cameras",
+        "raise CalledProcessError(retcode, process.args,",
+        "subprocess.CalledProcessError: Command '['docker', 'compose', '-f', '/home/willvarner/alpasim/diag/lane_keeping_rules_r8_048/docker-compose.yaml', 'up', '--remove-orphans', '--exit-code-from', 'runtime-0']' returned non-zero exit status 1."
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nc4ra_024-runtime-0-1\tUp 2 minutes\nc4ra_024-driver-0-1\tUp 2 minutes\nc4ra_024-prometheus-0-1\tUp 2 minutes\nc4ra_024-trafficsim-0-1\tUp 2 minutes\nc4ra_024-physics-0-1\tUp 2 minutes\nc4ra_024-controller-0-1\tUp 2 minutes\nc4ra_024-renderer-0-1\tUp 2 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc4ra_024_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n9250 MiB, 14817 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  806G  106G  89% /\n",
+    "skill": "RE-RUN",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 47431,
+    "output_tokens": 1083,
+    "duration_ms": 14494,
+    "tool_calls": [
+      "Bash: docker ps -a --format '{{.Names}}\\t{{.Status}}\\t{{.Ports}}'; docker network ls",
+      "Grep: port|bind|address already",
+      "Grep: 39702|ports:",
+      "Read: /home/willvarner/alpasim/diag/lane_keeping_rules_r8_048/docker-compose.yaml"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": null,
+  "boot_id": "24df202e-b158-4a44-bcaa-755ef4d8d5ec"
+}

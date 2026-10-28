@@ -489,12 +489,13 @@ def table_methods() -> str:
 
 
 def table_validity() -> str:
-    """Planted faults (campaigns C1-C3, harness/campaign_report.json): invalid
+    """Planted faults (campaigns C1-C4, harness/campaign_report.json): invalid
     runs kept with no gate, with the per-run gate, and with the batch audit,
     summed over each campaign's three arms (script, agent, agent without
     tools), which share one fault plan."""
     report = json.loads((RESEARCH / "harness" / "campaign_report.json").read_text())
-    names = {"c1": "C1 (physics bounds off)", "c2": "C2 (physics on)", "c3": "C3 (faults persist)"}
+    names = {"c1": "C1 (physics bounds off)", "c2": "C2 (physics on)", "c3": "C3 (faults persist)",
+             "c4": "C4 (C3 on new scenes)"}
     keys = ("invalid_kept_no_gate", "invalid_kept_gate", "invalid_kept_audit")
     rows, total = [], [0, 0, 0]
     for c, name in names.items():
@@ -513,7 +514,7 @@ def table_validity() -> str:
         r"\midrule",
         *rows,
         r"\midrule",
-        f"All three & {total[0]} & {total[1]} & \\textbf{{{total[2]}}} \\\\",
+        f"All four & {total[0]} & {total[1]} & \\textbf{{{total[2]}}} \\\\",
         r"\bottomrule",
         r"\end{tabular}",
         r"\\[2pt]\parbox{\columnwidth}{\scriptsize Five kinds of silent fault (deleted or corrupted results, a "
@@ -529,6 +530,49 @@ def table_validity() -> str:
     return text
 
 
+def table_recovery() -> str:
+    """The same planted faults handled three ways (campaigns C3 and C4, where
+    the silent faults persist on a retry; harness/campaign_report.json): a
+    fixed retry script, the agent without tools, and the agent with read-only
+    tools. Valid runs kept of the 35 that could be (25 fixable faults, 10 clean
+    runs), runs stopped for a person, and launches used."""
+    report = json.loads((RESEARCH / "harness" / "campaign_report.json").read_text())
+    arms = {"script": "Retry script", "model": "Agent, no tools", "agent": "Agent, read-only tools"}
+    rows = []
+    for arm, name in arms.items():
+        cells = []
+        for c in ("c3", "c4"):
+            r = report[f"{c}_{arm}"]
+            cells += [str(r["valid_kept"]), str(r["halts"]), str(r["launches"])]
+        rows.append(f"{name} & " + " & ".join(cells) + r" \\")
+    lines = [
+        r"\begin{table}[t]",
+        r"\caption{The same planted faults, handled three ways}",
+        r"\label{tab:recovery}",
+        r"\centering\footnotesize",
+        r"\setlength{\tabcolsep}{4pt}",
+        r"\begin{tabular}{@{}lcccccc@{}}",
+        r"\toprule",
+        r" & \multicolumn{3}{c}{C3} & \multicolumn{3}{c}{C4} \\",
+        r"\cmidrule(lr){2-4}\cmidrule(l){5-7}",
+        r"Handler & Kept & Stopped & Launches & Kept & Stopped & Launches \\",
+        r"\midrule",
+        *rows,
+        r"\bottomrule",
+        r"\end{tabular}",
+        r"\\[2pt]\parbox{\columnwidth}{\scriptsize 50 planned runs per campaign: 5 of each of 8 fault kinds and "
+        r"10 clean runs, so at most 35 can end as valid data; the other 15 carry a fault that repeats on every "
+        r"retry and should be stopped. A run neither kept nor stopped passed the per-run gate with a silent "
+        r"fault and was removed by the batch audit; no invalid run stayed in the data. C4 repeats C3's fault "
+        r"plan on six scenes no other campaign used.}",
+        r"\end{table}",
+    ]
+    text = "\n".join(lines) + "\n"
+    (OUT / "table_recovery.tex").write_text(text)
+    print("figures/paper/table_recovery.tex", flush=True)
+    return text
+
+
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     plt.rcParams.update(STYLE)
@@ -540,6 +584,7 @@ def main() -> int:
     cases = fig_cases()
     table_methods()
     table_validity()
+    table_recovery()
     (OUT / "numbers.json").write_text(json.dumps(
         {"cutoff": CUTOFF.isoformat(), "inner_loop": loop, "cases": cases}, indent=1, default=str) + "\n")
     print(json.dumps(loop))

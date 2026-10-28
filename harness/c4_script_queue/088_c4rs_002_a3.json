@@ -1,0 +1,58 @@
+{
+  "name": "c4rs_002_a3",
+  "run_dir": "diag/c4rs_002_a3",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 100000,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 3,
+  "parent": "052_c4rs_002_a2.json",
+  "launched": true,
+  "pid": 1755250,
+  "launched_at": 1793169570.1544309,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "HALT",
+  "diagnosis": {
+    "policy": "script",
+    "input": {
+      "state": "FAILED",
+      "run": "c4rs_002_a3",
+      "k_status": "config_not_landed: planner_delay_us requested 100000, resolved 0",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 100000,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-023b7fcc-671c-40e3-9bd2-c66b0b073fbc",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 3,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-28T06:39:37.772Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 180840705553 outside range [180837605553, 180840605554)",
+        "ValueError: Interpolation timestamp 180840705553 outside range [180837605553, 180840605554)",
+        "controller-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "trafficsim-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nc4rm_043-trafficsim-0-1\tUp 3 minutes\nc4rm_043-runtime-0-1\tUp 3 minutes (Paused)\nc4rm_043-prometheus-0-1\tUp 3 minutes\nc4rm_043-controller-0-1\tUp 3 minutes\nc4rm_043-physics-0-1\tUp 3 minutes\nc4rm_043-driver-0-1\tUp 3 minutes\nc4rm_043-renderer-0-1\tUp 3 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc4rm_043_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n11052 MiB, 13014 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  812G  100G  90% /\n",
+    "skill": "RESTART_CLEANUP",
+    "params": {},
+    "verdict": "rejected: attempt 3 of 3: budget spent"
+  },
+  "fault": {
+    "kind": "drop_delay",
+    "persistent": true,
+    "after_s": null,
+    "applied": false
+  },
+  "boot_id": "24df202e-b158-4a44-bcaa-755ef4d8d5ec"
+}

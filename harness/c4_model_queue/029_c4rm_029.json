@@ -1,0 +1,71 @@
+{
+  "name": "c4rm_029",
+  "run_dir": "diag/c4rm_029",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1670303,
+  "launched_at": 1793166938.8760552,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "CLEANUP_ENV",
+  "diagnosis": {
+    "policy": "model",
+    "input": {
+      "state": "FAILED",
+      "run": "c4rm_029",
+      "k_status": "wizard_exit_code: 1; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-28T05:55:46.462Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "RuntimeError: The following operation failed in the TorchScript interpreter.",
+        "RuntimeError: CUDA out of memory. Tried to allocate 576.00 MiB. GPU 0 has a total capacity of 23.50 GiB of which 547.31 MiB is free. Process 1668698 has 8.43 GiB memory in use. Process 1668600 has 196.00 MiB memory in use. Process 1668443 h",
+        "[2026-10-28 05:56:49,272][__main__][ERROR] - Exception in drive",
+        "[2026-10-28 05:56:49,273][grpc._server][ERROR] - Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "05:56:49.274 [W0] ERROR:\tError during event handling. Pending events in queue (7):",
+        "grpc.aio._call.AioRpcError: <AioRpcError of RPC that terminated with:",
+        "details = \"Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "debug_error_string = \"UNKNOWN:Exception calling application: The following operation failed in the TorchScript interpreter.",
+        "05:56:49.281 [W0] WARNING:\tRollout FAILED: job=55bcf0c7bf88477aa21554d24156027a scene=clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9 uuid=43a3a67c-d294-11f1-80f1-d1542d45e828 error=<AioRpcError of RPC that terminated with:",
+        "05:56:49.282 [W0] WARNING:\tRetrying failed rollout: scene=clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9 failed_job=55bcf0c7bf88477aa21554d24156027a retry_job=40ca94e40e6f46cf8e5d89c0aa0f9177 retry=1/2 error=<AioRpcError of RPC that terminated",
+        "RuntimeError: CUDA out of memory. Tried to allocate 576.00 MiB. GPU 0 has a total capacity of 23.50 GiB of which 75.31 MiB is free. Process 1668698 has 8.89 GiB memory in use. Process 1668600 has 196.00 MiB memory in use. Process 1668443 ha",
+        "Scene clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9: <AioRpcError of RPC that terminated with:",
+        "runtime-0-1 exited with code 1",
+        "controller-0-1 exited with code 143"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nc4rs_037_a2-trafficsim-0-1\tUp 2 minutes\nc4rs_037_a2-physics-0-1\tUp 2 minutes\nc4rs_037_a2-driver-0-1\tUp 2 minutes\nc4rs_037_a2-controller-0-1\tUp 2 minutes\nc4rs_037_a2-prometheus-0-1\tUp 2 minutes\nc4rs_037_a2-runtime-0-1\tUp 2 minutes\nc4rs_037_a2-renderer-0-1\tUp 2 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc4rs_037_a2_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n16044 MiB, 8022 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  811G  101G  90% /\n",
+    "skill": "CLEANUP_ENV",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 7299,
+    "output_tokens": 565,
+    "duration_ms": 8918,
+    "tool_calls": [],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "hang",
+    "persistent": false,
+    "after_s": 96,
+    "applied": false
+  },
+  "boot_id": "24df202e-b158-4a44-bcaa-755ef4d8d5ec"
+}

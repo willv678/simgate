@@ -1,0 +1,51 @@
+{
+  "name": "c4rs_029",
+  "run_dir": "diag/c4rs_029",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1365762,
+  "launched_at": 1793157544.1598306,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "script",
+    "input": {
+      "state": "FAILED",
+      "run": "c4rs_029",
+      "k_status": "wizard_exit_code: 124; postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-02e075b9-fd24-426b-971b-7cfcb2074cc9",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-28T03:19:11.594Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\""
+      ],
+      "machine_at_timeout": "stopped: the simulation log stopped growing 121 s ago\n$ docker ps --format {{.Names}}\t{{.Status}}\nc4ra_029_a2-controller-0-1\tUp 7 seconds\nc4ra_029_a2-physics-0-1\tUp 7 seconds\nc4ra_029_a2-trafficsim-0-1\tUp 7 seconds\nc4ra_029_a2-runtime-0-1\tUp 7 seconds\nc4ra_029_a2-prometheus-0-1\tUp 7 seconds\nc4ra_029_a2-driver-0-1\tUp 7 seconds\nc4ra_029_a2-renderer-0-1\tUp 7 seconds\nc4rs_029-physics-0-1\tUp 3 minutes\nc4rs_029-trafficsim-0-1\tUp 3 minutes\nc4rs_029-runtime-0-1\tUp 3 minutes (Paused)\nc4rs_029-driver-0-1\tUp 3 minutes\nc4rs_029-prometheus-0-1\tUp 3 minutes\nc4rs_029-controller-0-1\tUp 3 minutes\nc4rs_029-renderer-0-1\tUp 3 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc4ra_029_a2_microservices_network\nc4rs_029_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n13177 MiB, 10889 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  808G  104G  89% /\n"
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nc4ra_029_a2-controller-0-1\tUp 8 seconds\nc4ra_029_a2-physics-0-1\tUp 8 seconds\nc4ra_029_a2-trafficsim-0-1\tUp 8 seconds\nc4ra_029_a2-runtime-0-1\tUp 8 seconds\nc4ra_029_a2-prometheus-0-1\tUp 8 seconds\nc4ra_029_a2-driver-0-1\tUp 8 seconds\nc4ra_029_a2-renderer-0-1\tUp 8 seconds\nc4rs_029-renderer-0-1\tUp 3 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc4ra_029_a2_microservices_network\nc4rs_029_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n7036 MiB, 17030 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  808G  104G  89% /\n",
+    "skill": "RE-RUN",
+    "params": {},
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "hang",
+    "persistent": false,
+    "after_s": 96,
+    "applied": false
+  },
+  "boot_id": "24df202e-b158-4a44-bcaa-755ef4d8d5ec"
+}

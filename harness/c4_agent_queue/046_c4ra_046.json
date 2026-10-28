@@ -1,0 +1,57 @@
+{
+  "name": "c4ra_046",
+  "run_dir": "diag/c4ra_046",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1285748,
+  "launched_at": 1793155213.2710435,
+  "environment": null,
+  "env_cleanups": 1,
+  "resolution": "ACCEPT",
+  "diagnosis": {
+    "policy": "agent",
+    "input": {
+      "state": "FAILED",
+      "run": "c4ra_046",
+      "k_status": "environment: docker network create failed (Error response from daemon: all predefined address pools have been fully subnetted); 29 AlpaSim networks exist",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-026d6a39-bd8f-4175-bc61-fe50ed0403a3",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nc4rs_017-physics-0-1\tUp 15 seconds\nc4rs_017-controller-0-1\tUp 15 seconds\nc4rs_017-prometheus-0-1\tUp 15 seconds\nc4rs_017-driver-0-1\tUp 15 seconds\nc4rs_017-trafficsim-0-1\tUp 15 seconds\nc4rs_017-runtime-0-1\tUp 15 seconds\nc4rs_017-renderer-0-1\tUp 15 seconds\n\n$ docker network ls --format {{.Name}}\nbridge\nc4rs_017_microservices_network\nfault_0_microservices_network\nfault_1_microservices_network\nfault_2_microservices_network\nfault_3_microservices_network\nfault_4_microservices_network\nfault_5_microservices_network\nfault_6_microservices_network\nfault_7_microservices_network\nfault_8_microservices_network\nfault_9_microservices_network\nfault_10_microservices_network\nfault_11_microservices_network\nfault_12_microservices_network\nfault_13_microservices_network\nfault_14_microservices_network\nfault_15_microservices_network\nfault_16_microservices_network\nfault_17_microservices_network\nfault_18_microservices_network\nfault_19_microservices_network\nfault_20_microservices_network\nfault_21_microservices_network\nfault_22_microservices_network\nfault_23_microservices_network\nfault_24_microservices_network\nfault_25_microservices_network\nfault_26_microservices_network\nfault_27_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n2977 MiB, 21089 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  807G  105G  89% /\n",
+    "skill": "CLEANUP_ENV",
+    "params": {},
+    "model": "claude-opus-5-5",
+    "context_tokens": 19305,
+    "output_tokens": 367,
+    "duration_ms": 6356,
+    "tool_calls": [
+      "Bash: docker network ls; docker ps -a --format '{{.Names}} {{.Status}} {{.Networks}}'"
+    ],
+    "denied": [],
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "fill_network_pool",
+    "persistent": false,
+    "after_s": null,
+    "applied": true
+  },
+  "boot_id": "24df202e-b158-4a44-bcaa-755ef4d8d5ec"
+}

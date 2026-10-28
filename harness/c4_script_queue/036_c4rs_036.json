@@ -1,0 +1,58 @@
+{
+  "name": "c4rs_036",
+  "run_dir": "diag/c4rs_036",
+  "config": {
+    "context_length": 8,
+    "planner_delay_us": 0,
+    "scene_file": "data/scenes/sim_scenes.csv",
+    "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+    "trafficsim_device": "cpu"
+  },
+  "attempt": 1,
+  "parent": null,
+  "launched": true,
+  "pid": 1413172,
+  "launched_at": 1793159053.5111518,
+  "environment": null,
+  "env_cleanups": 0,
+  "resolution": "RE-RUN",
+  "diagnosis": {
+    "policy": "script",
+    "input": {
+      "state": "FAILED",
+      "run": "c4rs_036",
+      "k_status": "postflight_failed: metrics file not found (no metrics.parquet)",
+      "config": {
+        "context_length": 8,
+        "planner_delay_us": 0,
+        "scene_file": "data/scenes/sim_scenes.csv",
+        "scene_id": "clipgt-02eadd92-02f1-46d8-86fe-a9e338fed0b6",
+        "trafficsim_device": "cpu"
+      },
+      "attempt": 1,
+      "max_attempts": 3,
+      "error_lines": [
+        "time=2026-10-28T03:44:21.658Z level=WARN msg=\"Failed to initialize NvSwitch/NvLink info\" error=\"no switches to monitor\"",
+        "Error calculating metrics for MinADEScorer: Interpolation timestamp 4798877212152 outside range [4798874112152, 4798877112153)",
+        "ValueError: Interpolation timestamp 4798877212152 outside range [4798874112152, 4798877112153)",
+        "trafficsim-0-1 exited with code 143",
+        "controller-0-1 exited with code 143",
+        "physics-0-1 exited with code 143",
+        "driver-0-1 exited with code 143",
+        "renderer-0-1 exited with code 137"
+      ],
+      "machine_at_timeout": null
+    },
+    "machine": "$ docker ps --format {{.Names}}\t{{.Status}}\nc4ra_038_a2-driver-0-1\tUp 3 minutes\nc4ra_038_a2-trafficsim-0-1\tUp 3 minutes\nc4ra_038_a2-physics-0-1\tUp 3 minutes\nc4ra_038_a2-controller-0-1\tUp 3 minutes\nc4ra_038_a2-runtime-0-1\tUp 3 minutes\nc4ra_038_a2-prometheus-0-1\tUp 3 minutes\nc4ra_038_a2-renderer-0-1\tUp 3 minutes\n\n$ docker network ls --format {{.Name}}\nbridge\nc4ra_038_a2_microservices_network\nhost\nnone\n\n$ nvidia-smi --query-gpu=memory.used,memory.free --format=csv\nmemory.used [MiB], memory.free [MiB]\n11722 MiB, 12344 MiB\n\n$ df -h /home/willvarner/alpasim/diag\nFilesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p3  960G  808G  104G  89% /\n",
+    "skill": "RE-RUN",
+    "params": {},
+    "verdict": "accepted"
+  },
+  "fault": {
+    "kind": "delete_metrics",
+    "persistent": false,
+    "after_s": null,
+    "applied": false
+  },
+  "boot_id": "24df202e-b158-4a44-bcaa-755ef4d8d5ec"
+}
