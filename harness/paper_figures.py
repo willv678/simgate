@@ -445,7 +445,7 @@ def table_methods() -> str:
     hard, lane, ped, cut, lead = (methods[s]["proposers"] for s in UNSEEN + TEN_HZ)
     lines = [
         r"\begin{table}[t]",
-        r"\caption{Search methods at an equal budget per study.}",
+        r"\caption{Every search method on every study, at the same run budget}",
         r"\label{tab:methods}",
         r"\centering\footnotesize",
         r"\setlength{\tabcolsep}{2.5pt}",
@@ -503,7 +503,7 @@ def table_validity() -> str:
     bound = 1 - 0.05 ** (1 / total[0])
     lines = [
         r"\begin{table}[t]",
-        r"\caption{Runs broken on purpose that were kept}",
+        r"\caption{Invalid runs kept without checks, with the per-run checks, and with the batch audit added}",
         r"\label{tab:validity}",
         r"\centering\footnotesize",
         r"\begin{tabular}{@{}lccc@{}}",
@@ -545,7 +545,7 @@ def table_recovery() -> str:
         rows.append(f"{name} & " + " & ".join(cells) + r" \\")
     lines = [
         r"\begin{table}[t]",
-        r"\caption{The same planted faults, handled three ways}",
+        r"\caption{Planted faults handled by a retry script and by the agent with and without tools}",
         r"\label{tab:recovery}",
         r"\centering\footnotesize",
         r"\setlength{\tabcolsep}{3pt}",
