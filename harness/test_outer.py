@@ -153,3 +153,34 @@ def test_recorded_facts_summarise_the_tagged_scenes():
     found = recorded_facts([scene, "clipgt-not-a-scene"])
     assert list(found) == [scene]
     assert {"turn", "top_speed_mps", "lead", "cut_ins", "tags"} <= set(found[scene])
+
+
+def test_the_blind_agent_sees_no_knob_names_and_its_answer_maps_back(monkeypatch):
+    import json
+
+    import outer
+
+    varied = ("actor_time_shift_s", "actor_speed_scale", "ego_speed_scale")
+    state = {
+        "objective": outer.objective(varied),
+        "knobs": {knob: {"values": list(SCENARIO[knob]), "meaning": "m"} for knob in varied},
+        "summary": [{"id": "S1", "scene_id": "clipgt-a", "actor_time_shift_s": 0.0,
+                     "actor_speed_scale": 1.25, "ego_speed_scale": 1, "runs": 1}],
+    }
+    seen = {}
+
+    def ask(prompt, data, contract, schema, model):
+        seen["data"], seen["contract"] = data, contract
+        run = {"scene_id": "clipgt-a", "knob_1": -1.0, "knob_2": 1.0, "knob_3": 0.0, "why": "x"}
+        return {"plan": "p", "notes": "n", "runs": [run]}, {}
+
+    monkeypatch.setattr(outer, "ask", ask)
+    answer, _ = outer.blind_proposals(state, varied, "model")
+    shown = json.dumps(seen["data"])
+    assert not any(knob in shown for knob in varied) and "speed" not in shown
+    assert seen["contract"] == outer.CONTRACT_V2_BLIND
+    assert seen["data"]["summary"][0]["knob_2"] == outer.blind_levels("actor_speed_scale")[1.25]
+    proposed = answer["runs"][0]
+    assert proposed["actor_time_shift_s"] == -2.0 and proposed["actor_speed_scale"] == 2.0
+    assert proposed["ego_speed_scale"] == 1.0
+    assert rejection(proposed, {"clipgt-a"}, varied) is None

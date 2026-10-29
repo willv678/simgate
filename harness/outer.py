@@ -22,6 +22,9 @@ are evidence. Proposers:
 - llm_v2, hybrid_v2: llm and hybrid under advisor/OUTER_V2.md, also given
   each failure's triage, the scenes' recorded facts and their own notes
   from the round before.
+- llm_v2_blind: llm_v2 with the knobs unnamed (advisor/OUTER_V2_BLIND.md):
+  knob_1, knob_2, ... with their values scaled to -1..1, no meanings, and no
+  prior from earlier studies; everything else as llm_v2.
 
 The study: how a scene's failure rate changes with the scenario knobs it
 varies (`--vary`, from knobs.SCENARIO; planner delay by default). A run failed if
@@ -104,7 +107,10 @@ CONTRACT = HARNESS / "advisor" / "OUTER.md"
 # with each failure's triage, the scenes' recorded facts and the model's own
 # notes from the round before. Version 1 stays as it ran.
 CONTRACT_V2 = HARNESS / "advisor" / "OUTER_V2.md"
-V2 = ("llm_v2", "hybrid_v2")
+# llm_v2 without what the knobs mean, to test whether that knowledge is the
+# agent's edge over the optimisers, which treat the knobs as numbers.
+CONTRACT_V2_BLIND = HARNESS / "advisor" / "OUTER_V2_BLIND.md"
+V2 = ("llm_v2", "hybrid_v2", "llm_v2_blind")
 SCENE_TAGS = HARNESS / "scene_tags.json"
 SCENE_FACTS = HARNESS / "scene_facts.json"
 # About one lane width. Beyond it the reconstruction renders the ego's view
@@ -429,6 +435,64 @@ def llm_proposals(
     return ask(prompt, state, CONTRACT, schema(varied), model)
 
 
+def blind_names(varied: tuple[str, ...]) -> dict[str, str]:
+    return {knob: f"knob_{index}" for index, knob in enumerate(varied, start=1)}
+
+
+def blind_levels(knob: str) -> dict:
+    """Each legal value of `knob` as its place on -1..1, in order."""
+    values = sorted(SCENARIO[knob])
+    return {value: round(-1 + 2 * index / (len(values) - 1), 3) for index, value in enumerate(values)}
+
+
+def blind(value, names: dict[str, str]):
+    """`value` with every knob key renamed and its value replaced by its level."""
+    if isinstance(value, dict):
+        return {
+            names.get(key, key): blind_levels(key).get(item, item) if key in names else blind(item, names)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [blind(item, names) for item in value]
+    return value
+
+
+def blind_proposals(state: dict, varied: tuple[str, ...], model: str) -> tuple[dict, dict]:
+    """llm_v2's call with the knobs unnamed; the answer mapped back to the
+    real knobs, a level that is not legal left as is for rejection to drop."""
+    names = blind_names(varied)
+    shown = blind({key: item for key, item in state.items() if key not in ("objective", "knobs")}, names)
+    shown["objective"] = (
+        "How does the policy's failure rate on each candidate scene change with "
+        + ", ".join(names.values())
+        + "? Find the fragile scenes and roughly where each breaks."
+    )
+    shown["knobs"] = {names[knob]: {"values": sorted(blind_levels(knob).values())} for knob in varied}
+    run = {
+        "scene_id": {"type": "string"},
+        **{name: {"type": "number"} for name in names.values()},
+        "why": {"type": "string"},
+    }
+    shape = schema(varied, notes=True)
+    shape["properties"]["runs"]["items"] = {
+        **shape["properties"]["runs"]["items"], "properties": run, "required": list(run),
+    }
+    answer, call = ask(
+        "The study's state is on stdin. Choose this round's runs.", shown, CONTRACT_V2_BLIND, shape, model
+    )
+    unblind = {
+        name: {level: value for value, level in blind_levels(knob).items()}
+        for knob, name in names.items()
+    }
+    real = {name: knob for knob, name in names.items()}
+    answer["runs"] = [
+        {real.get(key, key): unblind[key].get(item, item) if key in unblind else item
+         for key, item in proposed.items()}
+        for proposed in answer["runs"]
+    ]
+    return answer, call
+
+
 def recorded_facts(scenes: list[str]) -> dict:
     """What each scene's recording holds, from the tagger (scene_tags.json)."""
     tags = json.loads(SCENE_TAGS.read_text(encoding="utf-8"))
@@ -638,6 +702,8 @@ def run_study(study: Study) -> list[dict]:
             answer, call = llm_proposals(state, study.varied, study.model)
         elif study.proposer == "llm_v2":
             answer, call = llm_proposals(state, study.varied, study.model, v2=True)
+        elif study.proposer == "llm_v2_blind":
+            answer, call = blind_proposals(state, study.varied, study.model)
         elif study.proposer == "random":
             answer = random_proposals(
                 scenes,

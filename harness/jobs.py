@@ -46,6 +46,7 @@ PROPOSERS = (
     "optuna_confirm",
     "hybrid_optuna",
     "llm_v2",
+    "llm_v2_blind",
     "hybrid_v2",
     "ga",
 )

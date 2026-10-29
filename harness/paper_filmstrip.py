@@ -35,7 +35,7 @@ PAIRS = {
         "cut_in_merge",
         "cut_in_merge_random_confirm_r2_051",
         "cut_in_merge_hybrid_007",
-        ("as recorded: passes", "car cutting in 1.25$\\times$ faster: collides", "from above"),
+        ("as recorded: passes", "cars 1.25$\\times$ faster: collides", "from above"),
     ),
 }
 FPS = 10
