@@ -1,13 +1,12 @@
-"""Fig. 5: one cut-in scene through the policy's front camera at a setting
-where it passes and at a confirmed hardest setting where it fails, with the
-failing run from above at the same moments.
+"""Fig. 5: one scene of the main study through the policy's front camera, at
+the recorded setting, where it passes, and at a confirmed hardest setting,
+where it fails.
 
-Camera frames come straight from AlpaSim's rollout video (the camera panel
-of the composite it writes for every run). The neural reconstruction cannot
-render a car pressed against the camera, and a car beside the ego is out of
-its view, so the bottom row draws the failing run from its rollout log, as in
-Fig. 4: every road user stays visible up to and including the contact.
-Written to figures/paper/ as PDF and PNG.
+Frames come straight from AlpaSim's rollout video (the camera panel of the
+composite it writes for every run), at the same times in both runs, counted
+back from the failing run's contact. The case is a rear-end collision close
+to the recorded path, so the road user it hits stays in the camera's view and
+the reconstruction renders it sharply. Written to figures/paper/ as PDF and PNG.
 
     uv run python research/harness/paper_filmstrip.py
 """
@@ -27,27 +26,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from case_card import kept, moment
 from paper_figures import DOUBLE, OUT, STYLE, save
-from physics import EGO, _footprint, _read, actor_tracks, completed_rollout, nearest_actor
+from physics import EGO, _read, actor_tracks, completed_rollout
 
 # (study, run that passes, confirmed hardest run on the same scene, row labels)
 PAIRS = {
     "fig_filmstrip": (
-        "cut_in_merge",
-        "cut_in_merge_random_confirm_r2_051",
-        "cut_in_merge_hybrid_007",
-        ("as recorded: passes", "cars 1.25$\\times$ faster: collides", "from above"),
+        "car_conflicts_3knobs_2hz",
+        "car_conflicts_3knobs_2hz_hybrid_v2_016",
+        "car_conflicts_3knobs_2hz_llm_v2_r5_031",
+        ("as recorded: passes", "ego 1.4$\\times$, other cars 0.5$\\times$: crashes"),
     ),
 }
 FPS = 10
 # The camera panel inside AlpaSim's 900 x 1000 composite frame, without
 # the sky above the horizon.
 CAMERA = (slice(629, 989), slice(32, 868))
-# Camera frames from the hand-off to this long before the contact, then the contact.
-BEFORE_CONTACT_S = 0.6
-CAMERA_FRAMES = 4
-# Top-down view in the ego's frame, driving to the right (metres).
-AHEAD, BEHIND, SIDE = 24.0, 12.0, 7.5
-EGO_C, KEY_C, OTHER_C, REC_C, FAIL = "#D55E00", "#E69F00", "0.62", "#0072B2", "#C62828"
+# Frame times, in seconds before the failing run's contact.
+BEFORE_CONTACT_S = (2.0, 1.5, 1.0, 0.5, 0.0)
+FAIL = "#C62828"
 
 
 def frame(video: Path, t: float) -> np.ndarray:
@@ -65,73 +61,35 @@ def video(run: dict) -> Path:
     return found[0]
 
 
-def from_above(ax, raw: dict, actors: dict, key: str, handoff: float, at: float) -> None:
-    """The failing run at `at` (absolute log time), centred on the ego."""
-    ego = actors[EGO]
-    now = min(ego, key=lambda s: abs(s - at))
-    ex, ey, eyaw = ego[now]
-    rot = np.array([[np.cos(-eyaw), -np.sin(-eyaw)], [np.sin(-eyaw), np.cos(-eyaw)]])
-    view = lambda xy: (np.asarray(xy, dtype=float).reshape(-1, 2) - (ex, ey)) @ rot.T
-    recorded = view([(r[1], r[2]) for r in raw["recorded"]])
-    ax.plot(recorded[:, 0], recorded[:, 1], "--", color=REC_C, lw=0.7, zorder=1)
-    for actor_id, track in actors.items():
-        near = min(track, key=lambda s: abs(s - now))
-        if abs(near - now) > 0.15e6:
-            continue
-        colour = EGO_C if actor_id == EGO else KEY_C if actor_id == key else OTHER_C
-        mine = actor_id in (EGO, key)
-        trail = [t for t in sorted(track) if handoff <= t <= now]
-        if mine and len(trail) > 1:
-            xy = view([track[t][:2] for t in trail])
-            ax.plot(xy[:, 0], xy[:, 1], color=colour, lw=1.0, zorder=3)
-        shape = view(np.array(_footprint(*track[near], raw["sizes"][actor_id]).exterior.coords))
-        ax.fill(shape[:, 0], shape[:, 1], color=colour, alpha=0.95 if mine else 0.55, lw=0,
-                zorder=5 if mine else 2)
-    ax.set_xlim(-BEHIND, AHEAD)
-    ax.set_ylim(-SIDE, SIDE)
-    ax.set_aspect("equal")
-
-
 def filmstrip(name: str, study: str, easy_name: str, hard_name: str, labels: tuple) -> None:
     runs = {r["run"]: r for r in kept(study)}
     easy, hard = runs[easy_name], runs[hard_name]
     if easy["failed"] or not hard["failed"] or easy["scene_id"] != hard["scene_id"]:
         raise SystemExit(f"{name}: need a passing and a failing run on one scene")
-    raw = asyncio.run(_read(completed_rollout(hard["run_dir"]) / "rollout.asl"))
-    actors = actor_tracks(raw)
     _, when, handoff = moment(hard["run_dir"])
-    key, when = nearest_actor(raw, actors, when, handoff)
-    t0 = min(actors[EGO])
+    raw = asyncio.run(_read(completed_rollout(hard["run_dir"]) / "rollout.asl"))
+    t0 = min(actor_tracks(raw)[EGO])
     handoff_s, contact_s = (handoff - t0) / 1e6, (when - t0) / 1e6
-    times = list(np.round(np.linspace(handoff_s, contact_s - BEFORE_CONTACT_S, CAMERA_FRAMES) * FPS) / FPS)
-    times.append(round(contact_s * FPS) / FPS)
-    columns = len(times)
-    fig, axes = plt.subplots(3, columns, figsize=(DOUBLE, 2.15),
-                             gridspec_kw={"height_ratios": [1, 1, 1.05]})
-    fig.subplots_adjust(left=0.004, right=0.996, top=0.91, bottom=0.01, wspace=0.025, hspace=0.07)
-    clips = (video(easy), video(hard))
-    for col, t in enumerate(times):
-        contact = col == columns - 1
-        title = "hand-off" if col == 0 else "contact" if contact else f"+{t - handoff_s:.1f} s"
-        if contact:
-            title += f" (+{t - handoff_s:.1f} s)"
-        axes[0, col].set_title(title, fontsize=7, pad=2, color=FAIL if contact else "black")
-        for row in (0, 1):
+    times = [round((contact_s - before) * FPS) / FPS for before in BEFORE_CONTACT_S]
+    fig, axes = plt.subplots(2, len(times), figsize=(DOUBLE, 1.42))
+    fig.subplots_adjust(left=0.004, right=0.996, top=0.88, bottom=0.01, wspace=0.025, hspace=0.06)
+    for row, run in enumerate((easy, hard)):
+        clip = video(run)
+        for col, t in enumerate(times):
             ax = axes[row, col]
-            if row == 1 and contact:
-                ax.set_facecolor("0.93")
-                ax.text(0.5, 0.5, "the reconstruction cannot\nrender a car this close",
-                        transform=ax.transAxes, ha="center", va="center", fontsize=6.2, color="0.35")
-            else:
-                ax.imshow(frame(clips[row], t))
-        from_above(axes[2, col], raw, actors, key, handoff, t0 + t * 1e6)
-        for row in range(3):
-            ax = axes[row, col]
+            ax.imshow(frame(clip, t))
             ax.set_xticks([])
             ax.set_yticks([])
+            contact = row == 1 and col == len(times) - 1
             for spine in ax.spines.values():
-                spine.set_color(FAIL if contact and row > 0 else "0.75")
-                spine.set_linewidth(1.4 if contact and row > 0 else 0.5)
+                spine.set_color(FAIL if contact else "0.75")
+                spine.set_linewidth(1.4 if contact else 0.5)
+    for col, t in enumerate(times):
+        after = t - handoff_s
+        title = "hand-off" if abs(after) < 0.05 else f"{after:+.1f} s"
+        if col == len(times) - 1:
+            title = f"contact ({title})"
+        axes[0, col].set_title(title, fontsize=7, pad=2, color=FAIL if col == len(times) - 1 else "black")
     for row, label in enumerate(labels):
         axes[row, 0].text(0.03, 0.95, label, transform=axes[row, 0].transAxes, ha="left", va="top",
                           fontsize=6.4, color=FAIL if row == 1 else "0.15", zorder=10,
