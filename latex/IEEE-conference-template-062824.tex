@@ -226,12 +226,6 @@ When each action of the agent is a checked choice from a fixed menu, it can run 
 
 SimGate was tested on one policy with replayed traffic that does not react to the ego and on recorded scenes whose weather, lighting and road geometry it cannot change; more policies, reactive traffic and simulators that generate new conditions are the next steps. Each method ran \verify{7} attempts per main study, with one model as the agent. Rendering is less certain far from the recorded path, where some failures happen (they are flagged). Every confirmed hardest case is exported as an OpenSCENARIO~1.4 scenario, so it can be reused as a regression test.
 
-\section*{AI Use Disclosure}
-\guide{Required by IEEE: state that the agent under study is Claude, and disclose any AI assistance in the code and the writing.}
-
-The agent studied here is Claude Opus~5.5 (Anthropic), which also assisted in writing the framework's code and in drafting parts of this manuscript; the authors reviewed all of it and take responsibility for its content. \verify{confirm wording against IEEE's AI policy}
-
-\guide{\emph{Cut the references to about 15. Keep the closest work (EvoDrive, PlannerForge, LLM-attacker, EC-Detector, ARISE), the testing roots (NADE, D2RL, AST), the tools used (AlpaSim, VaVAM, Optuna), and one or two each on unreliable agent results and safe agents.}}
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
