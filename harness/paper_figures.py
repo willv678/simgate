@@ -74,6 +74,8 @@ TEN_HZ = ("pedestrian_ego_speed", "cut_in_merge", "lead_vehicle")
 # The paper's names: the revised prompt is the method, the first is a version of it.
 PAPER_LABEL = {**LABEL, "llm_v2": "AI (ours)", "llm": "AI, first prompt",
                "hybrid_v2": "hybrid, revised prompt"}
+# Table II's narrower names for the two hybrids.
+TABLE_LABEL = {**PAPER_LABEL, "hybrid": "rules + AI", "hybrid_v2": "rules + AI, revised"}
 # Fig. 4 in the weekly slides' words.
 SLIDE_WORDS = {
     "name": "slide_discovery",
@@ -430,7 +432,7 @@ def _runs_to_goal(row: dict) -> str:
     reached = sorted(r for r, c in zip(row["runs_to_goal"], row["confirmed"]) if c >= 5)
     span = f"{reached[0]}" if reached[0] == reached[-1] else f"{reached[0]}--{reached[-1]}"
     if row["reached"] < row["replicates"]:
-        return f"{row['reached']} of {row['replicates']} reached, {span}"
+        return f"{span}, {row['reached']} of {row['replicates']}"
     return f"{row['median_runs_to_goal']:g} ({span})"
 
 
@@ -447,12 +449,12 @@ def table_methods() -> str:
         r"\label{tab:methods}",
         r"\centering\footnotesize",
         r"\setlength{\tabcolsep}{2.5pt}",
-        r"\begin{tabular}{@{}lccccc@{}}",
+        r"\resizebox{\columnwidth}{!}{\begin{tabular}{@{}lccccc@{}}",
         r"\toprule",
         r" & \multicolumn{2}{c}{Unseen studies, 2\,Hz} & \multicolumn{2}{c}{Method studies, 10\,Hz} & \\",
         r"\cmidrule(lr){2-3}\cmidrule(lr){4-5}",
-        r" & Cut-in, braking & Lane keeping & Car scenes & Pedestrian & Model \\",
-        r"Method & confirmed & runs to goal & confirmed & runs to goal & s/arm \\",
+        r" & Cut-in, & Lane & Car & & Model \\",
+        r"Method & braking & keeping & scenes & Pedestrian & s/arm \\",
         r"\midrule",
     ]
     for m in TABLE_ORDER:
@@ -460,17 +462,18 @@ def table_methods() -> str:
         seconds = statistics.median(x for r in rows for x in r["model_seconds"])
         ten_hz = m in cut and m in lead
         lines.append(
-            f"{PAPER_LABEL[m]} & {_confirmed(hard[m])} & {_runs_to_goal(lane[m])} & "
+            f"{TABLE_LABEL[m]} & {_confirmed(hard[m])} & {_runs_to_goal(lane[m])} & "
             f"{_confirmed(cut[m], lead[m]) if ten_hz else '--'} & "
             f"{_runs_to_goal(ped[m]) if m in ped else '--'} & "
             f"{f'{seconds:.0f}' if seconds else '--'} \\\\")
     reps = sorted({hard[m]["replicates"] for m in TABLE_ORDER} | {lane[m]["replicates"] for m in TABLE_ORDER})
     lines += [
         r"\bottomrule",
-        r"\end{tabular}",
-        r"\\[2pt]\parbox{\columnwidth}{\scriptsize Confirmed: hardest settings confirmed by "
-        r"repeats, summed over repeats (5 per repeat). Runs to goal: kept runs until all 5 were "
-        r"confirmed, median (range); `never' if no repeat got there. Cut-in, braking: a car cutting in or braking ahead, "
+        r"\end{tabular}}",
+        r"\\[2pt]\parbox{\columnwidth}{\scriptsize Cut-in, braking and car scenes: hardest settings "
+        r"confirmed by repeats, summed over repeats (5 per repeat). Lane keeping and pedestrian: kept runs "
+        r"until all 5 were confirmed, median (range); `never' if no repeat got there, and `k of 3' if only k "
+        r"repeats did. Cut-in, braking: a car cutting in or braking ahead, "
         r"three knobs, rare failures. Car scenes: car cutting in and car ahead braking. "
         f"Repeats per arm: unseen studies {'--'.join(map(str, (reps[0], reps[-1])))}, "
         r"10\,Hz studies 3. Contacts with a car the retiming held still are not counted. "
@@ -545,12 +548,12 @@ def table_recovery() -> str:
         r"\caption{The same planted faults, handled three ways}",
         r"\label{tab:recovery}",
         r"\centering\footnotesize",
-        r"\setlength{\tabcolsep}{4pt}",
+        r"\setlength{\tabcolsep}{3pt}",
         r"\begin{tabular}{@{}lcccccc@{}}",
         r"\toprule",
         r" & \multicolumn{3}{c}{C3} & \multicolumn{3}{c}{C4} \\",
         r"\cmidrule(lr){2-4}\cmidrule(l){5-7}",
-        r"Handler & Kept & Stopped & Launches & Kept & Stopped & Launches \\",
+        r"Handler & Kept & Stop & Launch & Kept & Stop & Launch \\",
         r"\midrule",
         *rows,
         r"\bottomrule",
@@ -559,7 +562,7 @@ def table_recovery() -> str:
         r"10 clean runs, so at most 35 can end as valid data; the other 15 carry a fault that repeats on every "
         r"retry and should be stopped. A run neither kept nor stopped passed the per-run gate with a silent "
         r"fault and was removed by the batch audit; no invalid run stayed in the data. C4 repeats C3's fault "
-        r"plan on six scenes no other campaign used.}",
+        r"plan on six scenes no other campaign used. Stop: stopped for a person; launch: launches used.}",
         r"\end{table}",
     ]
     text = "\n".join(lines) + "\n"
