@@ -30,14 +30,18 @@ PAIRS = {
         "cut_in_merge",
         "cut_in_merge_random_confirm_r2_051",
         "cut_in_merge_hybrid_007",
-        ("as recorded: passes", "car cutting in 1.25$\\times$ faster: collision"),
+        ("as recorded: passes", "car cutting in 1.25$\\times$ faster: collides"),
     ),
 }
 FPS = 10
-# The camera panel inside AlpaSim's 900 x 1000 composite frame.
-CAMERA = (slice(519, 989), slice(32, 868))
+# The camera panel inside AlpaSim's 900 x 1000 composite frame, without
+# the sky above the horizon.
+CAMERA = (slice(629, 989), slice(32, 868))
 COLUMNS = 5
-FAIL, MUTED = "#C62828", "#5F6368"
+# The neural reconstruction cannot render a car pressed against the camera,
+# so the strip ends this long before the contact.
+BEFORE_CONTACT_S = 0.6
+FAIL = "#C62828"
 
 
 def frame(video: Path, t: float) -> np.ndarray:
@@ -61,11 +65,9 @@ def filmstrip(name: str, study: str, easy_name: str, hard_name: str, labels: tup
     if easy["failed"] or not hard["failed"] or easy["scene_id"] != hard["scene_id"]:
         raise SystemExit(f"{name}: need a passing and a failing run on one scene")
     handoff, fail_at = hard["handoff_s"], hard["failed_at_s"]
-    times = np.linspace(handoff, fail_at + 0.5, COLUMNS)
-    times[-2] = fail_at
-    times = np.round(times * FPS) / FPS
-    fig, axes = plt.subplots(2, COLUMNS, figsize=(DOUBLE, 1.72))
-    fig.subplots_adjust(left=0.004, right=0.996, top=0.9, bottom=0.01, wspace=0.025, hspace=0.06)
+    times = np.round(np.linspace(handoff, fail_at - BEFORE_CONTACT_S, COLUMNS) * FPS) / FPS
+    fig, axes = plt.subplots(2, COLUMNS, figsize=(DOUBLE, 1.42))
+    fig.subplots_adjust(left=0.004, right=0.996, top=0.88, bottom=0.01, wspace=0.025, hspace=0.06)
     for row, (run, label) in enumerate(zip((easy, hard), labels)):
         clip = video(run)
         for col, t in enumerate(times):
@@ -73,12 +75,14 @@ def filmstrip(name: str, study: str, easy_name: str, hard_name: str, labels: tup
             ax.imshow(frame(clip, t))
             ax.set_xticks([])
             ax.set_yticks([])
-            is_fail = row == 1 and t == fail_at
             for spine in ax.spines.values():
-                spine.set_color(FAIL if is_fail else "0.75")
-                spine.set_linewidth(1.6 if is_fail else 0.5)
+                spine.set_color("0.75")
+                spine.set_linewidth(0.5)
             if row == 0:
-                ax.set_title("hand-off" if col == 0 else f"+{t - handoff:.1f} s", fontsize=7, pad=2)
+                title = "hand-off" if col == 0 else f"+{t - handoff:.1f} s"
+                if col == COLUMNS - 1:
+                    title += f" ({fail_at - t:.1f} s before contact)"
+                ax.set_title(title, fontsize=7, pad=2)
             if col == 0:
                 ax.text(0.03, 0.95, label, transform=ax.transAxes, ha="left", va="top", fontsize=6.4,
                         color=FAIL if row == 1 else "0.15",
