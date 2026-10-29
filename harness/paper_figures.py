@@ -91,7 +91,7 @@ TABLE_ORDER = ("rules", "random_confirm", "optuna_confirm", "hybrid", "hybrid_op
 # One confirmed hardest case per study: the policy at fault by both the
 # scorer and Claude's triage, and (cut-in, lead) not against a held car.
 CASES = (
-    ("pedestrian_ego_speed", "pedestrian_ego_speed_llm_r2_013"),
+    ("pedestrian_ego_speed", "pedestrian_ego_speed_hybrid_008"),
     ("cut_in_merge", "cut_in_merge_hybrid_007"),
     ("lead_vehicle", "lead_vehicle_hybrid_025"),
 )
