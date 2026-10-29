@@ -180,7 +180,7 @@ The planted faults show what the agent adds over a script (Table~\ref{tab:recove
 \begin{figure*}[t]
 \centering
 \includegraphics[width=\textwidth]{figures/fig_filmstrip.pdf}
-\caption{The policy's own front camera on one cut-in scene, taken from AlpaSim's rollout videos at the same times after the hand-off. At the recorded setting (top) the policy drives on; with the cutting-in car 1.25$\times$ faster (bottom), a confirmed hardest case, it drifts into that car 0.6\,s after the last frame. The strip stops there because the reconstruction cannot render a car pressed against the camera; Fig.~\ref{fig:cases}(b) shows the contact from above.}
+\caption{One cut-in scene at the same moments after the hand-off. The top two rows are the policy's own front camera, taken from AlpaSim's rollout videos: at the recorded setting it drives on, and with the cutting-in car 1.25$\times$ faster, a confirmed hardest case, it collides with that car. The bottom row draws the colliding run from its log, with the ego in red driving to the right, the faster car in orange coming up on its left, other road users in grey and the human's recorded path dashed. The camera cannot show the contact itself, since the car ends up beside the ego and the reconstruction cannot render it that close.}
 \label{fig:filmstrip}
 \end{figure*}
 
