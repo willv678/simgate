@@ -702,6 +702,9 @@ lane; nuPlan's rule, an ego in two lanes is at fault in a side contact).
 - Against triage, cut-in (208 collision failures): both say actor 45, rule
   only 4, triage only 12, neither 147 (92% agree). Lead vehicle: rule 0,
   triage 5. Pedestrian: both 0 of 199.
+- Recount at the freeze (29 Oct, `CLOSED.md`): cut-in 197 collision
+  failures, both say actor 17, rule only 0, triage only 14, neither 166 (93%
+  agree); lead vehicle 137, triage only 5; pedestrian 285, none.
 - Triage is not consistent on identical motion: 28 cut-in contacts with
   car 33, same scene, ego 0.8-0.9 m toward it, closing speeds equal to
   0.1 m/s: triage said "ego turned into actor, policy's fault" 22 times and
